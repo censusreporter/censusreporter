@@ -1,0 +1,8 @@
+from django.conf.urls import patterns
+#from django.contrib import admin
+#admin.autodiscover()
+
+from apps.censusreporter.urls import urlpatterns as app_urlpatterns
+
+urlpatterns = patterns('')
+urlpatterns += app_urlpatterns
