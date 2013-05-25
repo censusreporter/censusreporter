@@ -22,6 +22,7 @@ def deploy(branch='master'):
     run('rm -f %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_name)
     append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_name, '/home/ubuntu/%s/censusreporter' % code_dir)
     append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_name, '/home/ubuntu/%s/censusreporter/apps' % code_dir)
+    append('%s/bin/activate' % virtualenv_name, "export DJANGO_SETTINGS_MODULE='config.dev.settings'")
 
     with settings(warn_only=True):
         if run('test -d %s' % code_dir).failed:
