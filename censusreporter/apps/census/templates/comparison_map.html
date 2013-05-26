@@ -31,10 +31,10 @@
 .label {
     position: absolute;
     text-align: center;
-    padding: .5em .75em;
+    padding: .33em .67em;
     font-size: .8em;
     background: #fff;
-    border: solid 1px #c5c5c5;
+    border: solid 1px #777;
     border-radius: 4px;
     pointer-events: none;
 }
@@ -63,7 +63,7 @@ var projection = d3.geo.mercator();
 var path = d3.geo.path()
     .projection(projection);
 
-var map = d3.select("#data-map").append("svg")
+var svg = d3.select("#data-map").append("svg")
     .attr("width", width)
     .attr("height", height)
     .style("position", "relative");
@@ -95,9 +95,7 @@ function ready(error, geographies, geodata) {
 }
 
 function makeMap(geographies, geodata) {
-    var values = d3.values(geodata);
-    // TODO fix nesting to get min/max
-    //var values = d3.nest().key(function(d) { return d['value']; }).entries(d3.values(geodata));
+    var values = d3.values(geodata).map(function(d) {return d['value'];});
     var quantize = d3.scale.quantize()
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
@@ -113,14 +111,19 @@ function makeMap(geographies, geodata) {
         .scale(s)
         .translate(t);
 
+    console.log()
     // put the map in place
-    map.append("g")
+    svg.append("g")
             .attr("class", "geographies")
         .selectAll("path")
             .data(geographies.features)
         .enter().append("path")
             .attr("id", function(d) { return "poly-" + d['id']; })
-            .attr("class", function(d) { return quantize(geodata[d['id']]); })
+            .attr("class", function(d) { 
+                if (!!geodata[d['id']]) {
+                    return quantize(geodata[d['id']]['value']); 
+                }
+            })
             .attr("d", path)
             .on("mouseover", function(d) { return mouseover(d) })
             .on("mousemove", mousemove)
@@ -154,13 +157,13 @@ function makeMap(geographies, geodata) {
     
     function makeLabel(d) {
         var label = "<span class='name'>" + d['properties']['name'] + "</span>";
-        if (geodata[d['id']] != undefined) {
+        if (!!geodata[d['id']]) {
             label += geodata[d['id']]['value'];
         }
         return label
     }
     
-    //map.selectAll(".label")
+    //svg.selectAll(".label")
         //    .data(geographies.features)
         //.enter().append("text")
         //    .attr("id", function(d) { return "label-" + d['id']; })
