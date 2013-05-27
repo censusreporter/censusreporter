@@ -1,0 +1,72 @@
+{% extends '_base_compare.html' %}{% load humanize %}
+
+{% block content %}
+<article class="clearfix">
+    <header class="clearfix">
+        <div class="table-tools">
+            <div class="table-tool-group">
+                Show
+                <ul class="toggle-controls">
+                    <li><a id="show-percentage">Percentages</a></li>
+                    <li><a id="show-raw-number">Raw numbers</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <section>
+        <table id="data-table" class="tablesorter">
+            <thead>
+                {% for geo in geo_values %}
+                {% if forloop.first %}
+                <tr>
+                    <th class="name">Name</th>
+                    <th class="value">Total</th>
+                    {% for group in geo.values %}
+                    <th class="value">{{ group }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% endif %}
+                <tr class="{% cycle 'odd' 'even' %}">
+                    <td class="name">{{ geo.name }}</td>
+                    <td class="value">{{ geo.total_population|intcomma }}</td>
+                    {% for group, values in geo.values.items %}
+                    <td class="value toggle-target">
+                        <span class="percentage">{{ values.total_pct|floatformat }}%</span>
+                        <span class="raw-number">{{ values.total|floatformat|intcomma }}</span>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/jquery.tablesorter.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+    $('.raw-number').css('display', 'none');
+    $('#show-raw-number').css('text-decoration', 'none');
+    var toggleControls = $('.toggle-controls a');
+    toggleControls.on('click', function() {
+        var clicked = $(this);
+        toggleControls.css('text-decoration', 'none');
+        clicked.css('text-decoration', 'underline');
+        var targetClass = clicked.attr('id').replace('show-','');
+        $('.toggle-target span').css('display', 'none');
+        $('.'+targetClass).css('display', 'block');
+    })
+    
+    $("#data-table").tablesorter({
+        widgets: ['zebra'],
+        widgetOptions: {
+            zebra: ['even','odd']
+        }
+    });
+})
+</script>
+{% endblock %}
