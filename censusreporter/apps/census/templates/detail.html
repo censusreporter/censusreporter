@@ -1,0 +1,18 @@
+{% extends '_base_detail.html' %}{% load humanize %}
+
+{% block content %}
+<article id="demographics">
+    <header>
+        <h1>Demographics</h1>
+    </header>
+    {% include "_detail/demographics_age_gender.html" %}
+    {% include "_detail/demographics_population_by_race.html" %}
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/waypoints.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/jquery.scrollTo.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/jquery.localScroll.min.js"></script>
+<script src="{{ STATIC_URL }}js/add.waypoints.js"></script>
+{% endblock %}

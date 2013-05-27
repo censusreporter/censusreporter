@@ -8,7 +8,39 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.views.generic import View, TemplateView
 
-from .utils import LazyEncoder
+from .utils import LazyEncoder, get_max_value, get_ratio
+
+
+### DETAIL ###
+
+class GeographyDetailView(TemplateView):
+    template_name = 'detail.html'
+
+    def get_context_data(self, *args, **kwargs):
+        # Hit Ian's gist for now
+        API_ENDPOINT = 'https://gist.github.com/iandees/0dc098ac27d20b456058/raw/a3dd6b2f6f3df19bf6ad56c339268cc7923aa66a/cook_county.json'
+        # hit the API and store the results for later operations
+        r = requests.get(API_ENDPOINT)
+        data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+
+        # initial page context
+        page_context = data
+
+        # add some max values and ratios
+        total_population = data['population']['total']
+        page_context['population']['age_gender_max'] = get_max_value(dict(data['population']['gender']))
+        page_context['education']['attainment_max'] = get_max_value(dict(data['education']['attainment']))
+        page_context['insurance']['insurance_max'] = get_max_value(dict(data['insurance']))
+        page_context['language_max'] = get_max_value(dict(data['language']))
+        page_context['insurance']['percent_with_no_insurance'] = get_ratio(
+            data['insurance']['No Insurance'], total_population
+        )
+
+        return page_context
+    
+    
+    
+### COMPARISONS ###
 
 API_ENDPOINTS = {
     'il': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/4ff31fcd6192318df61961a6674e873b5b9f96d3/illinois_compare.json',

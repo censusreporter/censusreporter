@@ -2,7 +2,7 @@ from django.conf.urls import url, patterns, include
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import ComparisonView, ComparisonJsonMaker
+from .views import GeographyDetailView, ComparisonView, ComparisonJsonMaker
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
 comparison_types = 'map|table|distribution'
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     # e.g. /states/washington/
     url(
         regex   = '^(?P<geography_type>%s)/(?P<geography_id>[-\w]+)/$' % geography_type_options,
-        view    = TemplateView.as_view(template_name='placeholder.html'),
+        view    = GeographyDetailView.as_view(),
         kwargs  = {},
         name    = 'geography_detail',
     ),
@@ -37,7 +37,8 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'geography_comparison_detail',
     ),
-    # e.g. internally transform API json into needed format
+    # e.g. /compare/states/washington/counties/json/
+    # internally transform API json into needed format
     url(
         regex   = '^compare/(?P<parent_type>%s)/(?P<geography_id>[-\w]+)/(?P<descendant_type>%s)/json/$' % (geography_type_options, geography_type_options),
         view    = ComparisonJsonMaker.as_view(),

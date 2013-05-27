@@ -1,12 +1,36 @@
+from __future__ import division
+
 from django.utils import simplejson
 from django.utils.functional import lazy, Promise
 from django.utils.encoding import force_unicode
+
 
 class LazyEncoder(simplejson.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):
             return force_unicode(obj)
         return obj
+        
+## A little generator to pluck out max values ##
+def drill(item):
+    if isinstance(item, int) or isinstance(item, float):
+        yield item
+    elif isinstance(item, list):
+        for i in item:
+            for result in drill(i):
+                yield result
+    elif isinstance(item, dict):
+        for k,v in item.items():
+            for result in drill(v):
+                yield result
+
+def get_max_value(nested_dicts):
+    max_value = max([item for item in drill(nested_dicts)])
+    return max_value
+
+def get_ratio(num1, num2):
+    return round(num1 / num2, 2)*100
+
 
 GEOGRAPHIES_MAP = {
     'nation': {

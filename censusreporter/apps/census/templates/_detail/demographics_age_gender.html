@@ -1,0 +1,29 @@
+<section class="data-package clearfix">
+    <aside>
+        <div class="aside-group">
+            <h2>Age groups by gender</h2>
+            <p>This is where some short context about this data-package is provided. <a class="source" title="Release: ACS 2011 1-Year; Table: B01001">Data source</a></p>
+        </div>
+
+        <div class="aside-group">
+            <h2>Median age</h2>
+            <ul class="bar-chart clearfix">
+                <li>
+                    <span class="name">{{ geography.name }}</span>
+                    <span class="number">{{ population.median_age.total|floatformat }}</span>
+                </li>
+                <li>
+                    <span class="name">XX% of state</span>
+                    <span class="number">{{ population.median_age.total|floatformat }}</span>
+                </li>
+                <li>
+                    <span class="name">XX% of nation</span>
+                    <span class="number">{{ population.median_age.total|floatformat }}</span>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <div class="data-presentation">
+        <div class="placeholder">Grouped bar chart</div>
+    </div>
+</section>
