@@ -11,9 +11,9 @@ from django.views.generic import View, TemplateView
 from .utils import LazyEncoder
 
 API_ENDPOINTS = {
-    'IL': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/4ff31fcd6192318df61961a6674e873b5b9f96d3/illinois_compare.json',
-    'FL': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/de8c95ec49e0ede7ef9dc505bcb67e7300595041/florida_compare.json',
-    'WA': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/330722d4bffe99b1ac6f6827bd65c27e2fde550c/washington_compare.json',
+    'il': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/4ff31fcd6192318df61961a6674e873b5b9f96d3/illinois_compare.json',
+    'fl': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/de8c95ec49e0ede7ef9dc505bcb67e7300595041/florida_compare.json',
+    'wa': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/330722d4bffe99b1ac6f6827bd65c27e2fde550c/washington_compare.json',
 }
 
 class ComparisonJsonMaker(View):
@@ -26,11 +26,8 @@ class ComparisonJsonMaker(View):
         geography_id = self.kwargs['geography_id']
         descendant_type = self.kwargs['descendant_type']
 
-        # right now, we're only doing states and counties
-        state_code = geography_id.upper()
-
         # hit the API and store the results for later operations
-        API_ENDPOINT = API_ENDPOINTS[state_code]
+        API_ENDPOINT = API_ENDPOINTS[geography_id]
         r = requests.get(API_ENDPOINT)
         data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
 
@@ -70,8 +67,6 @@ class ComparisonView(TemplateView):
         descendant_type = self.kwargs['descendant_type']
         comparison_type = self.kwargs['comparison_type']
         
-        # right now, we're only doing states and counties
-        state_code = geography_id.upper()
         self.template_name = 'comparison_%s.html' % comparison_type
         page_context = {
             'parent_type': parent_type,
@@ -81,7 +76,7 @@ class ComparisonView(TemplateView):
         }
 
         # hit the API and store the results for later operations
-        API_ENDPOINT = API_ENDPOINTS[state_code]
+        API_ENDPOINT = API_ENDPOINTS[geography_id]
         r = requests.get(API_ENDPOINT)
         data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
 
