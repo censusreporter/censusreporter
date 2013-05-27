@@ -3,7 +3,16 @@
 {% block head_title %}Comparison - {{ block.super }}{% endblock %}
 
 {% block header_content %}
-<h1>Compare {{ geography_type }} in {{ state_code }}</h1>
+<div class="table-tools">
+    <div class="table-tool-group">
+        <ul>
+            <li><a href="{% url 'geography_comparison' parent_type geography_id descendant_type 'distribution' %}">Distributions</a></li>
+            <li><a href="{% url 'geography_comparison' parent_type geography_id descendant_type 'table' %}">Table</a></li>
+            <li><a href="{% url 'geography_comparison' parent_type geography_id descendant_type 'map' %}">Map</a></li>
+        </ul>
+    </div>
+</div>
+<h1>Compare {{ descendant_type }} in {{ geography_id }}</h1>
 <p>Age groups by percentage of total population (ACS 2010, 1-Year release)</p>
 {% endblock %}
 

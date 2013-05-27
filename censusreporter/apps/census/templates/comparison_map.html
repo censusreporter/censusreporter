@@ -74,7 +74,7 @@ var label = d3.select("#data-map").append("div")
     
 queue()
     .defer(d3.json, "{{ STATIC_URL }}data/wa-counties.json")
-    .defer(d3.json, "/compare/states/{{ state_code }}/counties/json/")
+    .defer(d3.json, "/compare/{{ parent_type }}/{{ geography_id }}/{{ descendant_type }}/json/")
     .await(ready);
 
 function ready(error, geographies, geodata) {

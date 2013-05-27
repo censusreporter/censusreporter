@@ -74,8 +74,10 @@ class ComparisonView(TemplateView):
         state_code = geography_id.upper()
         self.template_name = 'comparison_%s.html' % comparison_type
         page_context = {
-            'state_code': state_code,
-            'geography_type': 'counties',
+            'parent_type': parent_type,
+            'geography_id': geography_id,
+            'descendant_type': descendant_type,
+            'comparison_type': comparison_type,
         }
 
         # hit the API and store the results for later operations
