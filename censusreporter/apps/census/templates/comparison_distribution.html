@@ -1,0 +1,99 @@
+{% extends '_base_compare.html' %}{% load humanize %}
+
+{% block head_extra_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.css">
+{% endblock %}
+
+{% block content %}
+<article class="clearfix">
+    <header class="clearfix">
+        <div class="table-tools">
+            <div class="table-tool-group">
+                Find
+                <select id="coal-picker">
+                    <option></option>
+                    {% for geoID, name in geography_list %}
+                    <option value="geography-{{ geoID }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="table-tools">
+            <div class="table-tool-group">
+                Click on a point to lock/unlock display
+            </div>
+        </div>
+    </header>
+    {% for group, values in coal_charts.items %}
+    <section class="coal-chart-container" id="coal-chart-{{ forloop.counter0 }}">
+        <h2>{{ group }}</h2>
+        <ul class="coal-chart">
+            <li class="tick-mark tick-mark-min">
+                <span><b>Min:</b> {{ values.group_baselines.min_value_total_pct|intcomma }}</span>
+            </li>
+            <li style="left: {{ values.group_baselines.median_percent_of_range_total_pct|floatformat }}%" class="tick-mark">
+                <span{% if values.group_baselines.median_percent_of_range_total_pct < 12 %} style="margin-top: 38px;"{% endif %}><b>Median:</b> {{ values.group_baselines.median_value_total_pct|intcomma }}</span>
+            </li>
+            <li class="tick-mark tick-mark-max">
+                <span><b>Max:</b> {{ values.group_baselines.max_value_total_pct|intcomma }}</span>
+            </li>
+        {% for geoID, values in values.group_values.items %}
+            <li style="left: {{ values.percent_of_range_total_pct|floatformat }}%">
+                <a data-index="geography-{{ geoID }}">
+                    <span><b>{{ values.name }}</b><br>{{ values.total_pct|intcomma }}%</span>
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/chroma.min.js"></script>
+<script>
+jQuery(document).ready(function(){
+    var coalCharts = $('.coal-chart');
+    var numCoalCharts = coalCharts.length;
+    var coalChartPoints = $('.coal-chart a')
+    coalCharts.on('mouseover', 'a', function(e) {
+        var chosenIndex = $(this).data('index');
+        var filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
+        filteredPoints.addClass('hovered');
+        filteredPoints.children('span').css('display', 'block');
+    })
+    coalCharts.on('mouseout', 'a', function(e) {
+        coalChartPoints.removeClass('hovered');
+        coalChartPoints.children('span').removeAttr('style');
+    })
+    coalCharts.on('click', 'a', function(e) {
+        e.preventDefault();
+        toggleSelectedPoints($(this).data('index'));
+    })
+    
+    $('#coal-picker').select2({
+        placeholder: 'Select a geography',
+        width: 'resolve'
+    });
+    $('#coal-picker').on('change', function(e) {
+        toggleSelectedPoints($(this).val());
+    })
+    
+    var colorScale = chroma.scale('RdYlBu').domain([0,6]);
+    var colorIndex = 0;
+    var toggleSelectedPoints = function(chosenIndex) {
+        var filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
+        // if adding a new selection, pick next color in scale
+        if (!filteredPoints.hasClass('selected')) {
+            targetColor = colorScale((colorIndex+=1) % 6);
+        }
+        filteredPoints.toggleClass('selected').removeAttr('style').filter('.selected').css({
+            'background-color': targetColor.hex(),
+            'border-color': targetColor.darken(20).hex()
+        });
+    }
+})
+</script>
+{% endblock %}
