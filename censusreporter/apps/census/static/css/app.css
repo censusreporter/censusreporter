@@ -300,6 +300,7 @@ table .percentage, table .raw-number {
     margin-left: .25em;
 }
 
+
 ul.toggle-set {
     font-size: 12px;
 }
@@ -308,8 +309,8 @@ ul.toggle-set li {
     float: left;
     width: 100px;
     text-align: center;
-    background-color: #e2e2e2;
-    border-bottom: 2px solid #999;
+    background-color: #e8eadf;
+    border-bottom: 2px solid #c3c9ab;
 }
 ul.toggle-set li:first-child,
 ul.toggle-set li:first-child a {
@@ -331,7 +332,7 @@ ul.toggle-set li:last-child a {
     border-right: 0;
 }
 ul.toggle-set a {
-    padding: .33em 0;
+    padding: .33em 0 .25em;
     display: block;
     text-decoration: none;
     color: #888;
@@ -339,11 +340,11 @@ ul.toggle-set a {
 }
 ul.toggle-set a.active,
 ul.toggle-set a:hover {
-    background-color: #f2f2f2;
+    background-color: #f7f8f3;
     color: #111;
 }
 ul.toggle-set a:hover {
-    background-color: #e9e9e9;
+    background-color: #eff1e9;
 }
 
 /* CHARTS */
@@ -459,10 +460,21 @@ ul.toggle-set a:hover {
 
 
 #header-bar {
-    padding: .5em 0;
+    padding: .67em 0;
     border-top: 5px solid #014948;
-    background-color: #f2f2f2;
     margin-bottom: 2em;
+    background-color: #F7F8F3;
+}
+#header-bar a {
+    text-decoration: none;
+    font-size: 36px;
+    font-weight: bold;
+}
+#header-bar img {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-top: -10px;
 }
 .header-container {
     margin-bottom: 2em;

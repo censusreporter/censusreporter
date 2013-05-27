@@ -7,8 +7,11 @@
 {% block content %}
 <article class="clearfix">
     <header class="clearfix">
-        <div class="table-tools">
-            <div class="table-tool-group">
+        <div class="tool-set">
+            <div class="tool-group">
+                Click on a point to lock/unlock display
+            </div>
+            <div class="tool-group">
                 Find
                 <select id="coal-picker">
                     <option></option>
@@ -16,11 +19,6 @@
                     <option value="geography-{{ geoID }}">{{ name }}</option>
                     {% endfor %}
                 </select>
-            </div>
-        </div>
-        <div class="table-tools">
-            <div class="table-tool-group">
-                Click on a point to lock/unlock display
             </div>
         </div>
     </header>
