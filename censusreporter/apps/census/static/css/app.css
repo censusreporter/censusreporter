@@ -14,7 +14,7 @@ body {
 body {
     line-height: 1.5;
     font-size: 14px;
-    font-family: "Helvetica Neue", Helvetica, Arial;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 html,
 button,
@@ -472,11 +472,13 @@ table .percentage, table .raw-number {
 
 
 #header-bar {
-    padding: .33em 0;
-    background-color: #014948;
+    padding: .5em 0;
+    border-top: 5px solid #014948;
+    background-color: #f2f2f2;
     margin-bottom: 2em;
 }
 .header-container {
+    margin-bottom: 2em;
 }
 .title {
     font-size: 2.5em;
