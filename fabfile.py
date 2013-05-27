@@ -10,6 +10,7 @@ def deploy(branch='master'):
     virtualenv_name = 'django_venv'
 
     # Install required packages
+    sudo('apt-get update')
     sudo('apt-get install -y git')
 
     # Install up to virtualenv
@@ -37,4 +38,4 @@ def deploy(branch='master'):
         run('source /home/ubuntu/%s/bin/activate && pip install -r requirements.txt' % virtualenv_name)
 
         # Run the server
-        run('source /home/ubuntu/%s/bin/activate && python manage.py runserver' % virtualenv_name)
+        run('source /home/ubuntu/%s/bin/activate && python manage.py runserver 0.0.0.0:8000' % virtualenv_name)
