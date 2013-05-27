@@ -3,12 +3,12 @@
 {% block head_title %}Comparison - {{ block.super }}{% endblock %}
 
 {% block header_content %}
-<div class="table-tools">
-    <div class="table-tool-group">
-        <ul>
-            <li><a href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'distribution' %}">Distributions</a></li>
-            <li><a href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'table' %}">Table</a></li>
-            <li><a href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'map' %}">Map</a></li>
+<div class="tool-set">
+    <div class="tool-group">
+        <ul class="toggle-set">
+            <li><a class="{% if comparison_type == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'distribution' %}">Distribution</a></li>
+            <li><a class="{% if comparison_type == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'table' %}">Table</a></li>
+            <li><a class="{% if comparison_type == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'map' %}">Map</a></li>
         </ul>
     </div>
 </div>

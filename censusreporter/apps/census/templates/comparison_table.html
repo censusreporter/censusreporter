@@ -1,10 +1,14 @@
 {% extends '_base_compare.html' %}{% load humanize %}
 
+{% block head_extra_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/tablesorter/tablesorter.css">
+{% endblock %}
+
 {% block content %}
 <article class="clearfix">
     <header class="clearfix">
-        <div class="table-tools">
-            <div class="table-tool-group">
+        <div class="tool-set">
+            <div class="tool-group">
                 Show
                 <ul class="toggle-controls">
                     <li><a id="show-percentage">Percentages</a></li>
