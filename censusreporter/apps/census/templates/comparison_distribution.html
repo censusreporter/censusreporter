@@ -12,7 +12,7 @@
                 Find
                 <select id="coal-picker">
                     <option></option>
-                    {% for geoID, name in geography_list %}
+                    {% for geoID, name in descendant_list %}
                     <option value="geography-{{ geoID }}">{{ name }}</option>
                     {% endfor %}
                 </select>
@@ -24,7 +24,7 @@
             </div>
         </div>
     </header>
-    {% for group, values in coal_charts.items %}
+    {% for group, values in distribution_groups.items %}
     <section class="coal-chart-container" id="coal-chart-{{ forloop.counter0 }}">
         <h2>{{ group }}</h2>
         <ul class="coal-chart">
