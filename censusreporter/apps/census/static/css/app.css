@@ -115,8 +115,14 @@ article {
 article header {
     margin-bottom: 1em;
 }
+.header-description, .header-notes {
+    float: left;
+    width: 47%;
+    margin-right: 3%;
+}
 article section {
-    margin-bottom: 3em;
+    clear: both;
+    margin-bottom: 2em;
 }
 
 
@@ -154,6 +160,84 @@ section h2 {
 }
 
 
+/* STAT GROUPS */
+.stat-display-group {
+    float: left;
+    width: 23%;
+    margin: 0 1%;
+    padding: 1em 0;
+    border: 1px solid #fff;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.stat-display-group-paired {
+    float: left;
+    width: 48%;
+    margin: 0 1%;
+}
+.stat-display-group-small {
+    width: 10.5%;
+}
+.stat-wrapper {
+    text-align: center;
+    width: 100%;
+}
+.stat-display-group-paired .stat-wrapper {
+    float: left;
+    width: 50%;
+}
+.stat {
+    margin: 0;
+    padding: 0;
+}
+.stat .context {
+    list-style: none;
+    display: inline-block;
+    font-size: .9em;
+    padding: 0;
+    margin: 0 auto;
+    text-align: left;
+    font-weight: 500;
+    color: #777;
+}
+.stat .context .number {
+    position: absolute;
+    right: 6px;
+}
+.stat .context .even {
+    background-color: #f7f8f3;
+}
+.stat .context .highlight {
+    background-color: #777;
+    color: #fff;
+}
+.stat .context li {
+    position: relative;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding: 0 62px 0 6px;
+    margin-bottom: 1px;
+}
+.stat-display-group .primary .name {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+}
+.stat-display-group-small .primary .name {
+    font-size: 12px;
+}
+.stat-display-group .primary .value {
+    display: block;
+    font-size: 42px;
+    line-height: 1;
+    margin: 6px 0 12px;
+    font-weight: bold;
+}
+.stat-display-group-small .primary .value {
+    font-size: 32px;
+}
 
 
 /* WIDGETS */
@@ -257,7 +341,7 @@ table .name {
 table .value {
     text-align: right;
 }
-tr.even {
+tr.even td {
     background-color: #f7f8f3;
 }
 table .percentage, table .raw-number {
@@ -463,11 +547,11 @@ ul.toggle-set a:hover {
     padding: .67em 0;
     border-top: 5px solid #014948;
     margin-bottom: 2em;
-    background-color: #F7F8F3;
+    background-color: #fff;
 }
 #header-bar a {
     text-decoration: none;
-    font-size: 36px;
+    font-size: 21px;
     font-weight: bold;
 }
 #header-bar img {
@@ -475,6 +559,7 @@ ul.toggle-set a:hover {
     -moz-border-radius: 4px;
     border-radius: 4px;
     margin-top: -10px;
+    height: 24px;
 }
 .header-container {
     margin-bottom: 2em;

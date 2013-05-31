@@ -1,0 +1,89 @@
+{% extends '_base_profile.html' %}{% load humanize %}
+
+{% block header_content %}
+<h1 class="title">{{ geography.pretty_name }}</h1>
+<p>Data from {{ geography.census_release }} release</p>
+
+<ul class="stat-list">
+    <li class="primary">
+        <span class="stat-name">Total population:</span>
+        <span class="stat-value">{{ geography.total_population|intcomma }}</span>
+    </li>
+    <li class="primary">
+        <span class="stat-name">Total land area:</span>
+        <span class="stat-value">{{ geography.land_area|intcomma }} square miles</span>
+    </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<article id="demographics">
+    <header>
+        <h1>Demographics</h1>
+        <p class="header-description">Information about age, gender, race and ethnicity.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_demographics.html" %}
+</article>
+
+<article id="economics">
+    <header>
+        <h1>Economics</h1>
+        <p class="header-description">Information about income and poverty.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_economics.html" %}
+</article>
+
+<article id="education">
+    <header>
+        <h1>Education</h1>
+        <p class="header-description">Information about educational attainment.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_education.html" %}
+</article>
+
+<article id="employment">
+    <header>
+        <h1>Employment</h1>
+        <p class="header-description">Information about employment.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_employment.html" %}
+</article>
+
+<article id="housing">
+    <header>
+        <h1>Housing</h1>
+        <p class="header-description">Information about housing units, homeownership, home values and geographic mobility.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_housing.html" %}
+</article>
+
+<article id="sociocultural">
+    <header>
+        <h1>Sociocultural</h1>
+        <p class="header-description">Information about language and place of birth.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_sociocultural.html" %}
+</article>
+
+<article id="veterans">
+    <header>
+        <h1>Veterans</h1>
+        <p class="header-description">Information about veteran status.</p>
+        <p class="header-notes"></p>
+    </header>
+    {% include "_profile/section_veterans.html" %}
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/waypoints.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/jquery.scrollTo.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/jquery.localScroll.min.js"></script>
+<script src="{{ STATIC_URL }}js/add.waypoints.js"></script>
+{% endblock %}
