@@ -1,6 +1,6 @@
 WSGIPythonPath %(django_project_path)s:%(django_venv_path)s
 
-<VirtualHost %(domainname)s:80>
+<VirtualHost *:80>
     ServerName %(domainname)s
     ServerAdmin admin@%(domainname)s
 
@@ -15,5 +15,5 @@ WSGIPythonPath %(django_project_path)s:%(django_venv_path)s
     Alias /static %(django_static_path)s
 
     ErrorLog /var/log/apache2/%(domainname)s.error.log
-    CustomLog /var/log/apach2/%(domainname)s.access.log combined
+    CustomLog /var/log/apache2/%(domainname)s.access.log combined
 </VirtualHost>

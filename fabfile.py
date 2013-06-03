@@ -6,9 +6,14 @@ from fabric.colors import red
 def deploy(branch='master'):
     "Deploy the specified branch to the remote host."
 
-    code_dir = 'django_app'
+    root_dir = '/home/www-data'
+    code_dir = '%s/django_app' % root_dir
     virtualenv_name = 'django_venv'
+    virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
     host = 'beta.censusreporter.org'
+
+    sudo('mkdir -p %s' % root_dir)
+    sudo('chown www-data:www-data %s' % root_dir)
 
     # Install required packages
     sudo('apt-get update')
@@ -18,13 +23,15 @@ def deploy(branch='master'):
     sudo('apt-get install -y apache2 libapache2-mod-wsgi')
     sudo('a2enmod wsgi')
     sudo('rm -f /etc/apache2/sites-enabled/000-default')
-    upload_template('./server/apache2/site', '/etc/apache2/sites-available/%s' % host,
-            use_sudo=True, context={
+    sudo('rm -f /etc/apache2/sites-enabled/%s' % host)
+    sudo('rm -f /etc/apache2/sites-available/%s' % host)
+    upload_template('./server/apache2/site', '/etc/apache2/sites-available/%s' % host, use_sudo=True, context={
         'domainname': host,
-        'django_project_path': '/home/ubuntu/%s/censusreporter' % code_dir,
-        'django_static_path': '/home/ubuntu/%s/censusreporter/apps/census/static' % code_dir,
-        'django_venv_path': '/home/ubuntu/%s/lib/python2.7/site-packages' % virtualenv_name
+        'django_project_path': '%s/censusreporter' % code_dir,
+        'django_static_path': '%s/censusreporter/apps/census/static' % code_dir,
+        'django_venv_path': '%s/lib/python2.7/site-packages' % virtualenv_dir
     })
+    sudo('a2ensite %s' % host)
 
     # Install up to virtualenv
     sudo('apt-get install -y python-setuptools')
@@ -32,20 +39,24 @@ def deploy(branch='master'):
     sudo('pip install virtualenv')
 
     # Create virtualenv and add our django app to its PYTHONPATH
-    run('virtualenv --no-site-packages %s' % virtualenv_name)
-    run('rm -f %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_name)
-    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_name, '/home/ubuntu/%s/censusreporter' % code_dir)
-    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_name, '/home/ubuntu/%s/censusreporter/apps' % code_dir)
-    append('%s/bin/activate' % virtualenv_name, "export DJANGO_SETTINGS_MODULE='config.dev.settings'")
+    sudo('virtualenv --no-site-packages %s' % virtualenv_dir)
+    sudo('rm -f %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir)
+    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter' % code_dir, use_sudo=True)
+    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter/apps' % code_dir, use_sudo=True)
+    append('%s/bin/activate' % virtualenv_dir, "export DJANGO_SETTINGS_MODULE='config.dev.settings'", use_sudo=True)
 
     with settings(warn_only=True):
-        if run('test -d %s' % code_dir).failed:
-            print(red('Cloning fresh repo.'))
-            run('git clone git://github.com/censusreporter/censusreporter.git %s' % code_dir)
+        if sudo('test -d %s' % code_dir).failed:
+            sudo('git clone git://github.com/censusreporter/censusreporter.git %s' % code_dir)
 
     with cd(code_dir):
-        print(red('Pulling %s from GitHub' % branch))
-        run('git pull origin %s' % branch)
+        sudo('git pull origin %s' % branch)
 
         # Install pip requirements
-        run('source /home/ubuntu/%s/bin/activate && pip install -r requirements.txt' % virtualenv_name)
+        sudo('source %s/bin/activate && pip install -r requirements.txt' % virtualenv_dir)
+
+        # Make sure everything is correctly owned
+        sudo('chown www-data:www-data -R %s' % root_dir)
+
+    # Restart apache
+    sudo('service apache2 restart')
