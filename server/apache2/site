@@ -1,0 +1,19 @@
+WSGIPythonPath %(django_project_path)s:%(django_venv_path)s
+
+<VirtualHost %(domainname)s:80>
+    ServerName %(domainname)s
+    ServerAdmin admin@%(domainname)s
+
+    WSGIScriptAlias / %(django_project_path)s/wsgi.py
+    <Directory %(django_project_path)s>
+       Order allow,deny
+       Allow from all
+    </Directory>
+
+    Alias /robots.txt %(django_static_path)s/robots.txt
+    Alias /favicon.ico %(django_static_path)s/favicon.ico
+    Alias /static %(django_static_path)s
+
+    ErrorLog /var/log/apache2/%(domainname)s.error.log
+    CustomLog /var/log/apach2/%(domainname)s.access.log combined
+</VirtualHost>
