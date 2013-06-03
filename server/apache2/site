@@ -1,6 +1,6 @@
 WSGIPythonPath %(django_project_path)s:%(django_venv_path)s
 
-<VirtualHost %(domainname)s:80>
+<VirtualHost *:80>
     ServerName %(domainname)s
     ServerAdmin admin@%(domainname)s
 
