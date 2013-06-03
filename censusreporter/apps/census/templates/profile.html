@@ -1,89 +1,118 @@
 {% extends '_base_profile.html' %}{% load humanize %}
 
 {% block header_content %}
-<h1 class="title">{{ geography.pretty_name }}</h1>
-<p>Data from {{ geography.census_release }} release</p>
+<article id="profile">
+    <h1 class="title">{{ geography.pretty_name }}</h1>
+    <p>Data from {{ geography.census_release }} release</p>
 
-<ul class="stat-list">
-    <li class="primary">
-        <span class="stat-name">Total population:</span>
-        <span class="stat-value">{{ geography.total_population|intcomma }}</span>
-    </li>
-    <li class="primary">
-        <span class="stat-name">Total land area:</span>
-        <span class="stat-value">{{ geography.land_area|intcomma }} square miles</span>
-    </li>
-</ul>
+    <section class="clearfix">
+        <div class="column-half">
+            <div class="column-half">
+                <div class="stat">
+                    <span class="primary">
+                        <span class="value">{{ geography.total_population|intcomma }}</span>
+                        <span class="name">Population</span>
+                    </span>
+                </div>
+            </div>
+            <div class="column-half">
+                <div class="stat">
+                    <span class="primary">
+                        <span class="value">{{ geography.land_area|intcomma }}</span>
+                        <span class="name">Square miles</span>
+                    </span>
+                </div>
+            </div>
+            <div class="full-width">
+                <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
+            </div>
+        </div>
+        <div class="column-half">
+            <div class="placeholder">map</div>
+        </div>
+    </section>
+</article>
 {% endblock %}
 
 {% block content %}
-<article id="demographics">
-    <header>
+<article id="demographics" class="clearfix">
+    <header class="section-contents">
         <h1>Demographics</h1>
-        <p class="header-description">Information about age, gender, race and ethnicity.</p>
-        <p class="header-notes"></p>
     </header>
-    {% include "_profile/section_demographics.html" %}
+    <div class="section-container">
+        {% include "_profile/section_demographics_age.html" %}
+        {% include "_profile/section_demographics_gender.html" %}
+        {% include "_profile/section_demographics_race.html" %}
+        {% include "_profile/section_demographics_ethnicity.html" %}
+    </div>
 </article>
 
-<article id="economics">
-    <header>
+<article id="economics" class="clearfix">
+    <header class="section-contents">
         <h1>Economics</h1>
-        <p class="header-description">Information about income and poverty.</p>
-        <p class="header-notes"></p>
     </header>
-    {% include "_profile/section_economics.html" %}
+    <div class="section-container">
+        {% include "_profile/section_economics_income.html" %}
+        {% include "_profile/section_economics_poverty.html" %}
+    </div>
 </article>
 
-<article id="education">
-    <header>
+<article id="education" class="clearfix">
+    <header class="section-contents">
         <h1>Education</h1>
-        <p class="header-description">Information about educational attainment.</p>
-        <p class="header-notes"></p>
     </header>
-    {% include "_profile/section_education.html" %}
+    <div class="section-container">
+        {% include "_profile/section_education_attainment.html" %}
+    </div>
 </article>
 
-<article id="employment">
-    <header>
+<article id="employment" class="clearfix">
+    <header class="section-contents">
         <h1>Employment</h1>
-        <p class="header-description">Information about employment.</p>
-        <p class="header-notes"></p>
     </header>
-    {% include "_profile/section_employment.html" %}
+    <div class="section-container">
+        {% include "_profile/section_employment_travel.html" %}
+    </div>
 </article>
 
-<article id="housing">
-    <header>
+<article id="families" class="clearfix">
+    <header class="section-contents">
+        <h1>Families</h1>
+    </header>
+    <div class="section-container">
+        {% include "_profile/section_families_households.html" %}
+    </div>
+</article>
+
+<article id="housing" class="clearfix">
+    <header class="section-contents">
         <h1>Housing</h1>
-        <p class="header-description">Information about housing units, homeownership, home values and geographic mobility.</p>
-        <p class="header-notes"></p>
     </header>
-    {% include "_profile/section_housing.html" %}
+    <div class="section-container">
+        {% include "_profile/section_housing_housing_units.html" %}
+        {% include "_profile/section_housing_tenure_mobility.html" %}
+        {% include "_profile/section_housing_value.html" %}
+    </div>
 </article>
 
-<article id="sociocultural">
-    <header>
-        <h1>Sociocultural</h1>
-        <p class="header-description">Information about language and place of birth.</p>
-        <p class="header-notes"></p>
+<article id="sociocultural" class="clearfix">
+    <header class="section-contents">
+        <h1>Socio-cultural</h1>
     </header>
-    {% include "_profile/section_sociocultural.html" %}
+    <div class="section-container">
+        {% include "_profile/section_sociocultural_place_of_birth.html" %}
+        {% include "_profile/section_sociocultural_language.html" %}
+    </div>
 </article>
 
-<article id="veterans">
-    <header>
+<article id="veterans" class="clearfix">
+    <header class="section-contents">
         <h1>Veterans</h1>
-        <p class="header-description">Information about veteran status.</p>
-        <p class="header-notes"></p>
     </header>
-    {% include "_profile/section_veterans.html" %}
+    <div class="section-container">
+        {% include "_profile/section_veterans_veteran_status.html" %}
+    </div>
 </article>
+
 {% endblock %}
 
-{% block body_javascript_extra %}
-<script src="{{ STATIC_URL }}js/vendor/waypoints.min.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/jquery.scrollTo.min.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/jquery.localScroll.min.js"></script>
-<script src="{{ STATIC_URL }}js/add.waypoints.js"></script>
-{% endblock %}

@@ -1,20 +1,17 @@
 {% load humanize %}
-<div class="stat-wrapper">
+<div class="stat-wrapper{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
     <div class="stat {{ stat_type }}">
         <span class="primary">
-            <span class="name">{{ stat.name }}</span>
             <span class="value">
-                {% if stat_type == 'dollar' %}${% endif %}
-                {{ stat.values.geography|intcomma }}
-                {% if stat_type == 'percentage' %}%{% endif %}
-                {% if stat_suffix %} {{ stat_suffix }}{% endif %}
+                {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.geography|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
             </span>
+            <span class="name">{{ stat.name }}</span>
         </span>
         <ul class="context">
             {% if stat.values.parent_county %}
             <li>
                 <span class="name">County</span>
-                <span class="number">
+                <span class="value">
                     {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.parent_county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 </span>
             </li>
@@ -22,7 +19,7 @@
             {% if stat.values.parent_state %}
             <li>
                 <span class="name">State</span>
-                <span class="number">
+                <span class="value">
                     {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.parent_state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 </span>
             </li>
@@ -30,7 +27,7 @@
             {% if stat.values.parent_nation %}
             <li>
                 <span class="name">Nation</span>
-                <span class="number">
+                <span class="value">
                     {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.parent_nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 </span>
             </li>

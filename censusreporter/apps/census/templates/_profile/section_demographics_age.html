@@ -1,0 +1,15 @@
+<section class="clearfix">
+    <h2>Age</h2>
+    <aside>
+        <p>This is some explanatory text describing the stat grouping to the right.</p>
+    </aside>
+    <div class="column-third">
+        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_under_18 stat_type='percentage' %}
+    </div>
+    <div class="column-third">
+        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_65_over stat_type='percentage' %}
+    </div>
+    <div class="column-third">
+        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_65_over stat_type='percentage' %}
+    </div>
+</section>

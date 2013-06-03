@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.utils import simplejson
 from django.views.generic import View, TemplateView
 
+from .mock import PROFILE_TEST
 from .utils import LazyEncoder, get_max_value, get_ratio
 
 
@@ -17,6 +18,13 @@ class GeographyDetailView(TemplateView):
     template_name = 'profile.html'
 
     def get_context_data(self, *args, **kwargs):
+        page_context = PROFILE_TEST
+        return page_context
+        
+        
+        
+        
+        
         # Hit test gist for now
         API_ENDPOINT = 'https://gist.github.com/ryanpitts/5680233/raw/319f578c5378077d69ba507e9246174cd304d5b8/geography_profile_test.json'
         # hit the API and store the results for later operations

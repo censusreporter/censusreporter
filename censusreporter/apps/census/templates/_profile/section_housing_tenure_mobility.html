@@ -1,0 +1,12 @@
+<section class="clearfix">
+    <h2>Tenure & Mobility</h2>
+    <aside>
+        <p>This is some explanatory text describing the stat grouping to the right.</p>
+    </aside>
+    <div class="column-third">
+        {% include '_profile/_stat_list.html' with stat=housing.tenure.rate_homeownership stat_type='percentage' %}
+    </div>
+    <div class="column-third">
+        {% include '_profile/_stat_list.html' with stat=housing.mobility.percent_same_house stat_type='percentage' %}
+    </div>
+</section>
