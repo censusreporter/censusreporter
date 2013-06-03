@@ -6,6 +6,11 @@
     <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=demographics.race.percent_white stat_type='percentage' %}
     </div>
+    <div class="column-three-quarters column-chart" id="race-column-chart">
+        
+    </div>
+
+    {% comment %}
     <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=demographics.race.percent_black stat_type='percentage' %}
     </div>
@@ -23,5 +28,5 @@
     </div>
     <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=demographics.race.percent_two_or_more stat_type='percentage' %}
-    </div>
+    </div>{% endcomment %}
 </section>

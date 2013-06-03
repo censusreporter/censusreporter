@@ -147,7 +147,7 @@ article .section-container {
 }
 .explain {
     font-size: .85em;
-    padding: 0 .75em;
+    padding: 0 1.1em;
 }
 section {
     margin-bottom: 2em;
@@ -218,7 +218,7 @@ section aside ul {
 .stat .context {
     list-style: none;
     display: inline-block;
-    font-size: .8em;
+    font-size: .85em;
     padding: 0;
     margin: .5em -6px 0;
     font-weight: 500;
@@ -268,6 +268,38 @@ section aside ul {
     font-size: .5em;
 }
 
+
+/* CHARTS */
+.column-chart {
+    font-size: 12px;
+    font-weight: 500;
+}
+.column-chart-column {
+    color: #008081;
+    fill: #008081;
+    -webkit-border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-right-radius: 4px;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis line,
+.x.axis path,
+.y.axis path {
+    display: none;
+}
+.y.axis text {
+    fill: #d5d5d5;
+}
+.y.axis line {
+    stroke: #f5f5f5;
+}
 
 
 /* TABLES */

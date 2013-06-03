@@ -115,6 +115,84 @@
         {% include "_profile/section_veterans_veteran_status.html" %}
     </div>
 </article>
-
 {% endblock %}
 
+{% block body_javascript_extra %}
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript">
+var data = [
+    { "race": "White", "percentage": {{ demographics.race.percent_white.values.geography }} },
+    { "race": "Black", "percentage": {{ demographics.race.percent_black.values.geography }} },
+    { "race": "Native", "percentage": {{ demographics.race.percent_american_indian.values.geography }} },
+    { "race": "Asian", "percentage": {{ demographics.race.percent_asian.values.geography }} },
+    { "race": "Islander", "percentage": {{ demographics.race.percent_islander.values.geography }} },
+    { "race": "Other", "percentage": {{ demographics.race.percent_other.values.geography }} },
+    { "race": "Two+", "percentage": {{ demographics.race.percent_two_or_more.values.geography }} }
+];
+
+var margin = {top: 10, right: 20, bottom: 30, left: 40},
+    width = 500 - margin.left - margin.right,
+    height = 135 - margin.top - margin.bottom;
+
+var formatPercent = d3.format("%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickSize(-width)
+    .tickPadding(5)
+    .tickValues(d3.range(0, 101, 25));
+
+var svg = d3.select("#race-column-chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+  data.forEach(function(d) {
+    d.percentage = +d.percentage;
+  });
+
+  x.domain(data.map(function(d) { return d.race; }));
+  y.domain([0, 100]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+  svg.selectAll(".column-chart-column")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "column-chart-column")
+      .attr("x", function(d) { return x(d.race); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.percentage); })
+      .attr("height", function(d) { return height - y(d.percentage); });
+
+  svg.append("g").selectAll("text")
+       .data(data)
+     .enter().append("text")
+       .text(function(d) { return d.percentage; })
+       .attr("text-anchor", "middle")
+       .attr("x", function(d) { return x(d.race) + (x.rangeBand() / 2); })
+       .attr("y", function(d) { return y(d.percentage) - 8; });
+
+
+</script>
+{% endblock %}
