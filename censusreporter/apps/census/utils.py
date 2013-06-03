@@ -29,7 +29,8 @@ def get_max_value(nested_dicts):
     return max_value
 
 def get_ratio(num1, num2):
-    return round(num1 / num2, 2)*100
+    '''requires ints or int-like strings'''
+    return int(round(float(num1) / float(num2), 2)*100)
 
 
 GEOGRAPHIES_MAP = {

@@ -16,9 +16,28 @@ from .utils import LazyEncoder, get_max_value, get_ratio
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile.html'
+    
+    def calculate_indexes(self, page_context):
+        for category, groupings in page_context.items():
+            if category != 'geography':
+                for group, group_values in groupings.items():
+                    for data, data_values in group_values.items():
+                        values = data_values['values']
+                        geo_value = values['geography']
+                        if values['county']:
+                            values['county_index'] = get_ratio(geo_value, values['county'])
+                        if values['state']:
+                            values['state_index'] = get_ratio(geo_value, values['state'])
+                        if values['nation']:
+                            values['nation_index'] = get_ratio(geo_value, values['nation'])
+                        print values
+        
+        
+        return page_context
 
     def get_context_data(self, *args, **kwargs):
         page_context = PROFILE_TEST
+        page_context = self.calculate_indexes(page_context)
         return page_context
         
         

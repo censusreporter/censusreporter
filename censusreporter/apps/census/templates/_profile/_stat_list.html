@@ -7,31 +7,33 @@
             </span>
             <span class="name">{{ stat.name }}</span>
         </span>
+        {% if stat_type in "dollar|percentage|time|ratio" %}
         <ul class="context">
-            {% if stat.values.parent_county %}
-            <li>
-                <span class="name">County</span>
+            {% if stat.values.county %}
+            <li{% if stat.values.county_index > 120 or stat.values.county_index < 80 %} class="highlight"{% endif %}>
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">County index</span>
                 <span class="value">
-                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.parent_county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                    {{ stat.values.county_index }}
                 </span>
             </li>
             {% endif %}
-            {% if stat.values.parent_state %}
-            <li>
-                <span class="name">State</span>
+            {% if stat.values.state %}
+            <li{% if stat.values.state_index > 120 or stat.values.state_index < 80 %} class="highlight"{% endif %}>
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">State index</span>
                 <span class="value">
-                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.parent_state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                    {{ stat.values.state_index }}
                 </span>
             </li>
             {% endif %}
-            {% if stat.values.parent_nation %}
-            <li>
-                <span class="name">Nation</span>
+            {% if stat.values.nation %}
+            <li{% if stat.values.nation_index > 120 or stat.values.nation_index < 80 %} class="highlight"{% endif %}>
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">National index</span>
                 <span class="value">
-                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.parent_nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                    {{ stat.values.nation_index }}
                 </span>
             </li>
             {% endif %}
         </ul>
+        {% endif %}
     </div>
 </div>

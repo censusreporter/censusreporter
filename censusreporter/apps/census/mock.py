@@ -17,9 +17,9 @@ PROFILE_TEST = {
                 "name": "Under 18",
                 "values": {
                     "geography": "28.2",
-                    "parent_county": None,
-                    "parent_state": "27.3",
-                    "parent_nation": "27.8"
+                    "county": None,
+                    "state": "27.3",
+                    "nation": "27.8"
                 }
             },
             "percent_65_over": {
@@ -28,9 +28,9 @@ PROFILE_TEST = {
                 "name": "65 and over",
                 "values": {
                     "geography": "13.1",
-                    "parent_county": None,
-                    "parent_state": "12.5",
-                    "parent_nation": "12.6"
+                    "county": None,
+                    "state": "12.5",
+                    "nation": "12.6"
                 }
             }
         },
@@ -41,9 +41,9 @@ PROFILE_TEST = {
                 "name": "Male",
                 "values": {
                     "geography": "48.1",
-                    "parent_county": None,
-                    "parent_state": "48.7",
-                    "parent_nation": "49.5"
+                    "county": None,
+                    "state": "48.7",
+                    "nation": "49.5"
                 }
             },
             "percent_female": {
@@ -52,9 +52,9 @@ PROFILE_TEST = {
                 "name": "Female",
                 "values": {
                     "geography": "51.9",
-                    "parent_county": None,
-                    "parent_state": "51.3",
-                    "parent_nation": "50.5"
+                    "county": None,
+                    "state": "51.3",
+                    "nation": "50.5"
                 }
             }
         },
@@ -65,9 +65,9 @@ PROFILE_TEST = {
                 "name": "White",
                 "values": {
                     "geography": "87.5",
-                    "parent_county": None,
-                    "parent_state": "79.2",
-                    "parent_nation": "81.3"
+                    "county": None,
+                    "state": "79.2",
+                    "nation": "81.3"
                 }
             },
             "percent_black": {
@@ -76,9 +76,9 @@ PROFILE_TEST = {
                 "name": "Black",
                 "values": {
                     "geography": "12.3",
-                    "parent_county": None,
-                    "parent_state": "12.2",
-                    "parent_nation": "13.1"
+                    "county": None,
+                    "state": "12.2",
+                    "nation": "13.1"
                 }
             },
             "percent_american_indian": {
@@ -87,9 +87,9 @@ PROFILE_TEST = {
                 "name": "Native",
                 "values": {
                     "geography": "1.1",
-                    "parent_county": None,
-                    "parent_state": "1.5",
-                    "parent_nation": "1.3"
+                    "county": None,
+                    "state": "1.5",
+                    "nation": "1.3"
                 }
             },
             "percent_asian": {
@@ -98,9 +98,9 @@ PROFILE_TEST = {
                 "name": "Asian",
                 "values": {
                     "geography": "3.3",
-                    "parent_county": None,
-                    "parent_state": "3.8",
-                    "parent_nation": "3.6"
+                    "county": None,
+                    "state": "3.8",
+                    "nation": "3.6"
                 }
             },
             "percent_islander": {
@@ -109,9 +109,9 @@ PROFILE_TEST = {
                 "name": "Islander",
                 "values": {
                     "geography": "1.2",
-                    "parent_county": None,
-                    "parent_state": "1.9",
-                    "parent_nation": "1.7"
+                    "county": None,
+                    "state": "1.9",
+                    "nation": "1.7"
                 }
             },
             "percent_other": {
@@ -120,9 +120,9 @@ PROFILE_TEST = {
                 "name": "Other race",
                 "values": {
                     "geography": "1.7",
-                    "parent_county": None,
-                    "parent_state": "1.9",
-                    "parent_nation": "1.8"
+                    "county": None,
+                    "state": "1.9",
+                    "nation": "1.8"
                 }
             },
             "percent_two_or_more": {
@@ -131,9 +131,9 @@ PROFILE_TEST = {
                 "name": "Two+ races",
                 "values": {
                     "geography": "1.0",
-                    "parent_county": None,
-                    "parent_state": "0.8",
-                    "parent_nation": "0.9"
+                    "county": None,
+                    "state": "0.8",
+                    "nation": "0.9"
                 }
             }
         },
@@ -144,9 +144,9 @@ PROFILE_TEST = {
                 "name": "Hispanic/Latino",
                 "values": {
                     "geography": "11.5",
-                    "parent_county": None,
-                    "parent_state": "11.5",
-                    "parent_nation": "11.7"
+                    "county": None,
+                    "state": "11.5",
+                    "nation": "11.7"
                 }
             }
         }
@@ -160,9 +160,9 @@ PROFILE_TEST = {
                 "name": "Per capita income in past year",
                 "values": {
                     "geography": "34982",
-                    "parent_county": None,
-                    "parent_state": "37482",
-                    "parent_nation": "36904"
+                    "county": None,
+                    "state": "37482",
+                    "nation": "36904"
                 }
             },
             "median_household_income": {
@@ -171,9 +171,9 @@ PROFILE_TEST = {
                 "universe": "Households",
                 "values": {
                     "geography": "41184",
-                    "parent_county": None,
-                    "parent_state": "42087",
-                    "parent_nation": "42113"
+                    "county": None,
+                    "state": "42087",
+                    "nation": "42113"
                 }
             }
         },
@@ -184,9 +184,9 @@ PROFILE_TEST = {
                 "name": "People below poverty line",
                 "values": {
                     "geography": "20.1",
-                    "parent_county": None,
-                    "parent_state": "19.8",
-                    "parent_nation": "21.6"
+                    "county": None,
+                    "state": "19.8",
+                    "nation": "21.6"
                 }
             }
         }
@@ -200,9 +200,9 @@ PROFILE_TEST = {
                 "name": "High school grad or higher",
                 "values": {
                     "geography": "74.9",
-                    "parent_county": None,
-                    "parent_state": "77.3",
-                    "parent_nation": "76.3"
+                    "county": None,
+                    "state": "77.3",
+                    "nation": "76.3"
                 }
             },
             "percent_college": {
@@ -211,9 +211,9 @@ PROFILE_TEST = {
                 "name": "Bachelor's degree or higher",
                 "values": {
                     "geography": "43.2",
-                    "parent_county": None,
-                    "parent_state": "47.2",
-                    "parent_nation": "39.7"
+                    "county": None,
+                    "state": "47.2",
+                    "nation": "39.7"
                 }
             }
         }
@@ -227,9 +227,9 @@ PROFILE_TEST = {
                 "name": "Mean travel time to work",
                 "values": {
                     "geography": "27.6",
-                    "parent_county": None,
-                    "parent_state": "28.2",
-                    "parent_nation": "29.9"
+                    "county": None,
+                    "state": "28.2",
+                    "nation": "29.9"
                 }
             }
         }
@@ -243,9 +243,9 @@ PROFILE_TEST = {
                 "name": "Number of households",
                 "values": {
                     "geography": "43092",
-                    "parent_county": None,
-                    "parent_state": "576231",
-                    "parent_nation": "9834627"
+                    "county": None,
+                    "state": "576231",
+                    "nation": "9834627"
                 }
             },
             "persons_per_household": {
@@ -254,9 +254,9 @@ PROFILE_TEST = {
                 "name": "Persons per household",
                 "values": {
                     "geography": "3.2",
-                    "parent_county": None,
-                    "parent_state": "3.8",
-                    "parent_nation": "3.7"
+                    "county": None,
+                    "state": "3.8",
+                    "nation": "3.7"
                 }
             }
         }
@@ -272,9 +272,9 @@ PROFILE_TEST = {
                 "name": "Number of housing units",
                 "values": {
                     "geography": "139824",
-                    "parent_county": None,
-                    "parent_state": "223765",
-                    "parent_nation": "1098364"
+                    "county": None,
+                    "state": "223765",
+                    "nation": "1098364"
                 }
             },
             "percent_multi_unit": {
@@ -283,9 +283,9 @@ PROFILE_TEST = {
                 "name": "Housing units in multi-unit structures",
                 "values": {
                     "geography": "38.7",
-                    "parent_county": None,
-                    "parent_state": "22.9",
-                    "parent_nation": "32.1"
+                    "county": None,
+                    "state": "22.9",
+                    "nation": "32.1"
                 }
             }
         },
@@ -296,9 +296,9 @@ PROFILE_TEST = {
                 "name": "Rate of homeownership",
                 "values": {
                     "geography": "45.6",
-                    "parent_county": None,
-                    "parent_state": "45.5",
-                    "parent_nation": "44.1"
+                    "county": None,
+                    "state": "45.5",
+                    "nation": "44.1"
                 }
             }
         },
@@ -309,9 +309,9 @@ PROFILE_TEST = {
                 "name": "Median value of owner-occupied housing units",
                 "values": {
                     "geography": "213945",
-                    "parent_county": None,
-                    "parent_state": "201934",
-                    "parent_nation": "207553"
+                    "county": None,
+                    "state": "201934",
+                    "nation": "207553"
                 }
             }
         },
@@ -322,9 +322,9 @@ PROFILE_TEST = {
                 "name": "People living in same house for 1 year or more",
                 "values": {
                     "geography": "38.1",
-                    "parent_county": None,
-                    "parent_state": "39.0",
-                    "parent_nation": "40.9"
+                    "county": None,
+                    "state": "39.0",
+                    "nation": "40.9"
                 }
             }
         }
@@ -338,9 +338,9 @@ PROFILE_TEST = {
                 "name": "Foreign-born persons",
                 "values": {
                     "geography": "22.5",
-                    "parent_county": None,
-                    "parent_state": "19.4",
-                    "parent_nation": "25.7"
+                    "county": None,
+                    "state": "19.4",
+                    "nation": "25.7"
                 }
             }
         },
@@ -351,9 +351,9 @@ PROFILE_TEST = {
                 "name": "People with language other than English spoken at home",
                 "values": {
                     "geography": "9.3",
-                    "parent_county": None,
-                    "parent_state": "9.7",
-                    "parent_nation": "11.2"
+                    "county": None,
+                    "state": "9.7",
+                    "nation": "11.2"
                 }
             }
         }
@@ -367,9 +367,9 @@ PROFILE_TEST = {
                 "name": "Number of veterans",
                 "values": {
                     "geography": "4983",
-                    "parent_county": None,
-                    "parent_state": "52015",
-                    "parent_nation": "1099374"
+                    "county": None,
+                    "state": "52015",
+                    "nation": "1099374"
                 }
             }
         }
