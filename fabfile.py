@@ -8,10 +8,23 @@ def deploy(branch='master'):
 
     code_dir = 'django_app'
     virtualenv_name = 'django_venv'
+    host = 'beta.censusreporter.org'
 
     # Install required packages
     sudo('apt-get update')
     sudo('apt-get install -y git')
+
+    # Install and set up apache and mod_wsgi
+    sudo('apt-get install -y apache2 libapache2-mod-wsgi')
+    sudo('a2enmod wsgi')
+    sudo('rm -f /etc/apache2/sites-enabled/000-default')
+    upload_template('./server/apache2/site', '/etc/apache2/sites-available/%s' % host,
+            use_sudo=True, context={
+        'domainname': host,
+        'django_project_path': '/home/ubuntu/%s/censusreporter' % code_dir,
+        'django_static_path': '/home/ubuntu/%s/censusreporter/apps/census/static' % code_dir,
+        'django_venv_path': '/home/ubuntu/%s/lib/python2.7/site-packages' % virtualenv_name
+    })
 
     # Install up to virtualenv
     sudo('apt-get install -y python-setuptools')
@@ -36,6 +49,3 @@ def deploy(branch='master'):
 
         # Install pip requirements
         run('source /home/ubuntu/%s/bin/activate && pip install -r requirements.txt' % virtualenv_name)
-
-        # Run the server
-        run('source /home/ubuntu/%s/bin/activate && python manage.py runserver 0.0.0.0:8000' % virtualenv_name)
