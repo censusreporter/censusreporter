@@ -4,7 +4,7 @@ WSGIPythonPath %(django_project_path)s:%(django_venv_path)s
     ServerName %(domainname)s
     ServerAdmin admin@%(domainname)s
 
-    WSGIScriptAlias / %(django_project_path)s/wsgi.py
+    WSGIScriptAlias / %(django_project_path)s/config/prod/wsgi.py
     <Directory %(django_project_path)s>
        Order allow,deny
        Allow from all
