@@ -130,9 +130,11 @@ var data = [
     { "race": "Two+", "percentage": {{ demographics.race.percent_two_or_more.values.geography }} }
 ];
 
-var margin = {top: 10, right: 20, bottom: 30, left: 40},
-    width = 500 - margin.left - margin.right,
-    height = 135 - margin.top - margin.bottom;
+var chartWidth = document.getElementById("race-column-chart").offsetWidth;
+var margin = {top: 10, right: 20, bottom: 30, left: 30},
+    width = chartWidth - margin.left - margin.right,
+    height = 135 - margin.top - margin.bottom,
+    tickPadding = 5;
 
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
@@ -142,13 +144,14 @@ var y = d3.scale.linear()
 
 var xAxis = d3.svg.axis()
     .scale(x)
+    .tickPadding(tickPadding)
     .orient("bottom");
 
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
     .tickSize(-width)
-    .tickPadding(5)
+    .tickPadding(tickPadding)
     .tickValues(d3.range(0, 101, 25));
 
 var svg = d3.select("#race-column-chart").append("svg")
@@ -174,14 +177,23 @@ var svg = d3.select("#race-column-chart").append("svg")
       .attr("class", "y axis")
       .call(yAxis);
 
-  svg.selectAll(".column-chart-column")
+//  svg.selectAll(".column-chart-rect")
+//      .data(data)
+//    .enter().append("rect")
+//      .attr("class", "column-chart-rect")
+//      .attr("x", function(d) { return x(d.race); })
+//      .attr("width", x.rangeBand())
+//      .attr("y", function(d) { return y(d.percentage); })
+//      .attr("height", function(d) { return height - y(d.percentage); });
+      
+  d3.select("#race-column-chart").selectAll(".column-chart-column")
       .data(data)
-    .enter().append("rect")
+    .enter().append("a")
       .attr("class", "column-chart-column")
-      .attr("x", function(d) { return x(d.race); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.percentage); })
-      .attr("height", function(d) { return height - y(d.percentage); });
+      .style("left", function(d) { return (x(d.race) + margin.left) + "px"; })
+      .style("width", x.rangeBand() + "px")
+      .style("height", function(d) { return (height - y(d.percentage)) + "px"; })
+      .style("bottom", function(d) { return (margin.bottom + tickPadding) + "px"; });
 
   svg.append("g").selectAll("text")
        .data(data)

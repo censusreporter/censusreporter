@@ -273,28 +273,42 @@ section aside ul {
 
 /* CHARTS */
 .column-chart {
+    position: relative;
     font-size: 12px;
     font-weight: 500;
 }
+.column-chart-rect {
+    fill: #024948;
+}
 .column-chart-column {
-    color: #008081;
-    fill: #008081;
-    -webkit-border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
-    border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
-    -moz-border-radius-topright: 4px;
-    border-top-right-radius: 4px;
+    position: absolute;
+    bottom: 0;
+    background-color: #024948;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
+}
+.column-chart-column:hover {
+    background-color: #008081;
 }
 
 .axis {
   shape-rendering: crispEdges;
 }
-
 .x.axis line,
 .x.axis path,
 .y.axis path {
     display: none;
+}
+svg text {
+    font-size: .9em;
+}
+.x.axis text,
+.y.axis text {
+    font-weight: bold;
 }
 .y.axis text {
     fill: #d5d5d5;
