@@ -56,7 +56,7 @@ def deploy(branch='master'):
         sudo('source %s/bin/activate && pip install -r requirements.txt' % virtualenv_dir)
 
         # Make sure everything is correctly owned
-        sudo('chown www-data:www-data -R %s' % root_dir)
+        sudo('chown www-data:www-data -R %s %s' % (code_dir, virtualenv_dir))
 
     # Restart apache
     sudo('service apache2 restart')
