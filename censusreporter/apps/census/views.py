@@ -17,8 +17,8 @@ from .utils import LazyEncoder, get_max_value, get_ratio
 class GeographyDetailView(TemplateView):
     template_name = 'profile.html'
     
-    def calculate_indexes(self, page_context):
-        for category, groupings in page_context.items():
+    def calculate_indexes(self, api_data):
+        for category, groupings in api_data.items():
             if category != 'geography':
                 for group, group_values in groupings.items():
                     for data, data_values in group_values.items():
@@ -30,14 +30,29 @@ class GeographyDetailView(TemplateView):
                             values['state_index'] = get_ratio(geo_value, values['state'])
                         if values['nation']:
                             values['nation_index'] = get_ratio(geo_value, values['nation'])
-                        print values
         
-        
-        return page_context
+        return api_data
 
     def get_context_data(self, *args, **kwargs):
-        page_context = PROFILE_TEST
-        page_context = self.calculate_indexes(page_context)
+        page_context = {
+            'state_fips_code': None,
+            'county_fips_code': None,
+            'geography_fips_code': None
+        }
+        
+        fips_code = kwargs['geography_id']
+        if len(fips_code) == 2:
+            page_context['state_fips_code'] = fips_code
+            page_context['geography_fips_code'] = fips_code
+        elif len(fips_code) == 5:
+            page_context['state_fips_code'] = fips_code[:2]
+            page_context['county_fips_code'] = fips_code
+            page_context['geography_fips_code'] = fips_code
+        
+        # add in data from the API response
+        API_DATA = PROFILE_TEST
+        profile_data = self.calculate_indexes(API_DATA)
+        page_context.update(profile_data)
         return page_context
         
         

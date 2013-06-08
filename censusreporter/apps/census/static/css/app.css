@@ -270,6 +270,23 @@ section aside ul {
     font-size: .5em;
 }
 
+/* SVG MAPS */
+
+.svg-map .mesh {
+    fill: none;
+    stroke: #fff;
+    stroke-width: .5px;
+    stroke-linejoin: round;
+}
+.svg-map .outline {
+    fill: #e8eadf;
+    stroke: #cad0b5;
+    stroke-width: 1.5px;
+}
+.svg-map .feature {
+    stroke: #001b1b;
+    fill: #008081;
+}
 
 /* CHARTS */
 .chart {

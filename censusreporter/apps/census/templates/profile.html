@@ -27,9 +27,7 @@
                 <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
             </div>
         </div>
-        <div class="column-half">
-            <div class="placeholder">map</div>
-        </div>
+        <div class="column-half" id="geography-map"></div>
     </section>
 </article>
 {% endblock %}
@@ -119,12 +117,66 @@
 
 {% block body_javascript_extra %}
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/d3.chart.min.js"></script>
 <script src="{{ STATIC_URL }}js/charts/d3.chart.columnChart.js"></script>
 <script type="text/javascript">
 
-var raceColumnChart = d3.select("#race-column-chart")
-  .chart("ColumnChart");
+var mapDiv = d3.select("#geography-map").append("div")
+    .attr("class", "svg-map")
+
+var width = mapDiv[0][0].offsetWidth,
+    height = width*.67;
+
+var svgMap = mapDiv.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var projection = d3.geo.mercator();
+
+var path = d3.geo.path()
+    .projection(projection);
+    
+queue()
+    .defer(d3.json, "{{ STATIC_URL }}json/us.json")
+    .await(ready);
+
+function ready(error, us) {
+    var states = topojson.feature(us, us.objects.states),
+        state = states.features.filter(function(d) { return d.id === {{ state_fips_code }}; })[0];
+
+    // zoom to the state
+    projection
+        .scale(1)
+        .translate([0, 0]);
+
+    var b = path.bounds(state),
+        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+    projection
+        .scale(s)
+        .translate(t);
+        
+    // draw the state
+    svgMap.append("path")
+        .datum(state)
+        .attr("class", "outline{% if geography_fips_code == state_fips_code %} feature{% endif %}")
+        .attr("d", path);
+    
+    {% if county_fips_code %}
+    var counties = topojson.feature(us, us.objects.counties),
+        county = counties.features.filter(function(d) { return d.id === {{ county_fips_code }}; })[0];
+        
+    // draw the county
+    svgMap.append("path")
+        .datum(county)
+        .attr("class", "outline{% if geography_fips_code == county_fips_code %} feature{% endif %}")
+        .attr("d", path);
+    {% endif %}
+}
+
 var raceColumnChartData = [
     { "name": "White", "value": {{ demographics.race.percent_white.values.geography }} },
     { "name": "Black", "value": {{ demographics.race.percent_black.values.geography }} },
@@ -134,6 +186,9 @@ var raceColumnChartData = [
     { "name": "Other", "value": {{ demographics.race.percent_other.values.geography }} },
     { "name": "Two+", "value": {{ demographics.race.percent_two_or_more.values.geography }} }
 ];
+var raceColumnChart = d3.select("#race-column-chart")
+  .chart("ColumnChart");
+
 raceColumnChart.draw(raceColumnChartData);
 
 
