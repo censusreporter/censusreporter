@@ -164,7 +164,7 @@ function ready(error, us) {
         .datum(state)
         .attr("class", "outline{% if geography_fips_code == state_fips_code %} feature{% endif %}")
         .attr("d", path);
-    
+
     {% if county_fips_code %}
     var counties = topojson.feature(us, us.objects.counties),
         county = counties.features.filter(function(d) { return d.id === {{ county_fips_code }}; })[0];

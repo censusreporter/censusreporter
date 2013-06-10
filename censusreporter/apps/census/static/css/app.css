@@ -272,12 +272,6 @@ section aside ul {
 
 /* SVG MAPS */
 
-.svg-map .mesh {
-    fill: none;
-    stroke: #fff;
-    stroke-width: .5px;
-    stroke-linejoin: round;
-}
 .svg-map .outline {
     fill: #e8eadf;
     stroke: #cad0b5;
@@ -286,6 +280,12 @@ section aside ul {
 .svg-map .feature {
     stroke: #001b1b;
     fill: #008081;
+}
+.svg-map .mesh {
+    fill: none;
+    stroke: #fff;
+    stroke-width: .5px;
+    stroke-linejoin: round;
 }
 
 /* CHARTS */

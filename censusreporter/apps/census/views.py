@@ -40,14 +40,15 @@ class GeographyDetailView(TemplateView):
             'geography_fips_code': None
         }
         
-        fips_code = kwargs['geography_id']
-        if len(fips_code) == 2:
-            page_context['state_fips_code'] = fips_code
-            page_context['geography_fips_code'] = fips_code
-        elif len(fips_code) == 5:
-            page_context['state_fips_code'] = fips_code[:2]
-            page_context['county_fips_code'] = fips_code
-            page_context['geography_fips_code'] = fips_code
+        if 'US' in kwargs['geography_id']:
+            fips_code = kwargs['geography_id'].split('US')[1]
+            if len(fips_code) == 2:
+                page_context['state_fips_code'] = fips_code
+                page_context['geography_fips_code'] = fips_code
+            elif len(fips_code) == 5:
+                page_context['state_fips_code'] = fips_code[:2]
+                page_context['county_fips_code'] = fips_code
+                page_context['geography_fips_code'] = fips_code
         
         # add in data from the API response
         API_DATA = PROFILE_TEST
