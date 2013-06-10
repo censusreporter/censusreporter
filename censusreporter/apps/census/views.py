@@ -36,19 +36,25 @@ class GeographyDetailView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'state_fips_code': None,
-            'county_fips_code': None,
             'geography_fips_code': None
         }
         
         if 'US' in kwargs['geography_id']:
-            fips_code = kwargs['geography_id'].split('US')[1]
-            if len(fips_code) == 2:
-                page_context['state_fips_code'] = fips_code
-                page_context['geography_fips_code'] = fips_code
-            elif len(fips_code) == 5:
+            geoIDcomponents = kwargs['geography_id'].split('US')
+
+            sumlev = geoIDcomponents[0][:3]
+            page_context['sumlev'] = sumlev
+
+            fips_code = geoIDcomponents[1]
+            if len(fips_code) >= 2:
                 page_context['state_fips_code'] = fips_code[:2]
+
+            if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
-                page_context['geography_fips_code'] = fips_code
+                
+            if fips_code == '5367000':
+                # testing point with hard-coded Spokane
+                page_context['point_lon_lat'] = (-117.4250, 47.6589)
         
         # add in data from the API response
         API_DATA = PROFILE_TEST

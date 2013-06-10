@@ -162,18 +162,29 @@ function ready(error, us) {
     // draw the state
     svgMap.append("path")
         .datum(state)
-        .attr("class", "outline{% if geography_fips_code == state_fips_code %} feature{% endif %}")
+        .attr("class", "outline{% if sumlev == '040' %} feature{% endif %}")
         .attr("d", path);
 
+    // draw a county
     {% if county_fips_code %}
     var counties = topojson.feature(us, us.objects.counties),
         county = counties.features.filter(function(d) { return d.id === {{ county_fips_code }}; })[0];
         
-    // draw the county
     svgMap.append("path")
         .datum(county)
-        .attr("class", "outline{% if geography_fips_code == county_fips_code %} feature{% endif %}")
+        .attr("class", "outline{% if sumlev == '050' %} feature{% endif %}")
         .attr("d", path);
+    {% endif %}
+    
+    // draw a point
+    {% if point_lon_lat %}
+    var pointLonLat = projection([ {{ point_lon_lat.0 }}, {{ point_lon_lat.1 }} ]);
+    
+    svgMap.append("circle")
+      .attr("cx", function(d) { return pointLonLat[0]; })
+      .attr("cy", function(d) { return pointLonLat[1]; })
+      .attr("r", 5)
+      .attr("class", "point");
     {% endif %}
 }
 

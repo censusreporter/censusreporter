@@ -277,7 +277,8 @@ section aside ul {
     stroke: #cad0b5;
     stroke-width: 1.5px;
 }
-.svg-map .feature {
+.svg-map .feature,
+.svg-map .point {
     stroke: #001b1b;
     fill: #008081;
 }
