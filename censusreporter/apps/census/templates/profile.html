@@ -189,13 +189,13 @@ function ready(error, us) {
 }
 
 var raceColumnChartData = [
-    { "name": "White", "value": {{ demographics.race.percent_white.values.geography }} },
-    { "name": "Black", "value": {{ demographics.race.percent_black.values.geography }} },
-    { "name": "Native", "value": {{ demographics.race.percent_american_indian.values.geography }} },
-    { "name": "Asian", "value": {{ demographics.race.percent_asian.values.geography }} },
-    { "name": "Islander", "value": {{ demographics.race.percent_islander.values.geography }} },
-    { "name": "Other", "value": {{ demographics.race.percent_other.values.geography }} },
-    { "name": "Two+", "value": {{ demographics.race.percent_two_or_more.values.geography }} }
+    { "name": "White", "value": {{ demographics.race.percent_white.values.this }} },
+    { "name": "Black", "value": {{ demographics.race.percent_black.values.this }} },
+    { "name": "Native", "value": {{ demographics.race.percent_native_american.values.this }} },
+    { "name": "Asian", "value": {{ demographics.race.percent_asian.values.this }} },
+    { "name": "Islander", "value": {{ demographics.race.percent_native_islander.values.this }} },
+    { "name": "Other", "value": {{ demographics.race.percent_other.values.this }} },
+    { "name": "Two+", "value": {{ demographics.race.percent_two_or_more.values.this }} }
 ];
 var raceColumnChart = d3.select("#race-column-chart")
   .chart("ColumnChart");

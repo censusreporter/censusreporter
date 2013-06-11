@@ -23,7 +23,7 @@ class GeographyDetailView(TemplateView):
                 for group, group_values in groupings.items():
                     for data, data_values in group_values.items():
                         values = data_values['values']
-                        geo_value = values['geography']
+                        geo_value = values['this']
                         if values['county']:
                             values['county_index'] = get_ratio(geo_value, values['county'])
                         if values['state']:
@@ -56,24 +56,19 @@ class GeographyDetailView(TemplateView):
                 # testing point with hard-coded Spokane
                 page_context['point_lon_lat'] = (-117.4250, 47.6589)
         
-        # add in data from the API response
         API_DATA = PROFILE_TEST
         profile_data = self.calculate_indexes(API_DATA)
         page_context.update(profile_data)
         return page_context
         
         
-        
-        
-        
         # Hit test gist for now
-        API_ENDPOINT = 'https://gist.github.com/ryanpitts/5680233/raw/319f578c5378077d69ba507e9246174cd304d5b8/geography_profile_test.json'
+        API_ENDPOINT = 'http://api.censusreporter.org:8000/1.0/acs2011_5yr/%s/summary' % kwargs['geography_id']
         # hit the API and store the results for later operations
         r = requests.get(API_ENDPOINT)
-        data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
-
-        # initial page context
-        page_context = data
+        profile_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+        profile_data = self.calculate_indexes(profile_data)
+        page_context.update(profile_data)
 
         return page_context
     

@@ -4,9 +4,9 @@
         <p>This is some explanatory text describing the stat grouping to the right.</p>
     </aside>
     <div class="column-third">
-        {% include '_profile/_stat_list.html' with stat=housing.housing_units.number_housing_units stat_type='number' %}
+        {% include '_profile/_stat_list.html' with stat=housing.units.number_of_housing_units stat_type='number' %}
     </div>
     <div class="column-third">
-        {% include '_profile/_stat_list.html' with stat=housing.housing_units.percent_multi_unit stat_type='percentage' %}
+        {% include '_profile/_stat_list.html' with stat=housing.units.percent_units_in_multi_unit_structure stat_type='percentage' %}
     </div>
 </section>
