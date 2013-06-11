@@ -6,13 +6,13 @@
 <div class="tool-set">
     <div class="tool-group">
         <ul class="toggle-set">
+            <li><a class="{% if comparison_type == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'map' %}">Map</a></li>
             <li><a class="{% if comparison_type == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'distribution' %}">Distribution</a></li>
             <li><a class="{% if comparison_type == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'table' %}">Table</a></li>
-            <li><a class="{% if comparison_type == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'map' %}">Map</a></li>
         </ul>
     </div>
 </div>
 <h1>Compare {{ descendant_type }} in {{ geography_id }}</h1>
-<p>Age groups by percentage of total population (ACS 2010, 1-Year release)</p>
+<p>Age groups by percentage of total population (ACS 2011, 5-Year release)</p>
 {% endblock %}
 

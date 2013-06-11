@@ -421,8 +421,9 @@ ul.toggle-set li {
     float: left;
     width: 100px;
     text-align: center;
-    background-color: #e8eadf;
-    border-bottom: 2px solid #c3c9ab;
+    background-color: #eff1e9;
+    border-top: 1px solid #e8eadf;
+    border-bottom: 1px solid #cad0b5;
 }
 ul.toggle-set li:first-child,
 ul.toggle-set li:first-child a {
@@ -452,11 +453,11 @@ ul.toggle-set a {
 }
 ul.toggle-set a.active,
 ul.toggle-set a:hover {
-    background-color: #f7f8f3;
+    background-color: #d9ddca;
     color: #111;
 }
 ul.toggle-set a:hover {
-    background-color: #eff1e9;
+    background-color: #d9ddca;
 }
 
 /* CHARTS */
