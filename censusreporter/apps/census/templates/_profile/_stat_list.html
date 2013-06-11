@@ -3,7 +3,7 @@
     <div class="stat {{ stat_type }}">
         <span class="primary">
             <span class="value">
-                {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.geography|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
+                {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
             </span>
             <span class="name">{{ stat.name }}</span>
         </span>
