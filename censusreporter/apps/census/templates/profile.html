@@ -1,8 +1,11 @@
 {% extends '_base_profile.html' %}{% load humanize %}
 
+{% block head_title %}{% firstof geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
+
+
 {% block header_content %}
 <article id="profile">
-    <h1 class="title">{{ geography.pretty_name }}</h1>
+    <h1 class="title">{% firstof geography.pretty_name geography.name %}</h1>
     <p>Data from {{ geography.census_release }} release</p>
 
     <section class="clearfix">
@@ -15,6 +18,7 @@
                     </span>
                 </div>
             </div>
+            {% if geography.land_area %}
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
@@ -23,6 +27,7 @@
                     </span>
                 </div>
             </div>
+            {% endif %}
             <div class="full-width">
                 <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
             </div>

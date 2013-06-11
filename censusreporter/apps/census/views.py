@@ -4,7 +4,7 @@ import requests
 from math import ceil
 from numpy import median
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils import simplejson
 from django.views.generic import View, TemplateView
 
@@ -56,19 +56,16 @@ class GeographyDetailView(TemplateView):
                 # testing point with hard-coded Spokane
                 page_context['point_lon_lat'] = (-117.4250, 47.6589)
         
-        API_DATA = PROFILE_TEST
-        profile_data = self.calculate_indexes(API_DATA)
-        page_context.update(profile_data)
-        return page_context
-        
-        
-        # Hit test gist for now
-        API_ENDPOINT = 'http://api.censusreporter.org:8000/1.0/acs2011_5yr/%s/summary' % kwargs['geography_id']
-        # hit the API and store the results for later operations
+        # hit our API (force to 5-year data for now)
+        #API_ENDPOINT = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/acs2011_5yr/%s/profile' % kwargs['geography_id']
         r = requests.get(API_ENDPOINT)
-        profile_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
-        profile_data = self.calculate_indexes(profile_data)
-        page_context.update(profile_data)
+        if r.status_code == 200:
+            profile_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+            profile_data = self.calculate_indexes(profile_data)
+            page_context.update(profile_data)
+        else:
+            raise Http404
 
         return page_context
     

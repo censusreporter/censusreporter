@@ -180,6 +180,7 @@ section aside ul {
     margin: 0 1em;
 }
 .full-width {
+    clear: both;
     width: auto;
     margin: 0;
 }
@@ -457,7 +458,7 @@ ul.toggle-set a:hover {
     color: #111;
 }
 ul.toggle-set a:hover {
-    background-color: #d9ddca;
+    background-color: #cad0b5;
 }
 
 /* CHARTS */
