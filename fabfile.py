@@ -43,7 +43,7 @@ def deploy(branch='master'):
     sudo('rm -f %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir)
     append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter' % code_dir, use_sudo=True)
     append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter/apps' % code_dir, use_sudo=True)
-    append('%s/bin/activate' % virtualenv_dir, "export DJANGO_SETTINGS_MODULE='config.prod.settings'", use_sudo=True)
+    append('%s/bin/activate' % virtualenv_dir, 'export DJANGO_SETTINGS_MODULE="config.prod.settings"', use_sudo=True)
 
     with settings(warn_only=True):
         if sudo('test -d %s' % code_dir).failed:
