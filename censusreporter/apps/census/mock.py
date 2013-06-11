@@ -16,7 +16,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Under 18",
                 "values": {
-                    "geography": "28.2",
+                    "this": "28.2",
                     "county": None,
                     "state": "27.3",
                     "nation": "27.8"
@@ -27,7 +27,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "65 and over",
                 "values": {
-                    "geography": "13.1",
+                    "this": "13.1",
                     "county": None,
                     "state": "12.5",
                     "nation": "12.6"
@@ -40,7 +40,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Male",
                 "values": {
-                    "geography": "48.1",
+                    "this": "48.1",
                     "county": None,
                     "state": "48.7",
                     "nation": "49.5"
@@ -51,7 +51,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Female",
                 "values": {
-                    "geography": "51.9",
+                    "this": "51.9",
                     "county": None,
                     "state": "51.3",
                     "nation": "50.5"
@@ -64,7 +64,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "White",
                 "values": {
-                    "geography": "87.5",
+                    "this": "87.5",
                     "county": None,
                     "state": "79.2",
                     "nation": "81.3"
@@ -75,18 +75,18 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Black",
                 "values": {
-                    "geography": "12.3",
+                    "this": "12.3",
                     "county": None,
                     "state": "12.2",
                     "nation": "13.1"
                 }
             },
-            "percent_american_indian": {
+            "percent_native_american": {
                 "table_id": "B02001",
                 "universe": "Total population",
                 "name": "Native",
                 "values": {
-                    "geography": "1.1",
+                    "this": "1.1",
                     "county": None,
                     "state": "1.5",
                     "nation": "1.3"
@@ -97,18 +97,18 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Asian",
                 "values": {
-                    "geography": "3.3",
+                    "this": "3.3",
                     "county": None,
                     "state": "3.8",
                     "nation": "3.6"
                 }
             },
-            "percent_islander": {
+            "percent_native_islander": {
                 "table_id": "B02001",
                 "universe": "Total population",
                 "name": "Islander",
                 "values": {
-                    "geography": "1.2",
+                    "this": "1.2",
                     "county": None,
                     "state": "1.9",
                     "nation": "1.7"
@@ -119,7 +119,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Other race",
                 "values": {
-                    "geography": "1.7",
+                    "this": "1.7",
                     "county": None,
                     "state": "1.9",
                     "nation": "1.8"
@@ -130,7 +130,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Two+ races",
                 "values": {
-                    "geography": "1.0",
+                    "this": "1.0",
                     "county": None,
                     "state": "0.8",
                     "nation": "0.9"
@@ -143,7 +143,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Hispanic/Latino",
                 "values": {
-                    "geography": "11.5",
+                    "this": "11.5",
                     "county": None,
                     "state": "11.5",
                     "nation": "11.7"
@@ -154,12 +154,12 @@ PROFILE_TEST = {
     
     "economics": {
         "income": {
-            "per_capita_income": {
+            "per_capita_income_in_the_last_12_months": {
                 "table_id": "B19301",
                 "universe": "Total population",
                 "name": "Per capita income in past year",
                 "values": {
-                    "geography": "34982",
+                    "this": "34982",
                     "county": None,
                     "state": "37482",
                     "nation": "36904"
@@ -167,10 +167,10 @@ PROFILE_TEST = {
             },
             "median_household_income": {
                 "table_id": "B19013",
-                "name": "Median household income",
                 "universe": "Households",
+                "name": "Median household income",
                 "values": {
-                    "geography": "41184",
+                    "this": "41184",
                     "county": None,
                     "state": "42087",
                     "nation": "42113"
@@ -178,12 +178,12 @@ PROFILE_TEST = {
             }
         },
         "poverty": {
-            "percent_poverty": {
+            "percent_below_poverty_line": {
                 "table_id": "B17001",
                 "universe": "Population for whom poverty status is determined",
                 "name": "People below poverty line",
                 "values": {
-                    "geography": "20.1",
+                    "this": "20.1",
                     "county": None,
                     "state": "19.8",
                     "nation": "21.6"
@@ -194,23 +194,23 @@ PROFILE_TEST = {
 
     "education": {
         "attainment": {
-            "percent_high_school": {
+            "percent_high_school_or_higher": {
                 "table_id": "B15002",
                 "universe": "Population 25 years and over",
                 "name": "High school grad or higher",
                 "values": {
-                    "geography": "74.9",
+                    "this": "74.9",
                     "county": None,
                     "state": "77.3",
                     "nation": "76.3"
                 }
             },
-            "percent_college": {
+            "percent_bachelor_degree_or_higher": {
                 "table_id": "B15002",
                 "universe": "Population 25 years and over",
                 "name": "Bachelor's degree or higher",
                 "values": {
-                    "geography": "43.2",
+                    "this": "43.2",
                     "county": None,
                     "state": "47.2",
                     "nation": "39.7"
@@ -226,7 +226,7 @@ PROFILE_TEST = {
                 "universe": "Workers 16 years and over",
                 "name": "Mean travel time to work",
                 "values": {
-                    "geography": "27.6",
+                    "this": "27.6",
                     "county": None,
                     "state": "28.2",
                     "nation": "29.9"
@@ -237,12 +237,12 @@ PROFILE_TEST = {
     
     "families": {
         "households": {
-            "number_households": {
+            "number_of_households": {
                 "table_id": "B11001",
                 "universe": "Households",
                 "name": "Number of households",
                 "values": {
-                    "geography": "43092",
+                    "this": "43092",
                     "county": None,
                     "state": "576231",
                     "nation": "9834627"
@@ -253,7 +253,7 @@ PROFILE_TEST = {
                 "universe": "Households",
                 "name": "Persons per household",
                 "values": {
-                    "geography": "3.2",
+                    "this": "3.2",
                     "county": None,
                     "state": "3.8",
                     "nation": "3.7"
@@ -265,50 +265,48 @@ PROFILE_TEST = {
     "health": {},
 
     "housing": {
-        "housing_units": {
-            "number_housing_units": {
+        "units": {
+            "number_of_housing_units": {
                 "table_id": "B25001",
                 "universe": "Housing units",
                 "name": "Number of housing units",
                 "values": {
-                    "geography": "139824",
+                    "this": "139824",
                     "county": None,
                     "state": "223765",
                     "nation": "1098364"
                 }
             },
-            "percent_multi_unit": {
+            "percent_units_in_multi_unit_structure": {
                 "table_id": "B25024",
                 "universe": "Housing units",
                 "name": "Housing units in multi-unit structures",
                 "values": {
-                    "geography": "38.7",
+                    "this": "38.7",
                     "county": None,
                     "state": "22.9",
                     "nation": "32.1"
                 }
             }
         },
-        "tenure": {
-            "rate_homeownership": {
+        "ownership": {
+            "percent_homeownership": {
                 "table_id": "B25003",
                 "universe": "Occupied housing units",
                 "name": "Rate of homeownership",
                 "values": {
-                    "geography": "45.6",
+                    "this": "45.6",
                     "county": None,
                     "state": "45.5",
                     "nation": "44.1"
                 }
-            }
-        },
-        "value": {
-            "median_value": {
+            },
+            "median_value_of_owner_occupied_housing_unit": {
                 "table_id": "B25077",
                 "universe": "Owner-occupied housing units",
                 "name": "Median value of owner-occupied housing units",
                 "values": {
-                    "geography": "213945",
+                    "this": "213945",
                     "county": None,
                     "state": "201934",
                     "nation": "207553"
@@ -316,12 +314,12 @@ PROFILE_TEST = {
             }
         },
         "mobility": {
-            "percent_same_house": {
+            "percent_living_in_same_house_1_year": {
                 "table_id": "B07001",
                 "universe": "Population 1 year and over in the United States",
                 "name": "People living in same house for 1 year or more",
                 "values": {
-                    "geography": "38.1",
+                    "this": "38.1",
                     "county": None,
                     "state": "39.0",
                     "nation": "40.9"
@@ -337,7 +335,7 @@ PROFILE_TEST = {
                 "universe": "Total population",
                 "name": "Foreign-born persons",
                 "values": {
-                    "geography": "22.5",
+                    "this": "22.5",
                     "county": None,
                     "state": "19.4",
                     "nation": "25.7"
@@ -350,7 +348,7 @@ PROFILE_TEST = {
                 "universe": "Population 5 years and over",
                 "name": "People with language other than English spoken at home",
                 "values": {
-                    "geography": "9.3",
+                    "this": "9.3",
                     "county": None,
                     "state": "9.7",
                     "nation": "11.2"
@@ -361,12 +359,12 @@ PROFILE_TEST = {
 
     "veterans": {
         "veteran_status": {
-            "number_veterans": {
+            "number_of_veterans": {
                 "table_id": "B21002",
                 "universe": "Civilian veterans 18 years and over",
                 "name": "Number of veterans",
                 "values": {
-                    "geography": "4983",
+                    "this": "4983",
                     "county": None,
                     "state": "52015",
                     "nation": "1099374"
