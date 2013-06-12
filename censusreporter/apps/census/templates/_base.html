@@ -42,16 +42,35 @@
             {% block content %}{% endblock %}
         </div>
 
-        <div class="footer-container clearfix">
-            {% block footer_content %}
-            <footer class="wrapper">
-                <div class="section-two-thirds">
-                    <h1>About CensusReporter</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In accumsan egestas leo eu adipiscing. Aenean feugiat lobortis viverra. Cras vestibulum nunc a eros lacinia ut venenatis mauris lobortis.</p>
-                </div>
-            </footer>
-            {% endblock footer_content %}
-        </div>
+        <footer>
+            <section class="wrapper footer-container clearfix">
+                {% block footer_content %}
+                <ul class="ul-icon-list column-quarter">
+                    <li>
+                        <i class="icon-twitter"></i> <a href="http://twitter.com/CensusReporter">@CensusReporter</a>
+                    </li>
+                    <li>
+                        <i class="icon-comments"></i> <a href="https://groups.google.com/group/censusreporter">Google Group</a>
+                    </li>
+                </ul>
+                <ul class="ul-icon-list column-quarter">
+                    <li>
+                        <i class="icon-tumblr"></i> <a href="http://censusreporter.tumblr.com">CensusReporter blog</a>
+                    </li>
+                    <li>
+                        <i class="icon-envelope"></i> <a href="mailto:irecensusreporter@gmail.com">Email us</a>
+                    </li>
+                </ul>
+                <ul class="column-half">
+                    <li>
+                        <a href="http://ona12.journalists.org/sessions/lightning-round-knc-data/">Knight News Challenge lightning talks at ONA 2012</a>
+                    <li>
+                        <a href="http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">Knight’s announcement of the Knight News Challenge: Data grantees</a>
+                    </li>
+                </ul>
+                {% endblock footer_content %}
+            </section>
+        </footer>
 
         {% block body_javascript %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

@@ -82,7 +82,26 @@ h1.title {
     font-size: 3em;
 }
 
-
+.ul-icon-list {
+    list-style: none;
+    padding: 0;
+}
+.ul-icon-list i {
+    margin-right: .33em;
+}
+.ul-icon-list [class^="icon-"] {
+    width: 16px;
+    display: inline-block;
+    text-align: center;
+}
+.ul-icon-list a,
+footer ul a {
+    text-decoration: none;
+}
+.ul-icon-list a:hover,
+footer ul a:hover {
+    text-decoration: underline;
+}
 
 /* LAYOUT */
 #header-bar {
@@ -103,6 +122,15 @@ h1.title {
     height: 24px;
 }
 .header-container {}
+    
+footer {
+    background-color: #eff1e9;
+    border-top: 1px solid #cad0b5;
+    padding: 1.5em 0 4.5em;
+}
+footer ul {
+    margin: 0;
+}
 
 article {
     margin-bottom: 4em;
@@ -173,7 +201,6 @@ section aside p,
 section aside ul {
     font-size: .85em;
 }
-
 
 .wrapper {
     width: auto;
