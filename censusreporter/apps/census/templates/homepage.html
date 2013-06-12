@@ -1,0 +1,57 @@
+{% extends '_base.html' %}{% load humanize %}
+
+{% block head_title %}{{ block.super }}{% endblock %}
+
+{% block head_extra_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.textinput.css">
+{% endblock %}
+
+{% block content %}
+<article id="search" class="clearfix" style="width: 420px; margin: 3em auto;">
+    <h1>Find a place</h1>
+    <input id="geography-picker" style="width: 100%;">
+</article>
+
+{% endblock %}
+
+{% block footer_content %}{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script type="text/javascript">
+function geoFormatSelection(geo) {
+    return geo.full_name;
+}
+jQuery(document).ready(function(){
+    var geoSelect = $('#geography-picker')
+    geoSelect.select2({
+        placeholder: "Start typing to search ...",
+        minimumInputLength: 3,
+        ajax: {
+            url: "/place-search/?autocomplete",
+            dataType: 'json',
+            quietMillis: 200,
+            data: function (term) {
+                return { q: term };
+            },
+            results: function (data) {
+                var results = [];
+                $.each(data, function(index, item){
+                    results.push({
+                        id: item.full_geoid,
+                        text: item.full_name
+                    });
+                });
+                return {
+                    results: results
+                };
+            }
+        }
+    });
+    geoSelect.on('change', function(e) {
+        window.location = '/profiles/' + $(this).val();
+    })
+    
+})
+</script>
+{% endblock %}

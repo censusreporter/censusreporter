@@ -5,6 +5,12 @@ from django.utils.functional import lazy, Promise
 from django.utils.encoding import force_unicode
 
 
+def get_object_or_none(klass, *args, **kwargs): 
+    try: 
+        return klass._default_manager.get(*args, **kwargs) 
+    except klass.DoesNotExist: 
+        return None
+ 	
 class LazyEncoder(simplejson.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):

@@ -10,7 +10,7 @@ from django.utils import simplejson
 from django.views.generic import View, TemplateView
 
 from .models import Geography
-from .utils import LazyEncoder, get_max_value, get_ratio
+from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none
 
 
 ### DETAIL ###
@@ -249,4 +249,31 @@ class ComparisonView(TemplateView):
         page_context.update({
             'distribution_groups': distribution_groups,
         })
-    
+
+
+class PlaceSearchJson(View):
+    def render_json_to_response(self, context):
+        result = simplejson.dumps(context)
+        return HttpResponse(result, mimetype='application/javascript')
+
+    def get(self, request, *args, **kwargs):
+        geographies = []
+
+        if 'geoids' in self.request.GET:
+            geoid_list = self.request.GET['geoids'].split('|')
+            geographies = Geography.objects.filter(full_geoid__in=geoid_list)
+
+        elif 'geoid' in self.request.GET:
+            geoid = self.request.GET['geoid']
+            geographies = Geography.objects.filter(full_geoid__exact=geoid)
+            
+        elif 'q' in self.request.GET:
+            q = self.request.GET['q']
+            geographies = Geography.objects.filter(full_name__startswith=q)
+            
+        geographies = geographies.values()
+        if 'autocomplete' in self.request.GET:
+            geographies = geographies.only('full_name','full_geoid')
+            
+            
+        return self.render_json_to_response(list(geographies))
