@@ -208,6 +208,12 @@ section aside ul {
     margin-right: 3%;
 }
 
+/* HOMEPAGE */
+#twitter-widget {
+  float: right;
+  width: 300px;
+  margin-left: 10px;
+}
 
 /* STATS */
 .stat-wrapper {
