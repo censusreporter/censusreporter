@@ -36,10 +36,10 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = kwargs['geography_id']
-        geography = get_object_or_404(Geography, full_geoid = geography_id)
+        #geography = get_object_or_404(Geography, full_geoid = geography_id)
         
         page_context = {
-            'geo_place_data': geography,
+            #'geo_place_data': geography,
             'state_fips_code': None,
             'geography_fips_code': None
         }
@@ -57,9 +57,8 @@ class GeographyDetailView(TemplateView):
             if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
                 
-            if sumlev == '160':
-                # testing point with hard-coded Spokane
-                page_context['point_lon_lat'] = (geography.intptlon, geography.intptlat)
+            #if sumlev == '160':
+                #page_context['point_lon_lat'] = (geography.intptlon, geography.intptlat)
         
         # hit our API (force to 5-year data for now)
         #API_ENDPOINT = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
@@ -73,15 +72,15 @@ class GeographyDetailView(TemplateView):
             raise Http404
 
         # add a few last things
-        try:
-            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = round(float(geography.aland) / float(2589988), 1)
-            total_pop = page_context['geography']['total_population']
-            page_context['geo_place_data'].square_miles = square_miles
-            page_context['geo_place_data'].population_density = round(float(total_pop) / float(square_miles), 1)
-            
-        except:
-            pass
+        #try:
+        #    # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
+        #    square_miles = round(float(geography.aland) / float(2589988), 1)
+        #    total_pop = page_context['geography']['total_population']
+        #    page_context['geo_place_data'].square_miles = square_miles
+        #    page_context['geo_place_data'].population_density = round(float(total_pop) / float(square_miles), 1)
+        #    
+        #except:
+        #    pass
     
         return page_context
     
