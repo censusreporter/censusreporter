@@ -1,7 +1,7 @@
 censusreporter
 ==============
 
-Quick clone and setup:
+Quick clone and setup. Assumes you have `virtualenvwrapper` installed.
     
     >> mkvirtualenv census --no-site-packages
     >> cd <your cloned repo dir>
@@ -11,7 +11,8 @@ Quick clone and setup:
     
 Make sure your virtualenv knows the proper DJANGO_SETTINGS_MODULE:
 
-    >> cd ~/.virtualenvs/census/bin/
+    >> cdvirtualenv census
+    >> cd bin
     >> touch postactivate
     
 Add this to your `postactivate` (changing 'dev' to 'prod' as appropriate):
@@ -23,5 +24,5 @@ Then fire it up:
     
     >> cd <your cloned repo dir>
     >> workon census
-    >> manage.py runserver
+    >> ./manage.py runserver
 
