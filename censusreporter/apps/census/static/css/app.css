@@ -258,6 +258,15 @@ section aside ul {
     margin: 0 0 .1825em;
     font-weight: 700;
 }
+.stat .secondary {
+    display: block;
+    line-height: 2;
+}
+.stat .secondary .value {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-right: .1em;
+}
 .stat-side-wrapper {
     padding-right: 1em;
 }

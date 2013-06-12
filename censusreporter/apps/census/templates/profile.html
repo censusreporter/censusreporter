@@ -1,10 +1,10 @@
 {% extends '_base_profile.html' %}{% load humanize %}
 
-{% block head_title %}{% firstof geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
+{% block head_title %}{% firstof geo_place_data.full_name geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
 
 {% block header_content %}
 <article id="profile">
-    <h1 class="title">{% firstof geography.pretty_name geography.name %}</h1>
+    <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
     <p>Data from {{ geography.census_release }} release</p>
 
     <section class="clearfix">
@@ -17,12 +17,16 @@
                     </span>
                 </div>
             </div>
-            {% if geography.land_area %}
+            {% if geo_place_data.square_miles %}
             <div class="column-half">
                 <div class="stat">
-                    <span class="primary">
-                        <span class="value">{{ geography.land_area|intcomma }}</span>
-                        <span class="name">Square miles</span>
+                    <span class="secondary">
+                        <span class="value">{{ geo_place_data.square_miles|floatformat|intcomma }}</span>
+                        <span class="name"> square miles</span>
+                    </span>
+                    <span class="secondary">
+                        <span class="value">{{ geo_place_data.population_density|floatformat|intcomma }}</span>
+                        <span class="name"> people per square mile</span>
                     </span>
                 </div>
             </div>

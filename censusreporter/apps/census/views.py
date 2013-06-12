@@ -5,10 +5,11 @@ from math import ceil
 from numpy import median
 
 from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.views.generic import View, TemplateView
 
-from .mock import PROFILE_TEST
+from .models import Geography
 from .utils import LazyEncoder, get_max_value, get_ratio
 
 
@@ -34,13 +35,17 @@ class GeographyDetailView(TemplateView):
         return api_data
 
     def get_context_data(self, *args, **kwargs):
+        geography_id = kwargs['geography_id']
+        geography = get_object_or_404(Geography, full_geoid = geography_id)
+        
         page_context = {
+            'geo_place_data': geography,
             'state_fips_code': None,
             'geography_fips_code': None
         }
         
-        if 'US' in kwargs['geography_id']:
-            geoIDcomponents = kwargs['geography_id'].split('US')
+        if 'US' in geography_id:
+            geoIDcomponents = geography_id.split('US')
 
             sumlev = geoIDcomponents[0][:3]
             page_context['sumlev'] = sumlev
@@ -52,9 +57,9 @@ class GeographyDetailView(TemplateView):
             if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
                 
-            if fips_code == '5367000':
+            if sumlev == '160':
                 # testing point with hard-coded Spokane
-                page_context['point_lon_lat'] = (-117.4250, 47.6589)
+                page_context['point_lon_lat'] = (geography.intptlon, geography.intptlat)
         
         # hit our API (force to 5-year data for now)
         #API_ENDPOINT = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
@@ -67,6 +72,17 @@ class GeographyDetailView(TemplateView):
         else:
             raise Http404
 
+        # add a few last things
+        try:
+            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
+            square_miles = round(float(geography.aland) / float(2589988), 1)
+            total_pop = page_context['geography']['total_population']
+            page_context['geo_place_data'].square_miles = square_miles
+            page_context['geo_place_data'].population_density = round(float(total_pop) / float(square_miles), 1)
+            
+        except:
+            pass
+    
         return page_context
     
     

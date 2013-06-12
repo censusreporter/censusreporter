@@ -9,6 +9,13 @@ TEMPLATE_DEBUG = DEBUG
 # should be set by each settings file
 # ROOT_URLCONF = 'config.dev.urls'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'census_app_db',
+    },
+}
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

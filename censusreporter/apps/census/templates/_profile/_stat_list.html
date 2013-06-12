@@ -7,6 +7,7 @@
             </span>
             <span class="name">{{ stat.name }}</span>
         </span>
+        {% comment %}
         {% if stat_type in "dollar|percentage|time|ratio" %}
         <ul class="context">
             {% if stat.values.county %}
@@ -35,5 +36,6 @@
             {% endif %}
         </ul>
         {% endif %}
+        {% endcomment %}
     </div>
 </div>
