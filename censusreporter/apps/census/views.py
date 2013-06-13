@@ -146,6 +146,7 @@ class ComparisonView(TemplateView):
     
     def get_context_data(self, *args, **kwargs):
         parent_id = self.kwargs['parent_id']
+        parent_fips_code = parent_id.split('US')[1]
         descendant_sumlev = self.kwargs['descendant_sumlev']
 
         comparison_type = self.kwargs.get('comparison_type', None)
@@ -154,6 +155,7 @@ class ComparisonView(TemplateView):
 
         page_context = {
             'parent_id': parent_id,
+            'parent_fips_code': parent_fips_code,
             'descendant_sumlev': descendant_sumlev,
             'comparison_type': comparison_type,
         }
@@ -167,13 +169,16 @@ class ComparisonView(TemplateView):
             comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
         else:
             raise Http404
-        
+
         # start building some data about the comparison
         comparison_metadata = comparison_data['comparison']
         
         # info on the parent
-        parent_geography = get_object_or_404(Geography, full_geoid = parent_id)
-        comparison_metadata['parent_geography'] = parent_geography
+        try:
+            parent_geography = get_object_or_404(Geography, full_geoid = parent_id)
+            comparison_metadata['parent_geography'] = parent_geography
+        except:
+            pass
         comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[descendant_sumlev]
         
         # all the descendants being compared

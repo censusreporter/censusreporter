@@ -4,7 +4,7 @@
 
 <article id="comparison-distribution" class="clearfix">
     <header class="section-contents">
-        <h1>Choropleth</h1>
+        <h1>Map</h1>
     </header>
     <div class="section-container">
         <section class="clearfix">
@@ -62,38 +62,41 @@
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
-var mapDiv = document.getElementById('data-map');
-var width = mapDiv.offsetWidth,
-    height = 500;
+var mapDiv = d3.select("#data-map").append("div")
+    .attr("class", "svg-map")
+    
+var width = mapDiv[0][0].offsetWidth,
+    height = width*.67;
 
 var projection = d3.geo.mercator();
 
 var path = d3.geo.path()
     .projection(projection);
 
-var svg = d3.select("#data-map").append("svg")
+var svgMap = mapDiv.append("svg")
     .attr("width", width)
     .attr("height", height)
     .style("position", "relative");
 
-var label = d3.select("#data-map").append("div")
+var label = mapDiv.append("div")
     .attr("class", "label")
     .style("opacity", 1e-6);
     
 queue()
-    .defer(d3.json, "{{ STATIC_URL }}data/wa-counties.json")
+    .defer(d3.json, "{{ STATIC_URL }}json/us.json")
     .defer(d3.json, "/compare/{{ parent_id }}/{{ descendant_sumlev }}/json/")
     .await(ready);
 
 function ready(error, geographies, geodata) {
     var categories = d3.keys(geodata);
+
     // add dropdown
     d3.select("#map-select").append("select")
         .on("change", changeMap)
     .selectAll("option").data(categories).enter().append("option")
         .attr("value", function(d){ return d; })
         .text(function(d){ return d; })
-
+    
     makeMap(geographies, geodata[categories[0]]);
 
     function changeMap() {
@@ -108,30 +111,48 @@ function makeMap(geographies, geodata) {
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
 
-    // zoom to bounding box
+    var states = topojson.feature(geographies, geographies.objects.states),
+        parent = states.features.filter(function(d) {
+            return d.id === {{ parent_fips_code }};
+        })[0];
+    
+    var counties = topojson.feature(geographies, geographies.objects.counties),
+        geographies = counties.features.filter(function(d) {
+            var id = d.id.toString(); return id.substring(0,2) === '{{ parent_fips_code }}';
+        });
+
+    console.log(geographies)
+    // zoom to the state
     projection
         .scale(1)
         .translate([0, 0]);
-    var b = path.bounds(geographies),
+
+    var b = path.bounds(parent),
         s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
     projection
         .scale(s)
         .translate(t);
+    
+    svgMap.append("path")
+        .datum(parent)
+        .attr("class", "outline")
+        .attr("d", path);
 
     // put the map in place
-    svg.append("g")
+    svgMap.append("g")
             .attr("class", "geographies")
         .selectAll("path")
-            .data(geographies.features)
+            .data(geographies)
         .enter().append("path")
+            .attr("d", path)
             .attr("id", function(d) { return "poly-" + d['id']; })
             .attr("class", function(d) { 
                 if (!!geodata[d['id']]) {
                     return quantize(geodata[d['id']]['value']); 
                 }
             })
-            .attr("d", path)
             .on("mouseover", function(d) { return mouseover(d) })
             .on("mousemove", mousemove)
             .on("mouseout", mouseout);
@@ -163,7 +184,7 @@ function makeMap(geographies, geodata) {
     }
     
     function makeLabel(d) {
-        var label = "<span class='name'>" + d['properties']['name'] + "</span>";
+        var label = "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
         if (!!geodata[d['id']]) {
             label += "<span class='value'>" + geodata[d['id']]['value'] + "</span>";
         }
