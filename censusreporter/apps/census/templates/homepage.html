@@ -4,7 +4,6 @@
 
 {% block head_extra_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.textinput.css">
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -19,10 +18,10 @@
     <header>
         <h1>About CensusReporter</h1>
     </header>
-    <section class="column-half">
-        g
+    <section class="column-two-thirds" style="width: 57%">
+        <img src="{{ STATIC_URL }}img/comparison_screenshot.png" class="screenshot">
     </section>
-    <section class="column-half">
+    <section class="column-third" style="width: 37%">
         <p>CensusReporter is a <a href="http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">Knight News Challenge-funded project</a> to make it easy for journalists to write stories using U.S. Census data. Expanding upon the volunteer-built <a href="http://census.ire.org">Census.ire.org</a>, Census Reporter will simplify finding and using data from the decennial census and the American Community Survey. The goal of the new site is to include much more data, to provide a friendlier interface for navigating all of that data, and, as much as possible, to use visualizations to provide a more useful first look at the data.</p>
         <p>In the spirit of open and iterative development, we&rsquo;re making this site available to the public as early as possible. Much will change, and some things may not be working at any moment, but we want people to see what we&rsquo;re working on and offer input about what might be most useful.</p>
     </section>

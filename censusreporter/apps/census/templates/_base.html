@@ -11,6 +11,7 @@
         <meta name="viewport" content="width=device-width; initial-scale=1.0">
         {% block head_css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,700">
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Merriweather">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
@@ -25,24 +26,22 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
-        <div class="header-container">
-            <div id="header-bar">
-                <div class="wrapper clearfix">
-                    <a href="{% url 'homepage' %}">
-                        <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
-                    </a>
-                </div>
+        <header id="page-header">
+            <div id="page-header-title" class="wrapper clearfix">
+                <a href="{% url 'homepage' %}">
+                    <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
+                </a>
             </div>
-            <header class="wrapper clearfix">
+            <div class="wrapper clearfix">
                 {% block header_content %}{% endblock header_content %}
-            </header>
-        </div>
+            </div>
+        </header>
 
         <div class="content-container wrapper clearfix">
             {% block content %}{% endblock %}
         </div>
 
-        <footer>
+        <footer id="page-footer">
             <section class="wrapper footer-container clearfix">
                 {% block footer_content %}
                 <ul class="ul-icon-list column-quarter">

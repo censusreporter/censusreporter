@@ -64,7 +64,7 @@ textarea {
 
 /* BASIC ELEMENTS */
 a {
-    color: #014948;
+    color: #c33b11;
 }
 p {
     font-family: "Merriweather", Georgia, serif;
@@ -102,33 +102,42 @@ footer ul a {
 footer ul a:hover {
     text-decoration: underline;
 }
+img.screenshot {
+    border: 1px solid #cad0b5;
+    width: 100%;
+}
 
 /* LAYOUT */
-#header-bar {
+#page-header {
     border-top: 5px solid #014948;
-    padding-top: 1em;
-    margin-bottom: 2em;
 }
-#header-bar a {
+#page-header .wrapper {
+    margin: 1em auto 2em;
+}
+#page-header-title a {
+    color: #222;
     text-decoration: none;
     font-size: 21px;
     font-weight: bold;
 }
-#header-bar img {
+#page-header-title img {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    margin-top: -10px;
+    margin-top: -5px;
     height: 24px;
 }
-.header-container {}
+#page-header article {
+    margin-bottom: 0;
+}
     
-footer {
+#page-footer {
     background-color: #eff1e9;
     border-top: 1px solid #cad0b5;
+    margin-top: 1.5em;
     padding: 1.5em 0 4.5em;
 }
-footer ul {
+#page-footer ul {
     margin: 0;
 }
 
