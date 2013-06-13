@@ -6,17 +6,25 @@
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.textinput.css">
 {% endblock %}
 
+{% block header %}
+<header id="page-header">
+</header>
+{% endblock %}
+
 {% block content %}
 <article id="search" class="clearfix">
-    <section class="column-two-thirds" style="float:none; margin: 3em auto 4em;">
-        <h1>Find a place</h1>
-        <input id="geography-picker" style="width: 100%">
+    <section style="float:none; margin: 3em auto 4em; width: 90%">
+        <img src="{{ STATIC_URL }}img/logo-large.png" style="float: left; height: 100px; margin-right: 2em">
+        <div class="column-three-quarters">
+            <h1 class="title">CensusReporter</h1>
+            <input id="geography-picker" style="width: 100%;">
+        </div>
     </section>
 </article>
 
 <article id="welcome">
     <header>
-        <h1>About CensusReporter</h1>
+        <h1>About this project</h1>
     </header>
     <section class="column-two-thirds" style="width: 57%">
         <img src="{{ STATIC_URL }}img/comparison_screenshot.png" class="screenshot">
@@ -45,7 +53,7 @@ function geoFormatSelection(geo) {
 jQuery(document).ready(function(){
     var geoSelect = $('#geography-picker')
     geoSelect.select2({
-        placeholder: "Start typing to search ...",
+        placeholder: "Find a place ...",
         minimumInputLength: 3,
         ajax: {
             url: "/place-search/?autocomplete",
