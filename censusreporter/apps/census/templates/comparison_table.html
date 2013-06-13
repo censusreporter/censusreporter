@@ -5,47 +5,59 @@
 {% endblock %}
 
 {% block content %}
-<article class="clearfix">
-    <header class="clearfix">
-        <div class="tool-set">
-            <div class="tool-group">
-                Show
-                <ul class="toggle-controls">
-                    <li><a id="show-percentage">Percentages</a></li>
-                    <li><a id="show-raw-number">Raw numbers</a></li>
-                </ul>
-            </div>
-        </div>
+<article id="comparison-distribution" class="clearfix">
+    <header class="section-contents">
+        <h1>Data table</h1>
     </header>
-    <section>
-        <table id="data-table" class="tablesorter">
-            <thead>
-                {% for geo in geo_values %}
-                {% if forloop.first %}
-                <tr>
-                    <th class="name">Name</th>
-                    <th class="value">Total</th>
-                    {% for group in geo.values %}
-                    <th class="value">{{ group }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% endif %}
-                <tr class="{% cycle 'odd' 'even' %}">
-                    <td class="name">{{ geo.name }}</td>
-                    <td class="value">{{ geo.total_population|intcomma }}</td>
-                    {% for group, values in geo.values.items %}
-                    <td class="value toggle-target">
-                        <span class="percentage">{{ values.total_pct|floatformat }}%</span>
-                        <span class="raw-number">{{ values.total|floatformat|intcomma }}</span>
-                    </td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
+    <div class="section-container">
+        <section class="clearfix">
+            <div class="tool-set">
+                <div class="tool-group">
+                    Show
+                    <ul class="toggle-controls">
+                        <li><a id="show-percentage">Percentages</a></li>
+                        <li><a id="show-raw-number">Raw numbers</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h2>Age groups</h2>
+            <aside>
+                <p>This is some explanatory text describing the stat grouping to the right.</p>
+            </aside>
+
+            <section>
+                <table id="data-table" class="tablesorter">
+                    <thead>
+                        {% for geo in geo_values %}
+                        {% if forloop.first %}
+                        <tr>
+                            <th class="name">Name</th>
+                            <th class="value">Total</th>
+                            {% for group in geo.values %}
+                            <th class="value">{{ group }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% endif %}
+                        <tr class="{% cycle 'odd' 'even' %}">
+                            <td class="name">{{ geo.name }}</td>
+                            <td class="value">{{ geo.total_population|intcomma }}</td>
+                            {% for group, values in geo.values.items %}
+                            <td class="value toggle-target">
+                                <span class="percentage">{{ values.total_pct|floatformat }}%</span>
+                                <span class="raw-number">{{ values.total|floatformat|intcomma }}</span>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+        </section>
+    </div>
 </article>
 {% endblock %}
 

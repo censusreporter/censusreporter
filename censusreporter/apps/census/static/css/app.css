@@ -394,7 +394,7 @@ svg text {
 table {
     width: 100%;
     margin: 0 0 2em 0;
-    font-size: 13px;
+    font-size: .8em;
 }
 thead {
     border-bottom: 1px solid #d9ddca;
@@ -503,7 +503,7 @@ ul.toggle-set li:last-child a {
     border-right: 0;
 }
 ul.toggle-set a {
-    padding: .33em 0 .25em;
+    padding: .25em 0 .33em;
     display: block;
     text-decoration: none;
     color: #888;

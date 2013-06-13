@@ -1,20 +1,28 @@
 {% extends '_base_compare.html' %}{% load humanize %}
 
 {% block content %}
-<article class="clearfix">
-    <header class="clearfix">
-        <div class="tools">
-            <div class="tool-group" id="map-select">{% comment %}
-                Show
-                <ul class="toggle-controls">
-                    <li><a id="show-percentage">Percentages</a></li>
-                    <li><a id="show-raw-number">Raw numbers</a></li>
-                </ul>{% endcomment %}
-            </div>
-        </div>
+
+<article id="comparison-distribution" class="clearfix">
+    <header class="section-contents">
+        <h1>Choropleth</h1>
     </header>
-    <section id="data-map">
-    </section>
+    <div class="section-container">
+        <section class="clearfix">
+            <div class="tool-set">
+                <div class="tool-group" id="map-select">
+                    Show
+                </div>
+            </div>
+
+            <h2>Age groups</h2>
+            <aside>
+                <p>This is some explanatory text describing the stat grouping to the right.</p>
+            </aside>
+
+            <section id="data-map"></section>
+
+        </section>
+    </div>
 </article>
 {% endblock %}
 
@@ -54,8 +62,8 @@
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
-
-var width = 960,
+var mapDiv = document.getElementById('data-map');
+var width = mapDiv.offsetWidth,
     height = 500;
 
 var projection = d3.geo.mercator();
@@ -111,7 +119,6 @@ function makeMap(geographies, geodata) {
         .scale(s)
         .translate(t);
 
-    console.log()
     // put the map in place
     svg.append("g")
             .attr("class", "geographies")
@@ -158,7 +165,7 @@ function makeMap(geographies, geodata) {
     function makeLabel(d) {
         var label = "<span class='name'>" + d['properties']['name'] + "</span>";
         if (!!geodata[d['id']]) {
-            label += geodata[d['id']]['value'];
+            label += "<span class='value'>" + geodata[d['id']]['value'] + "</span>";
         }
         return label
     }
