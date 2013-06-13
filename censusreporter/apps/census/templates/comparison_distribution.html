@@ -5,46 +5,62 @@
 {% endblock %}
 
 {% block content %}
-<article class="clearfix">
-    <header class="clearfix">
-        <div class="tool-set">
-            <div class="tool-group">
-                Click on a point to lock/unlock display
-            </div>
-            <div class="tool-group">
-                Find
-                <select id="coal-picker">
-                    <option></option>
-                    {% for geoID, name in descendant_list %}
-                    <option value="geography-{{ geoID }}">{{ name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+
+<article id="comparison-distribution" class="clearfix">
+    <header class="section-contents">
+        <h1>Distribution</h1>
     </header>
-    {% for group, values in distribution_groups.items %}
-    <section class="coal-chart-container" id="coal-chart-{{ forloop.counter0 }}">
-        <h2>{{ group }}</h2>
-        <ul class="coal-chart">
-            <li class="tick-mark tick-mark-min">
-                <span><b>Min:</b> {{ values.group_baselines.min_value_total_pct|intcomma }}</span>
-            </li>
-            <li style="left: {{ values.group_baselines.median_percent_of_range_total_pct|floatformat }}%" class="tick-mark">
-                <span{% if values.group_baselines.median_percent_of_range_total_pct < 12 %} style="margin-top: 38px;"{% endif %}><b>Median:</b> {{ values.group_baselines.median_value_total_pct|intcomma }}</span>
-            </li>
-            <li class="tick-mark tick-mark-max">
-                <span><b>Max:</b> {{ values.group_baselines.max_value_total_pct|intcomma }}</span>
-            </li>
-        {% for geoID, values in values.group_values.items %}
-            <li style="left: {{ values.percent_of_range_total_pct|floatformat }}%">
-                <a data-index="geography-{{ geoID }}">
-                    <span><b>{{ values.name }}</b><br>{{ values.total_pct|intcomma }}%</span>
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
-    </section>
-    {% endfor %}
+    <div class="section-container">
+        <section class="clearfix">
+            <div class="tool-set">
+                <div class="tool-group">
+                    Click on a point to lock/unlock display
+                </div>
+                <div class="tool-group">
+                    Find
+                    <select id="coal-picker">
+                        <option></option>
+                        {% for geoID, name in descendant_list %}
+                        <option value="geography-{{ geoID }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <h2>Age groups</h2>
+            <aside>
+                <p>This is some explanatory text describing the stat grouping to the right.</p>
+            </aside>
+
+            {% for group, values in distribution_groups.items %}
+            <section class="coal-chart-container" id="coal-chart-{{ forloop.counter0 }}">
+                <h2>{{ group }}</h2>
+                <ul class="coal-chart">
+                    <li class="tick-mark tick-mark-min">
+                        <span><b>Min:</b> {{ values.group_baselines.min_value_total_pct|intcomma }}</span>
+                    </li>
+                    <li style="left: {{ values.group_baselines.median_percent_of_range_total_pct|floatformat }}%" class="tick-mark">
+                        <span{% if values.group_baselines.median_percent_of_range_total_pct < 12 %} style="margin-top: 38px;"{% endif %}><b>Median:</b> {{ values.group_baselines.median_value_total_pct|intcomma }}</span>
+                    </li>
+                    <li class="tick-mark tick-mark-max">
+                        <span><b>Max:</b> {{ values.group_baselines.max_value_total_pct|intcomma }}</span>
+                    </li>
+                {% for geoID, values in values.group_values.items %}
+                    <li style="left: {{ values.percent_of_range_total_pct|floatformat }}%">
+                        <a data-index="geography-{{ geoID }}">
+                            <span><b>{{ values.name }}</b><br>{{ values.total_pct|intcomma }}%</span>
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </section>
+            {% endfor %}
+        </section>
+    </div>
+</article>
+
+<article class="clearfix">
+
 </article>
 {% endblock %}
 

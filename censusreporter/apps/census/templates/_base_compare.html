@@ -3,6 +3,8 @@
 {% block head_title %}Comparison - {{ block.super }}{% endblock %}
 
 {% block header_content %}
+<h1>Compare {{ descendant_type }} in {{ geography_id }}</h1>
+<p>Age groups by percentage of total population (ACS 2011, 5-Year release)</p>
 <div class="tool-set">
     <div class="tool-group">
         <ul class="toggle-set">
@@ -12,7 +14,5 @@
         </ul>
     </div>
 </div>
-<h1>Compare {{ descendant_type }} in {{ geography_id }}</h1>
-<p>Age groups by percentage of total population (ACS 2011, 5-Year release)</p>
 {% endblock %}
 

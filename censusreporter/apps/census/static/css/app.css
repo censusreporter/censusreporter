@@ -70,6 +70,11 @@ p {
     font-family: "Merriweather", Georgia, serif;
     margin: 0 0 1em;
 }
+.caption {
+    margin-top: .5em;
+    font-size: .85em;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
     line-height: 1.2;
@@ -431,7 +436,8 @@ table .percentage, table .raw-number {
 .tool-set {
     float: right;
     overflow: hidden;
-    padding-top: .75em;
+    padding-top: .1em;
+    margin-top: -.1em;
 }
 .tool-group {
     float: left;
@@ -542,6 +548,7 @@ ul.toggle-set a:hover {
     position: relative;
     height: 11px;
     width: 11px;
+    color: #222;
     background-color: #eff1e9;
     border: 1px solid #acb58c;
     -webkit-border-radius: 50%;
@@ -564,8 +571,9 @@ ul.toggle-set a:hover {
 }
 .coal-chart li a span {
     position: absolute;
+    width: 15em;
     top: -3em;
-    left: -3.5em;
+    right: -7.5em;
     font-size: .85em;
     line-height: 1.2;
     text-align: center;
