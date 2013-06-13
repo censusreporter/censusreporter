@@ -53,10 +53,10 @@ var label = mapDiv.append("div")
     
 queue()
     .defer(d3.json, "{{ STATIC_URL }}json/us.json")
-    .defer(d3.json, "/compare/{{ parent_id }}/{{ descendant_sumlev }}/json/")
     .await(ready);
 
-function ready(error, geographies, geodata) {
+function ready(error, geographies) {
+    var geodata = {{ map_data }};
     var categories = d3.keys(geodata);
 
     // add dropdown
@@ -90,7 +90,6 @@ function makeMap(geographies, geodata) {
             var id = d.id.toString(); return id.substring(0,2) === '{{ parent_fips_code }}';
         });
 
-    console.log(geographies)
     // zoom to the state
     projection
         .scale(1)
@@ -122,17 +121,19 @@ function makeMap(geographies, geodata) {
             .on("mouseout", mouseout);
 
     function mouseover(d) {
-        var centroid = path.centroid(d),
-            x = centroid[0],
-            y = centroid[1];
+        if (!!geodata[d['id']]) {
+            var centroid = path.centroid(d),
+                x = centroid[0],
+                y = centroid[1];
 
-        label
-            .html(makeLabel(d))
-            .transition()
-            .duration(200)
-            .style("opacity", 1);
-            //.style("left", x + "px")
-            //.style("top", y + "px");
+            label
+                .html(makeLabel(d))
+                .transition()
+                .duration(200)
+                .style("opacity", 1);
+                //.style("left", x + "px")
+                //.style("top", y + "px");
+        }
     }
 
     function mousemove() {
@@ -148,8 +149,8 @@ function makeMap(geographies, geodata) {
     }
     
     function makeLabel(d) {
-        var label = "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
         if (!!geodata[d['id']]) {
+            var label = "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
             if (!!geodata[d['id']]['percentage']) {
                 label += "<span class='value'>" + geodata[d['id']]['percentage'] + "%";
                 if (!!geodata[d['id']]['number']) {

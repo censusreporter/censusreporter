@@ -37,14 +37,6 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'geography_comparison_detail',
     ),
-    # e.g. /compare/53/050/json/
-    # internally transform API json into needed format
-    url(
-        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/json/$',
-        view    = ComparisonJsonMaker.as_view(),
-        kwargs  = {},
-        name    = 'geography_comparison_json',
-    ),
     url(
         regex   = '^place-search/$',
         view    = PlaceSearchJson.as_view(),

@@ -7,6 +7,7 @@ from numpy import median
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils import simplejson
+from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
 from .models import Geography
@@ -93,45 +94,6 @@ class GeographyDetailView(TemplateView):
     
 ### COMPARISONS ###
 
-class ComparisonJsonMaker(View):
-    def render_json_to_response(self, context):
-        result = simplejson.dumps(context, cls=LazyEncoder)
-        return HttpResponse(result, mimetype='application/javascript')
-    
-    def get(self, request, *args, **kwargs):
-        parent_id = self.kwargs['parent_id']
-        descendant_sumlev = self.kwargs['descendant_sumlev']
-
-        # hit our API (force to 5-year data for now)
-        acs_release = 'acs2011_5yr'
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/%s/compare' % (acs_release, kwargs['parent_id'], descendant_sumlev)
-        r = requests.get(API_ENDPOINT)
-
-        if r.status_code == 200:
-            comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
-        else:
-            raise Http404
-
-        data_groups = collections.OrderedDict()
-        for geo in comparison_data['geographies']:
-            name = geo['geography']['name']
-            geoID = geo['geography']['geoid'].split('US')[1]
-            total_population = geo['population']['total']
-
-            for group, values in geo['population']['gender'].items():
-                if not group in data_groups:
-                    data_groups[group] = {}
-
-                data_groups[group].update({
-                    geoID: {
-                        'name': name,
-                        'percentage': round((values['total'] / total_population)*100,1),
-                        'number': values['total'],
-                    }
-                })
-
-        return self.render_json_to_response(data_groups)
-
 class ComparisonView(TemplateView):
     template_name = 'comparison.html'
     
@@ -186,8 +148,33 @@ class ComparisonView(TemplateView):
         elif comparison_type == 'distribution':
             self.add_distribution_values(page_context, comparison_data['geographies'])
             
+        elif comparison_type == 'map':
+            self.add_map_values(page_context, comparison_data['geographies'])
+            
         return page_context
         
+    def add_map_values(self, page_context, data):
+        data_groups = {}
+        for geo in data:
+            name = geo['geography']['name']
+            geoID = geo['geography']['geoid'].split('US')[1]
+            total_population = geo['population']['total']
+
+            for group, values in geo['population']['gender'].items():
+                if not group in data_groups:
+                    data_groups[group] = {}
+
+                data_groups[group].update({
+                    geoID: {
+                        'name': name,
+                        'percentage': round((values['total'] / total_population)*100,1),
+                        'number': values['total'],
+                    }
+                })
+        page_context.update({
+            'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
+        })
+
     def add_table_values(self, page_context, data):
         geo_values = []
         for geo in data:
