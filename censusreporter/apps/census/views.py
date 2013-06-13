@@ -119,23 +119,14 @@ class ComparisonJsonMaker(View):
             total_population = geo['population']['total']
 
             for group, values in geo['population']['gender'].items():
-                group_name_total = '%s total' % group
-                group_name_pct = '%s percentage' % group
+                if not group in data_groups:
+                    data_groups[group] = {}
 
-                if not group_name_total in data_groups:
-                    data_groups[group_name_pct] = {}
-                    data_groups[group_name_total] = {}
-
-                data_groups[group_name_pct].update({
+                data_groups[group].update({
                     geoID: {
                         'name': name,
-                        'value': round((values['total'] / total_population)*100,1),
-                    }
-                })
-                data_groups[group_name_total].update({
-                    geoID: {
-                        'name': name,
-                        'value': values['total'],
+                        'percentage': round((values['total'] / total_population)*100,1),
+                        'number': values['total'],
                     }
                 })
 

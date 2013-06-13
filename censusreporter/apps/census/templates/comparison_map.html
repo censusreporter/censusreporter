@@ -27,37 +27,6 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<style>
-#data-map {
-    position: relative;
-}
-.geographies {
-    fill: #e5e5e5;
-    stroke: #fff;
-    stroke-linejoin: round;
-}
-.label {
-    position: absolute;
-    text-align: center;
-    padding: .33em .67em;
-    font-size: .8em;
-    background: #fff;
-    border: solid 1px #777;
-    border-radius: 4px;
-    pointer-events: none;
-}
-.label .name {
-    display: block;
-    font-weight: bold;
-}
-
-.q0 { fill:#d9ddca; }
-.q1 { fill:#bbc2a1; }
-.q2 { fill:#9ea877 }
-.q3 { fill:#7b8656 }
-.q4 { fill:#555c3b }
-
-</style>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -106,7 +75,7 @@ function ready(error, geographies, geodata) {
 }
 
 function makeMap(geographies, geodata) {
-    var values = d3.values(geodata).map(function(d) {return d['value'];});
+    var values = d3.values(geodata).map(function(d) {return d['percentage'];});
     var quantize = d3.scale.quantize()
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
@@ -135,11 +104,6 @@ function makeMap(geographies, geodata) {
         .scale(s)
         .translate(t);
     
-    svgMap.append("path")
-        .datum(parent)
-        .attr("class", "outline")
-        .attr("d", path);
-
     // put the map in place
     svgMap.append("g")
             .attr("class", "geographies")
@@ -150,7 +114,7 @@ function makeMap(geographies, geodata) {
             .attr("id", function(d) { return "poly-" + d['id']; })
             .attr("class", function(d) { 
                 if (!!geodata[d['id']]) {
-                    return quantize(geodata[d['id']]['value']); 
+                    return quantize(geodata[d['id']]['percentage']); 
                 }
             })
             .on("mouseover", function(d) { return mouseover(d) })
@@ -186,11 +150,24 @@ function makeMap(geographies, geodata) {
     function makeLabel(d) {
         var label = "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
         if (!!geodata[d['id']]) {
-            label += "<span class='value'>" + geodata[d['id']]['value'] + "</span>";
+            if (!!geodata[d['id']]['percentage']) {
+                label += "<span class='value'>" + geodata[d['id']]['percentage'] + "%";
+                if (!!geodata[d['id']]['number']) {
+                    label += " (" + numberWithCommas(geodata[d['id']]['number']) + ")";
+                }
+                label += "</span>";
+            }
+            else if (!!geodata[d['id']]['number']) {
+                label += "<span class='value'>" + geodata[d['id']]['number'] + "</span>";
+            }
         }
         return label
     }
-    
+
+    function numberWithCommas(n) {
+        var parts=n.toString().split(".");
+        return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+    }    
     //svg.selectAll(".label")
         //    .data(geographies.features)
         //.enter().append("text")

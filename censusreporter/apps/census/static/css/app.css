@@ -336,7 +336,9 @@ section aside ul {
 }
 
 /* SVG MAPS */
-
+.svg-map {
+    position: relative;
+}
 .svg-map .outline {
     fill: #e8eadf;
     stroke: #cad0b5;
@@ -353,6 +355,35 @@ section aside ul {
     stroke-width: .5px;
     stroke-linejoin: round;
 }
+.svg-map .geographies {
+    fill: #e5e5e5;
+    stroke: #fff;
+    stroke-linejoin: round;
+}
+.svg-map .label {
+    position: absolute;
+    text-align: center;
+    padding: .33em .67em;
+    font-size: .8em;
+    background: #fff;
+    border: solid 1px #777;
+    border-radius: 4px;
+    pointer-events: none;
+}
+.svg-map .label .name,
+.svg-map .label .value {
+    display: block;
+}
+.svg-map .label .name {
+    font-weight: bold;
+}
+
+.q0 { fill:#d9ddca; }
+.q1 { fill:#bbc2a1; }
+.q2 { fill:#9ea877 }
+.q3 { fill:#7b8656 }
+.q4 { fill:#555c3b }
+
 
 /* CHARTS */
 .chart {
