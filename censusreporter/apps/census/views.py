@@ -10,7 +10,7 @@ from django.utils import simplejson
 from django.views.generic import View, TemplateView
 
 from .models import Geography
-from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none
+from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT
 
 
 ### DETAIL ###
@@ -69,7 +69,7 @@ class GeographyDetailView(TemplateView):
         #API_ENDPOINT = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
         API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
         r = requests.get(API_ENDPOINT)
-        print r.status_code
+
         if r.status_code == 200:
             profile_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
             profile_data = self.calculate_indexes(profile_data)
@@ -93,29 +93,27 @@ class GeographyDetailView(TemplateView):
     
 ### COMPARISONS ###
 
-API_ENDPOINTS = {
-    'il': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/4ff31fcd6192318df61961a6674e873b5b9f96d3/illinois_compare.json',
-    'fl': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/de8c95ec49e0ede7ef9dc505bcb67e7300595041/florida_compare.json',
-    'wa': 'https://gist.github.com/iandees/eedbb8ab3caa31bfdb25/raw/330722d4bffe99b1ac6f6827bd65c27e2fde550c/washington_compare.json',
-}
-
 class ComparisonJsonMaker(View):
     def render_json_to_response(self, context):
         result = simplejson.dumps(context, cls=LazyEncoder)
         return HttpResponse(result, mimetype='application/javascript')
     
     def get(self, request, *args, **kwargs):
-        parent_type = self.kwargs['parent_type']
-        geography_id = self.kwargs['geography_id']
-        descendant_type = self.kwargs['descendant_type']
+        parent_id = self.kwargs['parent_id']
+        descendant_sumlev = self.kwargs['descendant_sumlev']
 
-        # hit the API and store the results for later operations
-        API_ENDPOINT = API_ENDPOINTS[geography_id]
+        # hit our API (force to 5-year data for now)
+        acs_release = 'acs2011_5yr'
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/%s/compare' % (acs_release, kwargs['parent_id'], descendant_sumlev)
         r = requests.get(API_ENDPOINT)
-        data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+
+        if r.status_code == 200:
+            comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+        else:
+            raise Http404
 
         data_groups = collections.OrderedDict()
-        for geo in data:
+        for geo in comparison_data['geographies']:
             name = geo['geography']['name']
             geoID = geo['geography']['geoid'].split('US')[1]
             total_population = geo['population']['total']
@@ -147,37 +145,50 @@ class ComparisonView(TemplateView):
     template_name = 'comparison.html'
     
     def get_context_data(self, *args, **kwargs):
-        parent_type = self.kwargs['parent_type']
-        geography_id = self.kwargs['geography_id']
-        descendant_type = self.kwargs['descendant_type']
+        parent_id = self.kwargs['parent_id']
+        descendant_sumlev = self.kwargs['descendant_sumlev']
 
         comparison_type = self.kwargs.get('comparison_type', None)
         if comparison_type:
             self.template_name = 'comparison_%s.html' % comparison_type
 
         page_context = {
-            'parent_type': parent_type,
-            'geography_id': geography_id,
-            'descendant_type': descendant_type,
+            'parent_id': parent_id,
+            'descendant_sumlev': descendant_sumlev,
             'comparison_type': comparison_type,
         }
 
-        # hit the API and store the results for later operations
-        API_ENDPOINT = API_ENDPOINTS[geography_id]
+        # hit our API (force to 5-year data for now)
+        acs_release = 'acs2011_5yr'
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/%s/compare' % (acs_release, kwargs['parent_id'], kwargs['descendant_sumlev'])
         r = requests.get(API_ENDPOINT)
-        data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+
+        if r.status_code == 200:
+            comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+        else:
+            raise Http404
         
-        # add a list of all the descendants being compared
-        descendant_list = sorted([(geo['geography']['geoid'], geo['geography']['name']) for geo in data])
+        # start building some data about the comparison
+        comparison_metadata = comparison_data['comparison']
+        
+        # info on the parent
+        parent_geography = get_object_or_404(Geography, full_geoid = parent_id)
+        comparison_metadata['parent_geography'] = parent_geography
+        comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[descendant_sumlev]
+        
+        # all the descendants being compared
+        descendant_list = sorted([(geo['geography']['geoid'], geo['geography']['name']) for geo in comparison_data['geographies']])
+        
         page_context.update({
             'descendant_list': descendant_list,
+            'comparison_metadata': comparison_metadata,
         })
 
         if comparison_type == 'table':
-            self.add_table_values(page_context, data)
+            self.add_table_values(page_context, comparison_data['geographies'])
             
         elif comparison_type == 'distribution':
-            self.add_distribution_values(page_context, data)
+            self.add_distribution_values(page_context, comparison_data['geographies'])
             
         return page_context
         

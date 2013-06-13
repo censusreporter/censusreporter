@@ -15,7 +15,7 @@ urlpatterns = patterns('',
         name    = 'homepage',
     ),
 
-    # e.g. /states/washington/
+    # e.g. /profiles/16000US5367000/ (Spokane, WA)
     url(
         regex   = '^profiles/(?P<geography_id>[-\w]+)/$',
         view    = GeographyDetailView.as_view(),
@@ -23,24 +23,24 @@ urlpatterns = patterns('',
         name    = 'geography_detail',
     ),
 
-    # e.g. /compare/states/washington/counties/
+    # e.g. /compare/53/050/ (counties in Washington)
     url(
-        regex   = '^compare/(?P<parent_type>%s)/(?P<geography_id>[-\w]+)/(?P<descendant_type>%s)/$' % (geography_type_options, geography_type_options),
+        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/$',
         view    = ComparisonView.as_view(),
         kwargs  = {},
         name    = 'geography_comparison',
     ),
-    # e.g. /compare/states/washington/counties/map/
+    # e.g. /compare/53/050/map/
     url(
-        regex   = '^compare/(?P<parent_type>%s)/(?P<geography_id>[-\w]+)/(?P<descendant_type>%s)/(?P<comparison_type>%s)/$' % (geography_type_options, geography_type_options, comparison_types),
+        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<comparison_type>%s)/$' % comparison_types,
         view    = ComparisonView.as_view(),
         kwargs  = {},
         name    = 'geography_comparison_detail',
     ),
-    # e.g. /compare/states/washington/counties/json/
+    # e.g. /compare/53/050/json/
     # internally transform API json into needed format
     url(
-        regex   = '^compare/(?P<parent_type>%s)/(?P<geography_id>[-\w]+)/(?P<descendant_type>%s)/json/$' % (geography_type_options, geography_type_options),
+        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/json/$',
         view    = ComparisonJsonMaker.as_view(),
         kwargs  = {},
         name    = 'geography_comparison_json',
