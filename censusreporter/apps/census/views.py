@@ -154,7 +154,8 @@ class ComparisonView(TemplateView):
         return page_context
         
     def add_map_values(self, page_context, data):
-        data_groups = {}
+        data_groups = collections.OrderedDict()
+        
         for geo in data:
             name = geo['geography']['name']
             geoID = geo['geography']['geoid'].split('US')[1]

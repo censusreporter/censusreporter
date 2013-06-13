@@ -2,7 +2,7 @@ from django.conf.urls import url, patterns, include
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import GeographyDetailView, ComparisonView, ComparisonJsonMaker, PlaceSearchJson
+from .views import GeographyDetailView, ComparisonView, PlaceSearchJson
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
 comparison_types = 'map|table|distribution'
