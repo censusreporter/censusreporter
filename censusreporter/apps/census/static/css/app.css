@@ -240,11 +240,19 @@ section aside ul {
 .column-three-quarters {
     width: 72%;
 }
+.column-golden-wide {
+    width: 57%;
+}
+.column-golden-narrow {
+    width: 37%;
+}
 .column-half,
 .column-third,
 .column-two-thirds,
 .column-quarter,
-.column-three-quarters {
+.column-three-quarters,
+.column-golden-wide,
+.column-golden-narrow {
     float: left;
     margin-right: 3%;
 }
@@ -632,7 +640,17 @@ ul.toggle-set a:hover {
 }
 
 
-
+#homepage-search {
+    margin: 3em 0 4em;
+}
+#homepage-search img.logo {
+    float: left;
+    height: 100px;
+    margin-right: 2em;
+}
+#homepage-search .wide-picker {
+    width: 100%;
+}
 
 /* MEDIA QUERIES */
 @media only screen and (min-width: 1140px) {
@@ -642,6 +660,9 @@ ul.toggle-set a:hover {
     }
 }
 @media only screen and (max-width: 768px) {
+    #homepage-search .wide-picker {
+        width: 50%;
+    }
     article {
         margin-bottom: 2em;
     }
@@ -678,7 +699,9 @@ ul.toggle-set a:hover {
         width: auto;
         padding: 0;
     }
-    .column-half {
+    .column-half,
+    .column-golden-wide,
+    .column-golden-narrow {
         float: none;
         width: auto;
         margin-right: 0;
@@ -702,6 +725,13 @@ ul.toggle-set a:hover {
         width: 47%;
         margin-right: 3%;
     }
+    #homepage-search img.logo {
+        height: 3.3em;
+        margin-right: 1em;
+    }
+    #homepage-search .wide-picker {
+        width: 100%;
+    }
 }
 @media only screen and (max-width: 480px) {
     .column-half,
@@ -713,6 +743,16 @@ ul.toggle-set a:hover {
         float: none;
         width: auto;
         margin-right: 0;
+    }
+    #homepage-search {
+        margin: 2em 0;
+    }
+    h1.title {
+        font-size: 2em;
+    }
+    #homepage-search img.logo {
+        height: 2.2em;
+        margin-right: .67em;
     }
 }
 
