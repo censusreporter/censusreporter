@@ -1,10 +1,8 @@
 {% extends '_base.html' %}
 
-{% block head_title %}{% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }} - Comparison - {{ block.super }}{% endblock %}
+{% block head_title %}{% firstof comparison_metadata.descendant_type.plural|capfirst comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }} - Comparison - {{ block.super }}{% endblock %}
 
 {% block header_content %}
-<h1>Compare {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }}</h1>
-<p>Age groups by percentage of total population ({{ comparison_metadata.census_release }})</p>
 <div class="tool-set">
     <div class="tool-group">
         <ul class="toggle-set">
@@ -14,5 +12,7 @@
         </ul>
     </div>
 </div>
+<h1>Compare {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }}</h1>
+<p>Age groups by percentage of total population ({{ comparison_metadata.census_release }})</p>
 {% endblock %}
 

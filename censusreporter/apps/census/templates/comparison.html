@@ -1,26 +1,20 @@
 {% extends '_base_compare.html' %}{% load humanize %}
 
-{% block header_content %}
-<h1>Compare {{ descendant_type }} in {{ geography_id }}</h1>
-<p>Age groups by percentage of total population (ACS 2010, 1-Year release)</p>
-{% endblock %}
-
-
 {% block content %}
 <article class="clearfix">
     <section>
         <h2>Visualizations</h2>
         <ul>
-            <li><a href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'distribution' %}">Distributions</a></li>
-            <li><a href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'table' %}">Table</a></li>
-            <li><a href="{% url 'geography_comparison_detail' parent_type geography_id descendant_type 'map' %}">Map</a></li>
+            <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'distribution' %}">Distributions</a></li>
+            <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'table' %}">Table</a></li>
+            <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'map' %}">Map</a></li>
         </ul>
     </section>
     <section>
-        <h2>{{ descendant_type|capfirst }}</h2>
+        <h2>{% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %}</h2>
         <ul>
             {% for geoID, name in descendant_list %}
-            <li>{{ name }}</li>
+            <li><a href="{% url 'geography_detail' geoID %}">{{ name }}</a></li>
             {% endfor %}
         </ul>
     </section>

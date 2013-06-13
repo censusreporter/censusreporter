@@ -480,6 +480,8 @@ table .percentage, table .raw-number {
 
 
 ul.toggle-set {
+    margin-top: .5em;
+    display: block;
     font-size: 12px;
 }
 ul.toggle-set li {
@@ -655,8 +657,13 @@ ul.toggle-set a:hover {
 /* MEDIA QUERIES */
 @media only screen and (min-width: 1140px) {
     .wrapper {
-        width: 1026px; /* 1140px - 10% for margins */
+        width: 1026px;
         margin: 0 auto;
+    }
+}
+@media only screen and (max-width: 1139px) {
+    #page-header .wrapper {
+        margin: 1em 1em 2em;
     }
 }
 @media only screen and (max-width: 768px) {
@@ -713,6 +720,10 @@ ul.toggle-set a:hover {
     }
 }
 @media only screen and (max-width: 640px) {
+    .tool-set {
+        float: none;
+        margin: .5em 0 1em;
+    }
     .column-two-thirds,
     .column-three-quarters {
         float: none;
