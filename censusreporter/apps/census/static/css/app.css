@@ -373,12 +373,17 @@ section aside ul {
     border-radius: 4px;
     pointer-events: none;
 }
+.svg-map .label .label-title,
 .svg-map .label .name,
 .svg-map .label .value {
     display: block;
 }
+.svg-map .label .label-title,
 .svg-map .label .name {
     font-weight: bold;
+}
+.svg-map .label .label-title {
+    margin-bottom: .5em;
 }
 
 .q0 { fill:#d9ddca; }

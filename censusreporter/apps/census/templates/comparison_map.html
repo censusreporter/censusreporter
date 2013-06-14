@@ -56,6 +56,8 @@ var label = mapDiv.append("div")
     .attr("class", "label")
     .style("opacity", 1e-6);
     
+var labelTitle = "";
+    
 queue()
     .defer(d3.json, "{{ STATIC_URL }}json/us.json")
     .await(ready);
@@ -66,15 +68,18 @@ function ready(error, geographies) {
 
     // add dropdown
     d3.select("#map-select").append("select")
+        .attr("id", "map-select-select")
         .on("change", changeMap)
     .selectAll("option").data(categories).enter().append("option")
         .attr("value", function(d){ return d; })
         .text(function(d){ return d; })
     
     makeMap(geographies, geodata[categories[0]]);
-
+    window.labelTitle = categories[0];
+    
     function changeMap() {
         var dataIndex = this.options[this.selectedIndex].__data__;
+        window.labelTitle = dataIndex;
         makeMap(geographies, geodata[dataIndex]);
     }
 }
@@ -156,7 +161,8 @@ function makeMap(geographies, geodata) {
     
     function makeLabel(d) {
         if (!!geodata[d['id']]) {
-            var label = "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
+            var label = "<span class='label-title'>" + labelTitle + "</span>";
+            label += "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
             if (!!geodata[d['id']]['percentage']) {
                 label += "<span class='value'>" + geodata[d['id']]['percentage'] + "%";
                 if (!!geodata[d['id']]['number']) {
