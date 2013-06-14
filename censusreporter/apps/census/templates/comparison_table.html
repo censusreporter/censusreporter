@@ -42,7 +42,7 @@
                     <tbody>
                         {% endif %}
                         <tr class="{% cycle 'odd' 'even' %}">
-                            <td class="name">{{ geo.name }}</td>
+                            <td class="name"><a href="{% url 'geography_detail' geo.geoID %}">{{ geo.name }}</a></td>
                             <td class="value">{{ geo.total_population|intcomma }}</td>
                             {% for group, values in geo.values.items %}
                             <td class="value toggle-target">
