@@ -55,7 +55,9 @@ class GeographyDetailView(TemplateView):
 
             fips_code = geoIDcomponents[1]
             if len(fips_code) >= 2:
-                page_context['state_fips_code'] = fips_code[:2]
+                state_fips = fips_code[:2]
+                page_context['state_fips_code'] = state_fips
+                page_context['state_geoid'] = '04000US%s' % state_fips
                 
             if sumlev in ['010','020','030','040']:
                 acs_release = 'acs2011_1yr'
@@ -153,6 +155,16 @@ class ComparisonView(TemplateView):
             
         return page_context
         
+    def get_total_and_pct(self, value, total):
+        if value and total:
+            percentage = round((value / total)*100,1)
+        else:
+            percentage = 'n/a'
+            if not value:
+                value = 'n/a'
+            
+        return value, percentage
+        
     def add_map_values(self, page_context, data):
         data_groups = collections.OrderedDict()
         
@@ -162,16 +174,20 @@ class ComparisonView(TemplateView):
             total_population = geo['population']['total']
 
             for group, values in geo['population']['gender'].items():
-                if not group in data_groups:
-                    data_groups[group] = {}
+                group_name = 'Persons age %s' % group
+                if not group_name in data_groups:
+                    data_groups[group_name] = {}
+                    
+                total, percentage = self.get_total_and_pct(values['total'], total_population)
 
-                data_groups[group].update({
+                data_groups[group_name].update({
                     geoID: {
                         'name': name,
-                        'percentage': round((values['total'] / total_population)*100,1),
-                        'number': values['total'],
+                        'percentage': percentage,
+                        'number': total,
                     }
                 })
+                
         page_context.update({
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
         })
@@ -189,14 +205,18 @@ class ComparisonView(TemplateView):
                 'values': collections.OrderedDict(),
             }
             for group, values in geo['population']['gender'].items():
+                male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
+                female_total, female_pct = self.get_total_and_pct(values['female'], values['total'])
+                total, total_pct = self.get_total_and_pct(values['total'], total_population)
+                
                 geo_item['values'].update({
                     group: {
-                        'male': values['male'],
-                        'male_pct': round((values['male'] / values['total'])*100,1),
-                        'female': values['female'],
-                        'female_pct': round((values['female'] / values['total'])*100,1),
-                        'total': values['total'],
-                        'total_pct': round((values['total'] / total_population)*100,1),
+                        'male': male_total,
+                        'male_pct': male_pct,
+                        'female': female_total,
+                        'female_pct': female_pct,
+                        'total': total,
+                        'total_pct': total_pct,
                     }
                 })
             geo_values.append(geo_item)
@@ -217,15 +237,20 @@ class ComparisonView(TemplateView):
                         'group_baselines': {},
                         'group_values': {},
                     }
+                    
+                male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
+                female_total, female_pct = self.get_total_and_pct(values['female'], values['total'])
+                total, total_pct = self.get_total_and_pct(values['total'], total_population)
+                
                 distribution_groups[group]['group_values'].update({
                     geoID: {
                         'name': name,
-                        'male': values['male'],
-                        'male_pct': round((values['male'] / values['total'])*100,1),
-                        'female': values['female'],
-                        'female_pct': round((values['female'] / values['total'])*100,1),
-                        'total': values['total'],
-                        'total_pct': round((values['total'] / total_population)*100,1),
+                        'male': male_total,
+                        'male_pct': male_pct,
+                        'female': female_total,
+                        'female_pct': female_pct,
+                        'total': total,
+                        'total_pct': total_pct,
                     }
                 })
 
