@@ -35,7 +35,7 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
-    border: 1px solid #444;
+    border: 1px solid #cad0b5;
     display: block;
     overflow: hidden;
     white-space: nowrap;
