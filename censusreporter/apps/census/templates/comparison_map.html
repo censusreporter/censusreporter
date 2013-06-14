@@ -130,6 +130,7 @@ function makeMap(geographies, geodata) {
                 .html(makeLabel(d))
                 .transition()
                 .duration(200)
+                .style("width", "200px")
                 .style("opacity", 1);
                 //.style("left", x + "px")
                 //.style("top", y + "px");
@@ -138,7 +139,7 @@ function makeMap(geographies, geodata) {
 
     function mousemove() {
         label
-            .style("left", (d3.mouse(this)[0] - 24) + "px")
+            .style("left", (d3.mouse(this)[0] - 100) + "px")
             .style("bottom", height-(d3.mouse(this)[1] - 12) + "px");
     }
 
