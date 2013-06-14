@@ -75,7 +75,7 @@ d3.chart("ColumnChart", {
             insert: function() {
                 var chart = this.chart();
                 return this.append("text")
-                    .text(function(d) { return d.value; })
+                    .text(function(d) { return d.value+"%"; })
                     .attr("text-anchor", "middle")
                     .attr("x", function(d) { return chart.x(d.name) + (chart.x.rangeBand() / 2); })
                     .attr("y", function(d) { return chart.y(d.value) - 8; });
