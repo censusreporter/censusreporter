@@ -56,18 +56,18 @@ jQuery(document).ready(function(){
         placeholder: "Start typing to find a place ...",
         minimumInputLength: 3,
         ajax: {
-            url: "/place-search/?autocomplete",
+            url: "http://api.censusreporter.org/1.0/geo/search?",
             dataType: 'json',
             quietMillis: 200,
             data: function (term) {
-                return { q: term };
+                return { prefix: term };
             },
             results: function (data) {
                 var results = [];
                 $.each(data, function(index, item){
                     results.push({
-                        id: item.full_geoid,
-                        text: item.full_name
+                        id: item.geoid,
+                        text: item.name
                     });
                 });
                 return {
@@ -79,7 +79,7 @@ jQuery(document).ready(function(){
     geoSelect.on('change', function(e) {
         window.location = '/profiles/' + $(this).val();
     })
-    
+
 })
 </script>
 {% endblock %}
