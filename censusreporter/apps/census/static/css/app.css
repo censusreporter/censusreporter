@@ -225,7 +225,7 @@ section aside ul {
 }
 .full-width {
     clear: both;
-    width: auto;
+    width: 100%;
     margin: 0;
 }
 .column-half {
@@ -439,7 +439,6 @@ svg text {
 
 /* TABLES */
 table {
-    width: 100%;
     margin: 0 0 2em 0;
     font-size: .8em;
 }
@@ -448,6 +447,9 @@ thead {
 }
 th {
     background-color: #eff1e9;
+}
+thead.left-align th {
+    text-align: left;
 }
 th:first-child {
     -webkit-border-top-left-radius: 4px;
@@ -460,6 +462,7 @@ th:last-child {
     border-top-right-radius: 4px;
 }
 th, td {
+    vertical-align: top;
     padding: .25em .75em;
 }
 table .name {
@@ -476,9 +479,44 @@ tr.even td {
 table .percentage, table .raw-number {
     display: block
 }
+.indent-1 {
+    text-indent: 1em;
+}
+.indent-2 {
+    text-indent: 2em;
+}
+.indent-3 {
+    text-indent: 3em;
+}
+.indent-4 {
+    text-indent: 4em;
+}
+.indent-5 {
+    text-indent: 5em;
+}
 
 
-
+form {
+    margin: 0 0 2em;
+}
+form label {
+    font-weight: bold;
+}
+form input {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #cad0b5;
+    padding: .4em .33em .2em;
+}
+form select {
+    padding: .15em 0;
+    font-size: .85em;
+}
+form.inline-form input,
+form.inline-form select {
+    margin: 0 .5em;
+}
 
 .tool-set {
     float: right;

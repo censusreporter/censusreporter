@@ -1,0 +1,67 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<article>
+    <form class="inline-form">
+        <label for="q">Search</label>
+        <input type="text" name="q" value="{{ q }}">
+        <select name="release" onchange="this.form.submit()">
+            <option value="">Any release ...</option>
+            {% for option in release_options %}
+            <option value="{{ option }}"{% if option == release %} selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</article>
+
+{% if tables %}
+<article id="table-results">
+    <h1>Tables</h1>
+    <table>
+        <thead class="left-align">
+            <tr>
+                <th width="10%">Table ID</th>
+                <th>Table Name</th>
+                <th width="20%">Universe</th>
+                <th width="15%">Release</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for table in tables %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td><a href="?table={{ table.table_id }}">{{ table.table_id }}</a></td>
+                <td>{{ table.table_name }}</td>
+                <td>{{ table.table_universe }}</td>
+                <td>{{ table.release }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endif %}
+
+{% if columns %}
+<article id="column-results">
+    <h1>Columns</h1>
+    <table>
+        <thead class="left-align">
+            <tr>
+                <th>Table ID</th>
+                <th>Column ID</th>
+                <th>Column Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for column in columns %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td><a href="?table={{ column.parent_table_id }}">{{ column.parent_table_id }}</a></td>
+                <td>{{ column.column_id }}</td>
+                <td class="indent-{{ column.indent_value }}">{{ column.column_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endif %}
+
+{% endblock %}

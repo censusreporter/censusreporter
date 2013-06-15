@@ -4,13 +4,14 @@ import requests
 from math import ceil
 from numpy import median
 
+from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
-from .models import Geography
+from .models import Geography, Table, Column
 from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT
 
 
@@ -275,12 +276,11 @@ class ComparisonView(TemplateView):
             'distribution_groups': distribution_groups,
         })
 
+def render_json_to_response(context):
+    result = simplejson.dumps(context)
+    return HttpResponse(result, mimetype='application/javascript')
 
 class PlaceSearchJson(View):
-    def render_json_to_response(self, context):
-        result = simplejson.dumps(context)
-        return HttpResponse(result, mimetype='application/javascript')
-
     def get(self, request, *args, **kwargs):
         geographies = []
 
@@ -300,5 +300,59 @@ class PlaceSearchJson(View):
         if 'autocomplete' in self.request.GET:
             geographies = geographies.only('full_name','full_geoid')
             
+        return render_json_to_response(list(geographies))
+
+class TableSearchJson(View):
+    def get(self, request, *args, **kwargs):
+        results = {}
+
+        if 'table' in self.request.GET:
+            table = self.request.GET['table']
+            tables = Table.objects.filter(table_name__icontains=table).values()
+            results['tables'] = list(tables)
+
+        if 'column' in self.request.GET:
+            column = self.request.GET['column']
+            columns = Column.objects.filter(column_name__icontains=column).values()
+            columns = columns.only('table', 'parent_table_id', 'column_name', 'column_id')
+            results['columns'] = list(columns)
+
+        return render_json_to_response(results)
+        
+class TableSearch(TemplateView):
+    template_name = 'table_search.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
+        }
+        tables = None
+        columns = None
+
+        q = self.request.GET.get('q', None)
+        if q:
+            page_context['q'] = q
+            tables = Table.objects.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
+            columns = Column.objects.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
+
+        table = self.request.GET.get('table', None)
+        if table:
+            page_context['q'] = table
+            tables = Table.objects.filter(table_id = table)
+            columns = Column.objects.filter(table__table_id = table)
+
+        column = self.request.GET.get('column', None)
+        if column:
+            page_context['q'] = column
+            columns = Column.objects.filter(column_id = column)
             
-        return self.render_json_to_response(list(geographies))
+        release = self.request.GET.get('release', None)
+        if release:
+            page_context['release'] = release
+            tables = tables.filter(release = release)
+            columns = columns.filter(table__release = release)
+        
+        page_context['tables'] = tables
+        page_context['columns'] = columns
+
+        return page_context

@@ -2,7 +2,7 @@ from django.conf.urls import url, patterns, include
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import GeographyDetailView, ComparisonView, PlaceSearchJson
+from .views import GeographyDetailView, ComparisonView, PlaceSearchJson, TableSearch, TableSearchJson
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
 comparison_types = 'map|table|distribution'
@@ -42,5 +42,17 @@ urlpatterns = patterns('',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
+    ),
+    url(
+        regex   = '^table-search/$',
+        view    = TableSearch.as_view(),
+        kwargs  = {},
+        name    = 'table_search',
+    ),
+    url(
+        regex   = '^table-search/json/$',
+        view    = TableSearchJson.as_view(),
+        kwargs  = {},
+        name    = 'table_search_json',
     ),
 )
