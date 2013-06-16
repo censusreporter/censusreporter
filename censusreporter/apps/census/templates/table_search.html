@@ -47,6 +47,7 @@
         <thead class="left-align">
             <tr>
                 <th>Table ID</th>
+                <th>Release</th>
                 <th>Column ID</th>
                 <th>Column Name</th>
             </tr>
@@ -55,6 +56,7 @@
             {% for column in columns %}
             <tr class="{% cycle 'odd' 'even' %}">
                 <td><a href="?table={{ column.parent_table_id }}">{{ column.parent_table_id }}</a></td>
+                <td>{{ column.table.release }}</td>
                 <td>{{ column.column_id }}</td>
                 <td class="indent-{{ column.indent_value }}">{{ column.column_name }}</td>
             </tr>
