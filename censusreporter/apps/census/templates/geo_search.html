@@ -42,6 +42,7 @@
                     if (xhrequest.status == 200) {
                         geojsonLayer.clearLayers();
                         var layerItems =  JSON.parse(xhrequest.responseText);
+                        layerItems.sort(function(a,b) { return (b.aland+b.awater) - (a.aland+a.awater); });
                         // add features to layer
                         for (i=0; i<layerItems.length; i++){
                             var geojsonFeature = JSON.parse(layerItems[i].geom);
