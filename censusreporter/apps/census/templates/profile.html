@@ -151,7 +151,7 @@ if (state_fips_code == '02' || state_fips_code == '15') {
 
 var path = d3.geo.path()
     .projection(projection);
-    
+
 queue()
     .defer(d3.json, "{{ STATIC_URL }}json/us.json")
     .await(ready);
@@ -172,7 +172,7 @@ function ready(error, us) {
     projection
         .scale(s)
         .translate(t);
-        
+
     // draw the state
     svgMap.append("path")
         .datum(state)
@@ -192,17 +192,17 @@ function ready(error, us) {
     {% if county_fips_code %}
     var counties = topojson.feature(us, us.objects.counties),
         county = counties.features.filter(function(d) { return d.id === {{ county_fips_code }}; })[0];
-        
+
     svgMap.append("path")
         .datum(county)
         .attr("class", "outline{% if sumlev == '050' %} feature{% endif %}")
         .attr("d", path);
     {% endif %}
-    
+
     // draw a point
     {% if point_lon_lat %}
     var pointLonLat = projection([ {{ point_lon_lat.0 }}, {{ point_lon_lat.1 }} ]);
-    
+
     svgMap.append("circle")
       .attr("cx", function(d) { return pointLonLat[0]; })
       .attr("cy", function(d) { return pointLonLat[1]; })
