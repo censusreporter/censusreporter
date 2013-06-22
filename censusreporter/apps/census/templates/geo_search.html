@@ -29,7 +29,7 @@
 
         var geojsonLayer = new L.GeoJSON([], {
             onEachFeature: function (feature, layer) {
-                layer.bindPopup(feature.properties.name);
+                layer.bindPopup("<a href='/profiles/"+feature.properties.full_geoid+"/'>"+feature.properties.name+"</a>");
             }
         });
 
@@ -46,7 +46,7 @@
                         for (i=0; i<layerItems.length; i++){
                             var geojsonFeature = JSON.parse(layerItems[i].geom);
                             geojsonFeature.properties = {
-                                geoid: layerItems[i].full_geoid,
+                                full_geoid: layerItems[i].full_geoid,
                                 name: layerItems[i].name
                             };
                             geojsonLayer.addData(geojsonFeature);
