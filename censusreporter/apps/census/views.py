@@ -356,3 +356,13 @@ class TableSearch(TemplateView):
         page_context['columns'] = columns
 
         return page_context
+
+class GeoSearch(TemplateView):
+    template_name = 'geo_search.html'
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
+        }
+        tables = None
+        columns = None
