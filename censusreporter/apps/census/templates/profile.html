@@ -179,6 +179,15 @@ function ready(error, us) {
         .attr("class", "outline{% if sumlev == '040' %} feature{% endif %}")
         .attr("d", path);
 
+    // draw a geom
+    {% if geo_metadata.geom %}
+    var feature = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}');
+    svgMap.append("path")
+        .datum(feature)
+        .attr("class", "outline feature")
+        .attr("d", path);
+    {% endif %}
+
     // draw a county
     {% if county_fips_code %}
     var counties = topojson.feature(us, us.objects.counties),

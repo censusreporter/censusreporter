@@ -14,6 +14,8 @@ from django.views.generic import View, TemplateView
 from .models import Geography, Table, Column
 from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT
 
+import logging
+logger = logging.getLogger(__name__)
 
 ### DETAIL ###
 
@@ -38,10 +40,8 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = kwargs['geography_id']
-        geo_metadata = get_object_or_404(Geography, full_geoid = geography_id)
 
         page_context = {
-            'geo_metadata': geo_metadata,
             'state_fips_code': None,
             'geography_fips_code': None
         }
@@ -60,19 +60,16 @@ class GeographyDetailView(TemplateView):
                 page_context['state_fips_code'] = state_fips
                 page_context['state_geoid'] = '04000US%s' % state_fips
 
-            if sumlev in ['010','020','030','040']:
+            if sumlev in ['010', '020', '030', '040']:
                 acs_release = 'acs2011_1yr'
 
             if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
 
-            if sumlev == '160':
-                page_context['point_lon_lat'] = (geo_metadata.intptlon, geo_metadata.intptlat)
-
         # hit our API (force to 5-year data for now)
-        #API_ENDPOINT = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
-        r = requests.get(API_ENDPOINT)
+        #acs_endpoint = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
+        acs_endpoint = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
+        r = requests.get(acs_endpoint)
 
         if r.status_code == 200:
             profile_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
@@ -81,15 +78,23 @@ class GeographyDetailView(TemplateView):
         else:
             raise Http404
 
+        tiger_release = 'tiger2012'
+        geo_endpoint = 'http://api.censusreporter.org/1.0/geo/%s/%s?geom=true' % (tiger_release, kwargs['geography_id'])
+        r = requests.get(geo_endpoint)
+
+        if r.status_code == 200:
+            geo_metadata = simplejson.loads(r.text)
+            page_context['geo_metadata'] = geo_metadata
+
+            if sumlev == '160':
+                page_context['point_lon_lat'] = (geo_metadata.get('intptlon'), geo_metadata.get('intptlat'))
+
         # add a few last things
-        try:
-            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = round(float(geo_metadata.aland) / float(2589988), 1)
-            total_pop = page_context['geography']['total_population']
-            page_context['geo_metadata'].square_miles = square_miles
-            page_context['geo_metadata'].population_density = round(float(total_pop) / float(square_miles), 1)
-        except:
-            pass
+        # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
+        square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
+        total_pop = page_context['geography']['total_population']
+        page_context['geo_metadata']['square_miles'] = square_miles
+        page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
 
         return page_context
 
