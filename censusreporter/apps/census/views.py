@@ -19,7 +19,7 @@ from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SU
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile.html'
-    
+
     def calculate_indexes(self, api_data):
         for category, groupings in api_data.items():
             if category != 'geography':
@@ -33,13 +33,13 @@ class GeographyDetailView(TemplateView):
                             values['state_index'] = get_ratio(geo_value, values['state'])
                         if values['nation']:
                             values['nation_index'] = get_ratio(geo_value, values['nation'])
-        
+
         return api_data
 
     def get_context_data(self, *args, **kwargs):
         geography_id = kwargs['geography_id']
         geo_metadata = get_object_or_404(Geography, full_geoid = geography_id)
-        
+
         page_context = {
             'geo_metadata': geo_metadata,
             'state_fips_code': None,
@@ -47,7 +47,7 @@ class GeographyDetailView(TemplateView):
         }
 
         acs_release = 'acs2011_5yr'
-        
+
         if 'US' in geography_id:
             geoIDcomponents = geography_id.split('US')
 
@@ -59,16 +59,16 @@ class GeographyDetailView(TemplateView):
                 state_fips = fips_code[:2]
                 page_context['state_fips_code'] = state_fips
                 page_context['state_geoid'] = '04000US%s' % state_fips
-                
+
             if sumlev in ['010','020','030','040']:
                 acs_release = 'acs2011_1yr'
 
             if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
-                
+
             if sumlev == '160':
                 page_context['point_lon_lat'] = (geo_metadata.intptlon, geo_metadata.intptlat)
-        
+
         # hit our API (force to 5-year data for now)
         #API_ENDPOINT = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
         API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
@@ -90,16 +90,16 @@ class GeographyDetailView(TemplateView):
             page_context['geo_metadata'].population_density = round(float(total_pop) / float(square_miles), 1)
         except:
             pass
-    
+
         return page_context
-    
-    
-    
+
+
+
 ### COMPARISONS ###
 
 class ComparisonView(TemplateView):
     template_name = 'comparison.html'
-    
+
     def get_context_data(self, *args, **kwargs):
         parent_id = self.kwargs['parent_id']
         parent_fips_code = parent_id.split('US')[1]
@@ -128,7 +128,7 @@ class ComparisonView(TemplateView):
 
         # start building some data about the comparison
         comparison_metadata = comparison_data['comparison']
-        
+
         # info on the parent
         try:
             parent_geography = get_object_or_404(Geography, full_geoid = parent_id)
@@ -136,10 +136,10 @@ class ComparisonView(TemplateView):
         except:
             pass
         comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[descendant_sumlev]
-        
+
         # all the descendants being compared
         descendant_list = sorted([(geo['geography']['geoid'], geo['geography']['name']) for geo in comparison_data['geographies']])
-        
+
         page_context.update({
             'descendant_list': descendant_list,
             'comparison_metadata': comparison_metadata,
@@ -147,15 +147,15 @@ class ComparisonView(TemplateView):
 
         if comparison_type == 'table':
             self.add_table_values(page_context, comparison_data['geographies'])
-            
+
         elif comparison_type == 'distribution':
             self.add_distribution_values(page_context, comparison_data['geographies'])
-            
+
         elif comparison_type == 'map':
             self.add_map_values(page_context, comparison_data['geographies'])
-            
+
         return page_context
-        
+
     def get_total_and_pct(self, value, total):
         if value and total:
             percentage = round((value / total)*100,1)
@@ -163,12 +163,12 @@ class ComparisonView(TemplateView):
             percentage = 'n/a'
             if not value:
                 value = 'n/a'
-            
+
         return value, percentage
-        
+
     def add_map_values(self, page_context, data):
         data_groups = collections.OrderedDict()
-        
+
         for geo in data:
             name = geo['geography']['name']
             geoID = geo['geography']['geoid'].split('US')[1]
@@ -178,7 +178,7 @@ class ComparisonView(TemplateView):
                 group_name = 'Persons age %s' % group
                 if not group_name in data_groups:
                     data_groups[group_name] = {}
-                    
+
                 total, percentage = self.get_total_and_pct(values['total'], total_population)
 
                 data_groups[group_name].update({
@@ -188,7 +188,7 @@ class ComparisonView(TemplateView):
                         'number': total,
                     }
                 })
-                
+
         page_context.update({
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
         })
@@ -209,7 +209,7 @@ class ComparisonView(TemplateView):
                 male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
                 female_total, female_pct = self.get_total_and_pct(values['female'], values['total'])
                 total, total_pct = self.get_total_and_pct(values['total'], total_population)
-                
+
                 geo_item['values'].update({
                     group: {
                         'male': male_total,
@@ -238,11 +238,11 @@ class ComparisonView(TemplateView):
                         'group_baselines': {},
                         'group_values': {},
                     }
-                    
+
                 male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
                 female_total, female_pct = self.get_total_and_pct(values['female'], values['total'])
                 total, total_pct = self.get_total_and_pct(values['total'], total_population)
-                
+
                 distribution_groups[group]['group_values'].update({
                     geoID: {
                         'name': name,
@@ -291,15 +291,15 @@ class PlaceSearchJson(View):
         elif 'geoid' in self.request.GET:
             geoid = self.request.GET['geoid']
             geographies = Geography.objects.filter(full_geoid__exact=geoid)
-            
+
         elif 'q' in self.request.GET:
             q = self.request.GET['q']
             geographies = Geography.objects.filter(full_name__startswith=q)
-            
+
         geographies = geographies.values()
         if 'autocomplete' in self.request.GET:
             geographies = geographies.only('full_name','full_geoid')
-            
+
         return render_json_to_response(list(geographies))
 
 class TableSearchJson(View):
@@ -318,10 +318,10 @@ class TableSearchJson(View):
             results['columns'] = list(columns)
 
         return render_json_to_response(results)
-        
+
 class TableSearch(TemplateView):
     template_name = 'table_search.html'
-    
+
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
@@ -345,13 +345,13 @@ class TableSearch(TemplateView):
         if column:
             page_context['q'] = column
             columns = Column.objects.filter(column_id = column)
-            
+
         release = self.request.GET.get('release', None)
         if release:
             page_context['release'] = release
             tables = tables.filter(release = release)
             columns = columns.filter(table__release = release)
-        
+
         page_context['tables'] = tables
         page_context['columns'] = columns
 
