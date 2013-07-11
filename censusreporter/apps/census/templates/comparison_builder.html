@@ -1,0 +1,26 @@
+{% extends '_base.html' %}{% load humanize %}
+
+{% block content %}
+<article class="clearfix">
+    <section>
+        <form action="" method="GET">
+            <div id="choose-topic" style="float: left; margin-right: 1em;">
+                Compare <input type="text" name="topic" disabled>
+            </div>
+
+            <div id="choose-summary-level" style="float: left; margin-right: 1em;">
+                for 
+                <select name="summary_level">
+                    {% for summary_level in summary_level_options %}
+                    <option value="{{ summary_level.summary_level }}">{{ summary_level.plural_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div id="choose-parent" style="float: left; margin-right: 1em;">
+                in <input type="text" name="parent">
+            </div>
+        </form>
+    </section>
+</article>
+{% endblock %}

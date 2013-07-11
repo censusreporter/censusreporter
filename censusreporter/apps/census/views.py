@@ -11,7 +11,7 @@ from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
-from .models import Geography, Table, Column
+from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT
 
 
@@ -354,5 +354,18 @@ class TableSearch(TemplateView):
         
         page_context['tables'] = tables
         page_context['columns'] = columns
+
+        return page_context
+
+class ComparisonBuilder(TemplateView):
+    template_name = 'comparison_builder.html'
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {}
+        
+        summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True).only('name','slug','summary_level')
+        page_context.update({
+            'summary_level_options': summary_level_options
+        })
 
         return page_context

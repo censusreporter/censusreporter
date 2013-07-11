@@ -1,18 +1,50 @@
 from django.conf.urls import url, patterns, include
+from django.contrib import admin
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import GeographyDetailView, ComparisonView, PlaceSearchJson, TableSearch, TableSearchJson
+from .views import GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson
+
+admin.autodiscover()
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
 comparison_types = 'map|table|distribution'
 
 urlpatterns = patterns('',
+    (r'^admin/', include(admin.site.urls)),
+
     url(
         regex   = '^$',
         view    = TemplateView.as_view(template_name='homepage.html'),
         kwargs  = {},
         name    = 'homepage',
+    ),
+
+    url(
+        regex   = '^place-search/$',
+        view    = PlaceSearchJson.as_view(),
+        kwargs  = {},
+        name    = 'place_search_json',
+    ),
+
+    url(
+        regex   = '^table-search/$',
+        view    = TableSearch.as_view(),
+        kwargs  = {},
+        name    = 'table_search',
+    ),
+    url(
+        regex   = '^table-search/json/$',
+        view    = TableSearchJson.as_view(),
+        kwargs  = {},
+        name    = 'table_search_json',
+    ),
+
+    url(
+        regex   = '^compare/$',
+        view    = ComparisonBuilder.as_view(),
+        kwargs  = {},
+        name    = 'comparison_builder',
     ),
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)
@@ -36,23 +68,5 @@ urlpatterns = patterns('',
         view    = ComparisonView.as_view(),
         kwargs  = {},
         name    = 'geography_comparison_detail',
-    ),
-    url(
-        regex   = '^place-search/$',
-        view    = PlaceSearchJson.as_view(),
-        kwargs  = {},
-        name    = 'place_search_json',
-    ),
-    url(
-        regex   = '^table-search/$',
-        view    = TableSearch.as_view(),
-        kwargs  = {},
-        name    = 'table_search',
-    ),
-    url(
-        regex   = '^table-search/json/$',
-        view    = TableSearchJson.as_view(),
-        kwargs  = {},
-        name    = 'table_search_json',
     ),
 )

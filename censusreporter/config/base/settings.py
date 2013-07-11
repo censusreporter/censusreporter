@@ -18,14 +18,13 @@ DATABASES = {
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    # 'django.contrib.admin',
-    # 'django.contrib.admindocs',
     'census',
 )
 
@@ -57,6 +56,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.request',
     'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (

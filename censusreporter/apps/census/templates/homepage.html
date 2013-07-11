@@ -77,6 +77,9 @@ jQuery(document).ready(function(){
         }
     });
     geoSelect.on('change', function(e) {
+        $('.select2-input').each(function () {
+            $(this).removeAttr("autocomplete");
+        });
         window.location = '/profiles/' + $(this).val();
     })
 

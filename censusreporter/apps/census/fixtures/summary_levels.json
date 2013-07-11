@@ -1,0 +1,466 @@
+[
+{
+    "pk": 1, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [], 
+        "description": "", 
+        "parent": null, 
+        "census_code_description": "", 
+        "census_description": "", 
+        "source": "", 
+        "summary_level": "010", 
+        "census_notes": "", 
+        "slug": "nation", 
+        "name": "Nation"
+    }
+},
+{
+    "pk": 2, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1
+        ], 
+        "description": "", 
+        "parent": 1, 
+        "census_code_description": "", 
+        "census_description": "Census regions are groupings of states and the District of Columbia that subdivide the United States for the presentation of census data. There are four census regions\u2014Northeast, Midwest, South, and West. Each of the four census regions is divided into two or more census divisions (see \u201cCensus Division\u201d). Each census region is identified by a single-digit census code. Puerto Rico and the Island Areas are not part of any census region or census division.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "020", 
+        "census_notes": "Northeast Region\r\nNew England Division: Maine, New Hampshire, Vermont, Massachusetts, Rhode Island, Connecticut\r\nMiddle Atlantic Division: New York, New Jersey, Pennsylvania\r\n\r\nMidwest Region\r\nEast North Central Division: Ohio, Indiana, Illinois, Michigan, Wisconsin\r\nWest North Central Division: Minnesota, Iowa, Missouri, North Dakota, South Dakota, Nebraska, Kansas\r\n\r\nSouth Region\r\nSouth Atlantic Division: Delaware, Maryland, District of Columbia, Virginia, West Virginia, North Carolina, South Carolina, Georgia, Florida\r\nEast South Central Division: Kentucky, Tennessee, Alabama, Mississippi\r\nWest South Central Division: Arkansas, Louisiana, Oklahoma, Texas\r\n\r\nWest Region\r\nMountain Division: Montana, Idaho, Wyoming, Colorado, New Mexico, Arizona, Utah, Nevada\r\nPacific Division: Washington, Oregon, California, Alaska, Hawaii", 
+        "slug": "region", 
+        "name": "Region"
+    }
+},
+{
+    "pk": 3, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2
+        ], 
+        "description": "", 
+        "parent": 2, 
+        "census_code_description": "", 
+        "census_description": "Census divisions are groupings of states and the District of Columbia that are subdivisions of the four census regions. There are nine census divisions, and each is identified by a single-digit census code. Puerto Rico and the Island Areas are not part of any census region or census division.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "030", 
+        "census_notes": "Northeast Region\r\nNew England Division: Maine, New Hampshire, Vermont, Massachusetts, Rhode Island, Connecticut\r\nMiddle Atlantic Division: New York, New Jersey, Pennsylvania\r\n\r\nMidwest Region\r\nEast North Central Division: Ohio, Indiana, Illinois, Michigan, Wisconsin\r\nWest North Central Division: Minnesota, Iowa, Missouri, North Dakota, South Dakota, Nebraska, Kansas\r\n\r\nSouth Region\r\nSouth Atlantic Division: Delaware, Maryland, District of Columbia, Virginia, West Virginia, North Carolina, South Carolina, Georgia, Florida\r\nEast South Central Division: Kentucky, Tennessee, Alabama, Mississippi\r\nWest South Central Division: Arkansas, Louisiana, Oklahoma, Texas\r\n\r\nWest Region\r\nMountain Division: Montana, Idaho, Wyoming, Colorado, New Mexico, Arizona, Utah, Nevada\r\nPacific Division: Washington, Oregon, California, Alaska, Hawaii", 
+        "slug": "division", 
+        "name": "Division"
+    }
+},
+{
+    "pk": 4, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3
+        ], 
+        "description": "", 
+        "parent": 3, 
+        "census_code_description": "", 
+        "census_description": "States and Equivalent Entities are the primary governmental divisions of the United States. In addition to the 50 states, the Census Bureau treats the District of Columbia, Puerto Rico, American Samoa, the Commonwealth of the Northern Mariana Islands, Guam, and the U.S. Virgin Islands as the statistical equivalents of states for the purpose of data presentation.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "040", 
+        "census_notes": "", 
+        "slug": "state", 
+        "name": "State"
+    }
+},
+{
+    "pk": 5, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "The primary legal divisions of most states are termed counties. In Louisiana, these divisions are known as parishes. In Alaska, which has no counties, the equivalent entities are the organized boroughs, city and boroughs, municipalities, and census areas; the latter of which are delineated cooperatively for statistical purposes by the state of Alaska and the Census Bureau. In four states (Maryland, Missouri, Nevada, and Virginia), there are one or more incorporated places that are independent of any county organization and thus constitute primary divisions of their states. These incorporated places are known as independent cities and are treated as equivalent entities for purposes of data presentation. The District of Columbia and Guam have no primary divisions, and each area is considered an equivalent entity for purposes of data presentation. All of the counties in Connecticut and Rhode Island and nine counties in Massachusetts were dissolved as functioning governmental entities; however, the Census Bureau continues to present data for these historical entities in order to provide comparable geographic units at the county level of the geographic hierarchy for these states and represents them as nonfunctioning legal entities in data products. The Census Bureau treats the following entities as equivalents of counties for purposes of data presentation: municipios in Puerto Rico, districts and islands in American Samoa, municipalities in the Commonwealth of the Northern Mariana Islands, and islands in the U.S. Virgin Islands. Each county or statistically equivalent entity is assigned a three-character numeric Federal Information Processing Series (FIPS) code based on alphabetical sequence that is unique within state and an eight-digit National Standard feature identifier.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "050", 
+        "census_notes": "", 
+        "slug": "county", 
+        "name": "County"
+    }
+},
+{
+    "pk": 6, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4, 
+            5, 
+            7, 
+            8
+        ], 
+        "description": "", 
+        "parent": 8, 
+        "census_code_description": "Census blocks are numbered uniquely with a four-digit census block number from 0000 to 9999 within census tract, which nest within state and county. The first digit of the census block number identifies the block group. Block numbers beginning with a zero (in Block Group 0) are only associated with water-only areas.", 
+        "census_description": "Census blocks are statistical areas bounded by visible features, such as streets, roads, streams, and railroad tracks, and by nonvisible boundaries, such as selected property lines and city, township, school district, and county limits and short line-of-sight extensions of streets and roads. Generally, census blocks are small in area; for example, a block in a city bounded on all sides by streets. Census blocks in suburban and rural areas may be large, irregular, and bounded by a variety of features, such as roads, streams, and transmission lines. In remote areas, census blocks may encompass hundreds of square miles. Census blocks cover the entire territory of the United States, Puerto Rico, and the Island Areas. Census blocks nest within all other tabulated census geographic entities and are the basis for all tabulated data.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "101", 
+        "census_notes": "", 
+        "slug": "block", 
+        "name": "Block"
+    }
+},
+{
+    "pk": 7, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4, 
+            5
+        ], 
+        "description": "", 
+        "parent": 5, 
+        "census_code_description": "Census tracts are identified by an up to four-digit integer number and may have an optional two-digit suffix; for example 1457.02 or 23. The census tract codes consist of six digits with an implied decimal between the fourth and fifth digit corresponding to the basic census tract number but with leading zeroes and trailing zeroes for census tracts without a suffix. The tract number examples above would have codes of 145702 and 002300, respectively.\r\n\r\nSome ranges of census tract numbers in the 2010 Census are used to identify distinctive types of census tracts. The code range in the 9400s is used for those census tracts with a majority of population, housing, or land area associated with an American Indian area and matches the numbering used in Census 2000. The code range in the 9800s is new for 2010 and is used to specifically identify special land-use census tracts; that is, census tracts defined to encompass a large area with little or no residential population with special characteristics, such as large parks or employment areas. The range of census tracts in the 9900s represents census tracts delineated specifically to cover large bodies of water. This is different from Census 2000 when water-only census tracts were assigned codes of all zeroes (000000); 000000 is no longer used as a census tract code for the 2010 Census.\r\n\r\nThe Census Bureau uses suffixes to help identify census tract changes for comparison purposes. Census tract suffixes may range from .01 to .98. As part of local review of existing census tracts before each census, some census tracts may have grown enough in population size to qualify as more than one census tract. When a census tract is split, the split parts usually retain the basic number but receive different suffixes. For example, if census tract 14 is split, the new tract numbers would be 14.01 and 14.02. In a few counties, local participants request major changes to, and renumbering of, the census tracts; however, this is generally discouraged. Changes to individual census tract boundaries usually do not result in census tract numbering changes.\r\n\r\nThe Census Bureau introduced the concept of tribal census tracts for the first time for Census 2000. Tribal census tracts for that census consisted of the standard county-based census tracts tabulated within American Indian areas, thus allowing for the tracts to ignore state and county boundaries for tabulation. The Census Bureau assigned the 9400 range of numbers to identify specific tribal census tracts; however, not all tribal census tracts used this numbering scheme. For the 2010 Census, tribal census tracts no longer are tied to or numbered in the same way as the county-based census tracts (see \u201cTribal Census Tract\u201d).", 
+        "census_description": "Census tracts are small, relatively permanent statistical subdivisions of a county or equivalent entity that are updated by local participants prior to each decennial census as part of the Census Bureau\u2019s Participant Statistical Areas Program. The Census Bureau delineates census tracts in situations where no local participant existed or where state, local, or tribal governments declined to participate. The primary purpose of census tracts is to provide a stable set of geographic units for the presentation of statistical data.\r\n\r\nCensus tracts generally have a population size between 1,200 and 8,000 people, with an optimum size of 4,000 people. A census tract usually covers a contiguous area; however, the spatial size of census tracts varies widely depending on the density of settlement. Census tract boundaries are delineated with the intention of being maintained over a long time so that statistical comparisons can be made from census to census. Census tracts occasionally are split due to population growth or merged as a result of substantial population decline.\r\n\r\nCensus tract boundaries generally follow visible and identifiable features. They may follow nonvisible legal boundaries, such as minor civil division (MCD) or incorporated place boundaries in some states and situations, to allow for census-tract-to-governmental-unit relationships where the governmental boundaries tend to remain unchanged between censuses. State and county boundaries always are census tract boundaries in the standard census geographic hierarchy. Tribal census tracts are a unique geographic entity defined within federally recognized American Indian reservations and off-reservation trust lands and can cross state and county boundaries. Tribal census tracts may be completely different from the census tracts and block groups defined by state and county (see \u201cTribal Census Tract\u201d).", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "140", 
+        "census_notes": "", 
+        "slug": "census-tract", 
+        "name": "Census Tract"
+    }
+},
+{
+    "pk": 8, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4, 
+            5, 
+            7
+        ], 
+        "description": "", 
+        "parent": 7, 
+        "census_code_description": "Block groups have a valid code range of 0 through 9. BGs beginning with a zero only contain water area and are generally in coastal and Great Lakes water and territorial seas, but also in larger inland water bodies. For the 2010 Census, a block group 0 for the water portion can be delineated in any census tract and not just those census tracts also defined to only include water area. This is a change from Census 2000, when block groups coded 0 only existed in census tracts with a code of 0. To differentiate between county-based block groups and tribal block groups, the codes for tribal block groups use an alphabetic character (see \u201cTribal Block Group\u201d).", 
+        "census_description": "Block groups (BGs) are statistical divisions of census tracts, are generally defined to contain between 600 and 3,000 people, and are used to present data and control block numbering. A block group consists of clusters of blocks within the same census tract that have the same first digit of their four-digit census block number. For example, blocks 3001, 3002, 3003, ..., 3999 in census tract 1210.02 belong to BG 3 in that census tract. Most BGs were delineated by local participants in the Census Bureau\u2019s Participant Statistical Areas Program. The Census Bureau delineated BGs only where a local or tribal government declined to participate, and a regional organization or State Data Center was not available to participate.\r\n\r\nA BG usually covers a contiguous area. Each census tract contains at least one BG, and BGs are uniquely numbered within the census tract. Within the standard census geographic hierarchy, BGs never cross state, county, or census tract boundaries but may cross the boundaries of any other geographic entity. Tribal census tracts and tribal BGs are separate and unique geographic areas defined within federally recognized American Indian reservations and can cross state and county boundaries (see \u201cTribal Census Tract\u201d and \u201cTribal Block Group\u201d). The tribal census tracts and tribal block groups may be completely different from the census tracts and block groups defined by state and county.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "150", 
+        "census_notes": "", 
+        "slug": "block-group", 
+        "name": "Block Group"
+    }
+},
+{
+    "pk": 9, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "Place codes are of two types. The five-digit Federal Information Processing Series (FIPS) place code is assigned based on alphabetical sequence within a state. If place names are duplicated within a state and they represent distinctly different areas, a separate code is assigned to each place name alphabetically by the primary county in which each place is located, or if both places are in the same county, they are assigned alphabetically by their legal descriptions (for example, \u201ccity\u201d before \u201cvillage\u201d). Places also are assigned an eight-digit National Standard (ANSI) code.", 
+        "census_description": "Incorporated places are those reported to the Census Bureau as legally in existence as of January 1, 2010, as reported in the latest Boundary and Annexation Survey (BAS), under the laws of their respective states. An incorporated place is established to provide governmental functions for a concentration of people as opposed to a minor civil division, which generally is created to provide services or administer an area without regard, necessarily, to population. Places always are within a single state or equivalent entity, but may extend across county and county subdivision boundaries. An incorporated place usually is a city, town, village, or borough, but can have other legal descriptions. For Census Bureau data tabulation and presentation purposes, incorporated places exclude:\r\n\r\nBoroughs in Alaska (treated as statistical equivalents of counties).\r\nTowns in the New England states, New York, and Wisconsin (treated as MCDs).\r\nBoroughs in New York (treated as MCDs).\r\n\r\nCensus Designated Places (CDPs) are the statistical counterparts of incorporated places, and are delineated to provide data for settled concentrations of population that are identifiable by name but are not legally incorporated under the laws of the state in which they are located. The boundaries usually are defined in cooperation with local or tribal officials and generally updated prior to each decennial census. These boundaries, which usually coincide with visible features or the boundary of an adjacent incorporated place or another legal entity boundary, have no legal status, nor do these places have officials elected to serve traditional municipal functions. CDP boundaries may change from one decennial census\r\nto the next with changes in the settlement pattern; a CDP with the same name as in an earlier census does not necessarily have the same boundary. CDPs must be contained within a single state and may not extend into an incorporated place. There are no population size requirements for CDPs.\r\n\r\nHawaii is the only state that has no incorporated places recognized by the Census Bureau. All places shown in decennial census data products for Hawaii are CDPs. By agreement with the state of Hawaii, the Census Bureau does not show data separately for the city of Honolulu, which is coextensive with Honolulu County. In Puerto Rico, which also does not have incorporated places, the Census Bureau recognizes only CDPs and refers to them as comunidades or zonas urbanas. Guam also has only CDPs.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "160", 
+        "census_notes": "Dependent and Independent Places refers to the relationship of places to the county subdivisions. Depending on the state, incorporated places are either dependent within, or independent of, county subdivisions, or there is a mixture of dependent and independent places in the state and in a county. Dependent places are part of the county subdivision; the county subdivision code of the place is the same as that of the underlying county subdivision(s) but is different from the place code. Independent places are not part of any minor civil division (MCD) and serve as primary county subdivisions. The independent place FIPS code usually is the same as that used for the MCD for the place. The only exception is if the place is independent of the MCDs in a state (Iowa, Louisiana, Maryland, Nebraska, North Carolina, and Virginia) in which the FIPS MCD codes are in the 90000 range. Then, the FIPS MCD and FIPS place codes will differ. CDPs always are dependent within county subdivisions and all places are dependent within statistical county subdivisions.\r\n\r\nConsolidated City (Balance) Portions refer to the areas of a consolidated city not included in another separately incorporated place. For example, Butte-Silver Bow, MT, is a consolidated city (former Butte city and Silver Bow County) that includes the separately incorporated municipality of Walkerville city. The area of the consolidated city that is not in Walkerville city is assigned to Butte-Silver Bow (balance). The name of the area of a consolidated city not specifically within a separately incorporated place always includes the \u201c(balance)\u201d identifier. Balance portions of consolidated cities are included with other places in Census Bureau products.", 
+        "slug": "place", 
+        "name": "Place"
+    }
+},
+{
+    "pk": 11, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1
+        ], 
+        "description": "", 
+        "parent": 1, 
+        "census_code_description": "Metropolitan statistical area codes are five digits ranging from 10000-49999.", 
+        "census_description": "Metropolitan statistical areas are CBSAs associated with at least one urbanized area that has a population of at least 50,000. The metropolitan statistical area comprises the central county or counties or equivalent entities containing the core, plus adjacent outlying counties having a high degree of social and economic integration with the central county or counties as measured through commuting.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "300", 
+        "census_notes": "", 
+        "slug": "msa-cmsa", 
+        "name": "Metropolitan Statistical Area (MSA)/Consolidated Metropolitan Statistical Area (CMSA)"
+    }
+},
+{
+    "pk": 12, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1
+        ], 
+        "description": "", 
+        "parent": 1, 
+        "census_code_description": "Metropolitan statistical areas, micropolitan statistical areas, NECTAs, metropolitan divisions, and NECTA divisions are identified using a five-digit numeric code that is assigned alphabetically based on title and is unique within the nation. The combined statistical area and combined NECTAs are identified using a three-digit numeric code, title and unique within the nation.", 
+        "census_description": "Core Based Statistical Areas (CBSAs) consist of the county or counties or equivalent entities associated with at least one core (urbanized area or urban cluster) of at least 10,000 population, plus adjacent counties having a high degree of social and economic integration with the core as measured through commuting ties with the counties associated with the core. The general concept of a CBSA is that of a\r\ncore area containing a substantial population nucleus, together with adjacent communities having a high degree of economic and social integration with that core. The term \u201ccore based statistical area\u201d became effective in 2003 and refers collectively to metropolitan statistical areas and micropolitan statistical areas. The U.S. Office of Management and Budget (OMB) defines CBSAs to provide a nationally consistent set of geographic entities for the United States and Puerto Rico for use in tabulating and presenting statistical data. Current CBSAs are based on application of the 2000 standards (published in the Federal Register of December 27, 2000) with Census 2000 data. The first set of areas defined based on the 2000 standards were announced on June 6, 2003; subsequent updates have been made to the universe of CBSAs and related statistical areas. No CBSAs are defined in the Island Areas. Statistical areas related to CBSAs include metropolitan divisions, combined statistical areas (CSAs), New England city and town areas (NECTAs), NECTA divisions, and combined NECTAs.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "310", 
+        "census_notes": "Principal cities of a CBSA (or NECTA) include the largest incorporated place with a population of at least 10,000 in the CBSA, or if no incorporated place of at least 10,000 population is present in the CBSA, the largest incorporated place or census designated place (CDP) in the CBSA. Principal cities also include any additional incorporated place or CDP with a population of at least 250,000 or in which 100,000 or more persons work; any additional incorporated place or CDP with a population of at least 50,000 and in which the number of jobs meets or exceeds the number of employed residents; and any additional incorporated place or CDP with a population of at least 10,000 but less than 50,000 and at least one-third the population size of the largest place and in which the number of jobs meets or exceeds the number of employed residents. Note that there are some places designated as principal cities of NECTAs that are not principal cities of a CBSA.", 
+        "slug": "cbsa", 
+        "name": "Core Based Statistical Area (CBSA)"
+    }
+},
+{
+    "pk": 14, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1
+        ], 
+        "description": "", 
+        "parent": 1, 
+        "census_code_description": "New England city and town area (NECTA) codes are five digits ranging from 70000-79999.", 
+        "census_description": "NECTAs are an alternative set of geographic entities, similar in concept to the county-based CBSAs defined nationwide, that OMB defines in New England based on county subdivisions\u2014usually cities and towns. NECTAs are defined using the same criteria as county-based CBSAs, and, similar to CBSAs, NECTAs are categorized as metropolitan or micropolitan.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "350", 
+        "census_notes": "Principal cities of a CBSA (or NECTA) include the largest incorporated place with a population of at least 10,000 in the CBSA, or if no incorporated place of at least 10,000 population is present in the CBSA, the largest incorporated place or census designated place (CDP) in the CBSA. Principal cities also include any additional incorporated place or CDP with a population of at least 250,000 or in which 100,000 or more persons work; any additional incorporated place or CDP with a population of at least 50,000 and in which the number of jobs meets or exceeds the number of employed residents; and any additional incorporated place or CDP with a population of at least 10,000 but less than 50,000 and at least one-third the population size of the largest place and in which the number of jobs meets or exceeds the number of employed residents. Note that there are some places designated as principal cities of NECTAs that are not principal cities of a CBSA.", 
+        "slug": "necta", 
+        "name": "New England City and Town Area (NECTA)"
+    }
+},
+{
+    "pk": 15, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "UGAs are legally defined entities in Oregon and Washington that the Census Bureau includes in the MAF/TIGER database in agreement with the states. UGAs, which are defined around incorporated places, are used to regulate urban growth. UGA boundaries, which need not follow visible features, are delineated cooperatively by state and local officials and then confirmed in state law. UGAs are a pilot project first defined only in Oregon for Census 2000. Each UGA is identified by a five-digit numeric census code, usually the same as the five-digit Federal Information Processing Series (FIPS) code associated with the incorporated place for which the UGA is named.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "400", 
+        "census_notes": "", 
+        "slug": "urban-area", 
+        "name": "Urban Area"
+    }
+},
+{
+    "pk": 16, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "Congressional districts are identified by a two-character numeric Federal Information Processing Series (FIPS) code numbered uniquely within the state. The District of Columbia, Puerto Rico, and the Island Areas have code 98 assigned identifying their nonvoting delegate status with respect to representation in Congress:\r\n\r\n01 to 53: Congressional district codes\r\n00: At large (single district for state)\r\n98: Nonvoting delegate", 
+        "census_description": "Congressional districts are the 435 areas from which people are elected to the U.S. House of Representatives. After the apportionment of congressional seats among the states based on decennial census population counts, each state with multiple seats is responsible for establishing congressional districts for the purpose of electing representatives. Each congressional district is to be as equal in population to all other congressional districts in a state as practicable. For the District of Columbia, Puerto Rico, and each Island Area, a separate code is used to identify the entire areas of these state-equivalent entities as having a single nonvoting delegate.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "500", 
+        "census_notes": "", 
+        "slug": "congressional-district", 
+        "name": "Congressional District"
+    }
+},
+{
+    "pk": 17, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "State Legislative Districts (SLDs) are the areas from which members are elected to state legislatures. The Census Bureau first reported data for SLDs as part of the 2000 Public Law (P.L.) 94-171 Redistricting Data File.\r\n\r\nCurrent SLDs (2010 Election Cycle)\u2014States participating in Phase 1 of the 2010 Census Redistricting Data Program voluntarily provided the Census Bureau with the 2006 election cycle boundaries, codes, and, in some cases, names for their SLDs. All 50 states, plus the District of Columbia and Puerto Rico, participated in Phase 1, State Legislative District Project (SLDP) of the 2010 Census Redistricting Data Program. States subsequently provided legal changes to those plans through the Redistricting Data Office and/or corrections as part of Phase 2 of the 2010 Census Redistricting Data Program, as needed.\r\n\r\nThe SLDs embody the upper (senate\u2014SLDU) and lower (house\u2014SLDL) chambers of the state legislature. Nebraska has a unicameral legislature and the District of Columbia has a single council, both of which the Census Bureau treats as upper-chamber legislative areas for the purpose of data presentation. A unique three-character census code, identified by state participants, is assigned to each SLD within a state. In Connecticut, Hawaii, Illinois, Louisiana, Maine, Massachusetts, New Jersey, Ohio, and Puerto Rico, state officials did not define the SLDs to cover all of the state or state equivalent area (usually bodies of water). In these areas with no SLDs defined, the code \u201cZZZ\u201d has been assigned, which is treated within state as a single SLD for purposes of data presentation. Maryland also has areas with no SLDs defined; in Maryland, these areas are coded with an initial \u201cZ\u201d by county or equivalent and treated as a unique SLD by county or equivalent. In Nebraska and the District of Columbia, the Census Bureau assigned the code 999 to represent a single SLDL where legally none exist.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "610", 
+        "census_notes": "The Census Bureau first reported names for SLDs as part of Phase 1 of the 2010 Census Redistricting Data Program. The SLD names with their translated legal/statistical area description are associated only with the current SLDs. Not all states provided names for their SLDs, therefore the code (or number) also serves as the name.", 
+        "slug": "state-senate-district", 
+        "name": "State Senate District"
+    }
+},
+{
+    "pk": 18, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "State Legislative Districts (SLDs) are the areas from which members are elected to state legislatures. The Census Bureau first reported data for SLDs as part of the 2000 Public Law (P.L.) 94-171 Redistricting Data File.\r\n\r\nCurrent SLDs (2010 Election Cycle)\u2014States participating in Phase 1 of the 2010 Census Redistricting Data Program voluntarily provided the Census Bureau with the 2006 election cycle boundaries, codes, and, in some cases, names for their SLDs. All 50 states, plus the District of Columbia and Puerto Rico, participated in Phase 1, State Legislative District Project (SLDP) of the 2010 Census Redistricting Data Program. States subsequently provided legal changes to those plans through the Redistricting Data Office and/or corrections as part of Phase 2 of the 2010 Census Redistricting Data Program, as needed.\r\n\r\nThe SLDs embody the upper (senate\u2014SLDU) and lower (house\u2014SLDL) chambers of the state legislature. Nebraska has a unicameral legislature and the District of Columbia has a single council, both of which the Census Bureau treats as upper-chamber legislative areas for the purpose of data presentation. A unique three-character census code, identified by state participants, is assigned to each SLD within a state. In Connecticut, Hawaii, Illinois, Louisiana, Maine, Massachusetts, New Jersey, Ohio, and Puerto Rico, state officials did not define the SLDs to cover all of the state or state equivalent area (usually bodies of water). In these areas with no SLDs defined, the code \u201cZZZ\u201d has been assigned, which is treated within state as a single SLD for purposes of data presentation. Maryland also has areas with no SLDs defined; in Maryland, these areas are coded with an initial \u201cZ\u201d by county or equivalent and treated as a unique SLD by county or equivalent. In Nebraska and the District of Columbia, the Census Bureau assigned the code 999 to represent a single SLDL where legally none exist.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "620", 
+        "census_notes": "The Census Bureau first reported names for SLDs as part of Phase 1 of the 2010 Census Redistricting Data Program. The SLD names with their translated legal/statistical area description are associated only with the current SLDs. Not all states provided names for their SLDs, therefore the code (or number) also serves as the name.", 
+        "slug": "state-house-district", 
+        "name": "State House District"
+    }
+},
+{
+    "pk": 19, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4, 
+            5
+        ], 
+        "description": "", 
+        "parent": 5, 
+        "census_code_description": "", 
+        "census_description": "VTDs refer to the generic name for geographic entities, such as precincts, wards, and election districts, established by state governments for the purpose of conducting elections. States voluntarily participating in Phase 2 of the 2010 Census Redistricting Data Program provided the Census Bureau with boundaries, codes, and names for their VTDs. Each VTD is identified by a one-to-six-character alphanumeric census code that is unique within county. The code \u201cZZZZZZ\u201d identifies a portion of counties (usually bodies of water) for which no VTDs were identified. For the 2010 Census, only Rhode Island did not participate in Phase 2 (the Voting District/Block Boundary Suggestion Project) of the 2010 Census Redistricting Data Program. Kentucky chose not to provide VTDs as part of their participation in Phase 2, and the states of Montana and Oregon provided VTDs for some counties. Therefore, for 2010 Census data products, no VTDs exist in select counties in Montana and Oregon or for the states of Rhode Island and Kentucky in their entirety. Participating states often submitted VTDs conforming to the feature network in the MAF/TIGER database rather than the complete legal boundary of the VTD. If requested by the participating state, the Census Bureau identified the VTDs that represent an actual voting district with an \u201cA\u201d in the voting district indicator field. Where a participating state indicated that the VTD has been modified to follow existing features, the VTD is a pseudo-VTD, and the voting district indicator contains \u201cP.\u201d", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "700", 
+        "census_notes": "", 
+        "slug": "vtd", 
+        "name": "Voting Tabulation District (VTD)"
+    }
+},
+{
+    "pk": 20, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "PUMAs are geographic areas for which the Census Bureau provides selected extracts of raw data from a small sample of census records that are screened to protect confidentiality. These extracts are referred to as public use microdata sample (PUMS) files.\r\n\r\nFor the 2010 Census, each state, the District of Columbia, Puerto Rico, and some Island Area participants delineated PUMAs for use in presenting PUMS data based on a 5 percent sample of decennial census or American Community Survey data. These areas are required to contain at least 100,000 people. This is different from Census 2000 when two types of PUMAs were defined: a 5 percent PUMA as for 2010 and an additional super-PUMA designed to provide a 1 percent sample. The PUMAs are identified by a five-digit census code unique within state.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "795", 
+        "census_notes": "", 
+        "slug": "puma", 
+        "name": "Public Use Microdata Sample Area (PUMA)"
+    }
+},
+{
+    "pk": 21, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1
+        ], 
+        "description": "", 
+        "parent": 1, 
+        "census_code_description": "", 
+        "census_description": "ZCTAs are approximate area representations of U.S. Postal Service (USPS) five-digit ZIP Code service areas that the Census Bureau creates using whole blocks to present statistical data from censuses and surveys. The Census Bureau defines ZCTAs by allocating each block that contains addresses to a single ZCTA, usually to the ZCTA that reflects the most frequently occurring ZIP Code for the addresses within that tabulation block. Blocks that do not contain addresses but are completely surrounded by a single ZCTA (enclaves) are assigned to the surrounding ZCTA; those surrounded by multiple ZCTAs will be added to a single ZCTA based on limited buffering performed between multiple ZCTAs. The Census Bureau identifies five-digit ZCTAs using a five-character numeric code that represents the most frequently occurring USPS ZIP Code within that ZCTA, and this code may contain leading zeros.\r\n\r\nThere are significant changes to the 2010 ZCTA delineation from that used in 2000. Coverage was extended to include the Island Areas for 2010 so that the United States, Puerto Rico, and the Island Areas have ZCTAs. Unlike 2000, when areas that could not be assigned to a ZCTA were given a generic code ending in \u201cXX\u201d (land area) or \u201cHH\u201d (water area), for 2010 there is no universal coverage by ZCTAs, and only legitimate five-digit areas are defined. The 2010 ZCTAs will better represent the actual Zip Code service areas because the Census Bureau initiated a process before creation of 2010 blocks to add block boundaries that split polygons with large numbers of addresses using different Zip Codes.\r\n\r\nData users should not use ZCTAs to identify the official USPS ZIP Code for mail delivery. The USPS makes periodic changes to ZIP Codes to support more efficient mail delivery. The ZCTAs process used primarily residential addresses and was biased towards Zip Codes used for city-style mail delivery, thus there may be Zip Codes that are primarily nonresidential or boxes only that may not have a corresponding ZCTA.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "850", 
+        "census_notes": "", 
+        "slug": "zcta3", 
+        "name": "3-digit ZIP Code Tabulation Area (ZCTA3)"
+    }
+},
+{
+    "pk": 22, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1
+        ], 
+        "description": "", 
+        "parent": 1, 
+        "census_code_description": "", 
+        "census_description": "ZCTAs are approximate area representations of U.S. Postal Service (USPS) five-digit ZIP Code service areas that the Census Bureau creates using whole blocks to present statistical data from censuses and surveys. The Census Bureau defines ZCTAs by allocating each block that contains addresses to a single ZCTA, usually to the ZCTA that reflects the most frequently occurring ZIP Code for the addresses within that tabulation block. Blocks that do not contain addresses but are completely surrounded by a single ZCTA (enclaves) are assigned to the surrounding ZCTA; those surrounded by multiple ZCTAs will be added to a single ZCTA based on limited buffering performed between multiple ZCTAs. The Census Bureau identifies five-digit ZCTAs using a five-character numeric code that represents the most frequently occurring USPS ZIP Code within that ZCTA, and this code may contain leading zeros.\r\n\r\nThere are significant changes to the 2010 ZCTA delineation from that used in 2000. Coverage was extended to include the Island Areas for 2010 so that the United States, Puerto Rico, and the Island Areas have ZCTAs. Unlike 2000, when areas that could not be assigned to a ZCTA were given a generic code ending in \u201cXX\u201d (land area) or \u201cHH\u201d (water area), for 2010 there is no universal coverage by ZCTAs, and only legitimate five-digit areas are defined. The 2010 ZCTAs will better represent the actual Zip Code service areas because the Census Bureau initiated a process before creation of 2010 blocks to add block boundaries that split polygons with large numbers of addresses using different Zip Codes.\r\n\r\nData users should not use ZCTAs to identify the official USPS ZIP Code for mail delivery. The USPS makes periodic changes to ZIP Codes to support more efficient mail delivery. The ZCTAs process used primarily residential addresses and was biased towards Zip Codes used for city-style mail delivery, thus there may be Zip Codes that are primarily nonresidential or boxes only that may not have a corresponding ZCTA.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "860", 
+        "census_notes": "", 
+        "slug": "zcta5", 
+        "name": "5-digit ZIP Code Tabulation Area (ZCTA5)"
+    }
+},
+{
+    "pk": 23, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "School Districts are geographic entities within which state, county, local officials, the Bureau of Indian Affairs, or the U.S. Department of Defense provide public educational services for the area\u2019s residents. The Census Bureau obtains the boundaries, names, local education agency codes, and school district levels for school districts from state and local school officials for the primary purpose of providing the U.S. Department of Education with estimates of the number of children \u201cat risk\u201d within each school district, county, and state. This information serves as the basis for the Department of Education to determine the annual allocation of Title I funding to states and school districts.\r\n\r\nThe Census Bureau tabulates data for three types of school districts: elementary, secondary, and unified. Each school district is assigned a five-digit code that is unique within state. School district codes are the local education agency number assigned by the Department of Education and are not necessarily in alphabetical order by school district name.\r\n\r\nThe elementary school districts provide education to the lower grade/age levels and the secondary school districts provide education to the upper grade/age levels. Unified school districts provide education to children of all school ages in their service areas. In general, where there is a unified school district, no elementary or secondary school district exists; and where there is an elementary school district, the secondary school district may or may not exist.\r\n\r\nThe Census Bureau\u2019s representation of school districts in various data products is based both on the grade range that a school district operates and also the grade range for which the school district is financially responsible. For example, a school district is defined as an elementary school district if its operational grade range is less than the full kindergarten through 12 or prekindergarten through 12 grade range (for example, K\u20136 or pre-K\u20138). These elementary school districts do not provide direct educational services for grades 7\u201312, 9\u201312, or similar ranges. Some elementary school districts are financially responsible for the education of all school-aged children within their service areas and rely on other school districts to provide service for those grade ranges that are not operated by these elementary school districts. In these situations, in order to allocate all school-aged children to these school districts, the secondary school district code field is blank. For elementary school districts where the operational grade range and financially responsible grade range are the same, the secondary school district code field will contain a secondary school district code. There are no situations where an elementary school district does not exist and a secondary school district exists in Census Bureau records.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "950", 
+        "census_notes": "", 
+        "slug": "school-district-elementary", 
+        "name": "School District (Elementary)"
+    }
+},
+{
+    "pk": 24, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "School Districts are geographic entities within which state, county, local officials, the Bureau of Indian Affairs, or the U.S. Department of Defense provide public educational services for the area\u2019s residents. The Census Bureau obtains the boundaries, names, local education agency codes, and school district levels for school districts from state and local school officials for the primary purpose of providing the U.S. Department of Education with estimates of the number of children \u201cat risk\u201d within each school district, county, and state. This information serves as the basis for the Department of Education to determine the annual allocation of Title I funding to states and school districts.\r\n\r\nThe Census Bureau tabulates data for three types of school districts: elementary, secondary, and unified. Each school district is assigned a five-digit code that is unique within state. School district codes are the local education agency number assigned by the Department of Education and are not necessarily in alphabetical order by school district name.\r\n\r\nThe elementary school districts provide education to the lower grade/age levels and the secondary school districts provide education to the upper grade/age levels. Unified school districts provide education to children of all school ages in their service areas. In general, where there is a unified school district, no elementary or secondary school district exists; and where there is an elementary school district, the secondary school district may or may not exist.\r\n\r\nThe Census Bureau\u2019s representation of school districts in various data products is based both on the grade range that a school district operates and also the grade range for which the school district is financially responsible. For example, a school district is defined as an elementary school district if its operational grade range is less than the full kindergarten through 12 or prekindergarten through 12 grade range (for example, K\u20136 or pre-K\u20138). These elementary school districts do not provide direct educational services for grades 7\u201312, 9\u201312, or similar ranges. Some elementary school districts are financially responsible for the education of all school-aged children within their service areas and rely on other school districts to provide service for those grade ranges that are not operated by these elementary school districts. In these situations, in order to allocate all school-aged children to these school districts, the secondary school district code field is blank. For elementary school districts where the operational grade range and financially responsible grade range are the same, the secondary school district code field will contain a secondary school district code. There are no situations where an elementary school district does not exist and a secondary school district exists in Census Bureau records.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "960", 
+        "census_notes": "", 
+        "slug": "school-district-secondary", 
+        "name": "School District (Secondary)"
+    }
+},
+{
+    "pk": 25, 
+    "model": "census.summarylevel", 
+    "fields": {
+        "ancestors": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "", 
+        "parent": 4, 
+        "census_code_description": "", 
+        "census_description": "School Districts are geographic entities within which state, county, local officials, the Bureau of Indian Affairs, or the U.S. Department of Defense provide public educational services for the area\u2019s residents. The Census Bureau obtains the boundaries, names, local education agency codes, and school district levels for school districts from state and local school officials for the primary purpose of providing the U.S. Department of Education with estimates of the number of children \u201cat risk\u201d within each school district, county, and state. This information serves as the basis for the Department of Education to determine the annual allocation of Title I funding to states and school districts.\r\n\r\nThe Census Bureau tabulates data for three types of school districts: elementary, secondary, and unified. Each school district is assigned a five-digit code that is unique within state. School district codes are the local education agency number assigned by the Department of Education and are not necessarily in alphabetical order by school district name.\r\n\r\nThe elementary school districts provide education to the lower grade/age levels and the secondary school districts provide education to the upper grade/age levels. Unified school districts provide education to children of all school ages in their service areas. In general, where there is a unified school district, no elementary or secondary school district exists; and where there is an elementary school district, the secondary school district may or may not exist.\r\n\r\nThe Census Bureau\u2019s representation of school districts in various data products is based both on the grade range that a school district operates and also the grade range for which the school district is financially responsible. For example, a school district is defined as an elementary school district if its operational grade range is less than the full kindergarten through 12 or prekindergarten through 12 grade range (for example, K\u20136 or pre-K\u20138). These elementary school districts do not provide direct educational services for grades 7\u201312, 9\u201312, or similar ranges. Some elementary school districts are financially responsible for the education of all school-aged children within their service areas and rely on other school districts to provide service for those grade ranges that are not operated by these elementary school districts. In these situations, in order to allocate all school-aged children to these school districts, the secondary school district code field is blank. For elementary school districts where the operational grade range and financially responsible grade range are the same, the secondary school district code field will contain a secondary school district code. There are no situations where an elementary school district does not exist and a secondary school district exists in Census Bureau records.", 
+        "source": "U.S. Census Bureau: Geographic Terms and Concepts", 
+        "summary_level": "970", 
+        "census_notes": "", 
+        "slug": "school-district-unified", 
+        "name": "School District (Unified)"
+    }
+}
+]

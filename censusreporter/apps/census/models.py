@@ -29,9 +29,60 @@ class Column(models.Model):
 
     def __unicode__(self):
         return '%s' % self.column_name
-    
-    
 
+
+class SummaryLevel(models.Model):
+    summary_level = models.CharField(max_length=3)
+    name = models.CharField(max_length=128)
+    slug = models.SlugField()
+    short_name = models.CharField(max_length=128, blank=True)
+    plural_name = models.CharField(max_length=128, blank=True)
+    
+    description = models.TextField(blank=True)
+    census_description = models.TextField(blank=True)
+    census_code_description = models.TextField(blank=True)
+    census_notes = models.TextField(blank=True)
+    source = models.CharField(max_length=64, blank=True)
+    
+    # Relationships
+    parent = models.ForeignKey('self', related_name='children', blank=True, null=True)
+    ancestors = models.ManyToManyField('self', related_name='descendants', symmetrical=False, blank=True, null=True)
+    
+    class Meta:
+        ordering = ('summary_level',)
+
+    def __unicode__(self):
+        return '%s' % self.name
+        
+    @property
+    def display_name(self):
+        return self.short_name or self.name
+        
+    def pretty_ancestors(self):
+        return ', '.join([ancestor.name for ancestor in self.ancestors.all()])
+
+    def ancestor_sumlev_list(self):
+        return [ancestor.summary_level for ancestor in self.ancestors.all()]
+
+
+class SubjectConcept(models.Model):
+    name = models.CharField(max_length=128)
+    slug = models.SlugField()
+    census_category = models.CharField(max_length=128, blank=True, default="Population")
+    census_description = models.TextField(blank=True)
+    census_history = models.TextField(blank=True)
+    census_comparability = models.TextField(blank=True)
+    census_notes = models.TextField(blank=True)
+    description = models.TextField(blank=True)
+    source = models.CharField(max_length=64, blank=True, default="American Community Survey Subject Definitions")
+    
+    class Meta:
+        ordering = ('name',)
+        
+    def __unicode__(self):
+        return '%s' % self.name
+        
+        
 class Geography(models.Model):
     full_geoid = models.CharField(max_length=16)
     full_name = models.CharField(max_length=128)
