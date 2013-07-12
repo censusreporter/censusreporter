@@ -299,7 +299,7 @@ class PlaceSearchJson(View):
 
         elif 'q' in self.request.GET:
             q = self.request.GET['q']
-            geographies = Geography.objects.filter(full_name__startswith=q)
+            geographies = Geography.objects.filter(full_name__icontains=q)
 
         if 'sumlev_filter' in self.request.GET:
             allowed_sumlev_list = self.request.GET['sumlev_filter'].split(',')

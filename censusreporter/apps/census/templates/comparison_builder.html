@@ -63,6 +63,9 @@ function makeParentSelectWidget(element, ajaxURL, helpText) {
                 };
             }
         },
+        formatNoMatches: function formatNoMatches(term) {
+            return "No matches found for '" + term + ".' " + helpText;
+        }
     });
     
     if (!!helpText) {
@@ -70,9 +73,9 @@ function makeParentSelectWidget(element, ajaxURL, helpText) {
     }
 }
 
-function insertHelpText(element, helpText) {
-    var toAppend = $('<span class="help-text">' + helpText + '</span>').css('width',element.width());
-    element.append(toAppend);
+function insertHelpText(element, message) {
+    var helpText = $('<span class="help-text">' + message + '</span>').css('width', element.width());
+    element.append(helpText);
 }
 
 function makeSumlevSelectWidget(element) {
@@ -97,9 +100,9 @@ jQuery(document).ready(function(){
     sumlevSelect.on('change', function(e) {
         var selected = $(this).find('option:selected');
         var ancestorSumlevList = selected.data('ancestor-list'),
-            ancestorNames = selected.data('ancestor-names');
+            ancestorNameList = selected.data('ancestor-names');
         var filteredAjaxURL = ajaxURL + '&sumlev_filter=' + ancestorSumlevList,
-            helpText = selected.text() + ' can be compared within a ' + ancestorNames + '.';
+            helpText = selected.text() + ' can be compared within a ' + ancestorNameList + '.';
         makeParentSelectWidget(parentSelect, filteredAjaxURL, helpText);
     })
 
