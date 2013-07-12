@@ -58,8 +58,15 @@ class SummaryLevel(models.Model):
     def display_name(self):
         return self.short_name or self.name
         
-    def pretty_ancestors(self):
+    def pretty_ancestor_list(self):
         return ', '.join([ancestor.name for ancestor in self.ancestors.all()])
+
+    def pretty_ancestor_options(self):
+        _list = self.pretty_ancestor_list()
+        return ' or '.join(_list.rsplit(',',1))
+
+    def pretty_ancestor_sumlev_list(self):
+        return ','.join([ancestor.summary_level for ancestor in self.ancestors.all()])
 
     def ancestor_sumlev_list(self):
         return [ancestor.summary_level for ancestor in self.ancestors.all()]
@@ -104,8 +111,8 @@ class Geography(models.Model):
     elsdlea = models.CharField(max_length=12, blank=True, null=True)
     scsdlea = models.CharField(max_length=12, blank=True, null=True)
     unsdlea = models.CharField(max_length=12, blank=True, null=True)
-    pcicbsa = models.CharField(max_length=1)
-    pcinecta = models.CharField(max_length=1)
+    pcicbsa = models.CharField(max_length=1, blank=True, null=True)
+    pcinecta = models.CharField(max_length=1, blank=True, null=True)
     csafp = models.CharField(max_length=12, blank=True, null=True)
     cbsafp = models.CharField(max_length=12, blank=True, null=True)
     metdivfp = models.CharField(max_length=12, blank=True, null=True)

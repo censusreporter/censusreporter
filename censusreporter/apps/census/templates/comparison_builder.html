@@ -1,26 +1,112 @@
 {% extends '_base.html' %}{% load humanize %}
 
+{% block head_title %}Comparison Query Builder - {{ block.super }}{% endblock %}
+
+{% block head_extra_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.textinput.css">
+{% endblock %}
+
 {% block content %}
 <article class="clearfix">
     <section>
-        <form action="" method="GET">
-            <div id="choose-topic" style="float: left; margin-right: 1em;">
-                Compare <input type="text" name="topic" disabled>
+        <form action="" method="GET" class="inline-form">
+            <div class="sentence-fragment">
+                Compare
+                <input type="text" name="topic" disabled>
+                for all
             </div>
-
-            <div id="choose-summary-level" style="float: left; margin-right: 1em;">
-                for 
-                <select name="summary_level">
+            <div class="sentence-fragment">
+                <select name="sumlev_select" id="sumlev-select" data-placeholder="Choose geographies to compare ...">
                     {% for summary_level in summary_level_options %}
-                    <option value="{{ summary_level.summary_level }}">{{ summary_level.plural_name }}</option>
+                    <option value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.pretty_ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.pretty_ancestor_options }}">{{ summary_level.plural_name|capfirst }}</option>
                     {% endfor %}
                 </select>
+                in
             </div>
-            
-            <div id="choose-parent" style="float: left; margin-right: 1em;">
-                in <input type="text" name="parent">
+            <div class="sentence-fragment">
+                <input class="wide-picker" name="parent_select" id="parent-select" type="hidden">
             </div>
         </form>
     </section>
 </article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script type="text/javascript">
+function makeParentSelectWidget(element, ajaxURL, helpText) {
+    //alert(ajaxURL);
+    //element.select2("destroy");
+    element.siblings('.help-text').remove();
+    element.val('');
+    element.select2({
+        placeholder: "Start typing to find a place ...",
+        dropdownCssClass: "wide-picker",
+        minimumInputLength: 3,
+        ajax: {
+            url: ajaxURL,
+            dataType: 'json',
+            quietMillis: 200,
+            data: function (term) {
+                return { q: term };
+            },
+            results: function (data) {
+                var results = [];
+                $.each(data, function(index, item){
+                    results.push({
+                        id: item.full_geoid,
+                        text: item.full_name
+                    });
+                });
+                return {
+                    results: results
+                };
+            }
+        },
+    });
+    
+    if (!!helpText) {
+        insertHelpText(element.parent(), helpText);
+    }
+}
+
+function insertHelpText(element, helpText) {
+    var toAppend = $('<span class="help-text">' + helpText + '</span>').css('width',element.width());
+    element.append(toAppend);
+}
+
+function makeSumlevSelectWidget(element) {
+    element.select2("destroy");
+    element.select2({
+        width: "resolve",
+        dropdownCssClass: "wide-picker"
+    });
+}
+
+jQuery(document).ready(function(){
+    var parentSelect = $('#parent-select'),
+        sumlevSelect = $('#sumlev-select');
+    var ajaxURL = '/place-search/?autocomplete';
+    
+    // initial setup for select widgets
+    makeSumlevSelectWidget(sumlevSelect);
+    makeParentSelectWidget(parentSelect, ajaxURL);
+    
+    // when user chooses a geography to compare, limit possible
+    // autocomplete options for parent/containing geography
+    sumlevSelect.on('change', function(e) {
+        var selected = $(this).find('option:selected');
+        var ancestorSumlevList = selected.data('ancestor-list'),
+            ancestorNames = selected.data('ancestor-names');
+        var filteredAjaxURL = ajaxURL + '&sumlev_filter=' + ancestorSumlevList,
+            helpText = selected.text() + ' can be compared within a ' + ancestorNames + '.';
+        makeParentSelectWidget(parentSelect, filteredAjaxURL, helpText);
+    })
+
+    // on page load, reset selects because if browser happens
+    // to hold onto value it won't trigger the sumlev filter
+    parentSelect.val('');
+    sumlevSelect.val('050').trigger('change');
+})
+</script>
 {% endblock %}

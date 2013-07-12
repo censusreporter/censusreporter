@@ -514,8 +514,23 @@ form select {
     font-size: .85em;
 }
 form.inline-form input,
-form.inline-form select {
+form.inline-form select,
+form.inline-form .select2-container {
     margin: 0 .5em;
+}
+.sentence-fragment {
+    display: inline-block;
+    vertical-align: top;
+}
+.sentence-fragment .select2-container {
+    vertical-align: -45%;
+}
+.sentence-fragment .help-text {
+    font-size: .85em;
+}
+form.inline-form .sentence-fragment .help-text {
+    display: block;
+    margin: .25em .75em;
 }
 
 .tool-set {

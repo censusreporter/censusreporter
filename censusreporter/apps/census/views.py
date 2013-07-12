@@ -301,6 +301,10 @@ class PlaceSearchJson(View):
             q = self.request.GET['q']
             geographies = Geography.objects.filter(full_name__startswith=q)
 
+        if 'sumlev_filter' in self.request.GET:
+            allowed_sumlev_list = self.request.GET['sumlev_filter'].split(',')
+            geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
+            
         geographies = geographies.values()
         if 'autocomplete' in self.request.GET:
             geographies = geographies.only('full_name','full_geoid')
@@ -377,8 +381,11 @@ class ComparisonBuilder(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {}
-
-        summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True).only('name','slug','summary_level')
+        
+        # for the moment, filter to counties and smaller
+        summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True)\
+            .filter(summary_level__gt='040')\
+            .only('name','slug','summary_level')
         page_context.update({
             'summary_level_options': summary_level_options
         })
