@@ -518,9 +518,13 @@ form.inline-form select,
 form.inline-form .select2-container {
     margin: 0 .5em;
 }
+.sentence-fragment-group {
+    display: inline-block;
+}
 .sentence-fragment {
     display: inline-block;
     vertical-align: top;
+    margin-right: .75em;
 }
 .sentence-fragment .select2-container {
     vertical-align: -45%;
@@ -533,6 +537,10 @@ form.inline-form .select2-container {
 textarea#results {
     width: 100%;
     height: 450px;
+    padding: .5em;
+}
+.spinner {
+    margin:;
 }
 
 .tool-set {

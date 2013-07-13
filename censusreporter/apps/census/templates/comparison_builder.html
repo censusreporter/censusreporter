@@ -8,34 +8,35 @@
 
 {% block content %}
 <article class="clearfix">
-    <section>
+    <section id="query-builder" class="clearfix">
+        <h2>Compare</h2>
         <form action="" method="GET" onsubmit="return false">
-            <div class="column-third">
-                <h2>Compare</h2>
-                <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%;">
+            <div class="column-golden-narrow sentence-fragment">
+                <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%">
             </div>
-            <div class="column-two-thirds">
-                <h2>for all</h2>
+            <div class="column-golden-wide">
+                <span class="sentence-fragment">for all</span>
                 <div class="sentence-fragment">
-                    <select name="sumlev_select" id="sumlev-select">
+                    <select name="sumlev_select" id="sumlev-select" class="sentence-fragment">
                         <option></option>
                         {% for summary_level in summary_level_options %}
                         <option value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.pretty_ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.pretty_ancestor_options }}">{{ summary_level.plural_name|capfirst }}</option>
                         {% endfor %}
                     </select>
-                    in
+                    <span class="sentence-fragment">in</span>
                     <input class="wide-picker" name="parent_select" id="parent-select" type="hidden">
                 </div>
             </div>
         </form>
     </section>
     
-    <section id="results-container"></section>
+    <section id="results-container" class="clearfix"></section>
 </article>
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
 function makeTopicSelectWidget(element, ajaxURL, helpText) {
     element.siblings('.help-text').remove();
@@ -123,14 +124,20 @@ function insertHelpText(element, message) {
 }
 
 function fetchAPIData(requestURL) {
+    var target = document.getElementById('results-container');
+    var spinner = new Spinner().spin(target);
+    
     $.ajax({
         type: "GET",
         url: requestURL,
         dataType: "json",
         success: function(data) {
-            var strData = (JSON.stringify(data));
-            var results = '<textarea id="results" class="full-width">' + strData + '</textarea>';
-            $(results).hide().appendTo('#results-container').fadeIn('fast');
+            var strData = (JSON.stringify(data, null, 4));
+            var resultsContainer = $('#results-container'),
+                results = '<textarea id="results">' + strData + '</textarea>';
+            resultsContainer.find('textarea').remove();
+            $(results).hide().appendTo(resultsContainer).fadeIn('fast');
+            spinner.stop();
         },
         error: function(response) {
             alert('Uh-oh, something went wrong.');
