@@ -312,16 +312,47 @@ class PlaceSearchJson(View):
         return render_json_to_response(list(geographies))
 
 class TableSearchJson(View):
+    def format_result(self, obj, obj_type):
+        if obj_type == 'table':
+            return {
+                'id': obj['table_id'],
+                'name': 'Table: %s' % obj['table_name'],
+            }
+        elif obj_type == 'column':
+            return {
+                'id': '|'.join([obj['parent_table_id'], obj['column_id']]),
+                'name': 'Table with Column: %s in %s' % (obj['column_name'], obj['table__table_name']),
+            }
+        return None
+        
     def get(self, request, *args, **kwargs):
-        results = {}
+        results = []
+        release = 'ACS 2011 5-Year'
+        
+        # comparison query builder throws a search term here,
+        # so force it to look at just one release
+        q = self.request.GET.get('q', None)
+        if q:
+            tables = Table.objects.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
+            tables = tables.filter(release = release)
+            tables = tables.values('table_id','table_name')
+            tables_list = [self.format_result(table, 'table') for table in list(tables)]
 
-        if 'table' in self.request.GET:
-            table = self.request.GET['table']
+            columns = Column.objects.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
+            columns = columns.filter(table__release = release)
+            columns = columns.values('parent_table_id','table__table_name','column_id','column_name')
+            columns_list = [self.format_result(column, 'column') for column in list(columns)]
+            
+            results.extend(tables_list)
+            results.extend(columns_list)
+
+        table = self.request.GET.get('table', None)
+        if table:
             tables = Table.objects.filter(table_name__icontains=table).values()
             results['tables'] = list(tables)
 
-        if 'column' in self.request.GET:
-            column = self.request.GET['column']
+        column = self.request.GET.get('column', None)
+        if column:
             columns = Column.objects.filter(column_name__icontains=column).values()
             columns = columns.only('table', 'parent_table_id', 'column_name', 'column_id')
             results['columns'] = list(columns)
