@@ -30,7 +30,9 @@
         </form>
     </section>
     
-    <section id="results-container" class="clearfix"></section>
+    <section id="results-container" class="clearfix">
+        <textarea id="results"></textarea>
+    </section>
 </article>
 {% endblock %}
 
@@ -38,6 +40,20 @@
 <script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
+
+function topicFormatResult(topic) {
+    var markup = '<div class="topic-result">';
+    if (!!topic['column_name']) {
+        markup += '<span class="topic-type">'+topic['type']+' in Table ID: '+topic['table_id']+'</span>'
+        markup += '<span class="topic-name">\''+topic['column_name']+'\' in '+topic['table_name']+'</span>'
+    } else if (!!topic['table_name']) {
+        markup += '<span class="topic-type">'+topic['type']+' ID: '+topic['table_id']+'</span>'
+        markup += '<span class="topic-name">'+topic['table_name']+'</span>'
+    }
+    markup += "</div>"
+    return markup;
+}
+
 function makeTopicSelectWidget(element, ajaxURL, helpText) {
     element.siblings('.help-text').remove();
     element.val('');
@@ -53,18 +69,11 @@ function makeTopicSelectWidget(element, ajaxURL, helpText) {
                 return { q: term };
             },
             results: function (data) {
-                var results = [];
-                $.each(data, function(index, item){
-                    results.push({
-                        id: item.id,
-                        text: item.name
-                    });
-                });
-                return {
-                    results: results
-                };
+                // API response included `id` and `text` attrs
+                return { results: data };
             }
-        }
+        },
+        formatResult: topicFormatResult
     });
     
     if (!!helpText) {
@@ -133,10 +142,7 @@ function fetchAPIData(requestURL) {
         dataType: "json",
         success: function(data) {
             var strData = (JSON.stringify(data, null, 4));
-            var resultsContainer = $('#results-container'),
-                results = '<textarea id="results">' + strData + '</textarea>';
-            resultsContainer.find('textarea').remove();
-            $(results).hide().appendTo(resultsContainer).fadeIn('fast');
+            $('#results').text(strData).fadeIn('fast');
             spinner.stop();
         },
         error: function(response) {
@@ -174,6 +180,15 @@ jQuery(document).ready(function(){
     parentSelect.on('change', function(e) {
         makeAPIRequest();
     })
+    
+    $('#results').hide().focus(function () {
+        $(this).select().one('mouseup', function (e) {
+            $(this).unbind('keyup');
+            e.preventDefault();
+        }).one('keyup', function () {
+            $(this).select().unbind('mouseup');
+        });
+    });
 
     function makeAPIRequest() {
         var topic = topicSelect.val(),
@@ -185,9 +200,9 @@ jQuery(document).ready(function(){
             // TODO: decide whether this is better (provides context),
             // or whether we should just get the table
             tableID = topic.split('|')[0];
-            var requestURL = 'http://api.censusreporter.org/1.0/table/acs2011_5yr/' +
-                              tableID + '?geoids=' + parentGeoID +
-                              '&sumlevel=' + sumlev;
+            var requestURL = 'http://api.censusreporter.org/1.0/compare/acs2011_5yr/' +
+                              tableID + '?sumlevel=' + sumlev +
+                              '&within=' + parentGeoID;
             fetchAPIData(requestURL);
         }
     }

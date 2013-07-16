@@ -313,17 +313,26 @@ class PlaceSearchJson(View):
 
 class TableSearchJson(View):
     def format_result(self, obj, obj_type):
+        result = {
+            'type': obj_type,
+            'table_id': obj.get('table_id', None) or obj.get('parent_table_id', None),
+            'table_name': obj.get('table_name', None) or obj.get('table__table_name', None),
+        }
+        
         if obj_type == 'table':
-            return {
+            result.update({
                 'id': obj['table_id'],
-                'name': 'Table: %s' % obj['table_name'],
-            }
+                'text': 'Table: %s' % obj['table_name']
+            })
         elif obj_type == 'column':
-            return {
+            result.update({
                 'id': '|'.join([obj['parent_table_id'], obj['column_id']]),
-                'name': 'Table with Column: %s in %s' % (obj['column_name'], obj['table__table_name']),
-            }
-        return None
+                'text': 'Table with Column: %s in %s' % (obj['column_name'], obj['table__table_name']),
+                'column_id': obj['column_id'],
+                'column_name': obj['column_name'],
+            })
+            
+        return result
         
     def get(self, request, *args, **kwargs):
         results = []
