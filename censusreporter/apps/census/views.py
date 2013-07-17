@@ -282,7 +282,7 @@ class ComparisonView(TemplateView):
         })
 
 def render_json_to_response(context):
-    result = simplejson.dumps(context)
+    result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
 class PlaceSearchJson(View):
@@ -431,3 +431,22 @@ class ComparisonBuilder(TemplateView):
         })
 
         return page_context
+        
+class ComparisonDataView(View):
+    def get(self, *args, **kwargs):
+        table_id = self.kwargs['table_id']
+        descendant_sumlev = self.kwargs['descendant_sumlev']
+        parent_id = self.kwargs['parent_id']
+        format = self.kwargs['format']
+
+        # hit our API (force to 5-year data for now)
+        acs_release = 'acs2011_5yr'
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/compare/%s/%s?sumlevel=%s&within=%s&geometries=true' % (acs_release, table_id, descendant_sumlev, parent_id)
+        r = requests.get(API_ENDPOINT)
+
+        if not r.status_code == 200:
+            raise Http404
+
+        comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+            
+        return render_json_to_response(comparison_data)

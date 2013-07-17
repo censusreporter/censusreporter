@@ -202,7 +202,7 @@ jQuery(document).ready(function(){
             tableID = topic.split('|')[0];
             var requestURL = 'http://api.censusreporter.org/1.0/compare/acs2011_5yr/' +
                               tableID + '?sumlevel=' + sumlev +
-                              '&within=' + parentGeoID;
+                              '&within=' + parentGeoID + '&geometries=true';
             fetchAPIData(requestURL);
         }
     }

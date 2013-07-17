@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch
+from .views import GeographyDetailView, ComparisonView, ComparisonBuilder, ComparisonDataView, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch
 
 admin.autodiscover()
 
@@ -52,6 +52,12 @@ urlpatterns = patterns('',
         view    = ComparisonBuilder.as_view(),
         kwargs  = {},
         name    = 'comparison_builder',
+    ),
+    url(
+        regex   = '^compare/(?P<table_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)-in-(?P<parent_id>[-\w]+).(?P<format>json)$',
+        view    = ComparisonDataView.as_view(),
+        kwargs  = {},
+        name    = 'comparison_data',
     ),
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)
