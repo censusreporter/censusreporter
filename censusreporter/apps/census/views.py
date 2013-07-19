@@ -1,6 +1,6 @@
 from __future__ import division
-import collections
 import requests
+from collections import OrderedDict
 from math import ceil
 from numpy import median
 
@@ -72,7 +72,7 @@ class GeographyDetailView(TemplateView):
         r = requests.get(acs_endpoint)
 
         if r.status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
             profile_data = self.calculate_indexes(profile_data)
             page_context.update(profile_data)
         else:
@@ -127,7 +127,7 @@ class ComparisonView(TemplateView):
         r = requests.get(API_ENDPOINT)
 
         if r.status_code == 200:
-            comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+            comparison_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         else:
             raise Http404
 
@@ -172,7 +172,7 @@ class ComparisonView(TemplateView):
         return value, percentage
 
     def add_map_values(self, page_context, data):
-        data_groups = collections.OrderedDict()
+        data_groups = OrderedDict()
 
         for geo in data:
             name = geo['geography']['name']
@@ -208,7 +208,7 @@ class ComparisonView(TemplateView):
                 'name': name,
                 'geoID': geoID,
                 'total_population': total_population,
-                'values': collections.OrderedDict(),
+                'values': OrderedDict(),
             }
             for group, values in geo['population']['gender'].items():
                 male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
@@ -232,7 +232,7 @@ class ComparisonView(TemplateView):
         })
 
     def add_distribution_values(self, page_context, data):
-        distribution_groups = collections.OrderedDict()
+        distribution_groups = OrderedDict()
         for geo in data:
             name = geo['geography']['name']
             geoID = geo['geography']['geoid']
@@ -317,12 +317,13 @@ class TableSearchJson(View):
             'type': obj_type,
             'table_id': obj.get('table_id', None) or obj.get('parent_table_id', None),
             'table_name': obj.get('table_name', None) or obj.get('table__table_name', None),
+            'topics': obj.get('topics', None) or obj.get('table__topics', None),
         }
         
         if obj_type == 'table':
             result.update({
                 'id': obj['table_id'],
-                'text': 'Table: %s' % obj['table_name']
+                'text': 'Table: %s' % obj['table_name'],
             })
         elif obj_type == 'column':
             result.update({
@@ -336,20 +337,32 @@ class TableSearchJson(View):
         
     def get(self, request, *args, **kwargs):
         results = []
-        release = 'ACS 2011 5-Year'
+        
+        # allow choice of release, default to 2011 5-year
+        release = self.request.GET.get('release', 'ACS 2011 5-Year')
         
         # comparison query builder throws a search term here,
         # so force it to look at just one release
         q = self.request.GET.get('q', None)
+        topics = self.request.GET.get('topics', None)
         if q:
             tables = Table.objects.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
             tables = tables.filter(release = release)
-            tables = tables.values('table_id','table_name')
+            if topics:
+                topic_list = topics.split(',')
+                for topic in topics:
+                    tables = tables.filter(topics__contains = topic)
+            tables = tables.values('table_id','table_name','topics')
             tables_list = [self.format_result(table, 'table') for table in list(tables)]
 
             columns = Column.objects.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
             columns = columns.filter(table__release = release)
-            columns = columns.values('parent_table_id','table__table_name','column_id','column_name')
+            if topics:
+                topic_list = topics.split(',')
+                for topic in topics:
+                    tables = tables.filter(topics__contains = topic)
+                columns = columns.filter(table__topics__in = topics)
+            columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
             columns_list = [self.format_result(column, 'column') for column in list(columns)]
             
             results.extend(tables_list)
@@ -422,12 +435,32 @@ class ComparisonBuilder(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {}
         
+        # provide some topics to choose from
+        TOPICS = ['age', 'ancestry', 'children', 'disability', 'education', 'employment', 'families', 'fertility', 'gender', 'grandparents', 'health insurance', 'households', 'housing', 'income', 'language', 'marital status', 'migration', 'place of birth', 'poverty', 'public assistance', 'race', 'transportation', 'veterans']
+        
+        ACS_RELEASES = [
+            {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
+            {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
+            {'name': 'ACS 2011 5-Year', 'slug': 'acs2011_5yr', 'years': '2007-2011'},
+            {'name': 'ACS 2010 1-Year', 'slug': 'acs2010_1yr', 'years': '2010'},
+            {'name': 'ACS 2010 3-Year', 'slug': 'acs2010_3yr', 'years': '2008-2010'},
+            {'name': 'ACS 2010 5-Year', 'slug': 'acs2010_5yr', 'years': '2006-2010'},
+            {'name': 'ACS 2009 1-Year', 'slug': 'acs2009_1yr', 'years': '2009'},
+            {'name': 'ACS 2009 3-Year', 'slug': 'acs2009_3yr', 'years': '2007-2009'},
+            {'name': 'ACS 2008 1-Year', 'slug': 'acs2008_1yr', 'years': '2008'},
+            {'name': 'ACS 2008 3-Year', 'slug': 'acs2008_3yr', 'years': '2006-2008'},
+            {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
+            {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
+        ]
+        
         # for the moment, filter to counties and smaller
         summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True)\
             .filter(summary_level__gt='040')\
             .only('name','slug','summary_level')
         page_context.update({
-            'summary_level_options': summary_level_options
+            'summary_level_options': summary_level_options,
+            'topics': TOPICS,
+            'acs_releases': ACS_RELEASES[:3],
         })
 
         return page_context
@@ -441,12 +474,12 @@ class ComparisonDataView(View):
 
         # hit our API (force to 5-year data for now)
         acs_release = 'acs2011_5yr'
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/compare/%s/%s?sumlevel=%s&within=%s&geometries=true' % (acs_release, table_id, descendant_sumlev, parent_id)
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/compare/%s/%s?sumlevel=%s&within=%s&geom=true' % (acs_release, table_id, descendant_sumlev, parent_id)
         r = requests.get(API_ENDPOINT)
 
         if not r.status_code == 200:
             raise Http404
 
-        comparison_data = simplejson.loads(r.text, object_pairs_hook=collections.OrderedDict)
+        comparison_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
             
         return render_json_to_response(comparison_data)

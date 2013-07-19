@@ -9,24 +9,36 @@
 {% block content %}
 <article class="clearfix">
     <section id="query-builder" class="clearfix">
-        <h2>Compare</h2>
         <form action="" method="GET" onsubmit="return false">
-            <div class="column-golden-narrow sentence-fragment">
-                <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%">
-            </div>
-            <div class="column-golden-wide">
-                <span class="sentence-fragment">for all</span>
-                <div class="sentence-fragment">
-                    <select name="sumlev_select" id="sumlev-select" class="sentence-fragment">
+            <section class="clearfix">
+                <h2>Choose your topic</h2>
+                <div class="column-golden-narrow">
+                    <select name="release_select" id="release-select" style="width: 100%;">
+                        <option></option>
+                        {% for release in acs_releases %}
+                        <option value="{{ release.slug }}">{{ release.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="column-golden-wide">
+                    <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%;">
+                </div>
+            </section>
+
+            <section class="clearfix">
+                <h2>Compare geographies</h2>
+                <div class="column-golden-narrow">
+                    <select name="sumlev_select" id="sumlev-select" style="width: 100%;">
                         <option></option>
                         {% for summary_level in summary_level_options %}
                         <option value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.pretty_ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.pretty_ancestor_options }}">{{ summary_level.plural_name|capfirst }}</option>
                         {% endfor %}
                     </select>
-                    <span class="sentence-fragment">in</span>
-                    <input class="wide-picker" name="parent_select" id="parent-select" type="hidden">
                 </div>
-            </div>
+                <div class="column-golden-wide">
+                    <input class="wide-picker" name="parent_select" id="parent-select" type="hidden" style="width: 100%;">
+                </div>
+            </section>
         </form>
     </section>
     
@@ -54,11 +66,23 @@ function topicFormatResult(topic) {
     return markup;
 }
 
-function makeTopicSelectWidget(element, ajaxURL, helpText) {
-    element.siblings('.help-text').remove();
-    element.val('');
+function makeReleaseSelectWidget(element) {
     element.select2({
-        placeholder: "Choose a topic ...",
+        placeholder: "Choose data release ...",
+        width: "resolve",
+        dropdownCssClass: "wide-picker"
+    });
+}
+
+function makeTopicSelectWidget(element, ajaxURL, topicDisabled) {
+    if (topicDisabled === true) {
+        element.prop('disabled', true);
+    } else {
+        element.removeProp('disabled');
+    }
+    alert(ajaxURL);
+    element.val('').select2({
+        placeholder: "Find a data table ...",
         dropdownCssClass: "wide-picker",
         minimumInputLength: 3,
         ajax: {
@@ -69,20 +93,15 @@ function makeTopicSelectWidget(element, ajaxURL, helpText) {
                 return { q: term };
             },
             results: function (data) {
-                // API response included `id` and `text` attrs
+                // API response includes `id` and `text` attrs
                 return { results: data };
             }
         },
         formatResult: topicFormatResult
     });
-    
-    if (!!helpText) {
-        insertHelpText(element.parent(), helpText);
-    }
 }
 
 function makeSumlevSelectWidget(element) {
-    //element.select2("destroy");
     element.select2({
         placeholder: "Choose geographies ...",
         width: "resolve",
@@ -92,9 +111,8 @@ function makeSumlevSelectWidget(element) {
 
 function makeParentSelectWidget(element, ajaxURL, helpText) {
     element.siblings('.help-text').remove();
-    element.val('');
-    element.select2({
-        placeholder: "Start typing to find a place ...",
+    element.val('').select2({
+        placeholder: "Within a place ...",
         dropdownCssClass: "wide-picker",
         minimumInputLength: 3,
         ajax: {
@@ -137,7 +155,7 @@ function fetchAPIData(requestURL) {
     var spinner = new Spinner().spin(target);
     
     $.ajax({
-        type: "GET",
+        type: 'GET',
         url: requestURL,
         dataType: "json",
         success: function(data) {
@@ -152,16 +170,26 @@ function fetchAPIData(requestURL) {
 }
 
 jQuery(document).ready(function(){
-    var topicSelect = $('#topic-select'),
+    var releaseSelect = $('#release-select'),
+        topicSelect = $('#topic-select'),
         sumlevSelect = $('#sumlev-select'),
         parentSelect = $('#parent-select');
     var topicAjaxURL = '/table-search/json/',
         parentAjaxURL = '/place-search/?autocomplete';
+    var topicDisabled = true;
     
     // initial setup for select widgets
-    makeTopicSelectWidget(topicSelect, topicAjaxURL);
+    makeReleaseSelectWidget(releaseSelect);
+    makeTopicSelectWidget(topicSelect, topicAjaxURL, topicDisabled);
     makeSumlevSelectWidget(sumlevSelect);
     makeParentSelectWidget(parentSelect, parentAjaxURL);
+    
+    releaseSelect.on('change', function(e) {
+        var selected = $(this).find('option:selected');
+        topicDisabled = false;
+        filteredTopicAjaxURL = topicAjaxURL + '?release=' + selected.text();
+        makeTopicSelectWidget(topicSelect, filteredTopicAjaxURL, topicDisabled);
+    })
     
     // when user chooses a geography to compare, limit possible
     // autocomplete options for parent/containing geography
@@ -172,14 +200,14 @@ jQuery(document).ready(function(){
         var filteredAjaxURL = parentAjaxURL + '&sumlev_filter=' + ancestorSumlevList,
             helpText = selected.text() + ' can be compared within a ' + ancestorNameList + '.';
         makeParentSelectWidget(parentSelect, filteredAjaxURL, helpText);
-    })
+    });
 
     topicSelect.on('change', function(e) {
         makeAPIRequest();
-    })
+    });
     parentSelect.on('change', function(e) {
         makeAPIRequest();
-    })
+    });
     
     $('#results').hide().focus(function () {
         $(this).select().one('mouseup', function (e) {
@@ -191,25 +219,25 @@ jQuery(document).ready(function(){
     });
 
     function makeAPIRequest() {
-        var topic = topicSelect.val(),
+        var release = releaseSelect.val(),
+            topic = topicSelect.val(),
             parentGeoID = parentSelect.val(),
             sumlev = sumlevSelect.val();
             
-        if (!!topic &&  !!parentGeoID && !!sumlev) {
+        if (!!release && !!topic &&  !!parentGeoID && !!sumlev) {
             // get the whole table even if they've chosen a column
             // TODO: decide whether this is better (provides context),
             // or whether we should just get the table
             tableID = topic.split('|')[0];
-            var requestURL = 'http://api.censusreporter.org/1.0/compare/acs2011_5yr/' +
-                              tableID + '?sumlevel=' + sumlev +
-                              '&within=' + parentGeoID + '&geometries=true';
+            var requestURL = 'http://api.censusreporter.org/1.0/compare/' +
+                              release + '/' + tableID + '?sumlevel=' + sumlev +
+                              '&within=' + parentGeoID + '&geom=true';
             fetchAPIData(requestURL);
         }
     }
 
     // on page load, reset selects because if browser happens
     // to hold onto value it won't trigger the sumlev filter
-    topicSelect.val('');
     parentSelect.val('');
     sumlevSelect.val('');
 })

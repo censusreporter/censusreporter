@@ -6,6 +6,7 @@ class Table(models.Model):
     table_universe = models.CharField(max_length=128)
     table_size = models.IntegerField()
     subject_area = models.CharField(max_length=32)
+    topics = models.CharField(max_length=255, blank=True)
     release = models.CharField(max_length=16)
     
     class Meta:
