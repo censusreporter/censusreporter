@@ -68,22 +68,22 @@ function topicFormatResult(topic) {
 
 function makeReleaseSelectWidget(element) {
     element.select2({
-        placeholder: "Choose data release ...",
-        width: "resolve",
-        dropdownCssClass: "wide-picker"
+        placeholder: 'Choose data release ...',
+        width: 'resolve',
+        dropdownCssClass: 'wide-picker'
     });
 }
 
-function makeTopicSelectWidget(element, ajaxURL, topicDisabled) {
-    if (topicDisabled === true) {
+function makeTopicSelectWidget(element, ajaxURL, disabled, helpText) {
+    if (disabled === true) {
         element.prop('disabled', true);
     } else {
         element.removeProp('disabled');
     }
-    alert(ajaxURL);
+
     element.val('').select2({
-        placeholder: "Find a data table ...",
-        dropdownCssClass: "wide-picker",
+        placeholder: 'Find a data table ...',
+        dropdownCssClass: 'wide-picker',
         minimumInputLength: 3,
         ajax: {
             url: ajaxURL,
@@ -99,21 +99,31 @@ function makeTopicSelectWidget(element, ajaxURL, topicDisabled) {
         },
         formatResult: topicFormatResult
     });
+
+    if (!!helpText) {
+        insertHelpText(element.parent(), helpText);
+    }
 }
 
 function makeSumlevSelectWidget(element) {
     element.select2({
-        placeholder: "Choose geographies ...",
-        width: "resolve",
-        dropdownCssClass: "wide-picker"
+        placeholder: 'Choose geographies ...',
+        width: 'resolve',
+        dropdownCssClass: 'wide-picker'
     });
 }
 
-function makeParentSelectWidget(element, ajaxURL, helpText) {
+function makeParentSelectWidget(element, ajaxURL, disabled, helpText) {
+    if (disabled === true) {
+        element.prop('disabled', true);
+    } else {
+        element.removeProp('disabled');
+    }
+
     element.siblings('.help-text').remove();
     element.val('').select2({
-        placeholder: "Within a place ...",
-        dropdownCssClass: "wide-picker",
+        placeholder: 'Within a place ...',
+        dropdownCssClass: 'wide-picker',
         minimumInputLength: 3,
         ajax: {
             url: ajaxURL,
@@ -157,7 +167,7 @@ function fetchAPIData(requestURL) {
     $.ajax({
         type: 'GET',
         url: requestURL,
-        dataType: "json",
+        dataType: 'json',
         success: function(data) {
             var strData = (JSON.stringify(data, null, 4));
             $('#results').text(strData).fadeIn('fast');
@@ -176,30 +186,34 @@ jQuery(document).ready(function(){
         parentSelect = $('#parent-select');
     var topicAjaxURL = '/table-search/json/',
         parentAjaxURL = '/place-search/?autocomplete';
-    var topicDisabled = true;
+    var topicDisabled = true,
+        parentDisabled = true;
     
     // initial setup for select widgets
     makeReleaseSelectWidget(releaseSelect);
     makeTopicSelectWidget(topicSelect, topicAjaxURL, topicDisabled);
     makeSumlevSelectWidget(sumlevSelect);
-    makeParentSelectWidget(parentSelect, parentAjaxURL);
+    makeParentSelectWidget(parentSelect, parentAjaxURL, parentDisabled);
     
+    // choose a release affects the lookup query for data tables
     releaseSelect.on('change', function(e) {
-        var selected = $(this).find('option:selected');
         topicDisabled = false;
-        filteredTopicAjaxURL = topicAjaxURL + '?release=' + selected.text();
-        makeTopicSelectWidget(topicSelect, filteredTopicAjaxURL, topicDisabled);
+        var selected = $(this).find('option:selected');
+        var filteredTopicAjaxURL = topicAjaxURL + '?release=' + selected.text(),
+            helpText = 'Text search will scan table and column names.';
+        makeTopicSelectWidget(topicSelect, filteredTopicAjaxURL, topicDisabled, helpText);
     })
     
     // when user chooses a geography to compare, limit possible
     // autocomplete options for parent/containing geography
     sumlevSelect.on('change', function(e) {
+        parentDisabled = false;
         var selected = $(this).find('option:selected');
         var ancestorSumlevList = selected.data('ancestor-list'),
             ancestorNameList = selected.data('ancestor-names');
         var filteredAjaxURL = parentAjaxURL + '&sumlev_filter=' + ancestorSumlevList,
             helpText = selected.text() + ' can be compared within a ' + ancestorNameList + '.';
-        makeParentSelectWidget(parentSelect, filteredAjaxURL, helpText);
+        makeParentSelectWidget(parentSelect, filteredAjaxURL, parentDisabled, helpText);
     });
 
     topicSelect.on('change', function(e) {
