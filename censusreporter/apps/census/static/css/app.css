@@ -533,6 +533,17 @@ form.inline-form .select2-container {
     display: block;
     margin: .25em .75em;
 }
+.filter-checkbox-list {
+    list-style: none;
+    padding: 0;
+    margin: .25em 0;
+}
+.filter-checkbox-list li {
+    font-size: .85em;
+    display: inline-block;
+    width: 30%;
+    margin: 0 1%;
+}
 .topic-result {
     margin: .5em 0;
 }

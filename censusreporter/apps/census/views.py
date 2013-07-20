@@ -3,6 +3,7 @@ import requests
 from collections import OrderedDict
 from math import ceil
 from numpy import median
+from urllib2 import unquote
 
 from django.db.models import Q
 from django.http import HttpResponse, Http404
@@ -337,7 +338,6 @@ class TableSearchJson(View):
         
     def get(self, request, *args, **kwargs):
         results = []
-        
         # allow choice of release, default to 2011 5-year
         release = self.request.GET.get('release', 'ACS 2011 5-Year')
         
@@ -349,8 +349,8 @@ class TableSearchJson(View):
             tables = Table.objects.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
             tables = tables.filter(release = release)
             if topics:
-                topic_list = topics.split(',')
-                for topic in topics:
+                topic_list = unquote(topics).split(',')
+                for topic in topic_list:
                     tables = tables.filter(topics__contains = topic)
             tables = tables.values('table_id','table_name','topics')
             tables_list = [self.format_result(table, 'table') for table in list(tables)]
@@ -358,10 +358,9 @@ class TableSearchJson(View):
             columns = Column.objects.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
             columns = columns.filter(table__release = release)
             if topics:
-                topic_list = topics.split(',')
-                for topic in topics:
-                    tables = tables.filter(topics__contains = topic)
-                columns = columns.filter(table__topics__in = topics)
+                topic_list = unquote(topics).split(',')
+                for topic in topic_list:
+                    columns = columns.filter(table__topics__in = topics)
             columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
             columns_list = [self.format_result(column, 'column') for column in list(columns)]
             

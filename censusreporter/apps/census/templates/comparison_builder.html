@@ -10,7 +10,7 @@
 <article class="clearfix">
     <section id="query-builder" class="clearfix">
         <form action="" method="GET" onsubmit="return false">
-            <section class="clearfix">
+            <section class="clearfix" id="topic-picker">
                 <h2>Choose your topic</h2>
                 <div class="column-golden-narrow">
                     <select name="release_select" id="release-select" style="width: 100%;">
@@ -19,13 +19,19 @@
                         <option value="{{ release.slug }}">{{ release.name }}</option>
                         {% endfor %}
                     </select>
+                    
+                    <ul class="filter-checkbox-list" style="display: none;">
+                        {% for topic in topics %}
+                        <li><input type="checkbox" value="{{ topic }}"> {{ topic }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div class="column-golden-wide">
                     <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%;">
                 </div>
             </section>
 
-            <section class="clearfix">
+            <section class="clearfix" id="geography-picker">
                 <h2>Compare geographies</h2>
                 <div class="column-golden-narrow">
                     <select name="sumlev_select" id="sumlev-select" style="width: 100%;">
@@ -90,7 +96,13 @@ function makeTopicSelectWidget(element, ajaxURL, disabled, helpText) {
             dataType: 'json',
             quietMillis: 200,
             data: function (term) {
-                return { q: term };
+                var selectedFilters = $('#topic-picker .filter-checkbox-list input:checkbox:checked').map(function () {
+                    return this.value;
+                }).get();
+                return {
+                    q: term,
+                    topics: selectedFilters.join(',')
+                };
             },
             results: function (data) {
                 // API response includes `id` and `text` attrs
@@ -129,10 +141,10 @@ function makeParentSelectWidget(element, ajaxURL, disabled, helpText) {
             url: ajaxURL,
             dataType: 'json',
             quietMillis: 200,
-            data: function (term) {
+            data: function(term) {
                 return { q: term };
             },
-            results: function (data) {
+            results: function(data) {
                 var results = [];
                 $.each(data, function(index, item){
                     results.push({
@@ -200,8 +212,11 @@ jQuery(document).ready(function(){
         topicDisabled = false;
         var selected = $(this).find('option:selected');
         var filteredTopicAjaxURL = topicAjaxURL + '?release=' + selected.text(),
-            helpText = 'Text search will scan table and column names.';
+            helpText = 'Text search will scan table and column names. You can narrow your search with the topic filters at left.';
         makeTopicSelectWidget(topicSelect, filteredTopicAjaxURL, topicDisabled, helpText);
+        
+        // show the filter checkboxes
+        $('#topic-picker .filter-checkbox-list').show();
     })
     
     // when user chooses a geography to compare, limit possible
