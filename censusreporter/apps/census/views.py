@@ -338,8 +338,8 @@ class TableSearchJson(View):
         
     def get(self, request, *args, **kwargs):
         results = []
-        # allow choice of release, default to 2011 5-year
-        release = self.request.GET.get('release', 'ACS 2011 5-Year')
+        # allow choice of release, default to 2011 1-year
+        release = self.request.GET.get('release', 'ACS 2011 1-Year')
         
         # comparison query builder throws a search term here,
         # so force it to look at just one release

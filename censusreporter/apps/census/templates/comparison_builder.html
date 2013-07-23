@@ -12,36 +12,28 @@
         <form action="" method="GET" onsubmit="return false">
             <section class="clearfix" id="topic-picker">
                 <h2>Choose your topic</h2>
-                <div class="column-golden-narrow">
-                    <select name="release_select" id="release-select" style="width: 100%;">
-                        <option></option>
-                        {% for release in acs_releases %}
-                        <option value="{{ release.slug }}">{{ release.name }}</option>
-                        {% endfor %}
-                    </select>
-                    
-                    <ul class="filter-checkbox-list" style="display: none;">
+                <div class="column-golden-wide">
+                    <ul class="filter-list" id="topic-select-filters">
                         {% for topic in topics %}
-                        <li><input type="checkbox" value="{{ topic }}"> {{ topic }}</li>
+                        <li><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="column-golden-wide">
+                <div class="column-golden-narrow">
                     <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%;">
                 </div>
             </section>
 
             <section class="clearfix" id="geography-picker">
                 <h2>Compare geographies</h2>
-                <div class="column-golden-narrow">
-                    <select name="sumlev_select" id="sumlev-select" style="width: 100%;">
-                        <option></option>
-                        {% for summary_level in summary_level_options %}
-                        <option value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.pretty_ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.pretty_ancestor_options }}">{{ summary_level.plural_name|capfirst }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
                 <div class="column-golden-wide">
+                    <ul class="filter-list" id="sumlev-select-options">
+                        {% for summary_level in summary_level_options %}
+                        <li><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.pretty_ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.pretty_ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="column-golden-narrow">
                     <input class="wide-picker" name="parent_select" id="parent-select" type="hidden" style="width: 100%;">
                 </div>
             </section>
@@ -58,7 +50,6 @@
 <script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
-
 function topicFormatResult(topic) {
     var markup = '<div class="topic-result">';
     if (!!topic['column_name']) {
@@ -72,21 +63,7 @@ function topicFormatResult(topic) {
     return markup;
 }
 
-function makeReleaseSelectWidget(element) {
-    element.select2({
-        placeholder: 'Choose data release ...',
-        width: 'resolve',
-        dropdownCssClass: 'wide-picker'
-    });
-}
-
-function makeTopicSelectWidget(element, ajaxURL, disabled, helpText) {
-    if (disabled === true) {
-        element.prop('disabled', true);
-    } else {
-        element.removeProp('disabled');
-    }
-
+function makeTopicSelectWidget(element, ajaxURL, helpText) {
     element.val('').select2({
         placeholder: 'Find a data table ...',
         dropdownCssClass: 'wide-picker',
@@ -115,14 +92,6 @@ function makeTopicSelectWidget(element, ajaxURL, disabled, helpText) {
     if (!!helpText) {
         insertHelpText(element.parent(), helpText);
     }
-}
-
-function makeSumlevSelectWidget(element) {
-    element.select2({
-        placeholder: 'Choose geographies ...',
-        width: 'resolve',
-        dropdownCssClass: 'wide-picker'
-    });
 }
 
 function makeParentSelectWidget(element, ajaxURL, disabled, helpText) {
@@ -192,43 +161,29 @@ function fetchAPIData(requestURL) {
 }
 
 jQuery(document).ready(function(){
-    var releaseSelect = $('#release-select'),
-        topicSelect = $('#topic-select'),
-        sumlevSelect = $('#sumlev-select'),
+    var topicSelect = $('#topic-select'),
+        sumlevSelect = $('#sumlev-select-options input'),
         parentSelect = $('#parent-select');
     var topicAjaxURL = '/table-search/json/',
         parentAjaxURL = '/place-search/?autocomplete';
-    var topicDisabled = true,
-        parentDisabled = true;
+    var parentDisabled = true;
     
     // initial setup for select widgets
-    makeReleaseSelectWidget(releaseSelect);
-    makeTopicSelectWidget(topicSelect, topicAjaxURL, topicDisabled);
-    makeSumlevSelectWidget(sumlevSelect);
+    makeTopicSelectWidget(topicSelect, topicAjaxURL);
     makeParentSelectWidget(parentSelect, parentAjaxURL, parentDisabled);
-    
-    // choose a release affects the lookup query for data tables
-    releaseSelect.on('change', function(e) {
-        topicDisabled = false;
-        var selected = $(this).find('option:selected');
-        var filteredTopicAjaxURL = topicAjaxURL + '?release=' + selected.text(),
-            helpText = 'Text search will scan table and column names. You can narrow your search with the topic filters at left.';
-        makeTopicSelectWidget(topicSelect, filteredTopicAjaxURL, topicDisabled, helpText);
-        
-        // show the filter checkboxes
-        $('#topic-picker .filter-checkbox-list').show();
-    })
     
     // when user chooses a geography to compare, limit possible
     // autocomplete options for parent/containing geography
     sumlevSelect.on('change', function(e) {
         parentDisabled = false;
-        var selected = $(this).find('option:selected');
-        var ancestorSumlevList = selected.data('ancestor-list'),
-            ancestorNameList = selected.data('ancestor-names');
-        var filteredAjaxURL = parentAjaxURL + '&sumlev_filter=' + ancestorSumlevList,
-            helpText = selected.text() + ' can be compared within a ' + ancestorNameList + '.';
-        makeParentSelectWidget(parentSelect, filteredAjaxURL, parentDisabled, helpText);
+        if (this.checked) {
+            var selected = $(this);
+            var ancestorSumlevList = selected.data('ancestor-list'),
+                ancestorNameList = selected.data('ancestor-names');
+            var filteredAjaxURL = parentAjaxURL + '&sumlev_filter=' + ancestorSumlevList,
+                helpText = selected.next('label').text() + ' can be compared within a ' + ancestorNameList + '.';
+            makeParentSelectWidget(parentSelect, filteredAjaxURL, parentDisabled, helpText);
+        }
     });
 
     topicSelect.on('change', function(e) {
@@ -258,7 +213,7 @@ jQuery(document).ready(function(){
             // TODO: decide whether this is better (provides context),
             // or whether we should just get the table
             tableID = topic.split('|')[0];
-            var requestURL = 'http://api.censusreporter.org/1.0/compare/' +
+            var requestURL = 'http://api.censusreporter.org/1.0/data/compare/' +
                               release + '/' + tableID + '?sumlevel=' + sumlev +
                               '&within=' + parentGeoID + '&geom=true';
             fetchAPIData(requestURL);

@@ -533,12 +533,12 @@ form.inline-form .select2-container {
     display: block;
     margin: .25em .75em;
 }
-.filter-checkbox-list {
+.filter-list {
     list-style: none;
     padding: 0;
     margin: .25em 0;
 }
-.filter-checkbox-list li {
+.filter-list li {
     font-size: .85em;
     display: inline-block;
     width: 30%;
