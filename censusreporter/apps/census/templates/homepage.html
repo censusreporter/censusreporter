@@ -60,7 +60,7 @@ jQuery(document).ready(function(){
             dataType: 'json',
             quietMillis: 200,
             data: function (term) {
-                return { prefix: term };
+                return { q: term };
             },
             results: function (data) {
                 var results = [];
