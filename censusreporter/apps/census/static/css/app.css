@@ -536,13 +536,17 @@ form.inline-form .select2-container {
 .filter-list {
     list-style: none;
     padding: 0;
-    margin: .25em 0;
+    margin: .25em 0 .75em;
 }
 .filter-list li {
     font-size: .85em;
-    display: inline-block;
-    width: 30%;
-    margin: 0 1%;
+    margin: .2em 0;
+}
+.filter-list label {
+    font-weight: normal;
+}
+.filter-list .group-label {
+    font-weight: bold;
 }
 .topic-result {
     margin: .5em 0;

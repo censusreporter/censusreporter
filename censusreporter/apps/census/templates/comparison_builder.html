@@ -13,9 +13,31 @@
             <section class="clearfix" id="topic-picker">
                 <h2>Choose your topic</h2>
                 <div class="column-golden-wide">
-                    <ul class="filter-list" id="topic-select-filters">
-                        {% for topic in topics %}
-                        <li><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
+                    <h5>Demographics</h5>
+                    <ul class="filter-list clearfix">
+                        {% for topic in topic_demographic_filters.topics %}
+                        <li class="column-quarter"><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
+                        {% endfor %}
+                    </ul>
+
+                    <h5>Economic</h5>
+                    <ul class="filter-list clearfix">
+                        {% for topic in topic_economic_filters.topics %}
+                        <li class="column-quarter"><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
+                        {% endfor %}
+                    </ul>
+
+                    <h5>Housing</h5>
+                    <ul class="filter-list clearfix">
+                        {% for topic in topic_housing_filters.topics %}
+                        <li class="column-quarter"><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
+                        {% endfor %}
+                    </ul>
+
+                    <h5>Social</h5>
+                    <ul class="filter-list clearfix">
+                        {% for topic in topic_social_filters.topics %}
+                        <li class="column-quarter"><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -26,10 +48,25 @@
 
             <section class="clearfix" id="geography-picker">
                 <h2>Compare geographies</h2>
-                <div class="column-golden-wide">
-                    <ul class="filter-list" id="sumlev-select-options">
-                        {% for summary_level in summary_level_options %}
-                        <li><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.pretty_ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.pretty_ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
+                <div class="column-golden-wide" id="sumlev-select-options">
+                    <h5>Standard</h5>
+                    <ul class="filter-list clearfix">
+                        {% for summary_level in sumlev_standard_choices %}
+                        <li class="column-quarter"><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
+                        {% endfor %}
+                    </ul>
+
+                    <h5>Legislative</h5>
+                    <ul class="filter-list clearfix">
+                        {% for summary_level in sumlev_legislative_choices %}
+                        <li class="column-third"><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
+                        {% endfor %}
+                    </ul>
+
+                    <h5>Schools</h5>
+                    <ul class="filter-list clearfix">
+                        {% for summary_level in sumlev_school_choices %}
+                        <li class="column-third"><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -73,7 +110,7 @@ function makeTopicSelectWidget(element, ajaxURL, helpText) {
             dataType: 'json',
             quietMillis: 200,
             data: function (term) {
-                var selectedFilters = $('#topic-picker .filter-checkbox-list input:checkbox:checked').map(function () {
+                var selectedFilters = $('#topic-picker .filter-list input:checkbox:checked').map(function () {
                     return this.value;
                 }).get();
                 return {
