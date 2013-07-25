@@ -41,8 +41,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="column-golden-narrow">
-                    <input class="wide-picker" name="topic_select" id="topic-select" type="hidden" style="width: 100%;">
+                <div class="column-golden-narrow input-block">
+                    <input name="topic_select" id="topic-select" type="text" placeholder="Choose a topic..." autocomplete="off">
                 </div>
             </section>
 
@@ -84,47 +84,31 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/typeahead.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
-function topicFormatResult(topic) {
-    var markup = '<div class="topic-result">';
-    if (!!topic['column_name']) {
-        markup += '<span class="topic-type">'+topic['type']+' in Table ID: '+topic['table_id']+'</span>'
-        markup += '<span class="topic-name">\''+topic['column_name']+'\' in '+topic['table_name']+'</span>'
-    } else if (!!topic['table_name']) {
-        markup += '<span class="topic-type">'+topic['type']+' ID: '+topic['table_id']+'</span>'
-        markup += '<span class="topic-name">'+topic['table_name']+'</span>'
-    }
-    markup += "</div>"
-    return markup;
-}
-
-function makeTopicSelectWidget(element, ajaxURL, helpText) {
-    element.val('').select2({
-        placeholder: 'Find a data table ...',
-        dropdownCssClass: 'wide-picker',
-        minimumInputLength: 3,
-        ajax: {
-            url: ajaxURL,
-            dataType: 'json',
-            quietMillis: 200,
-            data: function (term) {
+function makeTopicSelectWidget(element, helpText) {
+    element.typeahead('destroy')
+    element.typeahead({
+        name: 'topics',
+        //remote: ajaxURL,
+        remote: {
+            url: '/table-search/json/?q=%QUERY',
+            beforeSend: function (xhr, settings) {
                 var selectedFilters = $('#topic-picker .filter-list input:checkbox:checked').map(function () {
                     return this.value;
                 }).get();
-                return {
-                    q: term,
-                    topics: selectedFilters.join(',')
-                };
-            },
-            results: function (data) {
-                // API response includes `id` and `text` attrs
-                return { results: data };
+                settings.url += '&topics=' + selectedFilters.join(',');
             }
         },
-        formatResult: topicFormatResult
-    });
+        limit: 25,
+        template: [
+            {% verbatim %}'<h5 class="result-type">Table {{table_id}}</h5>',
+            '<p class="result-name">{{value}}</p>'{% endverbatim %}
+        ].join(''),
+        engine: Hogan
+     });
 
     if (!!helpText) {
         insertHelpText(element.parent(), helpText);
@@ -201,13 +185,12 @@ jQuery(document).ready(function(){
     var topicSelect = $('#topic-select'),
         sumlevSelect = $('#sumlev-select-options input'),
         parentSelect = $('#parent-select');
-    var topicAjaxURL = '/table-search/json/',
-        parentAjaxURL = '/place-search/?autocomplete';
+    var parentAjaxURL = '/place-search/?autocomplete';
     var parentDisabled = true;
     
     // initial setup for select widgets
-    makeTopicSelectWidget(topicSelect, topicAjaxURL);
-    makeParentSelectWidget(parentSelect, parentAjaxURL, parentDisabled);
+    makeTopicSelectWidget(topicSelect);
+    //makeParentSelectWidget(parentSelect, parentAjaxURL, parentDisabled);
     
     // when user chooses a geography to compare, limit possible
     // autocomplete options for parent/containing geography
@@ -240,12 +223,11 @@ jQuery(document).ready(function(){
     });
 
     function makeAPIRequest() {
-        var release = releaseSelect.val(),
-            topic = topicSelect.val(),
+        var topic = topicSelect.val(),
             parentGeoID = parentSelect.val(),
             sumlev = sumlevSelect.val();
             
-        if (!!release && !!topic &&  !!parentGeoID && !!sumlev) {
+        if (!!topic &&  !!parentGeoID && !!sumlev) {
             // get the whole table even if they've chosen a column
             // TODO: decide whether this is better (provides context),
             // or whether we should just get the table

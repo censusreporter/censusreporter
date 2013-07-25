@@ -758,10 +758,6 @@ ul.toggle-set a:hover {
     margin-left: -99%;
 }
 
-
-
-
-
 .placeholder {
     background-color: #f5f5f5;
     color: #777;
@@ -789,6 +785,61 @@ ul.toggle-set a:hover {
 #homepage-search .wide-picker {
     width: 99%;
 }
+
+/* AUTOCOMPLETE */
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+  margin-bottom: 0;
+}
+
+.input-block .twitter-typeahead {
+    width: 100%;
+}
+.input-block .twitter-typeahead .tt-query,
+.input-block .twitter-typeahead .tt-hint {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.tt-dropdown-menu {
+    min-width: 160px;
+    width: 100%;
+    margin-top: 2px;
+    padding: .5em;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+       -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+            box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -webkit-background-clip: padding-box;
+       -moz-background-clip: padding;
+            background-clip: padding-box;
+
+}
+
+.tt-suggestion {
+  display: block;
+  padding: .5em;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+  color: #fff;
+  background-color: #0081c2;
+}
+
+.tt-suggestion.tt-is-under-cursor a {
+  color: #fff;
+}
+
+.tt-suggestion p {
+  margin: 0;
+  font-size: .85em;
+}
+
 
 /* MEDIA QUERIES */
 @media only screen and (min-width: 1140px) {

@@ -13,7 +13,7 @@ from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT
+from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS
 
 import logging
 logger = logging.getLogger(__name__)
@@ -314,25 +314,21 @@ class PlaceSearchJson(View):
 
 class TableSearchJson(View):
     def format_result(self, obj, obj_type):
-        result = {
-            'type': obj_type,
-            'table_id': obj.get('table_id', None) or obj.get('parent_table_id', None),
-            'table_name': obj.get('table_name', None) or obj.get('table__table_name', None),
-            'topics': obj.get('topics', None) or obj.get('table__topics', None),
-        }
+        table_id = obj.get('table_id', None) or obj.get('parent_table_id', None)
+        table_name = obj.get('table_name', None) or obj.get('table__table_name', None)
+        table_topics = obj.get('topics', None) or obj.get('table__topics', None)
         
-        if obj_type == 'table':
-            result.update({
-                'id': obj['table_id'],
-                'text': 'Table: %s' % obj['table_name'],
-            })
-        elif obj_type == 'column':
-            result.update({
-                'id': '|'.join([obj['parent_table_id'], obj['column_id']]),
-                'text': 'Table with Column: %s in %s' % (obj['column_name'], obj['table__table_name']),
-                'column_id': obj['column_id'],
-                'column_name': obj['column_name'],
-            })
+        result = OrderedDict()
+        result['type'] = obj_type
+        result['table_id'] = table_id
+        result['table_name'] = table_name
+        result['topics'] = table_topics
+        result['value'] = table_name
+        result['tokens'] = [word.lower() for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
+        
+        if obj_type == 'column':
+            result['column_id'] = obj['column_id']
+            result['column_name'] = obj['column_name']
             
         return result
         
