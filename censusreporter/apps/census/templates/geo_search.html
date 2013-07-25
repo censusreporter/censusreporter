@@ -45,7 +45,7 @@
                         layerItems.sort(function(a,b) { return (b.aland+b.awater) - (a.aland+a.awater); });
                         // add features to layer
                         for (i=0; i<layerItems.length; i++){
-                            var geojsonFeature = JSON.parse(layerItems[i].geom);
+                            var geojsonFeature = layerItems[i].geom;
                             geojsonFeature.properties = {
                                 full_geoid: layerItems[i].full_geoid,
                                 name: layerItems[i].name

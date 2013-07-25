@@ -1,7 +1,7 @@
 from __future__ import division
 import requests
+import json
 from collections import OrderedDict
-from math import ceil
 from numpy import median
 from urllib2 import unquote
 
@@ -86,6 +86,9 @@ class GeographyDetailView(TemplateView):
         if r.status_code == 200:
             geo_metadata = simplejson.loads(r.text)
             page_context['geo_metadata'] = geo_metadata
+            # Since the template expects GeoJSON as a string, lets give it what it wants
+            # TODO: The template should really request GeoJSON from the API directly so we don't have to do this.
+            page_context['geo_metadata']['geom'] = json.dumps(page_context['geo_metadata']['geom'])
 
             if sumlev == '160':
                 page_context['point_lon_lat'] = (geo_metadata.get('intptlon'), geo_metadata.get('intptlat'))
