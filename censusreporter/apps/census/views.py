@@ -300,7 +300,7 @@ class PlaceSearchJson(View):
         if 'sumlev_filter' in self.request.GET:
             allowed_sumlev_list = self.request.GET['sumlev_filter'].split(',')
             geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
-            
+
         geographies = geographies.values()
         if 'autocomplete' in self.request.GET:
             geographies = geographies.only('full_name','full_geoid')
@@ -312,7 +312,7 @@ class TableSearchJson(View):
         table_id = obj.get('table_id', None) or obj.get('parent_table_id', None)
         table_name = obj.get('table_name', None) or obj.get('table__table_name', None)
         table_topics = obj.get('topics', None) or obj.get('table__topics', None)
-        
+
         result = OrderedDict()
         result['type'] = obj_type
         result['table_id'] = table_id
@@ -320,18 +320,18 @@ class TableSearchJson(View):
         result['topics'] = table_topics
         result['value'] = table_name
         result['tokens'] = [word.lower() for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
-        
+
         if obj_type == 'column':
             result['column_id'] = obj['column_id']
             result['column_name'] = obj['column_name']
-            
+
         return result
-        
+
     def get(self, request, *args, **kwargs):
         results = []
         # allow choice of release, default to 2011 1-year
         release = self.request.GET.get('release', 'ACS 2011 1-Year')
-        
+
         # comparison query builder throws a search term here,
         # so force it to look at just one release
         q = self.request.GET.get('q', None)
@@ -354,7 +354,7 @@ class TableSearchJson(View):
                     columns = columns.filter(table__topics__in = topics)
             columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
             columns_list = [self.format_result(column, 'column') for column in list(columns)]
-            
+
             results.extend(tables_list)
             results.extend(columns_list)
 
@@ -424,7 +424,7 @@ class ComparisonBuilder(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {}
-        
+
         # provide some topics to choose from
         TOPIC_FILTERS = {
             'Demographics': {'topics': ['age', 'gender', 'race']},
@@ -432,7 +432,7 @@ class ComparisonBuilder(TemplateView):
             'Housing': {'topics': ['housing',]},
             'Social': {'topics': ['ancestry', 'children', 'disability', 'education', 'families', 'fertility', 'grandparents', 'households', 'language', 'marital status', 'migration', 'place of birth', 'veterans']},
         }
-        
+
         SUMLEV_CHOICES = {
             'Standard': [
                 {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'Nation, Region or Division' },
@@ -453,7 +453,7 @@ class ComparisonBuilder(TemplateView):
                 {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
             ],
         }
-        
+
         ACS_RELEASES = [
             {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
             {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
@@ -468,7 +468,7 @@ class ComparisonBuilder(TemplateView):
             {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
             {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
         ]
-        
+
         # for the moment, filter to counties and smaller
         summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True)\
             .filter(summary_level__gt='040')\
@@ -486,7 +486,7 @@ class ComparisonBuilder(TemplateView):
         })
 
         return page_context
-        
+
 class ComparisonDataView(View):
     def get(self, *args, **kwargs):
         table_id = self.kwargs['table_id']
@@ -503,5 +503,5 @@ class ComparisonDataView(View):
             raise Http404
 
         comparison_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            
+
         return render_json_to_response(comparison_data)
