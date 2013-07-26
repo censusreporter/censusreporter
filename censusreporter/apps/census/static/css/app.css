@@ -72,7 +72,7 @@ p, .serif {
 }
 .caption {
     margin-top: .5em;
-    font-size: .85em;
+    font-size: .83em;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -183,7 +183,7 @@ article .section-container {
     border-bottom: 1px solid #cad0b5;
 }
 .explain {
-    font-size: .85em;
+    font-size: .83em;
     padding: 0 1em;
 }
 section {
@@ -216,7 +216,7 @@ section aside h3 {
 }
 section aside p,
 section aside ul {
-    font-size: .85em;
+    font-size: .83em;
 }
 
 .wrapper {
@@ -278,7 +278,7 @@ section aside ul {
 .stat .context {
     list-style: none;
     display: inline-block;
-    font-size: .85em;
+    font-size: .83em;
     padding: 0;
     margin: .5em -6px 0;
     font-weight: 500;
@@ -511,7 +511,7 @@ form input {
 }
 form select {
     padding: .15em 0;
-    font-size: .85em;
+    font-size: .83em;
 }
 form.inline-form input,
 form.inline-form select,
@@ -529,7 +529,7 @@ form.inline-form .select2-container {
 .sentence-fragment .select2-container {
 }
 .help-text {
-    font-size: .85em;
+    font-size: .83em;
     display: block;
     margin: .25em .75em;
 }
@@ -539,7 +539,7 @@ form.inline-form .select2-container {
     margin: .25em 0 .75em;
 }
 .filter-list li {
-    font-size: .85em;
+    font-size: .83em;
     margin: .2em 0;
 }
 .filter-list label {
@@ -714,7 +714,7 @@ ul.toggle-set a:hover {
     width: 15em;
     top: -3em;
     right: -7.5em;
-    font-size: .85em;
+    font-size: .83em;
     line-height: 1.2;
     text-align: center;
     display: none;
@@ -789,16 +789,11 @@ ul.toggle-set a:hover {
 /* AUTOCOMPLETE */
 .twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
-  margin-bottom: 0;
+    background-color: #fff !important;
+    margin-bottom: 0;
 }
-
-.input-block .twitter-typeahead {
-    width: 100%;
-}
-.input-block .twitter-typeahead .tt-query,
-.input-block .twitter-typeahead .tt-hint {
-  margin-bottom: 0;
-  width: 100%;
+.tt-hint {
+    visibility: hidden;
 }
 
 .tt-dropdown-menu {
@@ -818,12 +813,11 @@ ul.toggle-set a:hover {
     -webkit-background-clip: padding-box;
        -moz-background-clip: padding;
             background-clip: padding-box;
-
 }
 
 .tt-suggestion {
   display: block;
-  padding: .5em;
+  padding: .25em;
 }
 
 .tt-suggestion.tt-is-under-cursor {
@@ -837,7 +831,23 @@ ul.toggle-set a:hover {
 
 .tt-suggestion p {
   margin: 0;
-  font-size: .85em;
+  font-size: .83em;
+}
+
+.autocomplete-widget .twitter-typeahead {
+    width: 100%;
+}
+.autocomplete-widget .twitter-typeahead .tt-query,
+.autocomplete-widget .twitter-typeahead .tt-hint {
+  width: 100%;
+}
+.autocomplete-widget .tt-dropdown-menu {
+    height: 200px;
+    overflow-y: auto;
+    display: block !important;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
 }
 
 

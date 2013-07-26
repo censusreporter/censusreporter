@@ -11,8 +11,8 @@
     <section id="query-builder" class="clearfix">
         <form action="" method="GET" onsubmit="return false">
             <section class="clearfix" id="topic-picker">
-                <h2>Choose your topic</h2>
                 <div class="column-golden-wide">
+                    <h2>Filter your data search by topic</h2>
                     <h5>Demographics</h5>
                     <ul class="filter-list clearfix">
                         {% for topic in topic_demographic_filters.topics %}
@@ -41,8 +41,9 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="column-golden-narrow input-block">
-                    <input name="topic_select" id="topic-select" type="text" placeholder="Choose a topic..." autocomplete="off">
+                <div class="column-golden-narrow autocomplete-widget">
+                    <h2>Search <span id="table-number"></span> data tables</h2>
+                    <input name="topic_select" id="topic-select" type="text" placeholder="Search for data..." autocomplete="off">
                 </div>
             </section>
 
@@ -88,27 +89,54 @@
 <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
+var tableSearchAPI = '/table-search/json/',
+    parentGeoSearchAPI = '/place-search/?autocomplete';
+
+var topicSelect = $('#topic-select'),
+    topicFilters = $('#topic-picker .filter-list input:checkbox'),
+    sumlevSelect = $('#sumlev-select-options input'),
+    parentSelect = $('#parent-select');
+
+var parentDisabled = true;
+
+var selectedTopicFilterValues = function (){
+    var values = topicFilters.filter(':checked').map(function () {
+        return this.value;
+    }).get();
+    return values
+}
+
 function makeTopicSelectWidget(element, helpText) {
     element.typeahead('destroy')
     element.typeahead({
         name: 'topics',
-        //remote: ajaxURL,
         remote: {
-            url: '/table-search/json/?q=%QUERY',
-            beforeSend: function (xhr, settings) {
-                var selectedFilters = $('#topic-picker .filter-list input:checkbox:checked').map(function () {
-                    return this.value;
-                }).get();
-                settings.url += '&topics=' + selectedFilters.join(',');
+            url: tableSearchAPI,
+            replace: function (url, uriEncodedQuery) {
+                url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',');
+                return url
             }
+            //beforeSend: function (xhr, settings) {
+            //    settings.url += '&topics=' + selectedTopicFilterValues().join(',');
+            //}
         },
-        limit: 25,
+        limit: 20,
         template: [
             {% verbatim %}'<h5 class="result-type">Table {{table_id}}</h5>',
-            '<p class="result-name">{{value}}</p>'{% endverbatim %}
+            '<p class="result-name">{{value}}</p>',
+            '<p class="result-topics">{{topics}}</p>'{% endverbatim %}
         ].join(''),
         engine: Hogan
-     });
+    });
+     
+    element.on('typeahead:selected', function(obj, datum) {
+        element.data('table-id-value', datum['table_id']);
+    });
+
+    topicFilters.on('change', function(e) {
+        getTableNumber();
+        element.typeahead('setQuery',element.val());
+    });
 
     if (!!helpText) {
         insertHelpText(element.parent(), helpText);
@@ -181,14 +209,26 @@ function fetchAPIData(requestURL) {
     });
 }
 
-jQuery(document).ready(function(){
-    var topicSelect = $('#topic-select'),
-        sumlevSelect = $('#sumlev-select-options input'),
-        parentSelect = $('#parent-select');
-    var parentAjaxURL = '/place-search/?autocomplete';
-    var parentDisabled = true;
+function getTableNumber(requestURL) {
+    var target = document.getElementById('table-number');
     
+    $.ajax({
+        type: 'GET',
+        url: tableSearchAPI,
+        data: {
+            topics: selectedTopicFilterValues().join(','),
+            count: 'tables'
+        },
+        dataType: 'json',
+        success: function(data) {
+            $(target).text(data['count']);
+        }
+    });
+}
+
+jQuery(document).ready(function(){
     // initial setup for select widgets
+    getTableNumber();
     makeTopicSelectWidget(topicSelect);
     //makeParentSelectWidget(parentSelect, parentAjaxURL, parentDisabled);
     
@@ -200,12 +240,13 @@ jQuery(document).ready(function(){
             var selected = $(this);
             var ancestorSumlevList = selected.data('ancestor-list'),
                 ancestorNameList = selected.data('ancestor-names');
-            var filteredAjaxURL = parentAjaxURL + '&sumlev_filter=' + ancestorSumlevList,
+            var filteredAjaxURL = parentGeoSearchAPI + '&sumlev_filter=' + ancestorSumlevList,
                 helpText = selected.next('label').text() + ' can be compared within a ' + ancestorNameList + '.';
             makeParentSelectWidget(parentSelect, filteredAjaxURL, parentDisabled, helpText);
         }
     });
 
+    // start listening for clicks
     topicSelect.on('change', function(e) {
         makeAPIRequest();
     });
