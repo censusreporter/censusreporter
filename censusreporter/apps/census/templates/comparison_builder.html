@@ -124,7 +124,7 @@ function makeTopicSelectWidget(element, helpText) {
         template: [
             {% verbatim %}'<h5 class="result-type">Table {{table_id}}</h5>',
             '<p class="result-name">{{value}}</p>',
-            '<p class="result-topics">{{topics}}</p>'{% endverbatim %}
+            '<p class="caption"><strong>Topics:</strong> {{topics}}</p>'{% endverbatim %}
         ].join(''),
         engine: Hogan
     });

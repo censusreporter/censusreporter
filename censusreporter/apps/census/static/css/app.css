@@ -818,6 +818,7 @@ ul.toggle-set a:hover {
 .tt-suggestion {
   display: block;
   padding: .25em;
+  margin-bottom: 1em;
 }
 
 .tt-suggestion.tt-is-under-cursor {
@@ -830,8 +831,8 @@ ul.toggle-set a:hover {
 }
 
 .tt-suggestion p {
-  margin: 0;
-  font-size: .83em;
+    margin: .5em 0 0;
+    font-size: .83em;
 }
 
 .autocomplete-widget .twitter-typeahead {
