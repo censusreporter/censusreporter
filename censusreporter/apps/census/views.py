@@ -283,7 +283,7 @@ def render_json_to_response(context):
 
 class PlaceSearchJson(View):
     def get(self, request, *args, **kwargs):
-        geographies = []
+        geographies = Geography.objects.all()
 
         if 'geoids' in self.request.GET:
             geoid_list = self.request.GET['geoids'].split('|')
@@ -302,8 +302,7 @@ class PlaceSearchJson(View):
             geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
 
         geographies = geographies.values()
-        if 'autocomplete' in self.request.GET:
-            geographies = geographies.only('full_name','full_geoid')
+        geographies = geographies.only('full_name','full_geoid')
 
         return render_json_to_response(list(geographies))
 

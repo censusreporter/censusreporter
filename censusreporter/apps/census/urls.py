@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^place-search/$',
+        regex   = '^place-search/json/$',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
