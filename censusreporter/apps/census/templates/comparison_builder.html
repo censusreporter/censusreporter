@@ -10,6 +10,7 @@
 <article class="clearfix">
     <section id="query-builder" class="clearfix">
         <form action="" method="GET" onsubmit="return false">
+            <section class="clearfix" id="topic-chosen"></section>
             <section class="clearfix" id="topic-picker">
                 <div class="column-golden-wide">
                     <h2>Filter your data search by topic</h2>
@@ -47,13 +48,14 @@
                 </div>
             </section>
 
+            <section class="clearfix" id="geographies-chosen"></section>
             <section class="clearfix" id="geography-picker">
-                <h2>Compare geographies</h2>
                 <div class="column-golden-wide" id="sumlev-select-options">
+                    <h2>Compare geographies</h2>
                     <h5>Standard</h5>
                     <ul class="filter-list clearfix">
                         {% for summary_level in sumlev_standard_choices %}
-                        <li class="column-quarter"><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-ancestor-list="{{ summary_level.ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
+                        <li class="column-quarter"><input type="radio" name="sumlev_select" id="sumlev-select-{{ summary_level.summary_level }}" value="{{ summary_level.summary_level }}" data-plural-name="{{ summary_level.plural_name }}" data-ancestor-list="{{ summary_level.ancestor_sumlev_list }}" data-ancestor-names="{{ summary_level.ancestor_options }}"> <label for="sumlev-select-{{ summary_level.summary_level }}">{{ summary_level.plural_name|capfirst }}</label></li>
                         {% endfor %}
                     </ul>
 
@@ -71,8 +73,10 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="column-golden-narrow">
-                    <input class="wide-picker" name="parent_select" id="parent-select" type="hidden" style="width: 100%;">
+                
+                <div class="column-golden-narrow autocomplete-widget">
+                    <h2>Within a place</h2>
+                    <input name="parent_select" id="parent-select" type="text" placeholder="Search for place..." autocomplete="off">
                 </div>
             </section>
         </form>
@@ -90,12 +94,14 @@
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
 var tableSearchAPI = '/table-search/json/',
-    parentGeoSearchAPI = '/place-search/?autocomplete';
+    parentGeoSearchAPI = '/place-search/json/';
 
 var topicSelect = $('#topic-select'),
+    topicChosen = $('#topic-chosen'),
     topicFilters = $('#topic-picker .filter-list input:checkbox'),
     sumlevSelect = $('#sumlev-select-options input'),
-    parentSelect = $('#parent-select');
+    parentSelect = $('#parent-select'),
+    geographiesChosen = $('#geographies-chosen');
 
 var parentDisabled = true;
 
@@ -106,8 +112,17 @@ var selectedTopicFilterValues = function (){
     return values
 }
 
+var selectedSumlevAncestorValues = function (){
+    var values = sumlevSelect.filter(':checked').data('ancestor-list');
+    return values
+}
+
+var selectedSumlev = function (){
+    return sumlevSelect.filter(':checked')
+}
+
 function makeTopicSelectWidget(element, helpText) {
-    element.typeahead('destroy')
+    element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
         remote: {
@@ -116,9 +131,6 @@ function makeTopicSelectWidget(element, helpText) {
                 url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',');
                 return url
             }
-            //beforeSend: function (xhr, settings) {
-            //    settings.url += '&topics=' + selectedTopicFilterValues().join(',');
-            //}
         },
         limit: 20,
         template: [
@@ -130,12 +142,16 @@ function makeTopicSelectWidget(element, helpText) {
     });
      
     element.on('typeahead:selected', function(obj, datum) {
-        element.data('table-id-value', datum['table_id']);
+        element.data('table-id', datum['table_id']);
+        var chosenText = '<span class="leader">Data table ' + datum['table_id'] + ':</span> ' + datum['table_name'];
+        updateChosenItem(topicChosen, chosenText)
+        makeAPIRequest();
     });
 
     topicFilters.on('change', function(e) {
         getTableNumber();
         element.typeahead('setQuery',element.val());
+        element.focus();
     });
 
     if (!!helpText) {
@@ -143,51 +159,100 @@ function makeTopicSelectWidget(element, helpText) {
     }
 }
 
-function makeParentSelectWidget(element, ajaxURL, disabled, helpText) {
-    if (disabled === true) {
-        element.prop('disabled', true);
-    } else {
-        element.removeProp('disabled');
-    }
-
-    element.siblings('.help-text').remove();
-    element.val('').select2({
-        placeholder: 'Within a place ...',
-        dropdownCssClass: 'wide-picker',
-        minimumInputLength: 3,
-        ajax: {
-            url: ajaxURL,
-            dataType: 'json',
-            quietMillis: 200,
-            data: function(term) {
-                return { q: term };
-            },
-            results: function(data) {
-                var results = [];
-                $.each(data, function(index, item){
-                    results.push({
-                        id: item.full_geoid,
-                        text: item.full_name
-                    });
-                });
-                return {
-                    results: results
-                };
+function makeParentSelectWidget(element, helpText) {
+    element.typeahead('destroy');
+    element.prop('disabled', 'disabled');
+    element.typeahead({
+        name: 'geographies',
+        valueKey: 'full_name',
+        remote: {
+            url: parentGeoSearchAPI,
+            replace: function (url, uriEncodedQuery) {
+                url += '?q=' + uriEncodedQuery + '&sumlev_filter=' + selectedSumlevAncestorValues();
+                return url
             }
         },
-        formatNoMatches: function formatNoMatches(term) {
-            return "No matches found for '" + term + ".' " + helpText;
-        }
+        limit: 20,
+        template: [
+            {% verbatim %}'<h5 class="result-type">GeoID {{full_geoid}}</h5>',
+            '<p class="result-name">{{full_name}}</p>'{% endverbatim %}
+        ].join(''),
+        engine: Hogan
+    });
+     
+    element.on('typeahead:selected', function(obj, datum) {
+        element.data('parent-geoid', datum['full_geoid']);
+        var chosenText = '<span class="leader">Geographies:</span> All <strong>' + selectedSumlev().data('plural-name') + '</strong> within <strong>' + datum['full_name'] + '</strong>';
+        updateChosenItem(geographiesChosen, chosenText)
+        makeAPIRequest();
     });
     
-    if (!!helpText) {
-        insertHelpText(element.parent(), helpText);
-    }
+    // when user chooses a sumlev to compare, limit possible
+    // autocomplete options for parent/containing geography
+    sumlevSelect.on('change', function(e) {
+        element.removeProp('disabled').siblings('.help-text').remove();
+        
+        if (this.checked) {
+            var selected = $(this);
+            var ancestorNameList = selected.data('ancestor-names');
+            var helpText = selected.next('label').text() + ' can be compared within a ' + ancestorNameList + '.';
+            insertHelpText(element.parent(), helpText);
+        }
+    });
 }
 
 function insertHelpText(element, message) {
     var helpText = $('<span class="help-text">' + message + '</span>').css('width', element.width());
     element.append(helpText);
+}
+
+function updateChosenItem(element, itemText) {
+    var html = [
+        '<a href="#" class="change-choice">Change</a>',
+        '<p>' + itemText + '</p>'
+    ].join('');
+
+    element.html(html).addClass('chosen').fadeIn('fast');
+    element.next('section').fadeOut('fast');
+}
+
+function changeChosenItem(element) {
+    var element = $(element);
+    element.fadeOut('fast').html('').removeClass('chosen');
+    element.next('section').fadeIn('fast');
+}
+
+function makeAPIRequest() {
+    var tableID = topicSelect.data('table-id'),
+        parentGeoID = parentSelect.data('parent-geoid'),
+        sumlev = selectedSumlev().val();
+        
+    console.log(tableID, parentGeoID, sumlev);
+        
+    if (!!tableID && !!parentGeoID && !!sumlev) {
+        // get rowcounts from each of the current ACS releases
+        // for this table/sumlev/parent combination
+        var currentYear = '2011';
+        var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
+                            tableID + '?year=' + currentYear  + '&sumlevel=' + sumlev +
+                            '&within=' + parentGeoID;
+        
+        counts = fetchAPIData(getCountsAPI);
+        
+        // 
+        
+        // choose the release with the most results and fetch that data
+        if (!!release) {
+            // get the whole table even if they've chosen a column
+            // TODO: decide whether this is better (provides context),
+            // or whether we should just get the table
+            var getDataAPI = 'http://api.censusreporter.org/1.0/data/compare/' +
+                              release + '/' + tableID + '?sumlevel=' + sumlev +
+                              '&within=' + parentGeoID + '&geom=true';
+
+            data = fetchAPIData(getDataAPI);
+        }
+    }
 }
 
 function fetchAPIData(requestURL) {
@@ -199,12 +264,14 @@ function fetchAPIData(requestURL) {
         url: requestURL,
         dataType: 'json',
         success: function(data) {
-            var strData = (JSON.stringify(data, null, 4));
-            $('#results').text(strData).fadeIn('fast');
+            //var strData = (JSON.stringify(data, null, 4));
+            //$('#results').text(strData).fadeIn('fast');
             spinner.stop();
+            return data
         },
         error: function(response) {
             alert('Uh-oh, something went wrong.');
+            return false
         }
     });
 }
@@ -227,63 +294,23 @@ function getTableNumber(requestURL) {
 }
 
 jQuery(document).ready(function(){
+    $('#results').hide();
+    
     // initial setup for select widgets
     getTableNumber();
     makeTopicSelectWidget(topicSelect);
-    //makeParentSelectWidget(parentSelect, parentAjaxURL, parentDisabled);
+    makeParentSelectWidget(parentSelect, parentDisabled);
     
-    // when user chooses a geography to compare, limit possible
-    // autocomplete options for parent/containing geography
-    sumlevSelect.on('change', function(e) {
-        parentDisabled = false;
-        if (this.checked) {
-            var selected = $(this);
-            var ancestorSumlevList = selected.data('ancestor-list'),
-                ancestorNameList = selected.data('ancestor-names');
-            var filteredAjaxURL = parentGeoSearchAPI + '&sumlev_filter=' + ancestorSumlevList,
-                helpText = selected.next('label').text() + ' can be compared within a ' + ancestorNameList + '.';
-            makeParentSelectWidget(parentSelect, filteredAjaxURL, parentDisabled, helpText);
-        }
-    });
-
-    // start listening for clicks
-    topicSelect.on('change', function(e) {
-        makeAPIRequest();
-    });
-    parentSelect.on('change', function(e) {
-        makeAPIRequest();
-    });
-    
-    $('#results').hide().focus(function () {
-        $(this).select().one('mouseup', function (e) {
-            $(this).unbind('keyup');
-            e.preventDefault();
-        }).one('keyup', function () {
-            $(this).select().unbind('mouseup');
-        });
-    });
-
-    function makeAPIRequest() {
-        var topic = topicSelect.val(),
-            parentGeoID = parentSelect.val(),
-            sumlev = sumlevSelect.val();
-            
-        if (!!topic &&  !!parentGeoID && !!sumlev) {
-            // get the whole table even if they've chosen a column
-            // TODO: decide whether this is better (provides context),
-            // or whether we should just get the table
-            tableID = topic.split('|')[0];
-            var requestURL = 'http://api.censusreporter.org/1.0/data/compare/' +
-                              release + '/' + tableID + '?sumlevel=' + sumlev +
-                              '&within=' + parentGeoID + '&geom=true';
-            fetchAPIData(requestURL);
-        }
-    }
-
     // on page load, reset selects because if browser happens
     // to hold onto value it won't trigger the sumlev filter
     parentSelect.val('');
-    sumlevSelect.val('');
+    sumlevSelect.removeAttr('checked');
+    
+    $('#query-builder').on('click', '.chosen', function(e) {
+        e.preventDefault();
+        changeChosenItem($(this));
+    });
+    
 })
 </script>
 {% endblock %}

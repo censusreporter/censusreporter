@@ -2,7 +2,11 @@
    HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
    ========================================================================== */
 
-* {box-sizing: border-box; -moz-box-sizing: border-box;}
+   /* apply a natural box layout model to all elements */
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+    
 html,
 body {
     margin: 0;
@@ -74,6 +78,11 @@ p, .serif {
     margin-top: .5em;
     font-size: .83em;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.leader {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
@@ -786,12 +795,34 @@ ul.toggle-set a:hover {
     width: 99%;
 }
 
-/* AUTOCOMPLETE */
-.twitter-typeahead .tt-query,
-.twitter-typeahead .tt-hint {
-    background-color: #fff !important;
-    margin-bottom: 0;
+.chosen,
+.chosen .change-choice {
+    position: relative;
+    margin: 0 -1em 1em;
+    background-color: #fff;
+    padding: 1em 1em 0;
+    border: 1px solid #cad0b5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
+.chosen .change-choice {
+    position: absolute;
+    top: .75em;
+    right: .75em;
+    margin: 0;
+    text-align: center;
+    padding: .5em .75em;
+    background-color: #d9ddca;
+    text-decoration: none;
+    font-size: .83em;
+    font-weight: bold;
+}
+.chosen p {
+    padding-right: 12em;
+}
+
+/* AUTOCOMPLETE */
 .tt-hint {
     visibility: hidden;
 }
@@ -845,10 +876,20 @@ ul.toggle-set a:hover {
 .autocomplete-widget .tt-dropdown-menu {
     height: 200px;
     overflow-y: auto;
-    display: block !important;
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
+}
+
+/* !importants make me a little sad, but they're better than monkey-patching vendor code */
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+    background-color: #fff !important;
+    margin-bottom: 0;
+}
+
+.autocomplete-widget input[disabled] {
+    background-color: #eee !important;
 }
 
 
@@ -866,6 +907,10 @@ ul.toggle-set a:hover {
     #homepage-search {
         margin: 4em 0 2em;
     }
+    .chosen {
+        margin: 0 0 1em;
+    }
+    
 }
 @media only screen and (max-width: 768px) {
     article {
