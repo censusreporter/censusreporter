@@ -1,7 +1,7 @@
 from __future__ import division
 import requests
+import json
 from collections import OrderedDict
-from math import ceil
 from numpy import median
 from urllib2 import unquote
 
@@ -86,6 +86,9 @@ class GeographyDetailView(TemplateView):
         if r.status_code == 200:
             geo_metadata = simplejson.loads(r.text)
             page_context['geo_metadata'] = geo_metadata
+            # Since the template expects GeoJSON as a string, lets give it what it wants
+            # TODO: The template should really request GeoJSON from the API directly so we don't have to do this.
+            page_context['geo_metadata']['geom'] = json.dumps(page_context['geo_metadata']['geom'])
 
             if sumlev == '160':
                 page_context['point_lon_lat'] = (geo_metadata.get('intptlon'), geo_metadata.get('intptlat'))
@@ -124,8 +127,9 @@ class ComparisonView(TemplateView):
 
         # hit our API (force to 5-year data for now)
         acs_release = 'acs2011_5yr'
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/%s/%s/%s/compare' % (acs_release, kwargs['parent_id'], kwargs['descendant_sumlev'])
-        r = requests.get(API_ENDPOINT)
+        table_id = 'B01001'
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (acs_release, table_id)
+        r = requests.get(API_ENDPOINT, params={"within": kwargs['parent_id'], "sumlevel": kwargs['descendant_sumlev']})
 
         if r.status_code == 200:
             comparison_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
@@ -144,7 +148,7 @@ class ComparisonView(TemplateView):
         comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[descendant_sumlev]
 
         # all the descendants being compared
-        descendant_list = sorted([(geo['geography']['geoid'], geo['geography']['name']) for geo in comparison_data['geographies']])
+        descendant_list = sorted([(geoid, child['geography']['name']) for (geoid, child) in comparison_data['child_geographies'].iteritems()])
 
         page_context.update({
             'descendant_list': descendant_list,
@@ -152,19 +156,19 @@ class ComparisonView(TemplateView):
         })
 
         if comparison_type == 'table':
-            self.add_table_values(page_context, comparison_data['geographies'])
+            self.add_table_values(page_context, comparison_data['child_geographies'])
 
         elif comparison_type == 'distribution':
-            self.add_distribution_values(page_context, comparison_data['geographies'])
+            self.add_distribution_values(page_context, comparison_data['child_geographies'])
 
         elif comparison_type == 'map':
-            self.add_map_values(page_context, comparison_data['geographies'])
+            self.add_map_values(page_context, comparison_data['child_geographies'])
 
         return page_context
 
     def get_total_and_pct(self, value, total):
-        if value and total:
-            percentage = round((value / total)*100,1)
+        if value is not None and total is not None:
+            percentage = round((value / total)*100, 1)
         else:
             percentage = 'n/a'
             if not value:
@@ -175,19 +179,20 @@ class ComparisonView(TemplateView):
     def add_map_values(self, page_context, data):
         data_groups = OrderedDict()
 
-        for geo in data:
-            name = geo['geography']['name']
-            geoID = geo['geography']['geoid'].split('US')[1]
-            total_population = geo['population']['total']
+        for (geoid, child) in data.iteritems():
+            name = child['geography']['name']
+            geoID = geoid.split('US')[1]
+            # FIXME This is a hack
+            total_population = child['data'].pop('b01001001')
 
-            for group, values in geo['population']['gender'].items():
-                group_name = 'Persons age %s' % group
-                if not group_name in data_groups:
-                    data_groups[group_name] = {}
+            for table_id, value in child['data'].iteritems():
+                if not table_id in data_groups:
+                    data_groups[table_id] = {}
 
-                total, percentage = self.get_total_and_pct(values['total'], total_population)
+                # TODO This will need MOE, etc.
+                total, percentage = self.get_total_and_pct(value, total_population)
 
-                data_groups[group_name].update({
+                data_groups[table_id].update({
                     geoID: {
                         'name': name,
                         'percentage': percentage,
@@ -201,27 +206,22 @@ class ComparisonView(TemplateView):
 
     def add_table_values(self, page_context, data):
         geo_values = []
-        for geo in data:
-            name = geo['geography']['name']
-            geoID = geo['geography']['geoid']
-            total_population = geo['population']['total']
+        for (geoid, child) in data.iteritems():
+            name = child['geography']['name']
+            # FIXME This is a hack
+            total_population = child['data'].pop('b01001001')
             geo_item = {
                 'name': name,
-                'geoID': geoID,
+                'geoID': geoid,
                 'total_population': total_population,
                 'values': OrderedDict(),
             }
-            for group, values in geo['population']['gender'].items():
-                male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
-                female_total, female_pct = self.get_total_and_pct(values['female'], values['total'])
-                total, total_pct = self.get_total_and_pct(values['total'], total_population)
+
+            for table_id, value in child['data'].iteritems():
+                total, total_pct = self.get_total_and_pct(value, total_population)
 
                 geo_item['values'].update({
-                    group: {
-                        'male': male_total,
-                        'male_pct': male_pct,
-                        'female': female_total,
-                        'female_pct': female_pct,
+                    table_id: {
                         'total': total,
                         'total_pct': total_pct,
                     }
@@ -234,28 +234,23 @@ class ComparisonView(TemplateView):
 
     def add_distribution_values(self, page_context, data):
         distribution_groups = OrderedDict()
-        for geo in data:
-            name = geo['geography']['name']
-            geoID = geo['geography']['geoid']
-            total_population = geo['population']['total']
-            for group, values in geo['population']['gender'].items():
-                if not group in distribution_groups:
-                    distribution_groups[group] = {
+        for (geoid, child) in data.iteritems():
+            name = child['geography']['name']
+            # FIXME This is a hack
+            total_population = child['data'].pop('b01001001')
+
+            for table_id, value in child['data'].iteritems():
+                if not table_id in distribution_groups:
+                    distribution_groups[table_id] = {
                         'group_baselines': {},
                         'group_values': {},
                     }
 
-                male_total, male_pct = self.get_total_and_pct(values['male'], values['total'])
-                female_total, female_pct = self.get_total_and_pct(values['female'], values['total'])
-                total, total_pct = self.get_total_and_pct(values['total'], total_population)
+                total, total_pct = self.get_total_and_pct(value, total_population)
 
-                distribution_groups[group]['group_values'].update({
-                    geoID: {
+                distribution_groups[table_id]['group_values'].update({
+                    geoid: {
                         'name': name,
-                        'male': male_total,
-                        'male_pct': male_pct,
-                        'female': female_total,
-                        'female_pct': female_pct,
                         'total': total,
                         'total_pct': total_pct,
                     }
@@ -263,11 +258,11 @@ class ComparisonView(TemplateView):
 
         for chart, chart_values in distribution_groups.items():
             for field in ['total', 'total_pct']:
-                values_list = [value[field] for geo, value in chart_values['group_values'].items()]
+                values_list = [value[field] for geo, value in chart_values['group_values'].iteritems()]
                 max_value = max(values_list)
                 min_value = min(values_list)
                 domain_range = max_value - min_value
-                median_value = int(median(values_list))
+                median_value = median(values_list)
                 median_percent_of_range = ((median_value - min_value) / domain_range)*100
                 chart_values['group_baselines']['max_value_%s' % field] = max_value
                 chart_values['group_baselines']['min_value_%s' % field] = min_value
@@ -305,7 +300,7 @@ class PlaceSearchJson(View):
         if 'sumlev_filter' in self.request.GET:
             allowed_sumlev_list = self.request.GET['sumlev_filter'].split(',')
             geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
-            
+
         geographies = geographies.values()
         if 'autocomplete' in self.request.GET:
             geographies = geographies.only('full_name','full_geoid')
@@ -317,7 +312,7 @@ class TableSearchJson(View):
         table_id = obj.get('table_id', None) or obj.get('parent_table_id', None)
         table_name = obj.get('table_name', None) or obj.get('table__table_name', None)
         table_topics = obj.get('topics', None) or obj.get('table__topics', None)
-        
+
         result = OrderedDict()
         result['type'] = obj_type
         result['table_id'] = table_id
@@ -325,18 +320,18 @@ class TableSearchJson(View):
         result['topics'] = table_topics
         result['value'] = table_name
         result['tokens'] = [word.lower().strip("() ") for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
-        
+
         if obj_type == 'column':
             result['column_id'] = obj['column_id']
             result['column_name'] = obj['column_name']
-            
+
         return result
-        
+
     def get(self, request, *args, **kwargs):
         results = []
         # allow choice of release, default to 2011 1-year
         release = self.request.GET.get('release', 'ACS 2011 1-Year')
-        
+
         # comparison query builder throws a search term here,
         # so force it to look at just one release
         q = self.request.GET.get('q', None)
@@ -434,7 +429,7 @@ class ComparisonBuilder(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {}
-        
+
         # provide some topics to choose from
         TOPIC_FILTERS = {
             'Demographics': {'topics': ['age', 'gender', 'race']},
@@ -442,7 +437,7 @@ class ComparisonBuilder(TemplateView):
             'Housing': {'topics': ['housing',]},
             'Social': {'topics': ['ancestry', 'children', 'disability', 'education', 'families', 'fertility', 'grandparents', 'households', 'language', 'marital status', 'migration', 'place of birth', 'veterans']},
         }
-        
+
         SUMLEV_CHOICES = {
             'Standard': [
                 {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'Nation, Region or Division' },
@@ -463,7 +458,7 @@ class ComparisonBuilder(TemplateView):
                 {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
             ],
         }
-        
+
         ACS_RELEASES = [
             {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
             {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
@@ -478,7 +473,7 @@ class ComparisonBuilder(TemplateView):
             {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
             {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
         ]
-        
+
         # for the moment, filter to counties and smaller
         summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True)\
             .filter(summary_level__gt='040')\
@@ -496,7 +491,7 @@ class ComparisonBuilder(TemplateView):
         })
 
         return page_context
-        
+
 class ComparisonDataView(View):
     def get(self, *args, **kwargs):
         table_id = self.kwargs['table_id']
@@ -513,5 +508,5 @@ class ComparisonDataView(View):
             raise Http404
 
         comparison_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            
+
         return render_json_to_response(comparison_data)
