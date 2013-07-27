@@ -309,18 +309,13 @@ function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGe
 function getTableNumber(requestURL) {
     var target = document.getElementById('table-number');
     
-    $.ajax({
-        type: 'GET',
-        url: tableSearchAPI,
-        data: {
-            topics: selectedTopicFilterValues().join(','),
-            count: 'tables'
-        },
-        dataType: 'json',
-        success: function(data) {
-            $(target).text(data['count']);
-        }
-    });
+    var rowcount = $.getJSON(tableSearchAPI, {
+        topics: selectedTopicFilterValues().join(','),
+        count: 'tables'
+    })
+    .done(function(data) {
+        $(target).text(data['count']);
+    })
 }
 
 jQuery(document).ready(function(){
