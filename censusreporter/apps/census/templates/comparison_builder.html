@@ -8,9 +8,8 @@
 
 {% block content %}
 <article class="clearfix">
-    <section id="query-builder" class="clearfix">
+    <section id="query-builder">
         <form action="" method="GET" onsubmit="return false">
-            <section class="clearfix" id="topic-chosen"></section>
             <section class="clearfix" id="topic-picker">
                 <div class="column-golden-wide">
                     <h2>Filter your data search by topic</h2>
@@ -47,8 +46,8 @@
                     <input name="topic_select" id="topic-select" type="text" placeholder="Search for data..." autocomplete="off">
                 </div>
             </section>
+            <section class="clearfix" id="topic-chosen"></section>
 
-            <section class="clearfix" id="geographies-chosen"></section>
             <section class="clearfix" id="geography-picker">
                 <div class="column-golden-wide" id="sumlev-select-options">
                     <h2>Compare geographies</h2>
@@ -79,9 +78,12 @@
                     <input name="parent_select" id="parent-select" type="text" placeholder="Search for place..." autocomplete="off">
                 </div>
             </section>
+            <section class="clearfix" id="geographies-chosen"></section>
         </form>
     </section>
     
+    <section id="release-options" class="clearfix"></section>
+    <section id="api-url" class="clearfix"></section>
     <section id="results-container" class="clearfix">
         <textarea id="results"></textarea>
     </section>
@@ -102,8 +104,8 @@ var topicSelect = $('#topic-select'),
     sumlevSelect = $('#sumlev-select-options input'),
     parentSelect = $('#parent-select'),
     geographiesChosen = $('#geographies-chosen');
-
-var parentDisabled = true;
+    
+var resultsTarget = document.getElementById('results-container');
 
 var selectedTopicFilterValues = function (){
     var values = topicFilters.filter(':checked').map(function () {
@@ -191,7 +193,6 @@ function makeParentSelectWidget(element, helpText) {
     // autocomplete options for parent/containing geography
     sumlevSelect.on('change', function(e) {
         element.removeProp('disabled').siblings('.help-text').remove();
-        
         if (this.checked) {
             var selected = $(this);
             var ancestorNameList = selected.data('ancestor-names');
@@ -212,68 +213,97 @@ function updateChosenItem(element, itemText) {
         '<p>' + itemText + '</p>'
     ].join('');
 
-    element.html(html).addClass('chosen').fadeIn('fast');
-    element.next('section').fadeOut('fast');
+    element.html(html).addClass('chosen').fadeIn('fast', function() {
+        element.prev('section').fadeOut(50);
+    });
 }
 
 function changeChosenItem(element) {
     var element = $(element);
-    element.fadeOut('fast').html('').removeClass('chosen');
-    element.next('section').fadeIn('fast');
+    
+    element.prev('section').fadeIn(50, function(){
+        element.fadeOut('fast').html('').removeClass('chosen');
+    });
 }
 
+var chosenRelease,
+    chosenTableID,
+    chosenParentGeoID,
+    chosenSumlev;
+
 function makeAPIRequest() {
-    var tableID = topicSelect.data('table-id'),
-        parentGeoID = parentSelect.data('parent-geoid'),
-        sumlev = selectedSumlev().val();
-        
-    console.log(tableID, parentGeoID, sumlev);
-        
-    if (!!tableID && !!parentGeoID && !!sumlev) {
+    chosenTableID = topicSelect.data('table-id');
+    chosenParentGeoID = parentSelect.data('parent-geoid');
+    chosenSumlev = selectedSumlev().val();
+
+    if (!!chosenTableID && !!chosenParentGeoID && !!chosenSumlev) {
         // get rowcounts from each of the current ACS releases
         // for this table/sumlev/parent combination
         var currentYear = '2011';
         var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
-                            tableID + '?year=' + currentYear  + '&sumlevel=' + sumlev +
-                            '&within=' + parentGeoID;
-        
-        counts = fetchAPIData(getCountsAPI);
-        
-        // 
-        
-        // choose the release with the most results and fetch that data
-        if (!!release) {
-            // get the whole table even if they've chosen a column
-            // TODO: decide whether this is better (provides context),
-            // or whether we should just get the table
-            var getDataAPI = 'http://api.censusreporter.org/1.0/data/compare/' +
-                              release + '/' + tableID + '?sumlevel=' + sumlev +
-                              '&within=' + parentGeoID + '&geom=true';
+                            chosenTableID + '?year=' + currentYear  + '&sumlevel=' + chosenSumlev +
+                            '&within=' + chosenParentGeoID;
 
-            data = fetchAPIData(getDataAPI);
-        }
+        // initiate spinner
+        var spinner = new Spinner().spin(resultsTarget);
+        
+        var counts = $.getJSON(getCountsAPI)
+            .done(function(data) {
+                spinner.stop();
+                
+                // choose the release with the most results and prefetch that data
+                data.sort(function(obj1, obj2) {
+                    return obj2['results'] - obj1['results'];
+                });
+                chosenRelease = data[0]['release_slug'];
+                data[0]['active'] = 'active';
+                fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
+
+                // display results by release
+                showReleaseOptions(data);
+            });
     }
 }
 
-function fetchAPIData(requestURL) {
-    var target = document.getElementById('results-container');
-    var spinner = new Spinner().spin(target);
-    
-    $.ajax({
-        type: 'GET',
-        url: requestURL,
-        dataType: 'json',
-        success: function(data) {
-            //var strData = (JSON.stringify(data, null, 4));
-            //$('#results').text(strData).fadeIn('fast');
-            spinner.stop();
-            return data
-        },
-        error: function(response) {
-            alert('Uh-oh, something went wrong.');
-            return false
-        }
+function showReleaseOptions(data) {
+    var releaseOptions = $('#release-options'),
+        releaseOptionsList = '';
+
+    $.each(data, function() {
+        releaseOptionsList += [
+            '<a class="release-option column-third ' + this['active'] + '" data-release-slug="' + this['release_slug'] + '">',
+            '<h3>' + this['release_name'] + '</h3>',
+            '<p>' + this['results'] + ' results</p>',
+            '</a>'
+        ].join('');
     });
+    
+    releaseOptions.html(releaseOptionsList);
+    releaseOptions.on('click', '.release-option', function(e) {
+        e.preventDefault();
+        var chosenOption = $(this);
+        chosenOption.addClass('active').siblings().removeClass('active');
+        chosenRelease = chosenOption.data('release-slug');
+        fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
+    });
+    
+}
+
+function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID) {
+    var spinner = new Spinner().spin(resultsTarget);
+    var getDataAPI = 'http://api.censusreporter.org/1.0/data/compare/' +
+                      chosenRelease + '/' + chosenTableID + '?sumlevel=' + chosenSumlev +
+                      '&within=' + chosenParentGeoID + '&geom=true';
+                      
+    var displayURL = 'Download as JSON: <a href="' + getDataAPI + '">' + getDataAPI + '</a>'
+    $('#api-url').hide().html(displayURL).addClass('centered').fadeIn('fast');
+
+    var results = $.getJSON(getDataAPI)
+        .done(function(data) {
+            spinner.stop();
+            var strData = (JSON.stringify(data, null, 4));
+            $('#results').text(strData).fadeIn('fast');
+        });
 }
 
 function getTableNumber(requestURL) {
@@ -299,7 +329,7 @@ jQuery(document).ready(function(){
     // initial setup for select widgets
     getTableNumber();
     makeTopicSelectWidget(topicSelect);
-    makeParentSelectWidget(parentSelect, parentDisabled);
+    makeParentSelectWidget(parentSelect);
     
     // on page load, reset selects because if browser happens
     // to hold onto value it won't trigger the sumlev filter
@@ -310,7 +340,6 @@ jQuery(document).ready(function(){
         e.preventDefault();
         changeChosenItem($(this));
     });
-    
 })
 </script>
 {% endblock %}

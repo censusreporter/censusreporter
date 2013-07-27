@@ -237,27 +237,7 @@ section aside ul {
     width: 100%;
     margin: 0;
 }
-.column-half {
-    width: 47%;
-}
-.column-third {
-    width: 30%;
-}
-.column-two-thirds {
-    width: 64%;
-}
-.column-quarter {
-    width: 22%;
-}
-.column-three-quarters {
-    width: 72%;
-}
-.column-golden-wide {
-    width: 57%;
-}
-.column-golden-narrow {
-    width: 37%;
-}
+
 .column-half,
 .column-third,
 .column-two-thirds,
@@ -266,7 +246,28 @@ section aside ul {
 .column-golden-wide,
 .column-golden-narrow {
     float: left;
-    margin-right: 3%;
+    margin: 0 1%;
+}
+.column-half {
+    width: 48%;
+}
+.column-third {
+    width: 31%;
+}
+.column-two-thirds {
+    width: 65%;
+}
+.column-quarter {
+    width: 23%;
+}
+.column-three-quarters {
+    width: 73%;
+}
+.column-golden-wide {
+    width: 58%;
+}
+.column-golden-narrow {
+    width: 38%;
 }
 
 /* HOMEPAGE */
@@ -798,7 +799,6 @@ ul.toggle-set a:hover {
 .chosen,
 .chosen .change-choice {
     position: relative;
-    margin: 0 -1em 1em;
     background-color: #fff;
     padding: 1em 1em 0;
     border: 1px solid #cad0b5;
@@ -820,6 +820,23 @@ ul.toggle-set a:hover {
 }
 .chosen p {
     padding-right: 12em;
+}
+
+.release-option {
+    text-align: center;
+    padding: 1em 0 0;
+    background-color: #d9ddca;
+    border: 1px solid #cad0b5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.chosen .change-choice:hover,
+.release-option:hover,
+.release-option.active {
+    background-color: #e8eadf;
 }
 
 /* AUTOCOMPLETE */
@@ -892,6 +909,30 @@ ul.toggle-set a:hover {
     background-color: #eee !important;
 }
 
+/* HELPERS */
+.centered {
+    text-align: center;
+}
+.small {
+    font-size: .75em;
+}
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
 
 /* MEDIA QUERIES */
 @media only screen and (min-width: 1140px) {
@@ -964,6 +1005,9 @@ ul.toggle-set a:hover {
         width: 47%;
         margin-right: 3%;
     }
+    .centered {
+        text-align: left;
+    }
 }
 @media only screen and (max-width: 640px) {
     .tool-set {
@@ -1016,26 +1060,3 @@ ul.toggle-set a:hover {
     }
 }
 
-
-/* HELPERS */
-
-.small {
-    font-size: .75em;
-}
-.hidden {
-    display: none !important;
-    visibility: hidden;
-}
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-.clearfix {
-    *zoom: 1;
-}
