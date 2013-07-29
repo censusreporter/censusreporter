@@ -108,6 +108,9 @@ class GeographyDetailView(TemplateView):
 
 class ComparisonView(TemplateView):
     template_name = 'comparison.html'
+    
+    def get_total_number(self, parent_data):
+        return parent_data.values()[0]
 
     def get_context_data(self, *args, **kwargs):
         parent_id = self.kwargs['parent_id']
@@ -149,6 +152,8 @@ class ComparisonView(TemplateView):
 
         # all the descendants being compared
         descendant_list = sorted([(geoid, child['geography']['name']) for (geoid, child) in comparison_data['child_geographies'].iteritems()])
+        
+        self.parent_data = comparison_data['parent_geography']['data']
 
         page_context.update({
             'descendant_list': descendant_list,
@@ -182,8 +187,12 @@ class ComparisonView(TemplateView):
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
             geoID = geoid.split('US')[1]
-            # FIXME This is a hack
-            total_population = child['data'].pop('b01001001')
+
+            # TODO: Figure out how to identify tables where first column
+            # is not our total
+            # TODO: Encapsulate in a function so other methods can repeat
+            total_population_key = child['data'].keys()[0]
+            total_population = child['data'].pop(total_population_key)
 
             for table_id, value in child['data'].iteritems():
                 if not table_id in data_groups:

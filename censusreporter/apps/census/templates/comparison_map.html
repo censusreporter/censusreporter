@@ -123,7 +123,7 @@ function makeMap(geographies, geodata) {
             .attr("id", function(d) { return "poly-" + d['id']; })
             .attr("class", function(d) { 
                 if (!!geodata[d['id']]) {
-                    return quantize(geodata[d['id']]['percentage']); 
+                    return quantize(geodata[d['id']]['percentage']);
                 }
             })
             .on("mouseover", function(d) { return mouseover(d) })
