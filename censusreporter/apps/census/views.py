@@ -370,8 +370,6 @@ class TableSearchJson(View):
             columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
             columns_list = [self.format_result(column, 'column') for column in list(columns)]
             results.extend(columns_list)
-
-        print len(results)
         
         table = self.request.GET.get('table', None)
         if table:

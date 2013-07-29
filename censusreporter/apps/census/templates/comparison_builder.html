@@ -100,13 +100,10 @@ function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
-        valueKey: 'table_name',
+        valueKey: 'table_id',
         remote: {
             url: tableSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                if (!uriEncodedQuery) {
-                    uriEncodedQuery = '*';
-                }
                 return url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',')
             }
         },
