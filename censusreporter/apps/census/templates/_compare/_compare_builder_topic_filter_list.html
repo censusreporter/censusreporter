@@ -1,0 +1,11 @@
+<div class="filter-group">
+    <h3 class="filter-group-title">
+        <i class="icon-chevron-sign-down"></i>
+        {{ filter_list_name }}
+    </h3>
+    <ul class="filter-list clearfix" id="topic-filters-{{ filter_list_name|lower }}">
+        {% for topic in filter_list.topics %}
+        <li><input type="checkbox" id="topic-select-{{ topic|slugify }}" value="{{ topic }}"> <label for="topic-select-{{ topic|slugify }}">{{ topic }}</label></li>
+        {% endfor %}
+    </ul>
+</div>

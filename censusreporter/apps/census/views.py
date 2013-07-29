@@ -437,26 +437,25 @@ class ComparisonBuilder(TemplateView):
             'Social': {'topics': ['ancestry', 'children', 'disability', 'education', 'families', 'fertility', 'grandparents', 'households', 'language', 'marital status', 'migration', 'place of birth', 'veterans']},
         }
 
-        SUMLEV_CHOICES = {
-            'Standard': [
-                {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'Nation, Region or Division' },
-                {'name': 'county', 'plural_name': 'counties', 'summary_level': '050', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-                {'name': 'place', 'plural_name': 'places', 'summary_level': '160', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-                {'name': 'MSA', 'plural_name': 'MSAs', 'summary_level': '300', 'ancestor_sumlev_list': '010', 'ancestor_options': 'Nation' },
-                {'name': 'census tract', 'plural_name': 'census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, Region, Division, State or County' },
-                {'name': 'block group', 'plural_name': 'block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,140', 'ancestor_options': 'Nation, Region, Division, State, County or Census Tract' },
-            ],
-            'Legislative': [
-                {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-                {'name': 'state senate district', 'plural_name': 'state senate districts', 'summary_level': '610', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-                {'name': 'state house district', 'plural_name': 'state house districts', 'summary_level': '620', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-            ],
-            'Schools': [
-                {'name': 'elementary school district', 'plural_name': 'elementary school districts', 'summary_level': '950', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-                {'name': 'secondary school district', 'plural_name': 'secondary school districts', 'summary_level': '960', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-                {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation, Region, Division or State' },
-            ],
-        }
+        SUMLEV_CHOICES = OrderedDict()
+        SUMLEV_CHOICES['Standard'] = [
+            {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'Nation' },
+            {'name': 'county', 'plural_name': 'counties', 'summary_level': '050', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+            {'name': 'place', 'plural_name': 'places', 'summary_level': '160', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+            {'name': 'MSA', 'plural_name': 'MSAs', 'summary_level': '300', 'ancestor_sumlev_list': '010', 'ancestor_options': 'Nation' },
+            {'name': 'census tract', 'plural_name': 'census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
+            {'name': 'block group', 'plural_name': 'block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,140', 'ancestor_options': 'Nation, State, County or Census Tract' },
+        ]
+        SUMLEV_CHOICES['Legislative'] = [
+            {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+            {'name': 'state senate district', 'plural_name': 'state senate districts', 'summary_level': '610', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+            {'name': 'state house district', 'plural_name': 'state house districts', 'summary_level': '620', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+        ]
+        SUMLEV_CHOICES['Schools'] = [
+            {'name': 'elementary school district', 'plural_name': 'elementary school districts', 'summary_level': '950', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+            {'name': 'secondary school district', 'plural_name': 'secondary school districts', 'summary_level': '960', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+            {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+        ]
 
         ACS_RELEASES = [
             {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
@@ -483,6 +482,7 @@ class ComparisonBuilder(TemplateView):
             'topic_economic_filters': TOPIC_FILTERS['Economics'],
             'topic_housing_filters': TOPIC_FILTERS['Housing'],
             'topic_social_filters': TOPIC_FILTERS['Social'],
+            'sumlev_choices': SUMLEV_CHOICES,
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
