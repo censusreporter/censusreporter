@@ -27,12 +27,12 @@
             <section class="clearfix" id="topic-chosen"></section>
 
             <section class="clearfix" id="geography-picker">
-                <div class="column-quarter">
+                <div class="column-quarter filter-groups">
                     <h2>Compare geographies</h2>
                     <div class="select-wrapper">
                         <i class="icon-chevron-sign-down"></i>
                         <select id="sumlev-select-options" class="wide-picker" name="sumlev_select">
-                            <option value="" selected>Choose a comparison level...</option>
+                            <option value="">Choose a comparison level...</option>
                             {% for group, values in sumlev_choices.items %}
                             <optgroup label="{{ group }}">
                                 {% for sumlev in values %}
@@ -79,30 +79,26 @@ var topicSelect = $('#topic-select'),
 var resultsTarget = document.getElementById('results-container');
 
 var selectedTopicFilterValues = function (){
-    var values = topicFilters.filter(':checked').map(function () {
+    return topicFilters.filter(':checked').map(function () {
         return this.value;
     }).get();
-    return values
 }
 
 var selectedSumlev = function (){
     return sumlevSelect.find('option:selected');
 }
 var selectedSumlevAncestorValues = function (){
-    var values = selectedSumlev().data('ancestor-list');
-    return values
+    return selectedSumlev().data('ancestor-list');
 }
 
-
-function makeTopicSelectWidget(element, helpText) {
+function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
         remote: {
             url: tableSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',');
-                return url
+                return url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',')
             }
         },
         limit: 20,
@@ -116,8 +112,10 @@ function makeTopicSelectWidget(element, helpText) {
      
     element.on('typeahead:selected', function(obj, datum) {
         element.data('table-id', datum['table_id']);
-        var chosenText = '<span class="leader">Data table ' + datum['table_id'] + ':</span> ' + datum['table_name'];
-        updateChosenItem(topicChosen, chosenText)
+        updateChosenItem(
+            topicChosen,
+            '<span class="leader">Data table ' + datum['table_id'] + ':</span> ' + datum['table_name']
+        )
         makeAPIRequest();
     });
 
@@ -126,10 +124,6 @@ function makeTopicSelectWidget(element, helpText) {
         element.typeahead('setQuery',element.val());
         element.focus();
     });
-
-    if (!!helpText) {
-        insertHelpText(element.parent(), helpText);
-    }
 }
 
 function makeParentSelectWidget(element) {
@@ -141,8 +135,7 @@ function makeParentSelectWidget(element) {
         remote: {
             url: parentGeoSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                url += '?q=' + uriEncodedQuery + '&sumlev_filter=' + selectedSumlevAncestorValues();
-                return url
+                return url += '?q=' + uriEncodedQuery + '&sumlev_filter=' + selectedSumlevAncestorValues()
             }
         },
         limit: 20,
@@ -155,8 +148,10 @@ function makeParentSelectWidget(element) {
      
     element.on('typeahead:selected', function(obj, datum) {
         element.data('parent-geoid', datum['full_geoid']);
-        var chosenText = '<span class="leader">Geographies:</span> All <strong>' + selectedSumlev().data('plural-name') + '</strong> within <strong>' + datum['full_name'] + '</strong>';
-        updateChosenItem(geographiesChosen, chosenText)
+        updateChosenItem(
+            geographiesChosen,
+            '<span class="leader">Geographies:</span> All <strong>' + selectedSumlev().data('plural-name') + '</strong> within <strong>' + datum['full_name'] + '</strong>'
+        )
         makeAPIRequest();
     });
     
@@ -167,9 +162,8 @@ function makeParentSelectWidget(element) {
         
         if (selected.val() != '') {
             element.removeProp('disabled');
-            var ancestorNameList = selected.data('ancestor-names');
-            var helpText = selected.text() + ' can be compared within a ' + ancestorNameList + '.';
-            insertHelpText(element.parent(), helpText);
+            var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names') + '.';
+            insertHelpText(selected.closest('.filter-groups'), helpText);
         } else {
             element.prop('disabled', 'disabled');
         }
@@ -178,8 +172,7 @@ function makeParentSelectWidget(element) {
 
 function insertHelpText(element, message) {
     element.find('.help-text').remove();
-    var helpText = $('<span class="help-text">' + message + '</span>').css('width', element.width());
-    element.append(helpText);
+    element.append('<span class="help-text">' + message + '</span>');
 }
 
 function updateChosenItem(element, itemText) {
@@ -285,12 +278,12 @@ function getTableNumber(requestURL) {
     var target = document.getElementById('table-number');
     
     var rowcount = $.getJSON(tableSearchAPI, {
-        topics: selectedTopicFilterValues().join(','),
-        count: 'tables'
-    })
-    .done(function(data) {
-        $(target).text(data['count']);
-    })
+            topics: selectedTopicFilterValues().join(','),
+            count: 'tables'
+        })
+        .done(function(data) {
+            $(target).text(data['count']);
+        })
 }
 
 jQuery(document).ready(function(){
@@ -301,10 +294,11 @@ jQuery(document).ready(function(){
     makeTopicSelectWidget(topicSelect);
     makeParentSelectWidget(parentSelect);
     
-    // on page load, reset selects because if browser happens
-    // to hold onto value it won't trigger the sumlev filter
-    parentSelect.val('');
-    topicFilters.prop('checked', false);
+    // handle form values that browser may have held onto
+    if (!!selectedSumlev().val()) {
+        sumlevSelect.trigger('change');
+    }
+    topicFilters.filter(':checked').closest('.filter-group').addClass('open');
     
     $('#query-builder').on('click', '.chosen', function(e) {
         e.preventDefault();
