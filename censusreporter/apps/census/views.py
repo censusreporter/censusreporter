@@ -311,14 +311,15 @@ class TableSearchJson(View):
         table_id = obj.get('table_id', None) or obj.get('parent_table_id', None)
         table_name = obj.get('table_name', None) or obj.get('table__table_name', None)
         table_topics = obj.get('topics', None) or obj.get('table__topics', None)
+        table_universe = obj.get('table_universe', None) or obj.get('table__table_universe', None)
 
         result = OrderedDict()
         result['type'] = obj_type
         result['table_id'] = table_id
         result['table_name'] = table_name
         result['topics'] = table_topics
-        result['value'] = table_name
-        result['tokens'] = [word.lower().strip("() ") for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
+        result['universe'] = table_name
+        #result['tokens'] = [word.lower().strip("() ") for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
 
         if obj_type == 'column':
             result['column_id'] = obj['column_id']
@@ -339,14 +340,22 @@ class TableSearchJson(View):
         columns = Column.objects.filter(table__release = release)
         
         if q:
-            tables = tables.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
-            columns = columns.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
+            q = q.strip()
+            if q == '*':
+                columns = None
+            else:
+                tables = tables.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
+                columns = columns.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
+        else:
+            # only fetch tables on unfiltered query
+            columns = None
 
         if topics:
             topic_list = unquote(topics).split(',')
             for topic in topic_list:
                 tables = tables.filter(topics__contains = topic)
-                columns = columns.filter(table__topics__contains = topics)
+                if columns:
+                    columns = columns.filter(table__topics__contains = topics)
                 
         # short-circuit if just requesting a count
         count = self.request.GET.get('count', None)
@@ -355,13 +364,15 @@ class TableSearchJson(View):
 
         tables = tables.values('table_id','table_name','topics')
         tables_list = [self.format_result(table, 'table') for table in list(tables)]
-
-        columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
-        columns_list = [self.format_result(column, 'column') for column in list(columns)]
-        
         results.extend(tables_list)
-        results.extend(columns_list)
 
+        if columns:
+            columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
+            columns_list = [self.format_result(column, 'column') for column in list(columns)]
+            results.extend(columns_list)
+
+        print len(results)
+        
         table = self.request.GET.get('table', None)
         if table:
             tables = tables.filter(table_name__icontains=table).values()

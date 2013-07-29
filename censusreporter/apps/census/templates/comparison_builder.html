@@ -76,40 +76,53 @@ var topicSelect = $('#topic-select'),
     parentSelect = $('#parent-select'),
     geographiesChosen = $('#geographies-chosen');
     
-var resultsTarget = document.getElementById('results-container');
-
-var selectedTopicFilterValues = function (){
+var selectedTopicFilterValues = function () {
     return topicFilters.filter(':checked').map(function () {
         return this.value;
     }).get();
 }
-
-var selectedSumlev = function (){
+var selectedSumlev = function () {
     return sumlevSelect.find('option:selected');
 }
-var selectedSumlevAncestorValues = function (){
+var selectedSumlevAncestorValues = function () {
     return selectedSumlev().data('ancestor-list');
+}
+
+var triggerAutocompleteWildCardFallback = function(element) {
+    if (!!element.val() && element.val() != '*') {
+        element.typeahead('setQuery', element.val());
+    } else {
+        element.typeahead('setQuery', '*').val('');
+    }
 }
 
 function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
+        valueKey: 'table_name',
         remote: {
             url: tableSearchAPI,
             replace: function (url, uriEncodedQuery) {
+                if (!uriEncodedQuery) {
+                    uriEncodedQuery = '*';
+                }
                 return url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',')
             }
         },
-        limit: 20,
+        limit: 1500,
         template: [
             {% verbatim %}'<h5 class="result-type">Table {{table_id}}</h5>',
-            '<p class="result-name">{{value}}</p>',
+            '<p class="result-name">{{table_name}}</p>',
             '<p class="caption"><strong>Topics:</strong> {{topics}}</p>'{% endverbatim %}
         ].join(''),
         engine: Hogan
     });
-     
+    
+    element.on('typeahead:initialized', function() {
+        triggerAutocompleteWildCardFallback(element);
+    });
+    
     element.on('typeahead:selected', function(obj, datum) {
         element.data('table-id', datum['table_id']);
         updateChosenItem(
@@ -121,7 +134,7 @@ function makeTopicSelectWidget(element) {
 
     topicFilters.on('change', function(e) {
         getTableNumber();
-        element.typeahead('setQuery',element.val());
+        triggerAutocompleteWildCardFallback(element);
         element.focus();
     });
 }
@@ -159,6 +172,7 @@ function makeParentSelectWidget(element) {
     // autocomplete options for parent/containing geography
     sumlevSelect.on('change', function(e) {
         var selected = selectedSumlev();
+        sumlevSelect.blur();
         
         if (selected.val() != '') {
             element.removeProp('disabled');
@@ -211,14 +225,9 @@ function makeAPIRequest() {
         var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
                             chosenTableID + '?year=' + currentYear  + '&sumlevel=' + chosenSumlev +
                             '&within=' + chosenParentGeoID;
-
-        // initiate spinner
-        var spinner = new Spinner().spin(resultsTarget);
         
         var counts = $.getJSON(getCountsAPI)
             .done(function(data) {
-                spinner.stop();
-                
                 // choose the release with the most results and prefetch that data
                 data.sort(function(obj1, obj2) {
                     return obj2['results'] - obj1['results'];
@@ -258,7 +267,6 @@ function showReleaseOptions(data) {
 }
 
 function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID) {
-    var spinner = new Spinner().spin(resultsTarget);
     var getDataAPI = 'http://api.censusreporter.org/1.0/data/compare/' +
                       chosenRelease + '/' + chosenTableID + '?sumlevel=' + chosenSumlev +
                       '&within=' + chosenParentGeoID + '&geom=true';
@@ -268,7 +276,6 @@ function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGe
 
     var results = $.getJSON(getDataAPI)
         .done(function(data) {
-            spinner.stop();
             var strData = (JSON.stringify(data, null, 4));
             $('#results').text(strData).fadeIn('fast');
         });
@@ -293,6 +300,18 @@ jQuery(document).ready(function(){
     getTableNumber();
     makeTopicSelectWidget(topicSelect);
     makeParentSelectWidget(parentSelect);
+
+    // prepare ajax spinners
+    $('body').append('<div id="body-spinner"></div>');
+    var target = document.getElementById('body-spinner');
+        spinner = new Spinner();
+
+    $(document).ajaxSend(function(event, request, settings) {
+        spinner.spin(target)
+    });
+    $(document).ajaxComplete(function(event, request, settings) {
+        spinner.stop()
+    });
     
     // handle form values that browser may have held onto
     if (!!selectedSumlev().val()) {

@@ -644,9 +644,6 @@ textarea#results {
     height: 450px;
     padding: .5em;
 }
-.spinner {
-    margin:;
-}
 
 .tool-set {
     float: right;
@@ -977,6 +974,15 @@ ul.toggle-set a:hover {
 }
 .autocomplete-widget input[disabled] {
     background-color: #eee !important;
+}
+
+#body-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 25px 20px;
+    height: 20px;
+    width: 20px;
 }
 
 /* HELPERS */
