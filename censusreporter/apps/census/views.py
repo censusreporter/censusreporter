@@ -499,6 +499,7 @@ class ComparisonBuilder(TemplateView):
             'summary_level_options': summary_level_options,
             'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
             'topic_economic_filters': TOPIC_FILTERS['Economics'],
+            'topic_family_filters': TOPIC_FILTERS['Families'],
             'topic_housing_filters': TOPIC_FILTERS['Housing'],
             'topic_social_filters': TOPIC_FILTERS['Social'],
             'sumlev_choices': SUMLEV_CHOICES,
