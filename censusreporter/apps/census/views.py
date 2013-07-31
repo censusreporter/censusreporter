@@ -449,11 +449,11 @@ class ComparisonBuilder(TemplateView):
 
         # provide some topics to choose from
         TOPIC_FILTERS = {
-            'Demographics': {'topics': ['age', 'gender', 'race',]},
+            'Demographics': {'topics': ['age', 'gender', 'race', 'seniors',]},
             'Economics': {'topics': ['commute', 'employment', 'health insurance', 'income', 'poverty', 'public assistance',]},
-            'Families': {'topics': ['children', 'families', 'fertility', 'grandparents', 'marital status',]},
-            'Housing': {'topics': ['housing', 'roommates',]},
-            'Social': {'topics': ['ancestry', 'citizenship', 'disability', 'education', 'language', 'migration', 'place of birth', 'seniors', 'veterans',]},
+            'Families': {'topics': ['children', 'families', 'fertility', 'grandparents', 'marital status', 'roommates',]},
+            'Housing': {'topics': ['housing',]},
+            'Social': {'topics': ['ancestry', 'citizenship', 'disability', 'education', 'language', 'migration', 'place of birth', 'veterans',]},
         }
 
         SUMLEV_CHOICES = OrderedDict()

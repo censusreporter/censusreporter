@@ -912,7 +912,7 @@ ul.toggle-set a:hover {
     min-width: 160px;
     width: 100%;
     margin-top: 2px;
-    padding: .5em;
+    padding: 0 .5em;
     background-color: #fff;
     border: 1px solid #ccc;
     border: 1px solid rgba(0,0,0,.2);
@@ -929,8 +929,9 @@ ul.toggle-set a:hover {
 
 .tt-suggestion {
   display: block;
-  padding: .25em;
-  margin-bottom: 1em;
+  padding: 1.25em .5em .75em;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .tt-suggestion.tt-is-under-cursor {
@@ -942,9 +943,11 @@ ul.toggle-set a:hover {
   color: #fff;
 }
 
+.tt-suggestion h5,
 .tt-suggestion p {
-    margin: .5em 0 0;
-    font-size: .83em;
+    line-height: 1.5;
+    margin: 0 0 .5em;
+    font-size: 1em;
 }
 
 .autocomplete-widget .twitter-typeahead {

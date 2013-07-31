@@ -110,9 +110,10 @@ function makeTopicSelectWidget(element) {
         },
         limit: 1500,
         template: [
-            {% verbatim %}'<h5 class="result-type">Table {{table_id}}</h5>',
+            {% verbatim %}'<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>',
             '<p class="result-name">{{table_name}}</p>',
-            '<p class="caption"><strong>Topics:</strong> {{topics}}</p>'{% endverbatim %}
+            '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
+            '{{#topics}}<p class="caption"><strong>Table topics:</strong> {{topics}}</p>{{/topics}}'{% endverbatim %}
         ].join(''),
         engine: Hogan
     });
