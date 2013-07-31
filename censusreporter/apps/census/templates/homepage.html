@@ -16,7 +16,7 @@
         <img src="{{ STATIC_URL }}img/logo-large-block.png" class="logo">
         <div class="search-wrapper">
             <h1 class="title">CensusReporter</h1>
-            <input id="geography-picker" class="wide-picker">
+            <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
         </div>
     </section>
 </article>
@@ -44,45 +44,36 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/typeahead.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
-function geoFormatSelection(geo) {
-    return geo.full_name;
-}
-jQuery(document).ready(function(){
-    var geoSelect = $('#geography-picker')
-    geoSelect.select2({
-        dropdownCssClass: "wide-picker",
-        placeholder: "Start typing to find a place ...",
-        minimumInputLength: 3,
-        ajax: {
-            url: "http://api.censusreporter.org/1.0/geo/search?",
-            dataType: 'json',
-            quietMillis: 200,
-            data: function (term) {
-                return { q: term };
-            },
-            results: function (data) {
-                var results = [];
-                $.each(data, function(index, item){
-                    results.push({
-                        id: item.full_geoid,
-                        text: item.name
-                    });
-                });
-                return {
-                    results: results
-                };
-            }
-        }
-    });
-    geoSelect.on('change', function(e) {
-        $('.select2-input').each(function () {
-            $(this).removeAttr("autocomplete");
-        });
-        window.location = '/profiles/' + $(this).val();
-    })
+var geoSearchAPI = '/place-search/json/',
+    geoSelect = $('#geography-select');
 
+function makeGeoSelectWidget(element) {
+    element.typeahead({
+        name: 'geographies',
+        valueKey: 'full_name',
+        remote: {
+            url: geoSearchAPI,
+            replace: function (url, uriEncodedQuery) {
+                return url += '?q=' + uriEncodedQuery + '&sumlev_filter=010,020,030,040,050,160,250,310,500,610,620,860,950,960,970'
+            }
+        },
+        limit: 20,
+        template: {% verbatim %}'<p class="result-name"><span class="result-type">{{sumlev}}</span>{{full_name}}</p>'{% endverbatim %},
+        engine: Hogan
+    });
+
+    element.on('typeahead:selected', function(obj, datum) {
+        window.location = '/profiles/' + datum['full_geoid'];
+    });
+}
+
+
+jQuery(document).ready(function(){
+    makeGeoSelectWidget(geoSelect);
 })
 </script>
 {% endblock %}

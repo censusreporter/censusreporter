@@ -513,8 +513,8 @@ form {
 form label {
     font-weight: bold;
 }
-form input[type="text"],
-form select,
+input[type="text"],
+select,
 .select-wrapper,
 .filter-group {
     background-color: #fff;
@@ -950,13 +950,19 @@ ul.toggle-set a:hover {
     font-size: 1em;
 }
 
-.autocomplete-widget .twitter-typeahead {
+.twitter-typeahead,
+.twitter-typeahead .tt-query, 
+.twitter-typeahead .tt-hint {
     width: 100%;
 }
-.autocomplete-widget .twitter-typeahead .tt-query,
-.autocomplete-widget .twitter-typeahead .tt-hint {
-  width: 100%;
+
+.result-name .result-type {
+    float: right;
+    margin: .17em 0 0 1em;
+    font-size: .83em;
+    font-style: italic;
 }
+
 .autocomplete-widget .tt-dropdown-menu {
     height: 250px;
     overflow-y: auto;
