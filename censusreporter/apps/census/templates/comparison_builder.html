@@ -148,13 +148,16 @@ function makeParentSelectWidget(element) {
             url: parentGeoSearchAPI,
             replace: function (url, uriEncodedQuery) {
                 return url += '?q=' + uriEncodedQuery + '&sumlev_filter=' + selectedSumlevAncestorValues()
+            },
+            filter: function(response) {
+                response.map(function(item) {
+                    item['sumlev_name'] = sumlevMap[item['sumlev']]
+                });
+                return response
             }
         },
         limit: 20,
-        template: [
-            {% verbatim %}'<h5 class="result-type">GeoID {{full_geoid}}</h5>',
-            '<p class="result-name">{{full_name}}</p>'{% endverbatim %}
-        ].join(''),
+        template: {% verbatim %}'<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'{% endverbatim %},
         engine: Hogan
     });
      
