@@ -11,7 +11,7 @@ SUBJECT_AREA_TO_TOPICS = {
     'Health Insurance': 'health insurance',
     'Income': 'income',
     'Industry-Occupation-Class of Worker': 'employment',
-    'Journey to Work': 'employment, transportation',
+    'Journey to Work': 'employment, commute',
     'Poverty': 'poverty',
     'Transfer Programs': 'public assistance',
 
@@ -22,7 +22,7 @@ SUBJECT_AREA_TO_TOPICS = {
     'Fertility': 'fertility',
     'Foreign Birth': 'place of birth',
     'Grand(Persons) - Age of HH Members': 'children, grandparents',
-    'Households - Families': 'households, families',
+    'Households - Families': 'families',
     'Language': 'language',
     'Marital Status': 'marital status',
     'Place of Birth - Native': 'place of birth',
@@ -31,16 +31,6 @@ SUBJECT_AREA_TO_TOPICS = {
     'Veteran Status': 'veterans',
 
     'Housing': 'housing',
-}
-
-THEMES_TO_TOPICS = {
-    'Demographic characteristics': 'age, gender, race',
-
-    'Economic characteristics': 'employment, income, health insurance, poverty, public assistance, transportation',
-
-    'Social characteristics': 'ancestry, children, disability, education, families, fertility, grandparents, households, language, marital status, migration, place of birth, veterans',
-
-    'Housing characteristics': 'housing',
 }
 
 TABLE_NAME_TEXT_TO_TOPICS = {
@@ -54,10 +44,11 @@ TABLE_NAME_TEXT_TO_TOPICS = {
     'work': 'employment',
     'families': 'families',
     'family': 'families',
+    'nonfamily': 'roommates',
     'grandparent': 'grandparents',
     'health insurance': 'health insurance',
     'living arrange': 'housing',
-    'household': 'households',
+    #'household': 'households',
     'earnings': 'income',
     'income': 'income',
     'geographical mobility': 'migration',
@@ -65,7 +56,7 @@ TABLE_NAME_TEXT_TO_TOPICS = {
     'food stamps': 'public assistance',
     'public assistance': 'public assistance',
     '65 years and over': 'seniors',
-    'transportation': 'transportation',
+    'transportation': 'commute',
     'va health care': 'veterans',
     'veteran': 'veterans',
 }
@@ -75,17 +66,17 @@ TABLE_NAME_TEXT_TO_FACETS = {
     'age by': 'age',
     'citizenship': 'citizenship',
     'naturalization': 'citizenship',
-    'by famil': 'family type',
+    'by famil': 'families',
     'by sex': 'gender',
     'sex by': 'gender',
-    'by household': 'household type',
-    'household type by': 'household type',
+    #'by household': 'household type',
+    #'household type by': 'household type',
     'language': 'language',
     'marriage': 'marital status',
     'marital': 'marital status',
     'nativity': 'place of birth',
     'place of birth': 'place of birth',
-    'by relationship': 'relationship type',
+    #'by relationship': 'relationship type',
     '(white': 'race',
     '(black': 'race',
     '(american': 'race',
