@@ -371,7 +371,8 @@ class TableSearchJson(View):
         if count == 'tables':
             return render_json_to_response({'count': tables.count()})
 
-        tables = tables.values('table_id','table_name','topics')
+        tables = tables.extra(select={'length':'Length(table_id)'}).extra(order_by=['length', 'table_name'])
+        tables = tables.values('table_id','table_name','topics','length')
         tables_list = [self.format_result(table, 'table') for table in list(tables)]
         results.extend(tables_list)
 
