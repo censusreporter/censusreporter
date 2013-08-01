@@ -21,7 +21,7 @@
                 </div>
                 
                 <div class="column-three-quarters autocomplete-widget">
-                    <h2>Search <span id="table-number"></span> data tables</h2>
+                    <h2 id="topic-result-number">Search data tables</h2>
                     <input name="topic_select" id="topic-select" type="text" placeholder="Search for data..." autocomplete="off">
                 </div>
             </section>
@@ -73,6 +73,7 @@ var tableSearchAPI = '/table-search/json/',
 var topicSelect = $('#topic-select'),
     topicChosen = $('#topic-chosen'),
     topicFilters = $('#topic-picker .filter-list input:checkbox'),
+    topicResultNumber = $('#topic-result-number'),
     sumlevSelect = $('#sumlev-select-options'),
     parentSelect = $('#parent-select'),
     geographiesChosen = $('#geographies-chosen');
@@ -101,16 +102,26 @@ function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
-        valueKey: 'table_id',
+        valueKey: 'unique_key',
         remote: {
             url: tableSearchAPI,
             replace: function (url, uriEncodedQuery) {
                 return url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',')
+            },
+            filter: function(response) {
+                var resultNumber = response.length;
+                topicResultNumber.text(resultNumber + ' matches');
+                if (resultNumber == 0) {
+                    response.push({
+                        table_name: 'Sorry, no matches found. Try removing filters or changing your keyword search.'
+                    })
+                }
+                return response
             }
         },
         limit: 1500,
         template: [
-            {% verbatim %}'<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>',
+            {% verbatim %}'{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
             '<p class="result-name">{{table_name}}</p>',
             '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
             '{{#topics}}<p class="caption"><strong>Table topics:</strong> {{topics}}</p>{{/topics}}'{% endverbatim %}
@@ -123,16 +134,17 @@ function makeTopicSelectWidget(element) {
     });
     
     element.on('typeahead:selected', function(obj, datum) {
-        element.data('table-id', datum['table_id']);
-        updateChosenItem(
-            topicChosen,
-            '<span class="leader">Data table ' + datum['table_id'] + ':</span> ' + datum['table_name']
-        )
-        makeAPIRequest();
+        if (datum['table_id']) {
+            element.data('table-id', datum['table_id']);
+            updateChosenItem(
+                topicChosen,
+                '<span class="leader">Data table ' + datum['table_id'] + ':</span> ' + datum['table_name']
+            )
+            makeAPIRequest();
+        }
     });
 
     topicFilters.on('change', function(e) {
-        getTableNumber();
         triggerAutocompleteWildCardFallback(element);
         element.focus();
     });
@@ -204,8 +216,10 @@ function updateChosenItem(element, itemText) {
 
 function changeChosenItem(element) {
     var element = $(element);
+    var picker = element.prev('section');
     
-    element.prev('section').fadeIn(50, function(){
+    picker.find('[id$=-select]').typeahead('setQuery', '*').val('');
+    picker.fadeIn(50, function(){
         element.fadeOut('fast').html('').removeClass('chosen');
     });
 }
@@ -283,23 +297,10 @@ function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGe
         });
 }
 
-function getTableNumber(requestURL) {
-    var target = document.getElementById('table-number');
-    
-    var rowcount = $.getJSON(tableSearchAPI, {
-            topics: selectedTopicFilterValues().join(','),
-            count: 'tables'
-        })
-        .done(function(data) {
-            $(target).text(data['count']);
-        })
-}
-
 jQuery(document).ready(function(){
     $('#results').hide();
     
     // initial setup for select widgets
-    getTableNumber();
     makeTopicSelectWidget(topicSelect);
     makeParentSelectWidget(parentSelect);
 
