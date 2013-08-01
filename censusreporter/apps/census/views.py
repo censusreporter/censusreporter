@@ -328,11 +328,13 @@ class TableSearchJson(View):
         result['table_name'] = table_name
         result['topics'] = table_topics
         result['universe'] = table_name
+        result['unique_key'] = table_id
         #result['tokens'] = [word.lower().strip("() ") for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
 
         if obj_type == 'column':
             result['column_id'] = obj['column_id']
             result['column_name'] = obj['column_name']
+            result['unique_key'] = '%s|%s' % (table_id, obj['column_id'])
 
         return result
 
@@ -371,7 +373,7 @@ class TableSearchJson(View):
         if count == 'tables':
             return render_json_to_response({'count': tables.count()})
 
-        tables = tables.extra(select={'length':'Length(table_id)'}).extra(order_by=['length', 'table_name'])
+        tables = tables.extra(select={'length':'Length(table_id)'}).extra(order_by=['length', 'table_id'])
         tables = tables.values('table_id','table_name','topics','length')
         tables_list = [self.format_result(table, 'table') for table in list(tables)]
         results.extend(tables_list)
