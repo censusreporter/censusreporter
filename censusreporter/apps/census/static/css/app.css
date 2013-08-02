@@ -865,30 +865,40 @@ ul.toggle-set a:hover {
     width: 99%;
 }
 
+.chosen {
+    padding: .6em .83em;
+}
 .chosen,
 .chosen .change-choice {
     position: relative;
     background-color: #fff;
-    padding: 1em 1em 0;
     border: 1px solid #cad0b5;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
 .chosen .change-choice {
+    line-height: 1;
     position: absolute;
-    top: .75em;
-    right: .75em;
+    top: .6em;
+    right: .6em;
     margin: 0;
     text-align: center;
-    padding: .5em .75em;
+    padding: .6em .75em;
     background-color: #d9ddca;
     text-decoration: none;
-    font-size: .83em;
+    font-size: .75em;
     font-weight: bold;
 }
 .chosen p {
-    padding-right: 12em;
+    margin: 0;
+    padding-right: 5em;
+}
+.step-explainer .chosen {
+    margin-right: 1%;
+}
+.step-explainer .chosen p {
+    margin: 0;
 }
 
 .release-option {
@@ -911,9 +921,9 @@ ul.toggle-set a:hover {
 .step-explainer {
     margin-bottom: 2em;
 }
-.step-explainer p {
-    margin: .5em 0;
-    padding: 0 70px;
+.step-explainer p,
+.step-explainer div {
+    margin: .5em 70px;
 }
 .step-explainer .step-number {
     float: left;

@@ -14,12 +14,12 @@
     
     <section id="query-builder">
         <form action="" method="GET" onsubmit="return false">
+            <section class="step-explainer column-full">
+                <span class="step-number">1</span>
+                <p class="explainer">The latest release of the American Community Survey contains nearly 1,500 data tables. Topic filters will help narrow your search for the data you need, and you can type keywords to search <strong>column</strong> and <strong>table names</strong>.</p>
+                <div id="topic-chosen"></div>
+            </section>
             <section class="clearfix" id="topic-picker">
-                <div class="step-explainer column-full">
-                    <span class="step-number">1</span>
-                    <p>The latest release of the American Community Survey contains nearly 1,500 data tables. Topic filters will help narrow your search for the data you need, and you can type keywords to search <strong>column</strong> and <strong>table names</strong>.</p>
-                </div>
-                
                 <div class="column-quarter filter-groups">
                     <h2>Filter by topic</h2>
                     {% include "_compare/_compare_builder_topic_filter_list.html" with filter_list=topic_demographic_filters filter_list_name="Demographics" %}
@@ -34,14 +34,13 @@
                     <input name="topic_select" id="topic-select" type="text" placeholder="Search for data..." autocomplete="off">
                 </div>
             </section>
-            <section class="clearfix" id="topic-chosen"></section>
 
+            <section class="step-explainer column-full">
+                <span class="step-number">2</span>
+                <p class="explainer">To view the data you&rsquo;ve chosen, select a type of geography to compare, and then a parent container for those geographies. For example, all <strong>census tracts</strong> in <strong>Chicago</strong>, or all <strong>counties</strong> in <strong>Washington</strong>.</p>
+                <div id="geographies-chosen"></div>
+            </section>
             <section class="clearfix" id="geography-picker">
-                <div class="step-explainer column-full">
-                    <span class="step-number">2</span>
-                    <p>To view the data you&rsquo;ve chosen, select a type of geography to compare, and then a parent container for those geographies. For example, all <strong>census tracts</strong> in <strong>Chicago</strong>, or all <strong>counties</strong> in <strong>Washington</strong>.</p>
-                </div>
-                
                 <div class="column-quarter filter-groups">
                     <h2>Compare geographies</h2>
                     <div class="select-wrapper">
@@ -64,12 +63,11 @@
                     <input name="parent_select" id="parent-select" type="text" placeholder="... then search for a place" autocomplete="off">
                 </div>
             </section>
-            <section class="clearfix" id="geographies-chosen"></section>
 
             <section>
                 <div class="step-explainer column-full">
                     <span class="step-number">3</span>
-                    <p>That&rsquo;s it! Once you&rsquo;ve chosen your table and geographies, we&rsquo;ll retrieve everything and give you tools to <strong>explore</strong> and <strong>download</strong> the data you&rsquo;re looking for.</p>
+                    <p class="explainer">That&rsquo;s it! Once you&rsquo;ve chosen your table and geographies, we&rsquo;ll retrieve everything and give you tools to <strong>explore</strong> and <strong>download</strong> the data you&rsquo;re looking for.</p>
                 </div>
             </section>
         </form>
@@ -209,7 +207,6 @@ function makeParentSelectWidget(element) {
         var selected = selectedSumlev();
         var selectedVal = selected.val();
         sumlevSelect.blur();
-        alert(selectedVal)
         
         if (selectedVal != '') {
             element.removeProp('disabled');
@@ -235,18 +232,19 @@ function updateChosenItem(element, itemText) {
         '<p>' + itemText + '</p>'
     ].join('');
 
+    element.siblings('.explainer').hide();
     element.html(html).addClass('chosen').fadeIn('fast', function() {
-        element.prev('section').fadeOut(50);
+        element.parent().next('section').fadeOut(50);
     });
 }
 
 function changeChosenItem(element) {
     var element = $(element);
-    var picker = element.prev('section');
+    var picker = element.parent().next('section');
     
-    picker.find('[id$=-select]').typeahead('setQuery', '*').val('');
     picker.fadeIn(50, function(){
         element.fadeOut('fast').html('').removeClass('chosen');
+        element.siblings('.explainer').show();
     });
 }
 
