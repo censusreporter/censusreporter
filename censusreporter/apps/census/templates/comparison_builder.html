@@ -8,9 +8,18 @@
 
 {% block content %}
 <article class="clearfix">
+    <header class="column-full">
+        <h1 class="title">Compare data</h1>
+    </header>
+    
     <section id="query-builder">
         <form action="" method="GET" onsubmit="return false">
             <section class="clearfix" id="topic-picker">
+                <div class="step-explainer column-full">
+                    <span class="step-number">1</span>
+                    <p>The latest release of the American Community Survey contains nearly 1,500 data tables. Topic filters will help narrow your search for the data you need, and you can type keywords to search <strong>column</strong> and <strong>table names</strong>.</p>
+                </div>
+                
                 <div class="column-quarter filter-groups">
                     <h2>Filter by topic</h2>
                     {% include "_compare/_compare_builder_topic_filter_list.html" with filter_list=topic_demographic_filters filter_list_name="Demographics" %}
@@ -28,6 +37,11 @@
             <section class="clearfix" id="topic-chosen"></section>
 
             <section class="clearfix" id="geography-picker">
+                <div class="step-explainer column-full">
+                    <span class="step-number">2</span>
+                    <p>To view the data you&rsquo;ve chosen, select a type of geography to compare, and then a parent container for those geographies. For example, all <strong>census tracts</strong> in <strong>Chicago</strong>, or all <strong>counties</strong> in <strong>Washington</strong>.</p>
+                </div>
+                
                 <div class="column-quarter filter-groups">
                     <h2>Compare geographies</h2>
                     <div class="select-wrapper">
@@ -51,6 +65,13 @@
                 </div>
             </section>
             <section class="clearfix" id="geographies-chosen"></section>
+
+            <section>
+                <div class="step-explainer column-full">
+                    <span class="step-number">3</span>
+                    <p>That&rsquo;s it! Once you&rsquo;ve chosen your table and geographies, we&rsquo;ll retrieve everything and give you tools to <strong>explore</strong> and <strong>download</strong> the data you&rsquo;re looking for.</p>
+                </div>
+            </section>
         </form>
     </section>
     
@@ -186,12 +207,17 @@ function makeParentSelectWidget(element) {
     // autocomplete options for parent/containing geography
     sumlevSelect.on('change', function(e) {
         var selected = selectedSumlev();
+        var selectedVal = selected.val();
         sumlevSelect.blur();
+        alert(selectedVal)
         
-        if (selected.val() != '') {
+        if (selectedVal != '') {
             element.removeProp('disabled');
             var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names') + '.';
             insertHelpText(selected.closest('.filter-groups'), helpText);
+            if (selectedVal == '040') {
+                element.typeahead('setQuery', 'United States')
+            }
         } else {
             element.prop('disabled', 'disabled');
         }
