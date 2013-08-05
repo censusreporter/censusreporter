@@ -12,11 +12,27 @@
                 <div class="tool-group" id="map-select">
                     Show
                 </div>
+                <div class="tool-group" id="map-legend">
+                    <ul class="quantile-legend">
+                        <li class="q0"></li>
+                        <li class="q1">
+                            <span class="quantile-label"></span>
+                        </li>
+                        <li class="q2">
+                            <span class="quantile-label"></span>
+                        </li>
+                        <li class="q3">
+                            <span class="quantile-label"></span>
+                        </li>
+                        <li class="q4">
+                            <span class="quantile-label"></span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <h2>{{ table.table_name }}</h2>
             <aside>
-                <p>This is some explanatory text describing the stat grouping to the right.</p>
             </aside>
 
             <section id="data-map"></section>
@@ -90,9 +106,14 @@ function ready(error, geographies) {
 
 function makeMap(geographies, geodata) {
     var values = d3.values(geodata).map(function(d) {return d['percentage'];});
-    var quantize = d3.scale.quantize()
+    var quantize = d3.scale.quantile()
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
+        
+    var legendLabels = d3.select("#map-legend")
+        .selectAll("span")
+        .data(quantize.quantiles())
+        .text(function(d){ return d.toFixed(1) });
 
     var states = topojson.feature(geographies, geographies.objects.states),
         parent = states.features.filter(function(d) {

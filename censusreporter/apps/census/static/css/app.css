@@ -404,12 +404,36 @@ section aside ul {
     margin-bottom: .5em;
 }
 
-.q0 { fill:#d9ddca; }
-.q1 { fill:#bbc2a1; }
-.q2 { fill:#9ea877 }
-.q3 { fill:#7b8656 }
-.q4 { fill:#555c3b }
+.q0 { background-color: #d9ddca; fill:#d9ddca; }
+.q1 { background-color: #bbc2a1; fill:#bbc2a1; }
+.q2 { background-color: #9ea877; fill:#9ea877 }
+.q3 { background-color: #7b8656; fill:#7b8656 }
+.q4 { background-color: #555c3b; fill:#555c3b }
 
+#map-legend {
+    font-size: 11px;
+    padding-bottom: 2em;
+}
+ul.quantile-legend {
+    list-style: none;
+    margin: 0;
+}
+.tool-group ul.quantile-legend {
+    padding-bottom: 2em;
+}
+ul.quantile-legend li {
+    height: 2em;
+    width: 4em;
+    position: relative;
+    margin: 0 .2em;
+}
+ul.quantile-legend span.quantile-label {
+    position: absolute;
+    bottom: -2em;
+    left: -2.2em;
+    width: 4em;
+    text-align: center;
+}
 
 /* CHARTS */
 .chart {
@@ -666,7 +690,7 @@ textarea#results {
 .tool-group {
     float: left;
     margin-right: 2em;
-    font-size: .8em;
+    font-size: .83em;
 }
 .tool-group:last-child {
     margin-right: 0;
@@ -688,9 +712,8 @@ textarea#results {
 .tool-group input,
 .tool-group select {
     display: inline;
-    vertical-align: middle;
-    height: auto;
-    padding: .1em 0;
+    height: 2em;
+    padding: .4em .33em;
     margin-left: .25em;
 }
 
