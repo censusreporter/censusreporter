@@ -68,14 +68,14 @@ urlpatterns = patterns('',
         name    = 'geography_detail',
     ),
 
-    # e.g. /compare/53/050/ (counties in Washington)
+    # e.g. /compare/04000US53/050/ (counties in Washington)
     url(
         regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/$',
         view    = ComparisonView.as_view(),
         kwargs  = {},
         name    = 'geography_comparison',
     ),
-    # e.g. /compare/53/050/map/
+    # e.g. /compare/04000US53/050/map/
     url(
         regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<comparison_type>%s)/$' % comparison_types,
         view    = ComparisonView.as_view(),
