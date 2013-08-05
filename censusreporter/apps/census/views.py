@@ -169,11 +169,11 @@ class ComparisonView(TemplateView):
         if comparison_type == 'table':
             self.add_table_values(page_context, comparison_data['child_geographies'])
 
-        elif comparison_type == 'distribution':
-            self.add_distribution_values(page_context, comparison_data['child_geographies'])
-
         elif comparison_type == 'map':
-            self.add_map_values(page_context, comparison_data['child_geographies'])
+            self.add_map_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
+
+        elif comparison_type == 'distribution':
+            self.add_distribution_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
 
         return page_context
 
@@ -192,36 +192,6 @@ class ComparisonView(TemplateView):
         total_population = data.pop(total_population_key)
         
         return total_population
-        
-    def add_map_values(self, page_context, data):
-        data_groups = OrderedDict()
-
-        for (geoid, child) in data.iteritems():
-            name = child['geography']['name']
-            geoID = geoid.split('US')[1]
-
-            # TODO: Figure out how to identify tables where first column
-            # is not our total
-            total_population = self.get_child_total_value(child['data'])
-
-            for table_id, value in child['data'].iteritems():
-                if not table_id in data_groups:
-                    data_groups[table_id] = {}
-
-                # TODO This will need MOE, etc.
-                total, percentage = self.get_total_and_pct(value, total_population)
-
-                data_groups[table_id].update({
-                    geoID: {
-                        'name': name,
-                        'percentage': percentage,
-                        'number': total,
-                    }
-                })
-
-        page_context.update({
-            'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
-        })
 
     def add_table_values(self, page_context, data):
         geo_values = []
@@ -250,22 +220,60 @@ class ComparisonView(TemplateView):
             'geo_values': geo_values,
         })
 
-    def add_distribution_values(self, page_context, data):
+    def add_map_values(self, page_context, data, table):
+        data_groups = OrderedDict()
+
+        for (geoid, child) in data.iteritems():
+            name = child['geography']['name']
+            geoID = geoid.split('US')[1]
+
+            # TODO: Figure out how to identify tables where first column
+            # is not our total
+            total_population = self.get_child_total_value(child['data'])
+
+            for column_id, value in child['data'].iteritems():
+                column = column_id.upper()
+                if not column in data_groups:
+                    data_groups[column] = {}
+
+                # TODO This will need MOE, etc.
+                total, percentage = self.get_total_and_pct(value, total_population)
+
+                data_groups[column].update({
+                    geoID: {
+                        'name': name,
+                        'percentage': percentage,
+                        'number': total,
+                    }
+                })
+                
+        table_pop = self.get_child_total_value(table['columns'])
+
+        page_context.update({
+            'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
+            'table_data': SafeString(simplejson.dumps(table, cls=LazyEncoder)),
+        })
+
+    def add_distribution_values(self, page_context, data, table):
         distribution_groups = OrderedDict()
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
             total_population = self.get_child_total_value(child['data'])
 
-            for table_id, value in child['data'].iteritems():
-                if not table_id in distribution_groups:
-                    distribution_groups[table_id] = {
+            for column_id, value in child['data'].iteritems():
+                column = column_id.upper()
+                
+                if not column in distribution_groups:
+                    distribution_groups[column] = {
+                        'column_name': table['columns'][column]['name'],
+                        'column_indent': table['columns'][column]['indent'] - 1,
                         'group_baselines': {},
                         'group_values': {},
                     }
 
                 total, total_pct = self.get_total_and_pct(value, total_population)
 
-                distribution_groups[table_id]['group_values'].update({
+                distribution_groups[column]['group_values'].update({
                     geoid: {
                         'name': name,
                         'total': total,

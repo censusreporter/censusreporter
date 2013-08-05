@@ -63,23 +63,27 @@ queue()
     .await(ready);
 
 function ready(error, geographies) {
-    var geodata = {{ map_data }};
-    var categories = d3.keys(geodata);
+    var geodata = {{ map_data }},
+        tabledata = {{ table_data }};
+    var columns = d3.entries(tabledata['columns']);
 
     // add dropdown
     d3.select("#map-select").append("select")
         .attr("id", "map-select-select")
         .on("change", changeMap)
-    .selectAll("option").data(categories).enter().append("option")
-        .attr("value", function(d){ return d; })
-        .text(function(d){ return d; })
+    .selectAll("option").data(columns).enter().append("option")
+        .attr("value", function(d){ return d['key']; })
+        .text(function(d){
+                var indents = new Array(d['value']['indent']);
+                return indents.join("\xA0\xA0") + d['value']['name'];
+            })
     
-    makeMap(geographies, geodata[categories[0]]);
-    window.labelTitle = categories[0];
+    makeMap(geographies, geodata[columns[0]['key']]);
+    window.labelTitle = columns[0]['value']['name'];
     
     function changeMap() {
-        var dataIndex = this.options[this.selectedIndex].__data__;
-        window.labelTitle = dataIndex;
+        var dataIndex = this.options[this.selectedIndex].value;
+        window.labelTitle = tabledata['columns'][dataIndex]['name'];
         makeMap(geographies, geodata[dataIndex]);
     }
 }

@@ -33,7 +33,7 @@
 
             {% for group, values in distribution_groups.items %}
             <section class="coal-chart-container" id="coal-chart-{{ forloop.counter0 }}">
-                <h2>{{ group }}</h2>
+                <h2 class="indent-{{ values.column_indent }}">{{ values.column_name }}</h2>
                 <ul class="coal-chart">
                     <li class="tick-mark tick-mark-min">
                         <span><b>Min:</b> {{ values.group_baselines.min_value_total_pct|intcomma }}</span>

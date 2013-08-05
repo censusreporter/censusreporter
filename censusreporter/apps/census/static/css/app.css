@@ -498,6 +498,9 @@ tr.even td {
 table .percentage, table .raw-number {
     display: block
 }
+.indent-0 {
+    text-indent: 0;
+}
 .indent-1 {
     text-indent: 1em;
 }
@@ -686,7 +689,7 @@ textarea#results {
 .tool-group select {
     display: inline;
     vertical-align: middle;
-    height: 1em;
+    height: auto;
     padding: .1em 0;
     margin-left: .25em;
 }
@@ -747,17 +750,13 @@ ul.toggle-set a:hover {
     padding: 3em 0 2em;
     margin-bottom: 1em;
 }
-.coal-chart-container h2 {
-    width: 80px;
-    float: left;
-    text-align: right;
-}
+.coal-chart-container h2 {}
 .coal-chart {
     list-style: none;
     position: relative;
     height: 10px;
     border-bottom: 1px solid #e5e5e5;
-    margin: 0 30px 0 100px;
+    margin: 0 1.5em;
 }
 .coal-chart li {
     display: inline;
