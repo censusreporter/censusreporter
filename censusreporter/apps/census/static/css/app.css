@@ -199,6 +199,9 @@ article .section-container {
 section {
     margin-bottom: 2em;
 }
+.wide-content {
+    overflow-x: auto;
+}
 .section-container section {
     margin-bottom: 3em;
 }
@@ -462,6 +465,7 @@ thead {
 }
 th {
     background-color: #eff1e9;
+    min-width: 7em;
 }
 thead.left-align th {
     text-align: left;

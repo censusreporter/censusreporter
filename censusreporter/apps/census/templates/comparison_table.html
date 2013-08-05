@@ -26,16 +26,15 @@
                 <p>This is some explanatory text describing the stat grouping to the right.</p>
             </aside>
 
-            <section>
+            <section class="wide-content">
                 <table id="data-table" class="tablesorter full-width">
                     <thead>
                         {% for geo in geo_values %}
                         {% if forloop.first %}
                         <tr>
                             <th class="name">Name</th>
-                            <th class="value">Total</th>
-                            {% for group in geo.values %}
-                            <th class="value">{{ group }}</th>
+                            {% for column, values in table.columns.items %}
+                            <th class="value" title="{{ values.name|cut:":" }}">{{ values.name|cut:":"|truncatechars:15 }}</th>
                             {% endfor %}
                         </tr>
                     </thead>
@@ -43,7 +42,7 @@
                         {% endif %}
                         <tr class="{% cycle 'odd' 'even' %}">
                             <td class="name"><a href="{% url 'geography_detail' geo.geoID %}">{{ geo.name }}</a></td>
-                            <td class="value">{{ geo.total_population|intcomma }}</td>
+                            <td class="value">{{ geo.total_population|floatformat|intcomma }}</td>
                             {% for group, values in geo.values.items %}
                             <td class="value toggle-target">
                                 <span class="percentage">{{ values.total_pct|floatformat }}%</span>
