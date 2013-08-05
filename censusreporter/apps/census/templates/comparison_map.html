@@ -113,7 +113,7 @@ function makeMap(geographies, geodata) {
     var legendLabels = d3.select("#map-legend")
         .selectAll("span")
         .data(quantize.quantiles())
-        .text(function(d){ return d.toFixed(1) });
+        .text(function(d){ return d.toFixed(1) + '%' });
 
     var states = topojson.feature(geographies, geographies.objects.states),
         parent = states.features.filter(function(d) {

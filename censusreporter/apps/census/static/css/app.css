@@ -412,7 +412,6 @@ section aside ul {
 
 #map-legend {
     font-size: 11px;
-    padding-bottom: 2em;
 }
 ul.quantile-legend {
     list-style: none;
@@ -683,7 +682,6 @@ textarea#results {
 
 .tool-set {
     float: right;
-    overflow: hidden;
     padding-top: .1em;
     margin-top: -.1em;
 }
