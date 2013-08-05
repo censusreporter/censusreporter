@@ -109,9 +109,6 @@ class GeographyDetailView(TemplateView):
 class ComparisonView(TemplateView):
     template_name = 'comparison.html'
     
-    def get_total_number(self, parent_data):
-        return parent_data.values()[0]
-
     def get_context_data(self, *args, **kwargs):
         parent_id = self.kwargs['parent_id']
         parent_fips_code = parent_id.split('US')[1]
@@ -128,10 +125,18 @@ class ComparisonView(TemplateView):
             'comparison_type': comparison_type,
         }
 
-        # hit our API (force to 5-year data for now)
-        acs_release = 'acs2011_5yr'
-        table_id = 'B01001'
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (acs_release, table_id)
+        # hit our API
+        if 'release' in self.request.GET:
+            release = self.request.GET['release']
+        else:
+            release = 'acs2011_5yr'
+
+        if 'table' in self.request.GET:
+            table = self.request.GET['table']
+        else:
+            table = 'B01001'
+
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (release, table)
         r = requests.get(API_ENDPOINT, params={"within": kwargs['parent_id'], "sumlevel": kwargs['descendant_sumlev']})
 
         if r.status_code == 200:
@@ -158,6 +163,7 @@ class ComparisonView(TemplateView):
         page_context.update({
             'descendant_list': descendant_list,
             'comparison_metadata': comparison_metadata,
+            'table': comparison_data['table'],
         })
 
         if comparison_type == 'table':
@@ -181,6 +187,12 @@ class ComparisonView(TemplateView):
 
         return value, percentage
 
+    def get_child_total_value(self, data):
+        total_population_key = data.keys()[0]
+        total_population = data.pop(total_population_key)
+        
+        return total_population
+        
     def add_map_values(self, page_context, data):
         data_groups = OrderedDict()
 
@@ -190,9 +202,7 @@ class ComparisonView(TemplateView):
 
             # TODO: Figure out how to identify tables where first column
             # is not our total
-            # TODO: Encapsulate in a function so other methods can repeat
-            total_population_key = child['data'].keys()[0]
-            total_population = child['data'].pop(total_population_key)
+            total_population = self.get_child_total_value(child['data'])
 
             for table_id, value in child['data'].iteritems():
                 if not table_id in data_groups:
@@ -217,8 +227,7 @@ class ComparisonView(TemplateView):
         geo_values = []
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
-            # FIXME This is a hack
-            total_population = child['data'].pop('b01001001')
+            total_population = self.get_child_total_value(child['data'])
             geo_item = {
                 'name': name,
                 'geoID': geoid,
@@ -245,8 +254,7 @@ class ComparisonView(TemplateView):
         distribution_groups = OrderedDict()
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
-            # FIXME This is a hack
-            total_population = child['data'].pop('b01001001')
+            total_population = self.get_child_total_value(child['data'])
 
             for table_id, value in child['data'].iteritems():
                 if not table_id in distribution_groups:
