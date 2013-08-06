@@ -88,8 +88,7 @@
 </article>
 {% endblock %}
 
-{% block body_javascript_extra %}
-<script src="{{ STATIC_URL }}js/vendor/jquery.tablesorter.min.js"></script>
+{% block body_javascript_extra %}{{ block.super }}
 <script>
 jQuery(document).ready(function(){
     $('.raw-number').css('display', 'none');
@@ -107,13 +106,6 @@ jQuery(document).ready(function(){
     $('table').on('click', 'tr', function(){
         $(this).toggleClass('highlight');
     })
-    
-    //$("#data-table").tablesorter({
-    //    widgets: ['zebra'],
-    //    widgetOptions: {
-    //        zebra: ['even','odd']
-    //    }
-    //});
 })
 </script>
 {% endblock %}

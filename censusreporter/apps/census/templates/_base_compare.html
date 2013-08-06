@@ -9,9 +9,28 @@
             <li><a class="{% if format == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
             <li><a class="{% if format == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
             <li><a class="{% if format == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
+            <li class="toggle-sub-group">
+                <a href="#">
+                    Download
+                </a>
+                <ul class="sub-group">
+                    <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'json' %}?{{ request.GET.urlencode }}">JSON</a></li>
+                    <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'csv' %}?{{ request.GET.urlencode }}">CSV</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>
 <h1>Compare {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }}</h1>
 {% endblock %}
 
+{% block body_javascript_extra %}{{ block.super }}
+<script>
+jQuery(document).ready(function(){
+    $('.toggle-sub-group').hover(function() {
+        $(this).find('.sub-group').toggle();
+        $(this).find('a').toggleClass('hovered');
+    });
+})
+</script>
+{% endblock %}

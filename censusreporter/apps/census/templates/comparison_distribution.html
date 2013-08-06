@@ -60,7 +60,7 @@
 </article>
 {% endblock %}
 
-{% block body_javascript_extra %}
+{% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/chroma.min.js"></script>
 <script>

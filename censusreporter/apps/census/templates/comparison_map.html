@@ -44,7 +44,7 @@
 </article>
 {% endblock %}
 
-{% block body_javascript_extra %}
+{% block body_javascript_extra %}{{ block.super }}
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -55,12 +55,14 @@ var mapDiv = d3.select("#data-map").append("div")
 var width = mapDiv[0][0].offsetWidth,
     height = width*.67;
 
-var state_fips_code = {{ parent_fips_code }};
-
 var projection = d3.geo.mercator();
-if (state_fips_code == '02' || state_fips_code == '15') {
+
+{% if parent_fips_code %}
+var parent_fips_code = {{ parent_fips_code }};
+if (parent_fips_code == '02' || parent_fips_code == '15') {
     projection = d3.geo.albersUsa();
 }
+{% endif %}
 
 var path = d3.geo.path()
     .projection(projection);
