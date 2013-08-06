@@ -6,9 +6,9 @@
 <div class="tool-set">
     <div class="tool-group">
         <ul class="toggle-set">
-            <li><a class="{% if comparison_type == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'table' %}">Table</a></li>
-            <li><a class="{% if comparison_type == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'map' %}">Map</a></li>
-            <li><a class="{% if comparison_type == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'distribution' %}">Distribution</a></li>
+            <li><a class="{% if comparison_type == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
+            <li><a class="{% if comparison_type == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
+            <li><a class="{% if comparison_type == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
         </ul>
     </div>
 </div>
