@@ -295,7 +295,10 @@ class ComparisonView(TemplateView):
                 chart_values['group_baselines']['median_value_%s' % field] = median_value
                 chart_values['group_baselines']['median_percent_of_range_%s' % field] = round(median_percent_of_range,1)
                 for geo, value in chart_values['group_values'].items():
-                    percentage = ((value[field] - min_value) / domain_range)*100
+                    if domain_range != 0:
+                        percentage = ((value[field] - min_value) / domain_range)*100
+                    else:
+                        percentage = 0
                     value['percent_of_range_%s' % field] = round(percentage,1)
 
         page_context.update({
