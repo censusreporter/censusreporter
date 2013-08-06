@@ -1,6 +1,6 @@
 {% extends '_base.html' %}
 
-{% block head_title %}{% firstof comparison_metadata.descendant_type.plural|capfirst comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }} - Comparison - {{ block.super }}{% endblock %}
+{% block head_title %}{% firstof comparison_metadata.descendant_type.plural|capfirst comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.geography.name }} - Comparison - {{ block.super }}{% endblock %}
 
 {% block header_content %}
 <div class="tool-set">
@@ -21,7 +21,7 @@
         </ul>
     </div>
 </div>
-<h1>Compare {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.full_name }}</h1>
+<h1>Compare {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.geography.name }}</h1>
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}

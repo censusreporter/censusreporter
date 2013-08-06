@@ -187,13 +187,7 @@ class ComparisonView(TemplateView):
 
         # add some metadata about the comparison
         comparison_metadata = comparison_data['comparison']
-
-        # info on the parent
-        try:
-            parent_geography = get_object_or_404(Geography, full_geoid = self.parent_id)
-            comparison_metadata['parent_geography'] = parent_geography
-        except:
-            pass
+        comparison_metadata['parent_geography'] = comparison_data['parent_geography']
         comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[self.descendant_sumlev]
 
         # all the descendants being compared
@@ -304,6 +298,8 @@ class ComparisonView(TemplateView):
         
     def add_map_values(self, page_context, data, table):
         data_groups = OrderedDict()
+        parent_shape = data
+        child_shapes = []
 
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
