@@ -187,9 +187,12 @@ class ComparisonView(TemplateView):
 
         return value, percentage
 
-    def get_child_total_value(self, data):
+    def get_child_total_value(self, data, pop=False):
         total_population_key = data.keys()[0]
-        total_population = data[total_population_key]
+        if pop:
+            total_population = data.pop(total_population_key)
+        else:
+            total_population = data[total_population_key]
         
         return total_population
 
@@ -260,7 +263,7 @@ class ComparisonView(TemplateView):
 
             # TODO: Figure out how to identify tables where first column
             # is not our total
-            total_population = self.get_child_total_value(child['data'])
+            total_population = self.get_child_total_value(child['data'], True)
 
             for column_id, value in child['data'].iteritems():
                 column = column_id.upper()
@@ -278,7 +281,7 @@ class ComparisonView(TemplateView):
                     }
                 })
                 
-        table_pop = self.get_child_total_value(table['columns'])
+        table_pop = self.get_child_total_value(table['columns'], True)
 
         page_context.update({
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
@@ -289,7 +292,7 @@ class ComparisonView(TemplateView):
         distribution_groups = OrderedDict()
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
-            total_population = self.get_child_total_value(child['data'])
+            total_population = self.get_child_total_value(child['data'], True)
 
             for column_id, value in child['data'].iteritems():
                 column = column_id.upper()
