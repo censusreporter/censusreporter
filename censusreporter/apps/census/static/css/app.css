@@ -428,7 +428,7 @@ ul.quantile-legend li {
 }
 ul.quantile-legend span.quantile-label {
     position: absolute;
-    bottom: -2em;
+    bottom: -1.75em;
     left: -2.2em;
     width: 4em;
     text-align: center;
@@ -489,6 +489,7 @@ thead {
 th {
     background-color: #eff1e9;
     min-width: 7em;
+    vertical-align: bottom;
 }
 thead.left-align th {
     text-align: left;
@@ -504,8 +505,10 @@ th:last-child {
     border-top-right-radius: 4px;
 }
 th, td {
-    vertical-align: top;
     padding: .25em .75em;
+}
+td {
+    vertical-align: top;
 }
 table .name {
     text-align: left;
@@ -517,6 +520,10 @@ table .value {
 }
 tr.even td {
     background-color: #f7f8f3;
+}
+tr:hover td,
+tr.even:hover td {
+    background: #d2d6c0;
 }
 table .percentage, table .raw-number {
     display: block

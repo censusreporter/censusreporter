@@ -23,23 +23,45 @@
             
             <h2>{{ table.table_name }}</h2>
             <aside>
-                <p>This is some explanatory text describing the stat grouping to the right.</p>
             </aside>
 
             <section class="wide-content">
-                <table id="data-table" class="tablesorter full-width">
+                <table id="data-table" class="full-width">
                     <thead>
-                        {% for geo in geo_values %}
-                        {% if forloop.first %}
                         <tr>
-                            <th class="name">Name</th>
-                            {% for column, values in table.columns.items %}
-                            <th class="value" title="{{ values.name|cut:":" }}">{{ values.name|cut:":"|truncatechars:15 }}</th>
+                            <th class="name">Column</th>
+                            {% for geo in geo_names %}
+                            <th class="value" title="{{ geo }}">{{ geo }}</th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
-                        {% endif %}
+                        {% for field in values_by_field %}
+                        <tr class="{% cycle 'odd' 'even' %}">
+                            <td class="name indent-{{ field.indent }}">{{ field.name }}</td>
+                            {% for geo, values in field.values.items %}
+                            <td class="value toggle-target">
+                                <span class="percentage">{{ values.total_pct|floatformat }}%</span>
+                                <span class="raw-number">{{ values.total|floatformat|intcomma }}</span>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                {% comment %}
+                <table id="data-table" class="tablesorter full-width">
+                    <thead>
+                        <tr>
+                            <th class="name">Name</th>
+                            {% for column in column_names %}
+                            <th class="value" title="{{ column|cut:":" }}">{{ column|cut:":"|truncatechars:15 }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for geo in values_by_geo %}
                         <tr class="{% cycle 'odd' 'even' %}">
                             <td class="name"><a href="{% url 'geography_detail' geo.geoID %}">{{ geo.name }}</a></td>
                             <td class="value">{{ geo.total_population|floatformat|intcomma }}</td>
@@ -53,6 +75,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% endcomment %}
             </section>
 
         </section>
@@ -76,12 +99,12 @@ jQuery(document).ready(function(){
         $('.'+targetClass).css('display', 'block');
     })
     
-    $("#data-table").tablesorter({
-        widgets: ['zebra'],
-        widgetOptions: {
-            zebra: ['even','odd']
-        }
-    });
+    //$("#data-table").tablesorter({
+    //    widgets: ['zebra'],
+    //    widgetOptions: {
+    //        zebra: ['even','odd']
+    //    }
+    //});
 })
 </script>
 {% endblock %}

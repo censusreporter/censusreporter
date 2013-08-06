@@ -167,7 +167,7 @@ class ComparisonView(TemplateView):
         })
 
         if comparison_type == 'table':
-            self.add_table_values(page_context, comparison_data['child_geographies'])
+            self.add_table_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
 
         elif comparison_type == 'map':
             self.add_map_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
@@ -189,35 +189,66 @@ class ComparisonView(TemplateView):
 
     def get_child_total_value(self, data):
         total_population_key = data.keys()[0]
-        total_population = data.pop(total_population_key)
+        total_population = data[total_population_key]
         
         return total_population
 
-    def add_table_values(self, page_context, data):
-        geo_values = []
+    def add_table_values(self, page_context, data, table):
+        values_by_geo = []
+        geo_names = []
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
             total_population = self.get_child_total_value(child['data'])
+            # build item for values_by_geo
             geo_item = {
                 'name': name,
                 'geoID': geoid,
                 'total_population': total_population,
                 'values': OrderedDict(),
             }
-
-            for table_id, value in child['data'].iteritems():
+            # and append to list of geo_names to pair with values_by_field
+            geo_names.append(name)
+            
+            for column_id, value in child['data'].iteritems():
                 total, total_pct = self.get_total_and_pct(value, total_population)
 
                 geo_item['values'].update({
-                    table_id: {
+                    column_id.upper(): {
                         'total': total,
                         'total_pct': total_pct,
                     }
                 })
-            geo_values.append(geo_item)
+                
+            values_by_geo.append(geo_item)
+            
+        values_by_field = []
+        column_names = []
+        for column_id, column in table['columns'].iteritems():
+            name = column['name']
+            # append to list of column names to pair with values_by_geo
+            column_names.append(name)
+            # and build item for values_by_field
+            field_item = {
+                'name': name,
+                'column_id': column_id,
+                'indent': column['indent'],
+                'values': OrderedDict(),
+            }
+            
+            for geo in values_by_geo:
+                geoID = geo['geoID']
+                field_item['values'][geoID] = {
+                    'total': geo['values'][column_id]['total'],
+                    'total_pct': geo['values'][column_id]['total_pct'],
+                }
+                
+            values_by_field.append(field_item)
 
         page_context.update({
-            'geo_values': geo_values,
+            'values_by_geo': values_by_geo,
+            'column_names': column_names,
+            'values_by_field': values_by_field,
+            'geo_names': geo_names,
         })
 
     def add_map_values(self, page_context, data, table):
