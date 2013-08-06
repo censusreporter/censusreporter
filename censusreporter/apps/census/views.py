@@ -144,9 +144,16 @@ class ComparisonView(TemplateView):
 
         return super(ComparisonView, self).dispatch(*args, **kwargs)
         
-    def get_api_data(self):
+    def get_api_data(self, geom=False):
         API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (self.release, self.table_id)
-        r = requests.get(API_ENDPOINT, params={"within": self.parent_id, "sumlevel": self.descendant_sumlev})
+        API_PARAMS = {
+            "within": self.parent_id,
+            "sumlevel": self.descendant_sumlev
+        }
+        if geom:
+            API_PARAMS.update({'geom': True})
+        
+        r = requests.get(API_ENDPOINT, params=API_PARAMS)
 
         if r.status_code == 200:
             data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
@@ -163,20 +170,19 @@ class ComparisonView(TemplateView):
             'format': self.format,
         }
 
-        comparison_data = self.get_api_data()
-
         if self.format:
             self.template_name = 'comparison_%s.html' % self.format
 
-
-
         if self.format == 'table':
+            comparison_data = self.get_api_data()
             self.add_table_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
 
         elif self.format == 'map':
+            comparison_data = self.get_api_data(geom=True)
             self.add_map_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
 
         elif self.format == 'distribution':
+            comparison_data = self.get_api_data()
             self.add_distribution_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
 
         # add some metadata about the comparison
@@ -248,70 +254,54 @@ class ComparisonView(TemplateView):
             values_by_geo.append(geo_item)
 
         column_names = []
-        for column_id, column in table['columns'].iteritems():
+        for (column_id, column) in table['columns'].iteritems():
             name = column['name']
             column_names.append(name)
 
         return column_names, values_by_geo
 
-    def add_table_values(self, page_context, data, table):
-        values_by_geo = []
-        for (geoid, child) in data.iteritems():
-            name = child['geography']['name']
-            total_population = self.get_child_total_value(child['data'])
-            # build item for values_by_geo
-            geo_item = {
-                'name': name,
-                'geoID': geoid,
-                'total_population': total_population,
-                'values': OrderedDict(),
-            }
-            
-            for column_id, value in child['data'].iteritems():
-                total, total_pct = self.get_total_and_pct(value, total_population)
-
-                geo_item['values'].update({
-                    column_id.upper(): {
-                        'total': total,
-                        'total_pct': total_pct,
-                    }
-                })
-                
-            values_by_geo.append(geo_item)
-            
+    def make_table_values_by_field(self, data, table):
         values_by_field = []
-        column_names = []
-        geo_names = []
-        for column_id, column in table['columns'].iteritems():
-            name = column['name']
-            # append to list of column names to pair with values_by_geo
-            column_names.append(name)
-            # and build item for values_by_field
+        for (column_id, column) in table['columns'].iteritems():
             field_item = {
-                'name': name,
+                'name': column['name'],
                 'column_id': column_id,
                 'indent': column['indent'],
                 'values': OrderedDict(),
             }
             
-            for geo in values_by_geo:
-                geoID = geo['geoID']
+            for (geoID, values) in data.iteritems():
+                total_population = self.get_child_total_value(values['data'])
+                total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
+                
                 field_item['values'][geoID] = {
-                    'total': geo['values'][column_id]['total'],
-                    'total_pct': geo['values'][column_id]['total_pct'],
+                    'total': total,
+                    'total_pct': total_pct,
                 }
-                # and append to list of geo_names to pair with values_by_field
-                geo_names.append(geo['name'])
                 
             values_by_field.append(field_item)
+            
+        geo_names = []
+        for (geoID, values) in data.iteritems():
+            name = values['geography']['name']
+            geo_names.append(name)
+        
+        return geo_names, values_by_field
 
+    def add_table_values(self, page_context, data, table):
+        geo_names, values_by_field = self.make_table_values_by_field(data, table)
         page_context.update({
-            'values_by_geo': values_by_geo,
-            'column_names': column_names,
-            'values_by_field': values_by_field,
             'geo_names': geo_names,
+            'values_by_field': values_by_field,
         })
 
+        # TRANSPOSED VERSION: COLUMN NAMES ACROSS, GEO ROWS DOWN
+        #column_names, values_by_geo = self.make_table_values_by_geo(data, table)
+        #page_context.update({
+        #    'column_names': column_names,
+        #    'values_by_geo': values_by_geo,
+        #})
+        
     def add_map_values(self, page_context, data, table):
         data_groups = OrderedDict()
 
@@ -324,14 +314,13 @@ class ComparisonView(TemplateView):
             total_population = self.get_child_total_value(child['data'], True)
 
             for column_id, value in child['data'].iteritems():
-                column = column_id.upper()
-                if not column in data_groups:
-                    data_groups[column] = {}
+                if not column_id in data_groups:
+                    data_groups[column_id] = {}
 
                 # TODO This will need MOE, etc.
                 total, percentage = self.get_total_and_pct(value, total_population)
 
-                data_groups[column].update({
+                data_groups[column_id].update({
                     geoID: {
                         'name': name,
                         'percentage': percentage,
@@ -353,19 +342,17 @@ class ComparisonView(TemplateView):
             total_population = self.get_child_total_value(child['data'], True)
 
             for column_id, value in child['data'].iteritems():
-                column = column_id.upper()
-                
-                if not column in distribution_groups:
-                    distribution_groups[column] = {
-                        'column_name': table['columns'][column]['name'],
-                        'column_indent': table['columns'][column]['indent'] - 1,
+                if not column_id in distribution_groups:
+                    distribution_groups[column_id] = {
+                        'column_name': table['columns'][column_id]['name'],
+                        'column_indent': table['columns'][column_id]['indent'] - 1,
                         'group_baselines': {},
                         'group_values': {},
                     }
 
                 total, total_pct = self.get_total_and_pct(value, total_population)
 
-                distribution_groups[column]['group_values'].update({
+                distribution_groups[column_id]['group_values'].update({
                     geoid: {
                         'name': name,
                         'total': total,
