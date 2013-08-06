@@ -8,7 +8,7 @@ from .views import GeographyDetailView, ComparisonView, ComparisonBuilder, Compa
 admin.autodiscover()
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
-comparison_types = 'map|table|distribution'
+comparison_formats = 'map|table|distribution|json|csv'
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
@@ -77,7 +77,7 @@ urlpatterns = patterns('',
     ),
     # e.g. /compare/04000US53/050/map/
     url(
-        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<comparison_type>%s)/$' % comparison_types,
+        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<format>%s)/$' % comparison_formats,
         view    = ComparisonView.as_view(),
         kwargs  = {},
         name    = 'geography_comparison_detail',
