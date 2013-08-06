@@ -822,22 +822,20 @@ ul.toggle-set a:hover {
 .coal-chart li a span {
     position: absolute;
     width: 15em;
-    top: -3em;
+    bottom: 1.5em;
     right: -7.5em;
     font-size: .83em;
     line-height: 1.2;
     text-align: center;
     display: none;
-    white-space: nowrap;
-    padding: 0 .5em;
+    padding: .5em;
+    border: 1px solid #e0e0e0;
 }
 .coal-chart li a:hover span,
 .coal-chart li a.hovered span,
 .coal-chart li a.selected span {
     display: block;
     background-color: #fff;
-    -webkit-box-shadow: 0 -.5em .5em .5em #fff;
-    box-shadow: 0 -.5em .5em .5em #fff;
 }
 .coal-chart li.tick-mark {
     height: 26px;
