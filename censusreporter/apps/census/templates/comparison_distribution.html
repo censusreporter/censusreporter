@@ -29,6 +29,7 @@
             <h2>{{ table.table_name }}</h2>
             <aside>
                 <p>{{ table.census_release }}</p>
+                <p><strong>Table universe:</strong> {{ table.table_universe }}</p>
             </aside>
 
             {% for group, values in distribution_groups.items %}
