@@ -28,7 +28,7 @@
             
             <h2>{{ table.table_name }}</h2>
             <aside>
-                <p>This is some explanatory text describing the stat grouping to the right.</p>
+                <p>{{ table.census_release }}</p>
             </aside>
 
             {% for group, values in distribution_groups.items %}
