@@ -522,7 +522,8 @@ tr.even td {
     background-color: #f7f8f3;
 }
 tr:hover td,
-tr.even:hover td {
+tr.even:hover td,
+tr.highlight td {
     background: #d2d6c0;
 }
 table .percentage, table .raw-number {

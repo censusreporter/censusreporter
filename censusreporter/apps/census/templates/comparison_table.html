@@ -13,6 +13,9 @@
         <section class="clearfix">
             <div class="tool-set">
                 <div class="tool-group">
+                    Click on a row to lock/unlock highlight
+                </div>
+                <div class="tool-group">
                     Show
                     <ul class="toggle-controls">
                         <li><a id="show-percentage">Percentages</a></li>
@@ -98,6 +101,10 @@ jQuery(document).ready(function(){
         var targetClass = clicked.attr('id').replace('show-','');
         $('.toggle-target span').css('display', 'none');
         $('.'+targetClass).css('display', 'block');
+    })
+    
+    $('table').on('click', 'tr', function(){
+        $(this).toggleClass('highlight');
     })
     
     //$("#data-table").tablesorter({
