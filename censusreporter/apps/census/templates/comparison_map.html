@@ -67,10 +67,9 @@ var label = mapDiv.append("div")
 var labelTitle = "";
     
 queue()
-    .defer(d3.json, "{{ STATIC_URL }}json/us.json")
     .await(ready);
 
-function ready(error, geographies) {
+function ready(error) {
     var geodata = {{ map_data }},
         tabledata = {{ table_data }};
     var columns = d3.entries(tabledata['columns']);
@@ -110,20 +109,10 @@ function makeMap(geodata) {
     var parent = {{ parent_shape }},
         children = {{ child_shapes }};
 
-    //var states = topojson.feature(geographies, geographies.objects.states),
-    //    parent = states.features.filter(function(d) {
-    //        return d.id === {{ parent_fips_code }};
-    //    })[0];
-
-    //var childGeographies = topojson.feature(geographies, geographies.objects.counties),
-    //    geographies = children.features.filter(function(d) {
-    //        var id = d.id.toString(); return id.substring(0,2) === '{{ parent_fips_code }}';
-    //    });
-
     // zoom to the parent
     var projection = d3.geo.albersUsa()
     {% if parent_fips_code %}
-    var parent_fips_code = {{ parent_fips_code }};
+    var parent_fips_code = '{{ parent_fips_code }}';
     if (parent_fips_code != '02' && parent_fips_code != '15') {
         projection = d3.geo.mercator();
     }
@@ -132,6 +121,7 @@ function makeMap(geodata) {
         .projection(projection);
 
     if (!!parent) {
+        // zoom to bounding box of parent
         projection
             .scale(1)
             .translate([0, 0]);
@@ -153,8 +143,8 @@ function makeMap(geodata) {
     // outline the parent geography
     svgMap.append("path")
         .datum(parent)
-        .attr("class", "outline")
-        .attr("d", path);
+        .attr("d", path)
+        .attr("class", "outline");
 
     // add the quantiled child geographies
     svgMap.append("g")
