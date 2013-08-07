@@ -51,7 +51,7 @@
 <script>
 var mapDiv = d3.select("#data-map").append("div")
     .attr("class", "svg-map")
-    
+
 var width = mapDiv[0][0].offsetWidth;
 var height = width*.67;
 
@@ -63,9 +63,9 @@ var svgMap = mapDiv.append("svg")
 var label = mapDiv.append("div")
     .attr("class", "label")
     .style("opacity", 1e-6);
-    
+
 var labelTitle = "";
-    
+
 queue()
     .await(ready);
 
@@ -84,10 +84,10 @@ function ready(error) {
                 var indents = new Array(d['value']['indent']);
                 return indents.join("\xA0\xA0") + d['value']['name'];
             })
-    
+
     makeMap(geodata[columns[0]['key']]);
     window.labelTitle = columns[0]['value']['name'];
-    
+
     function changeMap() {
         var dataIndex = this.options[this.selectedIndex].value;
         window.labelTitle = tabledata['columns'][dataIndex]['name'];
@@ -100,12 +100,12 @@ function makeMap(geodata) {
     var quantize = d3.scale.quantile()
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
-        
+
     var legendLabels = d3.select("#map-legend")
         .selectAll("span")
         .data(quantize.quantiles())
         .text(function(d){ return d.toFixed(1) + '%' });
-        
+
     var parent = {{ parent_shape }},
         children = {{ child_shapes }};
 
@@ -139,7 +139,7 @@ function makeMap(geodata) {
             .scale(1000)
             .translate([width / 2, height / 2]);
     }
-    
+
     // outline the parent geography
     svgMap.append("path")
         .datum(parent)
@@ -154,7 +154,7 @@ function makeMap(geodata) {
         .enter().append("path")
             .attr("d", path)
             .attr("id", function(d) { return "poly-" + d['id']; })
-            .attr("class", function(d) { 
+            .attr("class", function(d) {
                 if (!!geodata[d['id']]) {
                     return quantize(geodata[d['id']]['percentage']);
                 }
@@ -191,7 +191,7 @@ function makeMap(geodata) {
             .duration(200)
             .style("opacity", 1e-6);
     }
-    
+
     function makeLabel(d) {
         if (!!geodata[d['id']]) {
             var label = "<span class='label-title'>" + labelTitle + "</span>";
@@ -213,7 +213,7 @@ function makeMap(geodata) {
     function numberWithCommas(n) {
         var parts=n.toString().split(".");
         return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
-    }    
+    }
     //svg.selectAll(".label")
         //    .data(geographies.features)
         //.enter().append("text")
