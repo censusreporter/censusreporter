@@ -313,11 +313,12 @@ class ComparisonView(TemplateView):
             geoID = geoid.split('US')[1]
 
             # add the shape to our list
-            shape_item = child['geography']['geometry']
-            shape_item.update({
-                'id': geoID
-            })
-            child_shapes.append(shape_item)
+            if 'geometry' in child['geography']:
+                shape_item = child['geography']['geometry']
+                shape_item.update({
+                    'id': geoID
+                })
+                child_shapes.append(shape_item)
 
             # TODO: Figure out how to identify tables where first column
             # is not our total
