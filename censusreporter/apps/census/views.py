@@ -109,7 +109,7 @@ class GeographyDetailView(TemplateView):
 
 class ComparisonView(TemplateView):
     template_name = 'comparison.html'
-    
+
     def dispatch(self, *args, **kwargs):
         self.parent_id = self.kwargs['parent_id']
         self.parent_fips_code = self.parent_id.split('US')[1]
@@ -124,7 +124,7 @@ class ComparisonView(TemplateView):
             self.table_id = self.request.GET['table']
         else:
             self.table_id = 'B01001'
-        
+
         # if we need a downloadable format, provide it straightaway
         if self.format == 'json':
             comparison_data = self.get_api_data()
@@ -143,7 +143,7 @@ class ComparisonView(TemplateView):
             return response
 
         return super(ComparisonView, self).dispatch(*args, **kwargs)
-        
+
     def get_api_data(self, geom=False):
         API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (self.release, self.table_id)
         API_PARAMS = {
@@ -152,16 +152,16 @@ class ComparisonView(TemplateView):
         }
         if geom:
             API_PARAMS.update({'geom': True})
-        
+
         r = requests.get(API_ENDPOINT, params=API_PARAMS)
 
         if r.status_code == 200:
             data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         else:
             raise Http404
-        
+
         return data
-        
+
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'parent_id': self.parent_id,
@@ -192,7 +192,7 @@ class ComparisonView(TemplateView):
 
         # all the descendants being compared
         descendant_list = sorted([(geoid, child['geography']['name']) for (geoid, child) in comparison_data['child_geographies'].iteritems()])
-        
+
         self.parent_data = comparison_data['parent_geography']['data']
 
         page_context.update({
@@ -222,7 +222,7 @@ class ComparisonView(TemplateView):
             total_population = data.pop(total_population_key)
         else:
             total_population = data[total_population_key]
-        
+
         return total_population
 
     def make_table_values_by_geo(self, data, table):
@@ -266,23 +266,23 @@ class ComparisonView(TemplateView):
                 'indent': column['indent'],
                 'values': OrderedDict(),
             }
-            
+
             for (geoID, values) in data.iteritems():
                 total_population = self.get_child_total_value(values['data'])
                 total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
-                
+
                 field_item['values'][geoID] = {
                     'total': total,
                     'total_pct': total_pct,
                 }
-                
+
             values_by_field.append(field_item)
-            
+
         geo_names = []
         for (geoID, values) in data.iteritems():
             name = values['geography']['name']
             geo_names.append(name)
-        
+
         return geo_names, values_by_field
 
     def add_table_values(self, page_context, data, table):
@@ -298,7 +298,7 @@ class ComparisonView(TemplateView):
         #    'column_names': column_names,
         #    'values_by_geo': values_by_geo,
         #})
-        
+
     def add_map_values(self, page_context, data, parent, table):
         data_groups = OrderedDict()
         child_shapes = []
@@ -313,11 +313,12 @@ class ComparisonView(TemplateView):
             geoID = geoid.split('US')[1]
 
             # add the shape to our list
-            shape_item = child['geography']['geometry']
-            shape_item.update({
-                'id': geoID
-            })
-            child_shapes.append(shape_item)
+            if 'geometry' in child['geography']:
+                shape_item = child['geography']['geometry']
+                shape_item.update({
+                    'id': geoID
+                })
+                child_shapes.append(shape_item)
 
             # TODO: Figure out how to identify tables where first column
             # is not our total
@@ -337,7 +338,7 @@ class ComparisonView(TemplateView):
                         'number': total,
                     }
                 })
-                
+
         table_pop = self.get_child_total_value(table['columns'], True)
 
         page_context.update({
@@ -459,7 +460,7 @@ class TableSearchJson(View):
         topics = self.request.GET.get('topics', None)
         tables = Table.objects.filter(release = release)
         columns = Column.objects.filter(table__release = release)
-        
+
         if q:
             q = q.strip()
             if q == '*':
@@ -477,7 +478,7 @@ class TableSearchJson(View):
                 tables = tables.filter(topics__contains = topic)
                 if columns:
                     columns = columns.filter(table__topics__contains = topics)
-                
+
         # short-circuit if just requesting a count
         count = self.request.GET.get('count', None)
         if count == 'tables':
@@ -492,7 +493,7 @@ class TableSearchJson(View):
             columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
             columns_list = [self.format_result(column, 'column') for column in list(columns)]
             results.extend(columns_list)
-        
+
         table = self.request.GET.get('table', None)
         if table:
             tables = tables.filter(table_name__icontains=table).values()
