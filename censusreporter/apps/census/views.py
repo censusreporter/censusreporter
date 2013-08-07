@@ -179,7 +179,7 @@ class ComparisonView(TemplateView):
 
         elif self.format == 'map':
             comparison_data = self.get_api_data(geom=True)
-            self.add_map_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
+            self.add_map_values(page_context, comparison_data['child_geographies'], comparison_data['parent_geography'], comparison_data['table'])
 
         elif self.format == 'distribution':
             comparison_data = self.get_api_data()
@@ -205,7 +205,10 @@ class ComparisonView(TemplateView):
 
     def get_total_and_pct(self, value, total):
         if value is not None and total is not None:
-            percentage = round((value / total)*100, 1)
+            if total != 0:
+                percentage = round((value / total)*100, 1)
+            else:
+                percentage = 0
         else:
             percentage = 'n/a'
             if not value:
@@ -296,14 +299,25 @@ class ComparisonView(TemplateView):
         #    'values_by_geo': values_by_geo,
         #})
         
-    def add_map_values(self, page_context, data, table):
+    def add_map_values(self, page_context, data, parent, table):
         data_groups = OrderedDict()
-        parent_shape = data
         child_shapes = []
+        try:
+            parent_shape = parent['geography']['geometry']
+        except:
+            # maybe we don't have the parent shape
+            parent_shape = None
 
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
             geoID = geoid.split('US')[1]
+
+            # add the shape to our list
+            shape_item = child['geography']['geometry']
+            shape_item.update({
+                'id': geoID
+            })
+            child_shapes.append(shape_item)
 
             # TODO: Figure out how to identify tables where first column
             # is not our total
@@ -329,6 +343,8 @@ class ComparisonView(TemplateView):
         page_context.update({
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
             'table_data': SafeString(simplejson.dumps(table, cls=LazyEncoder)),
+            'parent_shape': SafeString(simplejson.dumps(parent_shape, cls=LazyEncoder)),
+            'child_shapes': SafeString(simplejson.dumps(child_shapes, cls=LazyEncoder)),
         })
 
     def add_distribution_values(self, page_context, data, table):

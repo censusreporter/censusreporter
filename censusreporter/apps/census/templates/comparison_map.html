@@ -52,20 +52,8 @@
 var mapDiv = d3.select("#data-map").append("div")
     .attr("class", "svg-map")
     
-var width = mapDiv[0][0].offsetWidth,
-    height = width*.67;
-
-var projection = d3.geo.mercator();
-
-{% if parent_fips_code %}
-var parent_fips_code = {{ parent_fips_code }};
-if (parent_fips_code == '02' || parent_fips_code == '15') {
-    projection = d3.geo.albersUsa();
-}
-{% endif %}
-
-var path = d3.geo.path()
-    .projection(projection);
+var width = mapDiv[0][0].offsetWidth;
+var height = width*.67;
 
 var svgMap = mapDiv.append("svg")
     .attr("width", width)
@@ -98,17 +86,17 @@ function ready(error, geographies) {
                 return indents.join("\xA0\xA0") + d['value']['name'];
             })
     
-    makeMap(geographies, geodata[columns[0]['key']]);
+    makeMap(geodata[columns[0]['key']]);
     window.labelTitle = columns[0]['value']['name'];
     
     function changeMap() {
         var dataIndex = this.options[this.selectedIndex].value;
         window.labelTitle = tabledata['columns'][dataIndex]['name'];
-        makeMap(geographies, geodata[dataIndex]);
+        makeMap(geodata[dataIndex]);
     }
 }
 
-function makeMap(geographies, geodata) {
+function makeMap(geodata) {
     var values = d3.values(geodata).map(function(d) {return d['percentage'];});
     var quantize = d3.scale.quantile()
         .domain([d3.min(values), d3.max(values)])
@@ -118,35 +106,61 @@ function makeMap(geographies, geodata) {
         .selectAll("span")
         .data(quantize.quantiles())
         .text(function(d){ return d.toFixed(1) + '%' });
+        
+    var parent = {{ parent_shape }},
+        children = {{ child_shapes }};
 
-    var states = topojson.feature(geographies, geographies.objects.states),
-        parent = states.features.filter(function(d) {
-            return d.id === {{ parent_fips_code }};
-        })[0];
+    //var states = topojson.feature(geographies, geographies.objects.states),
+    //    parent = states.features.filter(function(d) {
+    //        return d.id === {{ parent_fips_code }};
+    //    })[0];
 
-    var counties = topojson.feature(geographies, geographies.objects.counties),
-        geographies = counties.features.filter(function(d) {
-            var id = d.id.toString(); return id.substring(0,2) === '{{ parent_fips_code }}';
-        });
+    //var childGeographies = topojson.feature(geographies, geographies.objects.counties),
+    //    geographies = children.features.filter(function(d) {
+    //        var id = d.id.toString(); return id.substring(0,2) === '{{ parent_fips_code }}';
+    //    });
 
-    // zoom to the state
-    projection
-        .scale(1)
-        .translate([0, 0]);
+    // zoom to the parent
+    var projection = d3.geo.albersUsa()
+    {% if parent_fips_code %}
+    var parent_fips_code = {{ parent_fips_code }};
+    if (parent_fips_code != '02' && parent_fips_code != '15') {
+        projection = d3.geo.mercator();
+    }
+    {% endif %}
+    var path = d3.geo.path()
+        .projection(projection);
 
-    var b = path.bounds(parent),
-        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+    if (!!parent) {
+        projection
+            .scale(1)
+            .translate([0, 0]);
 
-    projection
-        .scale(s)
-        .translate(t);
+        var b = path.bounds(parent),
+            s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+            t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+        projection
+            .scale(s)
+            .translate(t);
+    } else {
+        // standard projection to show whole U.S.
+        projection
+            .scale(1000)
+            .translate([width / 2, height / 2]);
+    }
     
-    // put the map in place
+    // outline the parent geography
+    svgMap.append("path")
+        .datum(parent)
+        .attr("class", "outline")
+        .attr("d", path);
+
+    // add the quantiled child geographies
     svgMap.append("g")
             .attr("class", "geographies")
         .selectAll("path")
-            .data(geographies)
+            .data(children)
         .enter().append("path")
             .attr("d", path)
             .attr("id", function(d) { return "poly-" + d['id']; })
