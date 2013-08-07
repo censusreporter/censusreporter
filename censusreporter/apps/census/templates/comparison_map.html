@@ -110,11 +110,11 @@ function makeMap(geodata) {
         children = {{ child_shapes }};
 
     // zoom to the parent
-    var projection = d3.geo.albersUsa()
+    var projection = d3.geo.albersUsa().precision(.3);
     {% if parent_fips_code %}
     var parent_fips_code = '{{ parent_fips_code }}';
     if (parent_fips_code != '02' && parent_fips_code != '15') {
-        projection = d3.geo.mercator();
+        projection = d3.geo.mercator().precision(1000);
     }
     {% endif %}
     var path = d3.geo.path()
