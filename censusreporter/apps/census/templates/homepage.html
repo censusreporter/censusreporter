@@ -48,7 +48,7 @@
 <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
-var geoSearchAPI = '/place-search/json/',
+var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
     geoSelect = $('#geography-select');
     
 function makeGeoSelectWidget(element) {
@@ -58,11 +58,11 @@ function makeGeoSelectWidget(element) {
         remote: {
             url: geoSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&sumlev_filter=010,020,030,040,050,160,250,310,500,610,620,860,950,960,970'
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,160,250,310,500,610,620,860,950,960,970'
             },
             filter: function(response) {
                 response.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlev']]
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']]
                 });
                 return response
             }

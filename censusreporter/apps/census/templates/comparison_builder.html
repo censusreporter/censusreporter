@@ -87,7 +87,7 @@
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
 var tableSearchAPI = '/table-search/json/',
-    parentGeoSearchAPI = '/place-search/json/';
+    parentGeoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
 
 var topicSelect = $('#topic-select'),
     topicChosen = $('#topic-chosen'),
@@ -178,11 +178,11 @@ function makeParentSelectWidget(element) {
         remote: {
             url: parentGeoSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&sumlev_filter=' + selectedSumlevAncestorValues()
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=' + selectedSumlevAncestorValues()
             },
             filter: function(response) {
                 response.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlev']]
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']]
                 });
                 return response
             }
