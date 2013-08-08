@@ -213,7 +213,9 @@ function makeParentSelectWidget(element) {
             var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names') + '.';
             insertHelpText(selected.closest('.filter-groups'), helpText);
             if (selectedVal == '040') {
-                element.typeahead('setQuery', 'United States')
+                element.typeahead('setQuery', 'United States');
+            } else {
+                element.typeahead('setQuery', element.val());
             }
         } else {
             element.prop('disabled', 'disabled');
