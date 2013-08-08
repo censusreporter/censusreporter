@@ -11,26 +11,36 @@
     </header>
     <div class="section-container">
         <section class="clearfix">
-            <div class="tool-set">
-                <div class="tool-group">
-                    Click on a row to lock/unlock highlight
-                </div>
-                <div class="tool-group">
-                    Show
-                    <ul class="toggle-controls">
-                        <li><a id="show-percentage">Percentages</a></li>
-                        <li><a id="show-raw-number">Raw numbers</a></li>
-                    </ul>
-                </div>
-            </div>
-            
+            {# TABLE NAME #}
             <h2>{{ table.table_name }}</h2>
+
+            {# VISUALIZATION EXPLAINER #}
             <aside>
-                <p>{{ table.census_release }}</p>
-                <p><strong>Table universe:</strong> {{ table.table_universe }}</p>
+                <p>This grid shows your chosen table. You can also explore this data in maps and distribution charts, or download the data for further analysis.</p>
             </aside>
 
+            {# RELEASE AND UNIVERSE #}
+            <p class="caption">
+                <span class="caption-group">{{ table.census_release }}</span>
+                <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
+            </p>
+
+            {# TABLE DATA #}
             <section class="wide-content">
+                {# NUMBER DISPLAY TOGGLE #}
+                <div class="tool-set">
+                    <div class="tool-group">
+                        Click on a row to lock/unlock highlight
+                    </div>
+                    <div class="tool-group">
+                        Show
+                        <ul class="toggle-controls">
+                            <li><a id="show-percentage">Percentages</a></li>
+                            <li><a id="show-raw-number">Raw numbers</a></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <table id="data-table" class="full-width">
                     <thead>
                         <tr>
@@ -47,7 +57,7 @@
                             {% for geo, values in field.values.items %}
                             <td class="value toggle-target">
                                 <span class="percentage">{{ values.total_pct|floatformat }}%</span>
-                                <span class="raw-number">{{ values.total|floatformat|intcomma }}</span>
+                                <span class="raw-number alt-number">{{ values.total|floatformat|intcomma }}</span>
                             </td>
                             {% endfor %}
                         </tr>
@@ -91,7 +101,6 @@
 {% block body_javascript_extra %}{{ block.super }}
 <script>
 jQuery(document).ready(function(){
-    $('.raw-number').css('display', 'none');
     $('#show-raw-number').css('text-decoration', 'none');
     var toggleControls = $('.toggle-controls a');
     toggleControls.on('click', function() {

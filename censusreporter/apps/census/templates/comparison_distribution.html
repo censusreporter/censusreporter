@@ -7,10 +7,26 @@
 {% block content %}
 <article id="comparison-distribution" class="clearfix">
     <header class="section-contents">
-        <h1>Distribution</h1>
+        <h1>Distributions</h1>
     </header>
     <div class="section-container">
         <section class="clearfix">
+            {# TABLE NAME #}
+            <h2>{{ table.table_name }}</h2>
+
+            {# VISUALIZATION EXPLAINER #}
+            <aside>
+                <p>These charts show how the data in this table is distributed, helping identify patterns, clusters and outliers.</p>
+                <p>Highlighting a point on one chart will also highlight it on the others.</p>
+            </aside>
+            
+            {# RELEASE AND UNIVERSE #}
+            <p class="caption">
+                <span class="caption-group">{{ table.census_release }}</span>
+                <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
+            </p>
+
+            {# GEOGRAPHY SELECTOR #}
             <div class="tool-set">
                 <div class="tool-group">
                     Click on a point to lock/unlock display
@@ -26,12 +42,7 @@
                 </div>
             </div>
             
-            <h2>{{ table.table_name }}</h2>
-            <aside>
-                <p>{{ table.census_release }}</p>
-                <p><strong>Table universe:</strong> {{ table.table_universe }}</p>
-            </aside>
-
+            {# DISTRIBUTION CHARTS #}
             {% for group, values in distribution_groups.items %}
             <section class="coal-chart-container" id="coal-chart-{{ forloop.counter0 }}">
                 <h2 class="indent-{{ values.column_indent }}">{{ values.column_name }}</h2>
@@ -53,6 +64,7 @@
                     </li>
                 {% endfor %}
                 </ul>
+
             </section>
             {% endfor %}
         </section>

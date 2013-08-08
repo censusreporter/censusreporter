@@ -79,6 +79,10 @@ p, .serif {
     font-size: .83em;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+.caption-group {
+    margin-right: 1em;
+}
+
 .leader {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
@@ -411,6 +415,7 @@ section aside ul {
 .q4 { background-color: #555c3b; fill:#555c3b }
 
 #map-legend {
+    float: right;
     font-size: 11px;
 }
 ul.quantile-legend {
@@ -528,6 +533,9 @@ tr.highlight td {
 }
 table .percentage, table .raw-number {
     display: block
+}
+table .alt-number {
+    display: none;
 }
 .indent-0 {
     text-indent: 0;
@@ -691,10 +699,12 @@ textarea#results {
 .tool-set {
     float: right;
     padding-top: .1em;
-    margin-top: -.1em;
+    margin: -.1em 0 .5em;
+}
+.tool-set .tool-group {
+    float: left;
 }
 .tool-group {
-    float: left;
     margin-right: 2em;
     font-size: .83em;
 }
@@ -721,6 +731,9 @@ textarea#results {
     height: 2em;
     padding: .4em .33em;
     margin-left: .25em;
+}
+.tool-group.data-selector select {
+    min-width: 150px;
 }
 
 
