@@ -25,7 +25,10 @@
             {# MAP LEGEND #}
             <div class="tool-group" id="map-legend">
                 <ul class="quantile-legend">
-                    <li class="q0"></li>
+                        <span class="quantile-label min-value"></span>
+                    <li class="q0">
+                        <span class="quantile-label"></span>
+                    </li>
                     <li class="q1">
                         <span class="quantile-label"></span>
                     </li>
@@ -111,10 +114,15 @@ function makeMap(geodata) {
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
 
+    var labelData = quantize.quantiles().slice(0);
+    labelData.unshift(d3.min(values));
+    labelData.push(d3.max(values));
     var legendLabels = d3.select("#map-legend")
         .selectAll("span")
-        .data(quantize.quantiles())
+        .data(labelData)
         .text(function(d){ return d.toFixed(1) + '%' });
+        
+    console.log(labelData);
 
     var parent = {{ parent_shape }},
         children = {{ child_shapes }};

@@ -421,6 +421,7 @@ section aside ul {
 ul.quantile-legend {
     list-style: none;
     margin: 0;
+    position: relative;
 }
 .tool-group ul.quantile-legend {
     padding-bottom: 2em;
@@ -434,9 +435,13 @@ ul.quantile-legend li {
 ul.quantile-legend span.quantile-label {
     position: absolute;
     bottom: -1.75em;
-    left: -2.2em;
+    left: 2.2em;
     width: 4em;
     text-align: center;
+}
+ul.quantile-legend span.min-value {
+    bottom: .5em;
+    left: -2.2em;
 }
 
 /* CHARTS */
