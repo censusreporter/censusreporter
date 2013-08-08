@@ -20,12 +20,6 @@
                 <p>Highlighting a point on one chart will also highlight it on the others.</p>
             </aside>
             
-            {# RELEASE AND UNIVERSE #}
-            <p class="caption">
-                <span class="caption-group">{{ table.census_release }}</span>
-                <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
-            </p>
-
             {# GEOGRAPHY SELECTOR #}
             <div class="tool-set">
                 <div class="tool-group">
@@ -41,6 +35,13 @@
                     </select>
                 </div>
             </div>
+
+            {# RELEASE AND UNIVERSE #}
+            <p class="caption">
+                <span class="caption-group">{{ table.census_release }}</span>
+                <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
+            </p>
+
             
             {# DISTRIBUTION CHARTS #}
             {% for group, values in distribution_groups.items %}

@@ -16,8 +16,22 @@
 
             {# VISUALIZATION EXPLAINER #}
             <aside>
-                <p>This grid shows your chosen table. You can also explore this data in maps and distribution charts, or download the data for further analysis.</p>
+                <p>This grid shows raw data from the table. You can also explore with maps and distribution charts, or download the data for further analysis.</p>
             </aside>
+
+            {# NUMBER DISPLAY TOGGLE #}
+            <div class="tool-set">
+                <div class="tool-group">
+                    Click on a row to lock/unlock highlight
+                </div>
+                <div class="tool-group">
+                    Show
+                    <ul class="toggle-controls">
+                        <li><a id="show-percentage">Percentages</a></li>
+                        <li><a id="show-raw-number">Raw numbers</a></li>
+                    </ul>
+                </div>
+            </div>
 
             {# RELEASE AND UNIVERSE #}
             <p class="caption">
@@ -27,20 +41,6 @@
 
             {# TABLE DATA #}
             <section class="wide-content">
-                {# NUMBER DISPLAY TOGGLE #}
-                <div class="tool-set">
-                    <div class="tool-group">
-                        Click on a row to lock/unlock highlight
-                    </div>
-                    <div class="tool-group">
-                        Show
-                        <ul class="toggle-controls">
-                            <li><a id="show-percentage">Percentages</a></li>
-                            <li><a id="show-raw-number">Raw numbers</a></li>
-                        </ul>
-                    </div>
-                </div>
-
                 <table id="data-table" class="full-width">
                     <thead>
                         <tr>
