@@ -241,6 +241,9 @@ function updateChosenItem(element, itemText) {
 function changeChosenItem(element) {
     var element = $(element);
     var picker = element.parent().next('section');
+    var autocomplete = picker.find('input[id$=-select]');
+    
+    autocomplete.typeahead('setQuery', '*').val('');
     
     picker.fadeIn(50, function(){
         element.fadeOut('fast').html('').removeClass('chosen');
