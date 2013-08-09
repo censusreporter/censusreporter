@@ -202,6 +202,12 @@ class ComparisonView(TemplateView):
         })
 
         return page_context
+        
+    def get_percentify(self, table):
+        # TODO: Change this to key off value in API response
+        if "MEDIAN" in table['table_name'].upper():
+            return False
+        return True
 
     def get_total_and_pct(self, value, total):
         if value is not None and total is not None:
@@ -225,7 +231,8 @@ class ComparisonView(TemplateView):
 
         return total_population
 
-    def make_table_values_by_geo(self, data, table):
+    def make_table_values_by_geo(self, data, table, percentify):
+        # TODO: handle percentify
         values_by_geo = []
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
@@ -239,6 +246,8 @@ class ComparisonView(TemplateView):
             }
 
             for column_id, value in child['data'].iteritems():
+                #TODO: Change this to iterate through `column_names` so we
+                #can fill in None for .5 non-data header columns
                 total, total_pct = self.get_total_and_pct(value, total_population)
 
                 geo_item['values'].update({
@@ -257,7 +266,7 @@ class ComparisonView(TemplateView):
 
         return column_names, values_by_geo
 
-    def make_table_values_by_field(self, data, table):
+    def make_table_values_by_field(self, data, table, percentify):
         values_by_field = []
         for (column_id, column) in table['columns'].iteritems():
             field_item = {
@@ -268,13 +277,24 @@ class ComparisonView(TemplateView):
             }
 
             for (geoID, values) in data.iteritems():
-                total_population = self.get_child_total_value(values['data'])
-                total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
+                if '.' in column_id:
+                    field_item['values'][geoID] = {
+                        'total': None,
+                        'total_pct': None,
+                    }
+                else:
+                    if percentify:
+                        total_population = self.get_child_total_value(values['data'])
+                        total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
 
-                field_item['values'][geoID] = {
-                    'total': total,
-                    'total_pct': total_pct,
-                }
+                        field_item['values'][geoID] = {
+                            'total': total,
+                            'total_pct': total_pct,
+                        }
+                    else:
+                        field_item['values'][geoID] = {
+                            'total': values['data'][column_id],
+                        }                        
 
             values_by_field.append(field_item)
 
@@ -286,8 +306,10 @@ class ComparisonView(TemplateView):
         return geo_names, values_by_field
 
     def add_table_values(self, page_context, data, table):
-        geo_names, values_by_field = self.make_table_values_by_field(data, table)
+        percentify = self.get_percentify(table)
+        geo_names, values_by_field = self.make_table_values_by_field(data, table, percentify)
         page_context.update({
+            'percentify': percentify,
             'geo_names': geo_names,
             'values_by_field': values_by_field,
         })
@@ -300,6 +322,7 @@ class ComparisonView(TemplateView):
         #})
 
     def add_map_values(self, page_context, data, parent, table):
+        percentify = self.get_percentify(table)
         data_groups = OrderedDict()
         child_shapes = []
         try:
@@ -322,24 +345,32 @@ class ComparisonView(TemplateView):
 
             # TODO: Figure out how to identify tables where first column
             # is not our total
-            total_population = self.get_child_total_value(child['data'], True)
+            total_population = self.get_child_total_value(child['data'], pop=percentify)
 
             for column_id, value in child['data'].iteritems():
                 if not column_id in data_groups:
                     data_groups[column_id] = {}
 
                 # TODO This will need MOE, etc.
-                total, percentage = self.get_total_and_pct(value, total_population)
+                if percentify:
+                    total, percentage = self.get_total_and_pct(value, total_population)
 
-                data_groups[column_id].update({
-                    geoID: {
-                        'name': name,
-                        'percentage': percentage,
-                        'number': total,
-                    }
-                })
+                    data_groups[column_id].update({
+                        geoID: {
+                            'name': name,
+                            'percentage': percentage,
+                            'number': total,
+                        }
+                    })
+                else:
+                    data_groups[column_id].update({
+                        geoID: {
+                            'name': name,
+                            'number': value,
+                        }
+                    })
 
-        table_pop = self.get_child_total_value(table['columns'], True)
+        table_pop = self.get_child_total_value(table['columns'], pop=percentify)
 
         page_context.update({
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
