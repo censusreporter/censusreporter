@@ -373,6 +373,7 @@ class ComparisonView(TemplateView):
         table_pop = self.get_child_total_value(table['columns'], pop=percentify)
 
         page_context.update({
+            'percentify': percentify,
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
             'table_data': SafeString(simplejson.dumps(table, cls=LazyEncoder)),
             'parent_shape': SafeString(simplejson.dumps(parent_shape, cls=LazyEncoder)),

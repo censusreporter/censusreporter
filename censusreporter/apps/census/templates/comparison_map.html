@@ -107,7 +107,13 @@ function ready(error) {
 }
 
 function makeMap(geodata) {
-    var values = d3.values(geodata).map(function(d) {return d['percentage'];});
+    var percentify = '{{ percentify }}';
+
+    if (percentify == 'True') {
+        var values = d3.values(geodata).map(function(d) {return d['percentage'];});
+    } else {
+        var values = d3.values(geodata).map(function(d) {return d['number'];});
+    }
     var quantize = d3.scale.quantile()
         .domain([d3.min(values), d3.max(values)])
         .range(d3.range(5).map(function(i) { return "q" + i; }));
@@ -119,11 +125,15 @@ function makeMap(geodata) {
         .selectAll("span")
         .data(labelData)
         .text(function(d){
-            if (d) {return d.toFixed(1) + '%'}
+            if (d) {
+                if (percentify == 'True') {
+                    return d.toFixed(1) + '%'
+                } else {
+                    return numberWithCommas(d)
+                }
+            }
         });
         
-    console.log(labelData);
-
     var parent = {{ parent_shape }},
         children = {{ child_shapes }};
 
@@ -174,7 +184,11 @@ function makeMap(geodata) {
             .attr("id", function(d) { return "poly-" + d['id']; })
             .attr("class", function(d) {
                 if (!!geodata[d['id']]) {
-                    return quantize(geodata[d['id']]['percentage']);
+                    if (percentify == 'True') {
+                        return quantize(geodata[d['id']]['percentage']);
+                    } else {
+                        return quantize(geodata[d['id']]['number']);
+                    }
                 }
             })
             .on("mouseover", function(d) { return mouseover(d) })
