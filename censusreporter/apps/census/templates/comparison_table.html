@@ -7,7 +7,7 @@
 {% block content %}
 <article id="comparison-distribution" class="clearfix">
     <header class="section-contents">
-        <h1>Data table</h1>
+        <h1>Table {{ table.table_id }}</h1>
     </header>
     <div class="section-container">
         <section class="clearfix">
@@ -16,6 +16,7 @@
 
             {# VISUALIZATION EXPLAINER #}
             <aside>
+                <p>{{ table.census_release }}</p>
                 <p>This grid shows raw data from the table. You can also explore with maps and distribution charts, or download the data for further analysis.</p>
             </aside>
 
@@ -24,6 +25,7 @@
                 <div class="tool-group">
                     Click on a row to lock/unlock highlight
                 </div>
+                {% if percentify %}
                 <div class="tool-group">
                     Show
                     <ul class="toggle-controls">
@@ -31,11 +33,11 @@
                         <li><a id="show-raw-number">Raw numbers</a></li>
                     </ul>
                 </div>
+                {% endif %}
             </div>
 
-            {# RELEASE AND UNIVERSE #}
+            {# UNIVERSE #}
             <p class="caption">
-                <span class="caption-group">{{ table.census_release }}</span>
                 <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
             </p>
 
@@ -56,8 +58,10 @@
                             <td class="name indent-{{ field.indent }}">{{ field.name }}</td>
                             {% for geo, values in field.values.items %}
                             <td class="value toggle-target">
-                                <span class="percentage">{{ values.total_pct|floatformat }}%</span>
-                                <span class="raw-number alt-number">{{ values.total|floatformat|intcomma }}</span>
+                                {% if values.total %}
+                                    {% if percentify %}<span class="percentage">{{ values.total_pct|floatformat }}%</span>{% endif %}
+                                    <span class="raw-number{% if percentify %} alt-number{% endif %}">{{ values.total|floatformat|intcomma }}</span>
+                                {% endif %}
                             </td>
                             {% endfor %}
                         </tr>
@@ -101,6 +105,7 @@
 {% block body_javascript_extra %}{{ block.super }}
 <script>
 jQuery(document).ready(function(){
+    {% if percentify %}
     $('#show-raw-number').css('text-decoration', 'none');
     var toggleControls = $('.toggle-controls a');
     toggleControls.on('click', function() {
@@ -111,7 +116,7 @@ jQuery(document).ready(function(){
         $('.toggle-target span').css('display', 'none');
         $('.'+targetClass).css('display', 'block');
     })
-    
+    {% endif %}
     $('table').on('click', 'tr', function(){
         $(this).toggleClass('highlight');
     })
