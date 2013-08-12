@@ -175,15 +175,34 @@ class ComparisonView(TemplateView):
 
         if self.format == 'table':
             comparison_data = self.get_api_data()
-            self.add_table_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
+            cleaned_table = self.clean_table(comparison_data['table'])
+            page_context.update(
+                self.generate_table_values(
+                    comparison_data['child_geographies'],
+                    cleaned_table
+                )
+            )
 
         elif self.format == 'map':
             comparison_data = self.get_api_data(geom=True)
-            self.add_map_values(page_context, comparison_data['child_geographies'], comparison_data['parent_geography'], comparison_data['table'])
+            cleaned_table = self.clean_table(comparison_data['table'])
+            page_context.update(
+                self.generate_map_values(
+                    comparison_data['child_geographies'],
+                    comparison_data['parent_geography'],
+                    cleaned_table
+                )
+            )
 
         elif self.format == 'distribution':
             comparison_data = self.get_api_data()
-            self.add_distribution_values(page_context, comparison_data['child_geographies'], comparison_data['table'])
+            cleaned_table = self.clean_table(comparison_data['table'])
+            page_context.update(
+                self.generate_distribution_values(
+                    comparison_data['child_geographies'],
+                    cleaned_table
+                )
+            )
 
         # add some metadata about the comparison
         comparison_metadata = comparison_data['comparison']
@@ -203,12 +222,21 @@ class ComparisonView(TemplateView):
 
         return page_context
         
+    def clean_table(self, table):
+        # remove non-data headers that are the first field in the table,
+        # which simply duplicate information from the table name
+        for (column_id, column) in table['columns'].iteritems():
+            if column_id.endswith('000.5'):
+                del table['columns'][column_id]
+
+        return table
+
     def get_percentify(self, table):
         # TODO: Change this to key off value in API response
         if "MEDIAN" in table['table_name'].upper():
             return False
         return True
-
+        
     def get_total_and_pct(self, value, total):
         if value is not None and total is not None:
             if total != 0:
@@ -305,23 +333,25 @@ class ComparisonView(TemplateView):
 
         return geo_names, values_by_field
 
-    def add_table_values(self, page_context, data, table):
+    def generate_table_values(self, data, table):
         percentify = self.get_percentify(table)
         geo_names, values_by_field = self.make_table_values_by_field(data, table, percentify)
-        page_context.update({
+        table_values = {
             'percentify': percentify,
             'geo_names': geo_names,
             'values_by_field': values_by_field,
-        })
+        }
+
+        return table_values
 
         # TRANSPOSED VERSION: COLUMN NAMES ACROSS, GEO ROWS DOWN
         #column_names, values_by_geo = self.make_table_values_by_geo(data, table)
-        #page_context.update({
+        #return {
         #    'column_names': column_names,
         #    'values_by_geo': values_by_geo,
-        #})
+        #}
 
-    def add_map_values(self, page_context, data, parent, table):
+    def generate_map_values(self, data, parent, table):
         percentify = self.get_percentify(table)
         data_groups = OrderedDict()
         child_shapes = []
@@ -372,15 +402,17 @@ class ComparisonView(TemplateView):
 
         table_pop = self.get_child_total_value(table['columns'], pop=percentify)
 
-        page_context.update({
+        map_values = {
             'percentify': percentify,
             'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
             'table_data': SafeString(simplejson.dumps(table, cls=LazyEncoder)),
             'parent_shape': SafeString(simplejson.dumps(parent_shape, cls=LazyEncoder)),
             'child_shapes': SafeString(simplejson.dumps(child_shapes, cls=LazyEncoder)),
-        })
+        }
+        
+        return map_values
 
-    def add_distribution_values(self, page_context, data, table):
+    def generate_distribution_values(self, data, table):
         distribution_groups = OrderedDict()
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
@@ -425,9 +457,11 @@ class ComparisonView(TemplateView):
                         percentage = 0
                     value['percent_of_range_%s' % field] = round(percentage,1)
 
-        page_context.update({
+        distribution_values = {
             'distribution_groups': distribution_groups,
-        })
+        }
+        
+        return distribution_values
 
 def render_json_to_response(context):
     result = simplejson.dumps(context, sort_keys=False, indent=4)
