@@ -125,7 +125,15 @@ function makeTopicSelectWidget(element) {
         remote: {
             url: tableSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&topics=' + selectedTopicFilterValues().join(',')
+                url += '?';
+                if (uriEncodedQuery) {
+                    url += 'q=' + uriEncodedQuery;
+                }
+                var selectedTopics = selectedTopicFilterValues();
+                if (selectedTopics.length > 0) {
+                    url += '&topics=' + selectedTopics.join(',');
+                }
+                return url;
             },
             filter: function(response) {
                 var resultNumber = response.length;
