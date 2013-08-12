@@ -11,7 +11,7 @@
     <header class="column-full">
         <h1 class="title">Compare data</h1>
     </header>
-    
+
     <section id="query-builder">
         <form action="" method="GET" onsubmit="return false">
             <section class="step-explainer column-full">
@@ -28,7 +28,7 @@
                     {% include "_compare/_compare_builder_topic_filter_list.html" with filter_list=topic_housing_filters filter_list_name="Housing" %}
                     {% include "_compare/_compare_builder_topic_filter_list.html" with filter_list=topic_social_filters filter_list_name="Social" %}
                 </div>
-                
+
                 <div class="column-three-quarters autocomplete-widget">
                     <h2 id="topic-result-number">Search data tables</h2>
                     <input name="topic_select" id="topic-select" type="text" placeholder="Search for data..." autocomplete="off">
@@ -57,7 +57,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="column-three-quarters autocomplete-widget">
                     <h2>Within a place</h2>
                     <input name="parent_select" id="parent-select" type="text" placeholder="... then search for a place" autocomplete="off">
@@ -72,7 +72,7 @@
             </section>
         </form>
     </section>
-    
+
     <section id="release-options" class="clearfix"></section>
     <section id="api-url" class="clearfix"></section>
     <section id="results-container" class="clearfix">
@@ -96,7 +96,7 @@ var topicSelect = $('#topic-select'),
     sumlevSelect = $('#sumlev-select-options'),
     parentSelect = $('#parent-select'),
     geographiesChosen = $('#geographies-chosen');
-    
+
 var selectedTopicFilterValues = function () {
     return topicFilters.filter(':checked').map(function () {
         return this.value;
@@ -147,11 +147,11 @@ function makeTopicSelectWidget(element) {
         ].join(''),
         engine: Hogan
     });
-    
+
     element.on('typeahead:initialized', function() {
         triggerAutocompleteWildCardFallback(element);
     });
-    
+
     element.on('typeahead:selected', function(obj, datum) {
         if (datum['table_id']) {
             element.data('table-id', datum['table_id']);
@@ -191,7 +191,7 @@ function makeParentSelectWidget(element) {
         template: {% verbatim %}'<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'{% endverbatim %},
         engine: Hogan
     });
-     
+
     element.on('typeahead:selected', function(obj, datum) {
         element.data('parent-geoid', datum['full_geoid']);
         updateChosenItem(
@@ -200,14 +200,14 @@ function makeParentSelectWidget(element) {
         )
         makeAPIRequest();
     });
-    
+
     // when user chooses a sumlev to compare, limit possible
     // autocomplete options for parent/containing geography
     sumlevSelect.on('change', function(e) {
         var selected = selectedSumlev();
         var selectedVal = selected.val();
         sumlevSelect.blur();
-        
+
         if (selectedVal != '') {
             element.removeProp('disabled');
             var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names') + '.';
@@ -244,9 +244,9 @@ function changeChosenItem(element) {
     var element = $(element);
     var picker = element.parent().next('section');
     var autocomplete = picker.find('input[id$=-select]');
-    
+
     autocomplete.typeahead('setQuery', '*').val('');
-    
+
     picker.fadeIn(50, function(){
         element.fadeOut('fast').html('').removeClass('chosen');
         element.siblings('.explainer').show();
@@ -270,7 +270,7 @@ function makeAPIRequest() {
         var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
                             chosenTableID + '?year=' + currentYear  + '&sumlevel=' + chosenSumlev +
                             '&within=' + chosenParentGeoID;
-        
+
         var counts = $.getJSON(getCountsAPI)
             .done(function(data) {
                 // choose the release with the most results
@@ -279,7 +279,7 @@ function makeAPIRequest() {
                 });
                 chosenRelease = data[0]['release_slug'];
                 sendToComparison(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
-                
+
                 //data[0]['active'] = 'active';
                 //fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
 
@@ -307,7 +307,7 @@ function showReleaseOptions(data) {
             '</a>'
         ].join('');
     });
-    
+
     releaseOptions.html(releaseOptionsList);
     releaseOptions.on('click', '.release-option', function(e) {
         e.preventDefault();
@@ -316,14 +316,14 @@ function showReleaseOptions(data) {
         chosenRelease = chosenOption.data('release-slug');
         fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
     });
-    
+
 }
 
 function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID) {
     var getDataAPI = 'http://api.censusreporter.org/1.0/data/compare/' +
                       chosenRelease + '/' + chosenTableID + '?sumlevel=' + chosenSumlev +
                       '&within=' + chosenParentGeoID + '&geom=true';
-                      
+
     var displayURL = 'Download as JSON: <a href="' + getDataAPI + '">' + getDataAPI + '</a>'
     $('#api-url').hide().html(displayURL).addClass('centered').fadeIn('fast');
 
@@ -336,7 +336,7 @@ function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGe
 
 jQuery(document).ready(function(){
     $('#results').hide();
-    
+
     // initial setup for select widgets
     makeTopicSelectWidget(topicSelect);
     makeParentSelectWidget(parentSelect);
@@ -352,13 +352,13 @@ jQuery(document).ready(function(){
     $(document).ajaxComplete(function(event, request, settings) {
         spinner.stop()
     });
-    
+
     // handle form values that browser may have held onto
     if (!!selectedSumlev().val()) {
         sumlevSelect.trigger('change');
     }
     topicFilters.filter(':checked').closest('.filter-group').addClass('open');
-    
+
     $('#query-builder').on('click', '.chosen', function(e) {
         e.preventDefault();
         changeChosenItem($(this));
