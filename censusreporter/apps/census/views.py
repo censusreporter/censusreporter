@@ -250,7 +250,7 @@ class ComparisonView(TemplateView):
 
         return value, percentage
 
-    def get_child_total_value(self, data, pop=False):
+    def get_denominator_value(self, data, pop=False):
         total_population_key = data.keys()[0]
         if pop:
             total_population = data.pop(total_population_key)
@@ -264,7 +264,7 @@ class ComparisonView(TemplateView):
         values_by_geo = []
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
-            total_population = self.get_child_total_value(child['data'])
+            total_population = self.get_denominator_value(child['data'])
             # build item for values_by_geo
             geo_item = {
                 'name': name,
@@ -313,7 +313,7 @@ class ComparisonView(TemplateView):
                     }
                 else:
                     if percentify:
-                        total_population = self.get_child_total_value(values['data'])
+                        total_population = self.get_denominator_value(values['data'])
                         total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
 
                         field_item['values'][geoID] = {
@@ -378,7 +378,7 @@ class ComparisonView(TemplateView):
             # where first column is not our total
             if percentify:
                 # only need to get total_population once, so outside loop
-                total_population = self.get_child_total_value(child['data'], pop=percentify)
+                total_population = self.get_denominator_value(child['data'], pop=percentify)
 
             for column_id, value in child['data'].iteritems():
                 if not column_id in data_groups:
@@ -399,7 +399,7 @@ class ComparisonView(TemplateView):
                     })
 
         # pop the table's first column if necessary
-        table_pop = self.get_child_total_value(table['columns'], pop=percentify)
+        table_pop = self.get_denominator_value(table['columns'], pop=percentify)
 
         map_values = {
             'percentify': percentify,
@@ -414,21 +414,32 @@ class ComparisonView(TemplateView):
     def generate_distribution_values(self, data, table):
         percentify = self.get_percentify(table)
         distribution_groups = OrderedDict()
+        
+        # Create the initial list of data columns, including non-data subheads
+        for (column_id, column) in table['columns'].iteritems():
+            distribution_groups[column_id] = {
+                'column_name': table['columns'][column_id]['name'],
+                'column_indent': table['columns'][column_id]['indent'] - 1,
+                'group_baselines': {},
+                'group_values': {},
+            }
+            if '.' in column_id:
+                distribution_groups[column_id].update({
+                    'subhead': True,
+                })
+                
+        table_pop = self.get_denominator_value(distribution_groups, pop=percentify)
+        
+        # add data values from each child geography
+        # to each column's `group_values` dict
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
             if percentify:
-                # only need to get total_population once, so outside loop
-                total_population = self.get_child_total_value(child['data'], pop=percentify)
+                # Only need to get total_population once, so do this outside loop. If values
+                # will be presented as percentages, we don't need the denominator column.
+                total_population = self.get_denominator_value(child['data'], pop=percentify)
 
             for column_id, value in child['data'].iteritems():
-                if not column_id in distribution_groups:
-                    distribution_groups[column_id] = {
-                        'column_name': table['columns'][column_id]['name'],
-                        'column_indent': table['columns'][column_id]['indent'] - 1,
-                        'group_baselines': {},
-                        'group_values': {},
-                    }
-
                 distribution_groups[column_id]['group_values'].update({
                     geoid: {
                         'name': name,
@@ -436,6 +447,8 @@ class ComparisonView(TemplateView):
                     }
                 })
                 if percentify:
+                    # If table can be percentified, the primary value
+                    # for this type of chart should be the percentage
                     total, total_pct = self.get_total_and_pct(value, total_population)
                     distribution_groups[column_id]['group_values'][geoid].update({
                         'value': total_pct,
@@ -449,23 +462,28 @@ class ComparisonView(TemplateView):
             
         for chart, chart_values in distribution_groups.items():
             for field in field_list:
-                values_list = [value[field] for geo, value in chart_values['group_values'].iteritems()]
-                max_value = max(values_list)
-                min_value = min(values_list)
-                domain_range = max_value - min_value
-                median_value = median(values_list)
-                median_percent_of_range = ((median_value - min_value) / domain_range)*100
-                chart_values['group_baselines']['max_%s' % field] = max_value
-                chart_values['group_baselines']['min_%s' % field] = min_value
-                chart_values['group_baselines']['domain_range_%s' % field] = domain_range
-                chart_values['group_baselines']['median_%s' % field] = median_value
-                chart_values['group_baselines']['median_percent_of_range_%s' % field] = round(median_percent_of_range,1)
-                for geo, value in chart_values['group_values'].items():
-                    if domain_range != 0:
-                        percentage = ((value[field] - min_value) / domain_range)*100
-                    else:
-                        percentage = 0
-                    value['percent_of_range_%s' % field] = round(percentage,1)
+                # skip the non-data subheads
+                if chart_values['group_values']:
+                    values_list = [value[field] for geo, value in chart_values['group_values'].iteritems()]
+                    # get the min, max, median and range values
+                    # for this column within this group of geographies
+                    max_value = max(values_list)
+                    min_value = min(values_list)
+                    domain_range = max_value - min_value
+                    median_value = median(values_list)
+                    median_percent_of_range = ((median_value - min_value) / domain_range)*100
+                    chart_values['group_baselines']['max_%s' % field] = max_value
+                    chart_values['group_baselines']['min_%s' % field] = min_value
+                    chart_values['group_baselines']['domain_range_%s' % field] = domain_range
+                    chart_values['group_baselines']['median_%s' % field] = median_value
+                    chart_values['group_baselines']['median_percent_of_range_%s' % field] = round(median_percent_of_range,1)
+                    # add a percent of range value for plotting each point along the x axis
+                    for geo, value in chart_values['group_values'].items():
+                        if domain_range != 0:
+                            percentage = ((value[field] - min_value) / domain_range)*100
+                        else:
+                            percentage = 0
+                        value['percent_of_range_%s' % field] = round(percentage,1)
 
         distribution_values = {
             'percentify': percentify,
