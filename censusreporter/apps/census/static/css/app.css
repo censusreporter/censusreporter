@@ -433,14 +433,14 @@ ul.quantile-legend {
 }
 ul.quantile-legend li {
     height: 2em;
-    width: 4em;
+    width: 5em;
     position: relative;
-    margin: 0 .2em;
+    margin: 0;
 }
 ul.quantile-legend span.quantile-label {
     position: absolute;
     bottom: -1.75em;
-    left: 2.2em;
+    left: 3em;
     width: 4em;
     text-align: center;
 }
@@ -711,6 +711,9 @@ textarea#results {
     padding-top: .1em;
     margin: -.1em 0 .5em;
 }
+.tool-set.caption-tool-set {
+    margin-top: .1em;
+}
 .tool-set .tool-group {
     float: left;
 }
@@ -743,6 +746,7 @@ textarea#results {
     margin-left: .25em;
 }
 .tool-group.data-selector select {
+    margin-left: 0;
     min-width: 150px;
 }
 
