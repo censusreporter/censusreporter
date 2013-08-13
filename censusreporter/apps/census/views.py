@@ -115,6 +115,8 @@ class ComparisonView(TemplateView):
         self.parent_fips_code = self.parent_id.split('US')[1]
         self.descendant_sumlev = self.kwargs['descendant_sumlev']
         self.format = self.kwargs.get('format', None)
+
+        # sensible defaults
         if 'release' in self.request.GET:
             self.release = self.request.GET['release']
         else:
@@ -129,9 +131,15 @@ class ComparisonView(TemplateView):
         if self.format == 'json':
             comparison_data = self.get_api_data()
             return render_json_to_response(comparison_data)
+            
         elif self.format == 'csv':
             comparison_data = self.get_api_data()
-            columns, rows = self.make_table_values_by_geo(comparison_data['child_geographies'], comparison_data['table'])
+            cleaned_table = self.clean_table(comparison_data['table'])
+            columns, rows = self.make_table_values_by_geo(
+                comparison_data['child_geographies'],
+                cleaned_table,
+                percentify=False
+            )
             filename = '%s_%s_%s_in_%s.csv' % (self.release, self.table_id, self.descendant_sumlev, self.parent_id)
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename
@@ -139,12 +147,17 @@ class ComparisonView(TemplateView):
             writer = csv.writer(response)
             writer.writerow(['Name','GeoID'] + columns)
             for row in rows:
-                writer.writerow([row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()])
+                writer.writerow(
+                    [row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()]
+                )
             return response
 
         return super(ComparisonView, self).dispatch(*args, **kwargs)
 
     def get_api_data(self, geom=False):
+        '''
+        Retrieves data from the comparison endpoint at api.censusreporter.org.
+        '''
         API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (self.release, self.table_id)
         API_PARAMS = {
             "within": self.parent_id,
@@ -163,6 +176,11 @@ class ComparisonView(TemplateView):
         return data
 
     def get_context_data(self, *args, **kwargs):
+        '''
+        The workhorse in this view. Uses the format argument to determine
+        which template to render, as well as which method to use for reshaping
+        the API response data properly for visualization.
+        '''
         page_context = {
             'parent_id': self.parent_id,
             'parent_fips_code': self.parent_fips_code,
@@ -210,7 +228,9 @@ class ComparisonView(TemplateView):
         comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[self.descendant_sumlev]
 
         # all the descendants being compared
-        descendant_list = sorted([(geoid, child['geography']['name']) for (geoid, child) in comparison_data['child_geographies'].iteritems()])
+        descendant_list = sorted(
+            [(geoid, child['geography']['name']) for (geoid, child) in comparison_data['child_geographies'].iteritems()]
+        )
 
         self.parent_data = comparison_data['parent_geography']['data']
 
@@ -223,8 +243,10 @@ class ComparisonView(TemplateView):
         return page_context
         
     def clean_table(self, table):
-        # remove non-data headers that are the first field in the table,
-        # which simply duplicate information from the table name
+        '''
+        Removes non-data headers that are the first field in the table,
+        which simply duplicate information from the table name.
+        '''
         for (column_id, column) in table['columns'].iteritems():
             if column_id.endswith('000.5'):
                 del table['columns'][column_id]
@@ -232,15 +254,41 @@ class ComparisonView(TemplateView):
         return table
 
     def get_percentify(self, table):
+        '''
+        Utiltity method that determines whether a table is suitable
+        for presenting values in percentages. (E.g., tables that contain
+        raw numbers, not medians.)
+        '''
         # TODO: Change this to key off value in API response
         if "MEDIAN" in table['table_name'].upper():
             return False
         return True
         
-    def get_total_and_pct(self, value, total):
-        if value is not None and total is not None:
+    def get_denominator_value(self, data, pop=False):
+        '''
+        Utility method that determines which field in a table represents
+        a "total" value, suitable for use in generating a percentage figure.
+        Optionally pops this value out of the data that is passed in,
+        to avoid displaying it in a percentage-based visualization.
+        '''
+        # TODO: Change this to key off value in API response
+        total_population_key = data.keys()[0]
+        if pop:
+            total_population = data.pop(total_population_key)
+        else:
+            total_population = data[total_population_key]
+
+        return total_population
+
+    def get_total_and_pct(self, value, denominator):
+        '''
+        Utility method that takes a data value and a denominator value,
+        then returns the value along with its percentage of the total.
+        Normalizes math for percentage-based visualizations.
+        '''
+        if value is not None and denominator is not None:
             if total != 0:
-                percentage = round((value / total)*100, 1)
+                percentage = round((value / denominator)*100, 1)
             else:
                 percentage = 0
         else:
@@ -250,17 +298,11 @@ class ComparisonView(TemplateView):
 
         return value, percentage
 
-    def get_denominator_value(self, data, pop=False):
-        total_population_key = data.keys()[0]
-        if pop:
-            total_population = data.pop(total_population_key)
-        else:
-            total_population = data[total_population_key]
-
-        return total_population
-
-    def make_table_values_by_geo(self, data, table, percentify):
-        # TODO: handle percentify
+    def make_table_values_by_geo(self, data, table, percentify=False):
+        '''
+        Returns a list of dicts that can be turned into a data grid,
+        where rows are geographies and columns are fields in the table.
+        '''
         values_by_geo = []
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
@@ -273,17 +315,33 @@ class ComparisonView(TemplateView):
                 'values': OrderedDict(),
             }
 
-            for column_id, value in child['data'].iteritems():
-                #TODO: Change this to iterate through `column_names` so we
-                #can fill in None for .5 non-data header columns
-                total, total_pct = self.get_total_and_pct(value, total_population)
+            for (column_id, column) in table['columns'].iteritems():
+                column_key = column_id.upper()
 
-                geo_item['values'].update({
-                    column_id.upper(): {
-                        'value': total,
-                        'value_alt': total_pct,
-                    }
-                })
+                if '.' in column_id:
+                    geo_item['values'].update({
+                        column_key: {
+                            'value': None,
+                            'value_alt': None,
+                        }
+                    })
+                else:
+                    if percentify:
+                        value = child['data'][column_id]
+                        total, total_pct = self.get_total_and_pct(value, total_population)
+
+                        geo_item['values'].update({
+                            column_key: {
+                                'value': total_pct,
+                                'value_alt': total,
+                            }
+                        })
+                    else:
+                        geo_item['values'].update({
+                            column_key: {
+                                'value': child['data'][column_id],
+                            }
+                        })
 
             values_by_geo.append(geo_item)
 
@@ -294,7 +352,11 @@ class ComparisonView(TemplateView):
 
         return column_names, values_by_geo
 
-    def make_table_values_by_field(self, data, table, percentify):
+    def make_table_values_by_field(self, data, table, percentify=False):
+        '''
+        Returns a list of dicts that can be turned into a data grid,
+        where rows are fields in the table and columns are geographies.
+        '''
         values_by_field = []
         for (column_id, column) in table['columns'].iteritems():
             field_item = {
@@ -335,6 +397,9 @@ class ComparisonView(TemplateView):
         return geo_names, values_by_field
 
     def generate_table_values(self, data, table):
+        '''
+        Reshapes API response data for presentation in table format.
+        '''
         percentify = self.get_percentify(table)
         geo_names, values_by_field = self.make_table_values_by_field(data, table, percentify)
         table_values = {
@@ -353,6 +418,9 @@ class ComparisonView(TemplateView):
         #}
 
     def generate_map_values(self, data, parent, table):
+        '''
+        Reshapes API response data for presentation in a choropleth map.
+        '''
         percentify = self.get_percentify(table)
         data_groups = OrderedDict()
         child_shapes = []
@@ -412,6 +480,10 @@ class ComparisonView(TemplateView):
         return map_values
 
     def generate_distribution_values(self, data, table):
+        '''
+        Reshapes API response data for presentation in distribution charts,
+        aka "circles on a line."
+        '''
         percentify = self.get_percentify(table)
         distribution_groups = OrderedDict()
         
@@ -493,6 +565,9 @@ class ComparisonView(TemplateView):
         return distribution_values
 
 def render_json_to_response(context):
+    '''
+    Utility method for rendering a view's data to JSON response.
+    '''
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
