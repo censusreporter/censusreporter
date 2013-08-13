@@ -826,9 +826,9 @@ ul.sub-group li a {
 
 /* CHARTS */
 
-.coal-chart-container {
-    padding: 3em 0 2em;
-    margin-bottom: 1em;
+section.coal-chart-container {
+    padding: 3em 0 4em;
+    margin-bottom: 0;
 }
 .coal-chart-container h2 {}
 .coal-chart {

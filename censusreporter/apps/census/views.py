@@ -139,7 +139,7 @@ class ComparisonView(TemplateView):
             writer = csv.writer(response)
             writer.writerow(['Name','GeoID'] + columns)
             for row in rows:
-                writer.writerow([row['name'], row['geoID']] + [values['total'] for field, values in row['values'].items()])
+                writer.writerow([row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()])
             return response
 
         return super(ComparisonView, self).dispatch(*args, **kwargs)
@@ -280,8 +280,8 @@ class ComparisonView(TemplateView):
 
                 geo_item['values'].update({
                     column_id.upper(): {
-                        'total': total,
-                        'total_pct': total_pct,
+                        'value': total,
+                        'value_alt': total_pct,
                     }
                 })
 
@@ -305,10 +305,11 @@ class ComparisonView(TemplateView):
             }
 
             for (geoID, values) in data.iteritems():
+                # keep the non-data headers in place for layout
                 if '.' in column_id:
                     field_item['values'][geoID] = {
-                        'total': None,
-                        'total_pct': None,
+                        'value': None,
+                        'value_alt': None,
                     }
                 else:
                     if percentify:
@@ -316,13 +317,13 @@ class ComparisonView(TemplateView):
                         total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
 
                         field_item['values'][geoID] = {
-                            'total': total,
-                            'total_pct': total_pct,
+                            'value': total,
+                            'value_alt': total_pct,
                         }
                     else:
                         field_item['values'][geoID] = {
-                            'total': values['data'][column_id],
-                        }                        
+                            'value': values['data'][column_id],
+                        }
 
             values_by_field.append(field_item)
 
@@ -373,33 +374,31 @@ class ComparisonView(TemplateView):
                 })
                 child_shapes.append(shape_item)
 
-            # TODO: Figure out how to identify tables where first column
-            # is not our total
-            total_population = self.get_child_total_value(child['data'], pop=percentify)
+            # TODO: Figure out how to identify tables
+            # where first column is not our total
+            if percentify:
+                # only need to get total_population once, so outside loop
+                total_population = self.get_child_total_value(child['data'], pop=percentify)
 
             for column_id, value in child['data'].iteritems():
                 if not column_id in data_groups:
                     data_groups[column_id] = {}
 
                 # TODO This will need MOE, etc.
+                data_groups[column_id].update({
+                    geoID: {
+                        'name': name,
+                        'value': value,
+                    }
+                })
                 if percentify:
-                    total, percentage = self.get_total_and_pct(value, total_population)
+                    value, percentage = self.get_total_and_pct(value, total_population)
 
-                    data_groups[column_id].update({
-                        geoID: {
-                            'name': name,
-                            'percentage': percentage,
-                            'number': total,
-                        }
-                    })
-                else:
-                    data_groups[column_id].update({
-                        geoID: {
-                            'name': name,
-                            'number': value,
-                        }
+                    data_groups[column_id][geoID].update({
+                        'percentage': percentage,
                     })
 
+        # pop the table's first column if necessary
         table_pop = self.get_child_total_value(table['columns'], pop=percentify)
 
         map_values = {
@@ -413,10 +412,13 @@ class ComparisonView(TemplateView):
         return map_values
 
     def generate_distribution_values(self, data, table):
+        percentify = self.get_percentify(table)
         distribution_groups = OrderedDict()
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
-            total_population = self.get_child_total_value(child['data'], True)
+            if percentify:
+                # only need to get total_population once, so outside loop
+                total_population = self.get_child_total_value(child['data'], pop=percentify)
 
             for column_id, value in child['data'].iteritems():
                 if not column_id in distribution_groups:
@@ -427,28 +429,36 @@ class ComparisonView(TemplateView):
                         'group_values': {},
                     }
 
-                total, total_pct = self.get_total_and_pct(value, total_population)
-
                 distribution_groups[column_id]['group_values'].update({
                     geoid: {
                         'name': name,
-                        'total': total,
-                        'total_pct': total_pct,
+                        'value': value,
                     }
                 })
+                if percentify:
+                    total, total_pct = self.get_total_and_pct(value, total_population)
+                    distribution_groups[column_id]['group_values'][geoid].update({
+                        'value': total_pct,
+                        'value_alt': total,
+                    })
 
+        if percentify:
+            field_list = ['value', 'value_alt',]
+        else:
+            field_list = ['value',]
+            
         for chart, chart_values in distribution_groups.items():
-            for field in ['total', 'total_pct']:
+            for field in field_list:
                 values_list = [value[field] for geo, value in chart_values['group_values'].iteritems()]
                 max_value = max(values_list)
                 min_value = min(values_list)
                 domain_range = max_value - min_value
                 median_value = median(values_list)
                 median_percent_of_range = ((median_value - min_value) / domain_range)*100
-                chart_values['group_baselines']['max_value_%s' % field] = max_value
-                chart_values['group_baselines']['min_value_%s' % field] = min_value
+                chart_values['group_baselines']['max_%s' % field] = max_value
+                chart_values['group_baselines']['min_%s' % field] = min_value
                 chart_values['group_baselines']['domain_range_%s' % field] = domain_range
-                chart_values['group_baselines']['median_value_%s' % field] = median_value
+                chart_values['group_baselines']['median_%s' % field] = median_value
                 chart_values['group_baselines']['median_percent_of_range_%s' % field] = round(median_percent_of_range,1)
                 for geo, value in chart_values['group_values'].items():
                     if domain_range != 0:
@@ -458,6 +468,7 @@ class ComparisonView(TemplateView):
                     value['percent_of_range_%s' % field] = round(percentage,1)
 
         distribution_values = {
+            'percentify': percentify,
             'distribution_groups': distribution_groups,
         }
         
