@@ -49,18 +49,18 @@
                 <h2 class="indent-{{ values.column_indent }}">{{ values.column_name }}</h2>
                 <ul class="coal-chart">
                     <li class="tick-mark tick-mark-min">
-                        <span><b>Min:</b> {{ values.group_baselines.min_value_total_pct|intcomma }}</span>
+                        <span><b>Min:</b> {{ values.group_baselines.min_value|intcomma }}</span>
                     </li>
-                    <li style="left: {{ values.group_baselines.median_percent_of_range_total_pct|floatformat }}%" class="tick-mark">
-                        <span{% if values.group_baselines.median_percent_of_range_total_pct < 12 %} style="margin-top: 38px;"{% endif %}><b>Median:</b> {{ values.group_baselines.median_value_total_pct|intcomma }}</span>
+                    <li style="left: {{ values.group_baselines.median_percent_of_range_value|floatformat }}%" class="tick-mark">
+                        <span{% if values.group_baselines.median_percent_of_range_value < 12 %} style="margin-top: 38px;"{% endif %}><b>Median:</b> {{ values.group_baselines.median_value|intcomma }}</span>
                     </li>
                     <li class="tick-mark tick-mark-max">
-                        <span><b>Max:</b> {{ values.group_baselines.max_value_total_pct|intcomma }}</span>
+                        <span><b>Max:</b> {{ values.group_baselines.max_value|intcomma }}</span>
                     </li>
                 {% for geoID, values in values.group_values.items %}
-                    <li style="left: {{ values.percent_of_range_total_pct|floatformat }}%">
+                    <li style="left: {{ values.percent_of_range_value|floatformat }}%">
                         <a data-index="geography-{{ geoID }}">
-                            <span><b>{{ values.name }}</b><br>{{ values.total_pct|intcomma }}%</span>
+                            <span><b>{{ values.name }}</b><br>{{ values.value|intcomma }}{% if percentify %}%{% endif %}</span>
                         </a>
                     </li>
                 {% endfor %}

@@ -113,7 +113,7 @@ function makeMap(geodata) {
     if (percentify == 'True') {
         var values = d3.values(geodata).map(function(d) {return d['percentage'];});
     } else {
-        var values = d3.values(geodata).map(function(d) {return d['number'];});
+        var values = d3.values(geodata).map(function(d) {return d['value'];});
     }
     var quantize = d3.scale.quantile()
         .domain([d3.min(values), d3.max(values)])
@@ -188,7 +188,7 @@ function makeMap(geodata) {
                     if (percentify == 'True') {
                         return quantize(geodata[d['id']]['percentage']);
                     } else {
-                        return quantize(geodata[d['id']]['number']);
+                        return quantize(geodata[d['id']]['value']);
                     }
                 }
             })
@@ -231,13 +231,13 @@ function makeMap(geodata) {
             label += "<span class='name'>" + geodata[d['id']]['name'] + "</span>";
             if (!!geodata[d['id']]['percentage']) {
                 label += "<span class='value'>" + geodata[d['id']]['percentage'] + "%";
-                if (!!geodata[d['id']]['number']) {
-                    label += " (" + numberWithCommas(geodata[d['id']]['number']) + ")";
+                if (!!geodata[d['id']]['value']) {
+                    label += " (" + numberWithCommas(geodata[d['id']]['value']) + ")";
                 }
                 label += "</span>";
             }
-            else if (!!geodata[d['id']]['number']) {
-                label += "<span class='value'>" + geodata[d['id']]['number'] + "</span>";
+            else if (!!geodata[d['id']]['value']) {
+                label += "<span class='value'>" + geodata[d['id']]['value'] + "</span>";
             }
         }
         return label
