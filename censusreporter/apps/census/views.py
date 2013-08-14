@@ -131,7 +131,7 @@ class ComparisonView(TemplateView):
         if self.format == 'json':
             comparison_data = self.get_api_data()
             return render_json_to_response(comparison_data)
-            
+
         elif self.format == 'csv':
             comparison_data = self.get_api_data()
             cleaned_table = self.clean_table(comparison_data['table'])
@@ -241,7 +241,7 @@ class ComparisonView(TemplateView):
         })
 
         return page_context
-        
+
     def clean_table(self, table):
         '''
         Removes non-data headers that are the first field in the table,
@@ -263,7 +263,7 @@ class ComparisonView(TemplateView):
         if "MEDIAN" in table['table_name'].upper():
             return False
         return True
-        
+
     def get_denominator_value(self, data, pop=False):
         '''
         Utility method that determines which field in a table represents
@@ -476,7 +476,7 @@ class ComparisonView(TemplateView):
             'parent_shape': SafeString(simplejson.dumps(parent_shape, cls=LazyEncoder)),
             'child_shapes': SafeString(simplejson.dumps(child_shapes, cls=LazyEncoder)),
         }
-        
+
         return map_values
 
     def generate_distribution_values(self, data, table):
@@ -486,7 +486,7 @@ class ComparisonView(TemplateView):
         '''
         percentify = self.get_percentify(table)
         distribution_groups = OrderedDict()
-        
+
         # Create the initial list of data columns, including non-data subheads
         for (column_id, column) in table['columns'].iteritems():
             distribution_groups[column_id] = {
@@ -499,9 +499,9 @@ class ComparisonView(TemplateView):
                 distribution_groups[column_id].update({
                     'subhead': True,
                 })
-                
+
         table_pop = self.get_denominator_value(distribution_groups, pop=percentify)
-        
+
         # add data values from each child geography
         # to each column's `group_values` dict
         for (geoid, child) in data.iteritems():
@@ -531,7 +531,7 @@ class ComparisonView(TemplateView):
             field_list = ['value', 'value_alt',]
         else:
             field_list = ['value',]
-            
+
         for chart, chart_values in distribution_groups.items():
             for field in field_list:
                 # skip the non-data subheads
@@ -561,7 +561,7 @@ class ComparisonView(TemplateView):
             'percentify': percentify,
             'distribution_groups': distribution_groups,
         }
-        
+
         return distribution_values
 
 def render_json_to_response(context):
