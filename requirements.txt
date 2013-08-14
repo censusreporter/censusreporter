@@ -3,3 +3,4 @@ Django==1.5.1
 requests==1.2.0
 wsgiref==0.1.2
 numpy==1.7.0
+unicodecsv==0.9.4

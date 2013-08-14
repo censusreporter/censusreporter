@@ -1,7 +1,7 @@
 from __future__ import division
-import csv
 import json
 import requests
+import unicodecsv
 from collections import OrderedDict
 from numpy import median
 from urllib2 import unquote
@@ -144,7 +144,7 @@ class ComparisonView(TemplateView):
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename
 
-            writer = csv.writer(response)
+            writer = unicodecsv.writer(response, encoding='utf-8')
             writer.writerow(['Name','GeoID'] + columns)
             for row in rows:
                 writer.writerow(
