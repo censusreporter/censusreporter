@@ -260,10 +260,11 @@ class ComparisonView(TemplateView):
         raw numbers, not medians.)
         
         Returns the ID of the denominator column when appropriate (which
-        is truthy for boolean purposes), or False if a table should not
-        be percentified.
+        is truthy for boolean purposes), or an empty string if a table
+        should not be percentified (which makes sure there's an empty
+        value for javascript in the template).
         '''
-        return table['denominator_column_id'] or False
+        return table['denominator_column_id'] or ''
 
     def get_denominator_value(self, data, percentify_column=None, pop=False):
         '''

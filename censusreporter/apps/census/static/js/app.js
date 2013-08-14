@@ -9,6 +9,7 @@ window.log = function(){
 // make it safe to use console.log always
 (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();)b[a]=b[a]||c})(window.console=window.console||{});
 
+// standard mapping of summary level code to summary level name
 var sumlevMap = {
     "010": "nation",
     "020": "region",
@@ -25,4 +26,14 @@ var sumlevMap = {
     "950": "school district (elementary)",
     "960": "school district (secondary)",
     "970": "school district (unified)"
+}
+
+// math utils
+function roundNumber(n) {
+    return (Math.round(n * 10) / 10)
+}
+
+function numberWithCommas(n) {
+    var parts = roundNumber(n).toString().split(".");
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 }
