@@ -58,7 +58,7 @@
                             <td class="name indent-{{ field.indent }}">{{ field.name }}</td>
                             {% for geo, values in field.values.items %}
                             <td class="value toggle-target">
-                                {% if values.value %}
+                                {% if values.value >= 0 %}
                                     {% if percentify %}<span class="percentage">{{ values.value_alt|floatformat }}%</span>{% endif %}
                                     <span class="raw-number{% if percentify %} alt-number{% endif %}">{{ values.value|floatformat|intcomma }}</span>
                                 {% endif %}

@@ -707,7 +707,7 @@ textarea#results {
 .tool-set {
     float: right;
     padding-top: .1em;
-    margin: -.1em 0 .5em;
+    margin: -.1em 0 .5em 1.5em;
 }
 .tool-set.caption-tool-set {
     margin-top: .1em;

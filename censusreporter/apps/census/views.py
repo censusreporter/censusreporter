@@ -294,9 +294,11 @@ class ComparisonView(TemplateView):
             else:
                 percentage = 0
         else:
-            percentage = 'n/a'
+            # blanking out values here for geographies with no data.
+            # alternatively, we could provide templates with 'n/a.'
+            percentage = None
             if not value:
-                value = 'n/a'
+                value = None
 
         return value, percentage
 
