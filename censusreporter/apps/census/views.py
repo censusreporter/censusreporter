@@ -258,27 +258,29 @@ class ComparisonView(TemplateView):
         Utiltity method that determines whether a table is suitable
         for presenting values in percentages. (E.g., tables that contain
         raw numbers, not medians.)
+        
+        Returns the ID of the denominator column when appropriate (which
+        is truthy for boolean purposes), or False if a table should not
+        be percentified.
         '''
-        # TODO: Change this to key off value in API response
-        if "MEDIAN" in table['table_name'].upper():
-            return False
-        return True
+        return table['denominator_column_id'] or False
 
-    def get_denominator_value(self, data, pop=False):
+    def get_denominator_value(self, data, percentify_column=None, pop=False):
         '''
         Utility method that determines which field in a table represents
         a "total" value, suitable for use in generating a percentage figure.
         Optionally pops this value out of the data that is passed in,
         to avoid displaying it in a percentage-based visualization.
         '''
-        # TODO: Change this to key off value in API response
-        total_population_key = data.keys()[0]
+        if not percentify_column:
+            return None
+            
         if pop:
-            total_population = data.pop(total_population_key)
+            total_value = data.pop(percentify_column)
         else:
-            total_population = data[total_population_key]
+            total_value = data[percentify_column]
 
-        return total_population
+        return total_value
 
     def get_total_and_pct(self, value, denominator):
         '''
@@ -306,12 +308,12 @@ class ComparisonView(TemplateView):
         values_by_geo = []
         for (geoid, child) in data.iteritems():
             name = child['geography']['name']
-            total_population = self.get_denominator_value(child['data'])
+            total_value = self.get_denominator_value(child['data'], percentify)
             # build item for values_by_geo
             geo_item = {
                 'name': name,
                 'geoID': geoid,
-                'total_population': total_population,
+                'total_value': total_value,
                 'values': OrderedDict(),
             }
 
@@ -375,8 +377,8 @@ class ComparisonView(TemplateView):
                     }
                 else:
                     if percentify:
-                        total_population = self.get_denominator_value(values['data'])
-                        total, total_pct = self.get_total_and_pct(values['data'][column_id], total_population)
+                        total_value = self.get_denominator_value(values['data'], percentify)
+                        total, total_pct = self.get_total_and_pct(values['data'][column_id], total_value)
 
                         field_item['values'][geoID] = {
                             'value': total,
@@ -446,7 +448,7 @@ class ComparisonView(TemplateView):
             # where first column is not our total
             if percentify:
                 # only need to get total_population once, so outside loop
-                total_population = self.get_denominator_value(child['data'], pop=percentify)
+                total_value = self.get_denominator_value(child['data'], percentify, pop=percentify)
 
             for column_id, value in child['data'].iteritems():
                 if not column_id in data_groups:
@@ -460,14 +462,14 @@ class ComparisonView(TemplateView):
                     }
                 })
                 if percentify:
-                    value, percentage = self.get_total_and_pct(value, total_population)
+                    value, percentage = self.get_total_and_pct(value, total_value)
 
                     data_groups[column_id][geoID].update({
                         'percentage': percentage,
                     })
 
         # pop the table's first column if necessary
-        table_pop = self.get_denominator_value(table['columns'], pop=percentify)
+        table_pop = self.get_denominator_value(table['columns'], percentify, pop=percentify)
 
         map_values = {
             'percentify': percentify,
@@ -500,7 +502,7 @@ class ComparisonView(TemplateView):
                     'subhead': True,
                 })
 
-        table_pop = self.get_denominator_value(distribution_groups, pop=percentify)
+        table_pop = self.get_denominator_value(distribution_groups, percentify, pop=percentify)
 
         # add data values from each child geography
         # to each column's `group_values` dict
@@ -509,7 +511,7 @@ class ComparisonView(TemplateView):
             if percentify:
                 # Only need to get total_population once, so do this outside loop. If values
                 # will be presented as percentages, we don't need the denominator column.
-                total_population = self.get_denominator_value(child['data'], pop=percentify)
+                total_value = self.get_denominator_value(child['data'], percentify, pop=percentify)
 
             for column_id, value in child['data'].iteritems():
                 distribution_groups[column_id]['group_values'].update({
@@ -521,7 +523,7 @@ class ComparisonView(TemplateView):
                 if percentify:
                     # If table can be percentified, the primary value
                     # for this type of chart should be the percentage
-                    total, total_pct = self.get_total_and_pct(value, total_population)
+                    total, total_pct = self.get_total_and_pct(value, total_value)
                     distribution_groups[column_id]['group_values'][geoid].update({
                         'value': total_pct,
                         'value_alt': total,
