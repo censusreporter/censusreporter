@@ -86,7 +86,7 @@
 <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script type="text/javascript">
-var tableSearchAPI = '/table-search/json/',
+var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
     parentGeoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
 
 var topicSelect = $('#topic-select'),
@@ -143,6 +143,11 @@ function makeTopicSelectWidget(element) {
                         table_name: 'Sorry, no matches found. Try removing filters or changing your keyword search.'
                     })
                 }
+                response.map(function(item) {
+                    if (!!item['topics']) {
+                        item['topic_string'] = item['topics'].join(', ');
+                    }
+                });
                 return response
             }
         },
@@ -151,7 +156,7 @@ function makeTopicSelectWidget(element) {
             {% verbatim %}'{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
             '<p class="result-name">{{table_name}}</p>',
             '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
-            '{{#topics}}<p class="caption"><strong>Table topics:</strong> {{topics}}</p>{{/topics}}'{% endverbatim %}
+            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'{% endverbatim %}
         ].join(''),
         engine: Hogan
     });
