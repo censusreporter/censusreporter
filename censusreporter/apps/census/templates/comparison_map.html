@@ -117,7 +117,7 @@ function makeMap(geodata) {
         .selectAll("span")
         .data(labelData)
         .text(function(d){
-            if (d) {
+            if (typeof(d) != 'undefined') {
                 if (!!percentify) {
                     return roundNumber(d) + '%'
                 } else {
@@ -228,7 +228,7 @@ function makeMap(geodata) {
                 label += "</span>";
             }
             else if (!!geodata[d['id']]['value']) {
-                label += "<span class='value'>" + geodata[d['id']]['value'] + "</span>";
+                label += "<span class='value'>" + numberWithCommas(geodata[d['id']]['value']) + "</span>";
             }
         }
         return label
