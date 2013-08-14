@@ -287,7 +287,7 @@ class ComparisonView(TemplateView):
         Normalizes math for percentage-based visualizations.
         '''
         if value is not None and denominator is not None:
-            if total != 0:
+            if denominator != 0:
                 percentage = round((value / denominator)*100, 1)
             else:
                 percentage = 0
