@@ -53,8 +53,6 @@
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
 var mapDiv = d3.select("#data-map").append("div")
     .attr("class", "svg-map")
@@ -73,34 +71,29 @@ var label = mapDiv.append("div")
 
 var labelTitle = "";
 
-queue()
-    .await(ready);
+var geodata = {{ map_data }},
+    tabledata = {{ table_data }};
+var columns = d3.entries(tabledata['columns']);
 
-function ready(error) {
-    var geodata = {{ map_data }},
-        tabledata = {{ table_data }};
-    var columns = d3.entries(tabledata['columns']);
+// add dropdown
+d3.select("#map-select").append("select")
+    .attr("id", "map-select-select")
+    .on("change", changeMap)
+.selectAll("option").data(columns).enter().append("option")
+    .attr("value", function(d){ return d['key']; })
+    .attr("disabled", function(d){ return (d['key'].indexOf('.') >= 0) ? true : null; })
+    .text(function(d){
+            var indents = new Array(d['value']['indent']);
+            return indents.join("\xA0\xA0") + d['value']['name'];
+        })
 
-    // add dropdown
-    d3.select("#map-select").append("select")
-        .attr("id", "map-select-select")
-        .on("change", changeMap)
-    .selectAll("option").data(columns).enter().append("option")
-        .attr("value", function(d){ return d['key']; })
-        .attr("disabled", function(d){ return (d['key'].indexOf('.') >= 0) ? true : null; })
-        .text(function(d){
-                var indents = new Array(d['value']['indent']);
-                return indents.join("\xA0\xA0") + d['value']['name'];
-            })
-    
-    makeMap(geodata[columns[0]['key']]);
-    window.labelTitle = columns[0]['value']['name'];
+makeMap(geodata[columns[0]['key']]);
+window.labelTitle = columns[0]['value']['name'];
 
-    function changeMap() {
-        var dataIndex = this.options[this.selectedIndex].value;
-        window.labelTitle = tabledata['columns'][dataIndex]['name'];
-        makeMap(geodata[dataIndex]);
-    }
+function changeMap() {
+    var dataIndex = this.options[this.selectedIndex].value;
+    window.labelTitle = tabledata['columns'][dataIndex]['name'];
+    makeMap(geodata[dataIndex]);
 }
 
 function makeMap(geodata) {
