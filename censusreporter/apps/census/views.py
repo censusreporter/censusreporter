@@ -738,10 +738,10 @@ class ComparisonBuilder(TemplateView):
 
         # provide some topics to choose from
         TOPIC_FILTERS = {
-            'Demographics': {'topics': ['age', 'gender', 'race', 'seniors',]},
+            'Demographics': {'topics': ['age', 'sex', 'race', 'seniors',]},
             'Economics': {'topics': ['commute', 'employment', 'health insurance', 'income', 'poverty', 'public assistance',]},
-            'Families': {'topics': ['children', 'families', 'fertility', 'grandparents', 'marital status', 'roommates',]},
-            'Housing': {'topics': ['housing',]},
+            'Families': {'topics': ['children', 'families', 'family type', 'fertility', 'grandparents', 'marital status', 'roommates',]},
+            'Housing': {'topics': ['costs and value', 'group quarters', 'housing', 'mortgage', 'occupancy', 'physical characteristics', 'tenure',]},
             'Social': {'topics': ['ancestry', 'citizenship', 'disability', 'education', 'language', 'migration', 'place of birth', 'veterans',]},
         }
 
