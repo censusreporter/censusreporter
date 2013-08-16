@@ -1045,7 +1045,7 @@ section.chart-divider h2 {
 }
 #query-builder-bar .query-chosen {
     text-align: center;
-    padding: .83em;
+    padding: .83em 0;
     color: #fff;
     background-color: #014948;
     border: 1px solid #001716;
@@ -1054,8 +1054,11 @@ section.chart-divider h2 {
     border-radius: 4px;
     cursor: pointer;
 }
-#query-builder-bar .query-chosen.tabbed {
+#query-builder-bar .query-chosen.tabbed,
+#query-builder-bar .query-chosen.hovered {
     background-color: #02aeab;
+}
+#query-builder-bar .query-chosen.tabbed {
     -webkit-border-bottom-right-radius: 0;
     -webkit-border-bottom-left-radius: 0;
     -moz-border-radius-bottomright: 0;
@@ -1066,6 +1069,24 @@ section.chart-divider h2 {
 #query-builder-bar .query-chosen.tabbed.open {
     background-color: #014948;
 }
+#query-builder-bar .hover-only {
+    display: none;
+}
+#query-builder-bar .query-chosen.hovered .hover-only {
+    display: block;
+    height: 36px;
+}
+#query-builder-bar .query-chosen.hovered .hover-only h3 {
+    line-height: 36px;
+}
+#query-builder-bar .hover-hide {
+    height: 36px;
+}
+#query-builder-bar .query-chosen.hovered .hover-hide {
+    display: none;
+}
+
+
 #query-builder-bar section[id$="-picker"] {
     position: absolute;
     top: 99%;

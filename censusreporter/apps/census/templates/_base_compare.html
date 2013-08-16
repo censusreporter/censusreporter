@@ -5,8 +5,13 @@
 {% block header_content %}
 <section id="query-builder-bar" class="clearfix">
     <div id="query-topic" class="query-chosen">
-        <h3 class="leader">Topic</h3>
-        Table {{ table.table_id }}
+        <div class="hover-hide">
+            <h3 class="leader">Topic</h3>
+            Table {{ table.table_id }}
+        </div>
+        <div class="hover-only">
+            <h3 class="leader">Change Table</h3>
+        </div>
     </div>
     <section class="clearfix" id="query-topic-picker">
         <div class="column-quarter filter-groups">
@@ -25,8 +30,13 @@
     </section>
     
     <div id="query-geographies" class="query-chosen">
-        <h3 class="leader">Geographies</h3>
-        {{ comparison_metadata.child_geography_name_plural|capfirst }} in {{ comparison_metadata.parent_name }}
+        <div class="hover-hide">
+            <h3 class="leader">Geographies</h3>
+            {{ comparison_metadata.child_geography_name_plural|capfirst }} in {{ comparison_metadata.parent_name }}
+        </div>
+        <div class="hover-only">
+            <h3 class="leader">Change Geographies</h3>
+        </div>
     </div>
     <section class="clearfix" id="query-geography-picker">
         <div class="column-quarter filter-groups">
@@ -53,8 +63,13 @@
     </section>
     
     <div id="query-release" class="query-chosen">
-        <h3 class="leader">Release</h3>
-        {{ table.census_release }}
+        <div class="hover-hide">
+            <h3 class="leader">Release</h3>
+            {{ table.census_release }}
+        </div>
+        <div class="hover-only">
+            <h3 class="leader">Change Release</h3>
+        </div>
     </div>
     <section id="query-release-picker" class="clearfix">
         <div class="release-option column-third">
@@ -106,6 +121,9 @@
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script src="{{ STATIC_URL }}js/vendor/typeahead.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script>
 var currentYear = '2011';
 var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
@@ -130,9 +148,32 @@ function getReleaseCounts() {
 }
 jQuery(document).ready(function(){
     getReleaseCounts();
+
+    // prepare ajax spinners
+    $('body').append('<div id="body-spinner"></div>');
+    var target = document.getElementById('body-spinner');
+        spinner = new Spinner();
+
+    $(document).ajaxSend(function(event, request, settings) {
+        spinner.spin(target)
+    });
+    $(document).ajaxComplete(function(event, request, settings) {
+        spinner.stop()
+    });
+
     var choosers = $('.query-chosen'),
         pickers = $('section[id$="-picker"]');
+        
+    choosers.hover(
+        function() {
+            $(this).addClass('hovered');
+        },
+        function() {
+            $(this).removeClass('hovered');
+        }
+    );
 
+    // query builder bar for adjusting table/geographies/release
     $('#query-builder-bar').on('click', '.query-chosen', function() {
         var chosen = $(this);
         chosen.toggleClass('open').siblings('.query-chosen').removeClass('open');
@@ -145,7 +186,8 @@ jQuery(document).ready(function(){
             choosers.removeClass('tabbed');
         }
     })
-    
+
+    // download submenu
     $('.toggle-sub-group').hover(function() {
         $(this).find('.sub-group').toggle();
         $(this).find('a').toggleClass('hovered');
