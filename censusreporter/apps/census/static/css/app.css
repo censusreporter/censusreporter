@@ -1072,7 +1072,7 @@ section.chart-divider h2 {
     left: 0;
     width: 100%;
     background-color: #fff;
-    display: block;
+    display: none;
     z-index: 99;
     padding: 1em .5em;
     border: 1px solid #001716;
@@ -1086,6 +1086,7 @@ section.chart-divider h2 {
 .release-option {
     text-align: center;
     font-size: .83em;
+    margin-top: 1em;
     margin-bottom: 1em;
 }
 .release-option p {

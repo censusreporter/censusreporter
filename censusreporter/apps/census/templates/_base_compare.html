@@ -4,7 +4,7 @@
 
 {% block header_content %}
 <section id="query-builder-bar" class="clearfix">
-    <div id="query-topic" class="query-chosen tabbed">
+    <div id="query-topic" class="query-chosen">
         <h3 class="leader">Topic</h3>
         Table {{ table.table_id }}
     </div>
@@ -130,6 +130,21 @@ function getReleaseCounts() {
 }
 jQuery(document).ready(function(){
     getReleaseCounts();
+    var choosers = $('.query-chosen'),
+        pickers = $('section[id$="-picker"]');
+
+    $('#query-builder-bar').on('click', '.query-chosen', function() {
+        var chosen = $(this);
+        chosen.toggleClass('open').siblings('.query-chosen').removeClass('open');
+        pickers.hide();
+
+        if (chosen.hasClass('open')) {
+            choosers.addClass('tabbed');
+            chosen.next('section').show();
+        } else {
+            choosers.removeClass('tabbed');
+        }
+    })
     
     $('.toggle-sub-group').hover(function() {
         $(this).find('.sub-group').toggle();
