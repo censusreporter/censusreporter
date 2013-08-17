@@ -286,11 +286,16 @@ function makeAPIRequest() {
 
         var counts = $.getJSON(getCountsAPI)
             .done(function(data) {
+                dataValues = [];
+                $.each(data, function(i) {
+                    dataValues.push(data[i]);
+                });
+
                 // choose the release with the most results
-                data.sort(function(obj1, obj2) {
+                dataValues.sort(function(obj1, obj2) {
                     return obj2['results'] - obj1['results'];
                 });
-                chosenRelease = data[0]['release_slug'];
+                chosenRelease = dataValues[0]['release_slug'];
                 sendToComparison(chosenParentGeoID, chosenSumlev, chosenRelease, chosenTableID);
 
                 //data[0]['active'] = 'active';
