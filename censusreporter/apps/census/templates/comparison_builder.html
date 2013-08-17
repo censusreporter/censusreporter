@@ -291,7 +291,7 @@ function makeAPIRequest() {
                     return obj2['results'] - obj1['results'];
                 });
                 chosenRelease = data[0]['release_slug'];
-                sendToComparison(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
+                sendToComparison(chosenParentGeoID, chosenSumlev, chosenRelease, chosenTableID);
 
                 //data[0]['active'] = 'active';
                 //fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID);
@@ -302,7 +302,7 @@ function makeAPIRequest() {
     }
 }
 
-function sendToComparison(chosenRelease, chosenTableID, chosenSumlev, chosenParentGeoID) {
+function sendToComparison(chosenParentGeoID, chosenSumlev, chosenRelease, chosenTableID) {
     var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/table/';
     targetURL += '?release=' + chosenRelease + '&table=' + chosenTableID;
     window.location.href = targetURL;

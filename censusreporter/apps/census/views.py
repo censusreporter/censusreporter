@@ -14,7 +14,8 @@ from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS
+from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none,\
+    SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
 
 import logging
 logger = logging.getLogger(__name__)
@@ -194,6 +195,7 @@ class ComparisonView(TemplateView):
         '''
         page_context = {
             'parent_id': self.parent_id,
+            'release': self.release,
             'parent_fips_code': self.parent_fips_code,
             'descendant_sumlev': self.descendant_sumlev,
             'format': self.format,
@@ -249,6 +251,16 @@ class ComparisonView(TemplateView):
             'descendant_list': descendant_list,
             'comparison_metadata': comparison_metadata,
             'table': comparison_data['table'],
+            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
+            'topic_economic_filters': TOPIC_FILTERS['Economics'],
+            'topic_family_filters': TOPIC_FILTERS['Families'],
+            'topic_housing_filters': TOPIC_FILTERS['Housing'],
+            'topic_social_filters': TOPIC_FILTERS['Social'],
+            'sumlev_choices': SUMLEV_CHOICES,
+            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
+            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
+            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
+            'acs_releases': ACS_RELEASES[:3],
         })
 
         return page_context
@@ -587,59 +599,7 @@ class ComparisonBuilder(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {}
 
-        # provide some topics to choose from
-        TOPIC_FILTERS = {
-            'Demographics': {'topics': ['age', 'sex', 'race', 'seniors',]},
-            'Economics': {'topics': ['commute', 'employment', 'health insurance', 'income', 'poverty', 'public assistance',]},
-            'Families': {'topics': ['children', 'families', 'family type', 'fertility', 'grandparents', 'marital status', 'roommates',]},
-            'Housing': {'topics': ['costs and value', 'group quarters', 'mortgage', 'occupancy', 'physical characteristics', 'tenure',]},
-            'Social': {'topics': ['ancestry', 'citizenship', 'disability', 'education', 'language', 'migration', 'place of birth', 'veterans',]},
-        }
-
-        SUMLEV_CHOICES = OrderedDict()
-        SUMLEV_CHOICES['Standard'] = [
-            {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'Nation' },
-            {'name': 'county', 'plural_name': 'counties', 'summary_level': '050', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
-            {'name': 'place', 'plural_name': 'places', 'summary_level': '160', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
-            {'name': 'metro area', 'plural_name': 'metro areas', 'summary_level': '310', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
-            {'name': 'native area', 'plural_name': 'native areas', 'summary_level': '310', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
-            {'name': 'census tract', 'plural_name': 'census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050,160', 'ancestor_options': 'Nation, State, County or Place' },
-            {'name': 'block group', 'plural_name': 'block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,140,160', 'ancestor_options': 'Nation, State, County, Place or Census Tract' },
-            {'name': 'zip codes', 'plural_name': 'zip codes', 'summary_level': '860', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
-        ]
-        SUMLEV_CHOICES['Legislative'] = [
-            {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
-            {'name': 'state senate district', 'plural_name': 'state senate districts', 'summary_level': '610', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
-            {'name': 'state house district', 'plural_name': 'state house districts', 'summary_level': '620', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
-            {'name': 'voting tabulation district', 'plural_name': 'voting tabulation districts', 'summary_level': '700', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
-        ]
-        SUMLEV_CHOICES['Schools'] = [
-            {'name': 'elementary school district', 'plural_name': 'elementary school districts', 'summary_level': '950', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
-            {'name': 'secondary school district', 'plural_name': 'secondary school districts', 'summary_level': '960', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
-            {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
-        ]
-
-        ACS_RELEASES = [
-            {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
-            {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
-            {'name': 'ACS 2011 5-Year', 'slug': 'acs2011_5yr', 'years': '2007-2011'},
-            {'name': 'ACS 2010 1-Year', 'slug': 'acs2010_1yr', 'years': '2010'},
-            {'name': 'ACS 2010 3-Year', 'slug': 'acs2010_3yr', 'years': '2008-2010'},
-            {'name': 'ACS 2010 5-Year', 'slug': 'acs2010_5yr', 'years': '2006-2010'},
-            {'name': 'ACS 2009 1-Year', 'slug': 'acs2009_1yr', 'years': '2009'},
-            {'name': 'ACS 2009 3-Year', 'slug': 'acs2009_3yr', 'years': '2007-2009'},
-            {'name': 'ACS 2008 1-Year', 'slug': 'acs2008_1yr', 'years': '2008'},
-            {'name': 'ACS 2008 3-Year', 'slug': 'acs2008_3yr', 'years': '2006-2008'},
-            {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
-            {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
-        ]
-
-        # for the moment, filter to counties and smaller
-        summary_level_options = SummaryLevel.objects.exclude(ancestors__isnull=True)\
-            .filter(summary_level__gt='040')\
-            .only('name','slug','summary_level')
         page_context.update({
-            'summary_level_options': summary_level_options,
             'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
             'topic_economic_filters': TOPIC_FILTERS['Economics'],
             'topic_family_filters': TOPIC_FILTERS['Families'],

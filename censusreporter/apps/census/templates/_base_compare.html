@@ -32,7 +32,7 @@
     <div id="query-geographies" class="query-chosen">
         <div class="hover-hide">
             <h3 class="leader">Geographies</h3>
-            {{ comparison_metadata.child_geography_name_plural|capfirst }} in {{ comparison_metadata.parent_name }}
+            All {{ comparison_metadata.child_geography_name_plural }} in {{ comparison_metadata.parent_name }}
         </div>
         <div class="hover-only">
             <h3 class="leader">Change Geographies</h3>
@@ -125,13 +125,24 @@
 <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script>
-var currentYear = '2011';
-var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
-                    '{{ table.table_id }}?year=' + currentYear  +
-                    '&sumlevel={{ descendant_sumlev }}&within={{ parent_id }}';
-                    
+var chosenParentGeoID = '{{ parent_id }}',
+    chosenSumlev = '{{ descendant_sumlev }}',
+    chosenRelease = '{{ release }}',
+    chosenTableID = '{{ table.table_id }}',
+    chosenFormat = '{{ format }}',
+    currentYear = '2011',
+    countsAPI;
+
+var getCountsAPI = function(chosenTableID, currentYear, chosenSumlev, chosenParentGeoID) {
+    var url = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' + chosenTableID +
+                '?year=' + currentYear  + '&sumlevel=' + chosenSumlev + '&within=' + chosenParentGeoID;
+
+    return url
+}
+
 function getReleaseCounts() {
-    $.getJSON(getCountsAPI)
+    countsAPI = getCountsAPI(chosenTableID, currentYear, chosenSumlev, chosenParentGeoID);
+    $.getJSON(countsAPI)
         .done(function(data) {
             $.each(data, function() {
                 if (!!this['results'] && this['results'] > 0) {
@@ -143,23 +154,209 @@ function getReleaseCounts() {
                         .removeAttr("href").addClass("disabled");
                 }
             });
+            return data
         });
-
 }
+
+var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
+    parentGeoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
+
+var topicSelect = $('#topic-select'),
+    topicChosen = $('#query-topic'),
+    topicFilters = $('#query-topic-picker .filter-list input:checkbox'),
+    topicResultNumber = $('#topic-result-number'),
+    sumlevSelect = $('#sumlev-select-options'),
+    parentSelect = $('#parent-select'),
+    geographiesChosen = $('#query-geographies');
+
+var selectedTopicFilterValues = function () {
+    return topicFilters.filter(':checked').map(function () {
+        return this.value;
+    }).get();
+}
+var selectedSumlev = function () {
+    return sumlevSelect.find('option:selected');
+}
+var selectedSumlevAncestorValues = function () {
+    return selectedSumlev().data('ancestor-list');
+}
+
+var triggerAutocompleteWildCardFallback = function(element) {
+    if (!!element.val() && element.val() != '*') {
+        element.typeahead('setQuery', element.val());
+    } else {
+        element.typeahead('setQuery', '*').val('');
+    }
+}
+
+function makeTopicSelectWidget(element) {
+    element.typeahead('destroy');
+    element.typeahead({
+        name: 'topics',
+        valueKey: 'unique_key',
+        remote: {
+            url: tableSearchAPI,
+            replace: function (url, uriEncodedQuery) {
+                url += '?';
+                if (uriEncodedQuery) {
+                    url += 'q=' + uriEncodedQuery;
+                }
+                var selectedTopics = selectedTopicFilterValues();
+                if (selectedTopics.length > 0) {
+                    url += '&topics=' + selectedTopics.join(',');
+                }
+                return url;
+            },
+            filter: function(response) {
+                var resultNumber = response.length;
+                topicResultNumber.text(resultNumber + ' matches');
+                if (resultNumber == 0) {
+                    response.push({
+                        table_name: 'Sorry, no matches found. Try removing filters or changing your keyword search.'
+                    })
+                }
+                response.map(function(item) {
+                    if (!!item['topics']) {
+                        item['topic_string'] = item['topics'].join(', ');
+                    }
+                });
+                return response
+            }
+        },
+        limit: 1500,
+        template: [
+            {% verbatim %}'{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
+            '<p class="result-name">{{simple_table_name}}</p>',
+            '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
+            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'{% endverbatim %}
+        ].join(''),
+        engine: Hogan
+    });
+
+    // TODO: only trigger this first time the menu is opened
+    //element.on('typeahead:initialized', function() {
+    //    triggerAutocompleteWildCardFallback(element);
+    //});
+
+    element.on('typeahead:selected', function(obj, datum) {
+        if (datum['table_id']) {
+            chosenTableID = datum['table_id'];
+            updateChosenItem(
+                topicChosen,
+                'Topic',
+                'Table ' + chosenTableID
+            );
+            changeComparison();
+        }
+    });
+
+    topicFilters.on('change', function(e) {
+        triggerAutocompleteWildCardFallback(element);
+        element.focus();
+    });
+}
+
+function makeParentSelectWidget(element) {
+    element.typeahead('destroy');
+    element.prop('disabled', 'disabled');
+    element.typeahead({
+        name: 'geographies',
+        valueKey: 'full_name',
+        remote: {
+            url: parentGeoSearchAPI,
+            replace: function (url, uriEncodedQuery) {
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=' + selectedSumlevAncestorValues()
+            },
+            filter: function(response) {
+                response.map(function(item) {
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']]
+                });
+                return response
+            }
+        },
+        limit: 20,
+        template: {% verbatim %}'<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'{% endverbatim %},
+        engine: Hogan
+    });
+
+    element.on('typeahead:selected', function(obj, datum) {
+        chosenParentGeoID = datum['full_geoid'];
+        updateChosenItem(
+            geographiesChosen,
+            'Geographies',
+            'All ' + selectedSumlev().data('plural-name') + ' within ' + datum['full_name']
+        );
+        changeComparison();
+    });
+
+    // when user chooses a sumlev to compare, limit possible
+    // autocomplete options for parent/containing geography
+    sumlevSelect.on('change', function(e) {
+        var selected = selectedSumlev();
+        var selectedVal = selected.val();
+        sumlevSelect.blur();
+
+        if (selectedVal != '') {
+            // store the selected sumlev for future api requests
+            chosenSumlev = selectedVal;
+
+            // allow selection in parent geography picker
+            element.removeProp('disabled');
+            var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names') + '.';
+            insertHelpText(selected.closest('.filter-groups'), helpText);
+            
+            // auto-fill 'United States' if that's only possible choice
+            if (selectedVal == '040') {
+                element.typeahead('setQuery', 'United States');
+            } else {
+                element.typeahead('setQuery', element.val());
+            }
+        } else {
+            element.prop('disabled', 'disabled');
+        }
+    });
+}
+
+function insertHelpText(element, message) {
+    element.find('.help-text').remove();
+    element.append('<span class="help-text">' + message + '</span>');
+}
+
+function updateChosenItem(element, itemTitle, itemText) {
+    var html = '<h3 class="leader">' + itemTitle + '</h3>' + itemText;
+    
+    //element.siblings('.explainer').hide();
+    element.html(html).addClass('chosen').fadeIn('fast', function() {
+        element.parent().next('section').fadeOut(50);
+    });
+}
+
+// prepare ajax spinners
+$('body').append('<div id="body-spinner"></div>');
+var spinnerTarget = document.getElementById('body-spinner');
+    spinner = new Spinner();
+
+$(document).ajaxSend(function(event, request, settings) {
+    spinner.spin(spinnerTarget)
+});
+$(document).ajaxComplete(function(event, request, settings) {
+    spinner.stop()
+});
+
+function changeComparison() {
+    spinner.spin(spinnerTarget)
+    
+    var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/'
+                    + '?release=' + chosenRelease + '&table=' + chosenTableID;
+    window.location.href = targetURL;
+}
+
 jQuery(document).ready(function(){
     getReleaseCounts();
 
-    // prepare ajax spinners
-    $('body').append('<div id="body-spinner"></div>');
-    var target = document.getElementById('body-spinner');
-        spinner = new Spinner();
-
-    $(document).ajaxSend(function(event, request, settings) {
-        spinner.spin(target)
-    });
-    $(document).ajaxComplete(function(event, request, settings) {
-        spinner.stop()
-    });
+    // initial setup for select widgets
+    makeTopicSelectWidget(topicSelect);
+    makeParentSelectWidget(parentSelect);
 
     var choosers = $('.query-chosen'),
         pickers = $('section[id$="-picker"]');
@@ -187,6 +384,14 @@ jQuery(document).ready(function(){
         }
     })
 
+    //
+    $('.filter-groups').on('click', '.filter-group-title', function(e) {
+        e.preventDefault();
+        var chosenGroup = $(this).parent();
+        chosenGroup.toggleClass('open');
+        chosenGroup.find('i[class^="icon-"]').toggleClass('icon-chevron-sign-down icon-chevron-sign-up');
+    });
+    
     // download submenu
     $('.toggle-sub-group').hover(function() {
         $(this).find('.sub-group').toggle();
