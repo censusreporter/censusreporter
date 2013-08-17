@@ -327,7 +327,6 @@ function insertHelpText(element, message) {
 function updateChosenItem(element, itemTitle, itemText) {
     var html = '<h3 class="leader">' + itemTitle + '</h3>' + itemText;
     
-    //element.siblings('.explainer').hide();
     element.html(html).addClass('chosen').fadeIn('fast', function() {
         element.parent().next('section').fadeOut(50);
     });
@@ -400,6 +399,11 @@ jQuery(document).ready(function(){
     $('#query-builder-bar').on('click', '.query-chosen', function() {
         var chosen = $(this);
         chosen.toggleClass('open').siblings('.query-chosen').removeClass('open');
+
+        // if this is the table search, *now* run the initial autocomplete query
+        if (chosen.attr('id') == 'query-topic') {
+            triggerAutocompleteWildCardFallback(topicSelect);
+        }
 
         if (chosen.hasClass('open')) {
             openTabs();
