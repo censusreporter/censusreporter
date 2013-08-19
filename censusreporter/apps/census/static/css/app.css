@@ -1,8 +1,9 @@
-/* ==========================================================================
-   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
-   ========================================================================== */
+/*
+greens: #02aeab; #027b7a; #014948;
+tans: #f7f8f3; #eff1e9; #cad0b5;
+map quintiles: #d9ddca; #bbc2a1; #9ea877; #7b8656; #555c3b;
+*/
 
-   /* apply a natural box layout model to all elements */
 *, *:before, *:after {
     -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
@@ -68,7 +69,10 @@ textarea {
 
 /* BASIC ELEMENTS */
 a {
-    color: #c33b11;
+    color: #014948;
+}
+a:hover {
+    color: #02aeab;
 }
 p, .serif {
     font-family: "Merriweather", Georgia, serif;
@@ -154,7 +158,7 @@ img.screenshot {
 #page-header article {
     margin-bottom: 0;
 }
-    
+
 #page-footer {
     background-color: #eff1e9;
     border-top: 1px solid #cad0b5;
@@ -419,11 +423,11 @@ article#compare-and-analyze {
     margin-bottom: .5em;
 }
 
-.q0 { background-color: #d9ddca; fill:#d9ddca; }
-.q1 { background-color: #bbc2a1; fill:#bbc2a1; }
-.q2 { background-color: #9ea877; fill:#9ea877 }
-.q3 { background-color: #7b8656; fill:#7b8656 }
-.q4 { background-color: #555c3b; fill:#555c3b }
+.q0 { background-color: #d9ddca; fill: #d9ddca; }
+.q1 { background-color: #bbc2a1; fill: #bbc2a1; }
+.q2 { background-color: #9ea877; fill: #9ea877; }
+.q3 { background-color: #7b8656; fill: #7b8656; }
+.q4 { background-color: #555c3b; fill: #555c3b; }
 
 #map-legend {
     float: right;
