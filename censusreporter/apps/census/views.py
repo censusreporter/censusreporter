@@ -234,6 +234,9 @@ class ComparisonView(TemplateView):
                     cleaned_table
                 )
             )
+        else:
+            # fall back to generic compare page
+            comparison_data = self.get_api_data()
 
         # add some metadata about the comparison
         comparison_metadata = comparison_data['comparison']
