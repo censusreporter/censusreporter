@@ -1068,7 +1068,7 @@ article#welcome {
     border-radius: 4px;
     cursor: pointer;
 }
-#query-builder-bar .query-chosen.tabbed,
+#query-builder-bar .query-chosen.tabbed.open,
 #query-builder-bar .query-chosen.hovered {
     background-color: #02aeab;
 }
@@ -1079,9 +1079,6 @@ article#welcome {
     -moz-border-radius-bottomleft: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-}
-#query-builder-bar .query-chosen.tabbed.open {
-    background-color: #014948;
 }
 #query-builder-bar .hover-only {
     display: none;
