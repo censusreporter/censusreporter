@@ -6,8 +6,9 @@ from collections import OrderedDict
 from numpy import median
 from urllib2 import unquote
 
+from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils import simplejson
 from django.utils.safestring import SafeString
@@ -127,6 +128,11 @@ class ComparisonView(TemplateView):
         self.parent_fips_code = self.parent_id.split('US')[1]
         self.descendant_sumlev = self.kwargs['descendant_sumlev']
         self.format = self.kwargs.get('format', None)
+        
+        if not self.format:
+            return HttpResponseRedirect(
+                reverse('geography_comparison_detail', args=(self.parent_id, self.descendant_sumlev, 'table'))
+            )
 
         # sensible defaults
         if 'release' in self.request.GET:
