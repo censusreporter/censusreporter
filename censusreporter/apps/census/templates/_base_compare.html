@@ -296,7 +296,6 @@ function makeParentSelectWidget(element) {
     sumlevSelect.on('change', function(e) {
         var selected = selectedSumlev();
         var selectedVal = selected.val();
-        sumlevSelect.blur();
 
         if (selectedVal != '') {
             // store the selected sumlev for future api requests
@@ -316,6 +315,8 @@ function makeParentSelectWidget(element) {
         } else {
             element.prop('disabled', 'disabled');
         }
+        
+        element.focus();
     });
 }
 
