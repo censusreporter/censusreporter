@@ -292,6 +292,14 @@ section aside ul {
   margin-left: 10px;
 }
 
+article#find-a-profile p.explain {
+  margin-top: 10px;
+  font-style: italic;
+}
+
+article#compare-and-analyze {
+}
+
 /* STATS */
 .stat-wrapper {
     width: 100%;
@@ -958,6 +966,12 @@ section.chart-divider h2 {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+
+article#welcome {
+  padding-top: 20px;
+  clear: both;
+}
+
 .wide-picker {
     width: 99%;
 }

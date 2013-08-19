@@ -16,14 +16,35 @@
         <img src="{{ STATIC_URL }}img/logo-large-block.png" class="logo">
         <div class="search-wrapper">
             <h1 class="title">CensusReporter</h1>
-            <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
         </div>
     </section>
 </article>
 
-<article id="welcome">
+<article id="compare-and-analyze">
+  <section class="column-half">
+    <h2>Comparison and Analysis</h2>
+    <p>
+      Use our <a href="{% url 'comparison_builder' %}">comparison tool</a> to select the topic and places you are interested in. Census Reporter will deliver exactly the data you need. Look at it on the web in a table or on a map, or easily download for further analysis or to make your own maps.
+    </p>
+    <a href="/compare/04000US47/050/map/?release=acs2011_5yr&table=B01001"><img src="{{ STATIC_URL }}img/tn-map-example.png" class="screenshot" alt="20 year old males as percentage of total population, Counties in Tennessee"></a>
+    <p class="caption">Detail of <strong>20 year old males as percentage of total population, Counties in Tennessee</strong>. 
+    <a href="/compare/04000US47/050/map/?release=acs2011_5yr&table=B01001">View</a></p>
+  </section>
+    </section>
+</article>
+
+<article id="find-a-profile">
+  <section class="column-half">
+    <h2>I'm looking for facts about a place</h2>
+    <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
+    <p class="explain">
+      This feature of Census Reporter is under active development, so may occasionally appear incomplete or even be broken. We'll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, October 17-19</a> to introduce it. Come by "the midway" and tell us what you think! 
+    </p>
+  </section>
+</article>
+<article id="welcome" class="clearfix">
     <header>
-        <h1>About this project</h1>
+        <h2>About this project</h2>
     </header>
     <section class="column-golden-wide">
         <a href="/compare/04000US53/050/distribution/"><img src="{{ STATIC_URL }}img/comparison_screenshot.png" class="screenshot"></a>
