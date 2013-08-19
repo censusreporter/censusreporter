@@ -1160,7 +1160,7 @@ article#welcome {
     min-width: 160px;
     width: 100%;
     margin-top: 2px;
-    padding: 0 .5em;
+    padding: 0;
     background-color: #fff;
     border: 1px solid #ccc;
     *border-right-width: 2px;
@@ -1170,14 +1170,14 @@ article#welcome {
 
 .tt-suggestion {
   display: block;
-  padding: 1.25em .5em .75em;
+  padding: 1.25em .83em .83em;
   margin: 0;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .tt-suggestion.tt-is-under-cursor {
   color: #fff;
-  background-color: #0081c2;
+  background-color: #014948;
 }
 
 .tt-suggestion h5,
@@ -1195,7 +1195,7 @@ article#welcome {
 
 .result-name .result-type {
     float: right;
-    margin: .17em 0 0 1em;
+    margin: .17em .33em 0 1em;
     font-size: .83em;
     font-style: italic;
 }
