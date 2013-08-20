@@ -120,58 +120,9 @@ class GeographyDetailView(TemplateView):
 
 ### COMPARISONS ###
 
-class ComparisonView(TemplateView):
-    template_name = 'comparison.html'
-
-    def dispatch(self, *args, **kwargs):
-        self.parent_id = self.kwargs['parent_id']
-        self.parent_fips_code = self.parent_id.split('US')[1]
-        self.descendant_sumlev = self.kwargs['descendant_sumlev']
-        self.format = self.kwargs.get('format', None)
-        
-        if not self.format:
-            return HttpResponseRedirect(
-                reverse('geography_comparison_detail', args=(self.parent_id, self.descendant_sumlev, 'table'))
-            )
-
-        # sensible defaults
-        if 'release' in self.request.GET:
-            self.release = self.request.GET['release']
-        else:
-            self.release = 'acs2011_5yr'
-
-        if 'table' in self.request.GET:
-            self.table_id = self.request.GET['table']
-        else:
-            self.table_id = 'B01001'
-
-        # if we need a downloadable format, provide it straightaway
-        if self.format == 'json':
-            comparison_data = self.get_api_data()
-            return render_json_to_response(comparison_data)
-
-        elif self.format == 'csv':
-            comparison_data = self.get_api_data()
-            cleaned_table = self.clean_table(comparison_data['table'])
-            columns, rows = self.make_table_values_by_geo(
-                comparison_data['child_geographies'],
-                cleaned_table,
-                percentify=False
-            )
-            filename = '%s_%s_%s_in_%s.csv' % (self.release, self.table_id, self.descendant_sumlev, self.parent_id)
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="%s"' % filename
-
-            writer = unicodecsv.writer(response, encoding='utf-8')
-            writer.writerow(['Name','GeoID'] + columns)
-            for row in rows:
-                writer.writerow(
-                    [row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()]
-                )
-            return response
-
-        return super(ComparisonView, self).dispatch(*args, **kwargs)
-
+# All the basic utilities for massaging API data into comparisons.
+# Other views should inherit and override `dispatch`, for instance.
+class BaseComparisonView(TemplateView):
     def get_api_data(self, geom=False):
         '''
         Retrieves data from the comparison endpoint at api.censusreporter.org.
@@ -601,6 +552,123 @@ class ComparisonView(TemplateView):
 
         return distribution_values
 
+
+class ComparisonView(BaseComparisonView):
+    template_name = 'comparison_table.html'
+
+    def dispatch(self, *args, **kwargs):
+        self.parent_id = self.kwargs['parent_id']
+        self.parent_fips_code = self.parent_id.split('US')[1]
+        self.descendant_sumlev = self.kwargs['descendant_sumlev']
+        self.format = self.kwargs.get('format', None)
+
+        if not self.format:
+            return HttpResponseRedirect(
+                reverse('geography_comparison_detail', args=(self.parent_id, self.descendant_sumlev, 'table'))
+            )
+
+        # sensible defaults
+        if 'release' in self.request.GET:
+            self.release = self.request.GET['release']
+        else:
+            self.release = 'acs2011_5yr'
+
+        if 'table' in self.request.GET:
+            self.table_id = self.request.GET['table']
+        else:
+            self.table_id = 'B01001'
+
+        # if we need a downloadable format, provide it straightaway
+        if self.format == 'json':
+            comparison_data = self.get_api_data()
+            return render_json_to_response(comparison_data)
+
+        elif self.format == 'csv':
+            comparison_data = self.get_api_data()
+            cleaned_table = self.clean_table(comparison_data['table'])
+            columns, rows = self.make_table_values_by_geo(
+                comparison_data['child_geographies'],
+                cleaned_table,
+                percentify=False
+            )
+            filename = '%s_%s_%s_in_%s.csv' % (self.release, self.table_id, self.descendant_sumlev, self.parent_id)
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+            writer = unicodecsv.writer(response, encoding='utf-8')
+            writer.writerow(['Name','GeoID'] + columns)
+            for row in rows:
+                writer.writerow(
+                    [row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()]
+                )
+            return response
+
+        return super(ComparisonView, self).dispatch(*args, **kwargs)
+
+
+class HomepageView(BaseComparisonView):
+    template_name = 'homepage.html'
+
+    def dispatch(self, *args, **kwargs):
+        # hardcoded values for our U.S. state comparison
+        self.parent_id = '01000US'
+        self.parent_fips_code = self.parent_id.split('US')[1]
+        self.descendant_sumlev = '040'
+        self.format = 'map'
+        self.release = 'acs2011_5yr'
+
+        if 'table' in self.request.GET:
+            self.table_id = self.request.GET['table']
+        else:
+            self.table_id = 'B01001'
+
+        return super(HomepageView, self).dispatch(*args, **kwargs)
+    
+    def get_context_data(self, *args, **kwargs):
+        '''
+        The workhorse in this view. Uses the format argument to determine
+        which template to render, as well as which method to use for reshaping
+        the API response data properly for visualization.
+        '''
+        page_context = {
+            'parent_id': self.parent_id,
+            'release': self.release,
+            'parent_fips_code': self.parent_fips_code,
+            'descendant_sumlev': self.descendant_sumlev,
+            'format': self.format,
+        }
+
+        comparison_data = self.get_api_data(geom=True)
+        cleaned_table = self.clean_table(comparison_data['table'])
+        page_context.update(
+            self.generate_map_values(
+                comparison_data['child_geographies'],
+                comparison_data['parent_geography'],
+                cleaned_table
+            )
+        )
+
+        # add some metadata about the comparison
+        comparison_metadata = comparison_data['comparison']
+        comparison_metadata['parent_geography'] = comparison_data['parent_geography']
+        comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[self.descendant_sumlev]
+
+        page_context.update({
+            'comparison_metadata': comparison_metadata,
+            'table': comparison_data['table'],
+            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
+            'topic_economic_filters': TOPIC_FILTERS['Economics'],
+            'topic_family_filters': TOPIC_FILTERS['Families'],
+            'topic_housing_filters': TOPIC_FILTERS['Housing'],
+            'topic_social_filters': TOPIC_FILTERS['Social'],
+            'sumlev_choices': SUMLEV_CHOICES,
+            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
+            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
+            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
+            'acs_releases': ACS_RELEASES[:3],
+        })
+
+        return page_context
 
 class ComparisonBuilder(TemplateView):
     template_name = 'comparison_builder.html'
