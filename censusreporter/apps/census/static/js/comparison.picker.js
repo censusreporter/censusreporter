@@ -263,6 +263,7 @@ jQuery(document).ready(function(){
     makeTopicSelectWidget(topicSelect);
     makeParentSelectWidget(parentSelect);
 
+    // add hover states to menu
     chosens.hover(
         function() {
             $(this).addClass('hovered');
@@ -290,7 +291,15 @@ jQuery(document).ready(function(){
         }
     })
 
-    //
+    // allow users to click outside of open picker menu to close tabs
+    $('html').on('click', function() {
+        closeTabs();
+    });
+    $('#query-builder-bar').click(function(e){
+        e.stopPropagation();
+    });
+    
+    // filter groups for topic picker
     $('.filter-groups').on('click', '.filter-group-title', function(e) {
         e.preventDefault();
         var chosenGroup = $(this).parent();
