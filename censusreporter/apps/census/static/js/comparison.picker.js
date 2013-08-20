@@ -293,6 +293,7 @@ jQuery(document).ready(function(){
 
     // allow users to click outside of open picker menu to close tabs
     $('html').on('click', function() {
+        chosens.removeClass('open');
         closeTabs();
     });
     $('#query-builder-bar').click(function(e){
