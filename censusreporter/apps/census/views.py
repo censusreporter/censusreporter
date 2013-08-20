@@ -235,12 +235,31 @@ class BaseComparisonView(TemplateView):
                 del table['columns'][column_id]
 
         return table
+        
+    def clean_child_data(self, data):
+        '''
+        Removes certain geographies from comparison data, when their sumlev
+        would include them in a way that's confusing to the user.
+        
+        E.g., comparing "all states in the United States" would return
+        Puerto Rico and Washington, D.C., because, like states, they are
+        sumlev 040.
+        '''
+        _parent_id = getattr(self, 'parent_id', None)
+        _descendant_sumlev = getattr(self, 'descendant_sumlev', None)
+        
+        # for map & distribution charts where user is comparing states
+        # in the United States, remove Puerto Rico and D.C.
+        if _parent_id == '01000US' and _descendant_sumlev == '040':
+            del data['04000US11']
+            del data['04000US72']
+
+        return data
 
     def get_percentify(self, table):
         '''
-        Utiltity method that determines whether a table is suitable
-        for presenting values in percentages. (E.g., tables that contain
-        raw numbers, not medians.)
+        Determines whether a table is suitable for presenting values in
+        percentages. (E.g., tables that contain raw numbers, not medians.)
         
         Returns the ID of the denominator column when appropriate (which
         is truthy for boolean purposes), or an empty string if a table
@@ -410,6 +429,8 @@ class BaseComparisonView(TemplateView):
         Reshapes API response data for presentation in a choropleth map.
         '''
         percentify = self.get_percentify(table)
+        data = self.clean_child_data(data)
+        
         data_groups = OrderedDict()
         child_shapes = []
         try:
@@ -473,6 +494,8 @@ class BaseComparisonView(TemplateView):
         aka "circles on a line."
         '''
         percentify = self.get_percentify(table)
+        data = self.clean_child_data(data)
+
         distribution_groups = OrderedDict()
 
         # Create the initial list of data columns, including non-data subheads
