@@ -330,11 +330,14 @@ section aside ul {
     margin-top: .83em;
     font-style: italic;
 }
+#homepage #query-builder-bar {
+    margin-bottom: 1.5em;
+}
 
 .callout {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    padding: .5em 0;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    padding: 0;
 }
 .callout.with-icon {
     padding-left: 36px;
