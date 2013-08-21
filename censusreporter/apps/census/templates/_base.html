@@ -33,7 +33,7 @@
         </script>
         <!-- Begin Google Analytics -->
     </head>
-    <body class="{% block body_class %}{% endblock %}">
+    <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -45,16 +45,18 @@
                     <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
                 </a>
             </div>
-            <div class="wrapper clearfix">
-                {% block header_content %}{% endblock header_content %}
-            </div>
         </header>
+        <div class="wrapper clearfix">
+            {% block header_content %}{% endblock header_content %}
+        </div>
         {% endblock %}
 
+        {% block content_container %}
         <div class="content-container wrapper clearfix">
             {% block content %}{% endblock %}
         </div>
-
+        {% endblock %}
+        
         <footer id="page-footer">
             <section class="wrapper footer-container clearfix">
                 {% block footer_content %}

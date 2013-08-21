@@ -142,14 +142,14 @@ img.screenshot {
 
 /* LAYOUT */
 #page-header {
-    border-top: 5px solid #014948;
+    background-color: #014948;
 }
 #page-header .wrapper {
-    margin: 1em auto 2em;
-    padding: 0 .5%;
+    margin: 0 auto;
+    padding: .5em .5%;
 }
 #page-header-title a {
-    color: #222;
+    color: #f7f8f3;
     text-decoration: none;
     font-size: 21px;
     font-weight: bold;
@@ -175,7 +175,12 @@ img.screenshot {
     margin: 0;
 }
 
-article {
+.content-container {
+    padding: 1em 0;
+}
+
+article,
+article.column-full {
     margin-bottom: 4em;
 }
 header.section-contents {
@@ -296,20 +301,77 @@ section aside ul {
 }
 
 /* HOMEPAGE */
-#twitter-widget {
-  float: right;
-  width: 300px;
-  margin-left: 10px;
+#homepage .content-container {
+    padding: 2.5em 0;
+}
+.white-stripe {
+    background-color: #fff;
+}
+.tan-stripe {
+    background-color: #eff1e9;
+}
+#homepage h1.article-header {
+    font-size: 3em;
+    margin-bottom: .25em;
+}
+#homepage #profile h1 {
+    float: left;
+    width: 285px;
+}
+#homepage #geography-select {
+    font-size: 1.6em;
+    padding: .25em .5em 0;
+}
+#homepage #geography-select-wrapper {
+    padding-top: .25em;
+    padding-left: 300px;
+}
+#homepage #profile p.explain {
+    margin-top: .83em;
+    font-style: italic;
 }
 
-article#find-a-profile p.explain {
-  margin-top: 10px;
-  font-style: italic;
+.callout {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: .5em 0;
 }
-
-article#compare-and-analyze {
+.callout.with-icon {
+    padding-left: 36px;
 }
-
+.callout h3 {
+    font-size: 24px;
+}
+.callout i[class^="icon-"] {
+    display: block;
+    float: left;
+    text-align: center;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    padding-top: 7px;
+    color: #fff;
+    background-color: #014948;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin-left: -36px;
+}
+.callout p:last-child {
+    margin-bottom: 0;
+}
+.tag {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: normal;
+    vertical-align: text-top;
+    color: #fff;
+    font-size: .8em;
+    padding: .15em .33em;
+    background-color: #555c3b;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
 /* STATS */
 .stat-wrapper {
     width: 100%;
@@ -961,27 +1023,6 @@ section.chart-divider h2 {
     border: 1px solid #777;
 }
 
-
-#homepage-search {
-    margin: 5em 0 3em;
-}
-#homepage-search .search-wrapper {
-    padding-left: 127px;
-}
-#homepage-search img.logo {
-    float: left;
-    width: 106px;
-    margin-right: 1.5em;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
-
-article#welcome {
-  padding-top: 20px;
-  clear: both;
-}
-
 .wide-picker {
     width: 99%;
 }
@@ -1212,7 +1253,7 @@ article#welcome {
     overflow-y: auto;
 }
 
-/* !importants make me a little sad, but they're better than monkey-patching vendor code */
+/* !importants make me a little sad, but they're better than monkey-patching third-party code */
 .twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
     background-color: #fff !important;
@@ -1271,20 +1312,15 @@ article#welcome {
     #page-header .wrapper {
         margin: 1em 1em 2em;
     }
-    #homepage-search {
-        margin: 4em 0 2em;
-    }
     .chosen {
         margin: 0 0 1em;
     }
     
 }
 @media only screen and (max-width: 768px) {
-    article {
+    article,
+    article.column-full {
         margin-bottom: 2em;
-    }
-    #homepage-search {
-        margin: 3em 0 1em;
     }
     header.section-contents {
         float: none;
@@ -1353,13 +1389,6 @@ article#welcome {
         width: 47%;
         margin-right: 3%;
     }
-    #homepage-search .search-wrapper {
-        padding: 0;
-    }
-    #homepage-search img.logo {
-        width: 54px;
-        margin-right: 1em;
-    }
     .wide-picker {
         width: 100%;
     }
@@ -1375,15 +1404,8 @@ article#welcome {
         width: auto;
         margin-right: 0;
     }
-    #homepage-search {
-        margin: 2em 0 0;
-    }
     h1.title {
         font-size: 2em;
-    }
-    #homepage-search img.logo {
-        width: 36px;
-        margin-right: .67em;
     }
 }
 

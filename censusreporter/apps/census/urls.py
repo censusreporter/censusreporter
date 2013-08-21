@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch
+from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch
 
 admin.autodiscover()
 
@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^$',
-        view    = TemplateView.as_view(template_name='homepage.html'),
+        view    = HomepageView.as_view(),
         kwargs  = {},
         name    = 'homepage',
     ),

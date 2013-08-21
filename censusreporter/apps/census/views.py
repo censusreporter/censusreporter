@@ -1,5 +1,6 @@
 from __future__ import division
 import json
+import random
 import requests
 import unicodecsv
 from collections import OrderedDict
@@ -640,10 +641,25 @@ class HomepageView(BaseComparisonView):
         self.format = 'map'
         self.release = 'acs2011_5yr'
 
-        if 'table' in self.request.GET:
-            self.table_id = self.request.GET['table']
-        else:
-            self.table_id = 'B01001'
+        selected_tables = [
+            'B01001', # Sex by Age
+            'B02001', # Race
+            'B11007', # Households by Presence of Seniors
+            'B08011', # Time Leaving Home for Work
+            'B19326', # Median Income
+            'B17001', # Poverty Status
+            'B27001', # Health Insurance Coverage Status
+            'B09019', # Household Types
+            'B13016', # Women Who Gave Birth by Age
+            'B12002', # Marital Status by Sex by Age
+            'B25077', # Median Housing Value
+            'B25003', # Tenure
+            'B07009', # Geographical Mobility by Educational Attainment
+            'B15001', # Educational Attainment
+            'B05002', # Place of Birth by Nativity
+            'B18101', # Disability Status
+        ]
+        self.table_id = random.choice(selected_tables)
 
         return super(HomepageView, self).dispatch(*args, **kwargs)
     
