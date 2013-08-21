@@ -152,7 +152,6 @@ img.screenshot {
     color: #f7f8f3;
     text-decoration: none;
     font-size: 21px;
-    font-weight: bold;
 }
 #page-header-title img {
     -webkit-border-radius: 4px;
@@ -1095,7 +1094,7 @@ section.chart-divider h2 {
 #query-builder-bar {
     position: relative;
     width: 100%;
-    margin-bottom: 2.5em;
+    margin-bottom: 2em;
 }
 #query-builder-bar #query-topic,
 #query-builder-bar #query-geographies,

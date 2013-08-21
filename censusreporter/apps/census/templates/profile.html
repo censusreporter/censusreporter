@@ -3,6 +3,7 @@
 {% block head_title %}{% firstof geo_place_data.full_name geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
 
 {% block header_content %}
+<div class="content-container">
 <article id="profile">
     <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
     <p>Data from {{ geography.census_release }} release unless otherwise noted</p>
@@ -39,6 +40,7 @@
         <div class="column-half" id="geography-map"></div>
     </section>
 </article>
+</div>
 {% endblock %}
 
 {% block content %}
