@@ -11,15 +11,18 @@
 //     children = {{ child_shapes }};
 
 
-var mapDiv = d3.select("#data-map").append("div")
-    .attr("class", "svg-map")
+var mapDiv = d3.select("#data-map")
+    .attr("class", "svg-map");
 
 var width = mapDiv[0][0].offsetWidth;
 var height = width*.67;
 
+mapDiv.style("height", height);
+
 var svgMap = mapDiv.append("svg")
     .attr("width", width)
     .attr("height", height)
+    .style("float", "left")
     .style("position", "relative");
 
 var label = mapDiv.append("div")
@@ -44,12 +47,12 @@ d3.select("#map-select").append("select")
 
 // make the map, defaulting to first column of data
 makeMap(geodata[columns[0]['key']]);
-window.labelTitle = columns[0]['value']['name'];
+window.labelTitle = columns[0]['value']['full_name'];
 
 // rebuild map with new data on select menu change
 function changeMap() {
     var dataIndex = this.options[this.selectedIndex].value;
-    window.labelTitle = tabledata['columns'][dataIndex]['name'];
+    window.labelTitle = tabledata['columns'][dataIndex]['full_name'];
     makeMap(geodata[dataIndex]);
 }
 
