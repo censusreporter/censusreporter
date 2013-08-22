@@ -17,8 +17,6 @@ var mapDiv = d3.select("#data-map")
 var width = mapDiv[0][0].offsetWidth;
 var height = width*.67;
 
-mapDiv.style("height", height);
-
 var svgMap = mapDiv.append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -159,7 +157,7 @@ function makeMap(geodata) {
     function mousemove() {
         label
             .style("left", (d3.mouse(this)[0] - 100) + "px")
-            .style("bottom", height-(d3.mouse(this)[1] - 12) + "px");
+            .style("top", (d3.mouse(this)[1] - 65) + "px");
     }
 
     function mouseout() {
