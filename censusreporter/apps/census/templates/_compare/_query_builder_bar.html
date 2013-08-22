@@ -39,7 +39,20 @@
     </div>
     <section class="clearfix" id="query-geography-picker">
         <div class="column-quarter filter-groups">
-            <h2>Compare geographies</h2>
+            <h2>Choose a comparison level</h2>
+            <ul class="filter-list" id="sumlev-select-options">
+            {% for group, values in sumlev_choices.items %}
+                <li class="label">
+                    {{ group }}
+                    <ul>
+                        {% for sumlev in values %}
+                        <li><a href="#" id="sumlev-select-{{ sumlev.summary_level }}" data-value="{{ sumlev.summary_level }}" data-plural-name="{{ sumlev.plural_name }}" data-ancestor-list="{{ sumlev.ancestor_sumlev_list }}" data-ancestor-names="{{ sumlev.ancestor_options }}">{{ sumlev.plural_name|capfirst }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
+            {% comment %}
             <div class="select-wrapper">
                 <i class="icon-chevron-sign-down"></i>
                 <select id="sumlev-select-options" class="wide-picker" name="sumlev_select">
@@ -52,12 +65,12 @@
                     </optgroup>
                     {% endfor %}
                 </select>
-            </div>
+            </div>{% endcomment %}
         </div>
 
         <div class="column-three-quarters autocomplete-widget">
-            <h2>Within a place</h2>
-            <input name="parent_select" id="parent-select" type="text" placeholder="... then search for a place" autocomplete="off">
+            <h2 id="place-autocomplete-header">Within a place</h2>
+            <input name="parent_select" id="parent-select" type="text" placeholder="Search for a place..." autocomplete="off">
         </div>
     </section>
     

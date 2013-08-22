@@ -53,7 +53,7 @@ var selectedTopicFilterValues = function () {
     }).get();
 }
 var selectedSumlev = function () {
-    return sumlevSelect.find('option:selected');
+    return sumlevSelect.find('.option-selected');
 }
 var selectedSumlevAncestorValues = function () {
     return selectedSumlev().data('ancestor-list');
@@ -167,18 +167,21 @@ function makeParentSelectWidget(element) {
 
     // when user chooses a sumlev to compare, limit possible
     // autocomplete options for parent/containing geography
-    sumlevSelect.on('change', function(e) {
-        var selected = selectedSumlev();
-        var selectedVal = selected.val();
-
+    sumlevSelect.on('click', 'a', function(e) {
+        e.preventDefault();
+        var selected = $(this);
+        var selectedVal = selected.data('value');
+        sumlevSelect.find('a').removeClass('option-selected');
+        selected.addClass('option-selected');
+        
         if (selectedVal != '') {
             // store the selected sumlev for future api requests
             chosenSumlev = selectedVal;
 
             // allow selection in parent geography picker
             element.removeProp('disabled');
-            var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names') + '.';
-            insertHelpText(selected.closest('.filter-groups'), helpText);
+            var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names');
+            $('#place-autocomplete-header').text(helpText);
             
             // auto-fill 'United States' if that's only possible choice
             if (selectedVal == '040') {
@@ -194,10 +197,10 @@ function makeParentSelectWidget(element) {
     });
 }
 
-function insertHelpText(element, message) {
-    element.find('.help-text').remove();
-    element.append('<span class="help-text">' + message + '</span>');
-}
+//function insertHelpText(element, message) {
+//    element.find('.help-text').remove();
+//    element.append('<span class="help-text">' + message + '</span>');
+//}
 
 function updateChosenItem(element, itemText) {
     element.find('.hover-hide').text(itemText);
