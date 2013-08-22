@@ -165,9 +165,8 @@ img.screenshot {
 }
 
 #page-footer {
-    background-color: #eff1e9;
+    background-color: #d1d7bf;
     border-top: 1px solid #cad0b5;
-    margin-top: 1.5em;
     padding: 1.5em 0 4.5em;
 }
 #page-footer ul {
@@ -363,6 +362,7 @@ section aside ul {
     margin-bottom: 0;
 }
 .tag {
+    text-transform: uppercase;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: normal;
     vertical-align: text-top;
