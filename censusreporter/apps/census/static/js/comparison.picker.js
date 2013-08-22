@@ -40,12 +40,12 @@ var chosens = $('.query-chosen'),
     pickers = $('section[id$="-picker"]');
 
 var topicSelect = $('#topic-select'),
-    topicChosen = $('#query-topic'),
+    topicChosen = $('#query-topic .query-chosen'),
     topicFilters = $('#query-topic-picker .filter-list input:checkbox'),
     topicResultNumber = $('#topic-result-number'),
     sumlevSelect = $('#sumlev-select-options'),
     parentSelect = $('#parent-select'),
-    geographiesChosen = $('#query-geographies');
+    geographiesChosen = $('#query-geographies .query-chosen');
 
 var selectedTopicFilterValues = function () {
     return topicFilters.filter(':checked').map(function () {
@@ -121,7 +121,6 @@ function makeTopicSelectWidget(element) {
         chosenTableID = datum['table_id'];
         updateChosenItem(
             topicChosen,
-            'Topic',
             'Table ' + chosenTableID
         );
         changeComparison();
@@ -161,7 +160,6 @@ function makeParentSelectWidget(element) {
         chosenParentGeoID = datum['full_geoid'];
         updateChosenItem(
             geographiesChosen,
-            'Geographies',
             'All ' + selectedSumlev().data('plural-name') + ' within ' + datum['full_name']
         );
         changeComparison();
@@ -201,12 +199,8 @@ function insertHelpText(element, message) {
     element.append('<span class="help-text">' + message + '</span>');
 }
 
-function updateChosenItem(element, itemTitle, itemText) {
-    var html = '<h3 class="leader">' + itemTitle + '</h3>' + itemText;
-    
-    element.html(html).addClass('chosen').fadeIn('fast', function() {
-        element.parent().next('section').fadeOut(50);
-    });
+function updateChosenItem(element, itemText) {
+    element.find('.hover-hide').text(itemText);
 }
 
 // prepare ajax spinners
@@ -222,8 +216,6 @@ $(document).ajaxComplete(function(event, request, settings) {
 });
 
 function changeComparison() {
-    spinner.spin(spinnerTarget)
-
     // if chosen release would return 0 results given the selected table
     // and geographies, fall back to the release with the most results
     countsAPI = getCountsAPI();
@@ -240,6 +232,7 @@ function changeComparison() {
                 chosenRelease = dataValues[0]['release_slug'];
             }
 
+            spinner.spin(spinnerTarget);
             var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/'
                             + '?release=' + chosenRelease + '&table=' + chosenTableID;
             window.location.href = targetURL;
@@ -253,7 +246,7 @@ function openTabs() {
 
 function closeTabs() {
     pickers.hide();
-    chosens.removeClass('tabbed');
+    chosens.removeClass('tabbed open');
 }
 
 jQuery(document).ready(function(){
@@ -276,7 +269,8 @@ jQuery(document).ready(function(){
     // query builder bar for adjusting table/geographies/release
     $('#query-builder-bar').on('click', '.query-chosen', function() {
         var chosen = $(this);
-        chosen.toggleClass('open').siblings('.query-chosen').removeClass('open');
+        chosen.toggleClass('open');
+        chosens.not(chosen).removeClass('open');
 
         // if this is the table search, *now* run the initial autocomplete query
         if (chosen.attr('id') == 'query-topic') {
@@ -285,7 +279,7 @@ jQuery(document).ready(function(){
 
         if (chosen.hasClass('open')) {
             openTabs();
-            chosen.next('section').show();
+            chosen.parent().next('section').show();
         } else {
             closeTabs();
         }

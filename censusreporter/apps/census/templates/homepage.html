@@ -4,7 +4,7 @@
 {% block body_id %}homepage{% endblock %}
 
 {% block content_container %}
-<div class="content-container clearfix tan-stripe">
+<div class="content-container clearfix">
     <article id="profile" class="clearfix wrapper">
         <section class="column-full">
             <h1 class="article-header">Profile a place</h1>
@@ -16,14 +16,40 @@
                 </p>
             </div>
         </section>
+        <section>
+            <div class="column-third callout with-icon">
+                <h3>
+                    <i class="icon-search"></i>
+                    Explore
+                </h3>
+                <p>Census data is massive, and sometimes it&rsquo;s hard to find just the table you&rsquo;re looking for. Topic filtering and keyword search help you <a href="{% url 'comparison_builder' %}">easily build a query</a>.</p>
+            </div>
+            <div class="column-third callout with-icon">
+                <h3>
+                    <i class="icon-bar-chart"></i>
+                    Visualize
+                </h3>
+                <p>We want to help <em>you</em> tell great stories with data. Maps and distribution charts help uncover what&rsquo;s interesting, so you can take it from there.</p>
+            </div>
+            <div class="column-third callout with-icon">
+                <h3>
+                    <i class="icon-download-alt"></i>
+                    Download
+                </h3>
+                <p>From any comparison, save the data you&rsquo;re viewing in CSV or JSON for further analysis. We plan to add more formats soon.</p>
+            </div>
+        </section>
     </article>
 </div>
 
 <div class="content-container clearfix">
     <article id="compare" class="clearfix wrapper">
         <section class="column-full">
-            <h1 class="article-header">Compare &amp; analyze data</h1>
-
+            <h1 class="article-header">Compare &amp; analyze</h1>
+            <p>Comparison views give you access to each element of your query, so you can easily switch to a new topic or set of places.</p>
+            {% include "_compare/_query_builder_bar.html" %}
+        </section>
+        <section class="column-full">
             <header class="section-contents">
                 <h1>Table {{ table.table_id }}</h1>
             </header>
@@ -69,33 +95,7 @@
                 </section>
             </div>
         </section>
-        <section>
-            <div class="column-third callout with-icon">
-                <h3>
-                    <i class="icon-search"></i>
-                    Explore
-                </h3>
-                <p>Census data is massive, and it can be hard to find just the table you&rsquo;re looking for. Topic filtering and keyword search help you <a href="{% url 'comparison_builder' %}">easily build a query</a>.</p>
-            </div>
-            <div class="column-third callout with-icon">
-                <h3>
-                    <i class="icon-bar-chart"></i>
-                    Visualize
-                </h3>
-                <p>We want to help <em>you</em> tell great stories with data. Maps and distribution charts help uncover what&rsquo;s interesting, so you can take it from there.</p>
-            </div>
-            <div class="column-third callout with-icon">
-                <h3>
-                    <i class="icon-download-alt"></i>
-                    Download data
-                </h3>
-                <p>From any comparison, save the data you&rsquo;re viewing in CSV or JSON for further analysis. We plan to add more formats soon.</p>
-            </div>
-        </section>
-        <section class="column-full">
-            {% include "_compare/_query_builder_bar.html" %}
-            <p class="centered">Comparison views give you access to each element of your query, so you can easily switch to a new topic or set of places.</p>
-        </section>
+
     </article>
     {% comment %}
         <p>
@@ -107,7 +107,7 @@
     {% endcomment %}
 </div>
 
-<div class="content-container clearfix tan-stripe">
+<div class="content-container clearfix">
     <article id="welcome" class="clearfix wrapper">
         <h1 class="article-header column-full">About this project</h1>
         <section class="column-golden-wide">

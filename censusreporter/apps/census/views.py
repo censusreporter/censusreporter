@@ -639,7 +639,7 @@ class HomepageView(BaseComparisonView):
         self.parent_fips_code = self.parent_id.split('US')[1]
         self.descendant_sumlev = '040'
         self.format = 'map'
-        self.release = 'acs2011_5yr'
+        self.release = 'acs2011_1yr'
 
         selected_tables = [
             'B01001', # Sex by Age

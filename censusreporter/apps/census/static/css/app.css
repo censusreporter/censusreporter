@@ -1096,34 +1096,51 @@ section.chart-divider h2 {
     width: 100%;
     margin-bottom: 2em;
 }
+#query-builder-bar .leader {
+    float: left;
+    padding: .5em 0;
+}
 #query-builder-bar #query-topic,
 #query-builder-bar #query-geographies,
 #query-builder-bar #query-release {
     float: left;
-    width: 24%;
-    margin-right: 2%;
+    width: 23%;
+    margin-right: 4%;
     font-size: .83em;
 }
 #query-builder-bar #query-geographies {
-    width: 48%;
+    width: 46%;
 }
 #query-builder-bar #query-release {
     margin-right: 0;
 }
 #query-builder-bar .query-chosen {
+    margin-left: 5em;
     text-align: center;
-    padding: .83em 0;
-    color: #fff;
-    background-color: #014948;
-    border: 1px solid #001716;
+    height: 31px;
+    padding: .5em 0 0;
+    background-color: #fff;
+    border: 1px solid #cad0b5;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
     cursor: pointer;
 }
+#query-builder-bar #query-topic .query-chosen {
+    margin-left: 4.5em;
+}
+#query-builder-bar #query-geographies .query-chosen {
+    margin-left: 9.25em;
+}
+#query-builder-bar #query-release .query-chosen {
+    margin-left: 6em;
+}
+
 #query-builder-bar .query-chosen.tabbed.open,
 #query-builder-bar .query-chosen.hovered {
-    background-color: #02aeab;
+    border-color: #014948;
+    background-color: #014948;
+    color: #fff;
 }
 #query-builder-bar .query-chosen.tabbed {
     -webkit-border-bottom-right-radius: 0;
@@ -1134,17 +1151,12 @@ section.chart-divider h2 {
     border-bottom-left-radius: 0;
 }
 #query-builder-bar .hover-only {
+    text-transform: uppercase;
+    font-weight: bold;
     display: none;
 }
 #query-builder-bar .query-chosen.hovered .hover-only {
     display: block;
-    height: 36px;
-}
-#query-builder-bar .query-chosen.hovered .hover-only h3 {
-    line-height: 36px;
-}
-#query-builder-bar .hover-hide {
-    height: 36px;
 }
 #query-builder-bar .query-chosen.hovered .hover-hide {
     display: none;
@@ -1153,7 +1165,7 @@ section.chart-divider h2 {
 
 #query-builder-bar section[id$="-picker"] {
     position: absolute;
-    top: 99%;
+    top: 30px;
     left: 0;
     width: 100%;
     background-color: #fff;
@@ -1273,7 +1285,7 @@ section.chart-divider h2 {
     position: fixed;
     top: 0;
     left: 0;
-    margin: 25px 20px;
+    margin: 65px 20px;
     height: 20px;
     width: 20px;
 }

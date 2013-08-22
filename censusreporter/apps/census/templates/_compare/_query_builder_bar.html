@@ -1,11 +1,13 @@
 <section id="query-builder-bar" class="clearfix">
-    <div id="query-topic" class="query-chosen">
-        <div class="hover-hide">
-            <h3 class="leader">Topic</h3>
-            Table {{ table.table_id }}
-        </div>
-        <div class="hover-only">
-            <h3 class="leader">Change Table</h3>
+    <div id="query-topic">
+        <h3 class="leader">Topic</h3>
+        <div class="query-chosen">
+            <span class="hover-hide">
+                Table {{ table.table_id }}
+            </span>
+            <span class="hover-only">
+                Change table
+            </span>
         </div>
     </div>
     <section class="clearfix" id="query-topic-picker">
@@ -24,13 +26,15 @@
         </div>
     </section>
     
-    <div id="query-geographies" class="query-chosen">
-        <div class="hover-hide">
-            <h3 class="leader">Geographies</h3>
-            All {{ comparison_metadata.child_geography_name_plural }} in {{ comparison_metadata.parent_name }}
-        </div>
-        <div class="hover-only">
-            <h3 class="leader">Change Geographies</h3>
+    <div id="query-geographies">
+        <h3 class="leader">Geographies</h3>
+        <div class="query-chosen">
+            <span class="hover-hide">
+                All {{ comparison_metadata.child_geography_name_plural }} in {{ comparison_metadata.parent_name }}
+            </span>
+            <span class="hover-only">
+                Change geographies
+            </span>
         </div>
     </div>
     <section class="clearfix" id="query-geography-picker">
@@ -57,13 +61,15 @@
         </div>
     </section>
     
-    <div id="query-release" class="query-chosen">
-        <div class="hover-hide">
-            <h3 class="leader">Release</h3>
-            {{ table.census_release }}
-        </div>
-        <div class="hover-only">
-            <h3 class="leader">Change Release</h3>
+    <div id="query-release">
+        <h3 class="leader">Release</h3>
+        <div class="query-chosen">
+            <span class="hover-hide">
+                {{ table.census_release }}
+            </span>
+            <span class="hover-only">
+                Change Release
+            </span>
         </div>
     </div>
     <section id="query-release-picker" class="clearfix">
