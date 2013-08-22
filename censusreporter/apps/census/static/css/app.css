@@ -828,6 +828,7 @@ textarea#results {
 .tool-group.data-selector select {
     margin-left: 0;
     min-width: 150px;
+    max-width: 450px;
 }
 
 
@@ -1130,7 +1131,7 @@ section.chart-divider h2 {
     margin-left: 4.5em;
 }
 #query-builder-bar #query-geographies .query-chosen {
-    margin-left: 9.25em;
+    margin-left: 5.5em;
 }
 #query-builder-bar #query-release .query-chosen {
     margin-left: 6em;
