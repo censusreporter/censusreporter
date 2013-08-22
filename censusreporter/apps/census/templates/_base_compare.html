@@ -19,8 +19,8 @@
                     Download
                 </a>
                 <ul class="sub-group">
-                    <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'json' %}?{{ request.GET.urlencode }}">JSON</a></li>
                     <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'csv' %}?{{ request.GET.urlencode }}">CSV</a></li>
+                    <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'json' %}?{{ request.GET.urlencode }}">JSON</a></li>
                 </ul>
             </li>
         </ul>
