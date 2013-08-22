@@ -425,6 +425,30 @@ class BaseComparisonView(TemplateView):
         #    'values_by_geo': values_by_geo,
         #}
 
+    def enhance_table_metadata(self, table):
+        '''
+        Makes column names easier to read in isolation by prefixing names
+        based on column indent levels.
+        '''
+        prefix_pieces = OrderedDict()
+        for column in table['columns']:
+            indent = table['columns'][column]['indent']
+            name = table['columns'][column]['name']
+            
+            # only add prefixes for columns at least 2 indents deep
+            if indent > 1:
+                # sometimes indents skip straight from 0 to 2, so we need
+                # to handle the potential for missing keys in `prefix_pieces`
+                prefix = ': '.join(filter(bool, [prefix_pieces.get(_indent) for _indent in range(1, indent)]))
+                if prefix:
+                    table['columns'][column]['name'] = '%s: %s' % (prefix, name)
+                
+            # build up dict of prefix pieces
+            if indent > 0:
+                prefix_pieces[indent] = name.strip(':')
+
+        return table
+
     def generate_map_values(self, data, parent, table):
         '''
         Reshapes API response data for presentation in a choropleth map.
@@ -452,8 +476,6 @@ class BaseComparisonView(TemplateView):
                 })
                 child_shapes.append(shape_item)
 
-            # TODO: Figure out how to identify tables
-            # where first column is not our total
             if percentify:
                 # only need to get total_population once, so outside loop
                 total_value = self.get_denominator_value(child['data'], percentify, pop=percentify)
@@ -476,7 +498,8 @@ class BaseComparisonView(TemplateView):
                         'percentage': percentage,
                     })
 
-        # pop the table's first column if necessary
+        # improve column names, and pop the table's first column if necessary
+        table = self.enhance_table_metadata(table)
         table_pop = self.get_denominator_value(table['columns'], percentify, pop=percentify)
 
         map_values = {
@@ -496,6 +519,7 @@ class BaseComparisonView(TemplateView):
         '''
         percentify = self.get_percentify(table)
         data = self.clean_child_data(data)
+        table = self.enhance_table_metadata(table)
 
         distribution_groups = OrderedDict()
 
