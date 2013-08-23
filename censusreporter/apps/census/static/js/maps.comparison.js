@@ -11,16 +11,17 @@
 //     children = {{ child_shapes }};
 
 
-var mapDiv = d3.select("#data-map")
+var mapContainer = d3.select("#data-map"),
+    mapDiv = mapContainer.append("div")
+    .style("float", "left")
     .attr("class", "svg-map");
 
-var width = mapDiv[0][0].offsetWidth;
+var width = mapContainer[0][0].offsetWidth;
 var height = width*.67;
 
 var svgMap = mapDiv.append("svg")
     .attr("width", width)
     .attr("height", height)
-    .style("float", "left")
     .style("position", "relative");
 
 var label = mapDiv.append("div")
@@ -157,7 +158,7 @@ function makeMap(geodata) {
     function mousemove() {
         label
             .style("left", (d3.mouse(this)[0] - 100) + "px")
-            .style("top", (d3.mouse(this)[1] - 65) + "px");
+            .style("bottom", (height - d3.mouse(this)[1] + 12) + "px");
     }
 
     function mouseout() {
