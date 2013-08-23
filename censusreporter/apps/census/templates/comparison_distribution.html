@@ -19,6 +19,9 @@
                 <p class="display-type"><strong>{{ table.census_release }}</strong></p>
                 <p>These charts show how data in this table is distributed, helping identify patterns, clusters and outliers.</p>
                 <p>Highlighting a point on one chart will also highlight it on the others.</p>
+                {% if release and '_5yr' not in release %}
+                    {% include '_compare/_explainer_why_are_places_missing.html' %}
+                {% endif %}
             </aside>
             
             {# GEOGRAPHY SELECTOR #}

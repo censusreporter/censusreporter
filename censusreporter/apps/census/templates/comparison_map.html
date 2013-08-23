@@ -15,6 +15,9 @@
             <aside>
                 <p class="display-type"><strong>{{ table.census_release }}</strong></p>
                 <p>A choropleth shows how data varies across geographies. The {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in this map are divided into quintiles. Use the selector to view any column in the table.</p>
+                {% if release and '_5yr' not in release %}
+                    {% include '_compare/_explainer_why_are_places_missing.html' %}
+                {% endif %}
             </aside>
 
             {# RELEASE AND UNIVERSE #}
