@@ -1332,6 +1332,9 @@ section.chart-divider h2 {
     font-size: .75em;
 }
 .hidden {
+    display: none;
+}
+.invisible {
     display: none !important;
     visibility: hidden;
 }

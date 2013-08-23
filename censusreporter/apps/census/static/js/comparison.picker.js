@@ -18,9 +18,16 @@ var getCountsAPI = function() {
 
 function getReleaseCounts() {
     countsAPI = getCountsAPI();
+    var releaseCounts = [],
+        releaseResultCount;
+    
     $.getJSON(countsAPI)
         .done(function(data) {
-            $.each(data, function() {
+            $.each(data, function(i) {
+                releaseCounts.push(data[i]);
+                if (this['release_slug'] == chosenRelease) {
+                    releaseResultCount = this['results'];
+                }
                 if (!!this['results'] && this['results'] > 0) {
                     $("a[data-release-slug='" + this['release_slug'] +"']")
                         .text("Show " + this['results'] + " results");
@@ -30,6 +37,15 @@ function getReleaseCounts() {
                         .removeAttr("href").addClass("disabled");
                 }
             });
+            releaseCounts.sort(function(obj1, obj2) {
+                return obj2['results'] - obj1['results'];
+            });
+            var maxResults = releaseCounts[0]['results'];
+            if (releaseResultCount < maxResults) {
+                $('#explainer-places-missing').show();
+            } else {
+                $('#explainer-places-missing').remove();
+            }
         });
 }
 
