@@ -292,9 +292,9 @@ jQuery(document).ready(function(){
         chosens.not(chosen).removeClass('open');
 
         // if this is the table search, *now* run the initial autocomplete query
-        if (chosen.attr('id') == 'query-topic') {
-            triggerAutocompleteWildCardFallback(topicSelect);
-        }
+        //if (chosen.parent().attr('id') == 'query-topic') {
+        //    triggerAutocompleteWildCardFallback(topicSelect);
+        //}
 
         if (chosen.hasClass('open')) {
             openTabs();

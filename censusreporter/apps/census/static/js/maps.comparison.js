@@ -28,31 +28,34 @@ var label = mapDiv.append("div")
     .attr("class", "label")
     .style("opacity", 1e-6);
 
-var labelTitle = "";
+var labelTitle = "",
+    chosenColumnTitle = d3.select("#column-title-chosen");
 
 var columns = d3.entries(tabledata['columns']);
 
 // add dropdown
-d3.select("#map-select").append("select")
-    .attr("id", "map-select-select")
-    .on("change", changeMap)
-.selectAll("option").data(columns).enter().append("option")
-    .attr("value", function(d){ return d['key']; })
-    .attr("disabled", function(d){ return (d['key'].indexOf('.') >= 0) ? true : null; })
-    .text(function(d){
-            var indents = new Array(d['value']['indent']);
-            return indents.join("\xA0\xA0") + d['value']['name'];
-        })
+//d3.select("#map-select").append("select")
+//    .attr("id", "map-select-select")
+//    .on("change", changeMap)
+//.selectAll("option").data(columns).enter().append("option")
+//    .attr("value", function(d){ return d['key']; })
+//    .attr("disabled", function(d){ return (d['key'].indexOf('.') >= 0) ? true : null; })
+//    .text(function(d){
+//            var indents = new Array(d['value']['indent']);
+//            return indents.join("\xA0\xA0") + d['value']['name'];
+//        })
 
 // make the map, defaulting to first column of data
-makeMap(geodata[columns[0]['key']]);
-window.labelTitle = columns[0]['value']['full_name'];
+changeMap(columns[0]['key']);
 
 // rebuild map with new data on select menu change
-function changeMap() {
-    var dataIndex = this.options[this.selectedIndex].value;
-    window.labelTitle = tabledata['columns'][dataIndex]['full_name'];
-    makeMap(geodata[dataIndex]);
+function changeMap(column) {
+    window.labelTitle = tabledata['columns'][column]['full_name'];
+    makeMap(geodata[column]);
+    chosenColumnTitle.text(labelTitle);
+}
+
+function changeChosenColumn() {
 }
 
 function makeMap(geodata) {
@@ -192,3 +195,21 @@ function makeMap(geodata) {
         //    .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
         //    .text(function(d) { return d['properties']['name'] + geodata[d['id']]; });
 }
+
+var dataSelector = $('.data-selector');
+dataSelector.on('click', '.item-chosen-title', function(e) {
+    e.preventDefault();
+    var chosenGroup = $(this).parent();
+    chosenGroup.toggleClass('open');
+    chosenGroup.find('i[class^="icon-"]').toggleClass('icon-chevron-sign-down icon-chevron-sign-up');
+});
+dataSelector.on('click', 'a', function(e) {
+    e.preventDefault();
+    var selected = $(this);
+    var selectedVal = selected.data('value');
+    dataSelector.find('a').removeClass('option-selected');
+    selected.addClass('option-selected');
+    var chosenGroup = $(this).closest('.item-chosen');
+    chosenGroup.toggleClass('open');
+    changeMap(selectedVal);
+});

@@ -657,7 +657,8 @@ form label {
 input[type="text"],
 select,
 .select-wrapper,
-.filter-group {
+.filter-group,
+.item-chosen {
     background-color: #fff;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -693,21 +694,24 @@ form select {
     padding: 0;
 }
 .select-wrapper i[class^="icon-"],
-.filter-group i[class^="icon-"] {
+.filter-group i[class^="icon-"], 
+.item-chosen i[class^="icon-"] {
     position: absolute;
     top: 0;
     right: 0;
-    padding: .5em .5em .33em;
+    padding: .5em .5em 0;
     background-color: #fff;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 1.2em;
 }
 .select-wrapper i[class^="icon-"]:before,
 .select-wrapper i[class*=" icon-"]:before,
 .filter-group i[class^="icon-"]:before,
-.filter-group i[class*=" icon-"]:before {
+.filter-group i[class*=" icon-"]:before, 
+.item-chosen i[class^="icon-"]:before,
+.item-chosen i[class*=" icon-"]:before{
     cursor: pointer;
 }
 
@@ -741,8 +745,9 @@ form.inline-form .select2-container {
 .filter-group.open {
     height: auto;
 }
-.filter-group h3.filter-group-title {
-    font-size: 1em;
+h3.filter-group-title,
+h3.item-chosen-title {
+    font-size: .9em;
     margin-bottom: 0;
 }
 .filter-group .filter-list {
@@ -754,6 +759,7 @@ form.inline-form .select2-container {
 }
 .filter-list a {
     text-decoration: none;
+    font-weight: normal;
     padding: .15em .33em;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -837,9 +843,16 @@ textarea#results {
     display: inline-block;
     margin: 0 0 0 .33em;
 }
+.tool-group .filter-list li {
+    display: block;
+    margin: .33em 0;
+}
 .tool-group a {
     cursor: pointer;
     text-decoration: underline;
+}
+.tool-group .filter-list a {
+    text-decoration: none;
 }
 .tool-group input,
 .tool-group select {
@@ -853,7 +866,33 @@ textarea#results {
     min-width: 150px;
     max-width: 450px;
 }
+.tool-group.data-selector .item-chosen {
+    margin-left: 0;
+    width: 400px;
+    position: absolute;
+}
 
+.item-chosen {
+    cursor: pointer;
+}
+.item-chosen,
+.item-choices {
+    position: relative;
+    background-color: #fff;
+}
+.item-choices {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 1em;
+    display: none;
+}
+.item-chosen.open {
+    height: auto;
+    z-index: 999;
+}
+.item-chosen.open .item-choices {
+    display: block;
+}
 
 ul.toggle-set {
     margin-top: .5em;
