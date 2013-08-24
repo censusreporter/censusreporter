@@ -871,6 +871,11 @@ textarea#results {
     width: 400px;
     position: absolute;
 }
+.tool-group .label {
+    font-size: .9em;
+    color: #aaa;
+    font-weight: bold;
+}
 
 .item-chosen {
     cursor: pointer;

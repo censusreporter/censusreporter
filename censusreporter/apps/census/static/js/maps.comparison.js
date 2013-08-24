@@ -197,14 +197,15 @@ function makeMap(geodata) {
 }
 
 var dataSelector = $('.data-selector');
-dataSelector.on('click', '.item-chosen-title', function(e) {
+dataSelector.on('click', '.item-chosen', function(e) {
     e.preventDefault();
-    var chosenGroup = $(this).parent();
+    var chosenGroup = $(this);
     chosenGroup.toggleClass('open');
     chosenGroup.find('i[class^="icon-"]').toggleClass('icon-chevron-sign-down icon-chevron-sign-up');
 });
 dataSelector.on('click', 'a', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     var selected = $(this);
     var selectedVal = selected.data('value');
     dataSelector.find('a').removeClass('option-selected');
