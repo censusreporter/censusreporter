@@ -559,7 +559,8 @@ ul.quantile-legend span.min-value {
 .y.axis path {
     display: none;
 }
-svg text {
+svg text,
+svg .legend {
     font-size: .9em;
 }
 .x.axis text,
@@ -572,8 +573,23 @@ svg text {
 .y.axis line {
     stroke: #f5f5f5;
 }
-
-
+.arc path,
+.arc-group path {
+    stroke: #fff;
+}
+.label-group text {
+    font-size: .75em;
+}
+.label-group .label-name {
+    font-weight: bold;
+}
+.center-group .label-name {
+    font-size: .8em;
+}
+.center-group .label-value {
+    font-weight: bold;
+    font-size: 1.2em;
+}
 /* TABLES */
 table {
     margin: 0 0 2em 0;
@@ -704,7 +720,6 @@ form select {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    font-size: 1.2em;
 }
 .select-wrapper i[class^="icon-"]:before,
 .select-wrapper i[class*=" icon-"]:before,
@@ -747,7 +762,7 @@ form.inline-form .select2-container {
 }
 h3.filter-group-title,
 h3.item-chosen-title {
-    font-size: .9em;
+    font-size: 1em;
     margin-bottom: 0;
 }
 .filter-group .filter-list {
@@ -872,7 +887,7 @@ textarea#results {
     position: absolute;
 }
 .tool-group .label {
-    font-size: .9em;
+    font-size: 1em;
     color: #aaa;
     font-weight: bold;
 }

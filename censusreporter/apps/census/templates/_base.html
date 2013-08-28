@@ -15,10 +15,10 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,700">
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Merriweather">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
-        {% block head_extra_css %}{% endblock %}{% endblock head_css %}
+        {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
         <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-        {% block head_extra_javascript %}{% endblock %}{% endblock %}
+        {% block head_javascript_extra %}{% endblock %}{% endblock %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" />
         <!-- Begin Google Analytics -->
         <script>

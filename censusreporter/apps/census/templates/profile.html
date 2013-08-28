@@ -2,6 +2,12 @@
 
 {% block head_title %}{% firstof geo_place_data.full_name geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
 
+{% block head_javascript_extra %}
+{# include in head so it's available throughout body #}
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/colorbrewer.js"></script>
+{% endblock %}
+
 {% block header_content %}
 <div class="content-container">
 <article id="profile">
@@ -127,7 +133,6 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/d3.chart.min.js"></script>

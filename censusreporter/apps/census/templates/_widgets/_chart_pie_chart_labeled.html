@@ -1,0 +1,125 @@
+<script>
+// namespacing
+var {{ table }} = {
+    'data': [],
+    'categories': []
+};
+// build the data list
+{% for category, values in data %}
+{{ table }}['data'].push({'name': '{{ values.name }}', 'value': '{{ values.values.this }}'})
+{{ table }}['categories'].push('{{ values.name }}')
+{% endfor %}
+
+function pctFmt(value) {
+    if ('{{ stat_type }}' == 'percentage') { value += '%' }
+    return value;
+}
+
+var chartContainer = d3.select("{{ container_id }}");
+var width = chartContainer[0][0].offsetWidth,
+    height = 180,
+    radius = Math.min(width, height) / 2,
+    textOffset = -15;
+
+var color = d3.scale.ordinal()
+    .domain({{ table }}['categories'])
+    .range(colorbrewer.RdBu[9]);
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 30)
+    .innerRadius(radius / 3);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d['value']; }),
+    pieData = pie({{ table }}['data']);
+
+var svg = chartContainer.append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// arcs
+var arcGroup = svg.append("g")
+    .attr("class", "arc-group")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+// labels
+var labelGroup = svg.append("g")
+    .attr("class", "label-group")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+// center text
+var centerGroup = svg.append("g")
+    .attr("class", "center-group")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+// center value
+// var centerValue = centerGroup.append("text")
+//   .attr("class", "total")
+//   .attr("dy", 7)
+//   .attr("text-anchor", "middle")
+//   .text("");
+
+
+//turn values into ints
+{{ table }}['data'].forEach(function(d) {
+    d['value'] = +d['value'];
+});
+
+// add arc paths
+var arcs = arcGroup.selectAll(".arc")
+        .data(pieData)
+    .enter().append("path")
+        .attr("d", arc)
+        .style("fill", function(d) { return color(d.data['name']); });
+
+// tick marks for labels
+var ticks = labelGroup.selectAll("line")
+        .data(pieData)
+    .enter().append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", -radius+27)
+        .attr("y2", -radius+22)
+        .attr("stroke", "gray")
+        .attr("transform", function(d) {
+            return "rotate(" + (d.startAngle+d.endAngle)/2 * (180/Math.PI) + ")";
+        });
+
+// labels for arcs
+var nameLabels = labelGroup.selectAll("text.label-name")
+        .data(pieData)
+    .enter().append("text")
+        .attr("class", "label-name")
+        .attr("transform", function(d) {
+            return "translate(" + Math.cos(((d.startAngle+d.endAngle - Math.PI)/2)) * (radius+textOffset) + "," + Math.sin((d.startAngle+d.endAngle - Math.PI)/2) * (radius+textOffset) + ")";
+        })
+        .attr("dy", -4)
+        .attr("text-anchor", function(d){
+            if ((d.startAngle+d.endAngle)/2 < Math.PI){
+                return "beginning";
+            } else {
+                return "end";
+            }
+        })
+        .text(function(d) { return d.data['name']; });
+
+var valueLabels = labelGroup.selectAll("text.label-value")
+        .data(pieData)
+    .enter().append("text")
+        .attr("class", "label-value")
+        .attr("transform", function(d) {
+            return "translate(" + Math.cos(((d.startAngle+d.endAngle - Math.PI)/2)) * (radius+textOffset) + "," + Math.sin((d.startAngle+d.endAngle - Math.PI)/2) * (radius+textOffset) + ")";
+        })
+        .attr("dy", 9)
+        .attr("text-anchor", function(d){
+            if ((d.startAngle+d.endAngle)/2 < Math.PI){
+                return "beginning";
+            } else {
+                return "end";
+            }
+        })
+        .text(function(d) {
+            return pctFmt(d.data['value']);
+        });
+</script>

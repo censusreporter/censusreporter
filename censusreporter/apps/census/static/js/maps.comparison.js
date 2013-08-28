@@ -13,8 +13,8 @@
 
 var mapContainer = d3.select("#data-map"),
     mapDiv = mapContainer.append("div")
-    .style("float", "left")
-    .attr("class", "svg-map");
+        .style("float", "left")
+        .attr("class", "svg-map");
 
 var width = mapContainer[0][0].offsetWidth;
 var height = width*.67;

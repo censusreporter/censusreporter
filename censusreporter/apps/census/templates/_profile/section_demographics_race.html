@@ -7,24 +7,20 @@
         {% include '_profile/_stat_list.html' with stat=demographics.race.percent_white stat_type='percentage' %}
     </div>
     <div class="column-three-quarters" id="race-column-chart"></div>
+</section>
 
-    {% comment %}
-    <div class="column-quarter">
-        {% include '_profile/_stat_list.html' with stat=demographics.race.percent_black stat_type='percentage' %}
+<section class="clearfix">
+    <h2>Chart tests</h2>
+    <div class="column-third" id="demographics-race-viz">
+        <h3>Labeled</h3>
+        {% include '_widgets/_chart_pie_chart_labeled.html' with data=demographics.race.items table=demographics.race.percent_white.table_id container_id='#demographics-race-viz' stat_type='percentage' %}
     </div>
-    <div class="column-quarter">
-        {% include '_profile/_stat_list.html' with stat=demographics.race.percent_native_american stat_type='percentage' %}
+    <div class="column-third" id="demographics-race-viz-3">
+        <h3>Legend</h3>
+        {% include '_widgets/_chart_pie_chart_legend.html' with data=demographics.race.items table=demographics.race.percent_white.table_id container_id='#demographics-race-viz-3' stat_type='percentage' %}
     </div>
-    <div class="column-quarter">
-        {% include '_profile/_stat_list.html' with stat=demographics.race.percent_asian stat_type='percentage' %}
+    <div class="column-third" id="demographics-race-viz-2">
+        <h3>Hover</h3>
+        {% include '_widgets/_chart_pie_chart_hover.html' with data=demographics.race.items table=demographics.race.percent_white.table_id container_id='#demographics-race-viz-2' stat_type='percentage' %}
     </div>
-    <div class="column-quarter">
-        {% include '_profile/_stat_list.html' with stat=demographics.race.percent_native_islander stat_type='percentage' %}
-    </div>
-    <div class="column-quarter">
-        {% include '_profile/_stat_list.html' with stat=demographics.race.percent_other stat_type='percentage' %}
-    </div>
-    <div class="column-quarter">
-        {% include '_profile/_stat_list.html' with stat=demographics.race.percent_two_or_more stat_type='percentage' %}
-    </div>{% endcomment %}
 </section>
