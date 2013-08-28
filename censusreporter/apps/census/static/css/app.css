@@ -913,6 +913,24 @@ textarea#results {
 .item-chosen.open .item-choices {
     display: block;
 }
+/* handle hidden scrollbars in OS 10.7+ */
+.item-choices::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.item-choices::-webkit-scrollbar:vertical {
+    width: 11px;
+}
+
+.item-choices::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+.item-choices::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
 
 ul.toggle-set {
     margin-top: .5em;
