@@ -267,18 +267,26 @@ class BaseComparisonView(TemplateView):
         should not be percentified (which makes sure there's an empty
         value for javascript in the template).
         '''
-        return table['denominator_column_id'] or ''
+        if table['denominator_column_id']:
+            denominator_id = table['denominator_column_id']
+            percentify = {
+                'denominator_column_id': denominator_id,
+                'denominator_column': table['columns'][denominator_id],
+            }
+            return percentify
+        return ''
 
-    def get_denominator_value(self, data, percentify_column=None, pop=False):
+    def get_denominator_value(self, data, percentify=None, pop=False):
         '''
         Utility method that determines which field in a table represents
         a "total" value, suitable for use in generating a percentage figure.
         Optionally pops this value out of the data that is passed in,
         to avoid displaying it in a percentage-based visualization.
         '''
-        if not percentify_column:
+        if not percentify:
             return None
             
+        percentify_column = percentify['denominator_column_id']
         if pop:
             total_value = data.pop(percentify_column)
         else:

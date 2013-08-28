@@ -764,6 +764,7 @@ form.inline-form .select2-container {
 }
 h3.filter-group-title,
 h3.item-chosen-title {
+    line-height: 1;
     font-size: 1em;
     margin-bottom: 0;
     padding-right: 1.5em;
@@ -778,7 +779,6 @@ h3.item-chosen-title {
 .filter-list a {
     text-decoration: none;
     font-weight: normal;
-    padding: .15em .33em;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -796,6 +796,11 @@ h3.item-chosen-title {
     font-size: .83em;
     color: #aaa;
     font-weight: bold;
+}
+.filter-list a,
+.filter-list .label {
+    padding: .1em .33em;
+    margin-left: -.33em;
 }
 .filter-list ul {
     list-style: none;
@@ -910,6 +915,7 @@ textarea#results {
     overflow-y: auto;
     margin-top: 1em;
     display: none;
+    cursor: default;
 }
 .item-chosen.open {
     height: auto;

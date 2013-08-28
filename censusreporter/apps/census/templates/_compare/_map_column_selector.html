@@ -4,11 +4,19 @@
         <span id="column-title-chosen"></span>
     </h3>
     <div class="item-choices">
-        <h3 class="label">Choose a column</h3>
         <ul class="filter-list clearfix" id="column-picker-choices">
+            {% if percentify %}
+            <li class="indent-{{ percentify.denominator_column.indent }}">
+                <span class="label">{{ percentify.denominator_column.name }}</span>
+            </li>
+            {% endif %}
             {% for column_id, column_data in table.columns.items %}
             <li class="indent-{{ column_data.indent }}">
+                {% if '.' in column_id %}
+                <span class="label">{{ column_data.name }}</span>
+                {% else %}
                 <a href="#" id="column-select-{{ column_id }}" data-value="{{ column_id }}" data-full-name="{{ column_data.full_name }}">{{ column_data.name }}</a>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
