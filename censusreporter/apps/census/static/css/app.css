@@ -499,10 +499,16 @@ section aside ul {
 .q3 { background-color: #7b8656; fill: #7b8656; }
 .q4 { background-color: #555c3b; fill: #555c3b; }
 
+#map-legend,
+#map-select {
+    width: 50%;
+    margin-right: 0;
+}
 #map-legend {
-    float: right;
+    padding-right: 1em;
     font-size: 11px;
     height: 4em;
+    float: right;
 }
 ul.quantile-legend {
     list-style: none;
@@ -513,21 +519,17 @@ ul.quantile-legend {
     padding-bottom: 2em;
 }
 ul.quantile-legend li {
-    height: 2em;
-    width: 5em;
+    height: 2.5em;
+    width: 16.5%;
     position: relative;
     margin: 0;
 }
 ul.quantile-legend span.quantile-label {
     position: absolute;
     bottom: -1.75em;
-    left: 3em;
-    width: 4em;
+    width: 100%;
+    left: 50%;
     text-align: center;
-}
-ul.quantile-legend span.min-value {
-    bottom: .5em;
-    left: -2.2em;
 }
 
 /* CHARTS */
@@ -764,6 +766,7 @@ h3.filter-group-title,
 h3.item-chosen-title {
     font-size: 1em;
     margin-bottom: 0;
+    padding-right: 1.5em;
 }
 .filter-group .filter-list {
     display: none;
@@ -842,6 +845,7 @@ textarea#results {
     float: left;
 }
 .tool-group {
+    position: relative;
     margin-right: 2em;
     font-size: .83em;
 }
@@ -883,7 +887,8 @@ textarea#results {
 }
 .tool-group.data-selector .item-chosen {
     margin-left: 0;
-    width: 400px;
+    width: 100%;
+    height: auto;
     position: absolute;
 }
 .tool-group .label {

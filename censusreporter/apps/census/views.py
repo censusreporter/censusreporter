@@ -435,19 +435,17 @@ class BaseComparisonView(TemplateView):
             indent = table['columns'][column]['indent']
             name = table['columns'][column]['name']
             table['columns'][column]['full_name'] = name
-            
+
             # only add prefixes for columns at least 2 indents deep
-            if indent > 1:
+            if indent > 0:
                 # sometimes indents skip straight from 0 to 2, so we need
                 # to handle the potential for missing keys in `prefix_pieces`
-                prefix = ': '.join(filter(bool, [prefix_pieces.get(_indent) for _indent in range(1, indent)]))
+                prefix = ': '.join(filter(bool, [prefix_pieces.get(_indent) for _indent in range(0, indent)]))
                 if prefix:
                     #table['columns'][column]['name'] = '%s: %s' % (prefix, name)
                     table['columns'][column]['full_name'] = '%s: %s' % (prefix, name)
                 
-            # build up dict of prefix pieces
-            if indent > 0:
-                prefix_pieces[indent] = name.strip(':')
+            prefix_pieces[indent] = name.strip(':')
 
         return table
 

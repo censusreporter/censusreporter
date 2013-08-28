@@ -26,8 +26,9 @@
             {# MAP LEGEND #}
             <div class="tool-group" id="map-legend">
                 <ul class="quantile-legend">
-                        <span class="quantile-label min-value"></span>
-                    <li class="q0">
+                    <li>
+                        <span class="quantile-label"></span>
+                    </li><li class="q0">
                         <span class="quantile-label"></span>
                     </li><li class="q1">
                         <span class="quantile-label"></span>
@@ -42,7 +43,9 @@
             </div>
             
             {# SELECTOR FOR DATA FIELD #}
-            {% include '_compare/_map_column_selector.html' %}
+            <div class="tool-group data-selector" id="map-select">
+                {% include '_compare/_map_column_selector.html' %}
+            </div>
 
             {# D3 CHOROPLETH #}
             <section id="data-map"></section>

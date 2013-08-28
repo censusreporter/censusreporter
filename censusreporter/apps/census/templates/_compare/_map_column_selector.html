@@ -1,18 +1,16 @@
-<div class="tool-group data-selector" id="map-select">
-    <div class="item-chosen" id="column-picker">
-        <h3 class="item-chosen-title">
-            <i class="icon-chevron-sign-down"></i>
-            <span id="column-title-chosen"></span>
-        </h3>
-        <div class="item-choices">
-            <h3 class="label">Choose a column</h3>
-            <ul class="filter-list clearfix" id="column-picker-choices">
-                {% for column_id, column_data in table.columns.items %}
-                <li class="indent-{{ column_data.indent }}">
-                    <a href="#" id="column-select-{{ column_id }}" data-value="{{ column_id }}" data-full-name="{{ column_data.full_name }}">{{ column_data.name }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
+<div class="item-chosen" id="column-picker">
+    <h3 class="item-chosen-title">
+        <i class="icon-chevron-sign-down"></i>
+        <span id="column-title-chosen"></span>
+    </h3>
+    <div class="item-choices">
+        <h3 class="label">Choose a column</h3>
+        <ul class="filter-list clearfix" id="column-picker-choices">
+            {% for column_id, column_data in table.columns.items %}
+            <li class="indent-{{ column_data.indent }}">
+                <a href="#" id="column-select-{{ column_id }}" data-value="{{ column_id }}" data-full-name="{{ column_data.full_name }}">{{ column_data.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
