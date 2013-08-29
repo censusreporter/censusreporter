@@ -1,6 +1,6 @@
 /*
 greens: #02aeab; #027b7a; #014948;
-tans: #f7f8f3; #eff1e9; #cad0b5;
+tans: #f7f8f3; #eff1e9; #e0e4d4; #cad0b5;
 map quintiles: #d9ddca; #bbc2a1; #9ea877; #7b8656; #555c3b;
 */
 
@@ -450,7 +450,7 @@ section aside ul {
     position: relative;
 }
 .svg-map .outline {
-    fill: #f7f7f4;
+    fill: #f7f8f3;
     stroke: #cad0b5;
     stroke-width: 1.5px;
 }
@@ -633,12 +633,14 @@ table .value {
     text-align: right;
 }
 tr.even td {
-    background-color: #f7f8f3;
+    background-color: #eff1e9;
+}
+tr.highlight td {
+    background: #b4bc96;
 }
 tr:hover td,
-tr.even:hover td,
-tr.highlight td {
-    background: #d2d6c0;
+tr.even:hover td {
+    background: #d1d7bf;
 }
 table .percentage, table .raw-number {
     display: block
