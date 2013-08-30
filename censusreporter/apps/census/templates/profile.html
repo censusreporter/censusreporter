@@ -16,6 +16,8 @@
 <script src="{{ STATIC_URL }}js/vendor/colorbrewer.js"></script>
 {% endblock %}
 
+{% block body_id %}profile{% endblock %}
+
 {% block header %}
 <header id="page-header">
     <div id="page-header-title" class="wrapper clearfix">
@@ -24,15 +26,14 @@
         </a>
     </div>
 </header>
-<div class="cover-map">
-<div id="slippy-map"></div>
-<div class="cover-text">
-<article id="profile" class="cover-text content-container wrapper clearfix">
-    <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
-    <p>Data from {{ geography.census_release }} release unless otherwise noted</p>
 
-    <section class="clearfix">
-        <div class="column-half">
+<div class="cover-map clearfix">
+    <div id="cover-profile" class="content-container wrapper">
+        <article class="clearfix column-half">
+            <header class="column-full">
+                <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
+                <p class="caption">Data from {{ geography.census_release }} release unless otherwise noted</p>
+            </header>
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
@@ -55,15 +56,16 @@
                 </div>
             </div>
             {% endif %}
-            <div class="full-width">
+            <div class="column-full">
                 <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam. Nulla dignissim, magna quis sodales ultricies, nulla leo lobortis purus, eu feugiat tellus elit at erat. Fusce aliquet mi eu purus lacinia tristique. Ut in fringilla felis. Sed placerat aliquam tortor eget tristique.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam.</p>
             </div>
-        </div>
-    </section>
-</article>
+        </article>
+    </div>
+<div id="slippy-map"></div>
+
 </div>
-</div>
+
 {% endblock %}
 
 {% block content %}
