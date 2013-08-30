@@ -4,7 +4,8 @@
 
 {% block head_javascript_extra %}
 {# include in head so it's available throughout body #}
-<script src="http://d3js.org/d3.v3.min.js"></script>
+{#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
+<script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
 {% endblock %}
 
 {% block header_content %}
@@ -132,8 +133,8 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+{#}<script src="http://d3js.org/queue.v1.min.js"></script>{#}
+{#}<script src="http://d3js.org/topojson.v1.min.js"></script>{#}
 <script src="{{ STATIC_URL }}js/vendor/d3.chart.min.js"></script>
 <script src="{{ STATIC_URL }}js/charts/d3.chart.columnChart.js"></script>
 <script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
@@ -165,7 +166,7 @@ $.each(chartContainers, function(i) {
 
 
 
-
+{% comment %}
 var mapDiv = d3.select("#geography-map").append("div")
     .attr("class", "svg-map")
 
@@ -244,6 +245,7 @@ function ready(error, us) {
       .attr("class", "point");
     {% endif %}
 }
+{% endcomment %}
 
 var raceColumnChartData = [
     { "name": "White", "value": {{ demographics.race.percent_white.values.this|default:"0" }} },

@@ -533,13 +533,6 @@ ul.quantile-legend span.quantile-label {
 }
 
 /* CHARTS */
-.svg-chart {
-    
-}
-.svg-chart .legend g {cursor: pointer;}
-.svg-chart .legend g:hover { background-color: #d9ddca; fill: #d9ddca; }
-
-
 .chart {
     font-size: 0.75em;
     position: relative;
@@ -572,6 +565,20 @@ svg text,
 svg .legend {
     font-size: .9em;
 }
+.svg-chart .legend-item {
+    cursor: pointer;
+    fill: #888;
+}
+.svg-chart .legend-item rect {
+    opacity: .8;
+}
+.svg-chart .legend-item:hover,
+.svg-chart .legend-item.hovered {
+    opacity: 1;
+    fill: #111;
+}
+
+
 .x.axis text,
 .y.axis text {
     font-weight: bold;
@@ -582,9 +589,14 @@ svg .legend {
 .y.axis line {
     stroke: #f5f5f5;
 }
-.arc path,
+.arc,
 .arc-group path {
     stroke: #fff;
+    cursor: pointer;
+    opacity: .8;
+}
+.arc.hovered {
+    opacity: 1;
 }
 .label-group text {
     font-size: .75em;
