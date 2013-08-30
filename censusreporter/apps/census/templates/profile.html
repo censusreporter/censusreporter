@@ -2,15 +2,32 @@
 
 {% block head_title %}{% firstof geo_place_data.full_name geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
 
+{% block head_css_extra %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+<![endif]-->
+{% endblock %}
+
 {% block head_javascript_extra %}
 {# include in head so it's available throughout body #}
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/colorbrewer.js"></script>
 {% endblock %}
 
-{% block header_content %}
-<div class="content-container">
-<article id="profile">
+{% block header %}
+<header id="page-header">
+    <div id="page-header-title" class="wrapper clearfix">
+        <a href="{% url 'homepage' %}">
+            <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
+        </a>
+    </div>
+</header>
+<div class="cover-map">
+<div id="slippy-map"></div>
+<div class="cover-text">
+<article id="profile" class="cover-text content-container wrapper clearfix">
     <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
     <p>Data from {{ geography.census_release }} release unless otherwise noted</p>
 
@@ -43,9 +60,9 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam. Nulla dignissim, magna quis sodales ultricies, nulla leo lobortis purus, eu feugiat tellus elit at erat. Fusce aliquet mi eu purus lacinia tristique. Ut in fringilla felis. Sed placerat aliquam tortor eget tristique.</p>
             </div>
         </div>
-        <div class="column-half" id="geography-map"></div>
     </section>
 </article>
+</div>
 </div>
 {% endblock %}
 
@@ -137,6 +154,7 @@
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/d3.chart.min.js"></script>
 <script src="{{ STATIC_URL }}js/charts/d3.chart.columnChart.js"></script>
+<script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
 
 var mapDiv = d3.select("#geography-map").append("div")

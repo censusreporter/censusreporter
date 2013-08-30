@@ -262,6 +262,18 @@ section aside ul {
     margin: 0;
 }
 
+#slippy-map {
+    height: 35em;
+}
+
+.cover-text {
+    z-index: 99;
+    position: absolute;
+    width: 100%;
+    top: 1em;
+    height: 35em;
+}
+
 .column-full,
 .column-half,
 .column-third,
