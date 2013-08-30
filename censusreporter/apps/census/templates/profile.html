@@ -27,8 +27,8 @@
     </div>
 </header>
 
-<div class="cover-map clearfix">
-    <div id="cover-profile" class="content-container wrapper">
+<div id="cover-map" class="clearfix">
+    <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header class="column-full">
                 <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
@@ -62,8 +62,8 @@
             </div>
         </article>
     </div>
-<div id="slippy-map"></div>
 
+    <div id="slippy-map"></div>
 </div>
 
 {% endblock %}
