@@ -14,18 +14,12 @@ function Chart(options) {
         });
         chart.settings = {
             width: parseInt(chart.chartContainer.style('width'), 10),
+            height: 180
         }
 
         chart.draw();
         return chart;
     };
-    
-    chart.draw = function() {
-        if (chart.chartType == 'pie') {
-            chart.makePieChart();
-        }
-        return chart;
-    }
     
     chart.updateSettings = function(newSettings) {
         for (var setting in newSettings) {
@@ -33,55 +27,66 @@ function Chart(options) {
         }
     }
     
+    chart.draw = function() {
+        if (chart.chartType == 'pie') {
+            chart.makePieChart();
+        }
+        
+        return chart;
+    }
+
     chart.makePieChart = function() {
+        // add basic settings specific to this chart type
         chart.updateSettings({
-            height: 180,
+            radius: (Math.min(chart.settings.width, chart.settings.height) / 1.5),
             legendOffset: 50
         });
-        
-        chart.settings.radius = (Math.min(chart.settings.width, chart.settings.height) / 1.5);
 
+        // create array of categories specific to this chart
         chart.chartCategories = d3.values(options.chartData).map(function(d) {
             return d.name
         });
-
+        
+        // use ColorBrewer Set2 for pie charts
         chart.color = d3.scale.ordinal()
             .domain(chart.chartCategories)
             .range(chart.colorbrewer.Set2);
         
+        // adjust radii to set chart's size relative to container
         chart.arc = d3.svg.arc()
             .outerRadius(chart.settings.radius - 40)
             .innerRadius(chart.settings.radius / 2.5);
 
+        // put this chart's data into D3 pie layout
         chart.pie = d3.layout.pie()
             .sort(null)
             .value(function(d) { return d['value']; });
-            
         chart.pieData = chart.pie(chart.chartDataValues);
 
+        // primary svg container
         chart.svg = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", chart.settings.width)
             .attr("height", chart.settings.height);
 
-        // arcs
+        // group for arcs, to be added later
         chart.arcGroup = chart.svg.append("g")
             .attr("class", "arc-group")
             .attr("transform", "translate(" + ((chart.settings.width / 2) - chart.settings.legendOffset) + "," + chart.settings.height / 2 + ")");
 
-        // center text
+        // center text group
         chart.centerGroup = chart.svg.append("g")
             .attr("class", "center-group")
             .attr("transform", "translate(" + ((chart.settings.width / 2) - chart.settings.legendOffset) + "," + chart.settings.height / 2 + ")");
 
-        // center label
+        // center label, no initial value
         chart.centerLabel = chart.centerGroup.append("text")
             .attr("class", "label-name")
             .attr("dy", -8)
             .attr("text-anchor", "middle");
             //.text(chart.pieData[0]['data']['name']);
 
-        // center value
+        // center value, no initial value
         chart.centerValue = chart.centerGroup.append("text")
             .attr("class", "label-value")
             .attr("dy", 14)
@@ -90,6 +95,8 @@ function Chart(options) {
             //    return chart.pctFmt(chart.pieData[0]['data']['value']);
             //});
 
+        // hover state highlights the arc and associated legend item,
+        // and displays the data name and value in center of chart
         chart.arcHover = function(data) {
             chart.arcs
                 .filter(function(d) {
@@ -108,6 +115,7 @@ function Chart(options) {
             });
         }
 
+        // return arc and associated legend item to normal styles
         chart.arcReset = function() {
             chart.arcs
                 .classed("hovered", false);
@@ -118,7 +126,7 @@ function Chart(options) {
             chart.centerValue.text("");
         }
 
-        // add arc paths
+        // add arc paths to arc group
         chart.arcs = chart.arcGroup.selectAll(".arc")
                 .data(chart.pieData)
             .enter().append("path")
@@ -126,11 +134,11 @@ function Chart(options) {
                 .attr("d", chart.arc)
                 .style("fill", function(d) { return chart.color(d.data['name']); });
                 
+        // listen for arc hovers
         chart.arcs.on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
-
         
-        // add legend
+        // add legend and legend items
         chart.legend = chart.svg.append("g")
                 .attr("class", "legend");
 
@@ -155,20 +163,21 @@ function Chart(options) {
                             .text(d.data['name']);
                 });
 
+        // listen for legend hovers
         chart.legendItems.on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
-
-            
+        
         return chart;
     }
     
+    // present percentages with % at the end
     chart.pctFmt = function(value) {
         if (chart.chartStatType == 'percentage') { value += '%' }
         return value;
     }
     
     // Colorbrewer color specifications and designs
-    // developed by Cynthia Brewer (http://colorbrewer.org/)
+    // by Cynthia Brewer (http://colorbrewer.org/)
     // https://github.com/mbostock/d3/tree/master/lib/colorbrewer
     chart.colorbrewer = {
         Greens: {
@@ -199,6 +208,7 @@ function Chart(options) {
         Accent: ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f', '#bf5b17', '#666666']
     };
 
+    // ready, set, go
     chart.init(options);
     return chart;
 }
