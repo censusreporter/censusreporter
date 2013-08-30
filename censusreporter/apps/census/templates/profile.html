@@ -5,7 +5,6 @@
 {% block head_javascript_extra %}
 {# include in head so it's available throughout body #}
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/colorbrewer.js"></script>
 {% endblock %}
 
 {% block header_content %}
@@ -137,7 +136,35 @@
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/d3.chart.min.js"></script>
 <script src="{{ STATIC_URL }}js/charts/d3.chart.columnChart.js"></script>
+<script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
 <script type="text/javascript">
+var Charts = {},
+    chartContainers = $('[id^=chart-]'),
+    profileData = {{ profile_data_json }};
+
+$.each(chartContainers, function(i) {
+    var chartID = $(this).prop('id'),
+        chartDataID = chartID.replace('chart-','').split('-'),
+        chartType = chartDataID[0],
+        chartData = profileData[chartDataID[1]][chartDataID[2]],
+        chartStatType = $(this).data('stat-type');
+    
+    Charts[i] = Chart({
+        chartIndex: i,
+        chartContainer: chartID,
+        chartType: chartType,
+        chartData: chartData,
+        chartStatType: chartStatType
+    });
+});
+
+
+
+
+
+
+
+
 
 var mapDiv = d3.select("#geography-map").append("div")
     .attr("class", "svg-map")

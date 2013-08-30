@@ -533,6 +533,13 @@ ul.quantile-legend span.quantile-label {
 }
 
 /* CHARTS */
+.svg-chart {
+    
+}
+.svg-chart .legend g {cursor: pointer;}
+.svg-chart .legend g:hover { background-color: #d9ddca; fill: #d9ddca; }
+
+
 .chart {
     font-size: 0.75em;
     position: relative;
