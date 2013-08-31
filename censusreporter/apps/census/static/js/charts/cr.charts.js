@@ -1,11 +1,31 @@
+/*
+Pass in an options object, get back a D3 chart.
+
+Chart({
+    chartContainer: chartID, # the ID of the element where the chart should be drawn
+    chartType: chartType, # `pie` or `column` (TODO: more chart types)
+    chartData: chartData, # an object that can be mapped, returning `name` and `value` properties
+    chartStatType: chartStatType # pass in `percentage` to format display of data values accordingly
+})
+
+For multiple charts on a page:
+
+var Charts = {};
+Charts[i] = Chart({
+    chartContainer: chartID,
+    chartType: chartType,
+    chartData: chartData,
+    chartStatType: chartStatType
+});
+*/
+
 function Chart(options) {
     var chart = {};
     
     chart.init = function(options) {
-        chart.chartIndex = options.chartIndex;
         chart.chartContainer = d3.select('#'+options.chartContainer);
         chart.chartType = options.chartType;
-        chart.chartStatType = options.chartStatType;
+        chart.chartStatType = options.chartStatType || 'number';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
             return {
                 name: d.name,
@@ -30,8 +50,18 @@ function Chart(options) {
     chart.draw = function() {
         if (chart.chartType == 'pie') {
             chart.makePieChart();
+        } else if (chart.chartType == 'column') {
+            chart.makeColumnChart();
         }
-        
+        return chart;
+    }
+
+    chart.makeColumnChart = function() {
+        // add basic settings specific to this chart type
+        chart.updateSettings({
+            margin: {top: 10, right: 0, bottom: 30, left: 30}
+        });
+        console.log(chart)
         return chart;
     }
 
