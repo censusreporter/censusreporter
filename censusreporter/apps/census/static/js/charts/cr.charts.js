@@ -26,6 +26,7 @@ function Chart(options) {
         chart.chartContainer = d3.select('#'+options.chartContainer);
         chart.chartType = options.chartType;
         chart.chartStatType = options.chartStatType || 'number';
+        chart.chartColorScale = options.chartColorScale || 'Set2';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
             return {
                 name: d.name,
@@ -50,37 +51,29 @@ function Chart(options) {
     chart.draw = function() {
         if (chart.chartType == 'pie') {
             chart.makePieChart();
-        } else if (chart.chartType == 'column') {
-            chart.makeColumnChart();
         }
         return chart;
     }
 
-    chart.makeColumnChart = function() {
-        // add basic settings specific to this chart type
-        chart.updateSettings({
-            margin: {top: 10, right: 0, bottom: 30, left: 30}
-        });
-        console.log(chart)
-        return chart;
-    }
-
     chart.makePieChart = function() {
+        chart.chartContainer
+            .classed("pie-chart", true);
+            
         // add basic settings specific to this chart type
         chart.updateSettings({
             radius: (Math.min(chart.settings.width, chart.settings.height) / 1.5),
-            legendOffset: 50
+            legendWidth: 125
         });
 
         // create array of categories specific to this chart
-        chart.chartCategories = d3.values(options.chartData).map(function(d) {
+        chart.chartCategories = d3.values(chart.chartDataValues).map(function(d) {
             return d.name
         });
         
         // use ColorBrewer Set2 for pie charts
         chart.color = d3.scale.ordinal()
             .domain(chart.chartCategories)
-            .range(chart.colorbrewer.Set2);
+            .range(chart.colorbrewer[chart.chartColorScale]);
         
         // adjust radii to set chart's size relative to container
         chart.arc = d3.svg.arc()
@@ -90,24 +83,24 @@ function Chart(options) {
         // put this chart's data into D3 pie layout
         chart.pie = d3.layout.pie()
             .sort(null)
-            .value(function(d) { return d['value']; });
+            .value(function(d) { return d.value; });
         chart.pieData = chart.pie(chart.chartDataValues);
 
         // primary svg container
-        chart.svg = chart.chartContainer.append("svg")
+        chart.base = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", chart.settings.width)
             .attr("height", chart.settings.height);
 
         // group for arcs, to be added later
-        chart.arcGroup = chart.svg.append("g")
+        chart.arcGroup = chart.base.append("g")
             .attr("class", "arc-group")
-            .attr("transform", "translate(" + ((chart.settings.width / 2) - chart.settings.legendOffset) + "," + chart.settings.height / 2 + ")");
+            .attr("transform", "translate(" + ((chart.settings.width / 2) - (chart.settings.legendWidth / 2)) + "," + chart.settings.height / 2 + ")");
 
         // center text group
-        chart.centerGroup = chart.svg.append("g")
+        chart.centerGroup = chart.base.append("g")
             .attr("class", "center-group")
-            .attr("transform", "translate(" + ((chart.settings.width / 2) - chart.settings.legendOffset) + "," + chart.settings.height / 2 + ")");
+            .attr("transform", "translate(" + ((chart.settings.width / 2) - (chart.settings.legendWidth / 2)) + "," + chart.settings.height / 2 + ")");
 
         // center label, no initial value
         chart.centerLabel = chart.centerGroup.append("text")
@@ -139,9 +132,9 @@ function Chart(options) {
                 })
                 .classed("hovered", true);
             
-            chart.centerLabel.text(data['data']['name']);
+            chart.centerLabel.text(data.data.name);
             chart.centerValue.text(function() {
-                return chart.pctFmt(data['data']['value']);
+                return chart.pctFmt(data.data.value);
             });
         }
 
@@ -162,15 +155,16 @@ function Chart(options) {
             .enter().append("path")
                 .classed("arc", true)
                 .attr("d", chart.arc)
-                .style("fill", function(d) { return chart.color(d.data['name']); });
+                .style("fill", function(d) { return chart.color(d.data.name); });
                 
         // listen for arc hovers
         chart.arcs.on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
         // add legend and legend items
-        chart.legend = chart.svg.append("g")
-                .attr("class", "legend");
+        chart.legend = chart.base.append("g")
+                .attr("class", "legend")
+                .attr("transform", "translate(" + ((chart.settings.width / 2) + (chart.settings.legendWidth / 2)) + ",30)");
 
         chart.legendItems = chart.legend.selectAll('g')
                 .data(chart.pieData)
@@ -179,18 +173,16 @@ function Chart(options) {
                 .each(function(d, i) {
                     var g = d3.select(this);
                         g.append("rect")
-                            .attr("x", chart.settings.width - 100)
-                            .attr("y", i*18 + 30)
+                            .attr("y", i*18)
                             .attr("width", 10)
                             .attr("height", 10)
-                            .style("fill", function(d) { return chart.color(d.data['name']); });
+                            .style("fill", function(d) { return chart.color(d.data.name); });
 
                         g.append("text")
-                            .attr("x", chart.settings.width - 85)
-                            .attr("y", i*18 + 39)
+                            .attr("x", 15)
+                            .attr("y", i*18 + 9)
                             .attr("height",30)
-                            .attr("width",100)
-                            .text(d.data['name']);
+                            .text(d.data.name);
                 });
 
         // listen for legend hovers
