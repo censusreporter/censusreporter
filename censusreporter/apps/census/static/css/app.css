@@ -457,7 +457,7 @@ section aside ul {
 .svg-map .feature,
 .svg-map .point {
     stroke: #001b1b;
-    fill: #008081;
+    fill: #014948;
 }
 .svg-map .mesh {
     fill: none;
@@ -477,6 +477,8 @@ section aside ul {
     font-size: .8em;
     background: #fff;
     border: solid 1px #777;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-radius: 4px;
     pointer-events: none;
 }
@@ -533,24 +535,29 @@ ul.quantile-legend span.quantile-label {
 }
 
 /* CHARTS */
-.chart {
+.column-chart {
     font-size: 0.75em;
     position: relative;
     font-weight: 500;
 }
-.column-chart-rect {
-    fill: #008081;
+.column-group {
+    position: relative;
 }
-.column-chart .column-chart-column {
+.column {
     position: absolute;
+    cursor: pointer;
     bottom: 0;
-    background-color: #008081;
+    opacity: .8;
+    background-color: #014948;
     -webkit-border-top-left-radius: 2px;
     -moz-border-radius-topleft: 2px;
     border-top-left-radius: 2px;
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topright: 2px;
     border-top-right-radius: 2px;
+}
+.column:hover {
+    opacity: 1;
 }
 
 .axis {

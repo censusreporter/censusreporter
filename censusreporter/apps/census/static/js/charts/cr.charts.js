@@ -51,7 +51,100 @@ function Chart(options) {
     chart.draw = function() {
         if (chart.chartType == 'pie') {
             chart.makePieChart();
+        } else if (chart.chartType == 'column') {
+            chart.makeColumnChart();
         }
+        return chart;
+    }
+
+    chart.makeColumnChart = function() {
+        chart.chartContainer
+            .classed("column-chart", true);
+        
+        // add basic settings specific to this chart type
+        chart.updateSettings({
+            margin: { top: 10, right: 0, bottom: 30, left: 30 },
+            tickPadding: 5
+        });
+        chart.updateSettings({
+            displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
+            displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
+        });
+
+        // primary svg container
+        chart.base = chart.chartContainer.append("svg")
+                .attr("class", "svg-chart")
+                .attr("width", chart.settings.width)
+                .attr("height", chart.settings.height)
+            .append("g")
+                .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
+
+        // x and y scales and axes
+        chart.x = d3.scale.ordinal()
+            .rangeRoundBands([0, chart.settings.displayWidth], .1)
+            .domain(chart.chartDataValues.map(function(d) { return d.name; }));
+
+        chart.xAxisBase = chart.base.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (chart.settings.displayHeight + chart.settings.tickPadding) + ")");
+
+        chart.xAxisLabels = chart.xAxisBase.selectAll("g")
+                .data(chart.chartDataValues)
+            .enter().append("g")
+                    .classed("tick major", true)
+                    .style("opacity", 1)
+                    .attr("transform", function(d) {
+                        return "translate(" + (chart.x(d.name) + (chart.x.rangeBand() / 2)) + ", 0)";
+                    })
+                .append("text")
+                    .text(function(d) { return d.name; })
+                    .attr("x", 0)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "middle");
+
+        chart.y = d3.scale.linear()
+            .range([chart.settings.displayHeight, 0])
+            .domain([0, 100]);
+
+        chart.yAxis = d3.svg.axis()
+            .scale(chart.y)
+            .orient("left")
+            .tickSize(-chart.settings.displayWidth)
+            .tickPadding(chart.settings.tickPadding)
+            .tickValues(d3.range(0, 101, 25));
+
+        chart.yAxisBase = chart.base.append("g")
+            .attr("class", "y axis")
+            .call(chart.yAxis);
+            
+        // columns
+        chart.columnGroup = chart.chartContainer.append("div")
+            .attr("class", "column-group");
+
+        chart.columns = chart.columnGroup.selectAll(".column")
+                .data(chart.chartDataValues)
+            .enter().append("a")
+                .attr("class", "column")
+                .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                .style("width", chart.x.rangeBand() + "px")
+                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
+                .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
+                .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
+
+        // columns
+        chart.labelGroup = chart.base.append("g")
+            .attr("class", "column-group");
+
+        chart.labels = chart.labelGroup.selectAll("text")
+                .data(chart.chartDataValues)
+            .enter().append("text")
+                .text(function(d) {
+                    return chart.pctFmt(d.value);
+                })
+                .attr("text-anchor", "middle")
+                .attr("x", function(d) { return chart.x(d.name) + (chart.x.rangeBand() / 2); })
+                .attr("y", function(d) { return chart.y(d.value) - 8; });
+
         return chart;
     }
 

@@ -151,19 +151,12 @@ $.each(chartContainers, function(i) {
         chartStatType = $(this).data('stat-type');
     
     Charts[i] = Chart({
-        chartIndex: i,
         chartContainer: chartID,
         chartType: chartType,
         chartData: chartData,
         chartStatType: chartStatType
     });
 });
-
-
-
-
-
-
 
 
 {% comment %}
@@ -246,21 +239,5 @@ function ready(error, us) {
     {% endif %}
 }
 {% endcomment %}
-
-var raceColumnChartData = [
-    { "name": "White", "value": {{ demographics.race.percent_white.values.this|default:"0" }} },
-    { "name": "Black", "value": {{ demographics.race.percent_black.values.this|default:"0" }} },
-    { "name": "Native", "value": {{ demographics.race.percent_native_american.values.this|default:"0" }} },
-    { "name": "Asian", "value": {{ demographics.race.percent_asian.values.this|default:"0" }} },
-    { "name": "Islander", "value": {{ demographics.race.percent_native_islander.values.this|default:"0" }} },
-    { "name": "Other", "value": {{ demographics.race.percent_other.values.this|default:"0" }} },
-    { "name": "Two+", "value": {{ demographics.race.percent_two_or_more.values.this|default:"0" }} }
-];
-var raceColumnChart = d3.select("#race-column-chart")
-  .chart("ColumnChart");
-
-raceColumnChart.draw(raceColumnChartData);
-
-
 </script>
 {% endblock %}
