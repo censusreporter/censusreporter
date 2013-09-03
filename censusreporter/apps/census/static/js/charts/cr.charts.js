@@ -69,7 +69,7 @@ function Chart(options) {
             .append("g")
                 .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
 
-        // x and y scales and axes
+        // x scale, axis and labels
         chart.x = d3.scale.ordinal()
             .rangeRoundBands([0, chart.settings.displayWidth], .1)
             .domain(chart.chartDataValues.map(function(d) { return d.name; }));
@@ -92,12 +92,13 @@ function Chart(options) {
                     .attr("dy", ".71em")
                     .style("text-anchor", "middle");
 
+        // y scale and axis, account for raw number vs. percentages
         if (chart.chartStatType == 'percentage') {
-            var yDomain = [-.1, 100],
+            var yDomain = [0, 100],
                 yTickRange = d3.range(0, 101, 25);
         } else {
             var yValues = chart.chartDataValues.map(function(d) { return d.value; }),
-                yDomain = [-.1, d3.max(yValues)],
+                yDomain = [0, d3.max(yValues)],
                 yTickRange = d3.range(0, (d3.max(yValues) + 1), (d3.max(yValues) / 4));
         }
         chart.y = d3.scale.linear()
@@ -115,7 +116,7 @@ function Chart(options) {
             .attr("class", "y axis")
             .call(chart.yAxis);
             
-        // columns
+        // add columns as <a> elements
         chart.columnGroup = chart.chartContainer.append("div")
             .attr("class", "column-group");
 
@@ -125,11 +126,11 @@ function Chart(options) {
                 .attr("class", "column")
                 .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                 .style("width", chart.x.rangeBand() + "px")
-                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
+                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                 .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
                 .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
 
-        // columns
+        // label columns with values
         chart.labelGroup = chart.base.append("g")
             .attr("class", "column-group");
 
