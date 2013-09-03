@@ -1,5 +1,5 @@
 /*
-Pass in an options object, get back a D3 chart.
+Pass in an options object that includes data, get back a D3 chart.
 
 Chart({
     chartContainer: chartID, # the ID of the element where the chart should be drawn
@@ -7,16 +7,6 @@ Chart({
     chartData: chartData, # an object that can be mapped, returning `name` and `value` properties
     chartStatType: chartStatType # pass in `percentage` to format display of data values accordingly
 })
-
-For multiple charts on a page:
-
-var Charts = {};
-Charts[i] = Chart({
-    chartContainer: chartID,
-    chartType: chartType,
-    chartData: chartData,
-    chartStatType: chartStatType
-});
 */
 
 function Chart(options) {
