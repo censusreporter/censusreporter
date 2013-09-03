@@ -142,10 +142,11 @@ function Chart(options) {
         chart.chartContainer
             .classed("pie-chart", true);
             
-        // add basic settings specific to this chart type
+        // make sure chart has enough room for full display
+        var legendWidth = (chart.settings.width / 3)
         chart.updateSettings({
-            radius: (Math.min(chart.settings.width, chart.settings.height) / 1.5),
-            legendWidth: 125
+            legendWidth: legendWidth,
+            radius: (Math.min((chart.settings.width - legendWidth), chart.settings.height) / 1.5)
         });
 
         // create array of categories specific to this chart
