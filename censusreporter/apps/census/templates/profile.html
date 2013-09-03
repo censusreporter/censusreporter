@@ -2,20 +2,43 @@
 
 {% block head_title %}{% firstof geo_place_data.full_name geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
 
+{% block head_css_extra %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+<![endif]-->
+<link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+{% endblock %}
+
 {% block head_javascript_extra %}
 {# include in head so it's available throughout body #}
 {#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
 <script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
 {% endblock %}
 
-{% block header_content %}
-<div class="content-container">
-<article id="profile">
-    <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
-    <p>Data from {{ geography.census_release }} release unless otherwise noted</p>
+{% block body_id %}profile{% endblock %}
 
-    <section class="clearfix">
-        <div class="column-half">
+{% block header %}
+<header id="page-header">
+    <div id="page-header-title" class="wrapper clearfix">
+        <a href="{% url 'homepage' %}">
+            <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
+        </a>
+    </div>
+</header>
+
+<div id="cover-map" class="clearfix">
+    <div id="cover-profile" class="wrapper">
+        <article class="clearfix column-half">
+            <header class="column-full">
+                <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
+                <p class="caption">Data from {{ geography.census_release }} release unless otherwise noted</p>
+            </header>
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
@@ -38,15 +61,16 @@
                 </div>
             </div>
             {% endif %}
-            <div class="full-width">
+            <div class="column-full">
                 <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam. Nulla dignissim, magna quis sodales ultricies, nulla leo lobortis purus, eu feugiat tellus elit at erat. Fusce aliquet mi eu purus lacinia tristique. Ut in fringilla felis. Sed placerat aliquam tortor eget tristique.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam.</p>
             </div>
-        </div>
-        <div class="column-half" id="geography-map"></div>
-    </section>
-</article>
+        </article>
+    </div>
+
+    <div id="slippy-map"></div>
 </div>
+
 {% endblock %}
 
 {% block content %}
@@ -136,7 +160,18 @@
 {#}<script src="http://d3js.org/queue.v1.min.js"></script>{#}
 {#}<script src="http://d3js.org/topojson.v1.min.js"></script>{#}
 <script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
+<script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
+
+// draw a geom
+{% if geo_metadata.geom %}
+var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}'),
+    featureLayer = L.geoJson(featureData);
+map.addLayer(featureLayer);
+map.fitBounds(featureLayer.getBounds());
+map.panBy(new L.Point(-300, 0), {animate: false});
+{% endif %}
+
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
     profileData = {{ profile_data_json }};
@@ -147,7 +182,7 @@ $.each(chartContainers, function(i) {
         chartType = chartDataID[0],
         chartData = profileData[chartDataID[1]][chartDataID[2]],
         chartStatType = $(this).data('stat-type');
-    
+
     Charts[i] = Chart({
         chartContainer: chartID,
         chartType: chartType,
@@ -155,87 +190,5 @@ $.each(chartContainers, function(i) {
         chartStatType: chartStatType
     });
 });
-
-
-{% comment %}
-var mapDiv = d3.select("#geography-map").append("div")
-    .attr("class", "svg-map")
-
-var width = mapDiv[0][0].offsetWidth,
-    height = width*.67;
-
-var svgMap = mapDiv.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-var state_fips_code = {{ state_fips_code }};
-
-var projection = d3.geo.mercator();
-if (state_fips_code == '02' || state_fips_code == '15') {
-    projection = d3.geo.albersUsa();
-}
-
-var path = d3.geo.path()
-    .projection(projection);
-
-queue()
-    .defer(d3.json, "{{ STATIC_URL }}json/us.json")
-    .await(ready);
-
-function ready(error, us) {
-    var states = topojson.feature(us, us.objects.states),
-        state = states.features.filter(function(d) { return d.id === state_fips_code; })[0];
-
-    // zoom to the state
-    projection
-        .scale(1)
-        .translate([0, 0]);
-
-    var b = path.bounds(state),
-        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-
-    projection
-        .scale(s)
-        .translate(t);
-
-    // draw the state
-    svgMap.append("path")
-        .datum(state)
-        .attr("class", "outline{% if sumlev == '040' %} feature{% endif %}")
-        .attr("d", path);
-
-    // draw a geom
-    {% if geo_metadata.geom %}
-    var feature = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}');
-    svgMap.append("path")
-        .datum(feature)
-        .attr("class", "outline feature")
-        .attr("d", path);
-    {% endif %}
-
-    // draw a county
-    {% if county_fips_code %}
-    var counties = topojson.feature(us, us.objects.counties),
-        county = counties.features.filter(function(d) { return d.id === {{ county_fips_code }}; })[0];
-
-    svgMap.append("path")
-        .datum(county)
-        .attr("class", "outline{% if sumlev == '050' %} feature{% endif %}")
-        .attr("d", path);
-    {% endif %}
-
-    // draw a point
-    {% if point_lon_lat %}
-    var pointLonLat = projection([ {{ point_lon_lat.0 }}, {{ point_lon_lat.1 }} ]);
-
-    svgMap.append("circle")
-      .attr("cx", function(d) { return pointLonLat[0]; })
-      .attr("cy", function(d) { return pointLonLat[1]; })
-      .attr("r", 5)
-      .attr("class", "point");
-    {% endif %}
-}
-{% endcomment %}
 </script>
 {% endblock %}
