@@ -1,6 +1,6 @@
 /*
 greens: #02aeab; #027b7a; #014948;
-tans: #f7f8f3; #eff1e9; #cad0b5;
+tans: #f7f8f3; #eff1e9; #e0e4d4; #cad0b5;
 map quintiles: #d9ddca; #bbc2a1; #9ea877; #7b8656; #555c3b;
 */
 
@@ -475,14 +475,14 @@ section aside ul {
     position: relative;
 }
 .svg-map .outline {
-    fill: #f7f7f4;
+    fill: #f7f8f3;
     stroke: #cad0b5;
     stroke-width: 1.5px;
 }
 .svg-map .feature,
 .svg-map .point {
     stroke: #001b1b;
-    fill: #008081;
+    fill: #014948;
 }
 .svg-map .mesh {
     fill: none;
@@ -502,6 +502,8 @@ section aside ul {
     font-size: .8em;
     background: #fff;
     border: solid 1px #777;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-radius: 4px;
     pointer-events: none;
 }
@@ -558,24 +560,29 @@ ul.quantile-legend span.quantile-label {
 }
 
 /* CHARTS */
-.chart {
+.column-chart {
     font-size: 0.75em;
     position: relative;
     font-weight: 500;
 }
-.column-chart-rect {
-    fill: #008081;
+.column-group {
+    position: relative;
 }
-.column-chart .column-chart-column {
+.column {
     position: absolute;
+    cursor: pointer;
     bottom: 0;
-    background-color: #008081;
+    opacity: .8;
+    background-color: #014948;
     -webkit-border-top-left-radius: 2px;
     -moz-border-radius-topleft: 2px;
     border-top-left-radius: 2px;
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topright: 2px;
     border-top-right-radius: 2px;
+}
+.column:hover {
+    opacity: 1;
 }
 
 .axis {
@@ -590,6 +597,20 @@ svg text,
 svg .legend {
     font-size: .9em;
 }
+.svg-chart .legend-item {
+    cursor: pointer;
+    fill: #888;
+}
+.svg-chart .legend-item rect {
+    opacity: .8;
+}
+.svg-chart .legend-item:hover,
+.svg-chart .legend-item.hovered {
+    opacity: 1;
+    fill: #111;
+}
+
+
 .x.axis text,
 .y.axis text {
     font-weight: bold;
@@ -600,9 +621,14 @@ svg .legend {
 .y.axis line {
     stroke: #f5f5f5;
 }
-.arc path,
+.arc,
 .arc-group path {
     stroke: #fff;
+    cursor: pointer;
+    opacity: .8;
+}
+.arc.hovered {
+    opacity: 1;
 }
 .label-group text {
     font-size: .75em;
@@ -658,12 +684,14 @@ table .value {
     text-align: right;
 }
 tr.even td {
-    background-color: #f7f8f3;
+    background-color: #eff1e9;
+}
+tr.highlight td {
+    background: #b4bc96;
 }
 tr:hover td,
-tr.even:hover td,
-tr.highlight td {
-    background: #d2d6c0;
+tr.even:hover td {
+    background: #d1d7bf;
 }
 table .percentage, table .raw-number {
     display: block

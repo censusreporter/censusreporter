@@ -92,6 +92,9 @@ class GeographyDetailView(TemplateView):
             profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
             profile_data = self.calculate_indexes(profile_data)
             page_context.update(profile_data)
+            page_context.update({
+                'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+            })
         else:
             raise Http404
 

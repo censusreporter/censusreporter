@@ -15,10 +15,10 @@
 
 {% block head_javascript_extra %}
 {# include in head so it's available throughout body #}
-<script src="http://d3js.org/d3.v3.min.js"></script>
+{#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
+<script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
-<script src="{{ STATIC_URL }}js/vendor/colorbrewer.js"></script>
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
@@ -157,10 +157,9 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/d3.chart.min.js"></script>
-<script src="{{ STATIC_URL }}js/charts/d3.chart.columnChart.js"></script>
+{#}<script src="http://d3js.org/queue.v1.min.js"></script>{#}
+{#}<script src="http://d3js.org/topojson.v1.min.js"></script>{#}
+<script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
 <script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
 
@@ -173,20 +172,23 @@ map.fitBounds(featureLayer.getBounds());
 map.panBy(new L.Point(-300, 0), {animate: false});
 {% endif %}
 
-var raceColumnChartData = [
-    { "name": "White", "value": {{ demographics.race.percent_white.values.this|default:"0" }} },
-    { "name": "Black", "value": {{ demographics.race.percent_black.values.this|default:"0" }} },
-    { "name": "Native", "value": {{ demographics.race.percent_native_american.values.this|default:"0" }} },
-    { "name": "Asian", "value": {{ demographics.race.percent_asian.values.this|default:"0" }} },
-    { "name": "Islander", "value": {{ demographics.race.percent_native_islander.values.this|default:"0" }} },
-    { "name": "Other", "value": {{ demographics.race.percent_other.values.this|default:"0" }} },
-    { "name": "Two+", "value": {{ demographics.race.percent_two_or_more.values.this|default:"0" }} }
-];
-var raceColumnChart = d3.select("#race-column-chart")
-  .chart("ColumnChart");
+var Charts = {},
+    chartContainers = $('[id^=chart-]'),
+    profileData = {{ profile_data_json }};
 
-raceColumnChart.draw(raceColumnChartData);
+$.each(chartContainers, function(i) {
+    var chartID = $(this).prop('id'),
+        chartDataID = chartID.replace('chart-','').split('-'),
+        chartType = chartDataID[0],
+        chartData = profileData[chartDataID[1]][chartDataID[2]],
+        chartStatType = $(this).data('stat-type');
 
-
+    Charts[i] = Chart({
+        chartContainer: chartID,
+        chartType: chartType,
+        chartData: chartData,
+        chartStatType: chartStatType
+    });
+});
 </script>
 {% endblock %}
