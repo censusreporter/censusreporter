@@ -112,7 +112,7 @@ h1, h2, h3 {
     margin-bottom: .25em;
 }
 h1.title {
-    font-size: 3em;
+    font-size: 2.5em;
 }
 
 .ul-icon-list {
@@ -260,6 +260,32 @@ section aside ul {
     clear: both;
     width: 100%;
     margin: 0;
+}
+
+#cover-map {
+    position: relative;
+    height: 35em;
+}
+#slippy-map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+#cover-profile {
+    position: relative;
+    z-index: 999;
+}
+#cover-profile article {
+    margin-top: 3em;
+    background-color: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #02aeab;
+    padding: .67em 1em;
 }
 
 .column-full,
@@ -418,14 +444,13 @@ section aside ul {
 }
 .stat .primary .value {
     display: block;
-    font-size: 2.5em;
+    font-size: 2em;
     line-height: 1;
     margin: 0 0 .1825em;
     font-weight: 700;
 }
 .stat .secondary {
     display: block;
-    line-height: 2;
 }
 .stat .secondary .value {
     font-size: 1.2em;
