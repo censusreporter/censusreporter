@@ -94,7 +94,7 @@ function Chart(options) {
 
         chart.y = d3.scale.linear()
             .range([chart.settings.displayHeight, 0])
-            .domain([0, 100]);
+            .domain([-.1, 100]);
 
         chart.yAxis = d3.svg.axis()
             .scale(chart.y)
