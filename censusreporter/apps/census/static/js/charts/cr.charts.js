@@ -53,7 +53,7 @@ function Chart(options) {
         
         // add basic settings specific to this chart type
         chart.updateSettings({
-            margin: { top: 10, right: 0, bottom: 30, left: 30 },
+            margin: { top: 20, right: 0, bottom: 30, left: 30 },
             tickPadding: 5
         });
         chart.updateSettings({
@@ -92,16 +92,24 @@ function Chart(options) {
                     .attr("dy", ".71em")
                     .style("text-anchor", "middle");
 
+        if (chart.chartStatType == 'percentage') {
+            var yDomain = [-.1, 100],
+                yTickRange = d3.range(0, 101, 25);
+        } else {
+            var yValues = chart.chartDataValues.map(function(d) { return d.value; }),
+                yDomain = [-.1, d3.max(yValues)],
+                yTickRange = d3.range(0, (d3.max(yValues) + 1), (d3.max(yValues) / 4));
+        }
         chart.y = d3.scale.linear()
             .range([chart.settings.displayHeight, 0])
-            .domain([-.1, 100]);
-
+            .domain(yDomain);
+            
         chart.yAxis = d3.svg.axis()
             .scale(chart.y)
             .orient("left")
             .tickSize(-chart.settings.displayWidth)
             .tickPadding(chart.settings.tickPadding)
-            .tickValues(d3.range(0, 101, 25));
+            .tickValues(yTickRange);
 
         chart.yAxisBase = chart.base.append("g")
             .attr("class", "y axis")
