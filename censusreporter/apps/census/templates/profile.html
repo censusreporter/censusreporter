@@ -7,12 +7,17 @@
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
 <![endif]-->
+<link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
 {% endblock %}
 
 {% block head_javascript_extra %}
 {# include in head so it's available throughout body #}
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
 <script src="{{ STATIC_URL }}js/vendor/colorbrewer.js"></script>
 {% endblock %}
 
@@ -159,84 +164,14 @@
 <script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
 
-var mapDiv = d3.select("#geography-map").append("div")
-    .attr("class", "svg-map")
-
-var width = mapDiv[0][0].offsetWidth,
-    height = width*.67;
-
-var svgMap = mapDiv.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-var state_fips_code = {{ state_fips_code }};
-
-var projection = d3.geo.mercator();
-if (state_fips_code == '02' || state_fips_code == '15') {
-    projection = d3.geo.albersUsa();
-}
-
-var path = d3.geo.path()
-    .projection(projection);
-
-queue()
-    .defer(d3.json, "{{ STATIC_URL }}json/us.json")
-    .await(ready);
-
-function ready(error, us) {
-    var states = topojson.feature(us, us.objects.states),
-        state = states.features.filter(function(d) { return d.id === state_fips_code; })[0];
-
-    // zoom to the state
-    projection
-        .scale(1)
-        .translate([0, 0]);
-
-    var b = path.bounds(state),
-        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-
-    projection
-        .scale(s)
-        .translate(t);
-
-    // draw the state
-    svgMap.append("path")
-        .datum(state)
-        .attr("class", "outline{% if sumlev == '040' %} feature{% endif %}")
-        .attr("d", path);
-
-    // draw a geom
-    {% if geo_metadata.geom %}
-    var feature = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}');
-    svgMap.append("path")
-        .datum(feature)
-        .attr("class", "outline feature")
-        .attr("d", path);
-    {% endif %}
-
-    // draw a county
-    {% if county_fips_code %}
-    var counties = topojson.feature(us, us.objects.counties),
-        county = counties.features.filter(function(d) { return d.id === {{ county_fips_code }}; })[0];
-
-    svgMap.append("path")
-        .datum(county)
-        .attr("class", "outline{% if sumlev == '050' %} feature{% endif %}")
-        .attr("d", path);
-    {% endif %}
-
-    // draw a point
-    {% if point_lon_lat %}
-    var pointLonLat = projection([ {{ point_lon_lat.0 }}, {{ point_lon_lat.1 }} ]);
-
-    svgMap.append("circle")
-      .attr("cx", function(d) { return pointLonLat[0]; })
-      .attr("cy", function(d) { return pointLonLat[1]; })
-      .attr("r", 5)
-      .attr("class", "point");
-    {% endif %}
-}
+// draw a geom
+{% if geo_metadata.geom %}
+var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}'),
+    featureLayer = L.geoJson(featureData);
+map.addLayer(featureLayer);
+map.fitBounds(featureLayer.getBounds());
+map.panBy(new L.Point(-300, 0), {animate: false});
+{% endif %}
 
 var raceColumnChartData = [
     { "name": "White", "value": {{ demographics.race.percent_white.values.this|default:"0" }} },
