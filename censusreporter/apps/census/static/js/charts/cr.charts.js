@@ -4,8 +4,10 @@ Pass in an options object that includes data, get back a D3 chart.
 Chart({
     chartContainer: chartID, # the ID of the element where the chart should be drawn
     chartType: chartType, # `pie` or `column` (TODO: more chart types)
-    chartData: chartData, # an object that can be mapped, returning `name` and `value` properties
-    chartStatType: chartStatType # pass in `percentage` to format display of data values accordingly
+    chartStatType: chartStatType, # pass in `percentage` to format display of data values accordingly
+    chartHeight: chartHeight, # pass in int; defaults to height of parent container or 180, whichever is greater
+    chartColorScale: chartColorScale, # name of scale defined in chart.colorbrewer, defaults to 'Set2'
+    chartData: chartData # an object that can be mapped, returning `name` and `value` properties
 })
 */
 
@@ -13,9 +15,12 @@ function Chart(options) {
     var chart = {};
     
     chart.init = function(options) {
+        // establish our base vars
         chart.chartContainer = d3.select('#'+options.chartContainer);
+        chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartStatType = options.chartStatType || 'number';
+        chart.chartHeight = options.chartHeight || chart.parentHeight < 180 ? 180 : chart.parentHeight;
         chart.chartColorScale = options.chartColorScale || 'Set2';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
             return {
@@ -23,22 +28,21 @@ function Chart(options) {
                 value: +d.values.this
             }
         });
+        
+        // set height on container div for continuity
+        chart.chartContainer.style("height", chart.chartHeight + "px");
         chart.settings = {
             width: parseInt(chart.chartContainer.style('width'), 10),
-            height: 180
+            height: chart.chartHeight
         }
 
+        // time to make the chart
         chart.draw();
         return chart;
     };
     
-    chart.updateSettings = function(newSettings) {
-        for (var setting in newSettings) {
-            chart.settings[setting] = newSettings[setting]
-        }
-    }
-    
     chart.draw = function() {
+        // hand off based on desired type of chart
         if (chart.chartType == 'pie') {
             chart.makePieChart();
         } else if (chart.chartType == 'column') {
@@ -180,6 +184,7 @@ function Chart(options) {
         chart.pieData = chart.pie(chart.chartDataValues);
 
         // primary svg container
+        chart.chartContainer.style("height", chart.settings.height + "px");
         chart.base = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", chart.settings.width)
@@ -289,6 +294,16 @@ function Chart(options) {
     chart.pctFmt = function(value) {
         if (chart.chartStatType == 'percentage') { value += '%' }
         return value;
+    }
+    
+    chart.getParentHeight = function() {
+        return parseInt(d3.select(chart.chartContainer.node().parentNode).style('height'), 10);
+    }
+    
+    chart.updateSettings = function(newSettings) {
+        for (var setting in newSettings) {
+            chart.settings[setting] = newSettings[setting]
+        }
     }
     
     // Colorbrewer color specifications and designs
