@@ -1,4 +1,4 @@
-var map = L.mapbox.map('slippy-map', 'censusreporter.map-8l9p12ae', {
+var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
     scrollWheelZoom: false,
     zoomControl: false,
     doubleClickZoom: false,
