@@ -74,7 +74,7 @@
 {% endblock %}
 
 {% block content %}
-<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>
+{#}<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>{#}
 
 <article id="demographics" class="clearfix">
     <header class="section-contents">
@@ -186,6 +186,7 @@ $.each(chartContainers, function(i) {
     Charts[i] = Chart({
         chartContainer: chartID,
         chartType: chartType,
+        chartHeight: 180,
         chartData: chartData,
         chartStatType: chartStatType
     });

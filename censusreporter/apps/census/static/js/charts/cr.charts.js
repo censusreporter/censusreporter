@@ -4,8 +4,10 @@ Pass in an options object that includes data, get back a D3 chart.
 Chart({
     chartContainer: chartID, # the ID of the element where the chart should be drawn
     chartType: chartType, # `pie` or `column` (TODO: more chart types)
-    chartData: chartData, # an object that can be mapped, returning `name` and `value` properties
-    chartStatType: chartStatType # pass in `percentage` to format display of data values accordingly
+    chartStatType: chartStatType, # pass in `percentage` to format display of data values accordingly
+    chartHeight: chartHeight, # pass in int; defaults to height of parent container or 180, whichever is greater
+    chartColorScale: chartColorScale, # name of scale defined in chart.colorbrewer, defaults to 'Set2'
+    chartData: chartData # an object that can be mapped, returning `name` and `value` properties
 })
 */
 
@@ -13,9 +15,12 @@ function Chart(options) {
     var chart = {};
     
     chart.init = function(options) {
+        // establish our base vars
         chart.chartContainer = d3.select('#'+options.chartContainer);
+        chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartStatType = options.chartStatType || 'number';
+        chart.chartHeight = options.chartHeight || chart.parentHeight < 180 ? 180 : chart.parentHeight;
         chart.chartColorScale = options.chartColorScale || 'Set2';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
             return {
@@ -23,22 +28,21 @@ function Chart(options) {
                 value: +d.values.this
             }
         });
+        
+        // set height on container div for continuity
+        chart.chartContainer.style("height", chart.chartHeight + "px");
         chart.settings = {
             width: parseInt(chart.chartContainer.style('width'), 10),
-            height: 180
+            height: chart.chartHeight
         }
 
+        // time to make the chart
         chart.draw();
         return chart;
     };
     
-    chart.updateSettings = function(newSettings) {
-        for (var setting in newSettings) {
-            chart.settings[setting] = newSettings[setting]
-        }
-    }
-    
     chart.draw = function() {
+        // hand off based on desired type of chart
         if (chart.chartType == 'pie') {
             chart.makePieChart();
         } else if (chart.chartType == 'column') {
@@ -53,7 +57,7 @@ function Chart(options) {
         
         // add basic settings specific to this chart type
         chart.updateSettings({
-            margin: { top: 10, right: 0, bottom: 30, left: 30 },
+            margin: { top: 20, right: 0, bottom: 30, left: 30 },
             tickPadding: 5
         });
         chart.updateSettings({
@@ -69,7 +73,7 @@ function Chart(options) {
             .append("g")
                 .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
 
-        // x and y scales and axes
+        // x scale, axis and labels
         chart.x = d3.scale.ordinal()
             .rangeRoundBands([0, chart.settings.displayWidth], .1)
             .domain(chart.chartDataValues.map(function(d) { return d.name; }));
@@ -92,22 +96,31 @@ function Chart(options) {
                     .attr("dy", ".71em")
                     .style("text-anchor", "middle");
 
+        // y scale and axis, account for raw number vs. percentages
+        if (chart.chartStatType == 'percentage') {
+            var yDomain = [0, 100],
+                yTickRange = d3.range(0, 101, 25);
+        } else {
+            var yValues = chart.chartDataValues.map(function(d) { return d.value; }),
+                yDomain = [0, d3.max(yValues)],
+                yTickRange = d3.range(0, (d3.max(yValues) + 1), (d3.max(yValues) / 4));
+        }
         chart.y = d3.scale.linear()
             .range([chart.settings.displayHeight, 0])
-            .domain([0, 100]);
-
+            .domain(yDomain);
+            
         chart.yAxis = d3.svg.axis()
             .scale(chart.y)
             .orient("left")
             .tickSize(-chart.settings.displayWidth)
             .tickPadding(chart.settings.tickPadding)
-            .tickValues(d3.range(0, 101, 25));
+            .tickValues(yTickRange);
 
         chart.yAxisBase = chart.base.append("g")
             .attr("class", "y axis")
             .call(chart.yAxis);
             
-        // columns
+        // add columns as <a> elements
         chart.columnGroup = chart.chartContainer.append("div")
             .attr("class", "column-group");
 
@@ -117,11 +130,11 @@ function Chart(options) {
                 .attr("class", "column")
                 .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                 .style("width", chart.x.rangeBand() + "px")
-                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
+                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                 .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
                 .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
 
-        // columns
+        // label columns with values
         chart.labelGroup = chart.base.append("g")
             .attr("class", "column-group");
 
@@ -171,6 +184,7 @@ function Chart(options) {
         chart.pieData = chart.pie(chart.chartDataValues);
 
         // primary svg container
+        chart.chartContainer.style("height", chart.settings.height + "px");
         chart.base = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", chart.settings.width)
@@ -280,6 +294,16 @@ function Chart(options) {
     chart.pctFmt = function(value) {
         if (chart.chartStatType == 'percentage') { value += '%' }
         return value;
+    }
+    
+    chart.getParentHeight = function() {
+        return parseInt(d3.select(chart.chartContainer.node().parentNode).style('height'), 10);
+    }
+    
+    chart.updateSettings = function(newSettings) {
+        for (var setting in newSettings) {
+            chart.settings[setting] = newSettings[setting]
+        }
     }
     
     // Colorbrewer color specifications and designs
