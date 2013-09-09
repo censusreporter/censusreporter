@@ -12,7 +12,7 @@
                 <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
                 <p class="explain">
                     This feature is under active development, so may occasionally appear broken.
-                    We&rsquo;ll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, Oct. 17-19,</a> to introduce it. Come by &ldquo;the midway&rdquo; and tell us what you think! 
+                    We&rsquo;ll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, Oct. 17-19,</a> to introduce it. Come by &ldquo;the midway&rdquo; and tell us what you think!
                 </p>
             </div>
         </section>
@@ -86,7 +86,7 @@
                             </li>
                         </ul>
                     </div>
-            
+
                     {# SELECTOR FOR DATA FIELD #}
                     {% include '_compare/_map_column_selector.html' %}
 
@@ -124,7 +124,7 @@
           Use our <a href="{% url 'comparison_builder' %}">comparison tool</a> to select the topic and places you are interested in. Census Reporter will deliver exactly the data you need. Look at it on the web in a table or on a map, or easily download for further analysis or to make your own maps.
         </p>
         <a href="/compare/04000US47/050/map/?release=acs2011_5yr&table=B01001"><img src="{{ STATIC_URL }}img/tn-map-example.png" class="screenshot" alt="20 year old males as percentage of total population, Counties in Tennessee"></a>
-        <p class="caption">Detail of <strong>20 year old males as percentage of total population, Counties in Tennessee</strong>. 
+        <p class="caption">Detail of <strong>20 year old males as percentage of total population, Counties in Tennessee</strong>.
         <a href="/compare/04000US47/050/map/?release=acs2011_5yr&table=B01001">View</a></p>
     {% endcomment %}
 </div>
@@ -172,7 +172,7 @@ var parent = {{ parent_shape }},
 <script type="text/javascript">
 var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
     geoSelect = $('#geography-select');
-    
+
 function makeGeoSelectWidget(element) {
     element.typeahead({
         name: 'profile',
@@ -180,7 +180,7 @@ function makeGeoSelectWidget(element) {
         remote: {
             url: geoSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,160,250,310,500,610,620,860,950,960,970'
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970'
             },
             filter: function(response) {
                 response.map(function(item) {

@@ -3,7 +3,7 @@
 window.log = function(){
   log.history = log.history || [];   // store logs to an array for reference
   log.history.push(arguments);
-  arguments.callee = arguments.callee.caller;  
+  arguments.callee = arguments.callee.caller;
   if(this.console) console.log( Array.prototype.slice.call(arguments) );
 };
 // make it safe to use console.log always
@@ -16,6 +16,7 @@ var sumlevMap = {
     "030": "division",
     "040": "state",
     "050": "county",
+    "060": "county subdivision",
     "160": "place",
     "250": "native area",
     "310": "metro area",
@@ -26,11 +27,11 @@ var sumlevMap = {
     "950": "school district (elementary)",
     "960": "school district (secondary)",
     "970": "school district (unified)"
-}
+};
 
 // math utils
 function roundNumber(n) {
-    return (Math.round(n * 10) / 10)
+    return (Math.round(n * 10) / 10);
 }
 
 function numberWithCommas(n) {
