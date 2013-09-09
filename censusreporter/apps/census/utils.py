@@ -6,18 +6,18 @@ from django.utils.functional import lazy, Promise
 from django.utils.encoding import force_unicode
 
 
-def get_object_or_none(klass, *args, **kwargs): 
-    try: 
-        return klass._default_manager.get(*args, **kwargs) 
-    except klass.DoesNotExist: 
+def get_object_or_none(klass, *args, **kwargs):
+    try:
+        return klass._default_manager.get(*args, **kwargs)
+    except klass.DoesNotExist:
         return None
- 	
+
 class LazyEncoder(simplejson.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):
             return force_unicode(obj)
         return obj
-        
+
 ## A little generator to pluck out max values ##
 def drill(item):
     if isinstance(item, int) or isinstance(item, float):
@@ -38,7 +38,7 @@ def get_max_value(nested_dicts):
 def get_ratio(num1, num2):
     '''requires ints or int-like strings'''
     return int(round(float(num1) / float(num2), 2)*100)
-    
+
 # provide some topics to choose from
 TOPIC_FILTERS = {
     'Demographics': {'topics': ['age', 'sex', 'race', 'seniors',]},
@@ -52,6 +52,7 @@ SUMLEV_CHOICES = OrderedDict()
 SUMLEV_CHOICES['Standard'] = [
     {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'Nation' },
     {'name': 'county', 'plural_name': 'counties', 'summary_level': '050', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
+    {'name': 'county subdivision', 'plural_name': 'county subdivisions', 'summary_level': '060', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State, or County' },
     {'name': 'place', 'plural_name': 'places', 'summary_level': '160', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
     {'name': 'metro area', 'plural_name': 'metro areas', 'summary_level': '310', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
     {'name': 'native area', 'plural_name': 'native areas', 'summary_level': '250', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
