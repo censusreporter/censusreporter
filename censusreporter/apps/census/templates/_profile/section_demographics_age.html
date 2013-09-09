@@ -1,5 +1,5 @@
 <section class="clearfix">
-    <h2>Age</h2>
+    <h2 class="column-header">Age</h2>
     <aside>
         {% if sumlev in "040,050" %}
         <h3>Compare</h3>
@@ -8,11 +8,8 @@
     </aside>
     <div class="column-third">
         {% include '_profile/_stat_list.html' with stat=demographics.age.median_age stat_type='number' %}
+        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_under_18 stat_type='percentage' stat_class='secondary' %}
+        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_over_65 stat_type='percentage' stat_class='secondary' %}
     </div>
-    <div class="column-third">
-        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_under_18 stat_type='percentage' %}
-    </div>
-    <div class="column-third">
-        {% include '_profile/_stat_list.html' with stat=demographics.age.percent_over_65 stat_type='percentage' %}
-    </div>
+    <div class="column-two-thirds" id="chart-column-demographics-age-population_by_age-total" data-stat-type="number"></div>
 </section>

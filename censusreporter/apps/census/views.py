@@ -44,14 +44,15 @@ class GeographyDetailView(TemplateView):
             if category != 'geography':
                 for group, group_values in groupings.items():
                     for data, data_values in group_values.items():
-                        values = data_values['values']
-                        geo_value = values['this']
-                        if values['county']:
-                            values['county_index'] = get_ratio(geo_value, values['county'])
-                        if values['state']:
-                            values['state_index'] = get_ratio(geo_value, values['state'])
-                        if values['nation']:
-                            values['nation_index'] = get_ratio(geo_value, values['nation'])
+                        if 'values' in data_values:
+                            values = data_values['values']
+                            geo_value = values['this']
+                            if values['county']:
+                                values['county_index'] = get_ratio(geo_value, values['county'])
+                            if values['state']:
+                                values['state_index'] = get_ratio(geo_value, values['state'])
+                            if values['nation']:
+                                values['nation_index'] = get_ratio(geo_value, values['nation'])
 
         return api_data
 

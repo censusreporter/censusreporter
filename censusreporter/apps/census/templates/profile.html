@@ -81,13 +81,16 @@
         <h1>Demographics</h1>
     </header>
     <div class="section-container">
+        {% include "_profile/section_demographics_sex.html" %}
         {% include "_profile/section_demographics_age.html" %}
-        {% include "_profile/section_demographics_gender.html" %}
+        {% comment %}
         {% include "_profile/section_demographics_race.html" %}
         {% include "_profile/section_demographics_ethnicity.html" %}
+        {% endcomment %}
     </div>
 </article>
 
+{% comment %}
 <article id="economics" class="clearfix">
     <header class="section-contents">
         <h1>Economics</h1>
@@ -154,11 +157,10 @@
         {% include "_profile/section_veterans_veteran_status.html" %}
     </div>
 </article>
+{% endcomment %}
 {% endblock %}
 
 {% block body_javascript_extra %}
-{#}<script src="http://d3js.org/queue.v1.min.js"></script>{#}
-{#}<script src="http://d3js.org/topojson.v1.min.js"></script>{#}
 <script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
 <script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
@@ -180,13 +182,21 @@ $.each(chartContainers, function(i) {
     var chartID = $(this).prop('id'),
         chartDataID = chartID.replace('chart-','').split('-'),
         chartType = chartDataID[0],
-        chartData = profileData[chartDataID[1]][chartDataID[2]],
+        chartData = profileData[chartDataID[1]],
         chartStatType = $(this).data('stat-type');
+
+    // allow arbitrary nesting in API data structure
+    var drilldown = chartDataID.length - 1;
+    if (drilldown >= 2) {
+        for (var i = 2; i <= drilldown; i++) {
+            chartData = chartData[chartDataID[i]]
+        }
+    }
 
     Charts[i] = Chart({
         chartContainer: chartID,
         chartType: chartType,
-        chartHeight: 180,
+        chartHeight: 150,
         chartData: chartData,
         chartStatType: chartStatType
     });

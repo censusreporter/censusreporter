@@ -20,7 +20,7 @@ function Chart(options) {
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartStatType = options.chartStatType || 'number';
-        chart.chartHeight = options.chartHeight || chart.parentHeight < 180 ? 180 : chart.parentHeight;
+        chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
             return {
