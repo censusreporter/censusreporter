@@ -45,7 +45,7 @@ function Chart(options) {
         // hand off based on desired type of chart
         if (chart.chartType == 'pie') {
             chart.makePieChart();
-        } else if (chart.chartType == 'column') {
+        } else if (chart.chartType == 'column' || chart.chartType == 'histogram') {
             chart.makeColumnChart();
         }
         return chart;
@@ -58,12 +58,22 @@ function Chart(options) {
         // add basic settings specific to this chart type
         chart.updateSettings({
             margin: { top: 20, right: 0, bottom: 30, left: 30 },
-            tickPadding: 5
+            tickPadding: 5,
+            outerColumnPadding: .25
         });
         chart.updateSettings({
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
         });
+        if (chart.chartType == 'histogram') {
+            chart.updateSettings({
+                columnPadding: .025
+            });
+        } else {
+            chart.updateSettings({
+                columnPadding: .2
+            });
+        }
 
         // primary svg container
         chart.base = chart.chartContainer.append("svg")
@@ -75,7 +85,7 @@ function Chart(options) {
 
         // x scale, axis and labels
         chart.x = d3.scale.ordinal()
-            .rangeRoundBands([0, chart.settings.displayWidth], .1)
+            .rangeRoundBands([0, chart.settings.displayWidth], chart.settings.columnPadding, chart.settings.outerColumnPadding)
             .domain(chart.chartDataValues.map(function(d) { return d.name; }));
 
         chart.xAxisBase = chart.base.append("g")
@@ -292,7 +302,7 @@ function Chart(options) {
     
     // present percentages with % at the end
     chart.pctFmt = function(value) {
-        if (chart.chartStatType == 'percentage') { value += '%' }
+        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') { value += '%' }
         return value;
     }
     
