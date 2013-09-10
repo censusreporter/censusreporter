@@ -146,7 +146,7 @@ img.screenshot {
 }
 #page-header .wrapper {
     margin: 0 auto;
-    padding: .5em .5%;
+    padding: .5em 0;
 }
 #page-header-title a {
     color: #f7f8f3;
@@ -298,10 +298,10 @@ section aside ul {
 .column-golden-wide,
 .column-golden-narrow {
     float: left;
-    margin: 0 1%;
+    margin: 0 2% 0 0;
 }
 .column-header {
-    margin: 0 1% 1em;
+    margin: 0 2% 1em 0;
 }
 .column-full {
     width: 98%;
@@ -417,7 +417,7 @@ section aside ul {
     display: inline-block;
     font-size: .83em;
     padding: 0;
-    margin: .5em -6px 0;
+    margin: 0 -6px;
     font-weight: 500;
     color: #777;
 }
@@ -1507,7 +1507,7 @@ section.chart-divider h2 {
 /* MEDIA QUERIES */
 @media only screen and (min-width: 1140px) {
     .wrapper {
-        width: 1026px;
+        width: 1120px;
         margin: 0 auto;
     }
 }

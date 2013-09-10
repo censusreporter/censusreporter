@@ -11,11 +11,12 @@
             </span>
             <span class="name">{{ stat.name }}</span>
         </span>
-        {% comment %}
-        {% if stat_type in "dollar|percentage|time|ratio" %}
+
+        {% if not stat_class == 'secondary' %}
+        {% if stat.values.county or stat.values.state or stat.values.nation %}
         <ul class="context">
             {% if stat.values.county %}
-            <li{% if stat.values.county_index > 120 or stat.values.county_index < 80 %} class="highlight"{% endif %}>
+            <li>
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">County index</span>
                 <span class="value">
                     {{ stat.values.county_index }}
@@ -23,7 +24,7 @@
             </li>
             {% endif %}
             {% if stat.values.state %}
-            <li{% if stat.values.state_index > 120 or stat.values.state_index < 80 %} class="highlight"{% endif %}>
+            <li>
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">State index</span>
                 <span class="value">
                     {{ stat.values.state_index }}
@@ -31,7 +32,7 @@
             </li>
             {% endif %}
             {% if stat.values.nation %}
-            <li{% if stat.values.nation_index > 120 or stat.values.nation_index < 80 %} class="highlight"{% endif %}>
+            <li>
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">National index</span>
                 <span class="value">
                     {{ stat.values.nation_index }}
@@ -40,6 +41,6 @@
             {% endif %}
         </ul>
         {% endif %}
-        {% endcomment %}
+        {% endif %}
     </div>
 </div>

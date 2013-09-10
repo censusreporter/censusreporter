@@ -81,12 +81,19 @@
         <h1>Demographics</h1>
     </header>
     <div class="section-container">
-        {% include "_profile/section_demographics_sex.html" %}
         {% include "_profile/section_demographics_age.html" %}
-        {% comment %}
-        {% include "_profile/section_demographics_race.html" %}
-        {% include "_profile/section_demographics_ethnicity.html" %}
-        {% endcomment %}
+        
+        <section class="clearfix stat-row">
+            <aside></aside>
+            <div class="column-third">
+                <h2 class="column-header">Sex</h2>
+                <div id="chart-pie-demographics-sex" data-stat-type="percentage"></div>
+            </div>
+            <div class="column-two-thirds">
+                <h2 class="column-header">Race &amp; Ethnicity</h2>
+                <div id="chart-column-demographics-race" data-stat-type="percentage"></div>
+            </div>
+        </section>
     </div>
 </article>
 
