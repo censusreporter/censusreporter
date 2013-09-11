@@ -192,7 +192,10 @@ function Chart(options) {
             .sort(null)
             .value(function(d) { return d.value; });
         chart.pieData = chart.pie(chart.chartDataValues);
-
+        
+        // get the max value for initial labeling
+        chart.maxData = chart.pieData.slice(0).sort(chart.sortDataBy('-value'))[0];
+        
         // primary svg container
         chart.chartContainer.style("height", chart.settings.height + "px");
         chart.base = chart.chartContainer.append("svg")
@@ -210,21 +213,17 @@ function Chart(options) {
             .attr("class", "center-group")
             .attr("transform", "translate(" + ((chart.settings.width / 2) - (chart.settings.legendWidth / 2)) + "," + chart.settings.height / 2 + ")");
 
-        // center label, no initial value
+        // center label
         chart.centerLabel = chart.centerGroup.append("text")
             .attr("class", "label-name")
             .attr("dy", -8)
             .attr("text-anchor", "middle");
-            //.text(chart.pieData[0]['data']['name']);
 
-        // center value, no initial value
+        // center value
         chart.centerValue = chart.centerGroup.append("text")
             .attr("class", "label-value")
             .attr("dy", 14)
             .attr("text-anchor", "middle");
-            //.text(function() {
-            //    return chart.pctFmt(chart.pieData[0]['data']['value']);
-            //});
 
         // hover state highlights the arc and associated legend item,
         // and displays the data name and value in center of chart
@@ -253,8 +252,8 @@ function Chart(options) {
             chart.legendItems
                 .classed("hovered", false);
 
-            chart.centerLabel.text("");
-            chart.centerValue.text("");
+            chart.centerLabel.text(chart.maxData.data.name);
+            chart.centerValue.text(chart.pctFmt(chart.maxData.data.value));
         }
 
         // add arc paths to arc group
@@ -269,7 +268,7 @@ function Chart(options) {
         chart.arcs.on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
-        // add legend and legend items
+        // add legend, legend items
         chart.legend = chart.base.append("g")
                 .attr("class", "legend")
                 .attr("transform", "translate(" + ((chart.settings.width / 2) + (chart.settings.legendWidth / 2)) + ",30)");
@@ -292,6 +291,9 @@ function Chart(options) {
                             .attr("height",30)
                             .text(d.data.name);
                 });
+                
+        // add initial center label
+        chart.arcReset();
 
         // listen for legend hovers
         chart.legendItems.on("mouseover", chart.arcHover)
@@ -304,6 +306,22 @@ function Chart(options) {
     chart.pctFmt = function(value) {
         if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') { value += '%' }
         return value;
+    }
+    
+    chart.sortDataBy = function(field, sortFunc) {
+        // allow reverse sorts, e.g. '-value'
+        var sortOrder = (field[0] === "-") ? -1 : 1;
+        if (sortOrder == -1) {
+            field = field.substr(1);
+        }
+        
+        // allow passing in a sort function
+        var key = sortFunc ? function (x) { return sortFunc(x[field]); } : function (x) { return x[field]; };
+
+        return function (a,b) {
+            var A = key(a), B = key(b);
+            return ((A < B) ? -1 : (A > B) ? +1 : 0) * sortOrder;
+        }
     }
     
     chart.getParentHeight = function() {
