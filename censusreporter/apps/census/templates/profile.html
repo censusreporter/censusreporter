@@ -185,14 +185,13 @@ for(z = 16; z > 2; z--) {
         nePix = map.project(objBounds.getNorthEast(), z),
         pixWidth = Math.abs(nePix.x - swPix.x),
         pixHeight = Math.abs(nePix.y - swPix.y);
-    console.log("z" + z + " width " + pixWidth + " height " + pixHeight);
-    if (pixWidth <  500 && pixHeight < 350) {
+    if (pixWidth <  500 && pixHeight < 400) {
         break;
     }
 }
 
 map.setView(featureLayer.getBounds().getCenter(), z);
-map.panBy(new L.Point(-300, 0), {animate: false});
+map.panBy(new L.Point(-270, 0), {animate: false});
 {% endif %}
 
 var Charts = {},
