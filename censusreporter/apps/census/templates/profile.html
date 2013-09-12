@@ -196,7 +196,7 @@ for(z = 16; z > 2; z--) {
 }
 
 map.setView(featureLayer.getBounds().getCenter(), z);
-map.panBy(new L.Point(-270, 0), {animate: false});
+map.panBy([-270, 0], {animate: false});
 {% endif %}
 
 var Charts = {},
