@@ -177,7 +177,8 @@
 var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}'),
     featureLayer = L.geoJson(featureData, {
         style: {
-            "color": "#66c2a5"
+            "color": "#66c2a5",
+            "opacity": 0.6
         }
     });
 map.addLayer(featureLayer);
