@@ -82,7 +82,7 @@
     </header>
     <div class="section-container">
         {% include "_profile/section_demographics_age.html" %}
-        
+
         <section class="clearfix stat-row">
             <aside></aside>
             <div class="column-third">
@@ -177,8 +177,21 @@
 var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}'),
     featureLayer = L.geoJson(featureData);
 map.addLayer(featureLayer);
-map.fitBounds(featureLayer.getBounds());
-map.panBy(new L.Point(-300, 0), {animate: false});
+var objBounds = featureLayer.getBounds();
+
+var z;
+for(z = 16; z > 2; z--) {
+    var swPix = map.project(objBounds.getSouthWest(), z),
+        nePix = map.project(objBounds.getNorthEast(), z),
+        pixWidth = Math.abs(nePix.x - swPix.x),
+        pixHeight = Math.abs(nePix.y - swPix.y);
+    if (pixWidth <  500 && pixHeight < 400) {
+        break;
+    }
+}
+
+map.setView(featureLayer.getBounds().getCenter(), z);
+map.panBy(new L.Point(-270, 0), {animate: false});
 {% endif %}
 
 var Charts = {},
