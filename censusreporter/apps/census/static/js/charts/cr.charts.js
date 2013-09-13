@@ -19,6 +19,8 @@ function Chart(options) {
         chart.chartContainer = d3.select('#'+options.chartContainer);
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
+        chart.chartChartTitle = options.chartChartTitle || null;
+        chart.chartInitialSort = options.chartInitialSort || null;
         chart.chartStatType = options.chartStatType || 'number';
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2';
@@ -61,10 +63,6 @@ function Chart(options) {
             tickPadding: 5,
             outerColumnPadding: .25
         });
-        chart.updateSettings({
-            displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
-            displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
-        });
         if (chart.chartType == 'histogram') {
             chart.updateSettings({
                 columnPadding: .025
@@ -76,12 +74,25 @@ function Chart(options) {
         }
 
         // primary svg container
-        chart.base = chart.chartContainer.append("svg")
+        chart.baseContainer = chart.chartContainer.append("svg")
                 .attr("class", "svg-chart")
                 .attr("width", chart.settings.width)
-                .attr("height", chart.settings.height)
-            .append("g")
+                .attr("height", chart.settings.height);
+
+        // add optional title, adjust height available height for arcs if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.baseContainer);
+            chart.settings.margin.top += 13;
+        }
+
+        // base where columns and axes will be attached
+        chart.base = chart.baseContainer.append("g")
                 .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
+                
+        chart.updateSettings({
+            displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
+            displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
+        });
 
         // x scale, axis and labels
         chart.x = d3.scale.ordinal()
@@ -194,7 +205,11 @@ function Chart(options) {
         chart.pieData = chart.pie(chart.chartDataValues);
         
         // get the max value for initial labeling
-        chart.maxData = chart.pieData.slice(0).sort(chart.sortDataBy('-value'))[0];
+        if (!!chart.chartInitialSort) {
+            chart.initialData = chart.pieData.slice(0).sort(chart.sortDataBy(chart.chartInitialSort))[0];
+        } else {
+            chart.initialData = chart.pieData[0];
+        }
         
         // primary svg container
         chart.chartContainer.style("height", chart.settings.height + "px");
@@ -202,6 +217,12 @@ function Chart(options) {
             .attr("class", "svg-chart")
             .attr("width", chart.settings.width)
             .attr("height", chart.settings.height);
+            
+        // add optional title, adjust height available height for arcs if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.base);
+            chart.settings.height += 20;
+        }
 
         // group for arcs, to be added later
         chart.arcGroup = chart.base.append("g")
@@ -252,8 +273,8 @@ function Chart(options) {
             chart.legendItems
                 .classed("hovered", false);
 
-            chart.centerLabel.text(chart.maxData.data.name);
-            chart.centerValue.text(chart.pctFmt(chart.maxData.data.value));
+            chart.centerLabel.text(chart.initialData.data.name);
+            chart.centerValue.text(chart.pctFmt(chart.initialData.data.value));
         }
 
         // add arc paths to arc group
@@ -294,12 +315,22 @@ function Chart(options) {
                 
         // add initial center label
         chart.arcReset();
-
+        
         // listen for legend hovers
         chart.legendItems.on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
         return chart;
+    }
+    
+    chart.addChartTitle = function(container) {
+        if (!!chart.chartChartTitle) {
+            container.append("text")
+                .attr("class", "chart-title")
+                .attr("x", 0)
+                .attr("y", 12)
+                .text(chart.chartChartTitle);
+        }
     }
     
     // present percentages with % at the end

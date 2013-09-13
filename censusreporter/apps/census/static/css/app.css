@@ -409,7 +409,7 @@ section aside ul {
     width: 100%;
 }
 .stat {
-    margin: .5em 0;
+    margin: 0;
     padding: 0;
 }
 .stat .context {
@@ -658,6 +658,11 @@ svg .legend {
     font-weight: bold;
     font-size: 1.2em;
 }
+.chart-title {
+    font-size: 13px;
+    font-weight: bold;
+}
+
 /* TABLES */
 table {
     margin: 0 0 2em 0;
