@@ -711,6 +711,7 @@ class HomepageView(BaseComparisonView):
             'parent_fips_code': self.parent_fips_code,
             'descendant_sumlev': self.descendant_sumlev,
             'format': self.format,
+            'hide_nav_tools': True
         }
 
         comparison_data = self.get_api_data(geom=True)

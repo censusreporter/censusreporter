@@ -151,7 +151,27 @@ img.screenshot {
 #page-header-title a {
     color: #f7f8f3;
     text-decoration: none;
+}
+#page-header-title a.title {
     font-size: 21px;
+}
+#page-header-title a.button {
+    display: block;
+    margin-top: 0;
+    padding: .2em .5em 0;
+    height: 2em;
+    border: 1px solid #027b7a;
+    background-color: #001716;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+#page-header input {
+    border: 1px solid #001716;
+}
+#page-header-title a.button:hover {
+    background-color: #000606;
+    border-color: #000;
 }
 #page-header-title img {
     -webkit-border-radius: 4px;
@@ -160,8 +180,9 @@ img.screenshot {
     margin-top: -5px;
     height: 24px;
 }
-#page-header article {
-    margin-bottom: 0;
+#page-header .tool-set {
+    margin: .2em 0 0;
+    padding: 0;
 }
 
 #page-footer {
@@ -790,7 +811,7 @@ form select {
     position: absolute;
     top: 0;
     right: 0;
-    padding: .5em .5em 0;
+    padding: .5em .5em .25em;
     background-color: #fff;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -1366,7 +1387,7 @@ section.chart-divider h2 {
     background-color: #fff;
     display: none;
     z-index: 99;
-    padding: 1em .5em;
+    padding: 2% 0 2% 2%;
     border: 1px solid #001716;
     -webkit-border-bottom-right-radius: 4px;
     -webkit-border-bottom-left-radius: 4px;
@@ -1448,6 +1469,10 @@ section.chart-divider h2 {
 .twitter-typeahead .tt-query, 
 .twitter-typeahead .tt-hint {
     width: 100%;
+}
+#page-header input,
+#page-header .tt-dropdown-menu {
+    width: 240px;
 }
 
 .result-name .result-type {
@@ -1589,6 +1614,13 @@ section.chart-divider h2 {
         float: none;
         margin: .5em 0 1em;
     }
+    #page-header .tool-set {
+        margin: .5em 0;
+    }
+    #page-header .tool-group input {
+        margin-left: 0;
+    }
+    
     .column-two-thirds,
     .column-three-quarters {
         float: none;

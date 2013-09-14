@@ -23,15 +23,7 @@
 
 {% block body_id %}profile{% endblock %}
 
-{% block header %}
-<header id="page-header">
-    <div id="page-header-title" class="wrapper clearfix">
-        <a href="{% url 'homepage' %}">
-            <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
-        </a>
-    </div>
-</header>
-
+{% block header_content %}
 <div id="cover-map" class="clearfix">
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
