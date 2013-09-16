@@ -168,6 +168,7 @@ img.screenshot {
 }
 #page-header input {
     border: 1px solid #001716;
+    margin-left: 0;
 }
 #page-header-title a.button:hover {
     background-color: #000606;
@@ -1496,6 +1497,9 @@ section.chart-divider h2 {
 .autocomplete-widget .tt-dropdown-menu {
     position: relative !important;
     display: block !important;
+}
+#page-header-title .tt-dropdown-menu {
+    z-index: 999 !important;
 }
 .autocomplete-widget input[disabled] {
     background-color: #eee !important;
