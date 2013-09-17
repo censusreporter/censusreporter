@@ -376,8 +376,9 @@ function Chart(options) {
     chart.colorbrewer = {
         Set2: ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'],
         // saturated version of Colorbrewer 'Set2' scheme, so the unhovered
-        // state of 80% opacity looks like the original colorbrew color
-        Set2S: ['#20A090', '#FF7F00', '#7570B3', '#E7298A', '#66A61E'],
+        // state, at 80% opacity, looks like the original colorbrew color
+        Set2S: ['#33b5b5', '#ed8b69', '#6295cc', '#dd85c0', '#8ecc23', '#fccd06', '#dbba97', '#aaaaaa']
+        
     };
 
     // ready, set, go

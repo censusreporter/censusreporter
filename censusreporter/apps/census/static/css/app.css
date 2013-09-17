@@ -235,7 +235,7 @@ header.section-contents h1 {
 article .section-container {
     background-color: #fff;
     margin-left: 13em;
-    padding: .6em 1.2em;
+    padding: .6em 1.2em 1.2em;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -622,7 +622,6 @@ ul.quantile-legend span.quantile-label {
     position: absolute;
     cursor: pointer;
     bottom: 0;
-    opacity: 1;
     background-color: #014948;
     -webkit-border-top-left-radius: 2px;
     -moz-border-radius-topleft: 2px;
@@ -652,7 +651,6 @@ svg .legend {
     fill: #888;
 }
 .svg-chart .legend-item rect {
-    opacity: 1;
 }
 .svg-chart .legend-item:hover,
 .svg-chart .legend-item.hovered {
