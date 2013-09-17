@@ -68,92 +68,14 @@
 {% block content %}
 {#}<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>{#}
 
-{% comment %}
 <article id="demographics" class="clearfix">
     <header class="section-contents">
         <h1>Demographics</h1>
     </header>
     <div class="section-container">
         {% include "_profile/section_demographics_age.html" %}
-
-        <section class="clearfix stat-row">
-            <aside></aside>
-            <div class="column-third">
-                <h2 class="column-header">Sex</h2>
-                <div id="chart-alt-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
-            </div>
-            <div class="column-two-thirds">
-                <h2 class="column-header">Race &amp; Ethnicity</h2>
-                <div id="chart-column-demographics-race" data-stat-type="percentage"></div>
-            </div>
-        </section>
-    </div>
-</article>{% endcomment %}
-
-<article id="demographics" class="clearfix">
-    <header class="section-contents">
-        <h1>Demographics</h1>
-    </header>
-    <div class="section-container">
-        <section class="clearfix stat-row">
-            <h2 class="column-header">Sex</h2>
-            <aside></aside>
-            <div class="column-quarter">
-                <div class="stat">
-                    <span class="primary">
-                        <span class="value">{{ geography.total_population|intcomma }}</span>
-                        <span class="name">Total population</span>
-                    </span>
-                </div>
-                {% comment %}
-                <div class="stat">
-                    <span class="secondary">
-                        <span class="value">XXX,XXX</span>
-                        <span class="name">Male</span>
-                    </span>
-                </div>
-                <div class="stat">
-                    <span class="secondary">
-                        <span class="value">XXX,XXX</span>
-                        <span class="name">Female</span>
-                    </span>
-                </div>
-                {% endcomment %}
-            </div>
-            <div class="column-quarter" id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
-            <div class="column-half" style="background-color: #eee; height: 140px; padding-top: 50px; text-align: center; color: #aaa;">
-                TODO
-            </div>
-        </section>
-
-        <section class="clearfix">
-            <h2 class="column-header">Age</h2>
-            <aside>
-                {% if sumlev in "040,050" %}
-                <h3>Compare</h3>
-                <p><a href="{% url 'geography_comparison_detail' state_geoid sumlev 'map' %}">Counties by age group</a></p>
-                {% endif %}
-            </aside>
-            <div class="column-quarter">
-                {% include '_profile/_stat_list.html' with stat=demographics.age.median_age stat_type='number' %}
-            </div>
-            <div class="column-half" id="chart-histogram-demographics-age-population_by_age-total" data-stat-type="scaled-percentage"></div>
-            <div class="column-quarter">
-                {% include '_profile/_stat_list.html' with stat=demographics.age.percent_under_18 stat_type='percentage' stat_class='secondary' %}
-                {% include '_profile/_stat_list.html' with stat=demographics.age.percent_over_65 stat_type='percentage' stat_class='secondary' %}
-            </div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <h2 class="column-header">Race &amp; Ethnicity</h2>
-            <aside></aside>
-            <div class="column-third">
-                {% include '_profile/_stat_list.html' with stat=demographics.race.percent_white stat_type='percentage' %}
-            </div>
-            <div class="column-two-thirds">
-                <div id="chart-column-demographics-race" data-stat-type="percentage"></div>
-            </div>
-        </section>
+        {% include "_profile/section_demographics_race.html" %}
+        {% include "_profile/section_demographics_sex.html" %}
     </div>
 </article>
 
@@ -167,7 +89,6 @@
     </div>
 </article>
 
-{% comment %}
 <article id="education" class="clearfix">
     <header class="section-contents">
         <h1>Education</h1>
@@ -177,6 +98,7 @@
     </div>
 </article>
 
+{% comment %}
 <article id="employment" class="clearfix">
     <header class="section-contents">
         <h1>Employment</h1>
