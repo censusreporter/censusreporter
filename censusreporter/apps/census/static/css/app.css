@@ -557,11 +557,11 @@ section aside ul {
     margin-bottom: .5em;
 }
 
-.q0 { background-color: #d9ddca; fill: #d9ddca; }
-.q1 { background-color: #bbc2a1; fill: #bbc2a1; }
-.q2 { background-color: #9ea877; fill: #9ea877; }
-.q3 { background-color: #7b8656; fill: #7b8656; }
-.q4 { background-color: #555c3b; fill: #555c3b; }
+.q0 { background-color: #d9ece8; fill: #d9ece8; }
+.q1 { background-color: #a1cfc6; fill: #a1cfc6; }
+.q2 { background-color: #68b3a3; fill: #68b3a3; }
+.q3 { background-color: #428476; fill: #428476; }
+.q4 { background-color: #264b44; fill: #264b44; }
 
 #map-legend,
 #map-select {
@@ -609,7 +609,7 @@ ul.quantile-legend span.quantile-label {
     position: absolute;
     cursor: pointer;
     bottom: 0;
-    opacity: .8;
+    opacity: 1;
     background-color: #014948;
     -webkit-border-top-left-radius: 2px;
     -moz-border-radius-topleft: 2px;
@@ -639,7 +639,7 @@ svg .legend {
     fill: #888;
 }
 .svg-chart .legend-item rect {
-    opacity: .8;
+    opacity: 1;
 }
 .svg-chart .legend-item:hover,
 .svg-chart .legend-item.hovered {
@@ -662,7 +662,7 @@ svg .legend {
 .arc-group path {
     stroke: #fff;
     cursor: pointer;
-    opacity: .8;
+    opacity: 1;
 }
 .arc.hovered {
     opacity: 1;
