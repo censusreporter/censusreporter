@@ -77,8 +77,21 @@ textarea {
 a {
     color: #014948;
 }
+a.permalink {
+    text-decoration: none;
+    color: inherit;
+}
 a:hover {
     color: #02aeab;
+}
+a.permalink span {
+    display: none;
+}
+a.permalink:hover {
+    color: inherit;
+}
+a.permalink:hover span {
+    display: inherit;
 }
 p, .serif {
     font-family: "Merriweather", Georgia, serif;

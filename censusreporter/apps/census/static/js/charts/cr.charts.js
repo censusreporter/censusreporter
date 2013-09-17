@@ -23,7 +23,7 @@ function Chart(options) {
         chart.chartInitialSort = options.chartInitialSort || null;
         chart.chartStatType = options.chartStatType || 'number';
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
-        chart.chartColorScale = options.chartColorScale || 'Set2';
+        chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
             return {
                 name: d.name,
@@ -253,12 +253,14 @@ function Chart(options) {
                 .filter(function(d) {
                     return d == data;
                 })
-                .classed("hovered", true);
+                .classed("hovered", true)
+                .style("opacity", "1");
             chart.legendItems
                 .filter(function(d) {
                     return d == data;
                 })
-                .classed("hovered", true);
+                .classed("hovered", true)
+                .style("opacity", "1");
             
             chart.centerLabel.text(data.data.name);
             chart.centerValue.text(function() {
@@ -269,9 +271,12 @@ function Chart(options) {
         // return arc and associated legend item to normal styles
         chart.arcReset = function() {
             chart.arcs
-                .classed("hovered", false);
+                .classed("hovered", false)
+                .style("opacity", "0.8");
             chart.legendItems
-                .classed("hovered", false);
+                    .classed("hovered", false)
+                .selectAll("rect")
+                    .style("opacity", "0.8");
 
             chart.centerLabel.text(chart.initialData.data.name);
             chart.centerValue.text(chart.pctFmt(chart.initialData.data.value));
@@ -369,10 +374,10 @@ function Chart(options) {
     // by Cynthia Brewer (http://colorbrewer.org/)
     // https://github.com/mbostock/d3/tree/master/lib/colorbrewer
     chart.colorbrewer = {
-        Set1: ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'],
         Set2: ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'],
-        Set3: ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3', '#fdb462', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd', '#ccebc5', '#ffed6f'],
-        Accent: ['#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f', '#bf5b17', '#666666']
+        // saturated version of Colorbrewer 'Set2' scheme, so the unhovered
+        // state of 80% opacity looks like the original colorbrew color
+        Set2S: ['#20A090', '#FF7F00', '#7570B3', '#E7298A', '#66A61E'],
     };
 
     // ready, set, go

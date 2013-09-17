@@ -47,7 +47,7 @@
             {# DISTRIBUTION CHARTS #}
             {% for group, values in distribution_groups.items %}
             <section class="{% if values.subhead %}chart-divider{% else %}coal-chart-container{% endif %}" id="coal-chart-{{ forloop.counter0 }}">
-                <h2>{{ values.column_name }}</h2>
+                <h2 id="{{ group }}"><a class="permalink" href="#{{ group }}">{{ values.column_name }} <span>&para;</span></a></h2>
                 {% if values.group_values %}
                 <ul class="coal-chart">
                     <li class="tick-mark tick-mark-min">
@@ -96,6 +96,7 @@ jQuery(document).ready(function(){
     coalCharts.on('click', 'a', function(e) {
         e.preventDefault();
         toggleSelectedPoints($(this).data('index'));
+        alert($(this).data('index'))
     })
     
     $('#coal-picker').select2({

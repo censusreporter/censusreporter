@@ -448,8 +448,9 @@ class BaseComparisonView(TemplateView):
             name = table['columns'][column]['name']
             table['columns'][column]['full_name'] = name
 
-            # only add prefixes for columns at least 2 indents deep
+            # only add prefixes for columns at an indent deep
             if indent > 0:
+                print indent
                 # sometimes indents skip straight from 0 to 2, so we need
                 # to handle the potential for missing keys in `prefix_pieces`
                 prefix = ': '.join(filter(bool, [prefix_pieces.get(_indent) for _indent in range(0, indent)]))
@@ -538,7 +539,7 @@ class BaseComparisonView(TemplateView):
         # Create the initial list of data columns, including non-data subheads
         for (column_id, column) in table['columns'].iteritems():
             distribution_groups[column_id] = {
-                'column_name': table['columns'][column_id]['name'],
+                'column_name': table['columns'][column_id]['full_name'],
                 'column_indent': table['columns'][column_id]['indent'] - 1,
                 'group_baselines': {},
                 'group_values': {},
