@@ -69,29 +69,9 @@
                         <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
                     </p>
 
-                    {# MAP LEGEND #}
-                    <div class="tool-group" id="map-legend">
-                        <ul class="quantile-legend">
-                                <span class="quantile-label min-value"></span>
-                            <li class="q0">
-                                <span class="quantile-label"></span>
-                            </li><li class="q1">
-                                <span class="quantile-label"></span>
-                            </li><li class="q2">
-                                <span class="quantile-label"></span>
-                            </li><li class="q3">
-                                <span class="quantile-label"></span>
-                            </li><li class="q4">
-                                <span class="quantile-label"></span>
-                            </li>
-                        </ul>
-                    </div>
+                    {# MAP PACKAGE #}
+                    {% include '_compare/_map_package.html' %}
 
-                    {# SELECTOR FOR DATA FIELD #}
-                    {% include '_compare/_map_column_selector.html' %}
-
-                    {# D3 CHOROPLETH #}
-                    <section id="data-map"></section>
                 </section>
             </div>
         </section>

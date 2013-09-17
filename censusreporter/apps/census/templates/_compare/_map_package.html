@@ -1,0 +1,26 @@
+{# MAP LEGEND #}
+<div class="tool-group" id="map-legend">
+    <ul class="quantile-legend">
+        <li>
+            <span class="quantile-label"></span>
+        </li><li class="q0">
+            <span class="quantile-label"></span>
+        </li><li class="q1">
+            <span class="quantile-label"></span>
+        </li><li class="q2">
+            <span class="quantile-label"></span>
+        </li><li class="q3">
+            <span class="quantile-label"></span>
+        </li><li class="q4">
+            <span class="quantile-label"></span>
+        </li>
+    </ul>
+</div>
+
+{# SELECTOR FOR DATA FIELD #}
+<div class="tool-group data-selector" id="map-select">
+    {% include '_compare/_map_column_selector.html' %}
+</div>
+
+{# D3 CHOROPLETH #}
+<section id="data-map"></section>
