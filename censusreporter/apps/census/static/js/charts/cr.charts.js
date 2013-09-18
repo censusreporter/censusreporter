@@ -34,7 +34,7 @@ function Chart(options) {
         // set height on container div for continuity
         chart.chartContainer.style("height", chart.chartHeight + "px");
         chart.settings = {
-            width: parseInt(chart.chartContainer.style('width'), 10),
+            width: parseInt(chart.chartContainer.style('width'), 10) - parseInt(chart.chartContainer.style('margin-right'), 10),
             height: chart.chartHeight
         }
 
@@ -76,7 +76,7 @@ function Chart(options) {
         // primary svg container
         chart.baseContainer = chart.chartContainer.append("svg")
                 .attr("class", "svg-chart")
-                .attr("width", chart.settings.width)
+                .attr("width", "100%")
                 .attr("height", chart.settings.height);
 
         // add optional title, adjust height available height for arcs if necessary
@@ -177,7 +177,7 @@ function Chart(options) {
             .classed("pie-chart", true);
             
         // make sure chart has enough room for full display
-        var legendWidth = (chart.settings.width / 3)
+        var legendWidth = (chart.settings.width * .38)
         chart.updateSettings({
             legendWidth: legendWidth,
             radius: (Math.min((chart.settings.width - legendWidth), chart.settings.height) / 1.5)
@@ -215,7 +215,7 @@ function Chart(options) {
         chart.chartContainer.style("height", chart.settings.height + "px");
         chart.base = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
-            .attr("width", chart.settings.width)
+            .attr("width", "100%")
             .attr("height", chart.settings.height);
             
         // add optional title, adjust height available height for arcs if necessary
@@ -227,12 +227,12 @@ function Chart(options) {
         // group for arcs, to be added later
         chart.arcGroup = chart.base.append("g")
             .attr("class", "arc-group")
-            .attr("transform", "translate(" + ((chart.settings.width / 2) - (chart.settings.legendWidth / 2)) + "," + chart.settings.height / 2 + ")");
+            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + chart.settings.height / 2 + ")");
 
         // center text group
         chart.centerGroup = chart.base.append("g")
             .attr("class", "center-group")
-            .attr("transform", "translate(" + ((chart.settings.width / 2) - (chart.settings.legendWidth / 2)) + "," + chart.settings.height / 2 + ")");
+            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + chart.settings.height / 2 + ")");
 
         // center label
         chart.centerLabel = chart.centerGroup.append("text")
@@ -297,7 +297,7 @@ function Chart(options) {
         // add legend, legend items
         chart.legend = chart.base.append("g")
                 .attr("class", "legend")
-                .attr("transform", "translate(" + ((chart.settings.width / 2) + (chart.settings.legendWidth / 2)) + ",30)");
+                .attr("transform", "translate(" + (chart.settings.width - chart.settings.legendWidth) + ",30)");
 
         chart.legendItems = chart.legend.selectAll('g')
                 .data(chart.pieData)
