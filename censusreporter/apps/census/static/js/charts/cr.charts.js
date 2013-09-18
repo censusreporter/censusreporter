@@ -196,7 +196,7 @@ function Chart(options) {
         // adjust radii to set chart's size relative to container
         chart.arc = d3.svg.arc()
             .outerRadius(chart.settings.radius - 40)
-            .innerRadius(chart.settings.radius / 2.5);
+            .innerRadius(chart.settings.radius / 2.3);
 
         // put this chart's data into D3 pie layout
         chart.pie = d3.layout.pie()

@@ -2,10 +2,11 @@
     <h2>Households</h2>
     <aside>
     </aside>
-    <div class="column-third">
+    <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=families.households.number_of_households stat_type='number' %}
     </div>
-    <div class="column-third">
+    <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
     </div>
+    <div class="column-half" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value"></div>
 </section>
