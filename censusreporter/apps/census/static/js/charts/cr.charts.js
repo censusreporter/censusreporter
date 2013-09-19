@@ -123,8 +123,8 @@ function Chart(options) {
                 yTickRange = d3.range(0, 101, 25);
         } else {
             var yValues = chart.chartDataValues.map(function(d) { return d.value; }),
-                yDomain = [0, d3.max(yValues)],
-                yTickRange = d3.range(0, (d3.max(yValues) + 1), (d3.max(yValues) / 4));
+                yDomain = [0, (d3.max(yValues) * 1.33)],
+                yTickRange = d3.range(0, (d3.max(yValues) * 1.33), (d3.max(yValues) / 4));
         }
         chart.y = d3.scale.linear()
             .range([chart.settings.displayHeight, 0])
