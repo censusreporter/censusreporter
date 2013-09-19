@@ -450,7 +450,6 @@ class BaseComparisonView(TemplateView):
 
             # only add prefixes for columns at an indent deep
             if indent > 0:
-                print indent
                 # sometimes indents skip straight from 0 to 2, so we need
                 # to handle the potential for missing keys in `prefix_pieces`
                 prefix = ': '.join(filter(bool, [prefix_pieces.get(_indent) for _indent in range(0, indent)]))
