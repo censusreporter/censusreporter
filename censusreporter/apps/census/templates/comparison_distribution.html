@@ -80,12 +80,14 @@
 <script src="{{ STATIC_URL }}js/vendor/chroma.min.js"></script>
 <script>
 jQuery(document).ready(function(){
-    var coalCharts = $('.coal-chart');
-    var numCoalCharts = coalCharts.length;
-    var coalChartPoints = $('.coal-chart a')
+    var coalCharts = $('.coal-chart'),
+        numCoalCharts = coalCharts.length,
+        coalChartPoints = $('.coal-chart a');
+        
     coalCharts.on('mouseover', 'a', function(e) {
-        var chosenIndex = $(this).data('index');
-        var filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
+        var chosenIndex = $(this).data('index'),
+            filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
+
         filteredPoints.addClass('hovered');
         filteredPoints.children('span').css('display', 'block');
     })
@@ -106,8 +108,9 @@ jQuery(document).ready(function(){
         toggleSelectedPoints($(this).val());
     })
     
-    var colorScale = chroma.scale('RdYlBu').domain([0,6]);
-    var colorIndex = 0;
+    var colorScale = chroma.scale('RdYlBu').domain([0,6]),
+        colorIndex = 0;
+    
     var toggleSelectedPoints = function(chosenIndex) {
         var filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
         // if adding a new selection, pick next color in scale
