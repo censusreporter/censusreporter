@@ -22,6 +22,7 @@ function Chart(options) {
         chart.chartChartTitle = options.chartChartTitle || null;
         chart.chartInitialSort = options.chartInitialSort || null;
         chart.chartStatType = options.chartStatType || 'number';
+        chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
@@ -61,15 +62,23 @@ function Chart(options) {
         chart.updateSettings({
             margin: { top: 20, right: 0, bottom: 30, left: 30 },
             tickPadding: 5,
-            outerColumnPadding: .25
+            outerColumnPadding: .25,
+            columnPadding: .1
         });
+        
+        // narrow padding for histograms
         if (chart.chartType == 'histogram') {
             chart.updateSettings({
                 columnPadding: .025
             });
-        } else {
+        }
+        
+        // adjust left margin, padding for charts hiding Y axis
+        if (!chart.chartChartShowYAxis || chart.chartChartShowYAxis == 'false') {
             chart.updateSettings({
-                columnPadding: .2
+                margin: { top: 20, right: 0, bottom: 30, left: 0 },
+                tickPadding: 5,
+                outerColumnPadding: .05,
             });
         }
 
@@ -130,17 +139,19 @@ function Chart(options) {
             .range([chart.settings.displayHeight, 0])
             .domain(yDomain);
             
-        chart.yAxis = d3.svg.axis()
-            .scale(chart.y)
-            .orient("left")
-            .tickSize(-chart.settings.displayWidth)
-            .tickPadding(chart.settings.tickPadding)
-            .tickValues(yTickRange);
+        if (chart.chartChartShowYAxis) {
+            chart.yAxis = d3.svg.axis()
+                .scale(chart.y)
+                .orient("left")
+                .tickSize(-chart.settings.displayWidth)
+                .tickPadding(chart.settings.tickPadding)
+                .tickValues(yTickRange);
 
-        chart.yAxisBase = chart.base.append("g")
-            .attr("class", "y axis")
-            .call(chart.yAxis);
-            
+            chart.yAxisBase = chart.base.append("g")
+                .attr("class", "y axis")
+                .call(chart.yAxis);
+        }
+        
         // add columns as <a> elements
         chart.columnGroup = chart.chartContainer.append("div")
             .attr("class", "column-group");
@@ -340,9 +351,16 @@ function Chart(options) {
     
     // present percentages with % at the end
     chart.pctFmt = function(value) {
-        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') { value += '%' }
+        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
+            value += '%'
+        } else {
+            value = chart.commaFmt(value)
+        }
         return value;
     }
+    
+    // commas for human-friendly integers
+    chart.commaFmt = d3.format(",");
     
     chart.sortDataBy = function(field, sortFunc) {
         // allow reverse sorts, e.g. '-value'
