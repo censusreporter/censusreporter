@@ -258,7 +258,8 @@ section {
 .wide-content {
     overflow-x: auto;
 }
-.section-container section {
+.section-container section,
+.stat-row [class^="column-"] {
     margin-bottom: 3em;
 }
 .section-container section:last-child {
@@ -1608,12 +1609,12 @@ section.chart-divider h2 {
         padding: 0;
     }
     .column-full,
-    .column-half,
     .column-golden-wide,
     .column-golden-narrow {
         float: none;
+        clear: both;
         width: auto;
-        margin: 0;
+        margin-right: 0;
     }
     .column-half .column-half {
         float: left;
@@ -1636,11 +1637,14 @@ section.chart-divider h2 {
         margin-left: 0;
     }
     
+    .column-half,
+    .column-third,
     .column-two-thirds,
     .column-three-quarters {
         float: none;
+        clear: both;
         width: auto;
-        margin: 0;
+        margin-right: 0;
     }
     .column-third,
     .column-quarter {
@@ -1655,13 +1659,12 @@ section.chart-divider h2 {
 @media only screen and (max-width: 480px) {
     .column-half,
     .column-half .column-half,
-    .column-third,
-    .column-two-thirds,
     .column-quarter,
     .column-three-quarters {
         float: none;
+        clear: both;
         width: auto;
-        margin: 0;
+        margin-right: 0;
     }
     h1.title {
         font-size: 2em;

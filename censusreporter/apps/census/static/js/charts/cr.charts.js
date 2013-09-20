@@ -32,8 +32,6 @@ function Chart(options) {
             }
         });
         
-        // set height on container div for continuity
-        chart.chartContainer.style("height", chart.chartHeight + "px");
         chart.settings = {
             width: parseInt(chart.chartContainer.style('width'), 10) - parseInt(chart.chartContainer.style('margin-right'), 10),
             height: chart.chartHeight
@@ -223,7 +221,6 @@ function Chart(options) {
         }
         
         // primary svg container
-        chart.chartContainer.style("height", chart.settings.height + "px");
         chart.base = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", "100%")
