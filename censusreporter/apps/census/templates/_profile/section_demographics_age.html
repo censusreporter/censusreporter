@@ -9,7 +9,7 @@
     <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=demographics.age.median_age stat_type='number' %}
     </div>
-    <div class="column-half" id="chart-histogram-demographics-age-population_by_age-total" data-stat-type="scaled-percentage"></div>
+    <div class="column-half" id="chart-histogram-demographics-age-population_by_age-total" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
     <div class="column-quarter">
         {% include '_profile/_stat_list.html' with stat=demographics.age.percent_under_18 stat_type='percentage' stat_class='secondary' %}
         {% include '_profile/_stat_list.html' with stat=demographics.age.percent_over_65 stat_type='percentage' stat_class='secondary' %}
