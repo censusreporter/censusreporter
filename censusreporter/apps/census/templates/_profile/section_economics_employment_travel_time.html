@@ -1,0 +1,9 @@
+<section class="clearfix stat-row">
+    <h2>Transportation to work</h2>
+    <aside>
+    </aside>
+    <div class="column-quarter">
+        {% include '_profile/_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
+    </div>
+    <div class="column-three-quarters" id="chart-histogram-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="percentage"></div>
+</section>
