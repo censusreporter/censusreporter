@@ -258,8 +258,7 @@ section {
 .wide-content {
     overflow-x: auto;
 }
-.section-container section,
-.stat-row [class^="column-"] {
+.section-container section {
     margin-bottom: 3em;
 }
 .section-container section:last-child {
@@ -643,9 +642,11 @@ ul.quantile-legend span.quantile-label {
 .y.axis path {
     display: none;
 }
-svg text,
-svg .legend {
-    font-size: .9em;
+svg text {
+    font-size: 1em;
+}
+svg .legend text {
+    font-size: .83em;
 }
 .svg-chart .legend-item {
     cursor: pointer;
@@ -1391,7 +1392,6 @@ section.chart-divider h2 {
     display: none;
 }
 
-
 #query-builder-bar section[id$="-picker"] {
     position: absolute;
     top: 30px;
@@ -1636,7 +1636,9 @@ section.chart-divider h2 {
     #page-header .tool-group input {
         margin-left: 0;
     }
-    
+    .stat-row [class^="column-"] {
+        margin-bottom: 3em;
+    }
     .column-half,
     .column-third,
     .column-two-thirds,
