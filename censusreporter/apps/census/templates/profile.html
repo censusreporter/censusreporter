@@ -160,12 +160,21 @@ map.panBy([-270, 0], {animate: false});
 
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
-    profileData = {{ profile_data_json }};
+    profileData = {{ profile_data_json }}
+    browserWidth = document.documentElement.clientWidth;
+
+var gracefulType = function(chartType) {
+    // convert certain chart types to more readable versions at narrow widths
+    if ((chartType == 'column' || chartType == 'histogram') && browserWidth <= 640) {
+        return 'bar'
+    }
+    return chartType
+}
 
 $.each(chartContainers, function(i) {
     var chartID = $(this).prop('id'),
         chartDataID = chartID.replace('chart-','').replace('alt-','').split('-'),
-        chartType = chartDataID[0],
+        chartType = gracefulType(chartDataID[0]),
         chartData = profileData[chartDataID[1]],
         chartChartTitle = $(this).data('chart-title');
         chartChartShowYAxis = $(this).data('chart-show-y-axis');
