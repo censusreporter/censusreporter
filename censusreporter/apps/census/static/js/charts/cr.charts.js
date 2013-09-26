@@ -16,7 +16,8 @@ function Chart(options) {
     
     chart.init = function(options) {
         // establish our base vars
-        chart.chartContainer = d3.select('#'+options.chartContainer);
+        chart.chartContainer = d3.select('#'+options.chartContainer)
+                .style("position", "relative");
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartChartTitle = options.chartChartTitle || null;
@@ -34,7 +35,8 @@ function Chart(options) {
         
         chart.settings = {
             width: parseInt(chart.chartContainer.style('width'), 10) - parseInt(chart.chartContainer.style('margin-right'), 10),
-            height: chart.chartHeight
+            height: chart.chartHeight,
+            margin: { top: 0, right: 0, bottom: 0, left: 0 },
         }
 
         // time to make the chart
@@ -80,17 +82,17 @@ function Chart(options) {
             });
         }
 
+        // add optional title, adjust height available if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.chartContainer);
+            chart.settings.margin.top += 13;
+        }
+
         // primary svg container
         chart.baseContainer = chart.chartContainer.append("svg")
                 .attr("class", "svg-chart")
                 .attr("width", "100%")
                 .attr("height", chart.settings.height);
-
-        // add optional title, adjust height available height for arcs if necessary
-        if (!!chart.chartChartTitle) {
-            chart.addChartTitle(chart.baseContainer);
-            chart.settings.margin.top += 13;
-        }
 
         // base where columns and axes will be attached
         chart.base = chart.baseContainer.append("g")
@@ -192,6 +194,17 @@ function Chart(options) {
             radius: (Math.min((chart.settings.width - legendWidth), chart.settings.height) / 1.5)
         });
 
+        // add optional title, adjust height available height for arcs if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.chartContainer);
+            chart.settings.margin.top += 20;
+        }
+
+        chart.updateSettings({
+            displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
+            displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
+        });
+
         // create array of categories specific to this chart
         chart.chartCategories = d3.values(chart.chartDataValues).map(function(d) {
             return d.name
@@ -226,21 +239,15 @@ function Chart(options) {
             .attr("width", "100%")
             .attr("height", chart.settings.height);
             
-        // add optional title, adjust height available height for arcs if necessary
-        if (!!chart.chartChartTitle) {
-            chart.addChartTitle(chart.base);
-            chart.settings.height += 20;
-        }
-
         // group for arcs, to be added later
         chart.arcGroup = chart.base.append("g")
             .attr("class", "arc-group")
-            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + chart.settings.height / 2 + ")");
+            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
 
         // center text group
         chart.centerGroup = chart.base.append("g")
             .attr("class", "center-group")
-            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + chart.settings.height / 2 + ")");
+            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
 
         // center label
         chart.centerLabel = chart.centerGroup.append("text")
@@ -338,10 +345,9 @@ function Chart(options) {
     
     chart.addChartTitle = function(container) {
         if (!!chart.chartChartTitle) {
-            container.append("text")
+            container.append("h3")
                 .attr("class", "chart-title")
-                .attr("x", 0)
-                .attr("y", 12)
+                .style("position", "absolute")
                 .text(chart.chartChartTitle);
         }
     }
