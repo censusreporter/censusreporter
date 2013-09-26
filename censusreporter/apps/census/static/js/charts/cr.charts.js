@@ -50,10 +50,76 @@ function Chart(options) {
             chart.makePieChart();
         } else if (chart.chartType == 'column' || chart.chartType == 'histogram') {
             chart.makeColumnChart();
+        } else if (chart.chartType == 'bar') {
+            chart.makeBarChart();
         }
         return chart;
     }
 
+    chart.makeBarChart = function() {
+        chart.chartContainer
+            .classed("bar-chart", true);
+
+        // add basic settings specific to this chart type
+        chart.updateSettings({
+            margin: { top: 0, right: 10, bottom: 0, left: 10 },
+            tickPadding: 5,
+            outerColumnPadding: .25,
+            columnPadding: .1
+        });
+
+        // add optional title, adjust height if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.chartContainer);
+        }
+
+        chart.updateSettings({
+            displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
+            displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
+        });
+
+        // primary div container
+        chart.baseContainer = chart.chartContainer.append("div")
+                .attr("class", "div-chart")
+                .attr("width", "100%");
+
+        // x scale and axis, account for raw number vs. percentages
+        if (chart.chartStatType == 'percentage') {
+            var xDomain = [0, 100],
+                xTickRange = d3.range(0, 101, 25);
+        } else {
+            var xValues = chart.chartDataValues.map(function(d) { return d.value; }),
+                xDomain = [0, (d3.max(xValues) * 1.33)],
+                xTickRange = d3.range(0, (d3.max(xValues) * 1.33), ((d3.max(xValues) * 1.33) / 5));
+        }
+        chart.x = d3.scale.linear()
+            .range([chart.settings.displayWidth, 0])
+            .domain(xDomain);
+
+        chart.barGroups = chart.baseContainer.selectAll(".bar-group")
+                .data(chart.chartDataValues)
+            .enter().append("div")
+                .classed("bar-group", true);
+                
+        chart.bars = chart.barGroups
+            .append("a")
+                .attr("class", "bar")
+                .style("position", "relative")
+                .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
+            .append("span")
+                .classed("label", true)
+                .text(function(d) {
+                    return chart.pctFmt(d.value);
+                });
+
+        chart.labels = chart.barGroups.append("h4")
+                .classed("label", true)
+                .text(function(d) {
+                    return d.name;
+                });
+    }
+    
     chart.makeColumnChart = function() {
         chart.chartContainer
             .classed("column-chart", true);
@@ -85,7 +151,7 @@ function Chart(options) {
         // add optional title, adjust height available if necessary
         if (!!chart.chartChartTitle) {
             chart.addChartTitle(chart.chartContainer);
-            chart.settings.margin.top += 13;
+            chart.settings.height -= 20;
         }
 
         // primary svg container
@@ -118,7 +184,7 @@ function Chart(options) {
                     .classed("tick major", true)
                     .style("opacity", 1)
                     .attr("transform", function(d) {
-                        return "translate(" + (chart.x(d.name) + (chart.x.rangeBand() / 2)) + ", 0)";
+                        return "translate(" + (chart.x(d.name) + (chart.x.rangeBand() / 2)) + ",0)";
                     })
                 .append("text")
                     .text(function(d) { return d.name; })
@@ -197,7 +263,7 @@ function Chart(options) {
         // add optional title, adjust height available height for arcs if necessary
         if (!!chart.chartChartTitle) {
             chart.addChartTitle(chart.chartContainer);
-            chart.settings.margin.top += 20;
+            chart.settings.height -= 20;
         }
 
         chart.updateSettings({
@@ -312,7 +378,7 @@ function Chart(options) {
         // add legend, legend items
         chart.legend = chart.base.append("g")
                 .attr("class", "legend")
-                .attr("transform", "translate(" + (chart.settings.width - chart.settings.legendWidth) + ",30)");
+                .attr("transform", "translate(" + (chart.settings.width - chart.settings.legendWidth) + ",10)");
 
         chart.legendItems = chart.legend.selectAll('g')
                 .data(chart.pieData)
@@ -347,7 +413,6 @@ function Chart(options) {
         if (!!chart.chartChartTitle) {
             container.append("h3")
                 .attr("class", "chart-title")
-                .style("position", "absolute")
                 .text(chart.chartChartTitle);
         }
     }

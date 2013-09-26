@@ -610,12 +610,14 @@ ul.quantile-legend span.quantile-label {
 }
 
 /* CHARTS */
-.column-chart {
+.column-chart,
+.bar-chart {
     font-size: 0.75em;
     position: relative;
     font-weight: 500;
 }
-.column-group {
+.column-group,
+.bar-group {
     position: relative;
 }
 .column {
@@ -632,6 +634,32 @@ ul.quantile-legend span.quantile-label {
 }
 .column:hover {
     opacity: 1;
+}
+
+.bar-group {
+    clear: both;
+    width: 100%;
+    margin-bottom: .33em;
+}
+.bar {
+    display: block;
+    cursor: pointer;
+    height: 2.5em;
+    padding: .5em;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
+    -webkit-border-bottom-right-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    border-bottom-right-radius: 2px;
+}
+.bar .label {
+    position: absolute;
+    left: 100%;
+    padding-left: .5em;
+}
+.bar-group h4.label {
+    margin: .25em 0 .75em;
 }
 
 .axis {
@@ -696,6 +724,8 @@ svg .legend text {
 .chart-title {
     font-size: 13px;
     font-weight: bold;
+    line-height: 1;
+    margin-bottom: 7px;
 }
 
 /* TABLES */
