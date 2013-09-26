@@ -174,24 +174,6 @@ function Chart(options) {
             .rangeRoundBands([0, chart.settings.displayWidth], chart.settings.columnPadding, chart.settings.outerColumnPadding)
             .domain(chart.chartDataValues.map(function(d) { return d.name; }));
 
-        chart.xAxisBase = chart.base.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + (chart.settings.displayHeight + chart.settings.tickPadding) + ")");
-
-        chart.xAxisLabels = chart.xAxisBase.selectAll("g")
-                .data(chart.chartDataValues)
-            .enter().append("g")
-                    .classed("tick major", true)
-                    .style("opacity", 1)
-                    .attr("transform", function(d) {
-                        return "translate(" + (chart.x(d.name) + (chart.x.rangeBand() / 2)) + ",0)";
-                    })
-                .append("text")
-                    .text(function(d) { return d.name; })
-                    .attr("x", 0)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "middle");
-
         // y scale and axis, account for raw number vs. percentages
         if (chart.chartStatType == 'percentage') {
             var yDomain = [0, 100],
@@ -218,7 +200,7 @@ function Chart(options) {
                 .call(chart.yAxis);
         }
         
-        // add columns as <a> elements
+        // add columns as <a> elements, with built-in category labels
         chart.columnGroup = chart.chartContainer.append("div")
             .attr("class", "column-group");
 
@@ -230,7 +212,13 @@ function Chart(options) {
                 .style("width", chart.x.rangeBand() + "px")
                 .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                 .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
-                .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
+                .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; })
+            .append("span")
+                .classed("x axis label", true)
+                .style("width", "100%")
+                .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
+                .text(function(d) { return d.name; });
+
 
         // label columns with values
         chart.labelGroup = chart.base.append("g")

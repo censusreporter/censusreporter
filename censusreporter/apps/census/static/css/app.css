@@ -670,6 +670,14 @@ ul.quantile-legend span.quantile-label {
 .y.axis path {
     display: none;
 }
+.x.axis .label,
+.column .x.axis.label {
+    text-align: center;
+    font-weight: bold;
+}
+.column .x.axis.label {
+    position: absolute;
+}
 svg text {
     font-size: 1em;
 }
