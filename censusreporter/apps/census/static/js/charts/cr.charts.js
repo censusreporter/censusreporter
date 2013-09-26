@@ -154,16 +154,6 @@ function Chart(options) {
             chart.settings.height -= 20;
         }
 
-        // primary svg container
-        chart.baseContainer = chart.chartContainer.append("svg")
-                .attr("class", "svg-chart")
-                .attr("width", "100%")
-                .attr("height", chart.settings.height);
-
-        // base where columns and axes will be attached
-        chart.base = chart.baseContainer.append("g")
-                .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
-                
         chart.updateSettings({
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
@@ -188,6 +178,16 @@ function Chart(options) {
             .domain(yDomain);
             
         if (chart.chartChartShowYAxis) {
+            // primary svg container
+            chart.baseContainer = chart.chartContainer.append("svg")
+                    .attr("class", "svg-chart")
+                    .attr("width", "100%")
+                    .attr("height", chart.settings.height);
+
+            // base where columns and axes will be attached
+            chart.base = chart.baseContainer.append("g")
+                    .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
+
             chart.yAxis = d3.svg.axis()
                 .scale(chart.y)
                 .orient("left")
@@ -202,7 +202,11 @@ function Chart(options) {
         
         // add columns as <a> elements, with built-in category labels
         chart.columnGroup = chart.chartContainer.append("div")
-            .attr("class", "column-group");
+            .attr("class", "column-group")
+            .style("margin-top", function() {
+                return (chart.chartChartShowYAxis) ? -(chart.settings.height) + "px" : "0";
+            })
+            .style("height", chart.settings.height + "px");
 
         chart.columns = chart.columnGroup.selectAll(".column")
                 .data(chart.chartDataValues)
@@ -215,24 +219,16 @@ function Chart(options) {
                 .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; })
             .append("span")
                 .classed("x axis label", true)
-                .style("width", "100%")
                 .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
                 .text(function(d) { return d.name; });
 
-
-        // label columns with values
-        chart.labelGroup = chart.base.append("g")
-            .attr("class", "column-group");
-
-        chart.labels = chart.labelGroup.selectAll("text")
-                .data(chart.chartDataValues)
-            .enter().append("text")
+        chart.labels = chart.columnGroup.selectAll(".column")
+            .append("span")
+                .classed("label", true)
+                .style("top", "-20px")
                 .text(function(d) {
                     return chart.pctFmt(d.value);
-                })
-                .attr("text-anchor", "middle")
-                .attr("x", function(d) { return chart.x(d.name) + (chart.x.rangeBand() / 2); })
-                .attr("y", function(d) { return chart.y(d.value) - 8; });
+                });
 
         return chart;
     }
