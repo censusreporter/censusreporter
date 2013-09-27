@@ -297,6 +297,7 @@ function Chart(options) {
         // primary html container
         chart.htmlBase = chart.chartContainer.append("div")
             .attr("class", "div-chart")
+            .style("position", "relative")
             .style("width", "0")
             .style("margin-top", -(chart.settings.displayHeight) + "px")
             .style("height", chart.settings.displayHeight + "px");
@@ -373,26 +374,25 @@ function Chart(options) {
             .on("mouseout", chart.arcReset);
         
         // add legend, legend items
-        chart.legend = chart.svgBase.append("g")
+        chart.legend = chart.htmlBase.append("ul")
                 .attr("class", "legend")
-                .attr("transform", "translate(" + (chart.settings.displayWidth - chart.settings.legendWidth) + ",10)");
+                .style("position", "absolute")
+                .style("width", chart.settings.legendWidth + "px")
+                .style("left", (chart.settings.displayWidth - chart.settings.legendWidth) + "px")
+                .style("top", "1em");
 
-        chart.legendItems = chart.legend.selectAll('g')
+        chart.legendItems = chart.legend.selectAll('li')
                 .data(chart.pieData)
-            .enter().append('g')
+            .enter().append("li")
                 .attr("class", "legend-item")
                 .each(function(d, i) {
                     var g = d3.select(this);
-                        g.append("rect")
-                            .attr("y", i*18)
-                            .attr("width", 10)
-                            .attr("height", 10)
-                            .style("fill", function(d) { return chart.color(d.data.name); });
+                        g.append("span")
+                            .attr("class", "swatch")
+                            .style("background-color", function(d) { return chart.color(d.data.name); });
 
-                        g.append("text")
-                            .attr("x", 15)
-                            .attr("y", i*18 + 9)
-                            .attr("height",30)
+                        g.append("span")
+                            .attr("class", "label")
                             .text(d.data.name);
                 });
                 

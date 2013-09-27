@@ -684,18 +684,34 @@ ul.quantile-legend span.quantile-label {
 svg text {
     font-size: 1em;
 }
-svg .legend text {
+.legend {
     font-size: .83em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
-.svg-chart .legend-item {
+.legend-item {
     cursor: pointer;
+    color: #888;
     fill: #888;
+    line-height: 1.1;
+    margin-bottom: .33em;
+    clear: both;
+    padding-left: 15px;
 }
-.svg-chart .legend-item rect {
+.legend-item .swatch {
+    float: left;
+    margin-left: -15px;
+    height: 10px;
+    width: 10px;
+    margin-top: 1px;
 }
-.svg-chart .legend-item:hover,
-.svg-chart .legend-item.hovered {
+.legend-item .label {
+}
+.legend-item:hover,
+.legend-item.hovered {
     opacity: 1;
+    color: #111;
     fill: #111;
 }
 
