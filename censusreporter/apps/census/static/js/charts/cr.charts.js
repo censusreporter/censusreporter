@@ -79,7 +79,7 @@ function Chart(options) {
         });
 
         // primary div container
-        chart.baseContainer = chart.chartContainer.append("div")
+        chart.htmlBaseContainer = chart.chartContainer.append("div")
                 .attr("class", "div-chart")
                 .attr("width", "100%");
 
@@ -96,12 +96,12 @@ function Chart(options) {
             .range([chart.settings.displayWidth, 0])
             .domain(xDomain);
 
-        chart.barGroups = chart.baseContainer.selectAll(".bar-group")
+        chart.htmlBase = chart.htmlBaseContainer.selectAll(".bar-group")
                 .data(chart.chartDataValues)
             .enter().append("div")
                 .classed("bar-group", true);
                 
-        chart.bars = chart.barGroups
+        chart.bars = chart.htmlBase
             .append("a")
                 .attr("class", "bar")
                 .style("position", "relative")
@@ -113,7 +113,7 @@ function Chart(options) {
                     return chart.pctFmt(d.value);
                 });
 
-        chart.labels = chart.barGroups.append("h4")
+        chart.labels = chart.htmlBase.append("h4")
                 .classed("label", true)
                 .text(function(d) {
                     return d.name;
@@ -178,14 +178,14 @@ function Chart(options) {
             .domain(yDomain);
             
         if (chart.chartChartShowYAxis) {
-            // primary svg container
-            chart.baseContainer = chart.chartContainer.append("svg")
+            // if we really need to render a y axis, easier to use an svg
+            chart.svgBaseContainer = chart.chartContainer.append("svg")
                     .attr("class", "svg-chart")
                     .attr("width", "100%")
                     .attr("height", chart.settings.height);
 
             // base where columns and axes will be attached
-            chart.base = chart.baseContainer.append("g")
+            chart.svgBase = chart.svgBaseContainer.append("g")
                     .attr("transform", "translate(" + chart.settings.margin.left + "," + chart.settings.margin.top + ")");
 
             chart.yAxis = d3.svg.axis()
@@ -195,20 +195,20 @@ function Chart(options) {
                 .tickPadding(chart.settings.tickPadding)
                 .tickValues(yTickRange);
 
-            chart.yAxisBase = chart.base.append("g")
+            chart.yAxisBase = chart.svgBase.append("g")
                 .attr("class", "y axis")
                 .call(chart.yAxis);
         }
         
         // add columns as <a> elements, with built-in category labels
-        chart.columnGroup = chart.chartContainer.append("div")
+        chart.htmlBase = chart.chartContainer.append("div")
             .attr("class", "column-group")
             .style("margin-top", function() {
                 return (chart.chartChartShowYAxis) ? -(chart.settings.height) + "px" : "0";
             })
             .style("height", chart.settings.height + "px");
 
-        chart.columns = chart.columnGroup.selectAll(".column")
+        chart.columns = chart.htmlBase.selectAll(".column")
                 .data(chart.chartDataValues)
             .enter().append("a")
                 .attr("class", "column")
@@ -222,7 +222,7 @@ function Chart(options) {
                 .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
                 .text(function(d) { return d.name; });
 
-        chart.labels = chart.columnGroup.selectAll(".column")
+        chart.labels = chart.htmlBase.selectAll(".column")
             .append("span")
                 .classed("label", true)
                 .style("top", "-20px")
@@ -284,18 +284,18 @@ function Chart(options) {
         }
         
         // primary svg container
-        chart.base = chart.chartContainer.append("svg")
+        chart.svgBase = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", "100%")
             .attr("height", chart.settings.height);
             
         // group for arcs, to be added later
-        chart.arcGroup = chart.base.append("g")
+        chart.arcGroup = chart.svgBase.append("g")
             .attr("class", "arc-group")
             .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
 
         // center text group
-        chart.centerGroup = chart.base.append("g")
+        chart.centerGroup = chart.svgBase.append("g")
             .attr("class", "center-group")
             .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
 
@@ -360,7 +360,7 @@ function Chart(options) {
             .on("mouseout", chart.arcReset);
         
         // add legend, legend items
-        chart.legend = chart.base.append("g")
+        chart.legend = chart.svgBase.append("g")
                 .attr("class", "legend")
                 .attr("transform", "translate(" + (chart.settings.width - chart.settings.legendWidth) + ",10)");
 
