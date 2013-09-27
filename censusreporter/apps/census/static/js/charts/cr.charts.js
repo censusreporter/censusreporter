@@ -287,29 +287,42 @@ function Chart(options) {
         chart.svgBase = chart.chartContainer.append("svg")
             .attr("class", "svg-chart")
             .attr("width", "100%")
-            .attr("height", chart.settings.height);
-            
+            .attr("height", chart.settings.displayHeight);
+
         // group for arcs, to be added later
         chart.arcGroup = chart.svgBase.append("g")
             .attr("class", "arc-group")
-            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
+            .attr("transform", "translate(" + ((chart.settings.displayWidth - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
+
+        // primary html container
+        chart.htmlBase = chart.chartContainer.append("div")
+            .attr("class", "div-chart")
+            .style("width", "0")
+            .style("margin-top", -(chart.settings.displayHeight) + "px")
+            .style("height", chart.settings.displayHeight + "px");
 
         // center text group
-        chart.centerGroup = chart.svgBase.append("g")
+        chart.centerGroup = chart.htmlBase.append("div")
             .attr("class", "center-group")
-            .attr("transform", "translate(" + ((chart.settings.width - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
+            .style("position", "relative")
+            .style("width", "0")
+            .style("height", chart.settings.displayHeight + "px");
 
         // center label
-        chart.centerLabel = chart.centerGroup.append("text")
+        chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
-            .attr("dy", -8)
-            .attr("text-anchor", "middle");
+            .style("left", ((chart.settings.displayWidth - chart.settings.legendWidth) / 2) + "px")
+            .style("margin-left", -(chart.settings.radius / 2.3) + "px")
+            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 10) + "px")
+            .style("width", ((chart.settings.radius / 2.3) * 2) + "px");
 
         // center value
-        chart.centerValue = chart.centerGroup.append("text")
+        chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
-            .attr("dy", 14)
-            .attr("text-anchor", "middle");
+            .style("left", ((chart.settings.displayWidth - chart.settings.legendWidth) / 2) + "px")
+            .style("margin-left", -(chart.settings.radius / 2.3) + "px")
+            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 5) + "px")
+            .style("width", ((chart.settings.radius / 2.3) * 2) + "px");
 
         // hover state highlights the arc and associated legend item,
         // and displays the data name and value in center of chart
@@ -362,7 +375,7 @@ function Chart(options) {
         // add legend, legend items
         chart.legend = chart.svgBase.append("g")
                 .attr("class", "legend")
-                .attr("transform", "translate(" + (chart.settings.width - chart.settings.legendWidth) + ",10)");
+                .attr("transform", "translate(" + (chart.settings.displayWidth - chart.settings.legendWidth) + ",10)");
 
         chart.legendItems = chart.legend.selectAll('g')
                 .data(chart.pieData)
