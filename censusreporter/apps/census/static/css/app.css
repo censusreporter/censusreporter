@@ -1684,11 +1684,14 @@ section.chart-divider h2 {
     #page-header .tool-group input {
         margin-left: 0;
     }
+    .section-container section,
     .stat-row [class^="column-"] {
-        margin-bottom: 3em;
+        margin-bottom: 2em;
+    }
+    .stat-row [class^="column-"]:last-child {
+        margin-bottom: 0;
     }
     .column-half,
-    .column-third,
     .column-two-thirds,
     .column-three-quarters {
         float: none;
@@ -1707,10 +1710,9 @@ section.chart-divider h2 {
     }
 }
 @media only screen and (max-width: 480px) {
-    .column-half,
+    .column-third,
     .column-half .column-half,
-    .column-quarter,
-    .column-three-quarters {
+    .column-quarter {
         float: none;
         clear: both;
         width: auto;
