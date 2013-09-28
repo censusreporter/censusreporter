@@ -126,7 +126,7 @@ function Chart(options) {
         
         // add basic settings specific to this chart type
         chart.updateSettings({
-            margin: { top: 20, right: 0, bottom: 30, left: 30 },
+            margin: { top: 20, right: 0, bottom: 10, left: 30 },
             tickPadding: 5,
             outerColumnPadding: .25,
             columnPadding: .1
@@ -142,7 +142,7 @@ function Chart(options) {
         // adjust left margin, padding for charts hiding Y axis
         if (!chart.chartChartShowYAxis || chart.chartChartShowYAxis == 'false') {
             chart.updateSettings({
-                margin: { top: 20, right: 0, bottom: 30, left: 0 },
+                margin: { top: 20, right: 0, bottom: 10, left: 0 },
                 tickPadding: 5,
                 outerColumnPadding: .05,
             });
@@ -237,22 +237,22 @@ function Chart(options) {
         chart.chartContainer
             .classed("pie-chart", true);
             
-        // make sure chart has enough room for full display
-        var legendWidth = (chart.settings.width * .38)
-        chart.updateSettings({
-            legendWidth: legendWidth,
-            radius: (Math.min((chart.settings.width - legendWidth), chart.settings.height) / 1.5)
-        });
-
         // add optional title, adjust height available height for arcs if necessary
         if (!!chart.chartChartTitle) {
             chart.addChartTitle(chart.chartContainer);
             chart.settings.height -= 20;
         }
 
+        // give the chart display dimensions
         chart.updateSettings({
+            legendWidth: chart.settings.width * .38,
+            pieWidth: chart.settings.width * .58,
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
+        });
+        chart.updateSettings({
+            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 1.3),
+            pieCenter: chart.settings.pieWidth / 2
         });
 
         // create array of categories specific to this chart
@@ -292,7 +292,7 @@ function Chart(options) {
         // group for arcs, to be added later
         chart.arcGroup = chart.svgBase.append("g")
             .attr("class", "arc-group")
-            .attr("transform", "translate(" + ((chart.settings.displayWidth - chart.settings.legendWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
+            .attr("transform", "translate(" + ((chart.settings.pieWidth) / 2) + "," + ((chart.settings.displayHeight / 2) + chart.settings.margin.top) + ")");
 
         // primary html container
         chart.htmlBase = chart.chartContainer.append("div")
@@ -312,17 +312,17 @@ function Chart(options) {
         // center label
         chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
-            .style("left", ((chart.settings.displayWidth - chart.settings.legendWidth) / 2) + "px")
+            .style("left", chart.settings.pieCenter + "px")
             .style("margin-left", -(chart.settings.radius / 2.3) + "px")
-            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 10) + "px")
+            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 11) + "px")
             .style("width", ((chart.settings.radius / 2.3) * 2) + "px");
 
         // center value
         chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
-            .style("left", ((chart.settings.displayWidth - chart.settings.legendWidth) / 2) + "px")
+            .style("left", chart.settings.pieCenter + "px")
             .style("margin-left", -(chart.settings.radius / 2.3) + "px")
-            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 5) + "px")
+            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 6) + "px")
             .style("width", ((chart.settings.radius / 2.3) * 2) + "px");
 
         // hover state highlights the arc and associated legend item,
@@ -332,14 +332,12 @@ function Chart(options) {
                 .filter(function(d) {
                     return d == data;
                 })
-                .classed("hovered", true)
-                .style("opacity", "1");
+                .classed("hovered", true);
             chart.legendItems
                 .filter(function(d) {
                     return d == data;
                 })
-                .classed("hovered", true)
-                .style("opacity", "1");
+                .classed("hovered", true);
             
             chart.centerLabel.text(data.data.name);
             chart.centerValue.text(function() {
@@ -350,12 +348,9 @@ function Chart(options) {
         // return arc and associated legend item to normal styles
         chart.arcReset = function() {
             chart.arcs
-                .classed("hovered", false)
-                .style("opacity", "0.8");
+                .classed("hovered", false);
             chart.legendItems
-                    .classed("hovered", false)
-                .selectAll("rect")
-                    .style("opacity", "0.8");
+                .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialData.data.name);
             chart.centerValue.text(chart.pctFmt(chart.initialData.data.value));

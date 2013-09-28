@@ -700,6 +700,7 @@ svg text {
     padding-left: 15px;
 }
 .legend-item .swatch {
+    opacity: .8;
     float: left;
     margin-left: -15px;
     height: 10px;
@@ -730,9 +731,13 @@ svg text {
 .arc-group path {
     stroke: #fff;
     cursor: pointer;
-    opacity: 1;
 }
-.arc.hovered {
+.arc,
+.legend-item .swatch {
+    opacity: .8;
+}
+.arc.hovered,
+.legend-item.hovered .swatch {
     opacity: 1;
 }
 .label-group text {
