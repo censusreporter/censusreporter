@@ -57,7 +57,7 @@ SUMLEV_CHOICES['Standard'] = [
     {'name': 'metro area', 'plural_name': 'metro areas', 'summary_level': '310', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
     {'name': 'native area', 'plural_name': 'native areas', 'summary_level': '250', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'Nation or State' },
     {'name': 'census tract', 'plural_name': 'census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050,160', 'ancestor_options': 'Nation, State, County or Place' },
-    {'name': 'block group', 'plural_name': 'block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,140,160', 'ancestor_options': 'Nation, State, County, Place or Census Tract' },
+    {'name': 'block group', 'plural_name': 'block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,050,140,160', 'ancestor_options': 'Nation, State, County, Place or Census Tract' },
     {'name': 'zip codes', 'plural_name': 'zip codes', 'summary_level': '860', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'Nation, State or County' },
 ]
 SUMLEV_CHOICES['Legislative'] = [
