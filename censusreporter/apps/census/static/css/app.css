@@ -1723,6 +1723,7 @@ section.chart-divider h2 {
         border: none;
         width: 100%;
         padding: 1em .25em;
+        margin-top: 0;
     }
 }
 @media only screen and (max-width: 640px) {
@@ -1772,6 +1773,12 @@ section.chart-divider h2 {
     }
     h1.title {
         font-size: 2em;
+    }
+    .stat .primary .value {
+        font-size: 1.8em;
+    }
+    .stat .primary .name {
+        font-size: 1.1em;
     }
     #page-header-title a.button {
         text-align: center;
