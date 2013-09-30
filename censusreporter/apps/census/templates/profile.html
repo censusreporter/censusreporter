@@ -1,6 +1,6 @@
 {% extends '_base_profile.html' %}{% load humanize %}
 
-{% block head_title %}{% firstof geo_place_data.full_name geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
+{% block head_title %}{% firstof geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -28,8 +28,8 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header class="column-full">
-                <h1 class="title">{% firstof geo_place_data.full_name geography.pretty_name geography.name %}</h1>
-                <p class="caption">Data from {{ geography.census_release }} release unless otherwise noted</p>
+                <h1 class="title">{% firstof geography.pretty_name geography.name %}</h1>
+                <p class="caption">Data: {{ geography.census_release }}</p>
             </header>
             <div class="column-half">
                 <div class="stat">
