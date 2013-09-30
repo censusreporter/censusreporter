@@ -64,7 +64,8 @@ class GeographyDetailView(TemplateView):
             'geography_fips_code': None
         }
 
-        acs_release = 'acs2011_5yr'
+        # Default to 5-year release
+        #acs_release = 'acs2011_5yr'
 
         if 'US' in geography_id:
             geoIDcomponents = geography_id.split('US')
@@ -78,15 +79,15 @@ class GeographyDetailView(TemplateView):
                 page_context['state_fips_code'] = state_fips
                 page_context['state_geoid'] = '04000US%s' % state_fips
 
-            if sumlev in ['010', '020', '030', '040']:
-                acs_release = 'acs2011_1yr'
+            #if sumlev in ['010', '020', '030', '040']:
+            #    acs_release = 'acs2011_1yr'
 
             if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
 
-        # hit our API (force to 5-year data for now)
-        #acs_endpoint = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
-        acs_endpoint = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
+        # hit our API
+        #acs_endpoint = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
+        acs_endpoint = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
         r = requests.get(acs_endpoint)
 
         if r.status_code == 200:
