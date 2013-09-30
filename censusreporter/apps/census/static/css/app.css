@@ -690,6 +690,10 @@ svg text {
     margin: 0;
     padding: 0;
 }
+.legend-full-width {
+    margin: .5em 0;
+    width: 100%;
+}
 .legend-item {
     cursor: pointer;
     color: #888;
@@ -698,6 +702,12 @@ svg text {
     margin-bottom: .33em;
     clear: both;
     padding-left: 15px;
+}
+.legend-full-width .legend-item {
+    width: 45%;
+    margin-right: 5%;
+    float: left;
+    clear: none;
 }
 .legend-item .swatch {
     opacity: .8;

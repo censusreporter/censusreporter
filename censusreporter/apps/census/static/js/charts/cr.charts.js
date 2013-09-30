@@ -250,11 +250,23 @@ function Chart(options) {
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
         });
+        
+        // if width is narrow enough that legend won't have room
+        // for decent display, drop it below the chart instead
+        if ((chart.settings.pieWidth / chart.settings.displayHeight) < .85) {
+            chart.updateSettings({
+                legendWidth: chart.settings.displayWidth,
+                pieWidth: chart.settings.width * .78,
+            });
+        }
+        
+        // give the chart its radius
         chart.updateSettings({
-            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 1.3),
+            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.05),
             pieCenter: chart.settings.pieWidth / 2
         });
 
+        console.log(chart.settings.pieWidth, chart.settings.displayHeight, Math.min(chart.settings.pieWidth, chart.settings.displayHeight))
         // create array of categories specific to this chart
         chart.chartCategories = d3.values(chart.chartDataValues).map(function(d) {
             return d.name
@@ -267,8 +279,8 @@ function Chart(options) {
         
         // adjust radii to set chart's size relative to container
         chart.arc = d3.svg.arc()
-            .outerRadius(chart.settings.radius - 40)
-            .innerRadius(chart.settings.radius / 2.3);
+            .outerRadius(chart.settings.radius)
+            .innerRadius(chart.settings.radius / 1.5);
 
         // put this chart's data into D3 pie layout
         chart.pie = d3.layout.pie()
@@ -313,17 +325,17 @@ function Chart(options) {
         chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
             .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -(chart.settings.radius / 2.3) + "px")
+            .style("margin-left", -(chart.settings.radius / 1.5) + "px")
             .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 11) + "px")
-            .style("width", ((chart.settings.radius / 2.3) * 2) + "px");
+            .style("width", ((chart.settings.radius / 1.5) * 2) + "px");
 
         // center value
         chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
             .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -(chart.settings.radius / 2.3) + "px")
+            .style("margin-left", -(chart.settings.radius / 1.5) + "px")
             .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 6) + "px")
-            .style("width", ((chart.settings.radius / 2.3) * 2) + "px");
+            .style("width", ((chart.settings.radius / 1.5) * 2) + "px");
 
         // hover state highlights the arc and associated legend item,
         // and displays the data name and value in center of chart
@@ -369,12 +381,19 @@ function Chart(options) {
             .on("mouseout", chart.arcReset);
         
         // add legend, legend items
-        chart.legend = chart.htmlBase.append("ul")
+
+        // place legend to right of chart, or below if necessary
+        if (chart.settings.legendWidth < chart.settings.displayWidth) {
+            chart.legend = chart.htmlBase.append("ul")
                 .attr("class", "legend")
-                .style("position", "absolute")
-                .style("width", chart.settings.legendWidth + "px")
-                .style("left", (chart.settings.displayWidth - chart.settings.legendWidth) + "px")
-                .style("top", "1em");
+                    .style("position", "absolute")
+                    .style("width", chart.settings.legendWidth + "px")
+                    .style("left", (chart.settings.displayWidth - chart.settings.legendWidth) + "px")
+                    .style("top", "1em");
+        } else {
+            chart.legend = chart.chartContainer.append("ul")
+                .attr("class", "legend legend-full-width");
+        }
 
         chart.legendItems = chart.legend.selectAll('li')
                 .data(chart.pieData)
