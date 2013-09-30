@@ -73,12 +73,24 @@
     <header class="section-contents">
         <h1>Demographics</h1>
     </header>
+    {% comment %}
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="column-header">Sex</h2>
+            <aside></aside>
+            <div class="column-third">
+                <div id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
+            </div>
+            <div class="column-third" id="chart-pie-economics-poverty-children" data-chart-title="Children (Under 18)" data-stat-type="percentage"></div>
+            <div class="column-third" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div>
+        </section>
+    </div>
+    {% endcomment %}
     <div class="section-container">
         {% include "_profile/section_demographics_age.html" %}
         {% include "_profile/section_demographics_sex_and_race.html" %}
     </div>
 </article>
-
 <article id="economics" class="clearfix">
     <header class="section-contents">
         <h1>Economics</h1>
@@ -129,6 +141,7 @@
 <script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
 <script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
+var browserWidth = document.documentElement.clientWidth;
 
 // draw a geom
 {% if geo_metadata.geom %}
@@ -144,6 +157,7 @@ var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% enda
 map.addLayer(featureLayer);
 var objBounds = featureLayer.getBounds();
 
+if (browserWidth > 768) {
 var z;
 for(z = 16; z > 2; z--) {
     var swPix = map.project(objBounds.getSouthWest(), z),
@@ -156,13 +170,15 @@ for(z = 16; z > 2; z--) {
 }
 
 map.setView(featureLayer.getBounds().getCenter(), z);
-map.panBy([-270, 0], {animate: false});
+    map.panBy([-270, 0], {animate: false});
+} else {
+    map.fitBounds(featureLayer.getBounds());
+}
 {% endif %}
 
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
-    profileData = {{ profile_data_json }}
-    browserWidth = document.documentElement.clientWidth;
+    profileData = {{ profile_data_json }};
 
 var gracefulType = function(chartType) {
     // convert certain chart types to more readable versions at narrow widths

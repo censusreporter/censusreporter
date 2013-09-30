@@ -210,6 +210,7 @@ img.screenshot {
 
 .content-container {
     padding: 1em 0;
+    clear: both;
 }
 
 article,
@@ -1697,11 +1698,31 @@ section.chart-divider h2 {
     }
     .column-half .column-half {
         float: left;
+        clear: none;
         width: 47%;
         margin-right: 3%;
     }
     .centered {
         text-align: left;
+    }
+    #cover-map {
+        height: auto;
+        margin: 1em;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    #cover-map #slippy-map {
+        height: 200px;
+    }
+    #cover-profile {
+        margin-top: 200px;
+    }
+    #cover-profile article {
+        background-color: inherit;
+        border: none;
+        width: 100%;
+        padding: 1em .25em;
     }
 }
 @media only screen and (max-width: 640px) {
@@ -1751,6 +1772,22 @@ section.chart-divider h2 {
     }
     h1.title {
         font-size: 2em;
+    }
+    #page-header-title a.button {
+        text-align: center;
+    }
+    #page-header .tool-group {
+        width: 49%;
+        margin-right: 2%;
+    }
+    #page-header .tool-group:last-child {
+        margin-right: 0;
+    }
+    #page-header input {
+        width: 100%;
+    }
+    #page-header .tt-dropdown-menu {
+        width: 200%;
     }
 }
 
