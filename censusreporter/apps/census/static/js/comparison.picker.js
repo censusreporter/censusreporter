@@ -196,8 +196,10 @@ function makeParentSelectWidget(element) {
 
             // allow selection in parent geography picker
             element.removeProp('disabled');
-            var helpText = selected.text() + ' can be compared within a ' + selected.data('ancestor-names');
+            var nameOptions = selected.data('ancestor-names'),
+                helpText = selected.text() + ' can be compared within ' + nameOptions;
             $('#place-autocomplete-header').text(helpText);
+            $('#parent-select').attr('placeholder', 'Choose ' + nameOptions + '...');
             
             // auto-fill 'United States' if that's only possible choice
             if (selectedVal == '040') {
@@ -235,27 +237,29 @@ $(document).ajaxComplete(function(event, request, settings) {
 });
 
 function changeComparison() {
-    // if chosen release would return 0 results given the selected table
-    // and geographies, fall back to the release with the most results
-    countsAPI = getCountsAPI();
-    $.getJSON(countsAPI)
-        .done(function(data) {
-            if (!data[chosenRelease]['results'] > 0) {
-                dataValues = [];
-                $.each(data, function(i) {
-                    dataValues.push(data[i]);
-                });
-                dataValues.sort(function(obj1, obj2) {
-                    return obj2['results'] - obj1['results'];
-                });
-                chosenRelease = dataValues[0]['release_slug'];
-            }
+    if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
+        // if chosen release would return 0 results given the selected table
+        // and geographies, fall back to the release with the most results
+        countsAPI = getCountsAPI();
+        $.getJSON(countsAPI)
+            .done(function(data) {
+                if (!data[chosenRelease]['results'] > 0) {
+                    dataValues = [];
+                    $.each(data, function(i) {
+                        dataValues.push(data[i]);
+                    });
+                    dataValues.sort(function(obj1, obj2) {
+                        return obj2['results'] - obj1['results'];
+                    });
+                    chosenRelease = dataValues[0]['release_slug'];
+                }
 
-            spinner.spin(spinnerTarget);
-            var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/'
-                            + '?release=' + chosenRelease + '&table=' + chosenTableID;
-            window.location.href = targetURL;
-        });
+                spinner.spin(spinnerTarget);
+                var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/'
+                                + '?release=' + chosenRelease + '&table=' + chosenTableID;
+                window.location.href = targetURL;
+            });
+    }
 }
 
 function openTabs() {
