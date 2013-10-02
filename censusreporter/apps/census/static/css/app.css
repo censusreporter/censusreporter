@@ -1796,5 +1796,11 @@ section.chart-divider h2 {
     #page-header .tt-dropdown-menu {
         width: 200%;
     }
+    #cover-map #slippy-map {
+        height: 150px;
+    }
+    #cover-profile {
+        margin-top: 150px;
+    }
 }
 

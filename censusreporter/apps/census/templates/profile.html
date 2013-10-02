@@ -14,7 +14,6 @@
 {% endblock %}
 
 {% block head_javascript_extra %}
-{# include in head so it's available throughout body #}
 {#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
 <script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
@@ -139,12 +138,28 @@
 
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
-<script src="{{ STATIC_URL }}js/maps.profile.js"></script>
 <script type="text/javascript">
-var browserWidth = document.documentElement.clientWidth;
+var browserWidth = document.documentElement.clientWidth,
+    allowMapDrag = (browserWidth > 480) ? true : false;
 
 // draw a geom
 {% if geo_metadata.geom %}
+var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+    scrollWheelZoom: false,
+    zoomControl: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    dragging: allowMapDrag,
+    touchZoom: allowMapDrag
+});
+
+if (allowMapDrag) {
+    map.addControl(new L.Control.Zoom({
+        position: 'topright'
+    }));
+}
+
 var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}'),
     featureLayer = L.geoJson(featureData, {
         style: {
@@ -158,18 +173,18 @@ map.addLayer(featureLayer);
 var objBounds = featureLayer.getBounds();
 
 if (browserWidth > 768) {
-var z;
-for(z = 16; z > 2; z--) {
-    var swPix = map.project(objBounds.getSouthWest(), z),
-        nePix = map.project(objBounds.getNorthEast(), z),
-        pixWidth = Math.abs(nePix.x - swPix.x),
-        pixHeight = Math.abs(nePix.y - swPix.y);
-    if (pixWidth <  500 && pixHeight < 400) {
-        break;
+    var z;
+    for(z = 16; z > 2; z--) {
+        var swPix = map.project(objBounds.getSouthWest(), z),
+            nePix = map.project(objBounds.getNorthEast(), z),
+            pixWidth = Math.abs(nePix.x - swPix.x),
+            pixHeight = Math.abs(nePix.y - swPix.y);
+        if (pixWidth <  500 && pixHeight < 400) {
+            break;
+        }
     }
-}
 
-map.setView(featureLayer.getBounds().getCenter(), z);
+    map.setView(featureLayer.getBounds().getCenter(), z);
     map.panBy([-270, 0], {animate: false});
 } else {
     map.fitBounds(featureLayer.getBounds());

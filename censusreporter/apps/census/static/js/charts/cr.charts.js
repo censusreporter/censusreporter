@@ -266,7 +266,6 @@ function Chart(options) {
             pieCenter: chart.settings.pieWidth / 2
         });
 
-        console.log(chart.settings.pieWidth, chart.settings.displayHeight, Math.min(chart.settings.pieWidth, chart.settings.displayHeight))
         // create array of categories specific to this chart
         chart.chartCategories = d3.values(chart.chartDataValues).map(function(d) {
             return d.name
