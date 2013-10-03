@@ -98,7 +98,7 @@ var topicSelect = $('#topic-select'),
     parentSelect = $('#parent-select'),
     geographiesChosen = $('#geographies-chosen');
 
-var currentYear = '2011',
+var currentYear = '2011,2012',
     countsAPI;
 
 var getCountsAPI = function() {
@@ -318,6 +318,11 @@ function changeComparison() {
                 $.each(data, function(i) {
                     dataValues.push(data[i]);
                 });
+                // sort more recent years to top
+                dataValues.sort(function(obj1, obj2) {
+                    return obj2['release_name'].split(' ')[1] > obj1['release_name'].split(' ')[1];
+                });
+                // then sort by number of results
                 dataValues.sort(function(obj1, obj2) {
                     return obj2['results'] - obj1['results'];
                 });

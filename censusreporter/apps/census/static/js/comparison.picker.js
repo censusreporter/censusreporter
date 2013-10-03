@@ -6,7 +6,7 @@
 //     chosenRelease = '{{ release }}',
 //     chosenTableID = '{{ table.table_id }}',
 //     chosenFormat = '{{ format }}';
-var currentYear = '2011',
+var currentYear = '2011,2012',
     countsAPI;
 
 var getCountsAPI = function() {
