@@ -193,6 +193,7 @@ if (browserWidth > 768) {
 
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
+    defaultDataRelease = '{{ geography.census_release }}',
     profileData = {{ profile_data_json }};
 
 var gracefulType = function(chartType) {
@@ -212,7 +213,7 @@ $.each(chartContainers, function(i) {
         chartChartShowYAxis = $(this).data('chart-show-y-axis');
         chartInitialSort = $(this).data('initial-sort');
         chartStatType = $(this).data('stat-type');
-
+        
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;
     if (drilldown >= 2) {
@@ -220,12 +221,19 @@ $.each(chartContainers, function(i) {
             chartData = chartData[chartDataID[i]]
         }
     }
+    
+    // determine whether data point is from anything other
+    // than the primary ACS release for this page
+    for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
+    var thisRelease = chartData[key]['acs_release'],
+        chartQualifier = (thisRelease != defaultDataRelease) ? thisRelease : null;
 
     Charts[i] = Chart({
         chartContainer: chartID,
         chartType: chartType,
         chartHeight: 160,
         chartData: chartData,
+        chartQualifier: chartQualifier,
         chartChartTitle: chartChartTitle,
         chartInitialSort: chartInitialSort,
         chartStatType: chartStatType

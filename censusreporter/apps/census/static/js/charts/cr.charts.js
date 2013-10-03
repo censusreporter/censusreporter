@@ -21,6 +21,7 @@ function Chart(options) {
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartChartTitle = options.chartChartTitle || null;
+        chart.chartQualifier = options.chartQualifier || null;
         chart.chartInitialSort = options.chartInitialSort || null;
         chart.chartStatType = options.chartStatType || 'number';
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
@@ -118,6 +119,12 @@ function Chart(options) {
                 .text(function(d) {
                     return d.name;
                 });
+                
+        if (!!chart.chartQualifier) {
+            chart.addChartQualifier(chart.chartContainer);
+        }
+
+        return chart;
     }
     
     chart.makeColumnChart = function() {
@@ -229,6 +236,10 @@ function Chart(options) {
                 .text(function(d) {
                     return chart.pctFmt(d.value);
                 });
+
+        if (!!chart.chartQualifier) {
+            chart.addChartQualifier(chart.chartContainer);
+        }
 
         return chart;
     }
@@ -416,6 +427,10 @@ function Chart(options) {
         chart.legendItems.on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
+        if (!!chart.chartQualifier) {
+            chart.addChartQualifier(chart.chartContainer);
+        }
+        
         return chart;
     }
     
@@ -424,6 +439,14 @@ function Chart(options) {
             container.append("h3")
                 .attr("class", "chart-title")
                 .text(chart.chartChartTitle);
+        }
+    }
+    
+    chart.addChartQualifier = function(container) {
+        if (!!chart.chartQualifier) {
+            container.append("span")
+                .classed("chart-qualifier", true)
+                .text("* " + chart.chartQualifier + " data")
         }
     }
     
