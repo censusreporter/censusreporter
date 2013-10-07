@@ -38,16 +38,20 @@
         {% block header %}
         <header id="page-header">
             <div id="page-header-title" class="wrapper clearfix">
+                <i id="menu-toggle" class="icon-reorder"></i>
                 <a class="title" href="{% url 'homepage' %}">
                     <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
                 </a>
                 {% if not hide_nav_tools %}
-                <div class="tool-set clearfix">
+                <div id="menu" class="tool-set clearfix">
                     <div class="tool-group">
                         <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
                     </div>
                     <div class="tool-group">
-                        <a class="button" href="{% url 'comparison_builder' %}">Build a comparison</a>
+                        <a class="button" href="{% url 'comparison_builder' %}">
+                            <i class="icon-chevron-sign-right"></i>
+                            Build a comparison
+                        </a>
                     </div>
                 </div>
                 {% endif %}

@@ -1,3 +1,7 @@
+$('#menu-toggle').on('click', function() {
+    $('#menu').slideToggle(150);
+})
+
 // usage: log('inside coolFunc', this, arguments);
 // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
 window.log = function(){
