@@ -40,7 +40,7 @@
             <div id="page-header-title" class="wrapper clearfix">
                 <i id="menu-toggle" class="icon-reorder"></i>
                 <a class="title" href="{% url 'homepage' %}">
-                    <img src="{{ STATIC_URL }}img/logo-badge.png"> CensusReporter
+                    <img src="{{ STATIC_URL }}img/logo.png"> CensusReporter
                 </a>
                 {% if not hide_nav_tools %}
                 <div id="menu" class="tool-set clearfix">
@@ -50,7 +50,7 @@
                     <div class="tool-group">
                         <a class="button" href="{% url 'comparison_builder' %}">
                             <i class="icon-chevron-sign-right"></i>
-                            Build a comparison
+                            Compare places
                         </a>
                     </div>
                 </div>

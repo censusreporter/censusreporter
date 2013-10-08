@@ -3,7 +3,7 @@
 @import url(http://fonts.googleapis.com/css?family=Merriweather);
 
 /*
-greens: #02aeab; #027b7a; #014948;
+teals: #02aeab; #027b7a; #014948;
 tans: #f7f8f3; #eff1e9; #e0e4d4; #cad0b5;
 */
 
@@ -175,7 +175,7 @@ img.screenshot {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    margin-top: -5px;
+    margin: -10px 3px 0 0;
     height: 24px;
 }
 
@@ -193,27 +193,26 @@ img.screenshot {
     margin-top: 0;
     padding: .2em .5em 0;
     height: 2em;
-    border: 1px solid #027b7a;
     background-color: #001716;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
 #menu a.button i {
-    float: right;
-    padding-top: .2em;
+    position: absolute;
+    right: .5em;
+    top: 30%;
     opacity: .5;
     display: none;
 }
 #menu a.button:hover {
     background-color: #000606;
-    border-color: #000;
 }
 #menu-toggle {
     float: right;
     font-size: 18px;
-    margin-top: .1em;
-    color: #02aeab;
+    margin-top: 2px;
+    color: #67b3a3;
     line-height: 1;
     padding: .25em .33em .2em;
     background-color: #001716;
@@ -341,7 +340,7 @@ section aside ul {
 
 #cover-profile {
     position: relative;
-    z-index: 999;
+    z-index: 499;
 }
 #cover-profile article {
     margin-top: 3em;
@@ -1782,6 +1781,10 @@ section.chart-divider h2 {
     #menu a.button i {
         display: inherit;
     }
+    #menu .tt-dropdown-menu {
+        height: 200px;
+        overflow-y: auto;
+    }
     .section-container section,
     .stat-row [class^="column-"] {
         margin-bottom: 2em;
@@ -1825,20 +1828,7 @@ section.chart-divider h2 {
     .stat .primary .name {
         font-size: 1.1em;
     }
-    #page-header-title a.button {
-        text-align: center;
-    }
-    #page-header .tool-group {
-        width: 49%;
-        margin-right: 2%;
-    }
-    #page-header .tool-group:last-child {
-        margin-right: 0;
-    }
-    #page-header input {
-        width: 100%;
-    }
-    #page-header .tt-dropdown-menu {
+    #menu .tt-dropdown-menu {
         width: 200%;
     }
     #cover-map #slippy-map {

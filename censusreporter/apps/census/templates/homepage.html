@@ -7,13 +7,14 @@
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
         <section class="column-full">
+            {% comment %}<p class="explain">
+                This feature is under active development, so may occasionally appear broken.
+            </p>
+            We&rsquo;ll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, Oct. 17-19,</a> to introduce it. Come by &ldquo;the midway&rdquo; and tell us what you think!{% endcomment %}
+            
             <h1 class="article-header">Profile a place</h1>
             <div id="geography-select-wrapper">
                 <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
-                <p class="explain">
-                    This feature is under active development, so may occasionally appear broken.
-                    We&rsquo;ll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, Oct. 17-19,</a> to introduce it. Come by &ldquo;the midway&rdquo; and tell us what you think!
-                </p>
             </div>
         </section>
         <section>
@@ -29,14 +30,14 @@
                     <i class="icon-bar-chart"></i>
                     Visualize
                 </h3>
-                <p><span class="tag">Beta</span> Right now, we&rsquo;re building a library of charts to give you insight into data from the places you research. Look for them on profile pages soon.</p>
+                <p>Right now, we&rsquo;re building a library of charts to give you insight into data from the places you research. Look for them on profile pages soon.</p>
             </div>
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="icon-refresh"></i>
                     Get context
                 </h3>
-                <p><span class="tag">Next</span> We&rsquo;re working on pre-computed statistics to add context to each data point, so you can see how each place fits into its state, county and nation.</p>
+                <p>We&rsquo;re working on pre-computed statistics to add context to each data point, so you can see how each place fits into its state, county and nation.</p>
             </div>
         </section>
     </article>
@@ -45,7 +46,7 @@
 <div class="content-container clearfix">
     <article id="compare" class="clearfix wrapper">
         <section class="column-full">
-            <h1 class="article-header">Compare &amp; analyze</h1>
+            <h1 class="article-header">Compare places</h1>
             <p>Comparison views give you access to each element of your query, so you can easily switch to a new topic or set of places.</p>
             {% include "_compare/_query_builder_bar.html" %}
         </section>
