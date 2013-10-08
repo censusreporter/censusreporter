@@ -19,3 +19,10 @@
     ErrorLog /var/log/apache2/%(domainname)s.error.log
     CustomLog /var/log/apache2/%(domainname)s.access.log combined
 </VirtualHost>
+
+<VirtualHost *:80>
+    ServerName www.%(domainname)s
+    ServerAdmin admin@%(domainname)s
+
+    Redirect permanent / http://%(domainname)s
+</VirtualHost>
