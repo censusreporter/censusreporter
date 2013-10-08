@@ -600,11 +600,11 @@ section aside ul {
     margin-bottom: .5em;
 }
 
-.q0 { background-color: #d9ece8; fill: #d9ece8; }
-.q1 { background-color: #a1cfc6; fill: #a1cfc6; }
-.q2 { background-color: #68b3a3; fill: #68b3a3; }
-.q3 { background-color: #428476; fill: #428476; }
-.q4 { background-color: #264b44; fill: #264b44; }
+.q0 { background-color: #d9ece8; fill: #d9ece8; } /* Swans Down*/
+.q1 { background-color: #a1cfc6; fill: #a1cfc6; } /* Sinbad */
+.q2 { background-color: #68b3a3; fill: #68b3a3; } /* Tradewind */
+.q3 { background-color: #428476; fill: #428476; } /* Viridian */
+.q4 { background-color: #264b44; fill: #264b44; } /* Plantation */
 
 #map-legend,
 #map-select {
