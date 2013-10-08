@@ -10,7 +10,7 @@ def deploy(branch='master'):
     code_dir = '%s/django_app' % root_dir
     virtualenv_name = 'django_venv'
     virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
-    host = 'beta.censusreporter.org'
+    host = 'www.censusreporter.org'
 
     sudo('mkdir -p %s' % root_dir)
     sudo('chown www-data:www-data %s' % root_dir)
