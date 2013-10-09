@@ -175,8 +175,9 @@ img.screenshot {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    margin: -10px 3px 0 0;
-    height: 24px;
+    margin: 0 3px 0 0;
+    vertical-align: baseline;
+    height: 21px;
 }
 
 #menu {
