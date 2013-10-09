@@ -161,7 +161,6 @@ img.screenshot {
     background-color: #014948;
 }
 #page-header .wrapper {
-    margin: 0 auto;
     padding: .5em 0;
 }
 #page-header-title a {
@@ -234,8 +233,11 @@ img.screenshot {
 }
 #page-footer ul {
     margin: 0;
+    padding-left: 1em;
 }
-
+#page-footer ul.ul-icon-list {
+    padding-left: 0;
+}
 .content-container {
     padding: 1em 0;
     clear: both;
@@ -318,7 +320,7 @@ section aside ul {
 
 .wrapper {
     width: auto;
-    margin: 0 1em;
+    margin: 0 1.5em;
 }
 .full-width {
     clear: both;
@@ -1667,9 +1669,6 @@ section.chart-divider h2 {
     }
 }
 @media only screen and (max-width: 1139px) {
-    #page-header .wrapper {
-        margin: 0 1em;
-    }
     .chosen {
         margin: 0 0 1em;
     }
@@ -1750,6 +1749,20 @@ section.chart-divider h2 {
         padding: 1em .25em;
         margin-top: 0;
     }
+    #homepage #profile h1 {
+        float: none;
+        width: auto;
+    }
+    #homepage #geography-select {
+        font-size: 1.6em;
+        padding: .25em .5em 0;
+        width: 100%;
+    }
+    #homepage #geography-select-wrapper {
+        padding-top: 0;
+        padding-left: 0;
+        margin-bottom: 1em;
+    }
 }
 @media only screen and (max-width: 640px) {
     .tool-set {
@@ -1795,13 +1808,13 @@ section.chart-divider h2 {
     }
     .column-half,
     .column-two-thirds,
+    .column-third,
     .column-three-quarters {
         float: none;
         clear: both;
         width: auto;
         margin-right: 0;
     }
-    .column-third,
     .column-quarter {
         float: left;
         width: 47%;
@@ -1809,6 +1822,9 @@ section.chart-divider h2 {
     }
     .wide-picker {
         width: 100%;
+    }
+    #page-footer li {
+        margin-bottom: .5em;
     }
 }
 @media only screen and (max-width: 480px) {
@@ -1838,5 +1854,24 @@ section.chart-divider h2 {
     #cover-profile {
         margin-top: 150px;
     }
+    #homepage h1.article-header {
+        font-size: 2.5em;
+    }
+    #homepage #geography-select {
+        font-size: 1.2em;
+    }
+    .callout h3 {
+        font-size: 21px;
+    }
+    #homepage .content-container {
+        padding: 2em 0 1em;
+    }
+    #homepage .content-container:first-child {
+        padding-top: 1em;
+    }
 }
-
+@media only screen and (max-width: 360px) {
+    #homepage h1.article-header {
+        font-size: 2.2em;
+    }
+}

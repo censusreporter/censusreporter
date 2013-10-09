@@ -38,7 +38,9 @@
         {% block header %}
         <header id="page-header">
             <div id="page-header-title" class="wrapper clearfix">
+                {% if not hide_nav_tools %}
                 <i id="menu-toggle" class="icon-reorder"></i>
+                {% endif %}
                 <a class="title" href="{% url 'homepage' %}">
                     <img src="{{ STATIC_URL }}img/logo.png"> CensusReporter
                 </a>
