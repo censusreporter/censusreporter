@@ -24,5 +24,5 @@
     ServerName www.%(domainname)s
     ServerAdmin admin@%(domainname)s
 
-    Redirect permanent / http://%(domainname)s
+    Redirect permanent / http://%(domainname)s/
 </VirtualHost>
