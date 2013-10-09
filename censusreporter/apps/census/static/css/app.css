@@ -1135,7 +1135,7 @@ textarea#results {
 }
 .item-chosen.open {
     height: auto;
-    z-index: 999;
+    z-index: 1001;
 }
 .item-chosen.open .item-choices {
     display: block;
@@ -1602,7 +1602,8 @@ section.chart-divider h2 {
     font-style: italic;
 }
 
-.autocomplete-widget .tt-dropdown-menu {
+.autocomplete-widget .tt-dropdown-menu,
+#menu .tt-dropdown-menu {
     height: 320px;
     overflow-y: auto;
 }
@@ -1618,7 +1619,7 @@ section.chart-divider h2 {
     display: block !important;
 }
 #page-header-title .tt-dropdown-menu {
-    z-index: 999 !important;
+    z-index: 1001 !important;
 }
 .autocomplete-widget input[disabled] {
     background-color: #eee !important;
@@ -1797,7 +1798,6 @@ section.chart-divider h2 {
     }
     #menu .tt-dropdown-menu {
         height: 200px;
-        overflow-y: auto;
     }
     .section-container section,
     .stat-row [class^="column-"] {
@@ -1845,8 +1845,10 @@ section.chart-divider h2 {
     .stat .primary .name {
         font-size: 1.1em;
     }
-    #menu .tt-dropdown-menu {
-        width: 200%;
+    #menu .tool-group {
+        float: none;
+        width: 100%;
+        margin-right: 0;
     }
     #cover-map #slippy-map {
         height: 150px;
