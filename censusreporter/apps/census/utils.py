@@ -37,7 +37,9 @@ def get_max_value(nested_dicts):
 
 def get_ratio(num1, num2):
     '''requires ints or int-like strings'''
-    return int(round(float(num1) / float(num2), 2)*100)
+    if num1 and num2:
+        return int(round(float(num1) / float(num2), 2)*100) or None
+    return None
 
 # provide some topics to choose from
 TOPIC_FILTERS = {

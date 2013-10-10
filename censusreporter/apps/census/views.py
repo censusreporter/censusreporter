@@ -47,11 +47,11 @@ class GeographyDetailView(TemplateView):
                         if 'values' in data_values:
                             values = data_values['values']
                             geo_value = values['this']
-                            if 'county' in values and values['county']:
+                            if 'county' in values:
                                 values['county_index'] = get_ratio(geo_value, values['county'])
-                            if 'state' in values and values['state']:
+                            if 'state' in values:
                                 values['state_index'] = get_ratio(geo_value, values['state'])
-                            if 'nation' in values and values['nation']:
+                            if 'nation' in values:
                                 values['nation_index'] = get_ratio(geo_value, values['nation'])
 
         return api_data
