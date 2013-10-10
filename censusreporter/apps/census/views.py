@@ -47,11 +47,11 @@ class GeographyDetailView(TemplateView):
                         if 'values' in data_values:
                             values = data_values['values']
                             geo_value = values['this']
-                            if values['county']:
+                            if 'county' in values and values['county']:
                                 values['county_index'] = get_ratio(geo_value, values['county'])
-                            if values['state']:
+                            if 'state' in values and values['state']:
                                 values['state_index'] = get_ratio(geo_value, values['state'])
-                            if values['nation']:
+                            if 'nation' in values and values['nation']:
                                 values['nation_index'] = get_ratio(geo_value, values['nation'])
 
         return api_data
@@ -241,19 +241,19 @@ class BaseComparisonView(TemplateView):
                 del table['columns'][column_id]
 
         return table
-        
+
     def clean_child_data(self, data):
         '''
         Removes certain geographies from comparison data, when their sumlev
         would include them in a way that's confusing to the user.
-        
+
         E.g., comparing "all states in the United States" would return
         Puerto Rico and Washington, D.C., because, like states, they are
         sumlev 040.
         '''
         _parent_id = getattr(self, 'parent_id', None)
         _descendant_sumlev = getattr(self, 'descendant_sumlev', None)
-        
+
         # for map & distribution charts where user is comparing states
         # in the United States, remove Puerto Rico and D.C.
         if _parent_id == '01000US' and _descendant_sumlev == '040':
@@ -266,7 +266,7 @@ class BaseComparisonView(TemplateView):
         '''
         Determines whether a table is suitable for presenting values in
         percentages. (E.g., tables that contain raw numbers, not medians.)
-        
+
         Returns the ID of the denominator column when appropriate (which
         is truthy for boolean purposes), or an empty string if a table
         should not be percentified (which makes sure there's an empty
@@ -290,7 +290,7 @@ class BaseComparisonView(TemplateView):
         '''
         if not percentify:
             return None
-            
+
         percentify_column = percentify['denominator_column_id']
         if pop:
             total_value = data.pop(percentify_column)
@@ -457,7 +457,7 @@ class BaseComparisonView(TemplateView):
                 if prefix:
                     #table['columns'][column]['name'] = '%s: %s' % (prefix, name)
                     table['columns'][column]['full_name'] = '%s: %s' % (prefix, name)
-                
+
             prefix_pieces[indent] = name.strip(':')
 
         return table
@@ -468,7 +468,7 @@ class BaseComparisonView(TemplateView):
         '''
         percentify = self.get_percentify(table)
         data = self.clean_child_data(data)
-        
+
         data_groups = OrderedDict()
         child_shapes = []
         try:
@@ -699,7 +699,7 @@ class HomepageView(BaseComparisonView):
         self.table_id = random.choice(selected_tables)
 
         return super(HomepageView, self).dispatch(*args, **kwargs)
-    
+
     def get_context_data(self, *args, **kwargs):
         '''
         The workhorse in this view. Uses the format argument to determine
