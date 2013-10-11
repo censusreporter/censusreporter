@@ -8,7 +8,7 @@ var topicSelect = $('#topic-select'),
     sumlevSelect = $('#sumlev-select-options'),
     parentSelect = $('#parent-select'),
     geographiesChosen = $('#geographies-chosen'),
-    queryGo = $('.go-button');
+    queryGo = $('#build-comparison .change-button');
 
 var currentYear = '2011,2012',
     countsAPI;
@@ -93,7 +93,7 @@ function makeTopicSelectWidget(element) {
             chosenTableID = datum['table_id'];
             updateChosenItem(
                 topicChosen,
-                '<span class="leader">Data table ' + chosenTableID + ':</span> ' + datum['table_name']
+                '<span class="leader">Table ' + chosenTableID + ':</span> ' + datum['table_name']
             )
             topicFilters.prop('checked', false);
             checkComparison();
@@ -187,10 +187,7 @@ function openItemChoices(element, itemText) {
 }
 
 function updateChosenItem(element, itemText) {
-    var html = [
-        '<a href="#" class="change-button change-choice">Change</a>',
-        '<p>' + itemText + '</p>'
-    ].join('');
+    var html = itemText + '<a href="#" class="change-button change-choice">Change</a>';
 
     element.siblings('.picker-header').hide();
     element.html(html).addClass('chosen').fadeIn('fast', function() {
@@ -346,8 +343,6 @@ function fetchAPIData(chosenRelease, chosenTableID, chosenSumlev, chosenParentGe
 }
 
 jQuery(document).ready(function(){
-    $('#results').hide();
-
     // initial setup for select widgets
     makeTopicSelectWidget(topicSelect);
     makeParentSelectWidget(parentSelect);

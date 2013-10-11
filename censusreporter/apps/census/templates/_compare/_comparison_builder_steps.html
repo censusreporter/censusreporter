@@ -8,10 +8,10 @@
         <section class="step-explainer column-full clearfix">
             <span class="step-number">1</span>
             <p class="explainer">
-                The latest release of the American Community Survey contains nearly 1,500 data tables. <strong>Topic filters</strong> will help narrow your search for the data you need, and you can type keywords to search <strong>table names</strong> and <strong>column names</strong>.
+                Narrow your search with <strong>topic filters</strong>. Type keywords to search <strong>table names</strong> and <strong>column names</strong>.
                 <a class="change-button choices-open">Pick a topic</a>
             </p>
-            <div id="topic-chosen"></div>
+            <p id="topic-chosen"></p>
         </section>
         <section class="clearfix" id="topic-picker">
             <div class="column-quarter filter-groups">
@@ -32,10 +32,10 @@
         <section class="step-explainer column-full clearfix">
             <span class="step-number">2</span>
             <p class="explainer">
-                To view the data you&rsquo;ve chosen, select a set of places to compare. For example, all <strong>census tracts</strong> in <strong>Chicago</strong>, or all <strong>counties</strong> in <strong>Washington</strong>.
+                Select a set of places to compare. For example, all <strong>census tracts</strong> in <strong>Chicago</strong>, or all <strong>counties</strong> in <strong>Washington</strong>.
                 <a class="change-button choices-open">Pick places</a>
             </p>
-            <div id="geographies-chosen"></div>
+            <p id="geographies-chosen"></p>
         </section>
         <section class="clearfix" id="geography-picker">
             <div class="column-quarter filter-groups">
@@ -60,11 +60,20 @@
             </div>
         </section>
 
+        <section class="step-explainer column-full clearfix" id="build-comparison">
+            <span class="step-number">3</span>
+            <p class="boxed">
+                Once you&rsquo;ve chosen your topic and places&hellip;
+                <a class="change-button disabled">Build comparison</a>
+            </p>
+        </section>
+        {% comment %}
         <section>
             <div class="step-explainer column-full clearfix">
                 <span class="step-number">3</span>
                 <div class="go-button disabled">Build comparison</div>
             </div>
         </section>
+        {% endcomment %}
     </form>
 </section>

@@ -184,17 +184,29 @@ img.screenshot {
     margin: .2em 0 0;
     padding: 0;
 }
+#menu .tool-group {
+    margin-right: 0;
+}
+#menu .separator {
+    float:left;
+    color: #fff;
+    font-size: .83em;
+    width: 3em;
+    text-align: center;
+    height: 2em;
+    padding-top: .2em;
+}
 #menu input {
     border: 0;
     margin-left: 0;
 }
 #menu a.button {
-    color: #014948;
+    color: #fff;
     display: block;
     margin-top: 0;
     padding: .2em .75em 0;
     height: 2em;
-    background-color: #fed82e;
+    background-color: #1a9d95;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -202,12 +214,12 @@ img.screenshot {
 #menu a.button i {
     position: absolute;
     right: .5em;
-    top: 30%;
+    top: .5em;
     opacity: .5;
     display: none;
 }
 #menu a.button:hover {
-    background-color: #f9f0c2;
+    background-color: #13716c;
 }
 #menu-toggle {
     float: right;
@@ -1367,8 +1379,9 @@ section.chart-divider h2 {
 }
 
 .chosen,
-.step-explainer .explainer {
-    padding: .6em 10em .6em .83em;
+.step-explainer .explainer,
+.step-explainer .boxed {
+    padding: 1em 10em 1em 1.2em;
     position: relative;
     background-color: #fff;
     border: 1px solid #cad0b5;
@@ -1376,16 +1389,14 @@ section.chart-divider h2 {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
-.chosen {
-    padding-right: .83em;
-}
+
 .change-button,
 .go-button {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1;
     cursor: pointer;
     text-align: center;
-    padding: .9em 1.2em;
+    padding: .7em 1.2em;
     background-color: #1a9d95;
     color: #fff;
     text-decoration: none;
@@ -1397,66 +1408,57 @@ section.chart-divider h2 {
 .change-button {
     font-size: 1em;
     position: absolute;
-    top: .65em;
-    right: .65em;
+    top: .5em;
+    right: .5em;
     margin: 0;
+    width: 10em;
 }
 .go-button {
     width: 12em;
-    font-size: 1em;
+    padding: 1em 0 1em;
+    font-size: 1.2em;
 }
 .change-button:hover {
     background-color: #014948;
     color: #fff;
 }
-.chosen .change-button {
-    top: .5em;
-    right: .5em;
-    font-size: .83em;
-}
 .chosen p {
     margin: 0;
     padding-right: 5em;
-}
-.step-explainer .chosen {
-    margin-right: 1%;
 }
 .step-explainer .chosen p {
     margin: 0;
 }
 
 .step-explainer {
-    margin: 1em 0 2em;
+    margin: 1em 0;
 }
 .step-explainer p,
 .step-explainer div,
 .step-explainer .picker-header {
-    margin: 0 0 0 70px;
+    margin: 0 0 0 45px;
 }
 .step-explainer p {
-    padding-right: 6em;
-}
-.step-explainer div {
-    margin-top: .5em;
+    padding-right: 11em;
 }
 .step-explainer .picker-header {
-    font-size: 2em;
-    margin-top: .25em;
+    font-size: 3em;
+    font-weight: 400;
+    line-height: 1;
+    padding-top: 3px;
 }
-
+.step-explainer .leader {
+    line-height: 1;
+}
 .step-explainer .step-number {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     float: left;
-    width: 54px;
-    height: 54px;
+    width: 30px;
+    padding-top: 3px;
     text-align: center;
     line-height: 1;
-    padding-top: 11px;
-    font-size: 30px;
-    color: #fff;
-    background-color: #a1d0c6;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+    font-size: 3em;
+    color: #111;
 }
 
 #topic-picker [class^="column-"],
@@ -1921,11 +1923,10 @@ section.chart-divider h2 {
         width: 100%;
     }
     #menu .tool-group {
-        width: 49%;
-        margin-right: 2%;
+        width: 47%;
     }
-    #menu .tool-group:last-child {
-        margin-right: 0;
+    #menu .separator {
+        width: 6%;
     }
     #menu a.button i {
         display: inherit;
@@ -2006,7 +2007,8 @@ section.chart-divider h2 {
         top: 0;
         margin: .75em 0 .5em;
     }
-    .step-explainer .explainer {
+    .step-explainer .explainer,
+    .step-explainer .boxed {
         padding-right: .83em;
     }
 }
@@ -2028,10 +2030,17 @@ section.chart-divider h2 {
     .stat .primary .name {
         font-size: 1.1em;
     }
+    #menu {
+        padding-top: 0;
+    }
     #menu .tool-group {
         float: none;
         width: 100%;
         margin-right: 0;
+        margin-top: 1em;
+    }
+    #menu .separator {
+        display: none;
     }
     #cover-map #slippy-map {
         height: 150px;
