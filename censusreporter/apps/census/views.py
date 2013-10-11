@@ -162,6 +162,7 @@ class BaseComparisonView(TemplateView):
             'parent_fips_code': self.parent_fips_code,
             'descendant_sumlev': self.descendant_sumlev,
             'format': self.format,
+            'hide_nav_compare': True,
         }
 
         if self.format:
@@ -708,7 +709,7 @@ class HomepageView(BaseComparisonView):
         '''
         page_context = {
             'parent_id': self.parent_id,
-            'release': self.release,
+            #'release': self.release,
             'parent_fips_code': self.parent_fips_code,
             'descendant_sumlev': self.descendant_sumlev,
             'format': self.format,
@@ -751,7 +752,9 @@ class ComparisonBuilder(TemplateView):
     template_name = 'comparison_builder.html'
 
     def get_context_data(self, *args, **kwargs):
-        page_context = {}
+        page_context = {
+            'hide_nav_compare': True,
+        }
 
         page_context.update({
             'topic_demographic_filters': TOPIC_FILTERS['Demographics'],

@@ -47,14 +47,16 @@
                 {% if not hide_nav_tools %}
                 <div id="menu" class="tool-set clearfix">
                     <div class="tool-group">
-                        <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
+                        <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to profile a place..." autocomplete="off">
                     </div>
+                    {% if not hide_nav_compare %}
                     <div class="tool-group">
                         <a class="button" href="{% url 'comparison_builder' %}">
                             <i class="icon-chevron-sign-right"></i>
                             Compare places
                         </a>
                     </div>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

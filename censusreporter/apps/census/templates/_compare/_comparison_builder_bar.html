@@ -1,12 +1,9 @@
-<section id="query-builder-bar" class="clearfix">
+<section id="query-builder-bar" class="clearfix comparison-builder">
     <div id="query-topic">
         <h3 class="leader">Topic</h3>
         <div class="query-chosen">
-            <span class="hover-hide">
-                Table {{ table.table_id }}
-            </span>
-            <span class="hover-only">
-                Change table
+            <span>
+                Pick a topic
             </span>
         </div>
     </div>
@@ -29,20 +26,17 @@
     <div id="query-geographies">
         <h3 class="leader">Places</h3>
         <div class="query-chosen">
-            <span class="hover-hide">
-                {{ comparison_metadata.child_geography_name_plural|capfirst }} in {{ comparison_metadata.parent_name }}
-            </span>
-            <span class="hover-only">
-                Change geographies
+            <span>
+                Pick places to compare
             </span>
         </div>
     </div>
     <section class="clearfix" id="query-geography-picker">
         <div class="column-quarter filter-groups">
-            <h2>Choose a comparison level</h2>
+            <h2>Pick a comparison level</h2>
             <ul class="filter-list" id="sumlev-select-options">
             {% for group, values in sumlev_choices.items %}
-                <li class="label">
+                <li class="label" id="sumlevs-{{ group|lower }}">
                     {{ group }}
                     <ul>
                         {% for sumlev in values %}
@@ -60,14 +54,12 @@
         </div>
     </section>
     
+    {% if release %}
     <div id="query-release">
         <h3 class="leader">Release</h3>
         <div class="query-chosen">
-            <span class="hover-hide">
-                {{ table.census_release }}
-            </span>
-            <span class="hover-only">
-                Change Release
+            <span>
+                Pick a release
             </span>
         </div>
     </div>
@@ -105,4 +97,12 @@
             <a data-release-slug="acs2012_1yr" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev format %}?release=acs2012_1yr&table={{ table.table_id }}">Show results</a>
         </div>
     </section>
+    {% endif %}
+    <div id="query-go">
+        <div class="query-chosen disabled">
+            <span>
+                Build comparison
+            </span>
+        </div>
+    </div>
 </section>

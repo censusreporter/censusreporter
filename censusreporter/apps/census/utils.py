@@ -52,15 +52,15 @@ TOPIC_FILTERS = {
 
 SUMLEV_CHOICES = OrderedDict()
 SUMLEV_CHOICES['Standard'] = [
-    {'name': 'state', 'plural_name': 'states', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'the United States' },
-    {'name': 'county', 'plural_name': 'counties', 'summary_level': '050', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
-    {'name': 'county subdivision', 'plural_name': 'county subdivisions', 'summary_level': '060', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
-    {'name': 'place', 'plural_name': 'places', 'summary_level': '160', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
-    {'name': 'metro area', 'plural_name': 'metro areas', 'summary_level': '310', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
-    {'name': 'native area', 'plural_name': 'native areas', 'summary_level': '250', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
-    {'name': 'census tract', 'plural_name': 'census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050,160', 'ancestor_options': 'the United States, a State, County or Place' },
-    {'name': 'block group', 'plural_name': 'block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,050,140,160', 'ancestor_options': 'the United States, a State, County, Place or Census Tract' },
-    {'name': 'zip codes', 'plural_name': 'zip codes', 'summary_level': '860', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
+    {'name': 'state', 'plural_name': 'States', 'summary_level': '040', 'ancestor_sumlev_list': '010,020,030', 'ancestor_options': 'the United States' },
+    {'name': 'county', 'plural_name': 'Counties', 'summary_level': '050', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
+    {'name': 'county subdivision', 'plural_name': 'County subdivisions', 'summary_level': '060', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
+    {'name': 'place', 'plural_name': 'Places', 'summary_level': '160', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
+    {'name': 'metro area', 'plural_name': 'Metro areas', 'summary_level': '310', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
+    {'name': 'native area', 'plural_name': 'Native areas', 'summary_level': '250', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
+    {'name': 'census tract', 'plural_name': 'Census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050,160', 'ancestor_options': 'the United States, a State, County or Place' },
+    {'name': 'block group', 'plural_name': 'Block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,050,140,160', 'ancestor_options': 'the United States, a State, County, Place or Census Tract' },
+    {'name': 'zip codes', 'plural_name': 'ZIP codes', 'summary_level': '860', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
 ]
 SUMLEV_CHOICES['Legislative'] = [
     {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },

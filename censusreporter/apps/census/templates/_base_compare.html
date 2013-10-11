@@ -5,7 +5,7 @@
 {% block header_content %}
 <div class="wrapper clearfix">
     <div class="content-container clearfix">
-        {% include "_compare/_query_builder_bar.html" %}
+        {% include "_compare/_comparison_builder_bar.html" %}
     </div>
 
     <div class="tool-set">
@@ -30,13 +30,13 @@
 </div>
 {% endblock %}
 
-{% block body_javascript_extra %}{{ block.super }}
-<script src="{{ STATIC_URL }}js/vendor/typeahead.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
+{% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script>
 var chosenParentGeoID = '{{ parent_id }}',
+    chosenParentName = '{{ comparison_metadata.parent_name }}'
     chosenSumlev = '{{ descendant_sumlev }}',
+    chosenSumlevName = '{{ comparison_metadata.child_geography_name_plural|capfirst }}',
     chosenRelease = '{{ release }}',
     chosenTableID = '{{ table.table_id }}',
     chosenFormat = '{{ format }}';

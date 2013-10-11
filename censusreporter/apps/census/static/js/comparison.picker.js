@@ -9,6 +9,14 @@
 var currentYear = '2011,2012',
     countsAPI;
 
+var chosenParentGeoID = chosenParentGeoID || null,
+    chosenParentName = chosenParentName || null,
+    chosenSumlev = chosenSumlev || null,
+    chosenSumlevName = chosenSumlevName || null,
+    chosenRelease = chosenRelease || null,
+    chosenTableID = chosenTableID || null,
+    chosenFormat = chosenFormat || 'table';
+
 var getCountsAPI = function() {
     var url = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' + chosenTableID
               + '?year=' + currentYear  + '&sumlevel=' + chosenSumlev + '&within=' + chosenParentGeoID;
@@ -30,7 +38,7 @@ function getReleaseCounts() {
                 }
                 if (!!this['results'] && this['results'] > 0) {
                     $("a[data-release-slug='" + this['release_slug'] +"']")
-                        .text("Show " + this['results'] + " results");
+                        .text("Query has " + this['results'] + " results");
                 } else {
                     $("a[data-release-slug='" + this['release_slug'] +"']")
                         .text("No matching results")
@@ -61,7 +69,40 @@ var topicSelect = $('#topic-select'),
     topicResultNumber = $('#topic-result-number'),
     sumlevSelect = $('#sumlev-select-options'),
     parentSelect = $('#parent-select'),
-    geographiesChosen = $('#query-geographies .query-chosen');
+    geographiesChosen = $('#query-geographies .query-chosen'),
+    releaseChosen = $('#query-release .query-chosen'),
+    queryGo = $('#query-go .query-chosen');
+
+var populateTopicChosen = function() {
+    if (!!chosenTableID) {
+        topicChosen.removeClass('highlight');
+        topicChosen.find('.hover-hide').remove();
+        topicChosen.find('span').addClass('hover-only');
+        topicChosen.prepend('<span class="hover-hide">Table ' + chosenTableID + '</span>');
+    } else {
+        topicChosen.addClass('highlight');
+    }
+}
+var populateGeographiesChosen = function() {
+    if (!!chosenSumlevName && !!chosenParentName) {
+        geographiesChosen.removeClass('highlight');
+        geographiesChosen.find('.hover-hide').remove();
+        geographiesChosen.find('span').addClass('hover-only');
+        geographiesChosen.prepend('<span class="hover-hide">' + chosenSumlevName + ' in ' + chosenParentName + '</span>');
+    } else {
+        geographiesChosen.addClass('highlight');
+    }
+}
+var populateReleaseChosen = function() {
+    if (!!chosenRelease) {
+        releaseChosen.removeClass('highlight');
+        releaseChosen.find('.hover-hide').remove();
+        releaseChosen.find('span').addClass('hover-only');
+        releaseChosen.prepend('<span class="hover-hide">' + releaseNames[chosenRelease]['name'] + '</span>');
+    } else {
+        releaseChosen.addClass('highlight');
+    }
+}
 
 var selectedTopicFilterValues = function () {
     return topicFilters.filter(':checked').map(function () {
@@ -135,11 +176,13 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         closeTabs();
         chosenTableID = datum['table_id'];
-        updateChosenItem(
-            topicChosen,
-            'Table ' + chosenTableID
-        );
-        changeComparison();
+        if (!!chosenRelease) {
+            getReleaseCounts();
+        }
+        populateTopicChosen();
+        checkComparison();
+        topicFilters.prop('checked', false);
+        element.typeahead('setQuery', '');
     });
 
     topicFilters.on('change', function(e) {
@@ -174,11 +217,15 @@ function makeParentSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         closeTabs();
         chosenParentGeoID = datum['full_geoid'];
-        updateChosenItem(
-            geographiesChosen,
-            'All ' + selectedSumlev().data('plural-name') + ' within ' + datum['full_name']
-        );
-        changeComparison();
+        chosenParentName = datum['full_name'];
+        chosenSumlevName = selectedSumlev().data('plural-name');
+        if (!!chosenRelease) {
+            getReleaseCounts();
+        }
+        populateGeographiesChosen();
+        checkComparison();
+        sumlevSelect.find('a').removeClass('option-selected');
+        element.typeahead('setQuery', '');
     });
 
     // when user chooses a sumlev to compare, limit possible
@@ -215,11 +262,6 @@ function makeParentSelectWidget(element) {
     });
 }
 
-//function insertHelpText(element, message) {
-//    element.find('.help-text').remove();
-//    element.append('<span class="help-text">' + message + '</span>');
-//}
-
 function updateChosenItem(element, itemText) {
     element.find('.hover-hide').text(itemText);
 }
@@ -236,6 +278,12 @@ $(document).ajaxComplete(function(event, request, settings) {
     spinner.stop()
 });
 
+function checkComparison() {
+    if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
+        queryGo.removeClass('disabled').addClass('go');
+    }
+}
+
 function changeComparison() {
     if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
         // if chosen release would return 0 results given the selected table
@@ -243,17 +291,22 @@ function changeComparison() {
         countsAPI = getCountsAPI();
         $.getJSON(countsAPI)
             .done(function(data) {
-                if (!data[chosenRelease]['results'] > 0) {
+                if (!chosenRelease || !data[chosenRelease]['results'] > 0) {
                     dataValues = [];
                     $.each(data, function(i) {
                         dataValues.push(data[i]);
                     });
+                    // sort more recent years to top
+                    dataValues.sort(function(obj1, obj2) {
+                        return obj2['release_name'].split(' ')[1] > obj1['release_name'].split(' ')[1];
+                    });
+                    // then sort by number of results
                     dataValues.sort(function(obj1, obj2) {
                         return obj2['results'] - obj1['results'];
                     });
                     chosenRelease = dataValues[0]['release_slug'];
                 }
-
+                
                 spinner.spin(spinnerTarget);
                 var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/'
                                 + '?release=' + chosenRelease + '&table=' + chosenTableID;
@@ -264,7 +317,7 @@ function changeComparison() {
 
 function openTabs() {
     pickers.hide();
-    chosens.addClass('tabbed');
+    chosens.not(queryGo).addClass('tabbed');
 }
 
 function closeTabs() {
@@ -273,7 +326,13 @@ function closeTabs() {
 }
 
 jQuery(document).ready(function(){
-    getReleaseCounts();
+    populateTopicChosen();
+    populateGeographiesChosen();
+    populateReleaseChosen();
+    
+    if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
+        getReleaseCounts();
+    }
 
     // initial setup for select widgets
     makeTopicSelectWidget(topicSelect);
@@ -292,20 +351,32 @@ jQuery(document).ready(function(){
     // query builder bar for adjusting table/geographies/release
     $('#query-builder-bar').on('click', '.query-chosen', function() {
         var chosen = $(this);
-        chosen.toggleClass('open');
-        chosens.not(chosen).removeClass('open');
+        if ((chosen != queryGo) && !chosen.hasClass('disabled')) {
+            chosen.toggleClass('open');
+            chosens.not(chosen).removeClass('open');
 
-        // if this is the table search, *now* run the initial autocomplete query
-        //if (chosen.parent().attr('id') == 'query-topic') {
-        //    triggerAutocompleteWildCardFallback(topicSelect);
-        //}
-
-        if (chosen.hasClass('open')) {
-            openTabs();
-            chosen.parent().next('section').show();
-        } else {
-            closeTabs();
+            if (chosen.hasClass('open')) {
+                openTabs();
+                chosen.parent().next('section').show();
+            } else {
+                closeTabs();
+            }
         }
+    })
+    
+    // enable the submit if all vectors are full
+    queryGo.on('click', function() {
+        if (!queryGo.hasClass('disabled')) {
+            changeComparison();
+        }
+    })
+    
+    $('#query-release-picker').on('click', 'a', function(e) {
+        e.preventDefault();
+        chosenRelease = $(this).data('release-slug');
+        populateReleaseChosen();
+        closeTabs();
+        checkComparison();
     })
 
     // allow users to click outside of open picker menu to close tabs

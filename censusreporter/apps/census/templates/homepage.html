@@ -14,7 +14,7 @@
             
             <h1 class="article-header">Profile a place</h1>
             <div id="geography-select-wrapper">
-                <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to find a place..." autocomplete="off">
+                <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
             </div>
         </section>
         <section>
@@ -43,12 +43,20 @@
     </article>
 </div>
 
+
+
 <div class="content-container clearfix">
     <article id="compare" class="clearfix wrapper">
-        <section class="column-full">
+        {% if request.GET.v == 'a' %}{# big bar #}
+        <section class="column-full float-query">
             <h1 class="article-header">Compare places</h1>
-            <p>Comparison views give you access to each element of your query, so you can easily switch to a new topic or set of places.</p>
-            {% include "_compare/_query_builder_bar.html" %}
+            {% include "_compare/_comparison_builder_bar.html" %}
+        </section>
+        {% elif request.GET.v == 'a2' %}{# big bar + map #}
+        <section class="column-full float-query">
+            <h1 class="article-header">Compare places</h1>
+            {% include "_compare/_comparison_builder_bar.html" %}
+            <p>Choose your own table and a set of places to compare, then explore the data with tables, charts and maps (like this one).</p>
         </section>
         <section class="column-full">
             <header class="section-contents">
@@ -76,6 +84,79 @@
                 </section>
             </div>
         </section>
+        {% elif request.GET.v == 'b' %}{# bar #}
+        <section class="column-full">
+            <h1 class="article-header">Compare places</h1>
+            {% include "_compare/_comparison_builder_bar.html" %}
+        </section>
+        {% elif request.GET.v == 'b2' %}{# big bar + map #}
+        <section class="column-full">
+            <h1 class="article-header">Compare places</h1>
+            {% include "_compare/_comparison_builder_bar.html" %}
+            <p>Choose your own table and a set of places to compare, then explore the data with tables, charts and maps (like this one).</p>
+        </section>
+        <section class="column-full">
+            <header class="section-contents">
+                <h1>Table {{ table.table_id }}</h1>
+            </header>
+            <div class="section-container">
+                <section class="clearfix">
+                    {# TABLE NAME #}
+                    <h2>{{ table.table_name }}</h2>
+
+                    {# VISUALIZATION EXPLAINER #}
+                    <aside>
+                        <p class="display-type"><strong>{{ table.census_release }}</strong></p>
+                        <p>A choropleth shows how data varies across geographies. The {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in this map are divided into quintiles. Use the selector to view any column in the table.</p>
+                    </aside>
+
+                    {# RELEASE AND UNIVERSE #}
+                    <p class="caption">
+                        <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
+                    </p>
+
+                    {# MAP PACKAGE #}
+                    {% include '_compare/_map_package.html' %}
+
+                </section>
+            </div>
+        </section>
+        {% elif request.GET.v == 'c' %}{# steps #}
+            {% include "_compare/_comparison_builder_steps.html" %}
+        {% else %}{# current #}
+        <section class="column-full">
+            <h1 class="article-header">Compare places</h1>
+            <p>Comparison views give you access to each element of your query, so you can easily switch to a new topic or set of places.</p>
+            {% include "_compare/_comparison_builder_bar.html" %}
+        </section>
+        <section class="column-full">
+            <header class="section-contents">
+                <h1>Table {{ table.table_id }}</h1>
+            </header>
+            <div class="section-container">
+                <section class="clearfix">
+                    {# TABLE NAME #}
+                    <h2>{{ table.table_name }}</h2>
+
+                    {# VISUALIZATION EXPLAINER #}
+                    <aside>
+                        <p class="display-type"><strong>{{ table.census_release }}</strong></p>
+                        <p>A choropleth shows how data varies across geographies. The {% firstof comparison_metadata.descendant_type.plural comparison_metadata.descendant_type.name %} in this map are divided into quintiles. Use the selector to view any column in the table.</p>
+                    </aside>
+
+                    {# RELEASE AND UNIVERSE #}
+                    <p class="caption">
+                        <span class="caption-group"><strong>Table universe:</strong> {{ table.table_universe }}</span>
+                    </p>
+
+                    {# MAP PACKAGE #}
+                    {% include '_compare/_map_package.html' %}
+
+                </section>
+            </div>
+        </section>
+        {% endif %}
+
         <section>
             <div class="column-third callout with-icon">
                 <h3>
@@ -127,9 +208,44 @@
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
+{% if request.GET.v == 'a' %}{# big bar #}
+<script src="{{ STATIC_URL }}js/comparison.picker.js"></script>
+{% elif request.GET.v == 'a2' %}{# big bar #}
+<script src="{{ STATIC_URL }}js/comparison.picker.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+var geodata = {{ map_data }},
+    tabledata = {{ table_data }},
+    percentify = '{{ percentify }}',
+    parent_fips_code = '{{ parent_fips_code }}';
+
+var parent = {{ parent_shape }},
+    children = {{ child_shapes }};
+</script>
+<script src="{{ STATIC_URL }}js/comparison.maps.js"></script>
+{% elif request.GET.v == 'b' %}{# bar #}
+<script src="{{ STATIC_URL }}js/comparison.picker.js"></script>
+{% elif request.GET.v == 'b2' %}{# big bar #}
+<script src="{{ STATIC_URL }}js/comparison.picker.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+var geodata = {{ map_data }},
+    tabledata = {{ table_data }},
+    percentify = '{{ percentify }}',
+    parent_fips_code = '{{ parent_fips_code }}';
+
+var parent = {{ parent_shape }},
+    children = {{ child_shapes }};
+</script>
+<script src="{{ STATIC_URL }}js/comparison.maps.js"></script>
+{% elif request.GET.v == 'c' %}{# steps #}
+<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
+{% else %}
 <script>
 var chosenParentGeoID = '{{ parent_id }}',
+    chosenParentName = '{{ comparison_metadata.parent_name }}'
     chosenSumlev = '{{ descendant_sumlev }}',
+    chosenSumlevName = '{{ comparison_metadata.child_geography_name_plural|capfirst }}',
     chosenRelease = '{{ release }}',
     chosenTableID = '{{ table.table_id }}',
     chosenFormat = '{{ format }}';
@@ -147,4 +263,5 @@ var parent = {{ parent_shape }},
     children = {{ child_shapes }};
 </script>
 <script src="{{ STATIC_URL }}js/comparison.maps.js"></script>
+{% endif %}
 {% endblock %}
