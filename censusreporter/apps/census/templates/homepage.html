@@ -121,9 +121,7 @@
                 </section>
             </div>
         </section>
-        {% elif request.GET.v == 'c' %}{# steps #}
-            {% include "_compare/_comparison_builder_steps.html" %}
-        {% else %}{# current #}
+        {% elif request.GET.v == 'c' %}{# current #}
         <section class="column-full">
             <h1 class="article-header">Compare places</h1>
             <p>Comparison views give you access to each element of your query, so you can easily switch to a new topic or set of places.</p>
@@ -155,6 +153,8 @@
                 </section>
             </div>
         </section>
+        {% else %}{# steps #}
+            {% include "_compare/_comparison_builder_steps.html" %}
         {% endif %}
 
         <section>
@@ -239,8 +239,6 @@ var parent = {{ parent_shape }},
 </script>
 <script src="{{ STATIC_URL }}js/comparison.maps.js"></script>
 {% elif request.GET.v == 'c' %}{# steps #}
-<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
-{% else %}
 <script>
 var chosenParentGeoID = '{{ parent_id }}',
     chosenParentName = '{{ comparison_metadata.parent_name }}'
@@ -263,5 +261,7 @@ var parent = {{ parent_shape }},
     children = {{ child_shapes }};
 </script>
 <script src="{{ STATIC_URL }}js/comparison.maps.js"></script>
+{% else %}
+<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
 {% endif %}
 {% endblock %}
