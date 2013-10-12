@@ -1396,7 +1396,7 @@ section.chart-divider h2 {
     line-height: 1;
     cursor: pointer;
     text-align: center;
-    padding: .7em 1.2em;
+    padding: .7em 0;
     background-color: #1a9d95;
     color: #fff;
     text-decoration: none;
