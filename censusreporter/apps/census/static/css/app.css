@@ -250,6 +250,7 @@ img.screenshot {
 }
 #page-footer ul.ul-icon-list {
     padding-left: 0;
+    text-align: center;
 }
 .content-container {
     padding: 1em 0;
@@ -1954,6 +1955,9 @@ section.chart-divider h2 {
         float: left;
         width: 47%;
         margin-right: 3%;
+    }
+    #page-footer ul.ul-icon-list {
+        text-align: left;
     }
     .wide-picker {
         width: 100%;
