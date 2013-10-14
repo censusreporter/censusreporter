@@ -1377,6 +1377,8 @@ section.chart-divider h2 {
 #query-builder #topic-picker,
 #query-builder #geography-picker {
     display: none;
+    clear: both;
+    padding-top: 1em;
 }
 
 .chosen,
