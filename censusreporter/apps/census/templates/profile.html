@@ -139,8 +139,7 @@
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/charts/cr.charts.js"></script>
 <script type="text/javascript">
-var browserWidth = document.documentElement.clientWidth,
-    allowMapDrag = (browserWidth > 480) ? true : false;
+var allowMapDrag = (browserWidth > 480) ? true : false;
 
 // draw a geom
 {% if geo_metadata.geom %}
