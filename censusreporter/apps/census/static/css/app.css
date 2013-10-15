@@ -16,7 +16,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f7f8f3;
-    line-height: 1.5;
+    line-height: 1.4;
     font-size: 14px;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -240,7 +240,7 @@ img.screenshot {
 }
 
 #page-footer {
-    background-color: #d1d7bf;
+    background-color: #e0e4d4;
     border-top: 1px solid #cad0b5;
     padding: 1.5em 0 4.5em;
 }
@@ -289,9 +289,47 @@ article .section-container {
     border-top-left-radius: 0;
 }
 header.section-contents h1,
-article .section-container {
+article .section-container,
+.card {
     border-top: 1px solid #e8eadf;
     border-bottom: 1px solid #cad0b5;
+}
+.card {
+    display: block;
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    background-color: #e0e4d4;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.card:hover {
+    color: #111;
+}
+.card .caption {
+    font-size: 1em;
+    font-weight: bold;
+    display: block;
+    padding: .83em 1em;
+    margin: 0;
+}
+.card .more {
+    font-size: .83em;
+    margin-left: .25em;
+    color: #cc4c3f;
+    white-space: nowrap;
+}
+.card:hover .more {
+    color: #ed3f24;
+}
+.card-container .card {
+    margin-bottom: 1.5em;
+}
+.card img {
+    width: 100%;
+    margin: 0;
 }
 .explain {
     font-size: .83em;
@@ -314,9 +352,6 @@ section h2 {
     font-size: 1em;
     line-height: 1.3;
     margin-bottom: 1em;
-}
-.section-container h2 {
-    margin-top: 2px;
 }
 section aside {
     float: left;
@@ -1416,11 +1451,6 @@ section.chart-divider h2 {
     margin: 0;
     width: 10em;
 }
-.go-button {
-    width: 12em;
-    padding: 1em 0 1em;
-    font-size: 1.2em;
-}
 .change-button:hover {
     background-color: #014948;
     color: #fff;
@@ -1903,6 +1933,9 @@ section.chart-divider h2 {
         padding-left: 0;
         margin-bottom: 1em;
     }
+    .card {
+        font-size: 1em;
+    }
 }
 @media only screen and (max-width: 640px) {
     .tool-set {
@@ -1953,8 +1986,10 @@ section.chart-divider h2 {
         width: auto;
         margin-right: 0;
     }
-    .column-quarter {
+    .column-quarter,
+    .column-third.card {
         float: left;
+        clear: none;
         width: 47%;
         margin-right: 3%;
     }
@@ -2021,7 +2056,8 @@ section.chart-divider h2 {
 @media only screen and (max-width: 480px) {
     .column-third,
     .column-half .column-half,
-    .column-quarter {
+    .column-quarter,
+    .column-third.card {
         float: none;
         clear: both;
         width: auto;
