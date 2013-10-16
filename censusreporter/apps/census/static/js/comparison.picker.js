@@ -18,17 +18,17 @@ var chosenParentGeoID = chosenParentGeoID || null,
     chosenFormat = chosenFormat || 'table';
 
 var getCountsAPI = function() {
-    var url = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' + chosenTableID
-              + '?year=' + currentYear  + '&sumlevel=' + chosenSumlev + '&within=' + chosenParentGeoID;
+    var url = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' + chosenTableID +
+              '?year=' + currentYear  + '&sumlevel=' + chosenSumlev + '&within=' + chosenParentGeoID;
 
-    return url
-}
+    return url;
+};
 
 function getReleaseCounts() {
     countsAPI = getCountsAPI();
     var releaseCounts = [],
         releaseResultCount;
-    
+
     $.getJSON(countsAPI)
         .done(function(data) {
             $.each(data, function(i) {
@@ -82,7 +82,7 @@ var populateTopicChosen = function() {
     } else {
         topicChosen.addClass('highlight');
     }
-}
+};
 var populateGeographiesChosen = function() {
     if (!!chosenSumlevName && !!chosenParentName) {
         geographiesChosen.removeClass('highlight');
@@ -92,7 +92,7 @@ var populateGeographiesChosen = function() {
     } else {
         geographiesChosen.addClass('highlight');
     }
-}
+};
 var populateReleaseChosen = function() {
     if (!!chosenRelease) {
         releaseChosen.removeClass('highlight');
@@ -102,19 +102,19 @@ var populateReleaseChosen = function() {
     } else {
         releaseChosen.addClass('highlight');
     }
-}
+};
 
 var selectedTopicFilterValues = function () {
     return topicFilters.filter(':checked').map(function () {
         return this.value;
     }).get();
-}
+};
 var selectedSumlev = function () {
     return sumlevSelect.find('.option-selected');
-}
+};
 var selectedSumlevAncestorValues = function () {
     return selectedSumlev().data('ancestor-list');
-}
+};
 
 var triggerAutocompleteWildCardFallback = function(element) {
     if (!!element.val() && element.val() != '*') {
@@ -122,7 +122,7 @@ var triggerAutocompleteWildCardFallback = function(element) {
     } else {
         element.typeahead('setQuery', '*').val('');
     }
-}
+};
 
 function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
@@ -145,17 +145,17 @@ function makeTopicSelectWidget(element) {
             filter: function(response) {
                 var resultNumber = response.length;
                 topicResultNumber.text(resultNumber + ' matches');
-                if (resultNumber == 0) {
+                if (resultNumber === 0) {
                     response.push({
                         table_name: 'Sorry, no matches found. Try removing filters or changing your keyword search.'
-                    })
+                    });
                 }
                 response.map(function(item) {
                     if (!!item['topics']) {
                         item['topic_string'] = item['topics'].join(', ');
                     }
                 });
-                return response
+                return response;
             }
         },
         limit: 1500,
@@ -200,13 +200,14 @@ function makeParentSelectWidget(element) {
         remote: {
             url: parentGeoSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&sumlevs=' + selectedSumlevAncestorValues()
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=' + selectedSumlevAncestorValues();
             },
             filter: function(response) {
-                response.results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]
+                var results = response.results;
+                results.map(function(item) {
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']];
                 });
-                return response.results
+                return results;
             }
         },
         limit: 20,
@@ -236,8 +237,8 @@ function makeParentSelectWidget(element) {
         var selectedVal = selected.data('value');
         sumlevSelect.find('a').removeClass('option-selected');
         selected.addClass('option-selected');
-        
-        if (selectedVal != '') {
+
+        if (selectedVal !== '') {
             // store the selected sumlev for future api requests
             chosenSumlev = selectedVal;
 
@@ -247,7 +248,7 @@ function makeParentSelectWidget(element) {
                 helpText = selected.text() + ' can be compared within ' + nameOptions;
             $('#place-autocomplete-header').text(helpText);
             $('#parent-select').attr('placeholder', 'Choose ' + nameOptions + '...');
-            
+
             // auto-fill 'United States' if that's only possible choice
             if (selectedVal == '040') {
                 element.typeahead('setQuery', 'United States');
@@ -257,7 +258,7 @@ function makeParentSelectWidget(element) {
         } else {
             element.prop('disabled', 'disabled');
         }
-        
+
         element.focus();
     });
 }
@@ -272,10 +273,10 @@ var spinnerTarget = document.getElementById('body-spinner');
     spinner = new Spinner();
 
 $(document).ajaxSend(function(event, request, settings) {
-    spinner.spin(spinnerTarget)
+    spinner.spin(spinnerTarget);
 });
 $(document).ajaxComplete(function(event, request, settings) {
-    spinner.stop()
+    spinner.stop();
 });
 
 function checkComparison() {
@@ -306,10 +307,10 @@ function changeComparison() {
                     });
                     chosenRelease = dataValues[0]['release_slug'];
                 }
-                
+
                 spinner.spin(spinnerTarget);
-                var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/'
-                                + '?release=' + chosenRelease + '&table=' + chosenTableID;
+                var targetURL = '/compare/' + chosenParentGeoID + '/' + chosenSumlev + '/' + chosenFormat + '/' +
+                                '?release=' + chosenRelease + '&table=' + chosenTableID;
                 window.location.href = targetURL;
             });
     }
@@ -329,7 +330,7 @@ jQuery(document).ready(function(){
     populateTopicChosen();
     populateGeographiesChosen();
     populateReleaseChosen();
-    
+
     if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
         getReleaseCounts();
     }
@@ -362,22 +363,22 @@ jQuery(document).ready(function(){
                 closeTabs();
             }
         }
-    })
-    
+    });
+
     // enable the submit if all vectors are full
     queryGo.on('click', function() {
         if (!queryGo.hasClass('disabled')) {
             changeComparison();
         }
-    })
-    
+    });
+
     $('#query-release-picker').on('click', 'a', function(e) {
         e.preventDefault();
         chosenRelease = $(this).data('release-slug');
         populateReleaseChosen();
         closeTabs();
         checkComparison();
-    })
+    });
 
     // allow users to click outside of open picker menu to close tabs
     $('html').on('click', function() {
@@ -387,7 +388,7 @@ jQuery(document).ready(function(){
     $('#query-builder-bar').click(function(e){
         e.stopPropagation();
     });
-    
+
     // filter groups for topic picker
     $('.filter-groups').on('click', '.filter-group-title', function(e) {
         e.preventDefault();
@@ -395,10 +396,10 @@ jQuery(document).ready(function(){
         chosenGroup.toggleClass('open');
         chosenGroup.find('i[class^="icon-"]').toggleClass('icon-chevron-sign-down icon-chevron-sign-up');
     });
-    
+
     // download submenu
     $('.toggle-sub-group').hover(function() {
         $(this).find('.sub-group').toggle();
         $(this).find('a').toggleClass('hovered');
     });
-})
+});
