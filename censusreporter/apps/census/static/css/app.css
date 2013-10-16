@@ -351,6 +351,9 @@ section {
 .section-container section {
     margin-bottom: 3em;
 }
+#profile .section-container section {
+    margin-bottom: 2em;
+}
 .section-container section:last-child {
     margin-bottom: 1em;
 }
@@ -629,6 +632,14 @@ section aside ul {
 .stat-row select {
     max-width: 100px;
     font-size: .8em;
+}
+.stat-row {
+    border-top: 1px solid #eff1e9;
+    padding-top: 2em;
+}
+.stat-row:first-child {
+    border-top: none;
+    padding-top: inherit;
 }
 
 /* SVG MAPS */
