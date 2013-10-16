@@ -938,7 +938,8 @@ class LocateView(TemplateView):
         API_ENDPOINT = 'http://api.censusreporter.org/1.0/geo/search'
         API_PARAMS = {
             'lat': lat,
-            'lon': lon
+            'lon': lon,
+            'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970'
         }
 
         r = requests.get(API_ENDPOINT, params=API_PARAMS)
@@ -957,6 +958,9 @@ class LocateView(TemplateView):
         
         if lat and lon:
             places = self.get_api_data(lat, lon)
+            for place in places:
+                place['sumlev_name'] = SUMMARY_LEVEL_DICT[place['sumlevel']]['name']
+            
             page_context.update({
                 'location': {
                     'lat': lat,

@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <article id="locate" class="clearfix wrapper">
+    <article id="locate" class="clearfix">
         <header class="column-full clearfix">
             {% if not location %}
             <h1 class="article-header">Finding your current location&hellip;</h1>
@@ -34,15 +34,19 @@ $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
     spinner = new Spinner();
 
-function showLocations(position) {
+function foundLocation(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     window.location = '{% url "locate" %}?lat=' + lat + '&lon=' + lon;
 }
 
-if (Modernizr.geolocation && !lat && !lon) {
+function noLocation() {
+    alert('Sorry, your browser was unable to determine your location.')
+}
+
+if (navigator.geolocation && !lat && !lon) {
     spinner.spin(spinnerTarget);
-    navigator.geolocation.getCurrentPosition(showLocations);
+    navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
 }
 </script>
 {% endblock %}

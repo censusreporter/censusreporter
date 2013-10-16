@@ -481,15 +481,14 @@ section aside ul {
 #homepage #geography-select-wrapper .geolocate-only {
     clear: both;
     width: 100%;
-    margin: .25em 0 1em;
-    float: left;
+    margin: 1em auto;
 }
 #homepage #geography-select-wrapper .action-button {
     display: block;
-    margin-left: 3.5em;
+    margin-left: 3em;
 }
 .action-button i {
-    margin-right: .5em;
+    margin-right: .33em;
 }
 #homepage #profile p.explain {
     margin-top: .83em;
@@ -500,11 +499,11 @@ section aside ul {
 }
 .or {
     font-family: "Merriweather", Georgia, serif;
-    font-size: 1.2em;
+    font-size: 1.1em;
     line-height: 1;
     padding: .7em 0;
     font-style: italic;
-    width: 3.5em;
+    width: 3em;
     float: left;
     text-align: center;
 }
@@ -1964,6 +1963,9 @@ section.chart-divider h2 {
         padding-top: 0;
         padding-left: 0;
         margin-bottom: 1em;
+    }
+    #homepage #geography-select-wrapper .action-button {
+        font-size: 1.1em;
     }
     .card {
         font-size: 1em;
