@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch
+from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView
 
 admin.autodiscover()
 
@@ -48,6 +48,13 @@ urlpatterns = patterns('',
         name    = 'geo_search',
     ),
     ## END LOCAL DEV VERSION OF API ##
+
+    url(
+        regex   = '^locate/$',
+        view    = LocateView.as_view(),
+        kwargs  = {},
+        name    = 'locate',
+    ),
 
     url(
         regex   = '^compare/$',

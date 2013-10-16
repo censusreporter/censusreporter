@@ -927,3 +927,43 @@ class GeoSearch(TemplateView):
         }
         tables = None
         columns = None
+
+class LocateView(TemplateView):
+    template_name = 'locate.html'
+    
+    def get_api_data(self, lat, lon):
+        '''
+        Retrieves data from the comparison endpoint at api.censusreporter.org.
+        '''
+        API_ENDPOINT = 'http://api.censusreporter.org/1.0/geo/search'
+        API_PARAMS = {
+            'lat': lat,
+            'lon': lon
+        }
+
+        r = requests.get(API_ENDPOINT, params=API_PARAMS)
+
+        if r.status_code == 200:
+            data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        else:
+            raise Http404
+
+        return data
+    
+    def get_context_data(self, *args, **kwargs):
+        page_context = {}
+        lat = self.request.GET.get('lat', None)
+        lon = self.request.GET.get('lon', None)
+        
+        if lat and lon:
+            places = self.get_api_data(lat, lon)
+            page_context.update({
+                'location': {
+                    'lat': lat,
+                    'lon': lon
+                },
+                'places': places
+            })
+
+        return page_context
+        

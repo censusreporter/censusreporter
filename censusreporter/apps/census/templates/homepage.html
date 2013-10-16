@@ -15,6 +15,10 @@
             <h1 class="article-header">Profile a place</h1>
             <div id="geography-select-wrapper">
                 <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
+                <div class="geolocate-only">
+                    <span class="or">or</span>
+                    <a href="{% url 'locate' %}" class="action-button"><i class="icon-location-arrow"></i> Use your current location</a>
+                </div>
             </div>
         </section>
         <section>
@@ -189,9 +193,10 @@
     <article id="examples" class="clearfix wrapper">
         <header class="column-full">
             <h1 class="article-header">Using this site</h1>
-            <p>Census Reporter is a <a href="http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">Knight News Challenge-funded project</a> to make it easier for journalists to write stories using information from the U.S. Census bureau. Place profiles and comparison pages provide a friendly interface for navigating data, including visualizations for a more useful first look.</p>
+            <p class="explainer">Census Reporter is a <a href="http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">Knight News Challenge-funded project</a> to make it easier for journalists to write stories using information from the U.S. Census bureau. Place profiles and comparison pages provide a friendly interface for navigating data, including visualizations for a more useful first look.</p>
         </header>
-        <section class="card-container">
+        <section class="card-container clearfix">
+            <h2 class="column-full subhead">Examples</h2>
             <a class="column-third card" href="/compare/01000US/040/map/?release=acs2012_1yr&table=B06011">
                 <img src="{{ STATIC_URL }}img/examples/us_median_income_map.png">
                 <span class="caption">How does median income compare from state to state? <span class="more">More &rarr;</span></span>
@@ -230,6 +235,12 @@
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script>
+if (Modernizr.geolocation) {
+    //$('.geolocate-only').show();
+    //navigator.geolocation.getCurrentPosition(show_map);
+}
+</script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 {% if request.GET.v == 'a' %}{# big bar #}
 <script src="{{ STATIC_URL }}js/comparison.picker.js"></script>

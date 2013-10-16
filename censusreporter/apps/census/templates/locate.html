@@ -1,0 +1,48 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+    <article id="locate" class="clearfix wrapper">
+        <header class="column-full clearfix">
+            {% if not location %}
+            <h1 class="article-header">Finding your current location&hellip;</h1>
+            {% else %}
+            <h1 class="article-header">Use your current location</h1>
+            <p class="explainer">Your browser says you&rsquo;re in&hellip;</p>
+            {% endif %}
+        </header>
+        {% if places %}
+        <section class="column-golden-wide">
+            <ul>
+            {% for place in places %}
+                <li><a href="{% url 'geography_detail' place.full_geoid %}">{{ place.full_name }}</a></li>
+            {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+    </article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
+<script>
+var lat = '{{ location.lat }}',
+    lon = '{{ location.lon }}';
+
+// prepare spinner
+$('body').append('<div id="body-spinner"></div>');
+var spinnerTarget = document.getElementById('body-spinner');
+    spinner = new Spinner();
+
+function showLocations(position) {
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    window.location = '{% url "locate" %}?lat=' + lat + '&lon=' + lon;
+}
+
+if (Modernizr.geolocation && !lat && !lon) {
+    spinner.spin(spinnerTarget);
+    navigator.geolocation.getCurrentPosition(showLocations);
+}
+</script>
+{% endblock %}
