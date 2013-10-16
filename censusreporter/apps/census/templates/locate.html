@@ -12,10 +12,15 @@
             {% endif %}
         </header>
         {% if places %}
-        <section class="column-golden-wide">
-            <ul>
+        <section class="column-half">
+            <ul class="location-list">
             {% for place in places %}
-                <li><a href="{% url 'geography_detail' place.full_geoid %}">{{ place.full_name }}</a></li>
+                <li>
+                    <a href="{% url 'geography_detail' place.full_geoid %}" class="card">
+                        <span class="identifier">{{ place.sumlev_name }}</span>
+                        {{ place.full_name }}
+                    </a>
+                </li>
             {% endfor %}
             </ul>
         </section>

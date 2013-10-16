@@ -220,11 +220,11 @@ SUMMARY_LEVEL_DICT = {
         "plural": "states",
     },
     "050": {
-        "name": "State-County",
+        "name": "County",
         "plural": "counties",
     },
     "060": {
-        "name": "State-County-County Subdivision",
+        "name": "County Subdivision",
         "plural": "county subdivisions",
     },
     "061": {
@@ -244,11 +244,11 @@ SUMMARY_LEVEL_DICT = {
         "plural": "minor civil divisions (<2,500 in metro area)",
     },
     "067": {
-        "name": "State (Puerto Rico Only)-County-County Subdivision-Subbarrio",
+        "name": "Subbarrio",
         "plural": "",
     },
     "070": {
-        "name": "State-County-County Subdivision-Place/Remainder",
+        "name": "County Subdivision-Place/Remainder",
         "plural": "",
     },
     "071": {
@@ -260,7 +260,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "080": {
-        "name": "State-County-County Subdivision-Place/Remainder-Census Tract",
+        "name": "Place/Remainder-Census Tract",
         "plural": "",
     },
     "082": {
@@ -268,11 +268,11 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "085": {
-        "name": "State-County-County Subdivision-Place/Remainder-Census Tract-Urban/Rural",
+        "name": "County Subdivision-Place/Remainder-Census Tract-Urban/Rural",
         "plural": "",
     },
     "090": {
-        "name": "State-County-County Subdivision-Place/Remainder-Census Tract-Urban/Rural-Block Group",
+        "name": "Census Tract-Urban/Rural-Block Group",
         "plural": "",
     },
     "091": {
@@ -280,39 +280,39 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "101": {
-        "name": "State-County-Census Tract-Block",
-        "plural": "",
+        "name": "Block",
+        "plural": "blocks",
     },
     "140": {
-        "name": "State-County-Census Tract",
+        "name": "Census Tract",
         "plural": "Census tracts",
     },
     "144": {
-        "name": "State-County-Census Tract-American Indian Area/Alaska Native Area/Hawaiian Home Land",
+        "name": "Census Tract-American Indian Area/Alaska Native Area/Hawaiian Home Land",
         "plural": "",
     },
     "150": {
-        "name": "State-County-Census Tract-Block Group",
+        "name": "Block Group",
         "plural": "block groups",
     },
     "154": {
-        "name": "State-County-Census Tract-Block Group-American Indian Area/Alaska Native Area/Hawaiian Home Land",
+        "name": "Block Group-American Indian Area/Alaska Native Area/Hawaiian Home Land",
         "plural": "",
     },
     "155": {
-        "name": "State-Place-County",
+        "name": "Place-County",
         "plural": "",
     },
     "157": {
-        "name": "State-Place (no CDPs)-County" ,
+        "name": "Place (no CDPs)-County" ,
         "plural": "",
     },
     "158": {
-        "name": "State-Place-County-Census Tract",
+        "name": "Place-County-Census Tract",
         "plural": "",
     },
     "160": {
-        "name": "State-Place",
+        "name": "Place",
         "plural": "places",
     },
     "161": {
@@ -324,11 +324,11 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "170": {
-        "name": "State-Consolidated City",
+        "name": "Consolidated City",
         "plural": "consolidated cities",
     },
     "172": {
-        "name": "State-Consolidated City-Place Within Consolidated City",
+        "name": "Place Within Consolidated City",
         "plural": "",
     },
     "200": {
@@ -576,15 +576,15 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "300": {
-        "name": "Metropolitan Statistical Area (MSA)/Consolidated Metropolitan Statistical Area (CMSA)",
-        "plural": "CMSAs",
+        "name": "Metropolitan Statistical Area",
+        "plural": "MSAs",
     },
     "301": {
         "name": "Primary Metropolitan Statistical Area",
         "plural": "",
     },
     "310": {
-        "name": "Core Based Statistical Area (CBSA)",
+        "name": "Core Based Statistical Area",
         "plural": "CBSAs",
     },
     "311": {
@@ -640,7 +640,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "330": {
-        "name": "Combined Statistical Area (CSA)",
+        "name": "Combined Statistical Area",
         "plural": "CSAs",
     },
     "331": {
@@ -688,7 +688,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "350": {
-        "name": "New England City and Town Area (NECTA)",
+        "name": "New England City and Town Area",
         "plural": "NECTAs",
     },
     "351": {
@@ -904,59 +904,59 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "500": {
-        "name": "State-Congressional District",
+        "name": "Congressional District",
         "plural": "congressional districts",
     },
     "510": {
-        "name": "State-Congressional District-County",
+        "name": "Congressional District-County",
         "plural": "",
     },
     "511": {
-        "name": "State-Congressional District-County-Census Tract",
+        "name": "Congressional District-County-Census Tract",
         "plural": "",
     },
     "521": {
-        "name": "State-Congressional District-County-County Subdivision",
+        "name": "Congressional District-County-County Subdivision",
         "plural": "",
     },
     "531": {
-        "name": "State-Congressional District-Place/Remainder",
+        "name": "Congressional District-Place/Remainder",
         "plural": "",
     },
     "541": {
-        "name": "State-Congressional District-Consolidated City",
+        "name": "Congressional District-Consolidated City",
         "plural": "",
     },
     "542": {
-        "name": "State-Congressional District-Consolidated City-Place Within Consolidated City",
+        "name": "Congressional District-Consolidated City-Place Within Consolidated City",
         "plural": "",
     },
     "550": {
-        "name": "State-Congressional District-American Indian Area/Alaska Native Area/Hawaiian Home Land",
+        "name": "Congressional District-American Indian Area/Alaska Native Area/Hawaiian Home Land",
         "plural": "",
     },
     "551": {
-        "name": "State-Congressional District-American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)",
+        "name": "Congressional District-American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)",
         "plural": "",
     },
     "552": {
-        "name": "State-Congressional District-American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land",
+        "name": "Congressional District-American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land",
         "plural": "",
     },
     "553": {
-        "name": "State-Congressional District-American Indian Area/Alaska Native Area/Hawaiian Home Land-Tribal Subdivision/Remainder",
+        "name": "Congressional District-American Indian Area/Alaska Native Area/Hawaiian Home Land-Tribal Subdivision/Remainder",
         "plural": "",
     },
     "554": {
-        "name": "State-Congressional District-American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)-Tribal Subdivision/Remainder",
+        "name": "Congressional District-American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)-Tribal Subdivision/Remainder",
         "plural": "",
     },
     "555": {
-        "name": "State-Congressional District-American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land-Tribal Subdivision/Remainder",
+        "name": "Congressional District-American Indian Area (Off-Reservation Trust Land Only)/Hawaiian Home Land-Tribal Subdivision/Remainder",
         "plural": "",
     },
     "560": {
-        "name": "State-Congressional District-Alaska Native Regional Corporation",
+        "name": "Congressional District-Alaska Native Regional Corporation",
         "plural": "",
     },
     "610": {
@@ -992,7 +992,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "700": {
-        "name": "Voting Tabulation District (VTD)",
+        "name": "Voting Tabulation District",
         "plural": "VTDs",
     },
     "740": {
@@ -1008,7 +1008,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "850": {
-        "name": "3-digit ZIP Code Tabulation Area (ZCTA3)",
+        "name": "3-digit ZIP Code Tabulation Area",
         "plural": "ZCTA3s",
     },
     "851": {
@@ -1020,7 +1020,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "860": {
-        "name": "5-digit ZIP Code Tabulation Area (ZCTA5)",
+        "name": "ZIP Code Tabulation Area",
         "plural": "ZCTA5s",
     },
     "870": {
@@ -1056,15 +1056,15 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "950": {
-        "name": "State-School District (Elementary)",
+        "name": "Elementary School District",
         "plural": "elementary school districts",
     },
     "960": {
-        "name": "State-School District (Secondary)",
+        "name": "Secondary School District",
         "plural": "secondary school districts",
     },
     "970": {
-        "name": "State-School District (Unified)",
+        "name": "Unified School District",
         "plural": "unified school districts",
     },
 }
