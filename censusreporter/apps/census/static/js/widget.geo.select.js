@@ -8,13 +8,14 @@ function makeGeoSelectWidget(element) {
         remote: {
             url: geoSearchAPI,
             replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970'
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
             },
             filter: function(response) {
-                response.results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]
+                var results = response.results;
+                results.map(function(item) {
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']];
                 });
-                return response.results
+                return results;
             }
         },
         limit: 20,
@@ -30,4 +31,4 @@ function makeGeoSelectWidget(element) {
 
 jQuery(document).ready(function(){
     makeGeoSelectWidget(geoSelect);
-})
+});
