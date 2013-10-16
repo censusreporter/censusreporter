@@ -1879,6 +1879,9 @@ section.chart-divider h2 {
 .centered {
     text-align: center;
 }
+.smaller {
+    font-size: .9em;
+}
 .small {
     font-size: .75em;
 }
