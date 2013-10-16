@@ -20,27 +20,25 @@
         <ul class="context">
             {% if stat.values.county %}
             <li>
-                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">County index</span>
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">County</span>
                 <span class="value">
-                    --
-                    {#}{{ stat.values.county_index }}{#}
+                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 </span>
             </li>
             {% endif %}
             {% if stat.values.state %}
             <li>
-                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">State index</span>
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">State</span>
                 <span class="value">
-                    --
-                    {#}{{ stat.values.state_index }}{#}
+                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 </span>
             </li>
             {% endif %}
             {% if stat.values.nation %}
             <li>
-                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">National index</span>
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">Nation</span>
                 <span class="value">
-                    {{ stat.values.nation_index }}
+                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 </span>
             </li>
             {% endif %}
