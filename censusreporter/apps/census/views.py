@@ -949,8 +949,8 @@ class LocateView(TemplateView):
         else:
             raise Http404
 
-        return data
-    
+        return data['results']
+
     def get_context_data(self, *args, **kwargs):
         page_context = {}
         lat = self.request.GET.get('lat', None)

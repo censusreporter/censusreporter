@@ -203,10 +203,10 @@ function makeParentSelectWidget(element) {
                 return url += '?q=' + uriEncodedQuery + '&sumlevs=' + selectedSumlevAncestorValues()
             },
             filter: function(response) {
-                response.map(function(item) {
+                response.results.map(function(item) {
                     item['sumlev_name'] = sumlevMap[item['sumlevel']]
                 });
-                return response
+                return response.results
             }
         },
         limit: 20,

@@ -11,10 +11,10 @@ function makeGeoSelectWidget(element) {
                 return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970'
             },
             filter: function(response) {
-                response.map(function(item) {
+                response.results.map(function(item) {
                     item['sumlev_name'] = sumlevMap[item['sumlevel']]
                 });
-                return response
+                return response.results
             }
         },
         limit: 20,
