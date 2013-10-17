@@ -60,7 +60,7 @@ SUMLEV_CHOICES['Standard'] = [
     {'name': 'native area', 'plural_name': 'Native areas', 'summary_level': '250', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
     {'name': 'census tract', 'plural_name': 'Census tracts', 'summary_level': '140', 'ancestor_sumlev_list': '010,020,030,040,050,160', 'ancestor_options': 'the United States, a State, County or Place' },
     {'name': 'block group', 'plural_name': 'Block groups', 'summary_level': '150', 'ancestor_sumlev_list': '010,020,030,040,050,140,160', 'ancestor_options': 'the United States, a State, County, Place or Census Tract' },
-    {'name': 'zip codes', 'plural_name': 'ZIP codes', 'summary_level': '860', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
+    {'name': 'zip codes', 'plural_name': 'ZIP codes', 'summary_level': '860', 'ancestor_sumlev_list': '010,020,030,040,050,160', 'ancestor_options': 'the United States, a State, County or Place' },
 ]
 SUMLEV_CHOICES['Legislative'] = [
     {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
