@@ -702,6 +702,7 @@ section aside ul {
 #map-select {
     width: 50%;
     margin-right: 0;
+    margin-bottom: 2em;
 }
 #map-legend {
     padding-right: 1.5em;
