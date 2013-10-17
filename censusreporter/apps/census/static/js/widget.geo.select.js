@@ -4,7 +4,7 @@ var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
 function makeGeoSelectWidget(element) {
     element.typeahead({
         name: 'profile',
-        valueKey: 'full_name',
+        valueKey: 'full_geoid',
         remote: {
             url: geoSearchAPI,
             replace: function (url, uriEncodedQuery) {
