@@ -22,7 +22,7 @@
 
 <VirtualHost *:80>
     ServerName www.%(domainname)s
-    ServerAlias www.censusreporter.com censusreporter.com
+    ServerAlias www.censusreporter.com censusreporter.com beta.censusreporter.org beta.censusreporter.com
     ServerAdmin admin@%(domainname)s
 
     Redirect permanent / http://%(domainname)s/
