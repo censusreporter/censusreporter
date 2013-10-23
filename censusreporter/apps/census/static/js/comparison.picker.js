@@ -394,7 +394,7 @@ jQuery(document).ready(function(){
         e.preventDefault();
         var chosenGroup = $(this).parent();
         chosenGroup.toggleClass('open');
-        chosenGroup.find('i[class^="icon-"]').toggleClass('icon-chevron-sign-down icon-chevron-sign-up');
+        chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
     });
 
     // download submenu

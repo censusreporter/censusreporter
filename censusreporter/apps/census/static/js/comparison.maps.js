@@ -201,7 +201,7 @@ dataSelector.on('click', '.item-chosen', function(e) {
     e.preventDefault();
     var chosenGroup = $(this);
     chosenGroup.toggleClass('open');
-    chosenGroup.find('i[class^="icon-"]').toggleClass('icon-chevron-sign-down icon-chevron-sign-up');
+    chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
 });
 dataSelector.on('click', 'a', function(e) {
     e.preventDefault();
