@@ -227,7 +227,7 @@ img.screenshot {
     display: none;
 }
 #menu a.button:hover {
-    background-color: #13716c;
+    background-color: #f55b2c;
 }
 #menu-toggle {
     float: right;
@@ -330,7 +330,7 @@ article .section-container,
     white-space: nowrap;
 }
 .card:hover .more {
-    color: #ed3f24;
+    color: #f55b2c;
 }
 .card-container .card {
     margin-bottom: 1.5em;
@@ -1493,7 +1493,7 @@ section.chart-divider h2 {
 }
 .change-button:hover,
 .action-button:hover {
-    background-color: #014948;
+    background-color: #f55b2c;
     color: #fff;
 }
 .chosen p {
@@ -1658,8 +1658,6 @@ section.chart-divider h2 {
 
 #query-builder-bar .query-chosen.tabbed.open,
 #query-builder-bar .query-chosen.hovered,
-#query-builder-bar .query-chosen.highlight:hover,
-#query-builder-bar .query-chosen.highlight,
 #query-builder-bar .query-chosen.go,
 .go-button {
     border-color: #014948;
@@ -1667,10 +1665,15 @@ section.chart-divider h2 {
     color: #fff;
     font-weight: 400;
 }
-#query-builder-bar .query-chosen.highlight {
-    border-color: #fed82e;
-    background-color: #fed82e;
-    color: #000;
+#query-builder-bar .query-chosen.go,
+.go-button {
+    border-color: #f55b2c;
+    background-color: #f55b2c;
+}
+#query-builder-bar .query-chosen.go:hover,
+.go-button:hover {
+    border-color: #f54814;
+    background-color: #f54814;
 }
 #query-builder-bar .query-chosen.tabbed {
     -webkit-border-bottom-right-radius: 0;
@@ -1851,7 +1854,7 @@ section.chart-divider h2 {
     padding: .67em .75em;
 }
 .location-list a:hover {
-    color: #02aeab;
+    color: #f55b2c;
 }
 .location-list .identifier {
     float: right;
