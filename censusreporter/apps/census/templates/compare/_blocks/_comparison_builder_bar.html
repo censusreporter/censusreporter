@@ -10,11 +10,11 @@
     <section class="clearfix" id="query-topic-picker">
         <div class="column-quarter filter-groups">
             <h2>Filter by topic</h2>
-            {% include "compare/_compare_builder_topic_filter_list.html" with filter_list=topic_demographic_filters filter_list_name="Demographics" %}
-            {% include "compare/_compare_builder_topic_filter_list.html" with filter_list=topic_economic_filters filter_list_name="Economic" %}
-            {% include "compare/_compare_builder_topic_filter_list.html" with filter_list=topic_family_filters filter_list_name="Families" %}
-            {% include "compare/_compare_builder_topic_filter_list.html" with filter_list=topic_housing_filters filter_list_name="Housing" %}
-            {% include "compare/_compare_builder_topic_filter_list.html" with filter_list=topic_social_filters filter_list_name="Social" %}
+            {% include "compare/_blocks/_compare_builder_topic_filter_list.html" with filter_list=topic_demographic_filters filter_list_name="Demographics" %}
+            {% include "compare/_blocks/_compare_builder_topic_filter_list.html" with filter_list=topic_economic_filters filter_list_name="Economic" %}
+            {% include "compare/_blocks/_compare_builder_topic_filter_list.html" with filter_list=topic_family_filters filter_list_name="Families" %}
+            {% include "compare/_blocks/_compare_builder_topic_filter_list.html" with filter_list=topic_housing_filters filter_list_name="Housing" %}
+            {% include "compare/_blocks/_compare_builder_topic_filter_list.html" with filter_list=topic_social_filters filter_list_name="Social" %}
         </div>
 
         <div class="column-three-quarters autocomplete-widget">
