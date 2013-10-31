@@ -881,7 +881,7 @@ class TableSearchJson(View):
         return render_json_to_response(results)
 
 class TableSearch(TemplateView):
-    template_name = 'table_search.html'
+    template_name = 'search/table_search.html'
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
@@ -919,7 +919,7 @@ class TableSearch(TemplateView):
         return page_context
 
 class GeoSearch(TemplateView):
-    template_name = 'geo_search.html'
+    template_name = 'search/geo_search.html'
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
