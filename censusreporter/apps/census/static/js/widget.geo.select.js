@@ -28,7 +28,4 @@ function makeGeoSelectWidget(element) {
     });
 }
 
-
-jQuery(document).ready(function(){
-    makeGeoSelectWidget(geoSelect);
-});
+makeGeoSelectWidget(geoSelect);
