@@ -2,4 +2,10 @@
 
 {% block head_title %}Profile - {{ block.super }}{% endblock %}
 
-
+{% comment %}
+At some point, we may end up needing to branch the profile page template
+in order to support data available for different releases. And we may end up
+with a special template for subtopic pages within a profile. This page provides
+a profile-specific base suitable for applying things across that entire
+family of pages.
+{% endcomment %}

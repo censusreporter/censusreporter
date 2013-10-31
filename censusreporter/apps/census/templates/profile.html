@@ -56,7 +56,8 @@
             <div class="column-full">
                 <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam.</p>
-            </div>{% endcomment %}
+            </div>
+            {% endcomment %}
         </article>
     </div>
 
@@ -72,66 +73,230 @@
     <header class="section-contents">
         <h1>Demographics</h1>
     </header>
-    {% comment %}
     <div class="section-container">
+
         <section class="clearfix stat-row">
-            <h2 class="column-header">Sex</h2>
+            <h2 class="column-header">Age</h2>
+            <aside>
+                {#}TODO: Figure out a better way of providing links to comparison pages{#}
+                {% if sumlev in "040,050" %}
+                <h3>Compare</h3>
+                <p><a href="{% url 'geography_comparison_detail' state_geoid sumlev 'map' %}">Counties by age group</a></p>
+                {% endif %}
+            </aside>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=demographics.age.median_age stat_type='number' %}
+            </div>
+            <div class="column-half" id="chart-histogram-demographics-age-population_by_age-total" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=demographics.age.percent_under_18 stat_type='percentage' stat_class='secondary' %}
+                {% include '_profile/_stat_list.html' with stat=demographics.age.percent_over_65 stat_type='percentage' stat_class='secondary' %}
+            </div>
+        </section>
+
+        <section class="clearfix stat-row">
             <aside></aside>
             <div class="column-third">
+                <h2 class="column-header">Sex</h2>
                 <div id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
             </div>
-            <div class="column-third" id="chart-pie-economics-poverty-children" data-chart-title="Children (Under 18)" data-stat-type="percentage"></div>
-            <div class="column-third" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div>
+            <div class="column-two-thirds">
+                <h2 class="column-header">Race &amp; Ethnicity</h2>
+                <div id="chart-column-demographics-race" data-stat-type="scaled-percentage"></div>
+            </div>
         </section>
-    </div>
-    {% endcomment %}
-    <div class="section-container">
-        {% include "_profile/section_demographics_age.html" %}
-        {% include "_profile/section_demographics_sex_and_race.html" %}
+
     </div>
 </article>
+
+
 <article id="economics" class="clearfix">
     <header class="section-contents">
         <h1>Economics</h1>
     </header>
     <div class="section-container">
-        {% include "_profile/section_economics_income.html" %}
-        {% include "_profile/section_economics_poverty.html" %}
-        {% include "_profile/section_economics_employment_travel_time.html" %}
+
+        <section class="clearfix stat-row">
+            <h2>Income</h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
+            </div>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=economics.income.median_household_income stat_type='dollar' %}
+            </div>
+            <div class="column-half" id="chart-histogram-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Poverty</h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-economics-poverty-children" data-chart-title="Children (Under 18)" data-stat-type="percentage"></div>
+            <div class="column-third" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Transportation to work</h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
+            </div>
+            <div class="column-three-quarters" id="chart-histogram-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage"></div>
+        </section>
+
     </div>
 </article>
+
 
 <article id="families" class="clearfix">
     <header class="section-contents">
         <h1>Families</h1>
     </header>
     <div class="section-container">
-        {% include "_profile/section_families_households.html" %}
-        {% include "_profile/section_families_marital_status.html" %}
-        {% include "_profile/section_families_children_and_birth_rate.html" %}
+
+        <section class="clearfix stat-row">
+            <h2>Households</h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=families.households.number_of_households stat_type='number' %}
+            </div>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
+            </div>
+            <div class="column-third" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Population by household type"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Marital status</h2>
+            <aside>
+            </aside>
+            <div class="column-half" id="chart-column-families-marital_status-male" data-stat-type="scaled-percentage" data-chart-title="Male"></div>
+            <div class="column-half" id="chart-column-families-marital_status-female" data-stat-type="scaled-percentage" data-chart-title="Female"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Birth rate</h2>
+            <aside></aside>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=families.birth_rate.total stat_type='number' %}
+            </div>
+            <div class="column-two-thirds">
+                <div id="chart-column-families-birth_rate-by_age" data-stat-type="number" data-chart-title="Birth rate by age, per 1,000 women"></div>
+            </div>
+        </section>
+
     </div>
 </article>
+
 
 <article id="housing" class="clearfix">
     <header class="section-contents">
         <h1>Housing</h1>
     </header>
     <div class="section-container">
-        {% include "_profile/section_housing_units_occupancy.html" %}
-        {% include "_profile/section_housing_value.html" %}
-        {% include "_profile/section_housing_mobility.html" %}
+
+        <section class="clearfix stat-row">
+            <h2>Units &amp; Occupancy</h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=housing.units.number stat_type='number' %}
+            </div>
+            <div class="column-third" id="chart-pie-housing-units-occupancy_distribution" data-stat-type="percentage" data-chart-title="Occupied vs. Vacant"></div>
+            <div class="column-third" id="chart-pie-housing-units-structure_distribution" data-stat-type="percentage" data-chart-title="Types of structure"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <div class="column-third" id="chart-pie-housing-ownership-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Ownership of occupied units"></div>
+            <div class="column-two-thirds" id="chart-histogram-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Value</h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=housing.ownership.median_value stat_type='dollar' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-housing-ownership-value_distribution" data-chart-title="Value of owner-occupied housing units" data-stat-type="scaled-percentage"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Geographical mobility</h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=housing.migration.moved_since_previous_year stat_type='percentage' %}
+            </div>
+            <div class="column-three-quarters" id="chart-histogram-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year"></div>
+        </section>
+
     </div>
 </article>
+
 
 <article id="social" class="clearfix">
     <header class="section-contents">
         <h1>Social</h1>
     </header>
     <div class="section-container">
-        {% include "_profile/section_social_educational_attainment.html" %}
-        {% include "_profile/section_social_language.html" %}
-        {% include "_profile/section_social_place_of_birth.html" %}
-        {% include "_profile/section_social_veterans.html" %}
+
+        <section class="clearfix stat-row">
+            <h2>Educational attainment</h2>
+            <aside>
+            </aside>
+            <div class="column-half">
+                <div class="column-half">
+                    {% include '_profile/_stat_list.html' with stat=social.educational_attainment.percent_high_school_grad_or_higher stat_type='percentage' %}
+                </div>
+                <div class="column-half">
+                    {% include '_profile/_stat_list.html' with stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
+                </div>
+            </div>
+            <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Language</h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include '_profile/_stat_list.html' with stat=social.language.percent_non_english_at_home stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-social-language-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17"></div>
+            <div class="column-third" id="chart-pie-social-language-adults" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Place of birth</h2>
+            <aside></aside>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=social.place_of_birth.percent_foreign_born stat_type='percentage' %}
+            </div>
+            <div class="column-three-quarters" id="chart-column-social-place_of_birth-distribution" data-chart-title="Place of birth for foreign-born population" data-stat-type="scaled-percentage"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2>Veteran status</h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=social.veterans.percentage stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-column-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service"></div>
+            <div class="column-quarter">
+                {% include '_profile/_stat_list.html' with stat=social.veterans.number stat_type='number' stat_class='secondary' %}
+                {% include '_profile/_stat_list.html' with stat=social.veterans.sex.male stat_type='number' stat_class='secondary' %}
+                {% include '_profile/_stat_list.html' with stat=social.veterans.sex.female stat_type='number' stat_class='secondary' %}
+            </div>
+        </section>
+
     </div>
 </article>
 {% endblock %}
