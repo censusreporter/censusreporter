@@ -929,7 +929,7 @@ class GeoSearch(TemplateView):
         columns = None
 
 class LocateView(TemplateView):
-    template_name = 'locate.html'
+    template_name = 'locate/locate.html'
     
     def get_api_data(self, lat, lon):
         '''
