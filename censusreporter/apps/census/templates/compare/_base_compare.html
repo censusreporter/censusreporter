@@ -1,5 +1,10 @@
 {% extends '_base.html' %}
 
+{% comment %}
+This page provides a base for all comparison display templates to inherit from,
+for applying things across that entire family of pages.
+{% endcomment %}
+
 {% block head_title %}{% firstof comparison_metadata.descendant_type.plural|capfirst comparison_metadata.descendant_type.name %} in {{ comparison_metadata.parent_geography.geography.name }} comparison - Table {{ table.table_id }} ({{ table.census_release }}) - {{ block.super }}{% endblock %}
 
 {% block header_content %}
