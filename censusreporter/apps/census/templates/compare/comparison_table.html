@@ -1,4 +1,4 @@
-{% extends '_base_compare.html' %}{% load humanize %}
+{% extends 'compare/_base_compare.html' %}{% load humanize %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/tablesorter/tablesorter.css">
@@ -18,7 +18,7 @@
             <aside>
                 <p class="display-type"><strong>{{ table.census_release }}</strong></p>
                 <p>This grid shows raw data from the table. You can also explore with maps and distribution charts, or download the data for further analysis.</p>
-                {% include '_compare/_explainer_why_are_places_missing.html' %}
+                {% include 'compare/_explainer_why_are_places_missing.html' %}
             </aside>
 
             {# NUMBER DISPLAY TOGGLE #}

@@ -37,7 +37,7 @@ def render_json_to_response(context):
 
 
 class GeographyDetailView(TemplateView):
-    template_name = 'profile.html'
+    template_name = 'profile/profile.html'
 
     def calculate_indexes(self, api_data):
         for category, groupings in api_data.items():
@@ -166,7 +166,7 @@ class BaseComparisonView(TemplateView):
         }
 
         if self.format:
-            self.template_name = 'comparison_%s.html' % self.format
+            self.template_name = 'compare/comparison_%s.html' % self.format
 
         if self.format == 'table':
             comparison_data = self.get_api_data()
@@ -616,7 +616,7 @@ class BaseComparisonView(TemplateView):
 
 
 class ComparisonView(BaseComparisonView):
-    template_name = 'comparison_table.html'
+    template_name = 'compare/comparison_table.html'
 
     def dispatch(self, *args, **kwargs):
         self.parent_id = self.kwargs['parent_id']
@@ -749,7 +749,7 @@ class HomepageView(BaseComparisonView):
         return page_context
 
 class ComparisonBuilder(TemplateView):
-    template_name = 'comparison_builder.html'
+    template_name = 'compare/comparison_builder.html'
 
     def get_context_data(self, *args, **kwargs):
         page_context = {

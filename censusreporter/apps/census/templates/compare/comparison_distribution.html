@@ -1,4 +1,4 @@
-{% extends '_base_compare.html' %}{% load humanize %}
+{% extends 'compare/_base_compare.html' %}{% load humanize %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.css">
@@ -19,7 +19,7 @@
                 <p class="display-type"><strong>{{ table.census_release }}</strong></p>
                 <p>These charts show how data in this table is distributed, helping identify patterns, clusters and outliers.</p>
                 <p>Highlighting a point on one chart will also highlight it on the others.</p>
-                {% include '_compare/_explainer_why_are_places_missing.html' %}
+                {% include 'compare/_explainer_why_are_places_missing.html' %}
             </aside>
             
             {# GEOGRAPHY SELECTOR #}
