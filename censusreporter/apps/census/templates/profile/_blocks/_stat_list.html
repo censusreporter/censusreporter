@@ -18,6 +18,21 @@
         {% if not stat_class == 'secondary' %}
         {% if stat.values.state or stat.values.nation %}
         <ul class="context-phrases">
+            {% if stat.values.county %}
+            <li>
+                {% if stat.values.county_index %}
+                {{ stat.values.county_index|comparison_index_phrase }} the figure countywide ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
+                {% else %}
+                Countywide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                {% endif %}
+                {% comment %}
+                <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.county_index %}{{ stat.values.county_index }}<span class="smaller">%</span> of {% endif %}County</span>
+                <span class="value">
+                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                </span>
+                {% endcomment %}
+            </li>
+            {% endif %}
             {% if stat.values.state %}
             <li>
                 {% if stat.values.state_index %}
