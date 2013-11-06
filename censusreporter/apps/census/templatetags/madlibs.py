@@ -32,6 +32,18 @@ COMPARISON_PHRASE_MAP = {
 
 @register.filter
 def comparison_index_phrase(value):
+    '''
+    Each stat on the profile page can have nation-, state- and county-level
+    values, indexed to 100 for comparisons (that is, expressed as a percentage
+    of the profile geography's value). That index value can be passed into this
+    template filter to generate a comparative phrase.
+
+    The COMPARISON_PHRASE_MAP defines the comparative phrases; the dict keys
+    are the lower boundary of the range of values that result in that phrase.
+    
+    For example, the effective range of index values that return the phrase
+    "about half" would be 45 to 55.
+    '''
     # make sure we have an int for comparison
     index = round(float(value))
     
