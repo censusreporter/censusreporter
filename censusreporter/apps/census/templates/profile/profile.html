@@ -1,6 +1,6 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize %}
 
-{% block head_title %}{% firstof geography.pretty_name geography.name %} - {{ block.super }}{% endblock %}
+{% block head_title %}{% firstof geography.full_name geography.short_name %} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -27,7 +27,7 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header class="column-full">
-                <h1 class="title">{% firstof geography.pretty_name geography.name %}</h1>
+                <h1 class="title">{% firstof geography.full_name geography.short_name %}</h1>
                 <p class="caption">Data: {{ geography.census_release }} unless noted</p>
             </header>
             <div class="column-half">
@@ -68,6 +68,126 @@
 
 {% block content %}
 {#}<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>{#}
+
+{% comment %}
+<article id="test" class="clearfix">
+    <header class="section-contents">
+        <h1>Table B02001</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <aside></aside>
+            <div class="column-golden-wide">
+                <h2>Race</h2>
+                <table id="data-table" class="full-width">
+                    <thead>
+                        <tr>
+                            <th class="name">Column</th>
+                            <th class="value">Percentage</th>
+                            <th class="value">Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd">
+                            <td class="name indent-0">Total:</td>
+                            <td class="value">
+                                <span class="percentage">100%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">313,914,040</span>
+                            </td>
+                        </tr>
+
+                        <tr class="even">
+                            <td class="name indent-1">White alone</td>
+                            <td class="value">
+                                <span class="percentage">73.9%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">231,992,377</span>
+                            </td>
+                        </tr>
+
+                        <tr class="odd">
+                            <td class="name indent-1">Black or African American alone</td>
+                            <td class="value">
+                                <span class="percentage">12.6%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">39,623,138</span>
+                            </td>
+                        </tr>
+
+                        <tr class="even">
+                            <td class="name indent-1">American Indian and Alaska Native alone</td>
+
+                            <td class="value">
+                                <span class="percentage">0.8%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">2,563,505</span>
+                            </td>
+                        </tr>
+
+                        <tr class="odd">
+                            <td class="name indent-1">Asian alone</td>
+                            <td class="value">
+                                <span class="percentage">5%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">15,555,530</span>
+                            </td>
+                        </tr>
+
+                        <tr class="even">
+                            <td class="name indent-1">Native Hawaiian and Other Pacific Islander alone</td>
+                            <td class="value">
+                                <span class="percentage">0.2%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">543,198</span>
+                            </td>
+                        </tr>
+
+                        <tr class="odd">
+                            <td class="name indent-1">Some other race alone</td>
+                            <td class="value">
+                                <span class="percentage">4.6%</span>
+                            </td>
+                            <td class="value">
+                                <span class="raw-number">14,562,678</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column-golden-narrow">
+                <h2>Create a comparison with this table</h2>
+
+                <div class="option-group">
+                    <h2 class="option-header">Compare Spokane against&hellip;</h3>
+                    <ul class="option-list">
+                        <li><a href="">Other cities in Washington</a></li>
+                        <li><a href="">Choose your own list of places to compare</a></li>
+                    </ul>
+                </div>
+                
+                <div class="option-group">
+                    <h2 class="option-header">Divide Spokane by&hellip;</h2>
+                    <ul class="option-list">
+                        <li><a href="">Census Tracts</a></li>
+                        <li><a href="">Block Groups</a></li>
+                        <li><a href="">ZIP Codes</a></li>
+                    </ul>
+                </div>
+            </div>
+            {#}<div class="column-half" id="chart-column-testdata-marital_status_grouped-widowed" data-stat-type="scaled-percentage" data-chart-title="Marital status"></div>{#}
+        </section>
+
+    </div>
+</article>
+{% endcomment %}
 
 <article id="demographics" class="clearfix">
     <header class="section-contents">
