@@ -64,9 +64,6 @@ class GeographyDetailView(TemplateView):
             'geography_fips_code': None
         }
 
-        # Default to 5-year release
-        #acs_release = 'acs2011_5yr'
-
         if 'US' in geography_id:
             geoIDcomponents = geography_id.split('US')
 
