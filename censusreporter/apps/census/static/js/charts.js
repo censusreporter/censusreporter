@@ -27,11 +27,32 @@ function Chart(options) {
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
+        
+        var dataObj;
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
-            return {
-                name: d.name,
-                value: +d.values.this
+            if (!!d.metadata) {
+                // if there's metadata *within* a dataObj, we have data
+                // shaped for grouped-column or -bar presentation
+                dataObj = {
+                    name: d.metadata.name,
+                    values: []
+                }
+                d3.keys(d).forEach(function(v, i) {
+                    if (v != 'metadata') {
+                        dataObj.values.push({
+                            name: v,
+                            value: +d[v].values.this
+                        })
+                    }
+                })
+            } else {
+                // otherwise, just grab the name and value of the data point
+                dataObj = {
+                    name: d.name,
+                    value: +d.values.this
+                }
             }
+            return dataObj
         });
         
         chart.settings = {
