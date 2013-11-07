@@ -54,3 +54,11 @@ def comparison_index_phrase(value):
     phrase_key = str(max(thresholds[thresholds<=index]))
     
     return COMPARISON_PHRASE_MAP[phrase_key]
+    
+@register.filter
+def stat_type_to_number_noun(stat_type):
+    if stat_type == 'dollar':
+        return 'amount'
+    elif stat_type == 'percentage':
+        return 'rate'
+    return 'figure'
