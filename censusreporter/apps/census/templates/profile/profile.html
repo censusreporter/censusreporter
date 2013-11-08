@@ -297,10 +297,7 @@
             <h2>Marital status</h2>
             <aside>
             </aside>
-            <div class="column-half" id="chart-column-families-marital_status-male" data-stat-type="scaled-percentage" data-chart-title="Male"></div>
-            <div class="column-half" id="chart-column-families-marital_status-female" data-stat-type="scaled-percentage" data-chart-title="Female"></div>
-
-            {#}<div class="column-full" id="chart-column-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Grouped"></div>{#}
+            <div class="column-full" id="chart-grouped_column-families-marital_status_grouped" data-stat-type="scaled-percentage"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -484,8 +481,12 @@ var Charts = {},
 
 var gracefulType = function(chartType) {
     // convert certain chart types to more readable versions at narrow widths
-    if ((chartType == 'column' || chartType == 'histogram') && browserWidth <= 640) {
-        return 'bar'
+    if (browserWidth <= 640) {
+        if (chartType == 'column' || chartType == 'histogram') {
+            return 'bar'
+        } else if (chartType == 'grouped_column') {
+            return 'grouped_bar'
+        }
     }
     return chartType
 }

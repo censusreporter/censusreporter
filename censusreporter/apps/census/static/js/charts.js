@@ -55,6 +55,7 @@ function Chart(options) {
             return dataObj
         });
         
+        // set base chart dimensions
         chart.settings = {
             width: parseInt(chart.chartContainer.style('width'), 10) - parseInt(chart.chartContainer.style('margin-right'), 10),
             height: chart.chartHeight,
@@ -70,9 +71,9 @@ function Chart(options) {
         // hand off based on desired type of chart
         if (chart.chartType == 'pie') {
             chart.makePieChart();
-        } else if (chart.chartType == 'column' || chart.chartType == 'histogram') {
+        } else if (chart.chartType == 'column' || chart.chartType == 'grouped_column' || chart.chartType == 'histogram') {
             chart.makeColumnChart();
-        } else if (chart.chartType == 'bar') {
+        } else if (chart.chartType == 'bar' || chart.chartType == 'grouped_bar') {
             chart.makeBarChart();
         }
         return chart;
@@ -110,36 +111,88 @@ function Chart(options) {
             var xDomain = [0, 100],
                 xTickRange = d3.range(0, 101, 25);
         } else {
-            var xValues = chart.chartDataValues.map(function(d) { return d.value; }),
-                xDomain = [0, (d3.max(xValues) * 1.33)],
+            if (chart.chartType == 'grouped_bar') {
+                var xValues = [];
+                chart.chartDataValues.forEach(function(d, i) {
+                    d3.values(d.values).forEach(function(v, i) {
+                        xValues.push(v.value)
+                    });
+                });
+            } else {
+                var xValues = chart.chartDataValues.map(function(d) { return d.value; });
+            }
+            var xDomain = [0, (d3.max(xValues) * 1.33)],
                 xTickRange = d3.range(0, (d3.max(xValues) * 1.33), ((d3.max(xValues) * 1.33) / 5));
         }
         chart.x = d3.scale.linear()
             .range([chart.settings.displayWidth, 0])
             .domain(xDomain);
 
-        chart.htmlBase = chart.htmlBaseContainer.selectAll(".bar-group")
+        chart.htmlBase = chart.htmlBaseContainer.selectAll(".bar-set")
                 .data(chart.chartDataValues)
             .enter().append("div")
-                .classed("bar-group", true);
+                .classed("bar-set", true);
                 
-        chart.bars = chart.htmlBase
-            .append("a")
-                .attr("class", "bar")
-                .style("position", "relative")
-                .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
-                .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-            .append("span")
-                .classed("label", true)
-                .text(function(d) {
-                    return chart.pctFmt(d.value);
-                });
+        if (chart.chartType == 'grouped_bar') {
+            // grouped presentation
+            chart.barGroups = chart.htmlBase
+                .append("div")
+                    .attr("class", "bar-group")
+                    .each(function(d, i) {
+                        var g = d3.select(this),
+                            groupValues = d3.values(d.values);
 
-        chart.labels = chart.htmlBase.append("h4")
-                .classed("label", true)
-                .text(function(d) {
-                    return d.name;
-                });
+                        // place each label at top of bar-group
+                        g.append("h3")
+                            .classed("chart-title", true)
+                            .text(function(d) {
+                                return d.name;
+                            });
+                            
+                        // drop each bar into bar-group
+                        groupValues.forEach(function(v, i) {
+                            g.append("a")
+                                .attr("class", "bar")
+                                .style("position", "relative")
+                                .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
+                                .style("width", function(d) { return (chart.settings.displayWidth - chart.x(v.value)) + "px"; })
+                            .append("span")
+                                .classed("label", true)
+                                .text(function(d) {
+                                    return chart.pctFmt(v.value);
+                                });
+                                
+                            // add the specific label below the bar
+                            g.append("h4")
+                                .classed("label secondary", true)
+                                .text(function(d) {
+                                    return chart.capitalize(v.name);
+                                });
+                        });
+                    });
+            
+        } else {
+            // standard presentation
+            chart.bars = chart.htmlBase
+                .append("a")
+                    .attr("class", "bar")
+                    .style("position", "relative")
+                    .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                    .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
+                .append("span")
+                    .classed("label", true)
+                    .text(function(d) {
+                        return chart.pctFmt(d.value);
+                    });
+
+            // labels appear below bars
+            chart.labels = chart.htmlBase
+                .append("h4")
+                    .classed("label", true)
+                    .text(function(d) {
+                        return d.name;
+                    });
+        }
                 
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -164,6 +217,13 @@ function Chart(options) {
         if (chart.chartType == 'histogram') {
             chart.updateSettings({
                 columnPadding: .025
+            });
+        }
+
+        // extra padding between groups for grouped columns
+        if (chart.chartType == 'grouped_column') {
+            chart.updateSettings({
+                columnPadding: .2
             });
         }
         
@@ -197,8 +257,18 @@ function Chart(options) {
             var yDomain = [0, 100],
                 yTickRange = d3.range(0, 101, 25);
         } else {
-            var yValues = chart.chartDataValues.map(function(d) { return d.value; }),
-                yDomain = [0, (d3.max(yValues) * 1.33)],
+            if (chart.chartType == 'grouped_column') {
+                var yValues = [];
+                chart.chartDataValues.forEach(function(d, i) {
+                    d3.values(d.values).forEach(function(v, i) {
+                        yValues.push(v.value)
+                    });
+                });
+            } else {
+                var yValues = chart.chartDataValues.map(function(d) { return d.value; });
+            }
+            
+            var yDomain = [0, (d3.max(yValues) * 1.33)],
                 yTickRange = d3.range(0, (d3.max(yValues) * 1.33), ((d3.max(yValues) * 1.33) / 5));
         }
         chart.y = d3.scale.linear()
@@ -230,33 +300,79 @@ function Chart(options) {
         
         // add columns as <a> elements, with built-in category labels
         chart.htmlBase = chart.chartContainer.append("div")
-            .attr("class", "column-group")
+            .attr("class", "column-set")
             .style("margin-top", function() {
                 return (chart.chartChartShowYAxis) ? -(chart.settings.height) + "px" : "0";
             })
             .style("height", chart.settings.height + "px");
 
-        chart.columns = chart.htmlBase.selectAll(".column")
-                .data(chart.chartDataValues)
-            .enter().append("a")
-                .attr("class", "column")
-                .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
-                .style("width", chart.x.rangeBand() + "px")
-                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
-                .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
-                .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; })
-            .append("span")
-                .classed("x axis label", true)
-                .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
-                .text(function(d) { return d.name; });
+        if (chart.chartType == 'grouped_column') {
+            chart.chartContainer
+                .classed('grouped-column-chart', true);
+                
+            chart.columnGroups = chart.htmlBase.selectAll(".column-group")
+                    .data(chart.chartDataValues)
+                .enter().append("div")
+                    .attr("class", "column-group")
+                    .each(function(d, i) {
+                        var g = d3.select(this),
+                            groupValues = d3.values(d.values);
 
-        chart.labels = chart.htmlBase.selectAll(".column")
-            .append("span")
-                .classed("label", true)
-                .style("top", "-20px")
-                .text(function(d) {
-                    return chart.pctFmt(d.value);
+                        g.append("span")
+                            .classed("x axis label", true)
+                            .style("width", chart.x.rangeBand() + "px")
+                            .style("top", function(d) { return (chart.settings.displayHeight + 35) + "px"; })
+                            .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
+                            .text(function(d) { return chart.capitalize(d.name); });
+                            
+                        groupValues.forEach(function(v, i) {
+                            var columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
+                            var column = g.append("a").attr("class", "column")
+                                .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
+                                .style("width", columnWidth + "px")
+                                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
+                                .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
+                                .style("height", function(d) { 
+                                    return (chart.settings.displayHeight - chart.y(v.value)) + "px"; 
+                                })
+                                
+                            column.append("span")
+                                .classed("x axis label secondary", true)
+                                .style("top", function(d) { return (chart.settings.displayHeight - chart.y(v.value) + 1) + "px"; })
+                                .text(function(d) { return chart.capitalize(v.name); });
+                                
+                            column.append("span")
+                                .classed("label", true)
+                                .style("top", "-20px")
+                                .text(function(d) {
+                                    return chart.pctFmt(v.value);
+                                });
+                            });
                 });
+        } else {
+            chart.columns = chart.htmlBase.selectAll(".column")
+                    .data(chart.chartDataValues)
+                .enter().append("a")
+                    .attr("class", "column")
+                    .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                    .style("width", chart.x.rangeBand() + "px")
+                    .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
+                    .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
+                    .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; })
+                .append("span")
+                    .classed("x axis label", true)
+                    .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
+                    .text(function(d) { return d.name; });
+
+            chart.labels = chart.htmlBase.selectAll(".column")
+                .append("span")
+                    .classed("label", true)
+                    .style("top", "-20px")
+                    .text(function(d) {
+                        return chart.pctFmt(d.value);
+                    });
+        }
+
 
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -483,6 +599,10 @@ function Chart(options) {
     
     // commas for human-friendly integers
     chart.commaFmt = d3.format(",");
+    
+    chart.capitalize = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     
     chart.sortDataBy = function(field, sortFunc) {
         // allow reverse sorts, e.g. '-value'
