@@ -114,7 +114,7 @@ class GeographyDetailView(TemplateView):
         # add a few last things
         # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
         square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
-        total_pop = page_context['geography']['total_population']
+        total_pop = page_context['geography']['this']['total_population']
         page_context['geo_metadata']['square_miles'] = square_miles
         page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
 

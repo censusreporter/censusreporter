@@ -27,13 +27,13 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header class="column-full">
-                <h1 class="title">{% firstof geography.full_name geography.short_name %}</h1>
+                <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
                 <p class="caption">Data: {{ geography.census_release }} unless noted</p>
             </header>
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
-                        <span class="value">{{ geography.total_population|intcomma }}</span>
+                        <span class="value">{{ geography.this.total_population|intcomma }}</span>
                         <span class="name">Population</span>
                     </span>
                 </div>
