@@ -1,6 +1,6 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize %}
 
-{% block head_title %}{% firstof geography.full_name geography.short_name %} - {{ block.super }}{% endblock %}
+{% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />

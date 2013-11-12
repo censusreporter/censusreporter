@@ -23,7 +23,7 @@
                 {% if stat.values.county_index %}
                 {{ stat.values.county_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} countywide ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
                 {% else %}
-                Countywide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                <strong>Countywide:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}
                 {% comment %}
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.county_index %}{{ stat.values.county_index }}<span class="smaller">%</span> of {% endif %}County</span>
@@ -38,7 +38,7 @@
                 {% if stat.values.state_index %}
                 {{ stat.values.state_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} statewide ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
                 {% else %}
-                Statewide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                <strong>Statewide:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}
                 {% comment %}
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.state_index %}{{ stat.values.state_index }}<span class="smaller">%</span> of {% endif %}State</span>
@@ -53,7 +53,7 @@
                 {% if stat.values.nation_index %}
                 {{ stat.values.nation_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} nationwide ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
                 {% else %}
-                Nationwide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                <strong>Nationwide:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}
                 {% comment %}
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.nation_index %}{{ stat.values.nation_index }}<span class="smaller">%</span> of {% endif %}Nation</span>

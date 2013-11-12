@@ -596,15 +596,19 @@ section aside ul {
 }
 .context-phrases {
     display: block;
+    list-style: none;
     font-size: .83em;
-    padding: 0 1.2em;
+    padding: 0;
     margin: 0;
     font-weight: 500;
     color: #777;
 }
 .context-phrases li {
-    line-height: 1.3;
-    margin-bottom: .33em;
+    line-height: 1.4;
+    margin-bottom: .5em;
+}
+.context-phrases strong {
+    color: #666;
 }
 .stat .primary {
     display: block;
