@@ -409,7 +409,7 @@
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.percentage stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-column-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service"></div>
+            <div class="column-half" id="chart-column-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service" data-qualifier="Veterans who served during wartime only"></div>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.number stat_type='number' stat_class='secondary' %}
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.sex.male stat_type='number' stat_class='secondary' %}
@@ -497,10 +497,11 @@ $.each(chartContainers, function(i) {
         chartDataID = chartID.replace('chart-','').replace('alt-','').split('-'),
         chartType = gracefulType(chartDataID[0]),
         chartData = profileData[chartDataID[1]],
-        chartChartTitle = $(this).data('chart-title');
-        chartChartShowYAxis = $(this).data('chart-show-y-axis');
-        chartInitialSort = $(this).data('initial-sort');
-        chartStatType = $(this).data('stat-type');
+        chartChartTitle = $(this).data('chart-title'),
+        chartChartShowYAxis = $(this).data('chart-show-y-axis'),
+        chartInitialSort = $(this).data('initial-sort'),
+        chartStatType = $(this).data('stat-type'),
+        chartQualifier = $(this).data('qualifier') || null;
         
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;
@@ -514,7 +515,8 @@ $.each(chartContainers, function(i) {
     // than the primary ACS release for this page
     for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
     var thisRelease = chartData[key]['acs_release'],
-        chartQualifier = (thisRelease != defaultDataRelease) ? thisRelease : null;
+        noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null,
+        chartQualifier = (!!noteRelease) ? Array(chartQualifier, noteRelease).filter(function(n) { return n }).join('; ') : chartQualifier;
 
     Charts[i] = Chart({
         chartContainer: chartID,

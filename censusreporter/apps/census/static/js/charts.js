@@ -37,14 +37,14 @@ function Chart(options) {
                     name: d.metadata.name,
                     values: []
                 }
-                d3.keys(d).forEach(function(v, i) {
-                    if (v != 'metadata') {
+                var metadataFields = ['metadata', 'acs_release'];
+                d3.keys(d).filter(function(v) { return chart.exclude(metadataFields, v) })
+                    .forEach(function(v, i) {
                         dataObj.values.push({
                             name: v,
                             value: +d[v].values.this
                         })
-                    }
-                })
+                    })
             } else {
                 // otherwise, just grab the name and value of the data point
                 dataObj = {
@@ -583,7 +583,7 @@ function Chart(options) {
         if (!!chart.chartQualifier) {
             container.append("span")
                 .classed("chart-qualifier", true)
-                .text("* " + chart.chartQualifier + " data")
+                .text("* " + chart.chartQualifier)
         }
     }
     
@@ -602,6 +602,16 @@ function Chart(options) {
     
     chart.capitalize = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    
+    chart.exclude = function(array, obj) {
+        var i = array.length;
+        while (i--) {
+           if (array[i] === obj) {
+               return false;
+           }
+        }
+        return obj;
     }
     
     chart.sortDataBy = function(field, sortFunc) {

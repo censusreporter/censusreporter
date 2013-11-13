@@ -764,12 +764,12 @@ ul.quantile-legend span.quantile-label {
     position: relative;
     font-weight: 500;
 }
-.grouped-column-chart {
-    padding-bottom: 2em;
-}
 .column-set,
 .bar-set {
     position: relative;
+}
+.grouped-column-chart .column-set {
+    margin-bottom: 2.5em;
 }
 .column {
     position: absolute;
