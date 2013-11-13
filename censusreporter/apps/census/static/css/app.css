@@ -91,13 +91,16 @@ a.permalink {
 a:hover {
     color: #02aeab;
 }
-a.permalink span {
+a.permalink span,
+a.permalink i {
+    color: #777;
     display: none;
 }
 a.permalink:hover {
     color: inherit;
 }
-a.permalink:hover span {
+a.permalink:hover span,
+a.permalink:hover i {
     display: inherit;
 }
 p, .serif {

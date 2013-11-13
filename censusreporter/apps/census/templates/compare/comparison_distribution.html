@@ -47,7 +47,7 @@
             {# DISTRIBUTION CHARTS #}
             {% for group, values in distribution_groups.items %}
             <section class="{% if values.subhead %}chart-divider{% else %}coal-chart-container{% endif %}" id="coal-chart-{{ forloop.counter0 }}">
-                <h2 id="{{ group }}"><a class="permalink" href="#{{ group }}">{{ values.column_name }} <span>&para;</span></a></h2>
+                <h2 id="{{ group }}"><a class="permalink" href="#{{ group }}">{{ values.column_name }} <i class="fa fa-link"></i></a></h2>
                 {% if values.group_values %}
                 <ul class="coal-chart">
                     <li class="tick-mark tick-mark-min">
