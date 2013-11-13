@@ -8,9 +8,9 @@ COMPARISON_PHRASE_MAP = {
     "206": ["more than double", ""],
     "195": ["about double", ""],
     "180": ["nearly double", ""],
-    "161": ["more than one and a half times", ""],
-    "144": ["about one and a half times", ""],
-    "133": ["nearly one and a half times", ""],
+    "161": ["more than 1.5 times", ""],
+    "144": ["about 1.5 times", ""],
+    "133": ["nearly 1.5 times", ""],
     "120": ["significantly higher", "than"],
     "109": ["higher", "than"],
     "103": ["a little higher", "than"],
@@ -36,8 +36,8 @@ def comparison_index_phrase(value):
     '''
     Each stat on the profile page can have nation-, state- and county-level
     values, indexed to 100 for comparisons (that is, expressed as a percentage
-    of the profile geography's value). That index value can be passed into this
-    template filter to generate a comparative phrase.
+    of that statistic's value for the profile geography). That index value can
+    be passed into this template filter to generate a comparative phrase.
 
     The COMPARISON_PHRASE_MAP defines the comparative phrases; the dict keys
     are the lower boundary of the range of values that result in that phrase.
