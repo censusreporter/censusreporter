@@ -285,7 +285,7 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.households.number_of_households stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.households.number_of_households stat_type='count' %}
             </div>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
@@ -327,7 +327,7 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='count' %}
             </div>
             <div class="column-third" id="chart-pie-housing-units-occupancy_distribution" data-stat-type="percentage" data-chart-title="Occupied vs. Vacant"></div>
             <div class="column-third" id="chart-pie-housing-units-structure_distribution" data-stat-type="percentage" data-chart-title="Types of structure"></div>

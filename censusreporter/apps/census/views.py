@@ -76,9 +76,6 @@ class GeographyDetailView(TemplateView):
                 page_context['state_fips_code'] = state_fips
                 page_context['state_geoid'] = '04000US%s' % state_fips
 
-            #if sumlev in ['010', '020', '030', '040']:
-            #    acs_release = 'acs2011_1yr'
-
             if sumlev == '050' and len(fips_code) == 5:
                 page_context['county_fips_code'] = fips_code
 
