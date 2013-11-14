@@ -62,7 +62,7 @@
                                 {% if values.value >= 0 %}
                                     {% if percentify %}<span class="percentage">{{ values.value_alt|floatformat }}%</span>{% endif %}
                                     <span class="raw-number{% if percentify %} alt-number{% endif %}">{{ values.value|floatformat|intcomma }}</span>
-                                {% endif %}
+                                {% else %}*{% endif %}
                             </td>
                             {% endfor %}
                         </tr>
