@@ -501,8 +501,10 @@ $.each(chartContainers, function(i) {
         chartChartShowYAxis = $(this).data('chart-show-y-axis'),
         chartInitialSort = $(this).data('initial-sort'),
         chartStatType = $(this).data('stat-type'),
-        chartQualifier = $(this).data('qualifier') || null;
-        
+        chartQualifier = $(this).data('qualifier') || null,
+        comparisonCountyName = '{{ geography.county.short_name }}',
+        comparisonStateName = '{{ geography.state.short_name }}';
+    
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;
     if (drilldown >= 2) {
@@ -526,7 +528,9 @@ $.each(chartContainers, function(i) {
         chartQualifier: chartQualifier,
         chartChartTitle: chartChartTitle,
         chartInitialSort: chartInitialSort,
-        chartStatType: chartStatType
+        chartStatType: chartStatType,
+        comparisonCountyName: comparisonCountyName,
+        comparisonStateName: comparisonStateName
     });
 });
 </script>

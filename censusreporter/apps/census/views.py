@@ -23,7 +23,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-### UTILs ###
+### UTILS ###
 
 def render_json_to_response(context):
     '''
@@ -32,9 +32,33 @@ def render_json_to_response(context):
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
+def find_key(dictionary, key):
+    stack = [dictionary]
+    while stack:
+        d = stack.pop()
+        if key in d:
+            return d[key]
+        for key, value in d.iteritems():
+            if isinstance(value, dict) or isinstance(value, OrderedDict):
+                print key, value
+                stack.append(value)
+
+def find_keys(dictionary, key):
+    stack = [dictionary]
+    values_list = []
+    while stack:
+        d = stack.pop()
+        if key in d:
+            values_list.append(d[key])
+        for key, value in d.iteritems():
+            if isinstance(value, dict) or isinstance(value, OrderedDict):
+                print key, value
+                stack.append(value)
+                
+    return values_list
+
 
 ### DETAIL ###
-
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile.html'
@@ -44,8 +68,8 @@ class GeographyDetailView(TemplateView):
             if category != 'geography':
                 for group, group_values in groupings.items():
                     for data, data_values in group_values.items():
-                        if 'values' in data_values:
-                            values = data_values['values']
+                        values_list = find_keys(data_values, 'values')
+                        for values in values_list:
                             geo_value = values['this']
                             if 'county' in values:
                                 values['county_index'] = get_ratio(geo_value, values['county'])

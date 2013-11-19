@@ -27,6 +27,11 @@ function Chart(options) {
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
+        chart.comparisonNames = {
+            'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
+            'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
+            'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
+        }
         
         var dataObj;
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
@@ -49,7 +54,8 @@ function Chart(options) {
                 // otherwise, just grab the name and value of the data point
                 dataObj = {
                     name: d.name,
-                    value: +d.values.this
+                    value: +d.values.this,
+                    context: d
                 }
             }
             return dataObj
@@ -159,7 +165,7 @@ function Chart(options) {
                             .append("span")
                                 .classed("label", true)
                                 .text(function(d) {
-                                    return chart.pctFmt(v.value);
+                                    return chart.valFmt(v.value);
                                 });
                                 
                             // add the specific label below the bar
@@ -182,7 +188,7 @@ function Chart(options) {
                 .append("span")
                     .classed("label", true)
                     .text(function(d) {
-                        return chart.pctFmt(d.value);
+                        return chart.valFmt(d.value);
                     });
 
             // labels appear below bars
@@ -307,6 +313,8 @@ function Chart(options) {
             .style("height", chart.settings.height + "px");
 
         if (chart.chartType == 'grouped_column') {
+            var g, groupValues, columnWidth, column;
+            
             chart.chartContainer
                 .classed('grouped-column-chart', true);
                 
@@ -315,8 +323,8 @@ function Chart(options) {
                 .enter().append("div")
                     .attr("class", "column-group")
                     .each(function(d, i) {
-                        var g = d3.select(this),
-                            groupValues = d3.values(d.values);
+                        g = d3.select(this);
+                        groupValues = d3.values(d.values);
 
                         g.append("span")
                             .classed("x axis label", true)
@@ -326,8 +334,8 @@ function Chart(options) {
                             .text(function(d) { return chart.capitalize(d.name); });
                             
                         groupValues.forEach(function(v, i) {
-                            var columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
-                            var column = g.append("a").attr("class", "column")
+                            columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
+                            column = g.append("a").attr("class", "column")
                                 .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
                                 .style("width", columnWidth + "px")
                                 .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
@@ -345,7 +353,7 @@ function Chart(options) {
                                 .classed("label", true)
                                 .style("top", "-20px")
                                 .text(function(d) {
-                                    return chart.pctFmt(v.value);
+                                    return chart.valFmt(v.value);
                                 });
                             });
                 });
@@ -369,7 +377,7 @@ function Chart(options) {
                     .classed("label", true)
                     .style("top", "-20px")
                     .text(function(d) {
-                        return chart.pctFmt(d.value);
+                        return chart.valFmt(d.value);
                     });
         }
 
@@ -472,17 +480,17 @@ function Chart(options) {
         chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
             .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -(chart.settings.radius / 1.5) + "px")
+            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
             .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 11) + "px")
-            .style("width", ((chart.settings.radius / 1.5) * 2) + "px");
+            .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // center value
         chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
             .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -(chart.settings.radius / 1.5) + "px")
+            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
             .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 6) + "px")
-            .style("width", ((chart.settings.radius / 1.5) * 2) + "px");
+            .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // hover state highlights the arc and associated legend item,
         // and displays the data name and value in center of chart
@@ -491,7 +499,8 @@ function Chart(options) {
                 .filter(function(d) {
                     return d == data;
                 })
-                .classed("hovered", true);
+                .classed("hovered", true)
+
             chart.legendItems
                 .filter(function(d) {
                     return d == data;
@@ -500,8 +509,10 @@ function Chart(options) {
             
             chart.centerLabel.text(data.data.name);
             chart.centerValue.text(function() {
-                return chart.pctFmt(data.data.value);
+                return chart.valFmt(data.data.value);
             });
+            
+            chart.mouseover(data);
         }
 
         // return arc and associated legend item to normal styles
@@ -512,7 +523,11 @@ function Chart(options) {
                 .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialData.data.name);
-            chart.centerValue.text(chart.pctFmt(chart.initialData.data.value));
+            chart.centerValue.text(chart.valFmt(chart.initialData.data.value));
+            
+            if (!!chart.hovercard) {
+                chart.mouseout();
+            }
         }
 
         // add arc paths to arc group
@@ -521,14 +536,8 @@ function Chart(options) {
             .enter().append("path")
                 .classed("arc", true)
                 .attr("d", chart.arc)
-                .style("fill", function(d) { return chart.color(d.data.name); });
+                .style("fill", function(d) { return chart.color(d.data.name); })
                 
-        // listen for arc hovers
-        chart.arcs.on("mouseover", chart.arcHover)
-            .on("mouseout", chart.arcReset);
-        
-        // add legend, legend items
-
         // place legend to right of chart, or below if necessary
         if (chart.settings.legendWidth < chart.settings.displayWidth) {
             chart.legend = chart.htmlBase.append("ul")
@@ -542,26 +551,42 @@ function Chart(options) {
                 .attr("class", "legend legend-full-width");
         }
 
+        // add legend items
+        var g;
         chart.legendItems = chart.legend.selectAll('li')
                 .data(chart.pieData)
             .enter().append("li")
                 .attr("class", "legend-item")
                 .each(function(d, i) {
-                    var g = d3.select(this);
-                        g.append("span")
-                            .attr("class", "swatch")
-                            .style("background-color", function(d) { return chart.color(d.data.name); });
+                    g = d3.select(this);
+                    g.append("span")
+                        .attr("class", "swatch")
+                        .style("background-color", function(d) { return chart.color(d.data.name); });
 
-                        g.append("span")
-                            .attr("class", "label")
-                            .text(d.data.name);
+                    g.append("span")
+                        .attr("class", "label")
+                        .text(d.data.name);
                 });
                 
         // add initial center label
         chart.arcReset();
+
+        chart.hovercard = chart.chartContainer.append("div")
+            .attr("class", "hovercard")
+            .style("bottom", "0")
+            .style("left", "0")
+            .style("opacity", 1e-6);
+
+        // listen for arc hovers
+        chart.arcs
+            .on("mouseover", chart.arcHover)
+            .on("mousemove", chart.mousemove)
+            .on("mouseout", chart.arcReset);
         
         // listen for legend hovers
-        chart.legendItems.on("mouseover", chart.arcHover)
+        chart.legendItems
+            .on("mouseover", chart.arcHover)
+            .on("mousemove", chart.mousemove)
             .on("mouseout", chart.arcReset);
         
         if (!!chart.chartQualifier) {
@@ -571,6 +596,61 @@ function Chart(options) {
         return chart;
     }
     
+    chart.makeHovercard = function(d) {
+        var value,
+            index,
+            phraseBits,
+            contextData = d.data.context,
+            cardContents = [
+                "<li class='primary'><strong>" + d.data.context.name + ":</strong> " + chart.valFmt(contextData.values.this) + "</li>"
+            ];
+        
+        d3.keys(contextData.values).forEach(function(k, i) {
+            if (k != 'this' && k.indexOf('_index') == -1) {
+                value = contextData.values[k];
+                index = contextData.values[k + '_index'];
+                
+                if (!!index) {
+                    phraseBits = chart.getComparisonThreshold(index);
+                    cardContents.push(
+                        "<li><strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + " (" + chart.valFmt(value) + ")</li>"
+                    );
+                } else {
+                    cardContents.push(
+                        "<li><strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + "</li>"
+                    );
+                }
+            }
+        });
+        
+        var card = [
+            "<span class='card-contents'><ul>" + cardContents.join('') + "</ul></span>"
+        ].join('');
+        return card
+    }
+    
+    chart.mouseover = function(d) {
+        chart.hovercard
+            .html(chart.makeHovercard(d))
+            .transition()
+            .duration(200)
+            .style("width", "200px")
+            .style("opacity", 1);
+    }
+
+    chart.mousemove = function() {
+        chart.hovercard
+            .style("left", (d3.mouse(this)[0]) + "px")
+            .style("bottom", (chart.settings.displayHeight - d3.mouse(this)[1] - 60) + "px");
+    }
+
+    chart.mouseout = function() {
+        chart.hovercard
+            .transition()
+            .duration(200)
+            .style("opacity", 1e-6);
+    }
+
     chart.addChartTitle = function(container) {
         if (!!chart.chartChartTitle) {
             container.append("h3")
@@ -588,11 +668,13 @@ function Chart(options) {
     }
     
     // present percentages with % at the end
-    chart.pctFmt = function(value) {
+    chart.valFmt = function(value) {
         if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
-            value += '%'
+            value += '%';
+        } else if (chart.chartStatType == 'dollar') {
+            value = '$' + chart.commaFmt(value);
         } else {
-            value = chart.commaFmt(value)
+            value = chart.commaFmt(value);
         }
         return value;
     }
@@ -612,6 +694,10 @@ function Chart(options) {
            }
         }
         return obj;
+    }
+    
+    chart.lastItem = function(array) {
+        return array[array.length - 1]
     }
     
     chart.sortDataBy = function(field, sortFunc) {
@@ -646,10 +732,59 @@ function Chart(options) {
     chart.colorbrewer = {
         Set2: ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'],
         // saturated version of Colorbrewer 'Set2' scheme, so the unhovered
-        // state, at 80% opacity, looks like the original colorbrew color
+        // state, at 80% opacity, looks like the original colorbrewer color
         Set2S: ['#33b5b5', '#ed8b69', '#6295cc', '#dd85c0', '#8ecc23', '#fccd06', '#dbba97', '#aaaaaa']
         
     };
+    
+    chart.comparisonPhrases = {
+        206: ["more than double", ""],
+        195: ["about double", ""],
+        180: ["nearly double", ""],
+        161: ["more than 1.5 times", ""],
+        145: ["about 1.5 times", ""],
+        135: ["about 1.4 times", ""],
+        128: ["about 1.3 times", ""],
+        122: ["about 25 percent higher", "than"],
+        115: ["about 20 percent higher", "than"],
+        107: ["about 10 percent higher", "than"],
+        103: ["a little higher", "than"],
+        98: ["about the same as", ""],
+        94: ["a little less", "than"],
+        86: ["about 90 percent", "of"],
+        78: ["about 80 percent", "of"],
+        72: ["about three-quarters", "of"],
+        64: ["about two-thirds", "of"],
+        56: ["about three-fifths", "of"],
+        45: ["about half", ""],
+        37: ["about two-fifths", "of"],
+        30: ["about one-third", "of"],
+        23: ["about one-quarter", "of"],
+        17: ["about two-fifths", "of"],
+        13: ["less than two-fifths", "of"],
+        8: ["about 10 percent", "of"],
+        0: ["less than 10 percent", "of"],
+    }
+    
+    chart.comparisonThresholds = d3.keys(chart.comparisonPhrases).map(Number);
+    
+    chart.getComparisonThreshold = function(value) {
+        var threshold = chart.lastItem(chart.comparisonThresholds.filter(function(i) {
+            return i <= value
+        }));
+        
+        return chart.comparisonPhrases[threshold]
+    }
+    
+    chart.getComparisonNoun = function() {
+        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
+            return 'rate';
+        } else if (chart.chartStatType == 'dollar') {
+            return 'amount';
+        }
+        return 'figure';
+    }
+    
 
     // ready, set, go
     chart.init(options);
