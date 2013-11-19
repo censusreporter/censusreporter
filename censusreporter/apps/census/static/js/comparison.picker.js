@@ -24,7 +24,7 @@ var getCountsAPI = function() {
     return url;
 };
 
-function getReleaseCounts() {
+function getReleaseCounts(triggerExplainer) {
     countsAPI = getCountsAPI();
     var releaseCounts = [],
         releaseResultCount;
@@ -45,14 +45,16 @@ function getReleaseCounts() {
                         .removeAttr("href").addClass("disabled");
                 }
             });
-            releaseCounts.sort(function(obj1, obj2) {
-                return obj2['results'] - obj1['results'];
-            });
-            var maxResults = releaseCounts[0]['results'];
-            if (releaseResultCount < maxResults) {
-                $('#explainer-places-missing').show();
-            } else {
-                $('#explainer-places-missing').remove();
+            if (triggerExplainer) {
+                releaseCounts.sort(function(obj1, obj2) {
+                    return obj2['results'] - obj1['results'];
+                });
+                var maxResults = releaseCounts[0]['results'];
+                if (releaseResultCount < maxResults) {
+                    $('#explainer-places-missing').show();
+                } else {
+                    $('#explainer-places-missing').remove();
+                }
             }
         });
 }
@@ -332,7 +334,7 @@ jQuery(document).ready(function(){
     populateReleaseChosen();
 
     if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
-        getReleaseCounts();
+        getReleaseCounts(triggerExplainer=true);
     }
 
     // initial setup for select widgets

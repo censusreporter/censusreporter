@@ -1,4 +1,5 @@
-<p id="explainer-places-missing" class="hidden">
-    <strong class="display-type">* Why are places missing?</strong><br>
-    The {{ table.census_release }} release provides data for {% if '_5yr' in release %}all areas, so this table must not be included in the survey.{% else %}areas with populations of at least {% if '_1yr' in release %}65,000{% elif '_3yr' in release %}20,000{% endif %} people. For data from more areas, you can switch releases at the top of this page.{% endif %}
-</p>
+<div id="explainer-places-missing" class="hidden">
+    <p class="display-type strong">Why are places missing?</p>
+    <p>The {{ table.census_release }} release provides data for {% if '_5yr' in release %}all areas, so this table must not be included in the survey.{% else %}areas with populations of at least {% if '_1yr' in release %}65,000{% elif '_3yr' in release %}20,000{% endif %} people. Areas that meet this threshold still might be missing if the table universe is small.{% endif %}</p>
+    {% if '_1yr' in release or '_3yr' in release %}<p>For data from more areas, you can switch releases at the top of this page.</p>{% endif %}
+</div>
