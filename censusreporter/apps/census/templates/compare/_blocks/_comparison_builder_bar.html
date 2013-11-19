@@ -96,6 +96,14 @@
             </p>
             <a data-release-slug="acs2012_1yr" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev format %}?release=acs2012_1yr&table={{ table.table_id }}">Show results</a>
         </div>
+        <div class="release-option column-third">
+            <h3>ACS 2012 3-year</h3>
+            <p>
+                Data for areas with populations of 20,000<br>
+                Larger sample than 1-year, smaller than 5-year
+            </p>
+            <a data-release-slug="acs2012_3yr" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev format %}?release=acs2012_3yr&table={{ table.table_id }}">Show results</a>
+        </div>
     </section>
     {% endif %}
     <div id="query-go">
