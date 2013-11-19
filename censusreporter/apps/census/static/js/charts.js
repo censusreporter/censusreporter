@@ -17,7 +17,8 @@ function Chart(options) {
     chart.init = function(options) {
         // establish our base vars
         chart.chartContainer = d3.select('#'+options.chartContainer)
-                .style("position", "relative");
+            .style("position", "relative");
+        
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartChartTitle = options.chartChartTitle || null;
@@ -66,7 +67,11 @@ function Chart(options) {
             width: parseInt(chart.chartContainer.style('width'), 10) - parseInt(chart.chartContainer.style('margin-right'), 10),
             height: chart.chartHeight,
             margin: { top: 0, right: 0, bottom: 0, left: 0 },
+            hovercardBuffer: { x: 0, y: 25 }
         }
+        
+        // add blank hovercard
+        chart.initHovercard()
 
         // time to make the chart
         chart.draw();
@@ -109,8 +114,8 @@ function Chart(options) {
 
         // primary div container
         chart.htmlBaseContainer = chart.chartContainer.append("div")
-                .attr("class", "div-chart")
-                .attr("width", "100%");
+            .attr("class", "div-chart")
+            .attr("width", "100%");
 
         // x scale and axis, account for raw number vs. percentages
         if (chart.chartStatType == 'percentage') {
@@ -242,16 +247,24 @@ function Chart(options) {
             });
         }
 
-        // add optional title, adjust height available if necessary
-        if (!!chart.chartChartTitle) {
-            chart.addChartTitle(chart.chartContainer);
-            chart.settings.height -= 20;
-        }
-
         chart.updateSettings({
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
         });
+        
+        // create the base for upcoming html elements
+        chart.htmlBase = chart.chartContainer.append("div")
+            .attr("class", "column-set")
+            .style("margin-top", function() {
+                return (chart.chartChartShowYAxis) ? -(chart.settings.height) + "px" : "0";
+            })
+            .style("height", chart.settings.height + "px");
+
+        // add optional title, adjust height available height for arcs if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.htmlBase);
+            chart.settings.displayHeight -= 20;
+        }
 
         // x scale, axis and labels
         chart.x = d3.scale.ordinal()
@@ -305,13 +318,6 @@ function Chart(options) {
         }
         
         // add columns as <a> elements, with built-in category labels
-        chart.htmlBase = chart.chartContainer.append("div")
-            .attr("class", "column-set")
-            .style("margin-top", function() {
-                return (chart.chartChartShowYAxis) ? -(chart.settings.height) + "px" : "0";
-            })
-            .style("height", chart.settings.height + "px");
-
         if (chart.chartType == 'grouped_column') {
             var g, groupValues, columnWidth, column;
             
@@ -325,16 +331,16 @@ function Chart(options) {
                     .each(function(d, i) {
                         g = d3.select(this);
                         groupValues = d3.values(d.values);
-
+                        columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
+                        
                         g.append("span")
                             .classed("x axis label", true)
                             .style("width", chart.x.rangeBand() + "px")
-                            .style("top", function(d) { return (chart.settings.displayHeight + 35) + "px"; })
+                            .style("top", function(d) { return (chart.settings.displayHeight + 55) + "px"; })
                             .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
                             .text(function(d) { return chart.capitalize(d.name); });
                             
                         groupValues.forEach(function(v, i) {
-                            columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
                             column = g.append("a").attr("class", "column")
                                 .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
                                 .style("width", columnWidth + "px")
@@ -356,23 +362,36 @@ function Chart(options) {
                                     return chart.valFmt(v.value);
                                 });
                             });
-                });
+                        });
+            chart.columns = chart.htmlBase.selectAll(".column");
         } else {
-            chart.columns = chart.htmlBase.selectAll(".column")
+            chart.columns = chart.htmlBase.selectAll(".column-slot")
                     .data(chart.chartDataValues)
                 .enter().append("a")
                     .attr("class", "column")
-                    .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                    //.style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                     .style("width", chart.x.rangeBand() + "px")
                     .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                     .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
-                    .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; })
+                    .style("height", function(d) { return (chart.settings.displayHeight) + "px"; });
+                    
+            chart.columnAreas = chart.columns
+                .append("span")
+                    .attr("class", "area")
+                    .style("position", "absolute")
+                    .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                    .style("width", chart.x.rangeBand() + "px")
+                    .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
+                    //.style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
+                    .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
+
+            chart.columnAreas
                 .append("span")
                     .classed("x axis label", true)
                     .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
                     .text(function(d) { return d.name; });
 
-            chart.labels = chart.htmlBase.selectAll(".column")
+            chart.labels = chart.columnAreas
                 .append("span")
                     .classed("label", true)
                     .style("top", "-20px")
@@ -381,6 +400,13 @@ function Chart(options) {
                     });
         }
 
+        // listen for column hovers
+        chart.columns
+            .on("mouseover", chart.mouseover)
+            .on("mouseout", chart.mouseout);
+            
+        chart.chartContainer
+            .on("mousemove", chart.mousemove);
 
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -393,12 +419,6 @@ function Chart(options) {
         chart.chartContainer
             .classed("pie-chart", true);
             
-        // add optional title, adjust height available height for arcs if necessary
-        if (!!chart.chartChartTitle) {
-            chart.addChartTitle(chart.chartContainer);
-            chart.settings.height -= 20;
-        }
-
         // give the chart display dimensions
         chart.updateSettings({
             legendWidth: chart.settings.width * .38,
@@ -406,6 +426,12 @@ function Chart(options) {
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
         });
+        
+        // add optional title, adjust height available height for arcs if necessary
+        if (!!chart.chartChartTitle) {
+            chart.addChartTitle(chart.chartContainer);
+            chart.settings.displayHeight -= 20;
+        }
         
         // if width is narrow enough that legend won't have room
         // for decent display, drop it below the chart instead
@@ -493,7 +519,8 @@ function Chart(options) {
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // hover state highlights the arc and associated legend item,
-        // and displays the data name and value in center of chart
+        // and displays the data name and value in center of chart.
+        // filters based on data to trigger arc/legend at same time.
         chart.arcHover = function(data) {
             chart.arcs
                 .filter(function(d) {
@@ -512,7 +539,8 @@ function Chart(options) {
                 return chart.valFmt(data.data.value);
             });
             
-            chart.mouseover(data);
+            // also trigger standard mouseover
+            chart.mouseover(data.data);
         }
 
         // return arc and associated legend item to normal styles
@@ -525,9 +553,7 @@ function Chart(options) {
             chart.centerLabel.text(chart.initialData.data.name);
             chart.centerValue.text(chart.valFmt(chart.initialData.data.value));
             
-            if (!!chart.hovercard) {
-                chart.mouseout();
-            }
+            chart.mouseout();
         }
 
         // add arc paths to arc group
@@ -536,7 +562,7 @@ function Chart(options) {
             .enter().append("path")
                 .classed("arc", true)
                 .attr("d", chart.arc)
-                .style("fill", function(d) { return chart.color(d.data.name); })
+                .style("fill", function(d) { return chart.color(d.data.name); });
                 
         // place legend to right of chart, or below if necessary
         if (chart.settings.legendWidth < chart.settings.displayWidth) {
@@ -571,24 +597,20 @@ function Chart(options) {
         // add initial center label
         chart.arcReset();
 
-        chart.hovercard = chart.chartContainer.append("div")
-            .attr("class", "hovercard")
-            .style("bottom", "0")
-            .style("left", "0")
-            .style("opacity", 1e-6);
-
         // listen for arc hovers
         chart.arcs
             .on("mouseover", chart.arcHover)
-            .on("mousemove", chart.mousemove)
             .on("mouseout", chart.arcReset);
         
         // listen for legend hovers
         chart.legendItems
             .on("mouseover", chart.arcHover)
-            .on("mousemove", chart.mousemove)
             .on("mouseout", chart.arcReset);
-        
+
+        chart.chartContainer
+            .on("mousemove", chart.mousemove);
+
+        // add any explanatory lines
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
@@ -596,13 +618,20 @@ function Chart(options) {
         return chart;
     }
     
-    chart.makeHovercard = function(d) {
+    chart.initHovercard = function() {
+        chart.hovercard = chart.chartContainer.append("div")
+            .attr("class", "hovercard")
+            .style("width", "200px")
+            .style("opacity", 1e-6);
+    }
+    
+    chart.fillHovercard = function(data) {
         var value,
             index,
             phraseBits,
-            contextData = d.data.context,
+            contextData = data.context,
             cardContents = [
-                "<li class='primary'><strong>" + d.data.context.name + ":</strong> " + chart.valFmt(contextData.values.this) + "</li>"
+                "<li class='primary'><strong>" + data.context.name + ":</strong> " + chart.valFmt(contextData.values.this) + "</li>"
             ];
         
         d3.keys(contextData.values).forEach(function(k, i) {
@@ -629,26 +658,32 @@ function Chart(options) {
         return card
     }
     
-    chart.mouseover = function(d) {
-        chart.hovercard
-            .html(chart.makeHovercard(d))
-            .transition()
-            .duration(200)
-            .style("width", "200px")
-            .style("opacity", 1);
+    chart.mouseover = function(data) {
+        // ensure we have hovercard so other hover events can safely call this
+        if (!!chart.hovercard) {
+            chart.hovercard
+                .html(chart.fillHovercard(data))
+                .transition()
+                .duration(200)
+                .style("width", "200px")
+                .style("opacity", 1);
+        }
     }
 
     chart.mousemove = function() {
         chart.hovercard
             .style("left", (d3.mouse(this)[0]) + "px")
-            .style("bottom", (chart.settings.displayHeight - d3.mouse(this)[1] - 60) + "px");
+            .style("bottom", (chart.settings.height - d3.mouse(this)[1] + 5) + "px");
     }
 
     chart.mouseout = function() {
-        chart.hovercard
-            .transition()
-            .duration(200)
-            .style("opacity", 1e-6);
+        // ensure we have hovercard so other hover events can safely call this
+        if (!!chart.hovercard) {
+            chart.hovercard
+                .transition()
+                .duration(200)
+                .style("opacity", 1e-6);
+        }
     }
 
     chart.addChartTitle = function(container) {

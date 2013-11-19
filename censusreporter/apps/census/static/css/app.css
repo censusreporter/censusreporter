@@ -706,6 +706,7 @@ section aside ul {
     -moz-border-radius: 4px;
     border-radius: 4px;
     pointer-events: none;
+    z-index: 999;
 }
 .hovercard .label-title,
 .hovercard .name,
@@ -784,10 +785,21 @@ ul.quantile-legend span.quantile-label {
 .grouped-column-chart .column-set {
     margin-bottom: 2.5em;
 }
+.column-slot {
+    position: absolute;
+}
 .column {
     position: absolute;
     cursor: pointer;
     bottom: 0;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
+}
+.column .area {
     background-color: #014948;
     -webkit-border-top-left-radius: 2px;
     -moz-border-radius-topleft: 2px;
@@ -795,6 +807,7 @@ ul.quantile-legend span.quantile-label {
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topright: 2px;
     border-top-right-radius: 2px;
+    display: block;
 }
 .column:hover {
     opacity: 1;
@@ -946,8 +959,9 @@ svg text {
     margin-bottom: 7px;
 }
 .chart-qualifier {
+    position: absolute;
     display: block;
-    margin: 1em 0 0 .5em;
+    margin: 0 0 0 .5em;
 }
 
 /* TABLES */
