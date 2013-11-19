@@ -32,27 +32,25 @@ def render_json_to_response(context):
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
-def find_key(dictionary, key):
+def find_key(dictionary, searchkey):
     stack = [dictionary]
     while stack:
         d = stack.pop()
-        if key in d:
-            return d[key]
+        if searchkey in d:
+            return d[searchkey]
         for key, value in d.iteritems():
             if isinstance(value, dict) or isinstance(value, OrderedDict):
-                print key, value
                 stack.append(value)
 
-def find_keys(dictionary, key):
+def find_keys(dictionary, searchkey):
     stack = [dictionary]
     values_list = []
     while stack:
         d = stack.pop()
-        if key in d:
-            values_list.append(d[key])
+        if searchkey in d:
+            values_list.append(d[searchkey])
         for key, value in d.iteritems():
             if isinstance(value, dict) or isinstance(value, OrderedDict):
-                print key, value
                 stack.append(value)
                 
     return values_list
