@@ -694,11 +694,12 @@ section aside ul {
     stroke: #fff;
     stroke-linejoin: round;
 }
-.svg-map .label {
+
+.hovercard {
     position: absolute;
     text-align: center;
     padding: .33em .67em;
-    font-size: .8em;
+    font-size: 12px;
     background: #fff;
     border: solid 1px #777;
     -webkit-border-radius: 4px;
@@ -706,16 +707,25 @@ section aside ul {
     border-radius: 4px;
     pointer-events: none;
 }
-.svg-map .label .label-title,
-.svg-map .label .name,
-.svg-map .label .value {
+.hovercard .label-title,
+.hovercard .name,
+.hovercard .value {
     display: block;
 }
-.svg-map .label .label-title,
-.svg-map .label .name {
+.hovercard .label-title,
+.hovercard .name {
     font-weight: bold;
 }
-.svg-map .label .label-title {
+.hovercard .label-title {
+    margin-bottom: .5em;
+}
+.hovercard ul {
+    text-align: left;
+    margin: .5em;
+    padding: 0;
+    list-style: none;
+}
+.hovercard li.primary {
     margin-bottom: .5em;
 }
 
@@ -1928,6 +1938,9 @@ section.chart-divider h2 {
 }
 .small {
     font-size: .75em;
+}
+.strong {
+    font-weight: bold;
 }
 .hidden,
 .geolocate-only,

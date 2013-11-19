@@ -25,7 +25,7 @@ var svgMap = mapDiv.append("svg")
     .style("position", "relative");
 
 var label = mapDiv.append("div")
-    .attr("class", "label")
+    .attr("class", "hovercard")
     .style("opacity", 1e-6);
 
 var labelTitle = "",
@@ -53,9 +53,6 @@ function changeMap(column) {
     window.labelTitle = tabledata['columns'][column]['full_name'];
     makeMap(geodata[column]);
     chosenColumnTitle.text(labelTitle);
-}
-
-function changeChosenColumn() {
 }
 
 function makeMap(geodata) {
@@ -143,9 +140,9 @@ function makeMap(geodata) {
 
     function mouseover(d) {
         if (!!geodata[d['id']]) {
-            var centroid = path.centroid(d),
-                x = centroid[0],
-                y = centroid[1];
+            //var centroid = path.centroid(d),
+            //    x = centroid[0],
+            //    y = centroid[1];
 
             label
                 .html(makeLabel(d))
@@ -187,13 +184,6 @@ function makeMap(geodata) {
         }
         return label
     }
-    //svg.selectAll(".label")
-        //    .data(geographies.features)
-        //.enter().append("text")
-        //    .attr("id", function(d) { return "label-" + d['id']; })
-        //    .attr("class", "label")
-        //    .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
-        //    .text(function(d) { return d['properties']['name'] + geodata[d['id']]; });
 }
 
 var dataSelector = $('.data-selector');
