@@ -579,14 +579,18 @@ section aside ul {
     margin: 0;
     padding: 0;
 }
-.stat .context {
-    list-style: none;
-    display: block;
+.context,
+.stat .context,
+.context-phrases {
     font-size: .83em;
-    padding: 0;
-    margin: 0 -6px;
     font-weight: 500;
     color: #777;
+}
+.stat .context {
+    display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0 -6px;
     max-width: 200px;
 }
 .stat .context .value {
@@ -600,11 +604,8 @@ section aside ul {
 .context-phrases {
     display: block;
     list-style: none;
-    font-size: .83em;
     padding: 0;
     margin: 0;
-    font-weight: 500;
-    color: #777;
 }
 .context-phrases li {
     line-height: 1.4;
@@ -699,7 +700,7 @@ section aside ul {
     position: absolute;
     text-align: center;
     padding: .33em .67em;
-    font-size: 12px;
+    font-size: 13px;
     background: #fff;
     border: solid 1px #777;
     -webkit-border-radius: 4px;
@@ -725,9 +726,13 @@ section aside ul {
     margin: .5em;
     padding: 0;
     list-style: none;
+    line-height: 1.3;
 }
 .hovercard li {
-    margin-bottom: .5em;
+    margin-bottom: .67em;
+}
+.hovercard li .context {
+    margin-left: .5em;
 }
 
 .q0 { background-color: #d9ece8; fill: #d9ece8; } /* Swans Down*/

@@ -674,7 +674,7 @@ function Chart(options) {
             phraseBits,
             contextData = data.context,
             cardContents = [
-                "<li class='primary'><strong>" + data.context.name + ":</strong> " + chart.valFmt(contextData.values.this) + "</li>"
+                "<li class='primary'><strong>" + contextData.name + ":</strong> " + chart.valFmt(contextData.values.this) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span></li>"
             ];
         
         d3.keys(contextData.values).forEach(function(k, i) {
@@ -685,7 +685,7 @@ function Chart(options) {
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
                     cardContents.push(
-                        "<li><strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + " (" + chart.valFmt(value) + ")</li>"
+                        "<li><strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + ": " + chart.valFmt(value) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span></li>"
                     );
                 } else {
                     cardContents.push(
