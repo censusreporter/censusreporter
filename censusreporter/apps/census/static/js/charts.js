@@ -214,6 +214,9 @@ function Chart(options) {
                         return d.name;
                     });
         }
+
+        // now that bars are in place, capture height for hover calculations
+        chart.settings.height = parseInt(chart.chartContainer.style('height'), 10);
         
         // listen for column hovers
         chart.bars = chart.htmlBase.selectAll(".bar")
