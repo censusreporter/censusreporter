@@ -836,7 +836,6 @@ ul.quantile-legend span.quantile-label {
 }
 .bar .label {
     position: absolute;
-    left: 100%;
     padding-left: .5em;
 }
 .bar-set h4.label {

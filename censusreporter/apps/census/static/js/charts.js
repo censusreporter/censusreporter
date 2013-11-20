@@ -163,13 +163,20 @@ function Chart(options) {
                             
                         // drop each bar into bar-group
                         groupValues.forEach(function(v, i) {
-                            g.append("a")
+                            bar = g.append("a")
                                 .attr("class", "bar")
                                 .style("position", "relative")
+                                .style("width", function(d) { return (chart.settings.displayWidth) + "px"; })
+                                .datum(function (d) { return v });
+                                
+                            bar.append("span")
+                                .attr("class", "area")
                                 .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
-                                .style("width", function(d) { return (chart.settings.displayWidth - chart.x(v.value)) + "px"; })
-                            .append("span")
+                                .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; });
+                                
+                            bar.append("span")
                                 .classed("label", true)
+                                .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
                                 .text(function(d) {
                                     return chart.valFmt(v.value);
                                 });
@@ -188,9 +195,8 @@ function Chart(options) {
                 .append("a")
                     .attr("class", "bar")
                     .style("position", "relative")
-                    //.style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                     .style("width", function(d) { return (chart.settings.displayWidth) + "px"; })
-                    .datum(function (d) { return d })
+                    .datum(function (d) { return d });
                     
             chart.barAreas = chart.bars
                 .append("span")
@@ -365,7 +371,6 @@ function Chart(options) {
                             
                         groupValues.forEach(function(v, i) {
                             column = g.append("a").attr("class", "column")
-                                //.style("background-color", chart.colorbrewer[chart.chartColorScale][i])
                                 .style("width", columnWidth + "px")
                                 .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                                 .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
@@ -407,7 +412,6 @@ function Chart(options) {
                     .data(chart.chartDataValues)
                 .enter().append("a")
                     .attr("class", "column")
-                    //.style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                     .style("width", chart.x.rangeBand() + "px")
                     .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                     .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
@@ -420,13 +424,11 @@ function Chart(options) {
                     .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                     .style("width", chart.x.rangeBand() + "px")
                     .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
-                    //.style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
                     .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
 
             chart.columnAreas
                 .append("span")
                     .classed("x axis label", true)
-                    //.style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
                     .style("bottom", "-16px")
                     .text(function(d) { return d.name; });
 
