@@ -821,6 +821,12 @@ ul.quantile-legend span.quantile-label {
     height: 2.5em;
     padding: .5em;
     margin-top: .75em;
+}
+.bar .area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
     -webkit-border-top-right-radius: 2px;
     -moz-border-radius-topright: 2px;
     border-top-right-radius: 2px;
@@ -856,7 +862,10 @@ ul.quantile-legend span.quantile-label {
     width: 100%;
     text-align: center;
 }
-.column:hover .label {
+.column .label,
+.column:hover .label,
+.bar .label,
+.bar:hover .label {
     color: #111;
 }
 .column .axis.label,

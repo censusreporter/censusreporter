@@ -182,17 +182,26 @@ function Chart(options) {
                                 });
                         });
                     });
-            
         } else {
             // standard presentation
             chart.bars = chart.htmlBase
                 .append("a")
                     .attr("class", "bar")
                     .style("position", "relative")
+                    //.style("background-color", chart.colorbrewer[chart.chartColorScale][0])
+                    .style("width", function(d) { return (chart.settings.displayWidth) + "px"; })
+                    .datum(function (d) { return d })
+                    
+            chart.barAreas = chart.bars
+                .append("span")
+                    .attr("class", "area")
                     .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
-                    .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
+                    .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; });
+
+            chart.bars
                 .append("span")
                     .classed("label", true)
+                    .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
                     .text(function(d) {
                         return chart.valFmt(d.value);
                     });
@@ -205,7 +214,15 @@ function Chart(options) {
                         return d.name;
                     });
         }
-                
+        
+        // listen for column hovers
+        chart.bars = chart.htmlBase.selectAll(".bar")
+            .on("mouseover", chart.mouseover)
+            .on("mouseout", chart.mouseout);
+            
+        chart.chartContainer
+            .on("mousemove", chart.mousemove);
+        
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
@@ -378,6 +395,9 @@ function Chart(options) {
                                 });
                             });
                         });
+                        
+            // now that we've created all the columns in their groups,
+            // select them for hover handling
             chart.columns = chart.htmlBase.selectAll(".column");
         } else {
             chart.columns = chart.htmlBase.selectAll(".column")
