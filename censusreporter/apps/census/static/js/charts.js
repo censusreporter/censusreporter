@@ -48,7 +48,8 @@ function Chart(options) {
                     .forEach(function(v, i) {
                         dataObj.values.push({
                             name: v,
-                            value: +d[v].values.this
+                            value: +d[v].values.this,
+                            context: d[v]
                         })
                     })
             } else {
@@ -224,20 +225,6 @@ function Chart(options) {
             columnPadding: .1
         });
         
-        // narrow padding for histograms
-        if (chart.chartType == 'histogram') {
-            chart.updateSettings({
-                columnPadding: .025
-            });
-        }
-
-        // extra padding between groups for grouped columns
-        if (chart.chartType == 'grouped_column') {
-            chart.updateSettings({
-                columnPadding: .2
-            });
-        }
-        
         // adjust left margin, padding for charts hiding Y axis
         if (!chart.chartChartShowYAxis || chart.chartChartShowYAxis == 'false') {
             chart.updateSettings({
@@ -247,6 +234,7 @@ function Chart(options) {
             });
         }
 
+        // store width and height available for chart elements
         chart.updateSettings({
             displayWidth: chart.settings.width - chart.settings.margin.left - chart.settings.margin.right,
             displayHeight: chart.settings.height - chart.settings.margin.top - chart.settings.margin.bottom
@@ -264,6 +252,21 @@ function Chart(options) {
         if (!!chart.chartChartTitle) {
             chart.addChartTitle(chart.htmlBase);
             chart.settings.displayHeight -= 20;
+        }
+
+        // narrow padding for histograms
+        if (chart.chartType == 'histogram') {
+            chart.updateSettings({
+                columnPadding: .025
+            });
+        }
+
+        // extra padding between groups for grouped columns
+        if (chart.chartType == 'grouped_column') {
+            chart.updateSettings({
+                columnPadding: .2,
+            });
+            chart.settings.height += 25;
         }
 
         // x scale, axis and labels
@@ -320,7 +323,7 @@ function Chart(options) {
         // add columns as <a> elements, with built-in category labels
         if (chart.chartType == 'grouped_column') {
             var g, groupValues, columnWidth, column;
-            
+
             chart.chartContainer
                 .classed('grouped-column-chart', true);
                 
@@ -342,22 +345,34 @@ function Chart(options) {
                             
                         groupValues.forEach(function(v, i) {
                             column = g.append("a").attr("class", "column")
-                                .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
+                                //.style("background-color", chart.colorbrewer[chart.chartColorScale][i])
                                 .style("width", columnWidth + "px")
                                 .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                                 .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
                                 .style("height", function(d) { 
-                                    return (chart.settings.displayHeight - chart.y(v.value)) + "px"; 
+                                    return (chart.settings.displayHeight) + "px"; 
                                 })
+                                .datum(function (d) { return v });
+
+                            column.append("span").attr("class", "area")
+                                .style("position", "absolute")
+                                .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
+                                .style("width", columnWidth + "px")
+                                .style("bottom", "0")
+                                .style("height", function(d) { 
+                                    return (chart.settings.displayHeight - chart.y(v.value)) + "px";
+                                });
                                 
                             column.append("span")
                                 .classed("x axis label secondary", true)
-                                .style("top", function(d) { return (chart.settings.displayHeight - chart.y(v.value) + 1) + "px"; })
+                                .style("bottom", "-16px")
                                 .text(function(d) { return chart.capitalize(v.name); });
                                 
                             column.append("span")
                                 .classed("label", true)
-                                .style("top", "-20px")
+                                .style("bottom", function(d) {
+                                    return (chart.settings.displayHeight - chart.y(v.value) + 3) + "px";
+                                })
                                 .text(function(d) {
                                     return chart.valFmt(v.value);
                                 });
@@ -365,7 +380,7 @@ function Chart(options) {
                         });
             chart.columns = chart.htmlBase.selectAll(".column");
         } else {
-            chart.columns = chart.htmlBase.selectAll(".column-slot")
+            chart.columns = chart.htmlBase.selectAll(".column")
                     .data(chart.chartDataValues)
                 .enter().append("a")
                     .attr("class", "column")
@@ -388,13 +403,16 @@ function Chart(options) {
             chart.columnAreas
                 .append("span")
                     .classed("x axis label", true)
-                    .style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
+                    //.style("top", function(d) { return (chart.settings.displayHeight - chart.y(d.value) + 1) + "px"; })
+                    .style("bottom", "-16px")
                     .text(function(d) { return d.name; });
 
             chart.labels = chart.columnAreas
                 .append("span")
                     .classed("label", true)
-                    .style("top", "-20px")
+                    .style("bottom", function(d) {
+                        return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
+                    })
                     .text(function(d) {
                         return chart.valFmt(d.value);
                     });

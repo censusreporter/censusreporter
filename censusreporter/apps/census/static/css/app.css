@@ -726,7 +726,7 @@ section aside ul {
     padding: 0;
     list-style: none;
 }
-.hovercard li.primary {
+.hovercard li {
     margin-bottom: .5em;
 }
 
@@ -784,9 +784,6 @@ ul.quantile-legend span.quantile-label {
 }
 .grouped-column-chart .column-set {
     margin-bottom: 2.5em;
-}
-.column-slot {
-    position: absolute;
 }
 .column {
     position: absolute;
