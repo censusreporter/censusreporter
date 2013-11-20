@@ -1,5 +1,5 @@
 {% load humanize madlibs %}
-<div class="stat-wrapper{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
+<a class="stat-wrapper{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
     <div class="stat {{ stat_type }}">
         <span class="{% if stat_class %}{{ stat_class }}{% else %}primary{% endif %}">
             <span class="value">
@@ -8,6 +8,7 @@
                 {% else %}
                     {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
                 {% endif %}
+                {% if stat.error.this %}<span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>{% endif %}
             </span>
             <span class="name">{{ stat.name }}</span>
             {% if stat.acs_release != geography.census_release %}
@@ -21,10 +22,11 @@
             {% if stat.values.county %}
             <li>
                 {% if stat.values.county_index and stat_type != 'count' %}
-                {{ stat.values.county_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.county.short_name }} ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
+                {{ stat.values.county_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.county.short_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% else %}
                 <strong>{{ geography.county.short_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}
+                {% if stat.error.county %}<span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.county|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>{% endif %}
                 {% comment %}
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.county_index %}{{ stat.values.county_index }}<span class="smaller">%</span> of {% endif %}County</span>
                 <span class="value">
@@ -36,10 +38,11 @@
             {% if stat.values.state %}
             <li>
                 {% if stat.values.state_index and stat_type != 'count' %}
-                {{ stat.values.state_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.state.short_name }} ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
+                {{ stat.values.state_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.state.short_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% else %}
-                <strong>{{ geography.state.short_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                <strong>{{ geography.state.short_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %} 
                 {% endif %}
+                {% if stat.error.state %}<span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>{% endif %}
                 {% comment %}
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.state_index %}{{ stat.values.state_index }}<span class="smaller">%</span> of {% endif %}State</span>
                 <span class="value">
@@ -51,10 +54,11 @@
             {% if stat.values.nation and not stat.values.county %}
             <li>
                 {% if stat.values.nation_index and stat_type != 'count' %}
-                {{ stat.values.nation_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} nationwide ({% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %})
+                {{ stat.values.nation_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} nationwide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% else %}
                 <strong>Nationwide:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}
+                {% if stat.error.nation %}<span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.nation|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>{% endif %}
                 {% comment %}
                 <span class="name" title="{% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}">{% if stat.values.nation_index %}{{ stat.values.nation_index }}<span class="smaller">%</span> of {% endif %}Nation</span>
                 <span class="value">
@@ -67,4 +71,4 @@
         {% endif %}
         {% endif %}
     </div>
-</div>
+</a>

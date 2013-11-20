@@ -574,32 +574,32 @@ section aside ul {
 /* STATS */
 .stat-wrapper {
     width: 100%;
+    color: #111;
+}
+.stat-wrapper:hover {
+    color: #111;
 }
 .stat {
     margin: 0;
     padding: 0;
 }
 .context,
-.stat .context,
 .context-phrases {
     font-size: .83em;
     font-weight: 500;
     color: #777;
 }
 .stat .context {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0 -6px;
-    max-width: 200px;
+    margin-left: .33em;
 }
-.stat .context .value {
-    position: absolute;
-    right: 6px;
+.stat .primary .context {
+    font-size: .4em;
 }
-.stat .context .highlight {
-    background-color: #e5e5e5;
-    color: #222;
+.stat-wrapper .context {
+    visibility: hidden;
+}
+.stat-wrapper:hover .context {
+    visibility: visible;
 }
 .context-phrases {
     display: block;
