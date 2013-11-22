@@ -24,6 +24,7 @@ function makeGeoSelectWidget(element) {
     });
 
     element.on('typeahead:selected', function(obj, datum) {
+        element.typeahead('setQuery', '');
         window.location = '/profiles/' + datum['full_geoid'];
     });
 }
