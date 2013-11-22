@@ -424,28 +424,29 @@
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script type="text/javascript">
-var allowMapDrag = (browserWidth > 480) ? true : false;
 
-// draw a geom
-{% if geo_metadata.geom %}
-var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
-    scrollWheelZoom: false,
-    zoomControl: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    keyboard: false,
-    dragging: allowMapDrag,
-    touchZoom: allowMapDrag
-});
+d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geoid }}?geom=true", function(error, json) {
+    if (error) return console.warn(error);
+    var allowMapDrag = (browserWidth > 480) ? true : false;
 
-if (allowMapDrag) {
-    map.addControl(new L.Control.Zoom({
-        position: 'topright'
-    }));
-}
+    // draw a geom
+    var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+        scrollWheelZoom: false,
+        zoomControl: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        dragging: allowMapDrag,
+        touchZoom: allowMapDrag
+    });
 
-var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% endautoescape %}'),
-    featureLayer = L.geoJson(featureData, {
+    if (allowMapDrag) {
+        map.addControl(new L.Control.Zoom({
+            position: 'topright'
+        }));
+    }
+
+    var featureLayer = L.geoJson(json, {
         style: {
             "fillColor": "#66c2a5",
             "color": "#777",
@@ -453,27 +454,27 @@ var featureData = JSON.parse('{% autoescape off %}{{ geo_metadata.geom }}{% enda
             "clickable": false
         }
     });
-map.addLayer(featureLayer);
-var objBounds = featureLayer.getBounds();
+    map.addLayer(featureLayer);
+    var objBounds = featureLayer.getBounds();
 
-if (browserWidth > 768) {
-    var z;
-    for(z = 16; z > 2; z--) {
-        var swPix = map.project(objBounds.getSouthWest(), z),
-            nePix = map.project(objBounds.getNorthEast(), z),
-            pixWidth = Math.abs(nePix.x - swPix.x),
-            pixHeight = Math.abs(nePix.y - swPix.y);
-        if (pixWidth <  500 && pixHeight < 400) {
-            break;
+    if (browserWidth > 768) {
+        var z;
+        for(z = 16; z > 2; z--) {
+            var swPix = map.project(objBounds.getSouthWest(), z),
+                nePix = map.project(objBounds.getNorthEast(), z),
+                pixWidth = Math.abs(nePix.x - swPix.x),
+                pixHeight = Math.abs(nePix.y - swPix.y);
+            if (pixWidth <  500 && pixHeight < 400) {
+                break;
+            }
         }
-    }
 
-    map.setView(featureLayer.getBounds().getCenter(), z);
-    map.panBy([-270, 0], {animate: false});
-} else {
-    map.fitBounds(featureLayer.getBounds());
-}
-{% endif %}
+        map.setView(featureLayer.getBounds().getCenter(), z);
+        map.panBy([-270, 0], {animate: false});
+    } else {
+        map.fitBounds(featureLayer.getBounds());
+    }
+})
 
 var Charts = {},
     chartContainers = $('[id^=chart-]'),

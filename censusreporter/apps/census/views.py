@@ -116,19 +116,16 @@ class GeographyDetailView(TemplateView):
         else:
             raise Http404
 
+        # Put this down here to make sure geoid is valid before using it
+        page_context['geoid'] = geography_id
+
         tiger_release = 'tiger2012'
-        geo_endpoint = 'http://api.censusreporter.org/1.0/geo/%s/%s?geom=true' % (tiger_release, kwargs['geography_id'])
+        geo_endpoint = 'http://api.censusreporter.org/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])
         r = requests.get(geo_endpoint)
 
         if r.status_code == 200:
             geo_metadata = simplejson.loads(r.text)
             page_context['geo_metadata'] = geo_metadata
-            # Since the template expects GeoJSON as a string, lets give it what it wants
-            # TODO: The template should really request GeoJSON from the API directly so we don't have to do this.
-            page_context['geo_metadata']['geom'] = json.dumps(page_context['geo_metadata']['geom'])
-
-            if sumlev == '160':
-                page_context['point_lon_lat'] = (geo_metadata.get('intptlon'), geo_metadata.get('intptlat'))
 
         # add a few last things
         # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
