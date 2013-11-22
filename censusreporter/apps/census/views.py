@@ -681,85 +681,9 @@ class ComparisonView(BaseComparisonView):
         return super(ComparisonView, self).dispatch(*args, **kwargs)
 
 
-class HomepageView(BaseComparisonView):
+class HomepageView(TemplateView):
     template_name = 'homepage.html'
 
-    def dispatch(self, *args, **kwargs):
-        # hardcoded values for our U.S. state comparison
-        self.parent_id = '01000US'
-        self.parent_fips_code = self.parent_id.split('US')[1]
-        self.descendant_sumlev = '040'
-        self.format = 'map'
-        self.release = 'acs2011_1yr'
-
-        selected_tables = [
-            'B01001', # Sex by Age
-            'B02001', # Race
-            'B11007', # Households by Presence of Seniors
-            'B08011', # Time Leaving Home for Work
-            'B19326', # Median Income
-            'B17001', # Poverty Status
-            'B27001', # Health Insurance Coverage Status
-            'B09019', # Household Types
-            'B13016', # Women Who Gave Birth by Age
-            'B12002', # Marital Status by Sex by Age
-            'B25077', # Median Housing Value
-            'B25003', # Tenure
-            'B07009', # Geographical Mobility by Educational Attainment
-            'B15001', # Educational Attainment
-            'B05002', # Place of Birth by Nativity
-            'B18101', # Disability Status
-        ]
-        self.table_id = random.choice(selected_tables)
-
-        return super(HomepageView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        '''
-        The workhorse in this view. Uses the format argument to determine
-        which template to render, as well as which method to use for reshaping
-        the API response data properly for visualization.
-        '''
-        page_context = {
-            'parent_id': self.parent_id,
-            #'release': self.release,
-            'parent_fips_code': self.parent_fips_code,
-            'descendant_sumlev': self.descendant_sumlev,
-            'format': self.format,
-            'hide_nav_tools': True
-        }
-
-        comparison_data = self.get_api_data(geom=True)
-        cleaned_table = self.clean_table(comparison_data['table'])
-        page_context.update(
-            self.generate_map_values(
-                comparison_data['child_geographies'],
-                comparison_data['parent_geography'],
-                cleaned_table
-            )
-        )
-
-        # add some metadata about the comparison
-        comparison_metadata = comparison_data['comparison']
-        comparison_metadata['parent_geography'] = comparison_data['parent_geography']
-        comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[self.descendant_sumlev]
-
-        page_context.update({
-            'comparison_metadata': comparison_metadata,
-            'table': comparison_data['table'],
-            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
-            'topic_economic_filters': TOPIC_FILTERS['Economics'],
-            'topic_family_filters': TOPIC_FILTERS['Families'],
-            'topic_housing_filters': TOPIC_FILTERS['Housing'],
-            'topic_social_filters': TOPIC_FILTERS['Social'],
-            'sumlev_choices': SUMLEV_CHOICES,
-            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
-            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
-            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
-        })
-
-        return page_context
 
 class ComparisonBuilder(TemplateView):
     template_name = 'compare/comparison_builder.html'
