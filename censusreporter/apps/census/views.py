@@ -124,15 +124,15 @@ class GeographyDetailView(TemplateView):
         r = requests.get(geo_endpoint)
 
         if r.status_code == 200:
-            geo_metadata = simplejson.loads(r.text)
+            geo_metadata = simplejson.loads(r.text)['properties']
             page_context['geo_metadata'] = geo_metadata
 
-        # add a few last things
-        # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-        square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
-        total_pop = page_context['geography']['this']['total_population']
-        page_context['geo_metadata']['square_miles'] = square_miles
-        page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
+            # add a few last things
+            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
+            square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
+            total_pop = page_context['geography']['this']['total_population']
+            page_context['geo_metadata']['square_miles'] = square_miles
+            page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
 
         return page_context
 
