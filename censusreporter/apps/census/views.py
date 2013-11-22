@@ -52,7 +52,7 @@ def find_keys(dictionary, searchkey):
         for key, value in d.iteritems():
             if isinstance(value, dict) or isinstance(value, OrderedDict):
                 stack.append(value)
-                
+
     return values_list
 
 
@@ -943,7 +943,7 @@ class GeoSearch(TemplateView):
 
 class LocateView(TemplateView):
     template_name = 'locate/locate.html'
-    
+
     def get_api_data(self, lat, lon):
         '''
         Retrieves data from the comparison endpoint at api.censusreporter.org.
@@ -968,12 +968,12 @@ class LocateView(TemplateView):
         page_context = {}
         lat = self.request.GET.get('lat', None)
         lon = self.request.GET.get('lon', None)
-        
+
         if lat and lon:
             places = self.get_api_data(lat, lon)
             for place in places:
                 place['sumlev_name'] = SUMMARY_LEVEL_DICT[place['sumlevel']]['name']
-            
+
             page_context.update({
                 'location': {
                     'lat': lat,
@@ -983,4 +983,3 @@ class LocateView(TemplateView):
             })
 
         return page_context
-        

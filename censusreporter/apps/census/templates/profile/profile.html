@@ -172,7 +172,7 @@
                         <li><a href="">Choose your own list of places to compare</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="option-group">
                     <h2 class="option-header">Divide Spokane by&hellip;</h2>
                     <ul class="option-list">
@@ -505,7 +505,7 @@ $.each(chartContainers, function(i) {
         chartQualifier = $(this).data('qualifier') || null,
         comparisonCountyName = '{{ geography.county.short_name }}',
         comparisonStateName = '{{ geography.state.short_name }}';
-    
+
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;
     if (drilldown >= 2) {
@@ -513,7 +513,7 @@ $.each(chartContainers, function(i) {
             chartData = chartData[chartDataID[i]]
         }
     }
-    
+
     // determine whether data point is from anything other
     // than the primary ACS release for this page
     for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
