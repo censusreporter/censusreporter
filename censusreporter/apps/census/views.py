@@ -684,6 +684,13 @@ class ComparisonView(BaseComparisonView):
 
 class HomepageView(TemplateView):
     template_name = 'homepage.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            'hide_nav_tools': True,
+        }
+
+        return page_context
 
 
 class ComparisonBuilder(TemplateView):
