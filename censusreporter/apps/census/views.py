@@ -7,6 +7,7 @@ from collections import OrderedDict
 from numpy import median
 from urllib2 import unquote
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -102,8 +103,8 @@ class GeographyDetailView(TemplateView):
                 page_context['county_fips_code'] = fips_code
 
         # hit our API
-        #acs_endpoint = 'http://api.censusreporter.org/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
-        acs_endpoint = 'http://api.censusreporter.org/1.0/latest/%s/profile' % kwargs['geography_id']
+        #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
+        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % kwargs['geography_id']
         r = requests.get(acs_endpoint)
 
         if r.status_code == 200:
@@ -120,7 +121,7 @@ class GeographyDetailView(TemplateView):
         page_context['geoid'] = geography_id
 
         tiger_release = 'tiger2012'
-        geo_endpoint = 'http://api.censusreporter.org/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])
+        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])
         r = requests.get(geo_endpoint)
 
         if r.status_code == 200:
@@ -146,7 +147,7 @@ class BaseComparisonView(TemplateView):
         '''
         Retrieves data from the comparison endpoint at api.censusreporter.org.
         '''
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/data/compare/%s/%s' % (self.release, self.table_id)
+        API_ENDPOINT = settings.API_URL + '/1.0/data/compare/%s/%s' % (self.release, self.table_id)
         API_PARAMS = {
             "within": self.parent_id,
             "sumlevel": self.descendant_sumlev
@@ -872,7 +873,7 @@ class LocateView(TemplateView):
         '''
         Retrieves data from the comparison endpoint at api.censusreporter.org.
         '''
-        API_ENDPOINT = 'http://api.censusreporter.org/1.0/geo/search'
+        API_ENDPOINT = settings.API_URL + '/1.0/geo/search'
         API_PARAMS = {
             'lat': lat,
             'lon': lon,
