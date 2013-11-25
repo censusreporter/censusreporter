@@ -34,16 +34,15 @@ function Chart(options) {
             'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
         }
         
-        var dataObj;
+        var dataObj,
+            metadataFields = ['metadata', 'acs_release'];
         chart.chartDataValues = d3.values(options.chartData).map(function(d) {
-            if (!!d.metadata) {
-                // if there's metadata *within* a dataObj, we have data
-                // shaped for grouped-column or -bar presentation
+            if (chart.chartType.indexOf('grouped_') != -1) {
+                // data shaped for grouped-column or -bar presentation
                 dataObj = {
                     name: d.metadata.name,
                     values: []
                 }
-                var metadataFields = ['metadata', 'acs_release'];
                 d3.keys(d).filter(function(v) { return chart.exclude(metadataFields, v) })
                     .forEach(function(v, i) {
                         dataObj.values.push({
