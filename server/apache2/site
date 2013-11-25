@@ -22,8 +22,30 @@
 
 <VirtualHost *:80>
     ServerName www.%(domainname)s
-    ServerAlias www.censusreporter.com censusreporter.com beta.censusreporter.org beta.censusreporter.com
-    ServerAdmin admin@%(domainname)s
+
+    Redirect permanent / http://%(domainname)s/
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName www.censusreporter.com
+
+    Redirect permanent / http://%(domainname)s/
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName censusreporter.com
+
+    Redirect permanent / http://%(domainname)s/
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName beta.censusreporter.org
+
+    Redirect permanent / http://%(domainname)s/
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName beta.censusreporter.com
 
     Redirect permanent / http://%(domainname)s/
 </VirtualHost>
