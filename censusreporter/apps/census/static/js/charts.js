@@ -663,7 +663,7 @@ function Chart(options) {
     chart.initHovercard = function() {
         chart.hovercard = chart.chartContainer.append("div")
             .attr("class", "hovercard")
-            .style("width", "200px")
+            .style("width", "250px")
             .style("opacity", 1e-6);
     }
     
@@ -671,11 +671,15 @@ function Chart(options) {
         var value,
             index,
             phraseBits,
+            compareBits,
             contextData = data.context,
-            cardContents = [
-                "<li class='primary'><strong>" + contextData.name + ":</strong> " + chart.valFmt(contextData.values.this) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span></li>"
-            ];
-        
+            cardComparison = [],
+            cardStat = chart.valFmt(contextData.values.this) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
+
+        if (!!contextData.numerators.this) {
+            cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) +"</span></span>";
+        }
+
         d3.keys(contextData.values).forEach(function(k, i) {
             if (k != 'this' && k.indexOf('_index') == -1) {
                 value = contextData.values[k];
@@ -683,19 +687,26 @@ function Chart(options) {
                 
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
-                    cardContents.push(
-                        "<li><strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + ": " + chart.valFmt(value) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span></li>"
-                    );
+                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + " <span class='context-block'>" + chart.valFmt(value) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    if (!!contextData.numerators[k]) {
+                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span></span>";
+                    }
                 } else {
-                    cardContents.push(
-                        "<li><strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + "</li>"
-                    );
+                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    if (!!contextData.numerators[k]) {
+                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
+                    }
                 }
+                cardComparison.push(
+                    "<li>" + compareBits + "</span></li>"
+                );
             }
         });
         
         var card = [
-            "<span class='card-contents'><ul>" + cardContents.join('') + "</ul></span>"
+            "<h3>" + contextData.name + "</h3>",
+            "<ul><li>" + cardStat + "</li></ul>",
+            "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
         return card
     }
@@ -707,7 +718,6 @@ function Chart(options) {
                 .html(chart.fillHovercard(data))
                 .transition()
                 .duration(200)
-                .style("width", "200px")
                 .style("opacity", 1);
         }
     }
@@ -744,9 +754,9 @@ function Chart(options) {
         }
     }
     
-    // present percentages with % at the end
-    chart.valFmt = function(value) {
-        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
+    // format percentages and/or dollar signs
+    chart.valFmt = function(value, disablePct) {
+        if (!disablePct && (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage')) {
             value += '%';
         } else if (chart.chartStatType == 'dollar') {
             value = '$' + chart.commaFmt(value);

@@ -592,9 +592,6 @@ section aside ul {
 .stat .context {
     margin-left: .33em;
 }
-.stat .primary .context {
-    font-size: .4em;
-}
 .stat-wrapper .context {
     display: none;
 }
@@ -624,6 +621,9 @@ section aside ul {
     font-weight: 400;
     line-height: 1.3;
 }
+.stat .primary .context {
+    font-size: .5em;
+}
 .stat.small .primary .name {
     font-size: 1em;
 }
@@ -641,6 +641,9 @@ section aside ul {
     font-size: 1.2em;
     font-weight: 700;
     margin-right: .1em;
+}
+.stat .secondary .context {
+    font-size: .7em;
 }
 .secondary.stacked .name {
     display: block;
@@ -699,7 +702,7 @@ section aside ul {
 .hovercard {
     position: absolute;
     text-align: center;
-    padding: .33em .67em;
+    padding: .83em;
     font-size: 13px;
     background: #fff;
     border: solid 1px #777;
@@ -721,18 +724,34 @@ section aside ul {
 .hovercard .label-title {
     margin-bottom: .5em;
 }
+.hovercard h3,
+.hovercard h4,
 .hovercard ul {
     text-align: left;
-    margin: .5em;
+    margin: 0 0 6px;
+}
+.hovercard ul {
     padding: 0;
     list-style: none;
     line-height: 1.3;
+    font-size: .9em;
+    margin-bottom: 1em;
+}
+.hovercard ul:last-child {
+    margin-bottom: 0;
 }
 .hovercard li {
     margin-bottom: .67em;
 }
 .hovercard li .context {
     margin-left: .5em;
+}
+.push-right {
+    margin-left: 1.5em;
+}
+.context-block {
+    display: block;
+    margin: .25em 0;
 }
 
 .q0 { background-color: #d9ece8; fill: #d9ece8; } /* Swans Down*/
