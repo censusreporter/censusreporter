@@ -585,7 +585,7 @@ section aside ul {
 }
 .context,
 .context-phrases {
-    font-size: .83em;
+    font-size: .9em;
     font-weight: 500;
     color: #777;
 }
@@ -596,10 +596,10 @@ section aside ul {
     font-size: .4em;
 }
 .stat-wrapper .context {
-    visibility: hidden;
+    display: none;
 }
 .stat-wrapper:hover .context {
-    visibility: visible;
+    display: inline-block;
 }
 .context-phrases {
     display: block;
