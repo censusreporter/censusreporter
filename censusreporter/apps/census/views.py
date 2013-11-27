@@ -684,10 +684,20 @@ class ComparisonView(BaseComparisonView):
 
 class HomepageView(TemplateView):
     template_name = 'homepage.html'
-    
+
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'hide_nav_tools': True,
+            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
+            'topic_economic_filters': TOPIC_FILTERS['Economics'],
+            'topic_family_filters': TOPIC_FILTERS['Families'],
+            'topic_housing_filters': TOPIC_FILTERS['Housing'],
+            'topic_social_filters': TOPIC_FILTERS['Social'],
+            'sumlev_choices': SUMLEV_CHOICES,
+            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
+            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
+            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
+            'acs_releases': ACS_RELEASES[:3],
         }
 
         return page_context
