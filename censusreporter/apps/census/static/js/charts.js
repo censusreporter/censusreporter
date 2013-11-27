@@ -36,7 +36,14 @@ function Chart(options) {
         
         var dataObj,
             metadataFields = ['metadata', 'acs_release'];
-        chart.chartDataValues = d3.values(options.chartData).map(function(d) {
+        
+        // filter out metadata objects before we prep data for chart
+        chart.chartDataValues = d3.map(options.chartData);
+        metadataFields.forEach(function(v) {
+            chart.chartDataValues.remove(v)
+        })
+        
+        chart.chartDataValues = d3.values(chart.chartDataValues).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
                 // data shaped for grouped-column or -bar presentation
                 dataObj = {
