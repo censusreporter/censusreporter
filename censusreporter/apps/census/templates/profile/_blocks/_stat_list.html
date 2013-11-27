@@ -18,8 +18,8 @@
                 {% endif %}
             </span>
             <span class="name">{{ stat.name }}</span>
-            {% if stat.acs_release != geography.census_release %}
-            <span class="small">* {{ stat.acs_release }} data</span>
+            {% if stat.metadata.acs_release != geography.census_release %}
+            <span class="small">* {{ stat.metadata.acs_release }} data</span>
             {% endif %}
         </span>
 
