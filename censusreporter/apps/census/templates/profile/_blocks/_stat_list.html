@@ -8,13 +8,13 @@
                 {% else %}
                     {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
                 {% endif %}
-                {% if stat.numerators.this %}
-                    <span class="context">{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}</span>
-                    {% if stat.error.this %}
-                        <span class="context">(&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat.numerator_errors.this %} / &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }}{% endif %})</span>
-                    {% endif %}
-                {% elif stat.error.this %}
+
+                {% if stat.error.this %}
                     <span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
+                {% endif %}
+
+                {% if stat.numerators.this %}
+                    <span class="context">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }})</span>
                 {% endif %}
             </span>
             <span class="name">{{ stat.name }}</span>
