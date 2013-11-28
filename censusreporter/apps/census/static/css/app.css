@@ -1615,6 +1615,7 @@ section.chart-divider h2 {
     font-weight: 400;
     line-height: 1;
     padding-top: 3px;
+    margin-bottom: .33em;
 }
 .step-explainer .leader {
     line-height: 1;

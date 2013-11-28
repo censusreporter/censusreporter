@@ -182,8 +182,8 @@ function insertHelpText(element, message) {
 }
 
 function openItemChoices(element, itemText) {
-    element.before('<h2 class="picker-header">' + itemText + '</h2>');
-    element.hide();
+    element.hide().find('.choices-open').remove();
+    element.before('<h2 class="picker-header">' + itemText + '</h2><p>' + element.html() + '</p>');
     element.parent('section').next('section').fadeIn('fast');
 }
 
