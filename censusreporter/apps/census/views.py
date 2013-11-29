@@ -56,26 +56,46 @@ def find_keys(dictionary, searchkey):
 
     return values_list
 
+def find_dicts_with_key(dictionary, searchkey):
+    stack = [dictionary]
+    dict_list = []
+    while stack:
+        d = stack.pop()
+        if searchkey in d:
+            dict_list.append(d)
+        for key, value in d.iteritems():
+            if isinstance(value, dict) or isinstance(value, OrderedDict):
+                stack.append(value)
+
+    return dict_list
+
 
 ### DETAIL ###
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile.html'
 
-    def calculate_indexes(self, api_data):
-        for category, groupings in api_data.items():
-            if category != 'geography':
-                for group, group_values in groupings.items():
-                    for data, data_values in group_values.items():
-                        values_list = find_keys(data_values, 'values')
-                        for values in values_list:
-                            geo_value = values['this']
-                            if 'county' in values:
-                                values['county_index'] = get_ratio(geo_value, values['county'])
-                            if 'state' in values:
-                                values['state_index'] = get_ratio(geo_value, values['state'])
-                            if 'nation' in values:
-                                values['nation_index'] = get_ratio(geo_value, values['nation'])
+    def enhance_api_data(self, api_data):
+        dict_list = find_dicts_with_key(api_data, 'values')
+        
+        for d in dict_list:
+            values = d['values']
+            errors = d['error']
+            geo_value = values['this']
+
+            # add the context value to `values` dict
+            for sumlevel in ['county', 'state', 'nation']:
+                if sumlevel in values:
+                    values[sumlevel+'_index'] = get_ratio(geo_value, values[sumlevel])
+
+            # check the moe ratios
+            for sumlevel in ['this', 'county', 'state', 'nation']:
+                if sumlevel in values:
+                    try:
+                        value = values[sumlevel]
+                        error = errors[sumlevel]
+                    except:
+                        pass
 
         return api_data
 
@@ -109,7 +129,7 @@ class GeographyDetailView(TemplateView):
 
         if r.status_code == 200:
             profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            profile_data = self.calculate_indexes(profile_data)
+            profile_data = self.enhance_api_data(profile_data)
             page_context.update(profile_data)
             page_context.update({
                 'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
