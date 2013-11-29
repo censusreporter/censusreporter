@@ -538,7 +538,7 @@ $.each(chartContainers, function(i) {
 });
 
 var flaggedMOE = $('.stat-row sup'),
-    daggerNote = '<sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.';
+    daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
 
 flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
 
