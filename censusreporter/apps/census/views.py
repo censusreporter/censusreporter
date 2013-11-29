@@ -88,14 +88,10 @@ class GeographyDetailView(TemplateView):
                 if sumlevel in values:
                     values[sumlevel+'_index'] = get_ratio(geo_value, values[sumlevel])
 
-            # check the moe ratios
+            # add the moe ratios
             for sumlevel in ['this', 'county', 'state', 'nation']:
-                if sumlevel in values:
-                    try:
-                        value = values[sumlevel]
-                        error = errors[sumlevel]
-                    except:
-                        pass
+                if (sumlevel in values) and (sumlevel in errors):
+                    errors[sumlevel+'_ratio'] = get_ratio(errors[sumlevel], values[sumlevel], 3)
 
         return api_data
 
