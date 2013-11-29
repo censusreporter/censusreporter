@@ -7,10 +7,11 @@
                     N/A
                 {% else %}
                     {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
+                    {% if stat.error.this_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
                 {% endif %}
 
                 {% if stat.error.this %}
-                    <span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
+                    <span class="context moe">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
                 {% endif %}
 
                 {% if stat.numerators.this %}
@@ -30,6 +31,7 @@
             <li>
                 {% if stat.values.county_index and stat_type != 'count' %}
                 {{ stat.values.county_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.county.short_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                {% if stat.error.county_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
                 {% else %}
                 <strong>{{ geography.county.short_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.county|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}
@@ -47,6 +49,7 @@
             <li>
                 {% if stat.values.state_index and stat_type != 'count' %}
                 {{ stat.values.state_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.state.short_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                {% if stat.error.state_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
                 {% else %}
                 <strong>{{ geography.state.short_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.state|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %} 
                 {% endif %}
@@ -64,6 +67,7 @@
             <li>
                 {% if stat.values.nation_index and stat_type != 'count' %}
                 {{ stat.values.nation_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} nationwide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                {% if stat.error.nation_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
                 {% else %}
                 <strong>Nationwide:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.nation|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
                 {% endif %}

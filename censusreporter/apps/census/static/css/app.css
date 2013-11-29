@@ -634,6 +634,10 @@ section aside ul {
     margin: 0 0 .1825em;
     font-weight: 700;
 }
+.stat .primary .value sup {
+    font-size: .5em;
+    vertical-align: middle;
+}
 .stat .secondary {
     display: block;
 }
