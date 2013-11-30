@@ -677,31 +677,35 @@ function Chart(options) {
     chart.fillHovercard = function(data) {
         var value,
             index,
+            moeFlag,
             phraseBits,
             compareBits,
             contextData = data.context,
-            cardComparison = [],
-            cardStat = chart.valFmt(contextData.values.this) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
-
+            cardComparison = [];
+            
+        moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "";
+        var cardStat = chart.valFmt(contextData.values.this) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
+            
         if (!!contextData.numerators.this) {
-            cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) +"</span></span>";
+            cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) + "</span></span>";
         }
 
         d3.keys(contextData.values).forEach(function(k, i) {
             if (k != 'this' && k.indexOf('_index') == -1) {
                 value = contextData.values[k];
                 index = contextData.values[k + '_index'];
+                moeFlag = contextData.error[k + '_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
                 
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
-                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + " <span class='context-block'>" + chart.valFmt(value) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + " <span class='context-block'>" + chart.valFmt(value) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
                     if (!!contextData.numerators[k]) {
-                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span></span>";
+                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span></span>";
                     }
                 } else {
-                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moe_flag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
                     if (!!contextData.numerators[k]) {
-                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
+                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
                     }
                 }
                 cardComparison.push(
@@ -715,6 +719,18 @@ function Chart(options) {
             "<ul><li>" + cardStat + "</li></ul>",
             "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
+        
+        var maxMOE = [];
+        d3.keys(contextData.error).forEach(function(k, v) {
+            if (k.indexOf('_ratio') != -1 && contextData.error[k]) {
+                maxMOE.push(contextData.error[k])
+            }
+        })
+        maxMOE.sort(function(x, y) { return y - x });
+        if (maxMOE[0] >= 10) {
+            card += "<div class='note'><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</div>"
+        }
+
         return card
     }
     
