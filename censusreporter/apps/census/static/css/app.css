@@ -576,16 +576,14 @@ section aside sup {
     border-radius: 2px;
 }
 /* STATS */
-.stat-wrapper {
+.stat {
     width: 100%;
     color: #111;
-}
-.stat-wrapper:hover {
-    color: #111;
-}
-.stat {
     margin: 0;
     padding: 0;
+}
+.stat:hover {
+    color: #111;
 }
 .context,
 .context-phrases {
@@ -595,12 +593,13 @@ section aside sup {
 }
 .stat .context {
     margin-left: .33em;
-}
-.stat-wrapper .context {
     display: none;
 }
-.stat-wrapper:hover .context {
+.stat:hover .context {
     display: inline-block;
+}
+.stat:hover .secondary .context {
+    display: block;
 }
 .context-phrases {
     display: block;
@@ -628,9 +627,6 @@ section aside sup {
 .stat .primary .context {
     font-size: .5em;
 }
-.stat.small .primary .name {
-    font-size: 1em;
-}
 .stat .primary .value {
     display: block;
     font-size: 2.2em;
@@ -641,6 +637,7 @@ section aside sup {
 .stat .primary .value sup {
     font-size: .5em;
     vertical-align: middle;
+	top: -.83em;
 }
 .stat .secondary {
     display: block;
@@ -651,19 +648,10 @@ section aside sup {
     margin-right: .1em;
 }
 .stat .secondary .context {
-    font-size: .7em;
+	margin: 0 0 .67em;
 }
 .secondary.stacked .name {
     display: block;
-}
-.stat-side-wrapper {
-    padding-right: 1em;
-}
-.stat-side-wrapper .primary .value {
-    float: right;
-}
-.stat.small .primary .value {
-    font-size: 2em;
 }
 .stat-suffix {
     font-size: .5em;
