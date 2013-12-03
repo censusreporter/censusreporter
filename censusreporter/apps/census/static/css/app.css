@@ -395,6 +395,10 @@ section aside p,
 section aside ul {
     font-size: .83em;
 }
+section aside sup {
+    font-size: 1.25em;
+	top: -.125em;
+}
 
 .wrapper {
     width: auto;
