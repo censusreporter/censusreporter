@@ -703,7 +703,7 @@ function Chart(options) {
                         compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span></span>";
                     }
                 } else {
-                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moe_flag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
                     if (!!contextData.numerators[k]) {
                         compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
                     }
