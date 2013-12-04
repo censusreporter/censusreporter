@@ -306,13 +306,13 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#birth-rate" id="birth-rate">Fertility <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#fertility" id="fertility">Fertility <i class="fa fa-link"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.birth_rate.total stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.fertility.total stat_type='percentage' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column-families-birth_rate-by_age" data-stat-type="number" data-chart-title="Births per 1,000 women, by age group" data-qualifier="Universe: {{ families.birth_rate.by_age.metadata.universe }}"></div>
+                <div id="chart-column-families-fertility-by_age" data-stat-type="scaled-percentage" data-chart-title="Women who gave birth during past year, by age group" data-qualifier="Universe: {{ families.fertility.by_age.metadata.universe }}"></div>
             </div>
         </section>
 
