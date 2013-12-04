@@ -225,13 +225,17 @@ img.screenshot {
 #menu input {
     border: 0;
     margin-left: 0;
+	padding: 2px 6px 0;
+	height: 2em;
+	line-height: 2em;
 }
 #menu a.button {
     color: #fff;
     display: block;
     margin-top: 0;
-    padding: .2em .75em 0;
+    padding: 0 9px;
     height: 2em;
+	line-height: 1.9em;
     background-color: #1a9d95;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
