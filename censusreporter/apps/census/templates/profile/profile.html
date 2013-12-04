@@ -189,6 +189,8 @@
 </article>
 {% endcomment %}
 
+<p class="explain">Hover over charts and statistics for margins of error and extended information.</p>
+
 <article id="demographics" class="clearfix">
     <header class="section-contents">
         <h1>Demographics</h1>
@@ -304,13 +306,13 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#birth-rate" id="birth-rate">Birth rate <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#birth-rate" id="birth-rate">Fertility <i class="fa fa-link"></i></a></h2>
             <aside></aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.birth_rate.total stat_type='number' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column-families-birth_rate-by_age" data-stat-type="number" data-chart-title="Birth rate by age, per 1,000 women" data-qualifier="Universe: {{ families.birth_rate.by_age.metadata.universe }}"></div>
+                <div id="chart-column-families-birth_rate-by_age" data-stat-type="number" data-chart-title="Births per 1,000 women, by age group" data-qualifier="Universe: {{ families.birth_rate.by_age.metadata.universe }}"></div>
             </div>
         </section>
 
