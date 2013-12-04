@@ -664,6 +664,10 @@ section aside sup {
     border-top: 1px solid #eff1e9;
     padding-top: 2em;
 }
+.stat-row.grouped-row {
+	border: none;
+	padding-top: 0;
+}
 .stat-row:first-child {
     border-top: none;
     padding-top: 0;
