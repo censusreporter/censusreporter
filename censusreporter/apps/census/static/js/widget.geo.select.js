@@ -5,6 +5,7 @@ function makeGeoSelectWidget(element) {
     element.typeahead({
         name: 'profile',
         valueKey: 'full_geoid',
+        nameKey: 'full_name',
         remote: {
             url: geoSearchAPI,
             replace: function (url, uriEncodedQuery) {
@@ -24,7 +25,7 @@ function makeGeoSelectWidget(element) {
     });
 
     element.on('typeahead:selected', function(obj, datum) {
-        element.typeahead('setQuery', '');
+        element.typeahead('setQuery', datum['full_name']);
         window.location = '/profiles/' + datum['full_geoid'];
     });
 }
