@@ -1,9 +1,8 @@
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
-from django.views.generic import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView
+from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView
 
 admin.autodiscover()
 
@@ -18,6 +17,13 @@ urlpatterns = patterns('',
         view    = HomepageView.as_view(),
         kwargs  = {},
         name    = 'homepage',
+    ),
+
+    url(
+        regex   = '^healthcheck$',
+        view    = HealthcheckView.as_view(),
+        kwargs  = {},
+        name    = 'healthcheck',
     ),
 
     ## LOCAL DEV VERSION OF API ##
