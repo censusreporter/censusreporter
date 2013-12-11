@@ -670,25 +670,26 @@ function Chart(options) {
     chart.initHovercard = function() {
         chart.hovercard = chart.chartContainer.append("div")
             .attr("class", "hovercard")
-            .style("width", "250px")
+            .style("width", "200px")
             .style("opacity", 1e-6);
     }
     
     chart.fillHovercard = function(data) {
         var value,
             index,
-            moeFlag,
             phraseBits,
             compareBits,
             contextData = data.context,
+			moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
+			cardStat = chart.valFmt(contextData.values.this) + moeFlag,
             cardComparison = [];
             
-        moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "";
-        var cardStat = chart.valFmt(contextData.values.this) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
-            
-        if (!!contextData.numerators.this) {
-            cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) + "</span></span>";
-        }
+		// add cardStat MOE
+		//cardStat += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
+		// add cardStat ABSOLUTE VALUE
+        //if (!!contextData.numerators.this) {
+        //    cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) + "</span></span>";
+        //}
 
         d3.keys(contextData.values).forEach(function(k, i) {
             if (k != 'this' && k.indexOf('_index') == -1) {
@@ -696,18 +697,28 @@ function Chart(options) {
                 index = contextData.values[k + '_index'];
                 moeFlag = contextData.error[k + '_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
                 
+				// generate the comparative text for this parent level
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
-                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + " <span class='context-block'>" + chart.valFmt(value) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
-                    if (!!contextData.numerators[k]) {
-                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span></span>";
-                    }
+                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + ": " + chart.valFmt(value) + moeFlag;
+
+					// add comparison MOE
+					//compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+					// add comparison ABSOLUTE VALUE
+                    //if (!!contextData.numerators[k]) {
+                    //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
+                    //}
                 } else {
-                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
-                    if (!!contextData.numerators[k]) {
-                        compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
-                    }
+                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moeFlag;
+					
+					// add comparison MOE
+					//compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+					// add comparison ABSOLUTE VALUE
+                    //if (!!contextData.numerators[k]) {
+                    //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
+                    //}
                 }
+				// add comparative text to the list
                 cardComparison.push(
                     "<li>" + compareBits + "</span></li>"
                 );
