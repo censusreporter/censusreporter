@@ -755,6 +755,23 @@ section aside sup {
 .hovercard li .context {
     margin-left: .5em;
 }
+.chart-get-data {
+    float: right;
+    cursor: pointer;
+}
+.chart.highlighted {
+    margin: -.5em;
+    padding: .5em;
+}
+#data-drawer {
+    padding: 1em;
+}
+#data-drawer th {
+    border-left: 3px solid #fff;
+}
+#data-drawer th:first-child {
+    border-left: none;
+}
 .push-right {
     margin-left: 1.5em;
 }

@@ -17,7 +17,8 @@ function Chart(options) {
     chart.init = function(options) {
         // establish our base vars
         chart.chartContainer = d3.select('#'+options.chartContainer)
-            .style("position", "relative");
+            .append("div")
+                .style("position", "relative");
         
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
@@ -29,6 +30,13 @@ function Chart(options) {
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.comparisonNames = {
+            'this': (!!options.comparisonThisName) ? options.comparisonThisName : 'here',
+            'county': (!!options.comparisonCountyName) ? options.comparisonCountyName : 'county',
+            'state': (!!options.comparisonStateName) ? options.comparisonStateName : 'state',
+            'nation': (!!options.comparisonNationName) ? options.comparisonNationName : 'United States'
+        }
+        chart.comparisonNamePhrases = {
+            'this': (!!options.comparisonThisName) ? 'in ' + options.comparisonThisName : 'here',
             'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
             'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
             'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
@@ -42,6 +50,10 @@ function Chart(options) {
         metadataFields.forEach(function(v) {
             chart.chartDataValues.remove(v)
         })
+
+        // keep the initial data for possible display later
+        chart.initialData = options.chartData;
+        chart.initialValues = chart.chartDataValues;
         
         chart.chartDataValues = d3.values(chart.chartDataValues).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
@@ -77,8 +89,9 @@ function Chart(options) {
             hovercardBuffer: { x: 0, y: 25 }
         }
         
-        // add blank hovercard
+        // add blank hovercard & data drawer
         chart.initHovercard()
+        chart.initDataDrawer()
 
         // time to make the chart
         chart.draw();
@@ -86,6 +99,9 @@ function Chart(options) {
     };
     
     chart.draw = function() {
+        chart.chartContainer
+            .classed("chart", true);
+            
         // hand off based on desired type of chart
         if (chart.chartType == 'pie') {
             chart.makePieChart();
@@ -457,6 +473,14 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
+        chart.getData = chart.chartContainer
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show the data");
+
+        chart.getData
+            .on("click", chart.toggleDataDrawer);
+
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
@@ -666,6 +690,90 @@ function Chart(options) {
         
         return chart;
     }
+
+    chart.initDataDrawer = function() {
+        chart.dataDrawer = chart.chartContainer.append("div")
+            .attr("class", "data-drawer hidden");
+    }
+    
+    chart.toggleDataDrawer = function() {
+        // rid ourselves of any existing data drawers
+        var row = d3.select(this.parentNode.parentNode.parentNode);
+
+        if (chart.dataDrawer.classed("hidden")) {
+            d3.select(this).text('Hide the data');
+            chart.chartContainer.classed("highlighted", true);
+            chart.dataDrawer.classed("hidden", false);
+            chart.dataTable = row.append("div")
+                    .attr("id", "data-drawer")
+                    .attr("class", "column-full")
+                .append("table")
+                    .attr("id", "data-table");
+                    //.attr("class", "full-width");
+                    
+            chart.dataTableHeader = chart.dataTable.append("thead");
+            chart.dataTableHeader.append("tr")
+                .html(function() {
+                    return chart.makeDataDrawerHeader(chart.chartDataValues[0])
+                });
+
+            chart.dataTableBody = chart.dataTable.append("tbody");
+            chart.tableRows = chart.dataTableBody.selectAll("tr")
+                    .data(chart.chartDataValues)
+                .enter().append("tr")
+                    .html(function(d) {
+                        return chart.makeDataDrawerRow(d)
+                    });
+        } else {
+            row.select("#data-drawer").remove();
+            d3.select(this).text('Show the data');
+            chart.chartContainer.classed("highlighted", false);
+            chart.dataDrawer.classed("hidden", true);
+        }
+    }
+    
+    chart.makeDataDrawerHeader = function(d) {
+        var places = ['this', 'county', 'state', 'nation'],
+            rowBits = ['<th class="name">Column</th>'],
+            colspan;
+            
+        places.forEach(function(k, i) {
+            if (!!d.context.numerators[k]) {
+                colspan = 2;
+            } else {
+                colspan = 1;
+            }
+            if (!!d.context.values[k]) {
+                rowBits = rowBits.concat([
+                    '<th class="name" colspan="' + colspan + '">' + chart.comparisonNames[k] + '</th>'
+                    //'<th class="value">MOE</th>'
+                ]);
+            }
+        });
+        return rowBits.join('');
+    }
+    
+    chart.makeDataDrawerRow = function(d) {
+        var places = ['this', 'county', 'state', 'nation'],
+            rowBits = ['<td class="name">' + d.name + '</td>'];
+            
+        places.forEach(function(k, i) {
+            if (!!d.context.values[k]) {
+                rowBits = rowBits.concat([
+                    '<td class="value">' + chart.valFmt(d.context.values[k]) + ' (&plusmn;' + chart.valFmt(d.context.error[k]) + ')</td>'
+                    //'<td class="value">' + chart.valFmt(d.context.error[k]) + '</td>'
+                ]);
+                
+                if (!!d.context.numerators[k]) {
+                    rowBits = rowBits.concat([
+                        '<td class="value">' + chart.commaFmt(d.context.numerators[k]) + ' (&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + ')</td>'
+                        //'<td class="value">' + chart.commaFmt(d.context.numerator_errors[k]) + '</td>'
+                    ]);
+                }
+            }
+        });
+        return rowBits.join('');
+    }
     
     chart.initHovercard = function() {
         chart.hovercard = chart.chartContainer.append("div")
@@ -680,13 +788,13 @@ function Chart(options) {
             phraseBits,
             compareBits,
             contextData = data.context,
-			moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
-			cardStat = chart.valFmt(contextData.values.this) + moeFlag,
+            moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
+            cardStat = chart.valFmt(contextData.values.this) + moeFlag,
             cardComparison = [];
             
-		// add cardStat MOE
-		//cardStat += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
-		// add cardStat ABSOLUTE VALUE
+        // add cardStat MOE
+        //cardStat += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
+        // add cardStat ABSOLUTE VALUE
         //if (!!contextData.numerators.this) {
         //    cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) + "</span></span>";
         //}
@@ -697,28 +805,28 @@ function Chart(options) {
                 index = contextData.values[k + '_index'];
                 moeFlag = contextData.error[k + '_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
                 
-				// generate the comparative text for this parent level
+                // generate the comparative text for this parent level
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
-                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNames[k] + ": " + chart.valFmt(value) + moeFlag;
+                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNamePhrases[k] + ": " + chart.valFmt(value) + moeFlag;
 
-					// add comparison MOE
-					//compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
-					// add comparison ABSOLUTE VALUE
+                    // add comparison MOE
+                    //compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    // add comparison ABSOLUTE VALUE
                     //if (!!contextData.numerators[k]) {
                     //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
                     //}
                 } else {
                     compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moeFlag;
-					
-					// add comparison MOE
-					//compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
-					// add comparison ABSOLUTE VALUE
+                    
+                    // add comparison MOE
+                    //compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
+                    // add comparison ABSOLUTE VALUE
                     //if (!!contextData.numerators[k]) {
                     //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
                     //}
                 }
-				// add comparative text to the list
+                // add comparative text to the list
                 cardComparison.push(
                     "<li>" + compareBits + "</span></li>"
                 );
