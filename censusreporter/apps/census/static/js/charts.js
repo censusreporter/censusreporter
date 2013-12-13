@@ -91,7 +91,7 @@ function Chart(options) {
         
         // add blank hovercard & data drawer
         chart.initHovercard()
-        chart.initDataDrawer()
+        //chart.initDataDrawer()
 
         // time to make the chart
         chart.draw();
@@ -697,19 +697,28 @@ function Chart(options) {
     }
     
     chart.toggleDataDrawer = function() {
-        // rid ourselves of any existing data drawers
-        var row = d3.select(this.parentNode.parentNode.parentNode);
-
-        if (chart.dataDrawer.classed("hidden")) {
+        var row = d3.select(chart.findAncestor(this, 'section'));
+        
+        chart.dataDrawer = row.select("#data-drawer");
+        
+        if (chart.dataDrawer.empty()) {
             d3.select(this).text('Hide the data');
             chart.chartContainer.classed("highlighted", true);
-            chart.dataDrawer.classed("hidden", false);
-            chart.dataTable = row.append("div")
+            chart.dataDrawer = row.append("div")
                     .attr("id", "data-drawer")
-                    .attr("class", "column-full")
-                .append("table")
-                    .attr("id", "data-table");
-                    //.attr("class", "full-width");
+                    .attr("class", "column-full");
+            chart.dataDrawer.append("h3")
+                    .attr("class", "chart-title")
+                    .text(function() {
+                        if (!!chart.chartChartTitle) {
+                            return chart.chartChartTitle + " (Table " + chart.capitalize(chart.initialData.metadata.table_id) + ")"
+                        }
+                        return "Table " + chart.capitalize(chart.initialData.metadata.table_id)
+                    });
+
+            chart.dataTable = chart.dataDrawer.append("table")
+                    .attr("id", "data-table")
+                    .attr("class", "full-width");
                     
             chart.dataTableHeader = chart.dataTable.append("thead");
             chart.dataTableHeader.append("tr")
@@ -725,10 +734,10 @@ function Chart(options) {
                         return chart.makeDataDrawerRow(d)
                     });
         } else {
-            row.select("#data-drawer").remove();
+            chart.dataDrawer.remove();
             d3.select(this).text('Show the data');
             chart.chartContainer.classed("highlighted", false);
-            chart.dataDrawer.classed("hidden", true);
+            //chart.dataDrawer.classed("hidden", true);
         }
     }
     
@@ -927,6 +936,29 @@ function Chart(options) {
     
     chart.lastItem = function(array) {
         return array[array.length - 1]
+    }
+    
+    chart.findAncestor = function(node, match) {
+      if (!node) {
+          return null;
+      } else if (!node.nodeType || typeof(match) != 'string') {
+          return node;
+      }
+      
+      if ((match = match.split('.')).length === 1) {
+          match.push(null);
+      } else if(!match[0]) {
+          match[0] = null;
+      }
+
+      do {
+        if ((!match[0] || match[0].toLowerCase() == node.nodeName.toLowerCase()) && (!match[1] || new RegExp('( |^)(' + match[1] + ')( |$)').test(node.className))) {
+          break;
+        }
+      }
+      while(node = node.parentNode);
+ 
+      return node;
     }
     
     chart.sortDataBy = function(field, sortFunc) {
