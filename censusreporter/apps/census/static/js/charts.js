@@ -53,7 +53,6 @@ function Chart(options) {
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
-        console.log(chart.initialData)
         chart.initialValues = chart.chartDataValues;
         
         chart.chartDataValues = d3.values(chart.chartDataValues).map(function(d) {
@@ -90,9 +89,8 @@ function Chart(options) {
             hovercardBuffer: { x: 0, y: 25 }
         }
         
-        // add blank hovercard & data drawer
+        // add blank hovercard
         chart.initHovercard()
-        //chart.initDataDrawer()
 
         // time to make the chart
         chart.draw();
@@ -254,6 +252,14 @@ function Chart(options) {
             
         chart.chartContainer
             .on("mousemove", chart.mousemove);
+
+        if (chart.chartType !== 'grouped_bar') {
+            chart.getData = chart.chartContainer
+                .append("a")
+                    .classed("chart-get-data", true)
+                    .text("Show the data")
+                    .on("click", chart.toggleDataDrawer);
+        }
         
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -474,13 +480,13 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data");
-
-        chart.getData
-            .on("click", chart.toggleDataDrawer);
+        if (chart.chartType !== 'grouped_column') {
+            chart.getData = chart.chartContainer
+                .append("a")
+                    .classed("chart-get-data", true)
+                    .text("Show the data")
+                    .on("click", chart.toggleDataDrawer);
+        }
 
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -687,10 +693,8 @@ function Chart(options) {
         chart.getData = chart.chartContainer
             .append("a")
                 .classed("chart-get-data", true)
-                .text("Show the data");
-
-        chart.getData
-            .on("click", chart.toggleDataDrawer);
+                .text("Show the data")
+                .on("click", chart.toggleDataDrawer);
 
         // add any explanatory lines
         if (!!chart.chartQualifier) {
@@ -699,11 +703,6 @@ function Chart(options) {
         
         return chart;
     }
-
-    chart.initDataDrawer = function() {
-        chart.dataDrawer = chart.chartContainer.append("div")
-            .attr("class", "data-drawer hidden");
-    }
     
     chart.toggleDataDrawer = function() {
         var row = d3.select(chart.findAncestor(this, 'section'));
@@ -711,10 +710,13 @@ function Chart(options) {
         
         if (chart.dataDrawer.empty()) {
             d3.select(this).text('Hide the data');
+            
             chart.chartContainer.classed("highlighted", true);
+            
             chart.dataDrawer = row.append("div")
                     .attr("id", "data-drawer")
                     .attr("class", "column-full");
+                    
             chart.dataDrawer.append("h3")
                     .attr("class", "chart-title")
                     .text(function() {
@@ -728,43 +730,33 @@ function Chart(options) {
                     .attr("id", "data-table")
                     .attr("class", "full-width");
                     
-            chart.dataTableHeader = chart.dataTable.append("thead");
-            chart.dataTableHeader.append("tr")
-                .html(function() {
-                    return chart.makeDataDrawerHeader(chart.chartDataValues[0])
-                });
+            chart.dataTableHeader = chart.dataTable.append("thead")
+                .append("tr")
+                    .html(function() { return chart.makeDataDrawerHeader(chart.chartDataValues[0]) });
 
-            chart.dataTableBody = chart.dataTable.append("tbody");
-            chart.tableRows = chart.dataTableBody.selectAll("tr")
+            chart.tableRows = chart.dataTable.append("tbody")
+                .selectAll("tr")
                     .data(chart.chartDataValues)
                 .enter().append("tr")
-                    .html(function(d) {
-                        return chart.makeDataDrawerRow(d)
-                    });
+                    .html(function(d) { return chart.makeDataDrawerRow(d) });
         } else {
             chart.dataDrawer.remove();
             d3.select(this).text('Show the data');
             chart.chartContainer.classed("highlighted", false);
-            //chart.dataDrawer.classed("hidden", true);
         }
     }
     
     chart.makeDataDrawerHeader = function(d) {
         var places = ['this', 'county', 'state', 'nation'],
             rowBits = ['<th class="name">Column</th>'],
-            colspan;
+            colspan,
+            cellContents;
             
         places.forEach(function(k, i) {
-            if (!!d.context.numerators[k]) {
-                colspan = 2;
-            } else {
-                colspan = 1;
-            }
-            if (!!d.context.values[k]) {
-                rowBits = rowBits.concat([
-                    '<th class="name" colspan="' + colspan + '">' + chart.comparisonNames[k] + '</th>'
-                    //'<th class="value">MOE</th>'
-                ]);
+            if (d.context.values[k] >= 0) {
+                colspan = (d.context.numerators[k] !== null) ? 2 : 1;
+                cellContents = chart.comparisonNames[k];
+                rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
             }
         });
         return rowBits.join('');
@@ -772,20 +764,18 @@ function Chart(options) {
     
     chart.makeDataDrawerRow = function(d) {
         var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<td class="name">' + d.name + '</td>'];
+            rowBits = ['<td class="name">' + d.name + '</td>'],
+            cellContents;
             
         places.forEach(function(k, i) {
-            if (!!d.context.values[k]) {
-                rowBits = rowBits.concat([
-                    '<td class="value">' + chart.valFmt(d.context.values[k]) + ' (&plusmn;' + chart.valFmt(d.context.error[k]) + ')</td>'
-                    //'<td class="value">' + chart.valFmt(d.context.error[k]) + '</td>'
-                ]);
-                
-                if (!!d.context.numerators[k]) {
-                    rowBits = rowBits.concat([
-                        '<td class="value">' + chart.commaFmt(d.context.numerators[k]) + ' (&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + ')</td>'
-                        //'<td class="value">' + chart.commaFmt(d.context.numerator_errors[k]) + '</td>'
-                    ]);
+            if (d.context.values[k] >= 0) {
+                // add the primary value
+                rowBits.push('<td class="value">' + chart.valFmt(d.context.values[k]) + ' (&plusmn;' + chart.valFmt(d.context.error[k]) + ')</td>');
+
+                // add the numerator value if it exists
+                if (d.context.numerators[k] !== null) {
+                    cellContents = chart.commaFmt(d.context.numerators[k]) + ' (&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + ')';
+                    rowBits.push('<td class="value">' + cellContents + '</td>');
                 }
             }
         });

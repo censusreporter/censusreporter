@@ -765,6 +765,7 @@ section aside sup {
 }
 #data-drawer {
     padding: 1.5em 0 .5em;
+    overflow-x: scroll;
 }
 #data-drawer th {
     border-left: 3px solid #fff;
