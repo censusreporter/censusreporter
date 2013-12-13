@@ -1,6 +1,4 @@
 from __future__ import division
-import json
-import random
 import requests
 import unicodecsv
 from collections import OrderedDict
@@ -69,6 +67,10 @@ def find_dicts_with_key(dictionary, searchkey):
 
     return dict_list
 
+### HEALTH CHECK ###
+
+class HealthcheckView(TemplateView):
+    template_name = 'healthcheck.html'
 
 ### DETAIL ###
 
@@ -77,7 +79,7 @@ class GeographyDetailView(TemplateView):
 
     def enhance_api_data(self, api_data):
         dict_list = find_dicts_with_key(api_data, 'values')
-        
+
         for d in dict_list:
             values = d['values']
             errors = d['error']
