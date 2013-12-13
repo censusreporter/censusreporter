@@ -53,6 +53,7 @@ function Chart(options) {
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
+        console.log(chart.initialData)
         chart.initialValues = chart.chartDataValues;
         
         chart.chartDataValues = d3.values(chart.chartDataValues).map(function(d) {
@@ -544,9 +545,9 @@ function Chart(options) {
         
         // get the max value for initial labeling
         if (!!chart.chartInitialSort) {
-            chart.initialData = chart.pieData.slice(0).sort(chart.sortDataBy(chart.chartInitialSort))[0];
+            chart.initialSlice = chart.pieData.slice(0).sort(chart.sortDataBy(chart.chartInitialSort))[0];
         } else {
-            chart.initialData = chart.pieData[0];
+            chart.initialSlice = chart.pieData[0];
         }
         
         // primary svg container
@@ -623,8 +624,8 @@ function Chart(options) {
             chart.legendItems
                 .classed("hovered", false);
 
-            chart.centerLabel.text(chart.initialData.data.name);
-            chart.centerValue.text(chart.valFmt(chart.initialData.data.value));
+            chart.centerLabel.text(chart.initialSlice.data.name);
+            chart.centerValue.text(chart.valFmt(chart.initialSlice.data.value));
             
             chart.mouseout();
         }
@@ -683,6 +684,14 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
+        chart.getData = chart.chartContainer
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show the data");
+
+        chart.getData
+            .on("click", chart.toggleDataDrawer);
+
         // add any explanatory lines
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -698,7 +707,6 @@ function Chart(options) {
     
     chart.toggleDataDrawer = function() {
         var row = d3.select(chart.findAncestor(this, 'section'));
-        
         chart.dataDrawer = row.select("#data-drawer");
         
         if (chart.dataDrawer.empty()) {
