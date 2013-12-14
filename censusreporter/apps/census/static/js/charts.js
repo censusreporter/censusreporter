@@ -703,7 +703,7 @@ function Chart(options) {
     chart.toggleDataDrawer = function() {
         var row = d3.select(chart.findAncestor(this, 'section'));
         chart.dataDrawer = row.select("#data-drawer");
-        console.log(chart.chartDataValues)
+
         if (chart.dataDrawer.empty()) {
             d3.select(this).text('Hide the data');
             
@@ -726,13 +726,28 @@ function Chart(options) {
                     .attr("id", "data-table")
                     .attr("class", "full-width");
                     
+            // get chart data ready for tabular format
+            var rowValues = []
+            chart.chartDataValues.forEach(function(d, i){
+                if (!!d.context) {
+                    // standard chart
+                    rowValues.push(d.context);
+                } else {
+                    // data shaped for grouped chart
+                    d.values.forEach(function(k, i) {
+                        k.context.name = d.name + ': ' + chart.capitalize(k.name);
+                        rowValues.push(k.context);
+                    })
+                }
+            })
+
             chart.dataTableHeader = chart.dataTable.append("thead")
                 .append("tr")
-                    .html(function() { return chart.makeDataDrawerHeader(chart.chartDataValues[0]) });
+                    .html(function() { return chart.makeDataDrawerHeader(rowValues[0]) });
 
             chart.tableRows = chart.dataTable.append("tbody")
                 .selectAll("tr")
-                    .data(chart.chartDataValues)
+                    .data(rowValues)
                 .enter().append("tr")
                     .html(function(d) { return chart.makeDataDrawerRow(d) });
                     
@@ -755,8 +770,8 @@ function Chart(options) {
             cellContents;
             
         places.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
-                colspan = (d.context.numerators[k] !== null) ? 4 : 2;
+            if (d.values[k] >= 0) {
+                colspan = (d.numerators[k] !== null) ? 4 : 2;
                 cellContents = chart.comparisonNames[k];
                 rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
             }
@@ -768,15 +783,15 @@ function Chart(options) {
         var places = ['this', 'county', 'state', 'nation'],
             rowBits = ['<td class="name">' + d.name + '</td>'],
             cellContents;
-            
+        
         places.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
+            if (d.values[k] >= 0) {
                 // add the primary value
-                rowBits.push('<td class="value">' + chart.valFmt(d.context.values[k]) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k]) + '</td>');
+                rowBits.push('<td class="value">' + chart.valFmt(d.values[k]) + '</td><td class="context">&plusmn;' + chart.valFmt(d.error[k]) + '</td>');
 
                 // add the numerator value if it exists
-                if (d.context.numerators[k] !== null) {
-                    cellContents = chart.commaFmt(d.context.numerators[k]) + '</td><td class="context">&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + '';
+                if (d.numerators[k] !== null) {
+                    cellContents = chart.commaFmt(d.numerators[k]) + '</td><td class="context">&plusmn;' + chart.commaFmt(d.numerator_errors[k]) + '';
                     rowBits.push('<td class="value">' + cellContents + '</td>');
                 }
             }
