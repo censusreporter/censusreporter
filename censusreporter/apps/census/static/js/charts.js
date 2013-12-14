@@ -735,6 +735,12 @@ function Chart(options) {
                     .data(chart.chartDataValues)
                 .enter().append("tr")
                     .html(function(d) { return chart.makeDataDrawerRow(d) });
+                    
+            chart.dataDrawer
+                .append("a")
+                    .classed("chart-get-data", true)
+                    .text("Hide the data")
+                    .on("click", chart.toggleDataDrawer)
         } else {
             chart.dataDrawer.remove();
             d3.select(this).text('Show the data');

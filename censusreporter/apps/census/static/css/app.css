@@ -377,8 +377,8 @@ section {
 #profile .section-container section {
     margin-bottom: 2em;
 }
-.section-container section:last-child {
-    margin-bottom: 1em;
+#profile .section-container section:last-child {
+    margin-bottom: .5em;
 }
 header.section-contents h1,
 section h2 {
@@ -764,7 +764,7 @@ section aside sup {
     padding: .5em;
 }
 #data-drawer {
-    padding: 1.5em 0 .5em;
+    padding: 1.5em 0 0;
     overflow-x: scroll;
 }
 #data-drawer th {
@@ -779,6 +779,11 @@ section aside sup {
 #data-drawer h3.chart-title {
     padding-left: 8px;
     margin-bottom: 6px;
+}
+#data-drawer .chart-get-data {
+    font-size: .75em;
+    float: left;
+    margin: 8px;
 }
 .push-right {
     margin-left: 1.5em;
