@@ -253,13 +253,11 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        if (chart.chartType !== 'grouped_bar') {
-            chart.getData = chart.chartContainer
-                .append("a")
-                    .classed("chart-get-data", true)
-                    .text("Show the data")
-                    .on("click", chart.toggleDataDrawer);
-        }
+        chart.getData = chart.chartContainer
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show the data")
+                .on("click", chart.toggleDataDrawer);
         
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -480,13 +478,11 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        if (chart.chartType !== 'grouped_column') {
-            chart.getData = chart.chartContainer
-                .append("a")
-                    .classed("chart-get-data", true)
-                    .text("Show the data")
-                    .on("click", chart.toggleDataDrawer);
-        }
+        chart.getData = chart.chartContainer
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show the data")
+                .on("click", chart.toggleDataDrawer);
 
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -707,7 +703,7 @@ function Chart(options) {
     chart.toggleDataDrawer = function() {
         var row = d3.select(chart.findAncestor(this, 'section'));
         chart.dataDrawer = row.select("#data-drawer");
-        
+        console.log(chart.chartDataValues)
         if (chart.dataDrawer.empty()) {
             d3.select(this).text('Hide the data');
             
@@ -754,7 +750,7 @@ function Chart(options) {
             
         places.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
-                colspan = (d.context.numerators[k] !== null) ? 2 : 1;
+                colspan = (d.context.numerators[k] !== null) ? 4 : 2;
                 cellContents = chart.comparisonNames[k];
                 rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
             }
@@ -770,11 +766,11 @@ function Chart(options) {
         places.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 // add the primary value
-                rowBits.push('<td class="value">' + chart.valFmt(d.context.values[k]) + ' (&plusmn;' + chart.valFmt(d.context.error[k]) + ')</td>');
+                rowBits.push('<td class="value">' + chart.valFmt(d.context.values[k]) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k]) + '</td>');
 
                 // add the numerator value if it exists
                 if (d.context.numerators[k] !== null) {
-                    cellContents = chart.commaFmt(d.context.numerators[k]) + ' (&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + ')';
+                    cellContents = chart.commaFmt(d.context.numerators[k]) + '</td><td class="context">&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + '';
                     rowBits.push('<td class="value">' + cellContents + '</td>');
                 }
             }
