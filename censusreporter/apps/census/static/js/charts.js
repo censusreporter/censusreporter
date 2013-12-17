@@ -417,13 +417,15 @@ function Chart(options) {
                                 
                             column.append("span")
                                 .classed("x axis label secondary", true)
-                                .style("bottom", "-16px")
+                                .style("top", function(d) {
+                                    return (chart.settings.displayHeight + 3) + "px";
+                                })
                                 .text(function(d) { return chart.capitalize(v.name); });
                                 
                             column.append("span")
                                 .classed("label", true)
                                 .style("bottom", function(d) {
-                                    return (chart.settings.displayHeight - chart.y(v.value) + 3) + "px";
+                                    return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                                 })
                                 .text(function(d) {
                                     return chart.valFmt(v.value);
@@ -453,10 +455,12 @@ function Chart(options) {
                     .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
                     .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
 
-            chart.columnAreas
+            chart.columnNames = chart.columns
                 .append("span")
                     .classed("x axis label", true)
-                    .style("bottom", "-16px")
+                    .style("top", function(d) {
+                        return (chart.settings.displayHeight - 10) + "px";
+                    })
                     .text(function(d) { return d.name; });
 
             chart.labels = chart.columnAreas
@@ -569,7 +573,7 @@ function Chart(options) {
             .style("position", "relative")
             .style("width", "0")
             .style("margin-top", -(chart.settings.displayHeight) + "px")
-            .style("height", chart.settings.displayHeight + "px");
+            .style("height", (chart.settings.displayHeight - 4) + "px");
 
         // center text group
         chart.centerGroup = chart.htmlBase.append("div")
@@ -583,7 +587,7 @@ function Chart(options) {
             .attr("class", "label-name")
             .style("left", chart.settings.pieCenter + "px")
             .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
-            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 11) + "px")
+            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 9) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // center value
@@ -591,7 +595,7 @@ function Chart(options) {
             .attr("class", "label-value")
             .style("left", chart.settings.pieCenter + "px")
             .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
-            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 6) + "px")
+            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 4) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // hover state highlights the arc and associated legend item,
