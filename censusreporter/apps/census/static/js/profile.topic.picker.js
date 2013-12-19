@@ -95,20 +95,19 @@ var makeDataTable = function(results) {
         tableContents = [];
 
     var dataContainer = d3.select('#chosen-table'),
-        dataTitle = dataContainer.select('h1'),
+        dataTableID = dataContainer.select('h1'),
+        dataTitle = dataContainer.select('h2'),
         resultsContainer = d3.select('#chosen-table-results');
     
-    console.log(data, table);
     columns.forEach(function(k, v) {
-        console.log(k, v)
         var rowBits = ['<td class="name indent-' + v.indent + '">' + v.name + '</td>'];
         rowBits.push('<td class="value">' + valFmt(data.estimate[k]) + '</td><td class="context">&plusmn;' + valFmt(data.error[k]) + '</td>');
         tableContents.push('<tr>' + rowBits.join('') + '</tr>');
     })
-    
     var tableData = '<table>' + tableContents.join('') + '</table>';
-    
-    dataTitle.text = table.title;
+
+    dataTableID.text('Table ' + chosenTableID);
+    dataTitle.text(table.title);
     resultsContainer.html(tableData);
 }
 
