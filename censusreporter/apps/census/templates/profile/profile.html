@@ -67,21 +67,23 @@
 {% endblock %}
 
 {% block content %}
+<section class="clearfix" id="query-topic-picker">
+    <div class="column-full">
+        <h2 id="topic-result-number">Find data for this place</h2>
+        <input name="topic_select" id="topic-select" type="text" placeholder="Search for data..." autocomplete="off">
+    </div>
+</section>
 
-<article id="table-picker" class="clearfix">
+<article id="chosen-table" class="clearfix">
     <header class="section-contents">
-        <h1>Search for data</h1>
+        <h1>Search data</h1>
     </header>
     <div class="section-container">
-
         <section class="clearfix stat-row">
+            <h2 class="column-header"></h2>
             <aside></aside>
-            <div class="column-full">
-                <input type="text" name="table">
-            </div>
-
+            <div class="column-full" id="chosen-table-results"></div>
         </section>
-
     </div>
 </article>
 
@@ -324,8 +326,10 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/profile.topic.picker.js"></script>
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script type="text/javascript">
+var thisGeoID = '{{ geography.this.full_geoid }}';
 
 d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geoid }}?geom=true", function(error, json) {
     if (error) return console.warn(error);

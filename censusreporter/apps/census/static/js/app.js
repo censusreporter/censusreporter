@@ -52,6 +52,23 @@ var releaseNames = {
     'acs2007_3yr': {'name': 'ACS 2007 3-year', 'years': '2005-2007'},
 }
 
+// formatting utils
+// format percentages and/or dollar signs
+var valFmt = function(value, statType, disablePct) {
+    if (!disablePct && statType == 'percentage') {
+        value += '%';
+    } else if (statType == 'dollar') {
+        value = '$' + commaFmt(value);
+    } else {
+        value = commaFmt(value);
+    }
+    return value;
+}
+
+// commas for human-friendly integers
+var commaFmt = d3.format(",");
+
+
 // math utils
 function roundNumber(n) {
     return (Math.round(n * 10) / 10);

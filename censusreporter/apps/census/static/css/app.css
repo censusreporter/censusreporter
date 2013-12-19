@@ -1913,6 +1913,8 @@ section.chart-divider h2 {
     *border-right-width: 2px;
     *border-bottom-width: 2px;
     -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;
+    height: 320px;
+    overflow-y: auto;
 }
 
 .tt-suggestion {
@@ -1949,12 +1951,6 @@ section.chart-divider h2 {
     margin: .17em .33em 0 1em;
     font-size: .83em;
     font-style: italic;
-}
-
-.autocomplete-widget .tt-dropdown-menu,
-#menu .tt-dropdown-menu {
-    height: 320px;
-    overflow-y: auto;
 }
 
 /* !importants make me a little sad, but they're better than monkey-patching third-party code */
