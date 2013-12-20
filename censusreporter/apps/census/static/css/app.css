@@ -1957,12 +1957,15 @@ section.chart-divider h2 {
 #menu .tt-dropdown-menu {
     width: 240px;
 }
+#profile #query-topic-picker {
+    margin-bottom: 3em;
+}
 #profile #query-topic-picker h2 {
     position: absolute;
     line-height: 1.8em;
     padding-left: .8em;
 }
-#profile #query-topic-picker .twitter-typeahead {
+#profile #query-topic-picker .typeahead-container {
     width: 100%;
     padding-left: 12em;
 }

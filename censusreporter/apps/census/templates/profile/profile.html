@@ -69,7 +69,9 @@
 {% block content %}
 <section class="clearfix" id="query-topic-picker">
     <h2>Find data for this place</h2>
-    <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
+    <div class="typeahead-container">
+        <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
+    </div>
 </section>
 
 <article id="chosen-table" class="clearfix hidden">
