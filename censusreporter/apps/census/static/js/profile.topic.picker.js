@@ -99,6 +99,8 @@ var getData = function() {
 var makeDataTable = function(results) {
     var table = results.tables[chosenTableID],
         data = results.data,
+        denominatorColumn = table.denominator_column_id || null,
+        colspan = (denominatorColumn !== null) ? 4 : 2;
         dataContainer = d3.select('#chosen-table'),
         dataTableID = dataContainer.select('h1'),
         dataTitle = dataContainer.select('h2'),
@@ -106,7 +108,7 @@ var makeDataTable = function(results) {
         
     var headerBits = ['<th class="name">Column</th>'];
     theseGeoIDs.forEach(function(g) {
-        headerBits.push('<th class="name" colspan="2">' + results.geography[g].name + '</th>');
+        headerBits.push('<th class="name" colspan="' + colspan + '">' + results.geography[g].name + '</th>');
     })
     
     var columns = d3.map(table.columns),
@@ -114,12 +116,17 @@ var makeDataTable = function(results) {
     columns.forEach(function(k, v) {
         var rowBits = ['<td class="name indent-' + v.indent + '">' + v.name + '</td>'];
         theseGeoIDs.forEach(function(g) {
-            rowBits.push('<td class="value">' + valFmt(data[g][chosenTableID].estimate[k]) + '</td><td class="context">&plusmn;' + valFmt(data[g][chosenTableID].error[k]) + '</td>');
+            var thisDenominator = data[g][chosenTableID].estimate[denominatorColumn],
+                thisValue = data[g][chosenTableID].estimate[k];
+            rowBits.push('<td class="value">' + valFmt(thisValue) + '</td><td class="context">&plusmn;' + valFmt(data[g][chosenTableID].error[k]) + '</td>');
+            if (!!denominatorColumn) {
+                rowBits.push('<td class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</td><td class="context"></td>');
+            }
         })
         tableContents.push('<tr>' + rowBits.join('') + '</tr>');
     })
     
-    var tableData = '<table><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
+    var tableData = '<table class="full-width"><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
 
     dataTableID.html('Table ' + chosenTableID);
     dataTitle.text(table.title);

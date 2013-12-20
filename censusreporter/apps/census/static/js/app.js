@@ -57,19 +57,28 @@ var releaseNames = {
 // formatting utils
 // format percentages and/or dollar signs
 var valFmt = function(value, statType, disablePct) {
-    if (!disablePct && statType == 'percentage') {
-        value += '%';
-    } else if (statType == 'dollar') {
-        value = '$' + commaFmt(value);
-    } else {
-        value = commaFmt(value);
+    if (value >= 0 && value !== null) {
+        if (!disablePct && statType == 'percentage') {
+            value += '%';
+        } else if (statType == 'dollar') {
+            value = '$' + commaFmt(value);
+        } else {
+            value = commaFmt(value);
+        }
+        return value;
     }
-    return value;
+    return ''
 }
 
 // commas for human-friendly integers
 var commaFmt = d3.format(",");
 
+var calcPct = function(num1, num2) {
+    if (!!num1 && !!num2) {
+        return Math.round(((num1 / num2) * 100) * 10) / 10
+    }
+    return null
+}
 
 // math utils
 function roundNumber(n) {
