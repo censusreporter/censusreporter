@@ -709,7 +709,7 @@ function Chart(options) {
     
     chart.toggleDataDrawer = function() {
         var row = d3.select(chart.findAncestor(this, 'section'));
-        chart.dataDrawer = row.select("#data-drawer");
+        chart.dataDrawer = row.select(".data-drawer");
 
         if (chart.dataDrawer.empty()) {
             d3.select(this).text('Hide the data');
@@ -717,8 +717,7 @@ function Chart(options) {
             chart.chartContainer.classed("highlighted", true);
             
             chart.dataDrawer = row.append("div")
-                    .attr("id", "data-drawer")
-                    .attr("class", "column-full");
+                    .attr("class", "data-drawer column-full");
                     
             chart.dataDrawer.append("h3")
                     .attr("class", "chart-title")

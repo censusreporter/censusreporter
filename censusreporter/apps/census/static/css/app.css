@@ -298,7 +298,7 @@ header.section-contents {
 header.section-contents h1 {
     font-size: 1em;
     margin: 0;
-    padding: .6em 0 .55em .75em;
+    padding: .6em 0 .55em .8em;
     background-color: #eff1e9;
     -webkit-border-top-left-radius: 4px;
     -moz-border-radius-topleft: 4px;
@@ -763,24 +763,24 @@ section aside sup {
     margin: -.5em;
     padding: .5em;
 }
-#data-drawer {
+.data-drawer {
     padding: 1.5em 0 0;
     overflow-x: scroll;
 }
-#data-drawer th {
+.data-drawer th {
     border-left: 5px solid #fff;
 }
-#data-drawer th:first-child {
+.data-drawer th:first-child {
     border-left: none;
 }
-#data-drawer td.context {
+.data-drawer td.context {
     vertical-align: bottom;
 }
-#data-drawer h3.chart-title {
+.data-drawer h3.chart-title {
     padding-left: 8px;
     margin-bottom: 6px;
 }
-#data-drawer .chart-get-data {
+.data-drawer .chart-get-data {
     font-size: .75em;
     float: left;
     margin: 8px;
@@ -1898,6 +1898,18 @@ section.chart-divider h2 {
 }
 
 
+#profile-topic-picker {
+    width: 100%;
+    margin-bottom: 0;
+}
+#chosen-table h2 {
+    padding-left: 8px;
+}
+#chosen-table .data-drawer {
+    padding-top: 0;
+}
+
+
 /* AUTOCOMPLETE */
 .tt-hint {
     visibility: hidden;
@@ -1944,6 +1956,15 @@ section.chart-divider h2 {
 #menu input,
 #menu .tt-dropdown-menu {
     width: 240px;
+}
+#profile #query-topic-picker h2 {
+    position: absolute;
+    line-height: 1.8em;
+    padding-left: .8em;
+}
+#profile #query-topic-picker .twitter-typeahead {
+    width: 100%;
+    padding-left: 12em;
 }
 
 .result-name .result-type {

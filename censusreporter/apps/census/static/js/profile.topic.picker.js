@@ -1,21 +1,30 @@
 // powers the topic picker on profile pages
 
 // the template including this should set the following vars:
-// var thisGeoID = '{{ geography.this.full_geoid }}';
+// var thisGeoID = '{{ geography.this.full_geoid }}',
+//     countyGeoID = '{{ geography.county.full_geoid }}',
+//     stateGeoID = '{{ geography.state.full_geoid }}',
+//     nationGeoID = '{{ geography.nation.full_geoid }}';
 var thisGeoID = thisGeoID || null,
+    countyGeoID = countyGeoID || null,
+    stateGeoID = stateGeoID || null,
+    nationGeoID = nationGeoID || null,
+    theseGeoIDs = [thisGeoID, countyGeoID, stateGeoID, nationGeoID].filter(function(n){return n}),
     chosenTableID = chosenTableID || null;
-
+    
 var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
     dataAPI = 'http://api.censusreporter.org/1.0/data/show/latest';
 
 var topicSelect = $('#topic-select'),
-    topicResultNumber = $('#topic-result-number');
+    topicSelectContainer = $('#query-topic-picker'),
+    chosenTableContainer = $('#chosen-table');
 
 function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
         valueKey: 'unique_key',
+        nameKey: 'simple_table_name',
         remote: {
             url: tableSearchAPI,
             replace: function (url, uriEncodedQuery) {
@@ -31,7 +40,7 @@ function makeTopicSelectWidget(element) {
             },
             filter: function(response) {
                 var resultNumber = response.length;
-                topicResultNumber.text(resultNumber + ' matches');
+                //topicResultNumber.text(resultNumber + ' matches');
                 if (resultNumber === 0) {
                     response.push({
                         table_name: 'Sorry, no matches found. Try removing filters or changing your keyword search.'
@@ -67,7 +76,6 @@ function makeTopicSelectWidget(element) {
 $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
     spinner = new Spinner();
-
 $(document).ajaxSend(function(event, request, settings) {
     spinner.spin(spinnerTarget);
 });
@@ -79,7 +87,7 @@ var getData = function() {
     if (chosenTableID && thisGeoID) {
         var params = {
             table_ids: chosenTableID,
-            geo_ids: thisGeoID
+            geo_ids: theseGeoIDs.join(',')
         }
         $.getJSON(dataAPI, params)
             .done(function(results) {
@@ -90,28 +98,43 @@ var getData = function() {
 
 var makeDataTable = function(results) {
     var table = results.tables[chosenTableID],
-        data = results.data[thisGeoID][chosenTableID],
-        columns = d3.map(table.columns)
-        tableContents = [];
-
-    var dataContainer = d3.select('#chosen-table'),
+        data = results.data,
+        dataContainer = d3.select('#chosen-table'),
         dataTableID = dataContainer.select('h1'),
         dataTitle = dataContainer.select('h2'),
-        resultsContainer = d3.select('#chosen-table-results');
+        resultsContainer = d3.select('.data-drawer');
+        
+    var headerBits = ['<th class="name">Column</th>'];
+    theseGeoIDs.forEach(function(g) {
+        headerBits.push('<th class="name" colspan="2">' + results.geography[g].name + '</th>');
+    })
     
+    var columns = d3.map(table.columns),
+        tableContents = [];
     columns.forEach(function(k, v) {
         var rowBits = ['<td class="name indent-' + v.indent + '">' + v.name + '</td>'];
-        rowBits.push('<td class="value">' + valFmt(data.estimate[k]) + '</td><td class="context">&plusmn;' + valFmt(data.error[k]) + '</td>');
+        theseGeoIDs.forEach(function(g) {
+            rowBits.push('<td class="value">' + valFmt(data[g][chosenTableID].estimate[k]) + '</td><td class="context">&plusmn;' + valFmt(data[g][chosenTableID].error[k]) + '</td>');
+        })
         tableContents.push('<tr>' + rowBits.join('') + '</tr>');
     })
-    var tableData = '<table>' + tableContents.join('') + '</table>';
+    
+    var tableData = '<table><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
 
-    dataTableID.text('Table ' + chosenTableID);
+    dataTableID.html('Table ' + chosenTableID);
     dataTitle.text(table.title);
     resultsContainer.html(tableData);
+    chosenTableContainer.fadeIn('fast');
+    topicSelectContainer.toggle();
 }
 
 jQuery(document).ready(function(){
     // initial setup for select widgets
     makeTopicSelectWidget(topicSelect);
+    
+    $("#chosen-table").on('click', '#change-table', function(e) {
+        e.preventDefault();
+        topicSelectContainer.toggle();
+        chosenTableContainer.fadeOut('fast');
+    })
 });

@@ -23,6 +23,8 @@ var sumlevMap = {
     "040": "state",
     "050": "county",
     "060": "county subdivision",
+    "140": "census tract",
+    "150": "block group",
     "160": "place",
     "250": "native area",
     "310": "metro area",
