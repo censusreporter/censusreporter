@@ -10,7 +10,7 @@ var topicSelect = $('#topic-select'),
     geographiesChosen = $('#geographies-chosen'),
     queryGo = $('#build-comparison .change-button');
 
-var currentYear = '2011,2012',
+var currentYear = '2012',
     countsAPI;
 
 var getCountsAPI = function() {
@@ -270,7 +270,7 @@ function makeAPIRequest() {
     if (!!chosenTableID && !!chosenParentGeoID && !!chosenSumlev) {
         // get rowcounts from each of the current ACS releases
         // for this table/sumlev/parent combination
-        var currentYear = '2011';
+        var currentYear = '2012';
         var getCountsAPI = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/' +
                             chosenTableID + '?year=' + currentYear  + '&sumlevel=' + chosenSumlev +
                             '&within=' + chosenParentGeoID;

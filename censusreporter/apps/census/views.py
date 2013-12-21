@@ -665,7 +665,7 @@ class ComparisonView(BaseComparisonView):
         if 'release' in self.request.GET:
             self.release = self.request.GET['release']
         else:
-            self.release = 'acs2011_5yr'
+            self.release = 'acs2012_5yr'
 
         if 'table' in self.request.GET:
             self.table_id = self.request.GET['table']
@@ -797,8 +797,8 @@ class TableSearchJson(View):
 
     def get(self, request, *args, **kwargs):
         results = []
-        # allow choice of release, default to 2011 1-year
-        release = self.request.GET.get('release', 'ACS 2011 1-Year')
+        # allow choice of release, default to 2012 1-year
+        release = self.request.GET.get('release', 'ACS 2012 1-Year')
 
         # comparison query builder throws a search term here,
         # so force it to look at just one release
@@ -858,7 +858,7 @@ class TableSearch(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
+            'release_options': ['ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
         }
         tables = None
         columns = None
@@ -896,7 +896,7 @@ class GeoSearch(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
+            'release_options': ['ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
         }
         tables = None
         columns = None
