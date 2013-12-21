@@ -99,6 +99,7 @@ var getData = function() {
 var makeDataTable = function(results) {
     var table = results.tables[chosenTableID],
         data = results.data,
+        statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
         colspan = (denominatorColumn !== null) ? 4 : 2;
         dataContainer = d3.select('#chosen-table'),
@@ -113,15 +114,26 @@ var makeDataTable = function(results) {
     
     var columns = d3.map(table.columns),
         tableContents = [];
+        
     columns.forEach(function(k, v) {
-        var rowBits = ['<td class="name indent-' + v.indent + '">' + v.name + '</td>'];
+        var rowBits = ['<td class="name column-name indent-' + v.indent + '">' + v.name + '</td>'];
         theseGeoIDs.forEach(function(g) {
             var thisDenominator = data[g][chosenTableID].estimate[denominatorColumn],
-                thisValue = data[g][chosenTableID].estimate[k];
-            rowBits.push('<td class="value">' + valFmt(thisValue) + '</td><td class="context">&plusmn;' + valFmt(data[g][chosenTableID].error[k]) + '</td>');
+                thisDenominatorMOE = data[g][chosenTableID].error[denominatorColumn],
+                thisValue = data[g][chosenTableID].estimate[k],
+                thisValueMOE = data[g][chosenTableID].error[k];
+
+            // provide percentages first, to match chart style
             if (!!denominatorColumn) {
-                rowBits.push('<td class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</td><td class="context"></td>');
+                if (thisValue >= 0) {
+                    rowBits.push('<td class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</td><td class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</td>');
+                } else {
+                    rowBits.push('<td></td><td></td>')
+                }
             }
+            
+            // add raw numbers
+            rowBits.push('<td class="value">' + valFmt(thisValue, statType) + '</td><td class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</td>');
         })
         tableContents.push('<tr>' + rowBits.join('') + '</tr>');
     })

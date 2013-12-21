@@ -73,9 +73,19 @@ var valFmt = function(value, statType, disablePct) {
 // commas for human-friendly integers
 var commaFmt = d3.format(",");
 
-var calcPct = function(num1, num2) {
-    if (!!num1 && !!num2) {
-        return Math.round(((num1 / num2) * 100) * 10) / 10
+var calcPct = function(numerator, denominator) {
+    if (numerator >= 0 && denominator >= 0) {
+        return Math.round(((numerator / denominator) * 100) * 10) / 10
+    }
+    return null
+}
+
+var calcPctMOE = function(numerator, denominator, numerator_moe, denominator_moe) {
+    // From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
+    if (numerator >= 0 && denominator >= 0) {
+        var estimated_ratio = (numerator / denominator),
+            moe_ratio = Math.sqrt(Math.pow(numerator_moe, 2) + (Math.pow(estimated_ratio, 2) * Math.pow(denominator_moe, 2))) / denominator;
+        return Math.round((moe_ratio * 100) * 10) / 10
     }
     return null
 }
