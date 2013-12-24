@@ -398,10 +398,4 @@ jQuery(document).ready(function(){
         chosenGroup.toggleClass('open');
         chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
     });
-
-    // download submenu
-    $('.toggle-sub-group').hover(function() {
-        $(this).find('.sub-group').toggle();
-        $(this).find('a').toggleClass('hovered');
-    });
 });

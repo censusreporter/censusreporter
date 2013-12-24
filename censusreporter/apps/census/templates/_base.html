@@ -15,6 +15,8 @@
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
         <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        {#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
+        <script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
         {% block head_javascript_extra %}{% endblock %}{% endblock %}
         <!-- Begin Google Analytics -->
         <script>

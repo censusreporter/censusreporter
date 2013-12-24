@@ -2,6 +2,12 @@ $('#menu-toggle').on('click', function() {
     $('#menu').slideToggle(150);
 })
 
+// make table rows highlight-able. Not ideal to attach listener to `body`
+// but we have some tables that are created by js after page load
+$('body').on('click', 'tr', function(){
+    $(this).toggleClass('highlight');
+})
+
 window.browserWidth = document.documentElement.clientWidth,
 
 // usage: log('inside coolFunc', this, arguments);
