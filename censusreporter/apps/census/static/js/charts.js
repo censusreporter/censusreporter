@@ -198,8 +198,8 @@ function Chart(options) {
                             bar.append("span")
                                 .classed("label", true)
                                 .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-                                .text(function(d) {
-                                    return chart.valFmt(v.value);
+                                .html(function(d) {
+                                    return chart.getValueFmt(v);
                                 });
                                 
                             // add the specific label below the bar
@@ -229,8 +229,8 @@ function Chart(options) {
                 .append("span")
                     .classed("label", true)
                     .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-                    .text(function(d) {
-                        return chart.valFmt(d.value);
+                    .html(function(d) {
+                        return chart.getValueFmt(d);
                     });
 
             // labels appear below bars
@@ -430,8 +430,8 @@ function Chart(options) {
                                 .style("bottom", function(d) {
                                     return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                                 })
-                                .text(function(d) {
-                                    return chart.valFmt(v.value);
+                                .html(function(d) {
+                                    return chart.getValueFmt(v);
                                 });
                             });
                         });
@@ -472,8 +472,8 @@ function Chart(options) {
                     .style("bottom", function(d) {
                         return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                     })
-                    .text(function(d) {
-                        return chart.valFmt(d.value);
+                    .html(function(d) {
+                        return chart.getValueFmt(d);
                     });
         }
 
@@ -705,7 +705,7 @@ function Chart(options) {
         return chart;
     }
 
-    // pass in data obj, get back formatted center value label with MOE flag
+    // pass in data obj, get back formatted value label with MOE flag
     chart.getValueFmt = function(data, geoStr) {
         var place = (!!geoStr) ? geoStr : 'this',
             valueText = data.context.values[place],
