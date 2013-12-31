@@ -743,12 +743,12 @@ function Chart(options) {
             chart.chartDataValues.forEach(function(d, i){
                 if (!!d.context) {
                     // standard chart
-                    rowValues.push(d.context);
+                    rowValues.push(d);
                 } else {
                     // data shaped for grouped chart
                     d.values.forEach(function(k, i) {
                         k.context.name = d.name + ': ' + chart.capitalize(k.name);
-                        rowValues.push(k.context);
+                        rowValues.push(k);
                     })
                 }
             })
@@ -782,8 +782,8 @@ function Chart(options) {
             cellContents;
             
         places.forEach(function(k, i) {
-            if (d.values[k] >= 0) {
-                colspan = (d.numerators[k] !== null) ? 4 : 2;
+            if (d.context.values[k] >= 0) {
+                colspan = (d.context.numerators[k] !== null) ? 4 : 2;
                 cellContents = chart.comparisonNames[k];
                 rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
             }
@@ -797,13 +797,13 @@ function Chart(options) {
             cellContents;
         
         places.forEach(function(k, i) {
-            if (d.values[k] >= 0) {
+            if (d.context.values[k] >= 0) {
                 // add the primary value
-                rowBits.push('<td class="value">' + chart.valFmt(d.values[k]) + '</td><td class="context">&plusmn;' + chart.valFmt(d.error[k]) + '</td>');
+                rowBits.push('<td class="value">' + chart.getValueFmt(d, k) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k]) + '</td>');
 
                 // add the numerator value if it exists
-                if (d.numerators[k] !== null) {
-                    cellContents = chart.commaFmt(d.numerators[k]) + '</td><td class="context">&plusmn;' + chart.commaFmt(d.numerator_errors[k]) + '';
+                if (d.context.numerators[k] !== null) {
+                    cellContents = chart.commaFmt(d.context.numerators[k]) + '</td><td class="context">&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + '';
                     rowBits.push('<td class="value">' + cellContents + '</td>');
                 }
             }
