@@ -618,7 +618,7 @@ function Chart(options) {
                 .classed("hovered", true);
             
             chart.centerLabel.text(data.data.name);
-            chart.centerValue.html(chart.setCenterValue(data.data));
+            chart.centerValue.html(chart.getValueFmt(data.data));
             
             // also trigger standard mouseover
             chart.mouseover(data.data);
@@ -632,18 +632,11 @@ function Chart(options) {
                 .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialSlice.data.name);
-            chart.centerValue.html(chart.setCenterValue(chart.initialSlice.data));
+            chart.centerValue.html(chart.getValueFmt(chart.initialSlice.data));
             
             chart.mouseout();
         }
         
-        // pass in data obj, get back formatted center value label with MOE flag
-        chart.setCenterValue = function(data) {
-            chart.centerValueText = data.context.values.this;
-            chart.centerMOEFlag = data.context.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "";
-            return chart.valFmt(chart.centerValueText) + chart.centerMOEFlag;
-        }
-
         // add arc paths to arc group
         chart.arcs = chart.arcGroup.selectAll(".arc")
                 .data(chart.pieData)
@@ -710,6 +703,14 @@ function Chart(options) {
         }
         
         return chart;
+    }
+
+    // pass in data obj, get back formatted center value label with MOE flag
+    chart.getValueFmt = function(data, geoStr) {
+        var place = (!!geoStr) ? geoStr : 'this',
+            valueText = data.context.values[place],
+            valueMOEFlag = data.context.error[place+'_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
+        return chart.valFmt(valueText) + valueMOEFlag;
     }
     
     chart.toggleDataDrawer = function() {
