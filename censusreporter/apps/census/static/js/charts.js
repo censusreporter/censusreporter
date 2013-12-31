@@ -618,9 +618,7 @@ function Chart(options) {
                 .classed("hovered", true);
             
             chart.centerLabel.text(data.data.name);
-            chart.centerValue.text(function() {
-                return chart.valFmt(data.data.value);
-            });
+            chart.centerValue.html(chart.setCenterValue(data.data));
             
             // also trigger standard mouseover
             chart.mouseover(data.data);
@@ -634,9 +632,16 @@ function Chart(options) {
                 .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialSlice.data.name);
-            chart.centerValue.text(chart.valFmt(chart.initialSlice.data.value));
+            chart.centerValue.html(chart.setCenterValue(chart.initialSlice.data));
             
             chart.mouseout();
+        }
+        
+        // pass in data obj, get back formatted center value label with MOE flag
+        chart.setCenterValue = function(data) {
+            chart.centerValueText = data.context.values.this;
+            chart.centerMOEFlag = data.context.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "";
+            return chart.valFmt(chart.centerValueText) + chart.centerMOEFlag;
         }
 
         // add arc paths to arc group
@@ -853,6 +858,8 @@ function Chart(options) {
                 maxMOE.push(contextData.error[k])
             }
         })
+        
+        // if any MOEs get daggered, show the explanatory text
         maxMOE.sort(function(x, y) { return y - x });
         if (maxMOE[0] >= 10) {
             card += "<div class='note'><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</div>"
