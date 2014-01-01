@@ -386,22 +386,33 @@ section h2 {
     line-height: 1.3;
     margin-bottom: 1em;
 }
-section aside {
+aside {
     float: left;
     margin-left: -14.4em;
     width: 13em;
     padding: .25em .67em .67em 1.1em;
 }
-section aside h3 {
+aside h3 {
     font-size: .9em;
 }
-section aside p,
-section aside ul {
+aside p,
+aside ul {
     font-size: .83em;
 }
-section aside sup {
+aside ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+aside li {
+    margin-bottom: .25em;
+}
+aside sup {
     font-size: 1.25em;
     top: -.125em;
+}
+aside .aside-block {
+    margin-top: 1em;
 }
 
 .wrapper {

@@ -1,11 +1,15 @@
 // powers the topic picker on profile pages
 
 // the template including this should set the following vars:
-// var thisGeoID = '{{ geography.this.full_geoid }}',
+// var thisSumlev = '{{ sumlev }}',
+//     thisGeoShortName = '{{ geography.this.short_name }}',
+//     thisGeoID = '{{ geography.this.full_geoid }}',
 //     countyGeoID = '{{ geography.county.full_geoid }}',
 //     stateGeoID = '{{ geography.state.full_geoid }}',
 //     nationGeoID = '{{ geography.nation.full_geoid }}';
-var thisGeoID = thisGeoID || null,
+
+var thisSumlev = thisSumlev || null,
+    thisGeoID = thisGeoID || null,
     countyGeoID = countyGeoID || null,
     stateGeoID = stateGeoID || null,
     nationGeoID = nationGeoID || null,
@@ -96,6 +100,19 @@ var getData = function() {
     }
 }
 
+var makeChildOptions = function() {
+    var childOptionsContainer = d3.select('#chosen-table aside').append('div').classed('aside-block', true);
+    childOptionsContainer.append('h3')
+        .text('Compare ' + thisGeoShortName + ' by:')
+
+    var childOptions = childOptionsContainer.append('ul')
+        .selectAll('li')
+            .data(sumlevChildren[thisSumlev])
+        .enter().append('li').append('a')
+            .attr('href', function(d) { return '/compare/' + thisGeoID + '/' + d + '/table/?&table=' + chosenTableID })
+            .text(function(d) { return sumlevMap[d] });
+}
+
 var makeDataTable = function(results) {
     var table = results.tables[chosenTableID],
         data = results.data,
@@ -142,6 +159,11 @@ var makeDataTable = function(results) {
 
     dataTableID.html('Table ' + chosenTableID);
     dataTitle.text(table.title);
+    
+    // add the comparison links
+    makeChildOptions();
+    
+    // add the data and show container
     resultsContainer.html(tableData);
     chosenTableContainer.fadeIn('fast');
     topicSelectContainer.toggle();

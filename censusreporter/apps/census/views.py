@@ -102,7 +102,7 @@ class GeographyDetailView(TemplateView):
 
         page_context = {
             'state_fips_code': None,
-            'geography_fips_code': None
+            'geography_fips_code': None,
         }
 
         if 'US' in geography_id:

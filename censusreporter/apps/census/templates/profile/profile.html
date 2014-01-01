@@ -79,7 +79,7 @@
     <div class="section-container">
         <section class="clearfix stat-row">
             <h2 class="column-header"></h2>
-            <aside><a id="change-table" class="small" href="#">Change table</a></aside>
+            <aside><p><a id="change-table" href="#">Change table</a></p></aside>
             <div class="column-full data-drawer" id="chosen-table-results"></div>
         </section>
     </div>
@@ -95,13 +95,7 @@
 
         <section class="clearfix stat-row">
             <h2 class="column-header"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>
-            <aside>
-                {#}TODO: Figure out a better way of providing links to comparison pages{#}
-                {% if sumlev in "040,050" %}
-                <h3>Compare</h3>
-                <p><a href="{% url 'geography_comparison_detail' state_geoid sumlev 'map' %}">Counties by age group</a></p>
-                {% endif %}
-            </aside>
+            <aside></aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.age.median_age.total stat_type='number' %}
             </div>
@@ -326,7 +320,9 @@
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script type="text/javascript">
-var thisGeoID = '{{ geography.this.full_geoid }}',
+var thisSumlev = '{{ sumlev }}',
+    thisGeoShortName = '{{ geography.this.short_name }}',
+    thisGeoID = '{{ geography.this.full_geoid }}',
     countyGeoID = '{{ geography.county.full_geoid }}',
     stateGeoID = '{{ geography.state.full_geoid }}',
     nationGeoID = '{{ geography.nation.full_geoid }}';
