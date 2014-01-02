@@ -110,7 +110,7 @@ var makeChildOptions = function() {
             .data(sumlevChildren[thisSumlev])
         .enter().append('li').append('a')
             .attr('href', function(d) { return '/compare/' + thisGeoID + '/' + d + '/table/?&table=' + chosenTableID })
-            .text(function(d) { return sumlevMap[d] });
+            .text(function(d) { return sumlevMap[d]['plural'] });
 }
 
 var makeDataTable = function(results) {

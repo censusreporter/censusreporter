@@ -23,25 +23,25 @@ window.log = function(){
 
 // standard mapping of summary level code to summary level name
 var sumlevMap = {
-    "010": "nation",
-    "020": "region",
-    "030": "division",
-    "040": "state",
-    "050": "county",
-    "060": "county subdivision",
-    "140": "census tract",
-    "150": "block group",
-    "160": "place",
-    "250": "native area",
-    "310": "metro area",
-    "500": "congressional district",
-    "610": "state house (upper)",
-    "620": "state house (lower)",
-    "700": "voting tabulation district",
-    "860": "ZIP code",
-    "950": "school district (elementary)",
-    "960": "school district (secondary)",
-    "970": "school district (unified)"
+    "010": {"name": "nation", "plural": "nations"},
+    "020": {"name": "region", "plural": "regions"},
+    "030": {"name": "division", "plural": "divisions"},
+    "040": {"name": "state", "plural": "states"},
+    "050": {"name": "county", "plural": "counties"},
+    "060": {"name": "county subdivision", "plural": "county subdivisions"},
+    "140": {"name": "census tract", "plural": "census tracts"},
+    "150": {"name": "block group", "plural": "block groups"},
+    "160": {"name": "place", "plural": "places"},
+    "250": {"name": "native area", "plural": "native areas"},
+    "310": {"name": "metro area", "plural": "metro areas"},
+    "500": {"name": "congressional district", "plural": "congressional districts"},
+    "610": {"name": "state house (upper)", "plural": "state houses (upper)"},
+    "620": {"name": "state house (lower)", "plural": "state houses (lower)"},
+    "700": {"name": "voting tabulation district", "plural": "voting tabulation districts"},
+    "860": {"name": "ZIP code", "plural": "ZIP codes"},
+    "950": {"name": "school district (elementary)", "plural": "school districts (elementary)"},
+    "960": {"name": "school district (secondary)", "plural": "school districts (secondary)"},
+    "970": {"name": "school district (unified)", "plural": "school districts (unified)"}
 };
 
 var sumlevChildren = {

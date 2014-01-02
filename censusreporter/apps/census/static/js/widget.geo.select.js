@@ -14,7 +14,7 @@ function makeGeoSelectWidget(element) {
             filter: function(response) {
                 var results = response.results;
                 results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']];
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
                 });
                 return results;
             }
