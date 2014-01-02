@@ -9,6 +9,7 @@
 //     nationGeoID = '{{ geography.nation.full_geoid }}';
 
 var thisSumlev = thisSumlev || null,
+    thisGeoShortName = thisGeoShortName || null,
     thisGeoID = thisGeoID || null,
     countyGeoID = countyGeoID || null,
     stateGeoID = stateGeoID || null,
@@ -102,15 +103,22 @@ var getData = function() {
 
 var makeChildOptions = function() {
     var childOptionsContainer = d3.select('#chosen-table aside').append('div').classed('aside-block', true);
-    childOptionsContainer.append('h3')
-        .text('Compare ' + thisGeoShortName + ' by:')
+    
+    childOptionsContainer.append('p')
+        .classed('bottom display-type strong', true)
+        .html('Compare &hellip;');
 
     var childOptions = childOptionsContainer.append('ul')
+            .classed('sumlev-list', true)
         .selectAll('li')
             .data(sumlevChildren[thisSumlev])
         .enter().append('li').append('a')
             .attr('href', function(d) { return '/compare/' + thisGeoID + '/' + d + '/table/?&table=' + chosenTableID })
             .text(function(d) { return sumlevMap[d]['plural'] });
+
+    childOptionsContainer.append('p')
+        .classed('display-type strong', true)
+        .html('&hellip; in ' + thisGeoShortName);
 }
 
 var makeDataTable = function(results) {

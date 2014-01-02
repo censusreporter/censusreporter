@@ -399,9 +399,9 @@ aside p,
 aside ul {
     font-size: .83em;
 }
-aside ul {
+aside ul.sumlev-list {
     list-style: none;
-    margin: 0;
+    margin: 0.67em 0 1em .67em;
     padding: 0;
 }
 aside li {
@@ -2096,6 +2096,9 @@ section.chart-divider h2 {
 }
 .normal {
     font-weight: normal;
+}
+.bottom {
+    margin-bottom: 0;
 }
 .hidden,
 .geolocate-only,
