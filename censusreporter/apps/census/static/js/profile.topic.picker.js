@@ -102,14 +102,19 @@ var getData = function() {
 }
 
 var makeChildOptions = function() {
-    var childOptionsContainer = d3.select('#chosen-table aside').append('div').classed('aside-block', true);
+    // no tribbles!
+    d3.selectAll('#comparison-children').remove();
+    
+    var childOptionsContainer = d3.select('#chosen-table aside').append('div')
+        .attr('class', 'aside-block')
+        .attr('id', 'comparison-children');
     
     childOptionsContainer.append('p')
-        .classed('bottom display-type strong', true)
+        .attr('class', 'bottom display-type strong')
         .html('Compare &hellip;');
 
     var childOptions = childOptionsContainer.append('ul')
-            .classed('sumlev-list', true)
+            .attr('class', 'sumlev-list')
         .selectAll('li')
             .data(sumlevChildren[thisSumlev])
         .enter().append('li').append('a')
@@ -117,7 +122,7 @@ var makeChildOptions = function() {
             .text(function(d) { return sumlevMap[d]['plural'] });
 
     childOptionsContainer.append('p')
-        .classed('display-type strong', true)
+        .attr('class', 'display-type strong')
         .html('&hellip; in ' + thisGeoShortName);
 }
 
