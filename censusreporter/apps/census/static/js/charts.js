@@ -706,11 +706,12 @@ function Chart(options) {
     }
 
     // pass in data obj, get back formatted value label with MOE flag
-    chart.getValueFmt = function(data, geoStr) {
+    chart.getValueFmt = function(data, geoStr, precision) {
         var place = (!!geoStr) ? geoStr : 'this',
+            decimals = (!!precision) ? precision : 0,
             valueText = data.context.values[place],
             valueMOEFlag = data.context.error[place+'_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
-        return chart.valFmt(valueText) + valueMOEFlag;
+        return chart.valFmt(valueText, decimals) + valueMOEFlag;
     }
     
     chart.toggleDataDrawer = function() {
@@ -799,7 +800,7 @@ function Chart(options) {
         places.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 // add the primary value
-                rowBits.push('<td class="value">' + chart.getValueFmt(d, k) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k]) + '</td>');
+                rowBits.push('<td class="value">' + chart.getValueFmt(d, k, 1) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k], 1) + '</td>');
 
                 // add the numerator value if it exists
                 if (d.context.numerators[k] !== null) {
@@ -913,8 +914,12 @@ function Chart(options) {
     }
     
     // format percentages and/or dollar signs
-    chart.valFmt = function(value, disablePct) {
-        if (!disablePct && (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage')) {
+    chart.valFmt = function(value, decimals) {
+        var precision = (!!decimals) ? decimals : 0,
+            factor = Math.pow(10, precision),
+            value = Math.round(value * factor) / factor;
+
+        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
             value += '%';
         } else if (chart.chartStatType == 'dollar') {
             value = '$' + chart.commaFmt(value);
