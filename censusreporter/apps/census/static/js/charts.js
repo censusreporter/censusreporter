@@ -590,7 +590,7 @@ function Chart(options) {
             .attr("class", "label-name")
             .style("left", chart.settings.pieCenter + "px")
             .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
-            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 9) + "px")
+            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 10) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // center value
@@ -598,7 +598,7 @@ function Chart(options) {
             .attr("class", "label-value")
             .style("left", chart.settings.pieCenter + "px")
             .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
-            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 4) + "px")
+            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 7) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // hover state highlights the arc and associated legend item,
