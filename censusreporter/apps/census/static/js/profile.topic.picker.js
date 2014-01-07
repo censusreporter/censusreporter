@@ -18,6 +18,7 @@ var thisSumlev = thisSumlev || null,
     chosenTableID = chosenTableID || null;
     
 var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
+    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
     dataAPI = 'http://api.censusreporter.org/1.0/data/show/latest';
 
 var topicSelect = $('#topic-select'),
@@ -101,6 +102,34 @@ var getData = function() {
     }
 }
 
+var makeParentOptions = function() {
+    // no tribbles!
+    d3.selectAll('#comparison-parents').remove();
+    
+    var parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
+        parentOptionsContainer = d3.select('#chosen-table aside').append('div')
+            .attr('class', 'aside-block')
+            .attr('id', 'comparison-parents');
+
+    $.getJSON(parentGeoAPI)
+        .done(function(results) {
+
+            parentOptionsContainer.append('p')
+                .attr('class', 'bottom display-type strong')
+                .html('Compare with other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
+
+            parentOptionsContainer.append('ul')
+                    .attr('class', 'sumlev-list')
+                .selectAll('li')
+                    .data(results['parents'])
+                .enter().append('li').append('a')
+                    .attr('href', function(d) { return '/compare/' + d.geoid + '/' + thisSumlev + '/table/?table=' + chosenTableID })
+                    .text(function(d) { return d.display_name });
+
+        });
+    
+}
+
 var makeChildOptions = function() {
     // no tribbles!
     d3.selectAll('#comparison-children').remove();
@@ -113,12 +142,12 @@ var makeChildOptions = function() {
         .attr('class', 'bottom display-type strong')
         .html('Compare &hellip;');
 
-    var childOptions = childOptionsContainer.append('ul')
+    childOptionsContainer.append('ul')
             .attr('class', 'sumlev-list')
         .selectAll('li')
             .data(sumlevChildren[thisSumlev])
         .enter().append('li').append('a')
-            .attr('href', function(d) { return '/compare/' + thisGeoID + '/' + d + '/table/?&table=' + chosenTableID })
+            .attr('href', function(d) { return '/compare/' + thisGeoID + '/' + d + '/table/?table=' + chosenTableID })
             .text(function(d) { return sumlevMap[d]['plural'] });
 
     childOptionsContainer.append('p')
@@ -174,6 +203,7 @@ var makeDataTable = function(results) {
     dataTitle.text(table.title);
     
     // add the comparison links
+    makeParentOptions();
     makeChildOptions();
     
     // add the data and show container
