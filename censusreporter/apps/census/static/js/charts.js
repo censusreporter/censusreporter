@@ -714,15 +714,25 @@ function Chart(options) {
         return chart.valFmt(valueText, decimals) + valueMOEFlag;
     }
     
+    // opens drawer with tabular data under chart
     chart.toggleDataDrawer = function() {
-        var row = d3.select(chart.findAncestor(this, 'section'));
+        var row = d3.select(chart.findAncestor(this, "section")),
+            clickTargets = row.selectAll(".chart-get-data"),
+            clicked = d3.select(this),
+            hide = clicked.classed("opened");
         chart.dataDrawer = row.select(".data-drawer");
-
-        if (chart.dataDrawer.empty()) {
-            d3.select(this).text('Hide the data');
-            
-            chart.chartContainer.classed("highlighted", true);
-            
+        
+        // make sure we're in a pristine state
+        chart.dataDrawer.remove();
+        clickTargets.text('Show the data').classed("opened", false);
+        
+        // handle the toggling
+        if (hide) {
+            clicked.classed("opened", false);
+        } else {
+            clicked.classed("opened", true);
+            clicked.text('Hide the data');
+        
             chart.dataDrawer = row.append("div")
                     .attr("class", "data-drawer column-full");
                     
@@ -766,13 +776,9 @@ function Chart(options) {
                     
             chart.dataDrawer
                 .append("a")
-                    .classed("chart-get-data", true)
+                    .classed("chart-get-data opened", true)
                     .text("Hide the data")
                     .on("click", chart.toggleDataDrawer)
-        } else {
-            chart.dataDrawer.remove();
-            d3.select(this).text('Show the data');
-            chart.chartContainer.classed("highlighted", false);
         }
     }
     
