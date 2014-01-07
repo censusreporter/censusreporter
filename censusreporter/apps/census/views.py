@@ -3,6 +3,7 @@ import requests
 import unicodecsv
 from collections import OrderedDict
 from numpy import median
+from urllib import urlencode
 from urllib2 import unquote
 
 from django.conf import settings
@@ -656,21 +657,43 @@ class ComparisonView(BaseComparisonView):
         self.descendant_sumlev = self.kwargs['descendant_sumlev']
         self.format = self.kwargs.get('format', None)
 
+        # if we have no format, fall back to table view
         if not self.format:
             return HttpResponseRedirect(
                 reverse('geography_comparison_detail', args=(self.parent_id, self.descendant_sumlev, 'table'))
             )
 
-        # sensible defaults
-        if 'release' in self.request.GET:
-            self.release = self.request.GET['release']
-        else:
-            self.release = 'acs2012_5yr'
-
+        # if we have no table, 404
         if 'table' in self.request.GET:
             self.table_id = self.request.GET['table']
         else:
-            self.table_id = 'B01001'
+            raise Http404
+
+        # if we have no release, determine best one
+        if 'release' in self.request.GET:
+            self.release = self.request.GET['release']
+        else:
+            COUNTS_API = 'http://api.censusreporter.org/1.0/table/compare/rowcounts/%s' % self.table_id
+            COUNTS_API_PARAMS = {
+                'year': '2012',
+                'sumlevel': self.descendant_sumlev,
+                'within': self.parent_id,
+            }
+            r = requests.get(COUNTS_API, params=COUNTS_API_PARAMS)
+
+            if r.status_code == 200:
+                counts_data = simplejson.loads(r.text, object_pairs_hook=dict)
+                counts = sorted(counts_data.items(), key=lambda item: item[1]['results'], reverse=True)
+
+                url = reverse('geography_comparison_detail', args=(self.parent_id, self.descendant_sumlev, self.format))
+                url_params = {
+                    'table': self.table_id,
+                    'release': counts[0][1]['release_slug']
+                }
+                
+                return HttpResponseRedirect(url + '?' + urlencode(url_params))
+            else:
+                raise Http404
 
         # if we need a downloadable format, provide it straightaway
         if self.format == 'json':
