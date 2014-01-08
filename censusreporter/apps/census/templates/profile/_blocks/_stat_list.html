@@ -9,7 +9,7 @@
                 {% if stat.error.this_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
             {% endif %}
 
-			{% if not stat_class == 'secondary' %}
+            {% if not stat_class == 'secondary' %}
                 {% if stat.error.this %}
                     <span class="context moe">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
                 {% endif %}
@@ -17,24 +17,24 @@
                 {% if stat.numerators.this %}
                     <span class="context">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }})</span>
                 {% endif %}
-			{% endif %}
+            {% endif %}
         </span>
         <span class="name">{{ stat.name }}</span>
         {% if stat.metadata.acs_release != geography.census_release %}
-        	<span class="small">* {{ stat.metadata.acs_release }} data</span>
+            <span class="small">* {{ stat.metadata.acs_release }} data</span>
         {% endif %}
-		
-		{% if stat_class == 'secondary' %}
-			<span class="context">
-	            {% if stat.error.this %}
-	                &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
-	            {% endif %}
+        
+        {% if stat_class == 'secondary' %}
+            <span class="context">
+                {% if stat.error.this %}
+                    &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
+                {% endif %}
 
-	            {% if stat.numerators.this %}
-	                <span class="push-right">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }})</span>
-	            {% endif %}
-			</span>
-		{% endif %}
+                {% if stat.numerators.this %}
+                    <span class="push-right">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }})</span>
+                {% endif %}
+            </span>
+        {% endif %}
     </span>
 
     {% if not stat_class == 'secondary' %}

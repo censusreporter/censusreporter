@@ -595,20 +595,25 @@ class BaseComparisonView(TemplateView):
                 total_value = self.get_denominator_value(child['data'], percentify, pop=percentify)
 
             for column_id, value in child['data'].iteritems():
-                distribution_groups[column_id]['group_values'].update({
-                    geoid: {
-                        'name': name,
-                        'value': value,
-                    }
-                })
-                if percentify:
-                    # If table can be percentified, the primary value
-                    # for this type of chart should be the percentage
-                    total, total_pct = self.get_total_and_pct(value, total_value)
-                    distribution_groups[column_id]['group_values'][geoid].update({
-                        'value': total_pct,
-                        'value_alt': total,
+                if value:
+                    distribution_groups[column_id]['group_values'].update({
+                        geoid: {
+                            'name': name,
+                            'value': value,
+                        }
                     })
+                    if percentify:
+                        # If table can be percentified, the primary value
+                        # for this type of chart should be the percentage
+                        total, total_pct = self.get_total_and_pct(value, total_value)
+                        distribution_groups[column_id]['group_values'][geoid].update({
+                            'value': total_pct,
+                            'value_alt': total,
+                        })
+                else:
+                    #TODO: Perhaps provide an "insufficient data for <geoID>" message if no value
+                    #see http://api.censusreporter.org/1.0/data/compare/acs2012_5yr/B01002?sumlevel=950&within=01000US
+                    pass
 
         if percentify:
             field_list = ['value', 'value_alt',]
@@ -619,7 +624,10 @@ class BaseComparisonView(TemplateView):
             for field in field_list:
                 # skip the non-data subheads
                 if chart_values['group_values']:
-                    values_list = [value[field] for geo, value in chart_values['group_values'].iteritems()]
+                    values_list = [
+                        value[field] for geo, value in chart_values['group_values'].iteritems()
+                    ]
+
                     # get the min, max, median and range values
                     # for this column within this group of geographies
                     max_value = max(values_list)
