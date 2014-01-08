@@ -40,11 +40,11 @@
             <div class="column-half">
                 <div class="stat">
                     <span class="secondary">
-                        <span class="value">{{ geo_metadata.square_miles|floatformat|intcomma }}</span>
+                        <span class="value">{{ geo_metadata.square_miles|floatformat:"0"|intcomma }}</span>
                         <span class="name"> square miles</span>
                     </span>
                     <span class="secondary">
-                        <span class="value">{{ geo_metadata.population_density|floatformat|intcomma }}</span>
+                        <span class="value">{{ geo_metadata.population_density|floatformat:"0"|intcomma }}</span>
                         <span class="name"> people per square mile</span>
                     </span>
                 </div>
