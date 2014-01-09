@@ -49,7 +49,7 @@
                         <tr>
                             <th class="name">Column</th>
                             {% for geo in geo_names %}
-                            <th class="value" title="{{ geo }}">{{ geo }}</th>
+                            <th class="value" title="{{ geo.name }}"><a href="{% url 'geography_detail' geo.geoid %}">{{ geo.name }}</a></th>
                             {% endfor %}
                         </tr>
                     </thead>
