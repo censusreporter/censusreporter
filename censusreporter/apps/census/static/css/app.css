@@ -413,6 +413,7 @@ aside sup {
 }
 aside .aside-block {
     margin-top: 1em;
+    clear: both;
 }
 
 .wrapper {
@@ -2173,6 +2174,19 @@ section.chart-divider h2 {
         margin-left: 0;
         width: auto;
         padding: 0;
+    }
+    aside ul.sumlev-list {
+        margin: .33em 0;
+    }
+    aside ul.sumlev-list li {
+        float: left;
+        margin: 0 0 .67em .67em;
+    }
+    aside ul.sumlev-list li:last-child {
+        margin-right: 1em;
+    }
+    #chosen-table h2 {
+        padding-left: 0;
     }
     .column-full,
     .column-golden-wide,
