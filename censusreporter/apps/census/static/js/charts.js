@@ -806,7 +806,7 @@ function Chart(options) {
         var places = ['this', 'county', 'state', 'nation'],
             rowBits = ['<td class="name">' + d.name + '</td>'],
             cellContents;
-        
+
         places.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 // add the primary value
@@ -838,7 +838,6 @@ function Chart(options) {
             moeFlag = contextData.error_ratio.this >= 10 ? "<sup>&dagger;</sup>" : "",
             cardStat = chart.valFmt(contextData.values.this) + moeFlag,
             cardComparison = [];
-        console.log(contextData);
 
         d3.keys(contextData.values).forEach(function(k, i) {
             if (k != 'this') {
