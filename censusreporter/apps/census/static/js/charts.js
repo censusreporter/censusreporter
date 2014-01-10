@@ -31,12 +31,16 @@ function Chart(options) {
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.comparisonNames = {
             'this': (!!options.comparisonThisName) ? options.comparisonThisName : 'here',
+            'place': (!!options.comparisonPlaceName) ? options.comparisonPlaceName : 'place',
+            'CBSA': (!!options.comparisonCBSAName) ? options.comparisonCBSAName : 'CBSA',
             'county': (!!options.comparisonCountyName) ? options.comparisonCountyName : 'county',
             'state': (!!options.comparisonStateName) ? options.comparisonStateName : 'state',
             'nation': (!!options.comparisonNationName) ? options.comparisonNationName : 'United States'
         }
         chart.comparisonNamePhrases = {
             'this': (!!options.comparisonThisName) ? 'in ' + options.comparisonThisName : 'here',
+            'place': (!!options.comparisonPlaceName) ? 'in ' + options.comparisonPlaceName : 'placewide',
+            'CBSA': (!!options.comparisonCBSAName) ? 'in the ' + options.comparisonCBSAName : 'CBSA-wide',
             'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
             'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
             'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
@@ -834,6 +838,7 @@ function Chart(options) {
             moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
             cardStat = chart.valFmt(contextData.values.this) + moeFlag,
             cardComparison = [];
+        console.log(contextData);
 
         d3.keys(contextData.values).forEach(function(k, i) {
             if (k != 'this' && k.indexOf('_index') == -1) {
