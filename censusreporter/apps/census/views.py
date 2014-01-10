@@ -116,7 +116,7 @@ class GeographyDetailView(TemplateView):
                     enhanced['numerators'][sumlevel] = raw['numerators'][sumlevel]
 
                 if (sumlevel in raw['numerators']) and (sumlevel in raw['numerator_errors']):
-                    enhanced['numerator_errors'] = raw['numerator_errors'][sumlevel]
+                    enhanced['numerator_errors'][sumlevel] = raw['numerator_errors'][sumlevel]
 
                 if len(enhanced['values']) >= (num_comparatives + 1):
                     break
