@@ -482,8 +482,10 @@ class BaseComparisonView(TemplateView):
 
         geo_names = []
         for (geoID, values) in data.iteritems():
-            name = values['geography']['name']
-            geo_names.append(name)
+            geo_names.append({
+                'name': values['geography']['name'],
+                'geoid': geoID,
+            })
 
         return geo_names, values_by_field
 
