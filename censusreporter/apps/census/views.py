@@ -93,7 +93,8 @@ class GeographyDetailView(TemplateView):
                 enhanced[obj] = OrderedDict()
             enhanced['index'] = OrderedDict()
             enhanced['error_ratio'] = OrderedDict()
-            
+            comparative_sumlevs = []
+
             # enhance
             for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
 
@@ -105,6 +106,10 @@ class GeographyDetailView(TemplateView):
                 if sumlevel in raw['values']:
                     enhanced['values'][sumlevel] = raw['values'][sumlevel]
                     enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
+                    
+                    # add to our list of comparatives for the template to use
+                    if sumlevel != 'this':
+                        comparative_sumlevs.append(sumlevel)
 
                 # add the moe ratios
                 if (sumlevel in raw['values']) and (sumlevel in raw['error']):
@@ -124,6 +129,8 @@ class GeographyDetailView(TemplateView):
             # replace data with enhanced version
             for obj in ['values', 'index', 'error', 'error_ratio', 'numerators', 'numerator_errors']:
                 d[obj] = enhanced[obj]
+
+            api_data['geography']['comparatives'] = comparative_sumlevs
 
         return api_data
 
