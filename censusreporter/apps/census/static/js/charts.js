@@ -714,7 +714,7 @@ function Chart(options) {
         var place = (!!geoStr) ? geoStr : 'this',
             decimals = (!!precision) ? precision : 0,
             valueText = data.context.values[place],
-            valueMOEFlag = data.context.error[place+'_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
+            valueMOEFlag = data.context.error_ratio[place] >= 10 ? "<sup>&dagger;</sup>" : "";
         return chart.valFmt(valueText, decimals) + valueMOEFlag;
     }
     
@@ -835,16 +835,16 @@ function Chart(options) {
             phraseBits,
             compareBits,
             contextData = data.context,
-            moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
+            moeFlag = contextData.error_ratio.this >= 10 ? "<sup>&dagger;</sup>" : "",
             cardStat = chart.valFmt(contextData.values.this) + moeFlag,
             cardComparison = [];
         console.log(contextData);
 
         d3.keys(contextData.values).forEach(function(k, i) {
-            if (k != 'this' && k.indexOf('_index') == -1) {
+            if (k != 'this') {
                 value = contextData.values[k];
-                index = contextData.values[k + '_index'];
-                moeFlag = contextData.error[k + '_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
+                index = contextData.index[k];
+                moeFlag = contextData.error_ratio[k] >= 10 ? "<sup>&dagger;</sup>" : "";
                 
                 // generate the comparative text for this parent level
                 if (!!index) {
@@ -865,13 +865,8 @@ function Chart(options) {
             "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
         
-        var maxMOE = [];
-        d3.keys(contextData.error).forEach(function(k, v) {
-            if (k.indexOf('_ratio') != -1 && contextData.error[k]) {
-                maxMOE.push(contextData.error[k])
-            }
-        })
         
+        var maxMOE = d3.values(contextData.error_ratio);
         // if any MOEs get daggered, show the explanatory text
         maxMOE.sort(function(x, y) { return y - x });
         if (maxMOE[0] >= 10) {

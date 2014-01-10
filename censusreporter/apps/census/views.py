@@ -80,49 +80,36 @@ class GeographyDetailView(TemplateView):
 
     def enhance_api_data(self, api_data):
         dict_list = find_dicts_with_key(api_data, 'values')
-        '''
-        for d in dict_list:
-            values = d['values']
-            enhanced_values = OrderedDict()
-            errors = d['error']
-            enhanced_errors = OrderedDict()
-            numerators = d['numerators']
-            enhanced_numerators = OrderedDict()
-            numerator_errors = d['numerator_errors']
-            enhanced_numerator_errors = OrderedDict()
-            geo_value = values['this']
 
-            # add the context value to `values` dict
-            for sumlevel in ['place', 'CBSA', 'county', 'state', 'nation']:
-                if sumlevel in values:
-                    values[sumlevel+'_index'] = get_ratio(geo_value, values[sumlevel])
-
-            # add the moe ratios
-            for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
-                if (sumlevel in values) and (sumlevel in errors):
-                    errors[sumlevel+'_ratio'] = get_ratio(errors[sumlevel], values[sumlevel], 3)
-        '''
         for d in dict_list:
             raw = {}
             enhanced = {}
             geo_value = d['values']['this']
+            num_comparatives = 2
 
             # create our containers for transformation
             for obj in ['values', 'error', 'numerators', 'numerator_errors']:
                 raw[obj] = d[obj]
                 enhanced[obj] = OrderedDict()
+            enhanced['index'] = OrderedDict()
+            enhanced['error_ratio'] = OrderedDict()
             
             # enhance
             for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
+
+                # favor CBSA over county, but we don't want both
+                if sumlevel == 'county' and 'CBSA' in enhanced['values']:
+                    continue
+
                 # add the index value for comparatives
                 if sumlevel in raw['values']:
                     enhanced['values'][sumlevel] = raw['values'][sumlevel]
-                    enhanced['values'][sumlevel+'_index'] = get_ratio(geo_value, raw['values'][sumlevel])
+                    enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
 
                 # add the moe ratios
                 if (sumlevel in raw['values']) and (sumlevel in raw['error']):
                     enhanced['error'][sumlevel] = raw['error'][sumlevel]
-                    enhanced['error'][sumlevel+'_ratio'] = get_ratio(raw['error'][sumlevel], raw['values'][sumlevel], 3)
+                    enhanced['error_ratio'][sumlevel] = get_ratio(raw['error'][sumlevel], raw['values'][sumlevel], 3)
 
                 # add the numerators and numerator_errors
                 if sumlevel in raw['numerators']:
@@ -131,8 +118,11 @@ class GeographyDetailView(TemplateView):
                 if (sumlevel in raw['numerators']) and (sumlevel in raw['numerator_errors']):
                     enhanced['numerator_errors'] = raw['numerator_errors'][sumlevel]
 
+                if len(enhanced['values']) >= (num_comparatives + 1):
+                    break
+
             # replace data with enhanced version
-            for obj in ['values', 'error', 'numerators', 'numerator_errors']:
+            for obj in ['values', 'index', 'error', 'error_ratio', 'numerators', 'numerator_errors']:
                 d[obj] = enhanced[obj]
 
         return api_data
