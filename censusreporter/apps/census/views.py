@@ -174,6 +174,7 @@ class GeographyDetailView(TemplateView):
 
         # Put this down here to make sure geoid is valid before using it
         page_context['geoid'] = geography_id
+        page_context['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlev]['name']
 
         tiger_release = 'tiger2012'
         geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])

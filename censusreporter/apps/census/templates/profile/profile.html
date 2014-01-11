@@ -1,4 +1,4 @@
-{% extends 'profile/_base_profile.html' %}{% load humanize %}
+{% extends 'profile/_base_profile.html' %}{% load humanize madlibs %}
 
 {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
 
@@ -26,7 +26,14 @@
         <article class="clearfix column-half">
             <header class="column-full">
                 <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
-                <p class="caption">Data: {{ geography.census_release }} unless noted</p>
+                {% if geography.this.sumlevel != '010' %}
+                <p class="caption">
+                    {{ geography.this.sumlevel_name|capfirst }} in:
+                    {% for place, values in geography.parents.items %}
+                        <a href="{% url 'geography_detail' values.full_geoid %}">{% if values.sumlevel == '310' %}{{ values.full_name }}{% else %}{{ values.short_name }}{% endif %}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                {% endif %}
             </header>
             <div class="column-half">
                 <div class="stat">
@@ -50,12 +57,9 @@
                 </div>
             </div>
             {% endif %}
-            {% comment %}
-            <div class="column-full">
-                <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam.</p>
+            <div class="column-full caption">
+                Data: {{ geography.census_release }} unless noted
             </div>
-            {% endcomment %}
         </article>
     </div>
 
@@ -401,10 +405,10 @@ $.each(chartContainers, function(i) {
         chartStatType = $(this).data('stat-type'),
         chartQualifier = $(this).data('qualifier') || null,
         comparisonThisName = '{{ geography.this.short_name }}',
-        comparisonPlaceName = '{{ geography.place.short_name }}',
-        comparisonCBSAName = '{{ geography.CBSA.full_name }}',
-        comparisonCountyName = '{{ geography.county.short_name }}',
-        comparisonStateName = '{{ geography.state.short_name }}';
+        comparisonPlaceName = '{{ geography.parents.place.short_name }}',
+        comparisonCBSAName = '{{ geography.parents.CBSA.full_name }}',
+        comparisonCountyName = '{{ geography.parents.county.short_name }}',
+        comparisonStateName = '{{ geography.parents.state.short_name }}';
 
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;

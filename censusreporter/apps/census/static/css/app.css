@@ -658,6 +658,9 @@ aside .aside-block {
 .stat .secondary {
     display: block;
 }
+#cover-profile .stat .secondary {
+    margin-bottom: .67em;
+}
 .stat .secondary .value {
     font-size: 1.2em;
     font-weight: 700;
