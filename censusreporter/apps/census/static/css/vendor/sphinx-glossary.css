@@ -1,0 +1,10 @@
+#glossarypopup {
+  background: #ffffdd;
+  border-radius: 0px 20px 20px 20px;
+  width: 200px;
+  position: absolute;
+  padding: 5px;
+  }
+  
+#glossarypopup dt { font-weight: bold; }
+

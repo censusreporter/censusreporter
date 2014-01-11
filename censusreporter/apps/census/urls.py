@@ -4,6 +4,8 @@ from django.contrib import admin
 from .utils import GEOGRAPHIES_MAP
 from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView
 
+from django.views.generic.base import TemplateView
+
 admin.autodiscover()
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
@@ -67,6 +69,20 @@ urlpatterns = patterns('',
         view    = ComparisonBuilder.as_view(),
         kwargs  = {},
         name    = 'comparison_builder',
+    ),
+
+    url(
+        regex   = '^glossary/$',
+        view    = TemplateView.as_view(template_name="glossary.html"),
+        kwargs  = {},
+        name    = 'glossary',
+    ),
+
+    url(
+        regex   = '^gloss/$',
+        view    = TemplateView.as_view(template_name="gloss-source.html"),
+        kwargs  = {},
+        name    = 'gloss-source',
     ),
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)
