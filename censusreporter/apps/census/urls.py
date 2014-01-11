@@ -79,10 +79,10 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^gloss/$',
-        view    = TemplateView.as_view(template_name="gloss-source.html"),
+        regex   = '^glossary-example/$',
+        view    = TemplateView.as_view(template_name="glossary-example.html"),
         kwargs  = {},
-        name    = 'gloss-source',
+        name    = 'glossary-example',
     ),
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)

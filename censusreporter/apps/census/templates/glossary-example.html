@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Glossary</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/sphinx-glossary.css">
+    <style type="text/css">
+    .term-std {
+          border-bottom: 1px dashed #999;
+    }
+    </style>
+</head>
+<body>
+<p>This is a sentence with some glossary terms like <span class='term-std'>Boolean logic</span> and <span class='term-std'>Categorical Data</span>.</p>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="{{ STATIC_URL }}js/vendor/sphinx-glossary.js"></script>
+    <script>
+    $(document).ready(
+    SphinxGlossary.init("{% url 'glossary' %}",".term-std"))
+    </script>
+</body>
+</html>

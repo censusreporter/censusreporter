@@ -1,16 +1,767 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Glossary</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/sphinx-glossary.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="{{ STATIC_URL }}js/vendor/sphinx-glossary.js"></script>
-    <script>
-    $(document).ready(
-    SphinxGlossary.init("{% url 'gloss-source' %}",".term-std"))
+
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title>
+          Glossary | School of Data            - Evidence is Power         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="Evidence is Power" />
+                
+    <link rel="pingback" href="http://schoolofdata.org/xmlrpc.php" />
+        
+        <link rel="alternate" type="application/rss+xml" title="School of Data &raquo; Feed" href="http://schoolofdata.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="School of Data &raquo; Comments Feed" href="http://schoolofdata.org/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="School of Data &raquo; Glossary Comments Feed" href="http://schoolofdata.org/handbook/appendix/glossary/feed/" />
+<link rel='stylesheet' id='okf-transparent-cookie-bar-css'  href='http://schoolofdata.okfn.org/wp-content/mu-plugins/okfn-utility/css/cookie-bar.css?ver=3.6' type='text/css' media='all' />
+<link rel='stylesheet' id='admin-bar-css'  href='http://schoolofdata.org/wp-includes/css/admin-bar.min.css?ver=3.6' type='text/css' media='all' />
+<link rel='stylesheet' id='bp-admin-bar-css'  href='http://schoolofdata.okfn.org/wp-content/plugins/buddypress/bp-core/css/admin-bar.css?ver=1.6.4' type='text/css' media='all' />
+<link rel='stylesheet' id='okf-panel-master-frontend-css'  href='http://schoolofdata.okfn.org/wp-content/plugins/okf-panel-master/assets/css/frontend.css' type='text/css' media='all' />
+<link rel='stylesheet' id='okf-wordpress-footer-frontend-css'  href='http://schoolofdata.okfn.org/wp-content/plugins/okf-wordpress-footer/assets/css/frontend.css' type='text/css' media='all' />
+<link rel='stylesheet' id='gform-css'  href='http://schoolofdata.org/wp-content/plugins/wpgform/gforms.css?ver=3.6' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://schoolofdata.org/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=3.3.3' type='text/css' media='all' />
+<link rel='stylesheet' id='toc-screen-css'  href='http://schoolofdata.org/wp-content/plugins/table-of-contents-plus/screen.css?ver=1308' type='text/css' media='all' />
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.7.2.min.js?ver=3.6'></script>
+<script type='text/javascript' src='http://schoolofdata.okfn.org/wp-content/plugins/okf-wordpress-footer/assets/js/frontend.js'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-includes/js/comment-reply.min.js?ver=3.6'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/uk-cookie-consent/js/uk-cookie-consent-js.js?ver=3.6'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var BP_DTheme = {"my_favs":"My Favorites","accepted":"Accepted","rejected":"Rejected","show_all_comments":"Show all comments for this thread","show_all":"Show all","comments":"comments","close":"Close","view":"View","mark_as_fav":"Favorite","remove_fav":"Remove Favorite"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/buddypress/bp-themes/bp-default/_inc/global.js?ver=1.6.4'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://schoolofdata.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://schoolofdata.org/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Appendix' href='http://schoolofdata.org/handbook/appendix/' />
+<link rel='next' title='Courses' href='http://schoolofdata.org/handbook/courses/' />
+<link rel='canonical' href='http://schoolofdata.org/handbook/appendix/glossary/' />
+
+    <script type="text/javascript">var ajaxurl = 'http://schoolofdata.org/wp-admin/admin-ajax.php';</script>
+
+<script type="text/javascript" src="http://schoolofdata.okfn.org/wp-content/plugins/embed-facebook/slidewindow/slidewindow_min.js"></script>
+<script type="text/javascript">currPath = "http://schoolofdata.okfn.org/wp-content/plugins/embed-facebook/slidewindow/"; strImgOf="";</script>
+<style>
+    .sohailerror { border:1px solid #eee; background:#f9f9f9; padding:10px; margin-bottom:15px;}
+    .sohailfbbox { margin:0 0 25px 0; padding:0; font-family: 'lucida grande', tahoma, verdana; font-size: 12px; line-height:18px; border: 1px solid #C6CEDD; border-top-color:#315C99; }
+    #content .sohailfbbox a, .sohailfbbox a { color:#3B5998;text-decoration:none; }
+    #content .sohailfbbox a:hover, .sohailfbbox a:hover { color:#3B5998;text-decoration:underline; }
+    .sohailfbboxhead { margin: 0; padding: 10px; font-size: 17px; border-bottom: 1px solid #D8DFEA; background: #EDEFF4; height:40px; }
+    .sohailfbboxhead span { margin: 0; padding: 0px; font-size: 12px; }
+    .sohailfbboxbody { margin: 0; padding: 12px 10px 8px 10px; }
+    .sohailfbboxinfo { margin: 0 0 0 10px; padding: 10px; float:right; width:250px; border:1px solid #D8DFEA; background:#EDEFF4; tex-align:right; font-size:11px; }
+    #content .sohailfbthumb, .fbalbumpics .sohailfbthumb { border:1px solid #ccc; padding:4px; margin-right:6px; width:130px; height:98px; }
+</style>
+                <script type="text/javascript">
+                var _gaq = _gaq || [];
+                                _gaq.push(['_setAccount', 'UA-33874954-7']);
+                                        _gaq.push(['_setDomainName', 'none']);
+                                        _gaq.push(['_setAllowLinker', true]);
+                                        _gaq.push(['_trackPageview']);
+                                        _gaq.push(['_trackPageLoadTime']);
+                    
+                                        _gaq.push(['b._setAccount', 'UA-8271754-45']);
+                                        _gaq.push(['b._trackPageview']);
+                                        _gaq.push(['b._trackPageLoadTime']);
+                                    (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                  })();
+                </script>           
+                <script charset="utf-8" type="text/javascript">var switchTo5x=true;</script><script charset="utf-8" type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'wp.09d11ef4-5650-4b79-bd31-04bac5b7c055'});var st_type='wordpress3.2.1';</script>
+        <style type="text/css" media="screen">
+            #catapult-cookie-bar {
+                direction: ltr;
+                color: #dddddd;
+                min-height: 30px;
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                z-index: 99999;
+                padding:6px 20px 4px;
+                background-color: #464646;
+                text-align:left;
+            }
+            #catapult-cookie-bar a {
+                color: #dddddd;
+            }
+            button#catapultCookie {
+                margin:0 20px;
+                line-height:20px;
+                background:#45AE52;
+                border:none;
+                color: #dddddd;
+                padding:4px 12px;
+                border-radius: 3px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: bold;
+            }
+        </style>    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            if(catapultReadCookie("catAccCookies")){//If the cookie has been set
+                jQuery("#catapult-cookie-bar").hide();
+                jQuery("html").css("margin-top","0");
+            }
+        });
     </script>
-</head>
-<body>
-<p>This is a sentence with some glossary terms like <span class='term-std'>Boolean logic</span> and <span class='term-std'>Categorical Data</span>.</p>
-</body>
+<!-- SHOW-HIDE MULTIPLE SCRIPT --> 
+<script type="text/javascript">
+function expandCollapse() {
+for (var i=0; i<expandCollapse.arguments.length; i++) {
+var element = document.getElementById(expandCollapse.arguments[i]);
+element.style.display = (element.style.display == "none") ? "block" : "none";
+}
+}
+</script>
+<script type="text/javascript">
+function readOnlyCheckBox() {
+   return false;
+}
+</script>
+
+<script type="text/javascript">
+  // wrong code here. breaking other JS on pages. 
+  // no reply to request to sysadmin. MM editing 17/06/2011
+  //$(NILS-REMOVED-INVALID-UTF-CHARACTER-20110927#signup-welcome).p(;:last-child').css('display', 'none');
+  jQuery('#signup-welcome p:last-child').css('display', 'none');
+</script>
+<style type="text/css">
+pre code {
+  border: none;
+}
+
+.centered {
+  text-align:center;
+}
+
+.tableexp {
+  width:30%;
+}
+
+.white {
+  color:#FFFFFF;
+  font-size:20px;
+)
+
+</style>
+<link rel="stylesheet" type="text/css" href="http://schoolofdata.org/wp-content/plugins/wp-recaptcha/recaptcha.css" />
+    <style type="text/css">
+        
+                #header h1 a, #desc { color:#FFFFFF; }
+            </style>
+
+<style type="text/css" media="print">#wpadminbar { display:none; }</style>
+<style type="text/css" media="screen">
+    html { margin-top: 28px !important; }
+    * html body { margin-top: 28px !important; }
+</style>
+<meta id="syntaxhighlighteranchor" name="syntaxhighlighter-version" content="3.1.4" />
+<!-- nagios_check timestamp:1389465572 --><!-- nagios_db_check sitename:School of Data -->        <link rel="stylesheet" href="http://schoolofdata.org/wp-content/themes/wordpress-theme-okfn/style.css?1387466784"/>
+   
+    <!-- Theme Settings -->
+              <link rel="stylesheet" href="http://schoolofdata.org/wp-content/themes/wordpress-theme-okfn/css/school.css?ver=1.1.2"/>
+        
+        <style type="text/css">
+          @media (min-width: 980px) {
+                .navbar {
+                    height:65px;
+                }
+                .navbar .brand {
+                    line-height: 65px;
+                }
+                .navbar .brand img {
+                    margin-top:15px;
+                    height:35px;
+                }
+                .navbar .nav > li > a {
+                    padding-top:24px;
+                    padding-bottom:22px;
+                }
+                .navbar .sub-brand {
+                    line-height:60px;
+                    padding-top:5px;
+                }
+                .header-text {
+                    margin-top:15px;
+                }
+                .navbar .navbar-inner .social-links,
+                .navbar .navbar-inner .header-search {
+                    margin-top:22px;
+                }
+            }
+                                    #wpadminbar {display:none; }
+            html {margin-top: 0px !important;}
+        </style>
+    
+        <link rel="shortcut icon" href="http://assets.okfn.org/p/schoolofdata/img/favicon.ico" />
+    
+    <script type="text/javascript">
+      var Okfn = Okfn || {};
+      // Make this variable available to Javascript
+      Okfn.theme_directory = 'http://schoolofdata.org/wp-content/themes/wordpress-theme-okfn';
+    </script>
+    
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+        
+  </head>
+  
+    <body class="page page-id-2872 page-child parent-pageid-2871 page-template-default admin-bar no-customize-support no-js" id="bp-default">
+    <script type="text/javascript">//<![CDATA[
+(function(){var c=document.body.className;c=c.replace(/no-js/,'js');document.body.className=c;})();
+//]]></script>
+        
+          <div id="okf-panel" class="collapse"><iframe src="http://assets.okfn.org/themes/okfn/okf-panel.html" scrolling="no"></iframe></div>            <header>
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+                    
+                      <div class="okfn-ribbon"><a href="http://okfn.org/" data-toggle="collapse" data-target="#okf-panel" title="Part of the Open Knowledge Foundation Network">An Open Knowledge Foundation Site</a></div>                    
+                      <div class="header-text" style="float:left; padding-left:0px; padding-right:5px;">
+              <a href="http://schoolofdata.org/"><img src="http://schoolofdata.org/files/2013/11/logo-white.png" style="height:52px; width:175px; margin-top:-6px;"/></a>            </div>
+                              <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar collapsed">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a title="Home" 
+              class="brand" 
+              href="http://schoolofdata.org">
+              
+            
+                      </a>
+          
+                    
+            <nav class="nav-collapse collapse">
+                                          <div class="social-links">
+                                  <a class="twitter" href="https://twitter.com/SchoolOfData">twitter</a>
+                                              </div>
+                              <ul id="nav" class="nav"><li id="menu-item-3474" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3474 dropdown" data-dropdown="dropdown"><a href="http://schoolofdata.org/learn/" class=" dropdown-toggle">Learn</a> <ul class="sub-menu dropdown-menu">    <li id="menu-item-6248" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6248"><a href="http://schoolofdata.org/courses/">Take a Course</a></li>   <li id="menu-item-3470" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3470 dropdown" data-dropdown="dropdown"><a href="http://schoolofdata.org/data-expeditions/" class=" dropdown-toggle">Data Expeditions</a>     <ul class="sub-menu dropdown-menu">         <li id="menu-item-6412" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6412"><a href="http://schoolofdata.org/data-expeditions/nigeria-extractives/">Investigate Nigeria&#8217;s extractive industry</a></li>    </ul> </li>     <li id="menu-item-4536" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4536"><a href="http://ask.schoolofdata.org">Ask School of Data</a></li>    <li id="menu-item-3972" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3972"><a href="http://schoolofdata.org/online-resources/">Recommended Tools</a></li> </ul> </li> <li id="menu-item-5075" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5075 dropdown" data-dropdown="dropdown"><a href="http://schoolofdata.org/get-involved/" class=" dropdown-toggle">Teach</a> <ul class="sub-menu dropdown-menu">     <li id="menu-item-5076" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5076"><a href="http://schoolofdata.org/get-started-as-a-community-mentor/">Become a Mentor</a></li>   <li id="menu-item-5077" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5077"><a href="http://schoolofdata.org/data-expeditions/guide-for-guides/">Guide a Data Expedition</a></li> </ul> </li> <li id="menu-item-6123" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6123"><a href="http://schoolofdata.org/how-we-can-help/">How we can help</a></li> <li id="menu-item-4347" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4347"><a href="http://schoolofdata.org/events/">Events</a></li> <li id="menu-item-125" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-125"><a href="http://schoolofdata.org/blog/">Blog</a></li> <li id="menu-item-1909" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1909 dropdown" data-dropdown="dropdown"><a href="http://schoolofdata.org/#about" class=" dropdown-toggle">About</a> <ul class="sub-menu dropdown-menu">     <li id="menu-item-3507" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3507"><a href="http://schoolofdata.org/team/">Who we are</a></li>     <li id="menu-item-128" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-128"><a href="http://schoolofdata.org/frequently-asked-questions/">FAQs</a></li>   <li id="menu-item-3612" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3612"><a href="http://schoolofdata.org/contact/">Contact</a></li>     <li id="menu-item-6160" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6160"><a href="http://schoolofdata.org/get-involved/">Volunteer</a></li> </ul> </li> </ul>            </nav>
+            <!-- Disabled until I've got separate images and confirmed link addresses -->
+          </div>
+        </div>
+        
+      </div>
+
+      <form action="http://okfn.org/search/" method="post" class="search-form" role="search">
+        <label for="search-terms" class="accessibly-hidden">Search for:</label>
+        <input type="text" id="search-terms" name="search-terms" value="" />
+
+        <label for="search-which" class="accessibly-hidden">Search these:</label><select name="search-which" id="search-which" style="width: auto"><option value="members">Members</option><option value="groups">Groups</option><option value="blogs">Blogs</option><option value="posts">Posts</option></select>
+        <input type="submit" name="search-submit" id="search-submit" value="Search" />
+        <input type="hidden" id="_wpnonce" name="_wpnonce" value="acfdfed589" /><input type="hidden" name="_wp_http_referer" value="/handbook/appendix/glossary/" />      </form><!-- #search-form -->
+                  
+      <div class="sub-header">
+        <div class="container">
+          <div class="row">
+            <div class="span8">
+                          </div>
+            <div class="span4">
+                          </div>
+          </div>
+        </div>
+      </div>
+      
+    </header>
+        
+        
+    
+         
+            <div class="container">
+
+<div class="row">
+    <div id="content" class="span8">
+        <div class="padder">
+
+        
+        <div class="page" id="blog-page" role="main">
+
+            
+                <h1 class="pagetitle">Glossary</h1>
+
+                <div id="post-2872" class="post-2872 page type-page status-publish hentry">
+
+                    <div class="entry">
+
+                        <div class="content">
+<div class="section" id="glossary">
+<dl class="glossary docutils">
+<dt id="term-anonymisation">Anonymisation</dt>
+<dd>The process of treating data such that it cannot be used for the identification of individuals.</dd>
+<dt id="term-api">API</dt>
+<dd>See <a class="reference internal" href="#term-application-programming-interface"><em class="xref std std-term">Application Programming Interface</em></a>.</dd>
+<dt id="term-application-programming-interface">Application Programming Interface</dt>
+<dd>A way computer programmes talk to one another. Can be understood in terms of how a programmer sends instructions between programmes.</dd>
+<dt id="term-attribution-licence">Attribution Licence</dt>
+<dd>A licence that requires attributing the original source of the licensed material.</dd>
+<dt id="term-bittorrent">BitTorrent</dt>
+<dd>BitTorrent is a protocol for distributing the bandwith for transferring very large files between the computers which are participating in the transfer. Rather than downloading a file from a specific source, BitTorrent allows peers to download from each other.</dd>
+<dt id="term-boolean-logic">Boolean logic</dt>
+<dd>A form of algebra in which all values are reduced to either TRUE or FALSE.</dd>
+<dt id="term-categorical-data">Categorical Data</dt>
+<dd>Data that helps put things into categories. E.g.: Country names, Groups, Conditions, Tags</dd>
+<dt id="term-choropleth-map">Choropleth Map</dt>
+<dd>A choropleth map is a map where value are encoded onto regions using colormapping. The whole region is colored using the underlying value.</dd>
+<dt id="term-comma-separated-values">Comma-separated Values</dt>
+<dd>See <a class="reference internal" href="#term-csv"><em class="xref std std-term">CSV</em></a></dd>
+<dt id="term-continuous-data">Continuous Data</dt>
+<dd>Numerical data that, if you plot all possible values, has no gaps. E.g. Sizes (you can be 155.55 or 155.56cm tall etc.) Compare to <a class="reference internal" href="#term-discrete-data"><em class="xref std std-term">Discrete Data</em></a></dd>
+<dt id="term-crowdsourcing">Crowdsourcing</dt>
+<dd>Mashup of crowd and outsourcing: Having a lot of people do simple tasks to complete the whole work.</dd>
+<dt id="term-csv">CSV</dt>
+<dd>Comma Separated Values. A very simple, open format for tabular data which can be exported and imported by all spreadsheet applications and is easily manipulable with command line tools.</dd>
+<dt id="term-curl">curl</dt>
+<dd><a class="reference external" href="http://curl.haxx.se/">http://curl.haxx.se/</a> &#8211; a command line tool for transferring data to and from online systems over standard internet protocols including FTP and HTTP. Very powerful and great for working with <a class="reference internal" href="#term-web-api"><em class="xref std std-term">Web API</em></a> s from the command line.</dd>
+<dt id="term-dap">DAP</dt>
+<dd>See <a class="reference internal" href="#term-data-access-protocol"><em class="xref std std-term">Data Access Protocol</em></a>.</dd>
+<dt id="term-data-access-protocol">Data Access Protocol</dt>
+<dd>A system that allows outsiders to be granted access to databases without overloading either system.</dd>
+<dt id="term-discrete-data">Discrete Data</dt>
+<dd>Numerical Data that, if you plot all possible values, has gaps in it. E.g. the count of things (there are no 1.5 children). Compare to <a class="reference internal" href="#term-continuous-data"><em class="xref std std-term">Continuous Data</em></a></dd>
+<dt id="term-etherpad">etherpad</dt>
+<dd>A piece of software for collaborative real-time editing of text. See <a class="reference external" href="http://etherpad.org/">http://etherpad.org/</a>.</dd>
+<dt id="term-gdp">GDP</dt>
+<dd>Gross domestic product (GDP) is the market value of all officially recognized goods and services produced within a country in a given period of time. GDP per capita is often considered an indicator of a country’s standard of living. (Source: Wikipedia.)</dd>
+<dt id="term-geocode">Geocode</dt>
+<dd>see <a class="reference internal" href="#term-geocoding"><em class="xref std std-term">Geocoding</em></a></dd>
+<dt id="term-geocoding">Geocoding</dt>
+<dd>From Geographical Coding. Describes the practice of attaching geographical coordinates to items.</dd>
+<dt id="term-geojson">GeoJSON</dt>
+<dd>GeoJSON is a format for encoding a variety of geographic data structures. It is based on the <a class="reference internal" href="#term-json"><em class="xref std std-term">JSON</em></a> specification. More documentation can be found on <a class="reference external" href="http://www.geojson.org">http://www.geojson.org</a></dd>
+<dt id="term-intellectual-property-rights">Intellectual property rights</dt>
+<dd>Monopolies granted to individuals for intellectual creations.</dd>
+<dt id="term-ip-rights">IP rights</dt>
+<dd>See <a class="reference internal" href="#term-intellectual-property-rights"><em class="xref std std-term">Intellectual property rights</em></a>.</dd>
+<dt id="term-json">JSON</dt>
+<dd>JavaScript Object Notation. A common format to exchange data. Although it is derived from Javascript, libraries to parse JSON data exist for many programming languages. Its compact style and ease of use has made it widespread. To make viewing JSON in a browser easier you can install a plugin such as <a class="reference external" href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc">JSONView in Chrome</a> and <a class="reference external" href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/">JSONView in Firefox</a>.</dd>
+<dt id="term-machine-readable">Machine-readable</dt>
+<dd>Formats that are machine readable are ones which are able to have their data extracted by computer programs easily. PDF documents are not machine readable. Computers can display the text nicely, but have great difficulty understanding the context that surrounds the text. Common machine-readable file formats are <a class="reference internal" href="#term-csv"><em class="xref std std-term">CSV</em></a> and Excel Files.</dd>
+<dt id="term-mean">Mean</dt>
+<dd>The arithmetic mean of a set of values. Calculated by summing up all values and then dividing by the number of values.</dd>
+<dt id="term-median">Median</dt>
+<dd>The median is defined as the value where 50% of values in a range will be below, 50% of values above the value.</dd>
+<dt id="term-normal-distribution">Normal Distribution</dt>
+<dd>The normal (or Gaussian) distribution is a continuous probability distribution with a bell shaped curve.</dd>
+<dt id="term-open-data">Open Data</dt>
+<dd>Open data is data that can be used, reused and redistributed freely by anyone for any purpose. More details can be found at at <a class="reference external" href="http://www.opendefinition.org/">opendefinition.org</a>.</dd>
+<dt id="term-open-standards">Open standards</dt>
+<dd>Generally understood as technical standards which are free from licencing restrictions. Can also be interpreted to mean standards which are developed in a vendor-neutral manner.</dd>
+<dt id="term-percentiles">Percentiles</dt>
+<dd>Percentiles are a value where n% of values are below in a given range. e.g. the 5th percentile: 5 percent of values are lower than this value.</dd>
+<dt id="term-public-domain">Public domain</dt>
+<dd>No copyright exists over the work. Does not exist in all jurisdictions.</dd>
+<dt id="term-qualitative-data">Qualitative Data</dt>
+<dd>Qualitative data is data telling you something about qualities: e.g. description, colors etc. Interviews count as qualitative data</dd>
+<dt id="term-quantitative-data">Quantitative Data</dt>
+<dd>Quantitative data tells you something about a measure or quantification. Such as the quantity of things you have, the size (if measured) etc.</dd>
+<dt id="term-quartiles">Quartiles</dt>
+<dd>Quartiles are the values where 25, 50 and 75% of values in a range are below the given value.</dd>
+<dt id="term-readme">Readme</dt>
+<dd>A file (usually named <tt class="docutils literal"><span class="pre">README</span></tt> or <tt class="docutils literal"><span class="pre">README.txt</span></tt>) that explains new users what the current directory or set of files is about. This is very commonly found in open source software projects and is considered good practice to be included with various publications (including datasets). The file usually contains a short description of what to expect.</dd>
+<dt id="term-scraping">Scraping</dt>
+<dd>The process of extracting data in <a class="reference internal" href="#term-machine-readable"><em class="xref std std-term">machine-readable</em></a> formats of non-pure data sources e.g.: webpages or PDF documents. Often prefixed with the source (web-scraping PDF-scraping).</dd>
+<dt id="term-share-alike-licence">Share-alike Licence</dt>
+<dd>A licence that requires users of a work to provide the content under the same or similar conditions as the original.</dd>
+<dt id="term-tab-separated-values">Tab-separated values</dt>
+<dd>Tab-separated values (TSV) are a very common form of text file format for sharing tabular data. The format is extremely simple and highly <a class="reference internal" href="#term-machine-readable"><em class="xref std std-term">machine-readable</em></a>.</dd>
+<dt id="term-taxonomy">Taxonomy</dt>
+<dd>Classification. Taxonomy refers to hierarchical classification of things. One of the best known is the Linnean classification of species &#8211; still used today to classify all living beings.</dd>
+<dt id="term-web-api">Web API</dt>
+<dd>An <a class="reference internal" href="#term-api"><em class="xref std std-term">API</em></a> that is designed to work over the Internet.</dd>
+</dl></div>
+<p><small>Last updated on Sep 02, 2013.</small></p>
+</div>
+<p><span class='st_facebook_buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='Twitter'></span><span class='st_email_buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='Email'></span><span class='st_sharethis_buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='Glossary' st_url='http://schoolofdata.org/handbook/appendix/glossary/' displayText='Pinterest'></span></p>
+
+                                                
+                    </div>
+
+                </div>
+
+            
+<div id="disqus_thread">
+    </div>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+    var disqus_url = 'http://schoolofdata.org/handbook/appendix/glossary/';
+    var disqus_identifier = '2872 http://schoolofdata.org/?page_id=2872';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'schoolofdata';
+    var disqus_title = "Glossary";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+        config.language = '';
+
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=2872';
+
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+/* ]]> */
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/schoolofdata.org\/handbook\/appendix\/glossary\/trackback\/"    };
+/* ]]> */
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.74';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/* ]]> */
+</script>
+
+            
+        </div><!-- .page -->
+
+        
+        </div><!-- .padder -->
+    </div><!-- #content -->
+  <div id="sidebar" class="span4" role="complementary">
+    
+    <div class="padder">
+
+    
+    
+        
+                
+            <p id="login-text">
+
+                Please <a href="http://okfn.org/register/" title="Create an account">create an account</a> to get started.
+            </p>
+
+        
+        <form name="login-form" id="sidebar-login-form" class="standard-form" action="http://schoolofdata.org/wp-login.php?wpe-login=okf" method="post">
+            <label>Username<br />
+            <input type="text" name="log" id="sidebar-user-login" class="input" value="" tabindex="97" /></label>
+
+            <label>Password<br />
+            <input type="password" name="pwd" id="sidebar-user-pass" class="input" value="" tabindex="98" /></label>
+
+            <p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="sidebar-rememberme" value="forever" tabindex="99" /> Remember Me</label></p>
+
+            
+    <input type="hidden" name="redirect_to" value="" />
+
+            <input type="submit" name="wp-submit" id="sidebar-wp-submit" value="Log In" tabindex="100" />
+            <input type="hidden" name="testcookie" value="1" />
+        </form>
+
+        
+    
+    
+    <div id="text-9" class="widget widget_text ">           <div class="textwidget"><br />
+
+Get updates from the School of Data in your inbox: <br /><br />
+
+<form method="post" action="http://lists.okfn.org/mailman/subscribe/school-of-data-announce"> 
+
+<input onfocus="this.value=''" type="text" font color="#D3D3D3" name="email" size="15" value="Your email"><br />
+ 
+<input type="submit" border="black" padding="3px" name="email-button" value="Subscribe" target="_blank">
+ 
+</form></div>
+        </div><div id="text-10" class="widget widget_text widget_search">           <div class="textwidget"><form role="search" method="get" id="searchform" action="/search/" style="margin-left: 0;">
+    <input type="text" value="" name="q" id="q" />
+    <input type="submit" id="searchsubmit" value="Search" />
+</form></div>
+        </div><div id="text-11" class="widget widget_text ">            <div class="textwidget"><div style="margin-top: 20px; font-size: 110%;">
+<p>Told a data story recently? Ran a successful data driven campaign? Want to share with others how you did it? <a href="/contact/"><b>Contact us!</b></a>. We're always looking for guest posts</p>
+<p>Have a data question? Got stuck in a data project? <a href="http://ask.schoolofdata.org"><b>Ask Schoolofdata!</b></a></p>
+</div></div>
+        </div><div id="nav_menu-4" class="widget widget_nav_menu "><h3 class="widgettitle">On the blog</h3><div class="menu-sidebar-blog-container"><ul id="menu-sidebar-blog" class="menu"><li id="menu-item-3163" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3163"><a href="http://schoolofdata.org/category/data-expeditions/">Data Expeditions</a></li> <li id="menu-item-3160" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3160"><a href="http://schoolofdata.org/category/data-stories/">Data Stories</a></li> <li id="menu-item-3161" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3161"><a href="http://schoolofdata.org/category/data-roundup/">Data Roundup</a></li> <li id="menu-item-3310" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3310"><a href="http://schoolofdata.org/category/events/">Events</a></li> <li id="menu-item-3230" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3230"><a href="http://schoolofdata.org/category/howto/">HowTo</a></li> </ul></div></div>
+    
+    </div><!-- .padder -->
+
+  </div>
+</div>
+    </div> <!-- /container -->
+        
+            
+        
+            
+    <div class="topbar">
+      <div class="padder">
+       
+            
+                
+<!-- Generated in 0.455 seconds. (32 q) -->
+
+    <script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushAS3.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushBash.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushColdFusion.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushClojure.js?ver=20090602'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCSharp.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCss.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushDelphi.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushDiff.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushErlang.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushFSharp.js?ver=20091003'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushGroovy.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJavaFX.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJScript.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushLatex.js?ver=20090613'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushMatlabKey.js?ver=20091209'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushObjC.js?ver=20091207'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPerl.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPhp.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPlain.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPowerShell.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPython.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/third-party-brushes/shBrushR.js?ver=20100919'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushRuby.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushScala.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushSql.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushVb.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0.83c'></script>
+<script type='text/javascript'>
+    (function(){
+        var corecss = document.createElement('link');
+        var themecss = document.createElement('link');
+        var corecssurl = "http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.83c";
+        if ( corecss.setAttribute ) {
+                corecss.setAttribute( "rel", "stylesheet" );
+                corecss.setAttribute( "type", "text/css" );
+                corecss.setAttribute( "href", corecssurl );
+        } else {
+                corecss.rel = "stylesheet";
+                corecss.href = corecssurl;
+        }
+        document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+        var themecssurl = "http://schoolofdata.org/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.83c";
+        if ( themecss.setAttribute ) {
+                themecss.setAttribute( "rel", "stylesheet" );
+                themecss.setAttribute( "type", "text/css" );
+                themecss.setAttribute( "href", themecssurl );
+        } else {
+                themecss.rel = "stylesheet";
+                themecss.href = themecssurl;
+        }
+        //document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+        document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+    })();
+    SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+    SyntaxHighlighter.config.strings.help = '?';
+    SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+    SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+    SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+    SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+    SyntaxHighlighter.defaults['toolbar'] = false;
+    SyntaxHighlighter.all();
+</script>
+<script type='text/javascript' src='http://schoolofdata.okfn.org/wp-content/plugins/okf-panel-master/assets/js/frontend.js'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-includes/js/admin-bar.min.js?ver=3.6'></script>
+<script type='text/javascript' src='http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js?ver=3.6'></script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.25.0-2013.01.18'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/schoolofdata.org\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=3.3.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var tocplus = {"visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://schoolofdata.org/wp-content/plugins/table-of-contents-plus/front.js?ver=1308'></script>
+        <div id="wpadminbar" class="nojq nojs" role="navigation">
+            <a class="screen-reader-shortcut" href="#wp-toolbar" tabindex="1">Skip to toolbar</a>
+            <div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Top navigation toolbar." tabindex="0">
+                <ul id="wp-admin-bar-root-default" class="ab-top-menu">
+        <li id="wp-admin-bar-wp-logo" class="menupop"><a class="ab-item"  aria-haspopup="true" href="http://schoolofdata.org/wp-admin/about.php" title="About WordPress"><span class="ab-icon"></span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-wp-logo-external" class="ab-sub-secondary ab-submenu">
+        <li id="wp-admin-bar-wporg"><a class="ab-item"  href="http://wordpress.org/">WordPress.org</a>      </li>
+        <li id="wp-admin-bar-documentation"><a class="ab-item"  href="http://codex.wordpress.org/">Documentation</a>        </li>
+        <li id="wp-admin-bar-support-forums"><a class="ab-item"  href="http://wordpress.org/support/">Support Forums</a>        </li>
+        <li id="wp-admin-bar-feedback"><a class="ab-item"  href="http://wordpress.org/support/forum/requests-and-feedback">Feedback</a>     </li></ul></div>        </li>
+        <li id="wp-admin-bar-bp-login"><a class="ab-item"  href="http://schoolofdata.org/wp-login.php">Log in</a>       </li>
+        <li id="wp-admin-bar-bp-register"><a class="ab-item"  href="http://okfn.org/register/">Register</a>     </li></ul><ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">
+        <li id="wp-admin-bar-search" class="admin-bar-search"><div class="ab-item ab-empty-item" tabindex="-1"><form action="http://schoolofdata.org/" method="get" id="adminbarsearch"><input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" /><input type="submit" class="adminbar-button" value="Search"/></form></div>       </li></ul>          </div>
+                    </div>
+
+              </div>     
+    </div>
+    <div id="catapult-cookie-bar">This site uses cookies<button id="catapultCookie" tabindex=1 onclick="catapultAcceptCookies();">No problem</button><a target="_blank" tabindex=1 href="http://okfn.org/cookie-policy">More info</a></div>           <div class="tabbable mailing-lists"> 
+    <div class="container">
+      <ul class="nav nav-tabs">
+                        <li class="mailtab1"><a href="#tab1" data-toggle="tab">Join the discussion</a></li>      </ul>
+    </div>
+    <section class="subscribe">
+      <div class="tab-content container">
+                  <div class="tab-pane" id="tab1">
+             <form method="post" action="http://lists.okfn.org/mailman/subscribe/school-of-data-announce">
+                  <table width="100%">
+                    <tr>
+                      <th scope="row"><span class="heading">Join the discussion </span><span class="description">Discussion list - have your say:</span></th>
+                      <td>
+                        <label>Name</label>
+                        <input name="fullname" placeholder="Name" type="text">
+                      </td>
+                      <td>
+                        <label>Email Address</label>
+                        <input name="email" placeholder="Email Address" type="email">
+                      </td>
+                      <td class="announce">
+                        <label class="checkbox">
+                          <input type="checkbox" value="" disabled>
+                          Receive newsletter                        </label>
+                      </td>
+                      <td class="submit">
+                        <input type="submit" name="email-button" value="Subscribe" class="button">
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+            </div>
+                 </div>
+    </section>
+  </div>
+  <script>
+      $("ul.nav.nav-tabs li.mailtab1").addClass("active");
+        $("div.tab-content #tab1").addClass("active");
+        $("div.mailing-lists").removeClass("tabbable");
+              </script> 
+
+    
+    <footer>
+    <div class="inner">
+      <div class="container">
+                  <style scoped>
+            #footer-widget-area > div {
+              width: 300px !important;
+                        }
+          </style>
+          <div class="row">
+          <div id="footer-widgets">
+            
+            <div id="footer-widget-area" role="complementary">
+
+                
+                    <div id="first" class="widget-area">
+                        <ul class="xoxo">
+                            <li id="text-4" class="widget widget_text "><h3 class="widgettitle">A collaboration between</h3>            <div class="textwidget"><img src="http://schoolofdata.org/files/2012/12/collaborators-dark.png"/></div>
+        </li>                       </ul>
+                    </div><!-- #first .widget-area -->
+
+                
+                
+                    <div id="second" class="widget-area">
+                        <ul class="xoxo">
+                            <li id="text-5" class="widget widget_text "><h3 class="widgettitle">Built with support from</h3>            <div class="textwidget"><img src="http://schoolofdata.org/files/2012/12/supporters-dark.png" /></div>
+        </li>                       </ul>
+                    </div><!-- #second .widget-area -->
+
+                
+                
+                    <div id="third" class="widget-area">
+                        <ul class="xoxo">
+                            <li id="nav_menu-3" class="widget widget_nav_menu "><div class="menu-footer-links-container"><ul id="menu-footer-links" class="menu"><li id="menu-item-450" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-450"><a href="http://okfn.org/terms-of-use/">Terms of Use</a></li> <li id="menu-item-451" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-451"><a href="http://okfn.org/privacy-policy/">Privacy Policy</a></li> </ul></div></li>                     </ul>
+                    </div><!-- #third .widget-area -->
+
+                
+                
+                    <div id="fourth" class="widget-area">
+                        <ul class="xoxo">
+                            <li id="text-8" class="widget widget_text ">            <div class="textwidget">All content is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike v3.0 License</a>
+<br />
+<br /></div>
+        </li><li id="search-3" class="widget widget_search ">
+<form role="search" method="get" id="searchform" action="http://schoolofdata.org/">
+    <input type="text" value="" name="s" id="s" />
+    <input type="submit" id="searchsubmit" value="Search" />
+
+    </form>
+
+</li>                       </ul>
+                    </div><!-- #fourth .widget-area -->
+
+                
+            </div><!-- #footer-widget-area -->
+            <div class="footer-buttons">
+                                                        
+                                        </div>
+          </div><!-- /footer-widgets -->
+          </div><!-- /row -->
+        
+        <div id="row">
+                  </div>
+        
+      </div><!-- /container --> 
+    </div><!-- /inner -->
+     
+    <div class="okf-footer">
+      <div class="container">
+        <ul>
+                  <li><a href="http://okfn.org/terms-of-use/">Terms of use</a></li>
+                          <li><a href="http://okfn.org/privacy-policy/">Privacy policy</a></li>
+                          <li><a href="http://okfn.org/ip-policy/">IP Policy</a></li>
+                        </ul>
+      </div>
+    </div>
+    </footer>
+    
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://schoolofdata.org/wp-content/themes/wordpress-theme-okfn/include/jquery.dotdotdot-1.5.6-packed.js"></script>
+    
+        <script>
+          // Tweeter
+            $("div.tweeter.carousel .tweetfeed").addClass("carousel-inner");
+            $("div.tweeter.carousel .tweetfeed li").addClass("item");
+            $("div.tweeter.carousel .tweetfeed li:nth-child(1)").addClass("active");
+            
+          // cycling for carousel
+      $(".carousel.ticker").carousel({ interval: 6000 });
+            $(".carousel.cycle").carousel({ interval: 8000 });
+
+          // allow button to hide elements
+            $(".hide-it").click(function () {
+                $(".hide-me").hide("slow");
+            });    
+            
+            // button for mailchimp form
+          $("div.nm_mc_form input.nm_mc_button").addClass("btn btn-primary");
+    </script>
+    
+            
+    <!-- sharethis -->
+        </body>
+
 </html>
