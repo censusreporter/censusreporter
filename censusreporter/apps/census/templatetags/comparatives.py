@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 @register.inclusion_tag('profile/_blocks/_comparative_list_item.html')
-def build_comparative_item(sumlev, stat, geography):
+def build_comparative_item(sumlev, stat, stat_type, geography):
     if sumlev == 'CBSA':
         place_name = 'the %s' % geography['parents'][sumlev]['full_name']
     else:
@@ -11,6 +11,7 @@ def build_comparative_item(sumlev, stat, geography):
         
     item_context = {
         'place_name': place_name,
+        'stat_type': stat_type,
         'value': stat['values'][sumlev],
         'index': stat['index'][sumlev],
         'error': stat['error'][sumlev],
