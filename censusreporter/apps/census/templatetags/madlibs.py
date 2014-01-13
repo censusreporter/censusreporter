@@ -27,8 +27,8 @@ COMPARISON_PHRASE_MAP = {
     37: ["about two-fifths", "of"],
     30: ["about one-third", "of"],
     23: ["about one-quarter", "of"],
-    17: ["about two-fifths", "of"],
-    13: ["less than two-fifths", "of"],
+    17: ["about one-fifth", "of"],
+    13: ["less than a fifth", "of"],
     8: ["about 10 percent", "of"],
     0: ["less than 10 percent", "of"],
 }
