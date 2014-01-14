@@ -73,6 +73,14 @@ def find_dicts_with_key(dictionary, searchkey):
 class HealthcheckView(TemplateView):
     template_name = 'healthcheck.html'
 
+
+
+def server_error(request):
+    from django.shortcuts import render
+    response = render(request, "500.html")
+    response.status_code = 500
+    return response
+
 ### DETAIL ###
 
 class GeographyDetailView(TemplateView):
