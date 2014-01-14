@@ -723,7 +723,8 @@ function Chart(options) {
         var row = d3.select(chart.findAncestor(this, "section")),
             clickTargets = row.selectAll(".chart-get-data"),
             clicked = d3.select(this),
-            hide = clicked.classed("opened");
+            hide = clicked.classed("opened"),
+            tableID = chart.capitalize(chart.initialData.metadata.table_id);
         chart.dataDrawer = row.select(".data-drawer");
         
         // make sure we're in a pristine state
@@ -736,7 +737,10 @@ function Chart(options) {
         } else {
             clicked.classed("opened", true);
             clicked.text('Hide the data');
-        
+            
+            // tell Google Analytics about the event
+            chart.trackEvent('Charts', 'Show data', tableID);
+            
             chart.dataDrawer = row.append("div")
                     .attr("class", "data-drawer column-full");
                     
@@ -744,9 +748,9 @@ function Chart(options) {
                     .attr("class", "chart-title")
                     .text(function() {
                         if (!!chart.chartChartTitle) {
-                            return chart.chartChartTitle + " (Table " + chart.capitalize(chart.initialData.metadata.table_id) + ")"
+                            return chart.chartChartTitle + " (Table " + tableID + ")";
                         }
-                        return "Table " + chart.capitalize(chart.initialData.metadata.table_id)
+                        return "Table " + tableID;
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")
@@ -1063,6 +1067,12 @@ function Chart(options) {
         return 'figure';
     }
     
+    chart.trackEvent = function(category, action, label) {
+        // make sure we have Google Analytics function available
+        if (typeof(ga) == 'function') {
+            ga('send', 'event', category, action, label);
+        }
+    }
 
     // ready, set, go
     chart.init(options);
