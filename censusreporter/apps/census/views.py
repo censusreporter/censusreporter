@@ -346,16 +346,19 @@ class BaseComparisonView(TemplateView):
 
         E.g., comparing "all states in the United States" would return
         Puerto Rico and Washington, D.C., because, like states, they are
-        sumlev 040.
+        sumlev 040. (For now, this is the only use of this method.)
         '''
         _parent_id = getattr(self, 'parent_id', None)
         _descendant_sumlev = getattr(self, 'descendant_sumlev', None)
+        keys_to_clean = []
 
-        # for map & distribution charts where user is comparing states
-        # in the United States, remove Puerto Rico and D.C.
+        # for map & distribution charts where user is comparing
+        # states in the United States, remove Puerto Rico and D.C.
         if _parent_id == '01000US' and _descendant_sumlev == '040':
-            del data['04000US11']
-            del data['04000US72']
+            keys_to_clean.extend(['04000US11','04000US72'])
+            
+        for key in keys_to_clean:
+            if key in data: del data[key]
 
         return data
 
