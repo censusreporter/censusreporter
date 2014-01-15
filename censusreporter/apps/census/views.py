@@ -17,8 +17,9 @@ from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none,\
-    SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
+from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
+     get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
+     SUMLEV_CHOICES, ACS_RELEASES
 
 import logging
 logger = logging.getLogger(__name__)
@@ -208,10 +209,10 @@ class GeographyDetailView(TemplateView):
 
             # add a few last things
             # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
+            square_miles = get_division(geo_metadata['aland'], 2589988)
             total_pop = page_context['geography']['this']['total_population']
             page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
+            page_context['geo_metadata']['population_density'] = get_division(total_pop, square_miles)
 
         return page_context
 
