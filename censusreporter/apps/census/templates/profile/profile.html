@@ -459,6 +459,7 @@ if (!!parentLinkContainer) {
     // set up the listener for trigger to reveal hidden groups
     $('#header-box').on('click', '.link-reveal', function() {
         $(this).hide().next('.hidden').show();
+        return false;
     });
     
     // hit the /parents API endpoint
