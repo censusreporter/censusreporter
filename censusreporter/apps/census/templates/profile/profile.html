@@ -27,12 +27,7 @@
             <header id="header-box" class="column-full">
                 <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
                 {% if geography.this.sumlevel != '010' %}
-                <p class="caption">
-                    {{ geography.this.sumlevel_name|capfirst }} in:
-                    {% for place, values in geography.parents.items %}
-                        <a href="{% url 'geography_detail' values.full_geoid %}">{% if values.sumlevel == '310' %}{{ values.full_name }}{% else %}{{ values.short_name }}{% endif %}</a>{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
+                <p class="caption"></p>
                 {% endif %}
             </header>
             <div class="column-half">
@@ -318,6 +313,7 @@
 
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script type="text/javascript">
 // Make the header map
 d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geoid }}?geom=true", function(error, json) {
@@ -452,6 +448,48 @@ var thisSumlev = '{{ sumlev }}',
     countyGeoID = '{{ geography.parents.county.full_geoid }}',
     stateGeoID = '{{ geography.parents.state.full_geoid }}',
     nationGeoID = '{{ geography.parents.nation.full_geoid }}';
+
+// Update the header's list of parent geographies
+var parentLinkContainer = $('#header-box .caption'),
+    parentLinksPrefix = '{{ geography.this.sumlevel_name|capfirst }} in: ',
+    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
+    parentGeoAPI = rootGeoAPI + thisGeoID + '/parents';
+
+if (!!parentLinkContainer) {
+    // set up the listener for trigger to reveal hidden groups
+    $('#header-box').on('click', '.link-reveal', function() {
+        $(this).hide().next('.hidden').show();
+    });
+    
+    // hit the /parents API endpoint
+    $.getJSON(parentGeoAPI)
+        .done(function(results) {
+            var parents = results['parents'];
+            // list of unique parent sumlev types, maintaining order
+            var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));
+            // collect parents into individual sumlev groups
+            var parentGroups = _.groupBy(parents, function(d) {
+                return d.sumlevel;
+            });
+            // for each parent sumlev type ...
+            var parentLinkSets = _.map(parentRelations, function(r) {
+                // ... compile a set of links to individual profile pages
+                var parentLinkSet = _.map(parentGroups[r], function(v, k) {
+                    return '<a href="/profiles/' + v.geoid + '/">' + v.display_name + '</a>';
+                });
+                var numParents = parentLinkSet.length;
+                // if more than one of a sumlev type, group behind reveal link
+                if (numParents > 1) {
+                    return '<a href="#" class="link-reveal">'+numParents+' '+ sumlevMap[r]['plural'] +'</a><span class="hidden">'+parentLinkSet.join(', ')+'</span>';
+                } else {
+                    // just one of this sumlev type, so add it to list
+                    return parentLinkSet;
+                }
+            })
+            // push the whole thing into the header box ... thingy
+            parentLinkContainer.html(parentLinksPrefix + parentLinkSets.join(', '));
+        });
+}
 </script>
 <script src="{{ STATIC_URL }}js/profile.topic.picker.js"></script>
 {% endblock %}
