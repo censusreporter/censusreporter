@@ -24,7 +24,7 @@
 <div id="cover-map" class="clearfix">
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
-            <header class="column-full">
+            <header id="header-box" class="column-full">
                 <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
                 {% if geography.this.sumlevel != '010' %}
                 <p class="caption">
@@ -319,13 +319,7 @@
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script type="text/javascript">
-var thisSumlev = '{{ sumlev }}',
-    thisGeoShortName = '{{ geography.this.short_name }}',
-    thisGeoID = '{{ geography.this.full_geoid }}',
-    countyGeoID = '{{ geography.county.full_geoid }}',
-    stateGeoID = '{{ geography.state.full_geoid }}',
-    nationGeoID = '{{ geography.nation.full_geoid }}';
-
+// Make the header map
 d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geoid }}?geom=true", function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
@@ -377,6 +371,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geoid }}?geom=true",
     }
 })
 
+// Create all the charts
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
     defaultDataRelease = '{{ geography.census_release }}',
@@ -444,10 +439,19 @@ $.each(chartContainers, function(i) {
     });
 });
 
+// Add note to rows with flagged MOE
 var flaggedMOE = $('.stat-row sup'),
     daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
 
 flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
+
+// Enable the single-table topic picker
+var thisSumlev = '{{ sumlev }}',
+    thisGeoShortName = '{{ geography.this.short_name }}',
+    thisGeoID = '{{ geography.this.full_geoid }}',
+    countyGeoID = '{{ geography.parents.county.full_geoid }}',
+    stateGeoID = '{{ geography.parents.state.full_geoid }}',
+    nationGeoID = '{{ geography.parents.nation.full_geoid }}';
 </script>
 <script src="{{ STATIC_URL }}js/profile.topic.picker.js"></script>
 {% endblock %}
