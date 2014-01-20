@@ -1,1 +1,1 @@
-from config.base.urls import urlpatterns
+from config.base.urls import urlpatterns, handler500

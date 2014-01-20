@@ -35,6 +35,12 @@ def get_max_value(nested_dicts):
     max_value = max([item for item in drill(nested_dicts)])
     return max_value
 
+def get_division(num1, num2, precision=1):
+    '''requires ints or int-like strings'''
+    if num1 and num2:
+        return round(float(num1) / float(num2), precision) or None
+    return None
+
 def get_ratio(num1, num2, precision=2):
     '''requires ints or int-like strings'''
     if num1 and num2:

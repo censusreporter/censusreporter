@@ -1,0 +1,13 @@
+{% extends '_base.html' %}{% load humanize %}
+
+{% block head_title %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<article id="welcome">
+    <header>
+        <h1>Server Error</h1>
+    </header>
+    <section class="column-golden-narrow">
+        <p>Uh-oh, something&rsquo;s gone wrong. We&rsquo;ve logged the error and will check it out as soon as possible. In the meantime, do you want to <a href="/">return to the homepage</a>?</p>
+    </section>
+{% endblock %}

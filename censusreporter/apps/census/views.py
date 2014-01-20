@@ -7,17 +7,19 @@ from urllib import urlencode
 from urllib2 import unquote
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none,\
-    SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
+from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
+     get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
+     SUMLEV_CHOICES, ACS_RELEASES
 
 import logging
 logger = logging.getLogger(__name__)
@@ -72,6 +74,23 @@ def find_dicts_with_key(dictionary, searchkey):
 
 class HealthcheckView(TemplateView):
     template_name = 'healthcheck.html'
+
+
+## ERRORS ##
+
+def server_error(request):
+    response = render(request, "500.html")
+    response.status_code = 500
+    return response
+
+def raise_404_with_messages(request, error_data={}):
+    ''' expects a dict containing error labels and messages for the user '''
+    for k, v in error_data.items():
+        error_text = '<strong>%s:</strong> %s' % (k.title(), v)
+        messages.error(request, error_text)
+        
+    raise Http404
+    
 
 ### DETAIL ###
 
@@ -161,14 +180,18 @@ class GeographyDetailView(TemplateView):
         #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
         acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % kwargs['geography_id']
         r = requests.get(acs_endpoint)
-
-        if r.status_code == 200:
+        status_code = r.status_code
+        
+        if status_code == 200:
             profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
             profile_data = self.enhance_api_data(profile_data)
             page_context.update(profile_data)
             page_context.update({
                 'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
             })
+        elif status_code == 404 or status_code == 400:
+            error_data = simplejson.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
 
@@ -186,10 +209,10 @@ class GeographyDetailView(TemplateView):
 
             # add a few last things
             # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
+            square_miles = get_division(geo_metadata['aland'], 2589988)
             total_pop = page_context['geography']['this']['total_population']
             page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
+            page_context['geo_metadata']['population_density'] = get_division(total_pop, square_miles)
 
         return page_context
 
@@ -212,9 +235,13 @@ class BaseComparisonView(TemplateView):
             API_PARAMS.update({'geom': True})
 
         r = requests.get(API_ENDPOINT, params=API_PARAMS)
-
-        if r.status_code == 200:
+        status_code = r.status_code
+        
+        if status_code == 200:
             data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        elif status_code == 404 or status_code == 400:
+            error_data = simplejson.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
 
@@ -320,16 +347,19 @@ class BaseComparisonView(TemplateView):
 
         E.g., comparing "all states in the United States" would return
         Puerto Rico and Washington, D.C., because, like states, they are
-        sumlev 040.
+        sumlev 040. (For now, this is the only use of this method.)
         '''
         _parent_id = getattr(self, 'parent_id', None)
         _descendant_sumlev = getattr(self, 'descendant_sumlev', None)
+        keys_to_clean = []
 
-        # for map & distribution charts where user is comparing states
-        # in the United States, remove Puerto Rico and D.C.
+        # for map & distribution charts where user is comparing
+        # states in the United States, remove Puerto Rico and D.C.
         if _parent_id == '01000US' and _descendant_sumlev == '040':
-            del data['04000US11']
-            del data['04000US72']
+            keys_to_clean.extend(['04000US11','04000US72'])
+            
+        for key in keys_to_clean:
+            if key in data: del data[key]
 
         return data
 
@@ -714,7 +744,8 @@ class ComparisonView(BaseComparisonView):
         if 'table' in self.request.GET:
             self.table_id = self.request.GET['table']
         else:
-            raise Http404
+            error_data = {'Missing data': 'The querystring needs a "table" parameter for this page.'}
+            raise_404_with_messages(self.request, error_data)
 
         # if we have no release, determine best one
         if 'release' in self.request.GET:
@@ -727,8 +758,9 @@ class ComparisonView(BaseComparisonView):
                 'within': self.parent_id,
             }
             r = requests.get(COUNTS_API, params=COUNTS_API_PARAMS)
-
-            if r.status_code == 200:
+            status_code = r.status_code
+            
+            if status_code == 200:
                 counts_data = simplejson.loads(r.text, object_pairs_hook=dict)
                 counts = sorted(counts_data.items(), key=lambda item: item[1]['results'], reverse=True)
 
@@ -739,6 +771,9 @@ class ComparisonView(BaseComparisonView):
                 }
                 
                 return HttpResponseRedirect(url + '?' + urlencode(url_params))
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
             else:
                 raise Http404
 
@@ -986,9 +1021,13 @@ class LocateView(TemplateView):
         }
 
         r = requests.get(API_ENDPOINT, params=API_PARAMS)
-
-        if r.status_code == 200:
+        status_code = r.status_code
+        
+        if status_code == 200:
             data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        elif status_code == 404 or status_code == 400:
+            error_data = simplejson.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
 
