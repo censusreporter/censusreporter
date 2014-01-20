@@ -1,4 +1,10 @@
 {% extends '_base.html' %}
+{% comment %}
+    <dt id="term-keyword">Keyword</dt>
+    <dd><p>
+      definition
+    </p></dd>
+{% endcomment %}
 
 {% block head_title %}Glossary - {{ block.super }}{% endblock %}
 
@@ -35,6 +41,12 @@
       For more, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation on county subdivisions</a>.
     </p>
     </dd>
+
+    <dt id="term-margin-of-error">Margin of Error</dt>
+    <dd><p>
+      A number describing the statistical confidence in an estimate. When the margin of error is more than 10% of the estimate, Census Reporter recommends using caution when presenting the estimate. Know your wiggle-words.
+    </p></dd>
+
 
     <dt id="term-metropolitan-statistical-area">Metropolitan Statistical Area (MSA)</dt>
     <dd><p>A county or counties around an urban area of population greater than 50,000. See <a href="#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p></dd>

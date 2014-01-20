@@ -1,3 +1,7 @@
+.glossary-term {
+      border-bottom: 1px dashed #999;
+}
+
 #glossarypopup {
   background: #dddddd;
   border-radius: 0px 20px 20px 20px;

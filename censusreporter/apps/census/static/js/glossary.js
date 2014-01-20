@@ -25,6 +25,14 @@ Glossary.init = function (url, selector) {
   $.get(url,function(data) {
     Glossary.data=data })
     
-    $(selector).attr("onmouseover","Glossary.popup(this)")
-    $(selector).attr("onmouseout","$('#glossarypopup').remove()")
+    Glossary.rescan(selector);
   }
+
+Glossary.rescan = function (selector) {
+    $(selector).off("mouseover.glossary");
+    $(selector).on("mouseover.glossary", function() { Glossary.popup(this) });
+
+    $(selector).off("mouseout.glossary");
+    $(selector).on("mouseout.glossary", function() { $('#glossarypopup').remove() });
+}  
+
