@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Glossary</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/sphinx-glossary.css">
+    <title>Glossary Example</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/glossary.css">
     <style type="text/css">
-    .term-std {
+    .glossary-term {
           border-bottom: 1px dashed #999;
     }
     </style>
 </head>
 <body>
-<p>This is a sentence with some glossary terms like <span class='term-std'>Boolean logic</span> and <span class='term-std'>Categorical Data</span>.</p>
+<p>This is a sentence with some glossary terms like <span class='glossary-term'>place</span> and <span class='glossary-term'>county subdivision</span>.</p>
+<p>Sometimes we don't want to use the full keyword in our text, like with <span class='glossary-term' data-keyword="metropolitan-statistical-area">MSA</span></p>
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="{{ STATIC_URL }}js/vendor/sphinx-glossary.js"></script>
+    <script src="{{ STATIC_URL }}js/glossary.js"></script>
     <script>
     $(document).ready(
-    SphinxGlossary.init("{% url 'glossary' %}",".term-std"))
+    Glossary.init("{% url 'glossary' %}",".glossary-term"))
     </script>
 </body>
 </html>
