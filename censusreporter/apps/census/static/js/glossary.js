@@ -20,19 +20,18 @@ Glossary.popup=function(obj) {
   $('#glossarypopup').css('left',obj.offsetLeft);
 }
 
-Glossary.init = function (url, selector) {
+Glossary.init = function (url, selector, watch_container_selector) {
   Glossary.url=url;
   $.get(url,function(data) {
     Glossary.data=data })
     
-    Glossary.rescan(selector);
+  if (!watch_container_selector) {
+    watch_container_selector = document.body;
   }
+    $(watch_container_selector).off("mouseover.glossary", selector);
+    $(watch_container_selector).on("mouseover.glossary", selector, function() { Glossary.popup(this) });
 
-Glossary.rescan = function (selector) {
-    $(selector).off("mouseover.glossary");
-    $(selector).on("mouseover.glossary", function() { Glossary.popup(this) });
-
-    $(selector).off("mouseout.glossary");
-    $(selector).on("mouseout.glossary", function() { $('#glossarypopup').remove() });
-}  
+    $(watch_container_selector).off("mouseout.glossary", selector);
+    $(watch_container_selector).on("mouseout.glossary", selector, function() { $('#glossarypopup').remove() });
+  }
 
