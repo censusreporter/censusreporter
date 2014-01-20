@@ -491,6 +491,8 @@ if (!!parentLinkContainer) {
             parentLinkContainer.html(parentLinksPrefix + parentLinkSets.join(', '));
         });
 }
+
+Glossary.init("{% url 'glossary' %}",".glossary-term");
 </script>
 <script src="{{ STATIC_URL }}js/profile.topic.picker.js"></script>
 {% endblock %}

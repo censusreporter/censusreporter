@@ -12,7 +12,7 @@ function Glossary() {
 Glossary.popup=function(obj) { 
   var keyword = $(obj).data('keyword') || obj.textContent;
   var slug = '#term-'+keyword.toLowerCase().replace(/[^a-z0-9-]/,'-');
-  data=Glossary.data;
+  var data=Glossary.data;
   $('#glossarypopup').remove(); // just in case
   $('body').append('<div id="glossarypopup"></div>');
   $('#glossarypopup').append($(slug,data));
@@ -22,6 +22,7 @@ Glossary.popup=function(obj) {
 }
 
 Glossary.init = function (url, selector, watch_container_selector) {
+
   Glossary.url=url;
   $.get(url,function(data) {
     Glossary.data=data })
@@ -36,3 +37,22 @@ Glossary.init = function (url, selector, watch_container_selector) {
     $(watch_container_selector).on("mouseout.glossary", selector, function() { $('#glossarypopup').remove() });
   }
 
+Glossary.openLink = function(obj) {
+  var keyword = $(obj).data('keyword') || obj.textContent;
+  var slug = '#term-'+keyword.toLowerCase().replace(/[^a-z0-9-]/,'-');
+  window.open(Glossary.url + slug, "_blank");
+}
+
+Glossary.initLinks = function (url, selector, watch_container_selector) {
+
+  Glossary.url=url;
+  $.get(url,function(data) {
+    Glossary.data=data })
+    
+  if (!watch_container_selector) {
+    watch_container_selector = document.body;
+  }
+    $(watch_container_selector).off("click.glossary", selector);
+    $(watch_container_selector).on("click.glossary", selector, function() { Glossary.openLink(this); });
+
+  }

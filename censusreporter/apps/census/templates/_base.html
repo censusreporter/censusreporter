@@ -106,7 +106,6 @@
         <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
-        <script>Glossary.init("{% url 'glossary' %}",".glossary-term");</script>
         <script>
         // UserVoice
         if (browserWidth > 480) {
