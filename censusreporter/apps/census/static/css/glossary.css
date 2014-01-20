@@ -5,7 +5,7 @@
 #glossarypopup {
   background: #dddddd;
   border-radius: 0px 20px 20px 20px;
-  width: 200px;
+  width: 400px;
   position: absolute;
   padding: 5px;
   margin-top: 5px;
@@ -13,3 +13,7 @@
   
 #glossarypopup dt { font-weight: bold; }
 
+
+#glossarypopup {
+    z-index: 1000;
+}

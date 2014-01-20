@@ -13,6 +13,7 @@ Glossary.popup=function(obj) {
   var keyword = $(obj).data('keyword') || obj.textContent;
   var slug = '#term-'+keyword.toLowerCase().replace(/[^a-z0-9-]/,'-');
   data=Glossary.data;
+  $('#glossarypopup').remove(); // just in case
   $('body').append('<div id="glossarypopup"></div>');
   $('#glossarypopup').append($(slug,data));
   $('#glossarypopup').append($(slug,data).next());
