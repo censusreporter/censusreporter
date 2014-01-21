@@ -790,13 +790,14 @@ function Chart(options) {
         }
     }
     
+    chart.DataDrawerPlaces = ['this', 'place', 'CBSA', 'county', 'state', 'nation'];
+    
     chart.makeDataDrawerHeader = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<th class="name">Column</th>'],
+        var rowBits = ['<th class="name">Column</th>'],
             colspan,
             cellContents;
             
-        places.forEach(function(k, i) {
+        chart.DataDrawerPlaces.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 colspan = (d.context.numerators[k] !== null) ? 4 : 2;
                 cellContents = chart.comparisonNames[k];
@@ -807,11 +808,10 @@ function Chart(options) {
     }
     
     chart.makeDataDrawerRow = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<td class="name">' + d.name + '</td>'],
+        var rowBits = ['<td class="name">' + d.name + '</td>'],
             cellContents;
 
-        places.forEach(function(k, i) {
+        chart.DataDrawerPlaces.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 // add the primary value
                 rowBits.push('<td class="value">' + chart.getValueFmt(d, k, 1) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k], 1) + '</td>');
