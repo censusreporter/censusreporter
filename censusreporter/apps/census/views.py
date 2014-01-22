@@ -219,6 +219,25 @@ class GeographyDetailView(TemplateView):
 
 ### COMPARISONS ###
 
+class DataView(TemplateView):
+    template_name = 'data/data_tabular.html'
+
+    def get_context_data(self, *args, **kwargs):
+        table = self.request.GET.get('table', None)
+        primary_geo_id = self.request.GET.get('primary_geoid', None)
+        geo_ids = self.request.GET.get('geoids', None)
+        release_slug = self.request.GET.get('release', None)
+        release = ACS_RELEASES.get(release_slug, None)
+        
+        page_context = {
+            'table': table or '',
+            'primary_geo_id': primary_geo_id or '',
+            'geo_ids': geo_ids or '',
+            'release': release or '',
+        }
+
+        return page_context
+
 # All the basic utilities for massaging API data into comparisons.
 # Other views should inherit and override `dispatch`, for instance.
 class BaseComparisonView(TemplateView):
@@ -324,7 +343,6 @@ class BaseComparisonView(TemplateView):
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
         })
 
         return page_context
@@ -820,7 +838,6 @@ class HomepageView(TemplateView):
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
         }
 
         return page_context
@@ -844,7 +861,6 @@ class ComparisonBuilder(TemplateView):
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
         })
 
         return page_context

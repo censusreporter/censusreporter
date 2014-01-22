@@ -1,35 +1,20 @@
-// powers the topic picker on profile pages
+// powers the tabular data on data view pages
 
 // the template including this should set the following vars:
-// var thisSumlev = '{{ sumlev }}',
-//     thisGeoShortName = '{{ geography.this.short_name }}',
-//     thisGeoID = '{{ geography.this.full_geoid }}',
-//     placeGeoID = '{{ geography.parents.place.full_geoid }}',
-//     CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
-//     countyGeoID = '{{ geography.county.full_geoid }}',
-//     stateGeoID = '{{ geography.state.full_geoid }}',
-//     nationGeoID = '{{ geography.nation.full_geoid }}';
+// var primaryGeoID = '{{ primary_geo_id }}',
+//     geoIDs = '{{ geo_list }}',
+//     tableID = '{{ table }}';
 
-var thisSumlev = thisSumlev || null,
-    thisGeoShortName = thisGeoShortName || null,
-    thisGeoID = thisGeoID || null,
-    placeGeoID = placeGeoID || null,
-    CBSAGeoID = CBSAGeoID || null,
-    countyGeoID = countyGeoID || null,
-    stateGeoID = stateGeoID || null,
-    nationGeoID = nationGeoID || null,
-    theseGeoIDs = [thisGeoID, placeGeoID, CBSAGeoID, countyGeoID, stateGeoID, nationGeoID].filter(function(n){return n}),
-    chosenTableID = chosenTableID || null;
-    
-var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
+var tableID = tableID || null,
+    tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
     rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
     dataAPI = 'http://api.censusreporter.org/1.0/data/show/latest';
 
 var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#query-topic-picker'),
-    chosenTableContainer = $('#chosen-table');
+    tableContainer = $('#data-tabular');
 
-function makeTopicSelectWidget(element) {
+var makeTopicSelectWidget = function(element) {
     element.typeahead('destroy');
     element.typeahead({
         name: 'topics',
@@ -76,9 +61,9 @@ function makeTopicSelectWidget(element) {
 
     element.on('typeahead:selected', function(obj, datum) {
         element.typeahead('setQuery', '');
-        chosenTableID = datum['table_id'];
-        //getData();
-        window.location = '/data/?table=' + chosenTableID + "&geoids=" + theseGeoIDs.join(',') + "&primary_geoid=" + thisGeoID;
+        tableID = datum['table_id'];
+        getData();
+        topicSelectContainer.toggle();
     });
 }
 
@@ -94,10 +79,10 @@ $(document).ajaxComplete(function(event, request, settings) {
 });
 
 var getData = function() {
-    if (chosenTableID && thisGeoID) {
+    if (tableID && geoIDs) {
         var params = {
-            table_ids: chosenTableID,
-            geo_ids: theseGeoIDs.join(',')
+            table_ids: tableID,
+            geo_ids: geoIDs.join(',')
         }
         $.getJSON(dataAPI, params)
             .done(function(results) {
@@ -109,69 +94,77 @@ var getData = function() {
 var makeParentOptions = function() {
     // no tribbles!
     d3.selectAll('#comparison-parents').remove();
-    
-    var parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
-        parentOptionsContainer = d3.select('#chosen-table aside').append('div')
-            .attr('class', 'aside-block')
-            .attr('id', 'comparison-parents');
 
-    $.getJSON(parentGeoAPI)
-        .done(function(results) {
+    if (!!primaryGeoID) {
+        var parentGeoAPI = rootGeoAPI + primaryGeoID + '/parents',
+            parentOptionsContainer = d3.select('#data-tabular aside').append('div')
+                .attr('class', 'aside-block')
+                .attr('id', 'comparison-parents');
 
-            parentOptionsContainer.append('p')
-                .attr('class', 'bottom display-type strong')
-                .html('Compare with other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
+        $.getJSON(parentGeoAPI)
+            .done(function(results) {
 
-            parentOptionsContainer.append('ul')
-                    .attr('class', 'sumlev-list')
-                .selectAll('li')
-                    .data(results['parents'])
-                .enter().append('li').append('a')
-                    .attr('href', function(d) { return '/compare/' + d.geoid + '/' + thisSumlev + '/table/?table=' + chosenTableID })
-                    .text(function(d) { return d.display_name });
+                parentOptionsContainer.append('p')
+                    .attr('class', 'bottom display-type strong')
+                    .html('Compare with other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
 
-        });
-    
+                parentOptionsContainer.append('ul')
+                        .attr('class', 'sumlev-list')
+                    .selectAll('li')
+                        .data(results['parents'])
+                    .enter().append('li').append('a')
+                        .attr('href', function(d) { return '/compare/' + d.geoid + '/' + thisSumlev + '/table/?table=' + tableID })
+                        .text(function(d) { return d.display_name });
+
+            });
+    }
 }
 
 var makeChildOptions = function() {
     // no tribbles!
     d3.selectAll('#comparison-children').remove();
     
-    var childOptionsContainer = d3.select('#chosen-table aside').append('div')
-            .attr('class', 'aside-block')
-            .attr('id', 'comparison-children');
+    if (!!primaryGeoID) {
+        var childOptionsContainer = d3.select('#data-tabular aside').append('div')
+                .attr('class', 'aside-block')
+                .attr('id', 'comparison-children');
     
-    childOptionsContainer.append('p')
-            .attr('class', 'bottom display-type strong')
-            .html('Compare &hellip;');
+        childOptionsContainer.append('p')
+                .attr('class', 'bottom display-type strong')
+                .html('Compare &hellip;');
 
-    childOptionsContainer.append('ul')
-            .attr('class', 'sumlev-list')
-        .selectAll('li')
-            .data(sumlevChildren[thisSumlev])
-        .enter().append('li').append('a')
-            .attr('href', function(d) { return '/compare/' + thisGeoID + '/' + d + '/table/?table=' + chosenTableID })
-            .text(function(d) { return sumlevMap[d]['plural'] });
+        childOptionsContainer.append('ul')
+                .attr('class', 'sumlev-list')
+            .selectAll('li')
+                .data(sumlevChildren[thisSumlev])
+            .enter().append('li').append('a')
+                .attr('href', function(d) { return '/compare/' + primaryGeoID + '/' + d + '/table/?table=' + tableID })
+                .text(function(d) { return sumlevMap[d]['plural'] });
 
-    childOptionsContainer.append('p')
-            .attr('class', 'display-type strong')
-            .html('&hellip; in ' + thisGeoShortName);
+        childOptionsContainer.append('p')
+                .attr('class', 'display-type strong')
+                .html('&hellip; in ' + thisGeoShortName);
+    }
 }
 
 var makeDataTable = function(results) {
-    var table = results.tables[chosenTableID],
+    var table = results.tables[tableID],
+        release = results.release,
         data = results.data,
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
         colspan = (denominatorColumn !== null) ? 4 : 2;
-        dataContainer = d3.select('#chosen-table'),
+        dataContainer = d3.select('#data-tabular'),
         dataTableID = dataContainer.select('h1'),
         dataTitle = dataContainer.select('h2'),
         resultsContainer = d3.select('.data-drawer');
         
+    // fill in some metadata
+    d3.select('#release-name').text(release.name);
+    d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
+        
     var headerBits = ['<th class="name">Column</th>'];
-    theseGeoIDs.forEach(function(g) {
+    geoIDs.forEach(function(g) {
         headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + g + '">' + results.geography[g].name + '</a></th>');
     })
     
@@ -180,11 +173,11 @@ var makeDataTable = function(results) {
         
     columns.forEach(function(k, v) {
         var rowBits = ['<td class="name column-name indent-' + v.indent + '">' + v.name + '</td>'];
-        theseGeoIDs.forEach(function(g) {
-            var thisDenominator = data[g][chosenTableID].estimate[denominatorColumn],
-                thisDenominatorMOE = data[g][chosenTableID].error[denominatorColumn],
-                thisValue = data[g][chosenTableID].estimate[k],
-                thisValueMOE = data[g][chosenTableID].error[k];
+        geoIDs.forEach(function(g) {
+            var thisDenominator = data[g][tableID].estimate[denominatorColumn],
+                thisDenominatorMOE = data[g][tableID].error[denominatorColumn],
+                thisValue = data[g][tableID].estimate[k],
+                thisValueMOE = data[g][tableID].error[k];
 
             // provide percentages first, to match chart style
             if (!!denominatorColumn) {
@@ -203,26 +196,31 @@ var makeDataTable = function(results) {
     
     var tableData = '<table class="full-width"><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
 
-    dataTableID.html('Table ' + chosenTableID);
+    dataTableID.html('Table ' + tableID);
     dataTitle.text(table.title);
     
     // add the comparison links
-    makeParentOptions();
-    makeChildOptions();
+    //makeParentOptions();
+    //makeChildOptions();
     
     // add the data and show container
     resultsContainer.html(tableData);
-    chosenTableContainer.fadeIn('fast');
-    topicSelectContainer.toggle();
+    tableContainer.fadeIn('fast');
+
+    // update the place name in table search header
+    if (!!primaryGeoID && !!results.geography[primaryGeoID]) {
+        var primaryGeoName = results.geography[primaryGeoID].name;
+        topicSelectContainer.find('h1').text('Find data for ' + primaryGeoName);
+    }
 }
 
 jQuery(document).ready(function(){
-    // initial setup for select widgets
+    getData();
     makeTopicSelectWidget(topicSelect);
     
-    $("#chosen-table").on('click', '#change-table', function(e) {
+    $("#data-tabular").on('click', '#change-table', function(e) {
         e.preventDefault();
         topicSelectContainer.toggle();
-        chosenTableContainer.fadeOut('fast');
+        tableContainer.fadeOut('fast');
     })
 });

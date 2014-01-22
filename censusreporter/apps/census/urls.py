@@ -2,7 +2,9 @@ from django.conf.urls import url, patterns, include
 from django.contrib import admin
 
 from .utils import GEOGRAPHIES_MAP
-from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView
+from .views import (HomepageView, GeographyDetailView, ComparisonView,
+    ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson,
+    GeoSearch, LocateView, HealthcheckView, DataView)
 
 admin.autodiscover()
 
@@ -67,6 +69,14 @@ urlpatterns = patterns('',
         view    = ComparisonBuilder.as_view(),
         kwargs  = {},
         name    = 'comparison_builder',
+    ),
+
+    # e.g. /table/B01001/
+    url(
+        regex   = '^data/$',
+        view    = DataView.as_view(),
+        kwargs  = {},
+        name    = 'data_detail',
     ),
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)

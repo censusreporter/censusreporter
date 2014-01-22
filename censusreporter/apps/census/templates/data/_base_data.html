@@ -1,0 +1,48 @@
+{% extends '_base.html' %}
+
+{% comment %}
+This page provides a base for all table view templates to inherit from,
+for applying things across that entire family of pages.
+{% endcomment %}
+
+{% block head_title %}Table {% for table in table_list %}{{ table }}{% endfor %} {% if release %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
+
+{% block header_content %}
+<div class="wrapper clearfix">
+
+    <div class="tool-set header-tool-set">
+        <div class="tool-group">
+            <ul class="toggle-set">{% comment %}
+                <li><a class="{% if format == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
+                <li><a class="{% if format == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
+                <li><a class="{% if format == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>{% endcomment %}
+            </ul>
+        </div>
+        <div class="tool-group toggle-sub-group">{% comment %}
+            <a href="#">
+                Download the data
+            </a>
+            <ul class="sub-group">
+                <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'csv' %}?{{ request.GET.urlencode }}">CSV</a></li>
+                <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'json' %}?{{ request.GET.urlencode }}">JSON</a></li>
+            </ul>{% endcomment %}
+        </div>
+    </div>
+
+    {#}<h1>Table {{ table.table_id }}</h1>{#}
+</div>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script>
+var chosenRelease = '{{ release }}',
+    chosenTableID = '{{ table.table_id }}',
+    chosenFormat = '{{ format }}';
+    
+// download submenu
+$('.toggle-sub-group').hover(function() {
+    $(this).find('.sub-group').toggle();
+    $(this).find('a').toggleClass('hovered');
+});
+</script>
+{% endblock %}

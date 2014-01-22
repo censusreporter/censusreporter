@@ -1957,7 +1957,8 @@ section.chart-divider h2 {
 #chosen-table h2 {
     padding-left: 8px;
 }
-#chosen-table .data-drawer {
+#chosen-table .data-drawer,
+#data-tabular .data-drawer {
     padding-top: 0;
 }
 

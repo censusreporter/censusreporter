@@ -79,7 +79,7 @@
         <section class="clearfix stat-row">
             <h2 class="column-header"></h2>
             <aside><p><a id="change-table" href="#">Change table</a></p></aside>
-            <div class="column-full data-drawer" id="chosen-table-results"></div>
+            <div class="data-drawer" id="chosen-table-results"></div>
         </section>
     </div>
 </article>
@@ -445,6 +445,8 @@ flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
 var thisSumlev = '{{ sumlev }}',
     thisGeoShortName = '{{ geography.this.short_name }}',
     thisGeoID = '{{ geography.this.full_geoid }}',
+    placeGeoID = '{{ geography.parents.place.full_geoid }}',
+    CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
     countyGeoID = '{{ geography.parents.county.full_geoid }}',
     stateGeoID = '{{ geography.parents.state.full_geoid }}',
     nationGeoID = '{{ geography.parents.nation.full_geoid }}';

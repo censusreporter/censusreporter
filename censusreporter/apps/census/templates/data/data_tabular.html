@@ -1,0 +1,47 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/tablesorter/tablesorter.css">
+{% endblock %}
+
+{% block content %}
+<section class="clearfix hidden" id="query-topic-picker">
+    <h1>Find data</h1>
+    <div class="typeahead-container">
+        <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
+    </div>
+</section>
+
+<article id="data-tabular" class="clearfix">
+    <header class="section-contents">
+        <h1>Data table</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix stat-row">
+            <h2 class="column-header"></h2>
+            
+            <aside>
+                <p id="release-name" class="display-type strong"></p>
+                <p><a id="change-table" href="#">Change table</a></p>
+            </aside>
+            <div class="tool-set caption-tool-set">
+                <div class="tool-group">Click a row to highlight</div>
+            </div>
+            <p class="caption">
+                <span id="table-universe" class="caption-group"></span>
+            </p>
+
+            <div class="data-drawer" id="table-results"></div>
+        </section>
+    </div>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script>
+var primaryGeoID = '{{ primary_geo_id }}',
+    geoIDs = '{{ geo_ids }}'.split(','),
+    tableID = '{{ table }}';
+</script>
+<script src="{{ STATIC_URL }}js/data.table.view.js"></script>
+{% endblock %}
