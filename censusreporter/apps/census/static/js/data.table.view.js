@@ -6,6 +6,7 @@
 //     tableID = '{{ table }}';
 
 var tableID = tableID || null,
+    thisSumlev = (!!primaryGeoID) ? primaryGeoID.substr(0,3) : null,
     tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
     rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
     dataAPI = 'http://api.censusreporter.org/1.0/data/show/latest';
@@ -120,7 +121,7 @@ var makeParentOptions = function() {
     }
 }
 
-var makeChildOptions = function() {
+var makeChildOptions = function(name) {
     // no tribbles!
     d3.selectAll('#comparison-children').remove();
     
@@ -140,10 +141,12 @@ var makeChildOptions = function() {
             .enter().append('li').append('a')
                 .attr('href', function(d) { return '/compare/' + primaryGeoID + '/' + d + '/table/?table=' + tableID })
                 .text(function(d) { return sumlevMap[d]['plural'] });
-
-        childOptionsContainer.append('p')
-                .attr('class', 'display-type strong')
-                .html('&hellip; in ' + thisGeoShortName);
+        
+        if (!!name) {
+            childOptionsContainer.append('p')
+                    .attr('class', 'display-type strong')
+                    .html('&hellip; in ' + name);
+        }
     }
 }
 
@@ -151,6 +154,7 @@ var makeDataTable = function(results) {
     var table = results.tables[tableID],
         release = results.release,
         data = results.data,
+        primaryGeoName = (!!primaryGeoID) ? results.geography[primaryGeoID].name : null,
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
         colspan = (denominatorColumn !== null) ? 4 : 2;
@@ -199,18 +203,19 @@ var makeDataTable = function(results) {
     dataTableID.html('Table ' + tableID);
     dataTitle.text(table.title);
     
-    // add the comparison links
-    //makeParentOptions();
-    //makeChildOptions();
-    
     // add the data and show container
     resultsContainer.html(tableData);
     tableContainer.fadeIn('fast');
+    
+    // add the comparison links
+    if (!!primaryGeoID) {
+        makeParentOptions();
+        makeChildOptions(primaryGeoName);
 
-    // update the place name in table search header
-    if (!!primaryGeoID && !!results.geography[primaryGeoID]) {
-        var primaryGeoName = results.geography[primaryGeoID].name;
-        topicSelectContainer.find('h1').text('Find data for ' + primaryGeoName);
+        // update the place name in table search header
+        if (!!results.geography[primaryGeoID]) {
+            topicSelectContainer.find('h1').text('Find data for ' + primaryGeoName);
+        }
     }
 }
 
