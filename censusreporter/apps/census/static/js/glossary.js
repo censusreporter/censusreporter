@@ -33,9 +33,17 @@ Glossary.init = function (url, selector, watch_container_selector) {
     $(watch_container_selector).off("mouseover.glossary", selector);
     $(watch_container_selector).on("mouseover.glossary", selector, function() { Glossary.popup(this) });
 
-    $(watch_container_selector).off("mouseout.glossary", selector);
-    $(watch_container_selector).on("mouseout.glossary", selector, function() { $('#glossarypopup').remove() });
-  }
+  $(document.body).keydown(function(e){ // keydown instead of keypress for Chrome...
+      if(e.which == 27){
+        $('#glossarypopup').remove(); // just in case
+      }
+  });
+
+  $(document.body).click(function(e){ 
+    $('#glossarypopup').remove(); // just in case
+  });
+
+}
 
 Glossary.openLink = function(obj) {
   var keyword = $(obj).data('keyword') || obj.textContent;
