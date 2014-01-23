@@ -619,7 +619,7 @@ aside .aside-block {
     font-weight: bold;
 }
 .grid .value {
-    width: 6em;
+    width: 7em;
     text-align: right;
     padding-right: 1em;
 }
@@ -627,7 +627,7 @@ aside .aside-block {
     font-size: 11px;
     padding-top: 1px;
     margin-bottom: -1px;
-    width: 3em;
+    width: 4em;
 }
 .stat .context {
     margin-left: .33em;
