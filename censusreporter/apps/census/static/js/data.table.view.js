@@ -181,7 +181,7 @@ var makeDataTable = function(results) {
     var gridHeaderBits = ['Column'];
     geoIDs.forEach(function(g) {
         headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + g + '">' + results.geography[g].name + '</a></th>');
-        gridHeaderBits.push(results.geography[g].name);
+        gridHeaderBits.push('<a href="/profiles/' + g + '">' + results.geography[g].name + '</a>');
     })
     gridData.Head.push(gridHeaderBits);
     
