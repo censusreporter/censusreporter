@@ -2,7 +2,9 @@ from django.conf.urls import url, patterns, include
 from django.contrib import admin
 
 from .utils import GEOGRAPHIES_MAP
-from .views import HomepageView, GeographyDetailView, ComparisonView, ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView
+from .views import (HomepageView, GeographyDetailView, ComparisonView,
+    ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson,
+    GeoSearch, LocateView, HealthcheckView, DataView)
 
 from django.views.generic.base import TemplateView
 
@@ -71,18 +73,12 @@ urlpatterns = patterns('',
         name    = 'comparison_builder',
     ),
 
+    # e.g. /table/B01001/
     url(
-        regex   = '^glossary/$',
-        view    = TemplateView.as_view(template_name="glossary.html"),
+        regex   = '^data/$',
+        view    = DataView.as_view(),
         kwargs  = {},
-        name    = 'glossary',
-    ),
-
-    url(
-        regex   = '^glossary-example/$',
-        view    = TemplateView.as_view(template_name="glossary-example.html"),
-        kwargs  = {},
-        name    = 'glossary-example',
+        name    = 'data_detail',
     ),
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)
@@ -107,4 +103,20 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'geography_comparison_detail',
     ),
+
+    url(
+        regex   = '^glossary/$',
+        view    = TemplateView.as_view(template_name="glossary.html"),
+        kwargs  = {},
+        name    = 'glossary',
+    ),
+
+    url(
+        regex   = '^glossary-example/$',
+        view    = TemplateView.as_view(template_name="glossary-example.html"),
+        kwargs  = {},
+        name    = 'glossary-example',
+    ),
+
+
 )

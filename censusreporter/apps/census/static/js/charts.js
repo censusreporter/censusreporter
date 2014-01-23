@@ -46,6 +46,13 @@ function Chart(options) {
             'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
         }
         
+        // get a bit of geodata for links
+        chart.primaryGeoID = options.geographyData.this.full_geoid;
+        chart.geoIDs = [options.geographyData.this.full_geoid];
+        d3.values(options.geographyData.parents).forEach(function(g) {
+            chart.geoIDs.push(g.full_geoid)
+        });
+
         var dataObj,
             metadataFields = ['metadata', 'acs_release'];
         
@@ -724,7 +731,8 @@ function Chart(options) {
             clickTargets = row.selectAll(".chart-get-data"),
             clicked = d3.select(this),
             hide = clicked.classed("opened"),
-            tableID = chart.capitalize(chart.initialData.metadata.table_id);
+            tableID = chart.capitalize(chart.initialData.metadata.table_id),
+            tableURL = '/data/?table='+tableID+'&primary_geoid='+chart.primaryGeoID+'&geoids='+chart.geoIDs.join(',');
         chart.dataDrawer = row.select(".data-drawer");
         
         // make sure we're in a pristine state
@@ -746,11 +754,14 @@ function Chart(options) {
                     
             chart.dataDrawer.append("h3")
                     .attr("class", "chart-title")
-                    .text(function() {
+                    .html(function() {
+                        var titleText;
                         if (!!chart.chartChartTitle) {
-                            return chart.chartChartTitle + " (Table " + tableID + ")";
+                            titleText = chart.chartChartTitle + " (Table " + tableID + ")";
+                        } else {
+                            titleText = "Table " + tableID;
                         }
-                        return "Table " + tableID;
+                        return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")
@@ -790,13 +801,14 @@ function Chart(options) {
         }
     }
     
+    chart.DataDrawerPlaces = ['this', 'place', 'CBSA', 'county', 'state', 'nation'];
+    
     chart.makeDataDrawerHeader = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<th class="name">Column</th>'],
+        var rowBits = ['<th class="name">Column</th>'],
             colspan,
             cellContents;
             
-        places.forEach(function(k, i) {
+        chart.DataDrawerPlaces.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 colspan = (d.context.numerators[k] !== null) ? 4 : 2;
                 cellContents = chart.comparisonNames[k];
@@ -807,11 +819,10 @@ function Chart(options) {
     }
     
     chart.makeDataDrawerRow = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<td class="name">' + d.name + '</td>'],
+        var rowBits = ['<td class="name">' + d.name + '</td>'],
             cellContents;
 
-        places.forEach(function(k, i) {
+        chart.DataDrawerPlaces.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
                 // add the primary value
                 rowBits.push('<td class="value">' + chart.getValueFmt(d, k, 1) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k], 1) + '</td>');

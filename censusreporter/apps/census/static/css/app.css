@@ -377,7 +377,8 @@ section {
 #profile .section-container section {
     margin-bottom: 2em;
 }
-#profile .section-container section:last-child {
+#profile .section-container section:last-child,
+#data-tabular .section-container section:last-child {
     margin-bottom: .5em;
 }
 header.section-contents h1,
@@ -607,6 +608,27 @@ aside .aside-block {
     font-weight: 500;
     color: #777;
 }
+.grid .name,
+.grid .value,
+.grid .context {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 18px;
+}
+.grid .name {
+    font-weight: bold;
+}
+.grid .value {
+    width: 7em;
+    text-align: right;
+    padding-right: 1em;
+}
+.grid .context {
+    font-size: 11px;
+    padding-top: 1px;
+    margin-bottom: -1px;
+    width: 4em;
+}
 .stat .context {
     margin-left: .33em;
     display: none;
@@ -803,7 +825,7 @@ aside .aside-block {
     margin: 8px;
 }
 .push-right {
-    margin-left: 1.5em;
+    margin-left: 1em;
 }
 .context-block {
     display: block;
@@ -1095,6 +1117,12 @@ tr.even td {
 }
 tr.highlight td {
     background: #b4bc96;
+}
+.grid .highlight {
+    background-color: #b4bc96;
+}
+.grid .hover {
+    background-color: #d1d7bf;
 }
 tr:hover td,
 tr.even:hover td {
@@ -1957,7 +1985,8 @@ section.chart-divider h2 {
 #chosen-table h2 {
     padding-left: 8px;
 }
-#chosen-table .data-drawer {
+#chosen-table .data-drawer,
+#data-tabular .data-drawer {
     padding-top: 0;
 }
 
