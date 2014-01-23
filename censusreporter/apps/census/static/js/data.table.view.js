@@ -228,20 +228,35 @@ var makeDataTable = function(results) {
     // add the data and show container
     //resultsContainer.html(tableData);
     //tableContainer.fadeIn('fast');
-    $('#table-results-container').css('height', '400px');
-    $('#table-results').css({
+    
+    var table = $('#table-results').css({
         height: '100%',
         width: '100%',
         overflow: 'auto'
     });
-    
+
     var myGrid = new Grid("table-results", {
             srcType : "json", 
             srcData : gridData, 
-            colBGColors : ["#F7F8F3"],
             fixedCols : 1
         });
-    // add the comparison links
+
+    // be smart about fixed height
+    setGridWindowHeight();
+    
+    // add the comparison links and names
+    addGeographyNames();
+}
+
+var setGridWindowHeight = function() {
+    var top = document.getElementById('table-results-container').getBoundingClientRect().top,
+        maxContainerHeight = Math.floor(browserHeight - top - 120),
+        tableHeight = $('#table-results').height() + 50,
+        bestHeight = (tableHeight < maxContainerHeight) ? tableHeight : maxContainerHeight;
+    $('#table-results-container').css('height', bestHeight+'px');
+}
+
+var addGeographyNames = function() {
     if (!!primaryGeoID) {
         makeParentOptions();
         makeChildOptions(primaryGeoName);

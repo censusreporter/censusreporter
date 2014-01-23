@@ -8,7 +8,8 @@ $('body').on('click', 'tr', function(){
     $(this).toggleClass('highlight');
 })
 
-window.browserWidth = document.documentElement.clientWidth,
+window.browserWidth = document.documentElement.clientWidth;
+window.browserHeight = document.documentElement.clientHeight;
 
 // usage: log('inside coolFunc', this, arguments);
 // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/

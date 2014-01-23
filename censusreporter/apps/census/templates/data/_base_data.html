@@ -5,7 +5,7 @@ This page provides a base for all table view templates to inherit from,
 for applying things across that entire family of pages.
 {% endcomment %}
 
-{% block head_title %}Table {% for table in table_list %}{{ table }}{% endfor %} {% if release %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
+{% block head_title %}Table {% if table %}{{ table }}{% endif %} {% if release %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
 
 {% block header_content %}
 <div class="wrapper clearfix">
