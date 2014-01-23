@@ -399,8 +399,9 @@ $.each(chartContainers, function(i) {
         comparisonPlaceName = '{{ geography.parents.place.short_name }}',
         comparisonCBSAName = '{{ geography.parents.CBSA.full_name }}',
         comparisonCountyName = '{{ geography.parents.county.short_name }}',
-        comparisonStateName = '{{ geography.parents.state.short_name }}';
-
+        comparisonStateName = '{{ geography.parents.state.short_name }}',
+        geographyData = profileData['geography'];
+        
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;
     if (drilldown >= 2) {
@@ -431,7 +432,8 @@ $.each(chartContainers, function(i) {
         comparisonPlaceName: comparisonPlaceName,
         comparisonCBSAName: comparisonCBSAName,
         comparisonCountyName: comparisonCountyName,
-        comparisonStateName: comparisonStateName
+        comparisonStateName: comparisonStateName,
+        geographyData: geographyData
     });
 });
 
