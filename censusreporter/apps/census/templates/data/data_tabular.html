@@ -1,7 +1,7 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
 
 {% block head_css_extra %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/tablesorter/tablesorter.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/Grid.css">
 {% endblock %}
 
 {% block content %}
@@ -30,14 +30,17 @@
             <p class="caption">
                 <span id="table-universe" class="caption-group"></span>
             </p>
-
-            <div class="data-drawer" id="table-results"></div>
+            
+            <div id="table-results-container">
+                <div class="data-drawer grid" id="table-results"></div>
+            </div>
         </section>
     </div>
 </article>
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script src="{{ STATIC_URL }}js/vendor/Grid.js"></script>
 <script>
 var primaryGeoID = '{{ primary_geo_id }}',
     geoIDs = '{{ geo_ids }}'.split(','),

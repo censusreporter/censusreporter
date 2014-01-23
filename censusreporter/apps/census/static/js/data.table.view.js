@@ -63,8 +63,14 @@ var makeTopicSelectWidget = function(element) {
     element.on('typeahead:selected', function(obj, datum) {
         element.typeahead('setQuery', '');
         tableID = datum['table_id'];
-        getData();
-        topicSelectContainer.toggle();
+        
+        var url = '/data/?table=' + tableID;
+        if (!!geoIDs) { url += "&geoids=" + geoIDs.join(',') }
+        if (!!primaryGeoID) { url += "&primary_geoid=" + primaryGeoID }
+        window.location = url;
+        // TODO: pushState to maintain history without page reload
+        //getData();
+        //topicSelectContainer.toggle();
     });
 }
 
@@ -161,32 +167,44 @@ var makeDataTable = function(results) {
         dataContainer = d3.select('#data-tabular'),
         dataTableID = dataContainer.select('h1'),
         dataTitle = dataContainer.select('h2'),
-        resultsContainer = d3.select('.data-drawer');
+        resultsContainer = d3.select('.data-drawer'),
+        gridData = {
+            Head: [],
+            Body: []
+        };
         
     // fill in some metadata
     d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
         
     var headerBits = ['<th class="name">Column</th>'];
+    var gridHeaderBits = ['Column'];
     geoIDs.forEach(function(g) {
         headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + g + '">' + results.geography[g].name + '</a></th>');
+        gridHeaderBits.push(results.geography[g].name);
     })
+    gridData.Head.push(gridHeaderBits);
     
     var columns = d3.map(table.columns),
         tableContents = [];
         
     columns.forEach(function(k, v) {
         var rowBits = ['<td class="name column-name indent-' + v.indent + '">' + v.name + '</td>'];
+        var gridRowBits = ['<div class="name indent-' + v.indent + '">' + v.name + '</div>'];
+
         geoIDs.forEach(function(g) {
             var thisDenominator = data[g][tableID].estimate[denominatorColumn],
                 thisDenominatorMOE = data[g][tableID].error[denominatorColumn],
                 thisValue = data[g][tableID].estimate[k],
-                thisValueMOE = data[g][tableID].error[k];
+                thisValueMOE = data[g][tableID].error[k]
+                gridRowCol = '';
 
             // provide percentages first, to match chart style
             if (!!denominatorColumn) {
                 if (thisValue >= 0) {
                     rowBits.push('<td class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</td><td class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</td>');
+                    gridRowCol += '<span class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</span>';
+                    gridRowCol += '<span class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</span>';
                 } else {
                     rowBits.push('<td></td><td></td>')
                 }
@@ -194,19 +212,35 @@ var makeDataTable = function(results) {
             
             // add raw numbers
             rowBits.push('<td class="value">' + valFmt(thisValue, statType) + '</td><td class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</td>');
+            gridRowCol += '<span class="value">' + valFmt(thisValue, statType) + '</span>';
+            gridRowCol += '<span class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
+            gridRowBits.push(gridRowCol);
         })
         tableContents.push('<tr>' + rowBits.join('') + '</tr>');
+        gridData.Body.push(gridRowBits);
     })
-    
-    var tableData = '<table class="full-width"><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
+
+    var tableData = '<table id="results" class="full-width"><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
 
     dataTableID.html('Table ' + tableID);
     dataTitle.text(table.title);
     
     // add the data and show container
-    resultsContainer.html(tableData);
-    tableContainer.fadeIn('fast');
+    //resultsContainer.html(tableData);
+    //tableContainer.fadeIn('fast');
+    $('#table-results-container').css('height', '400px');
+    $('#table-results').css({
+        height: '100%',
+        width: '100%',
+        overflow: 'auto'
+    });
     
+    var myGrid = new Grid("table-results", {
+            srcType : "json", 
+            srcData : gridData, 
+            colBGColors : ["#F7F8F3"],
+            fixedCols : 1
+        });
     // add the comparison links
     if (!!primaryGeoID) {
         makeParentOptions();
@@ -226,6 +260,31 @@ jQuery(document).ready(function(){
     $("#data-tabular").on('click', '#change-table', function(e) {
         e.preventDefault();
         topicSelectContainer.toggle();
+        topicSelect.focus();
         tableContainer.fadeOut('fast');
-    })
+    });
+
+    $("#table-results-container").on('mouseover', '.g_BR', function(e) {
+        var thisClass = $(this).attr('class').split(' ');
+        var thisRow = $.grep(thisClass, function(c) {
+            return c.substr(0,3) == 'g_R';
+        });
+        $('.'+thisRow+':not(.g_HR)').addClass('hover');
+    });
+
+    $("#table-results-container").on('mouseleave', '.g_BR', function(e) {
+        var thisClass = $(this).attr('class').split(' ');
+        var thisRow = $.grep(thisClass, function(c) {
+            return c.substr(0,3) == 'g_R';
+        });
+        $('.'+thisRow+':not(.g_HR)').removeClass('hover');
+    });
+    
+    $("#table-results-container").on('click', '.g_BR', function(e) {
+        var thisClass = $(this).attr('class').split(' ');
+        var thisRow = $.grep(thisClass, function(c) {
+            return c.substr(0,3) == 'g_R';
+        });
+        $('.'+thisRow+':not(.g_HR)').toggleClass('highlight');
+    });
 });
