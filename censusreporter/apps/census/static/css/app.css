@@ -451,7 +451,7 @@ aside .aside-block {
     -moz-border-radius: 3px;
     border-radius: 3px;
     border: 1px solid #02aeab;
-    padding: .67em 1em;
+    padding: .67em 1.25em .33em;
 }
 
 .column-full,

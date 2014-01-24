@@ -52,8 +52,15 @@
                 </div>
             </div>
             {% endif %}
-            <div class="column-full caption">
-                Data: {{ geography.census_release }} unless noted
+
+            {% if geography.this.sumlevel in "950|960|970" %}
+            <div class="column-full">
+                <p class="caption"><strong>More data:</strong> <a href="">ProPublica&rsquo;s Opportunity Gap profile</a></p>
+            </div>
+            {% endif %}
+            
+            <div class="column-full">
+                <p class="caption"><strong>Census data:</strong> {{ geography.census_release }} unless noted</p>
             </div>
         </article>
     </div>
