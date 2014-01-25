@@ -1,0 +1,9 @@
+<div class="column-full header-extra-links">
+    <p class="caption"><strong>More data:</strong></p>
+    <ul>
+        <li><a href="http://factfinder2.census.gov/bkmk/np/1.0/en/ACS/{{ geography.census_release_year }}_{{ geography.census_release_level }}YR/NP01/{{ geography.this.sumlevel }}{% if geography.this.sumlevel == '500' %}13{% else %}00{% endif %}00US{{ geography.this.short_geoid }}">U.S. Census narrative profile</a></li>
+        {% if geography.this.sumlevel in "950|960|970" %}
+        <li><a href="http://projects.propublica.org/schools/districts/{{ geography.this.short_geoid }}">ProPublica&rsquo;s Opportunity Gap profile</a></li>
+        {% endif %}
+    </ul>
+</div>

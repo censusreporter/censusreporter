@@ -52,22 +52,19 @@
                 </div>
             </div>
             {% endif %}
-
-            {% if geography.this.sumlevel in "950|960|970" %}
-            <div class="column-full">
-                <p class="caption"><strong>More data:</strong> <a href="">ProPublica&rsquo;s Opportunity Gap profile</a></p>
-            </div>
+            
+            {% if geography.this.show_extra_links %}
+                {% include "profile/_blocks/_header_extra_links.html" %}
             {% endif %}
             
             <div class="column-full">
-                <p class="caption"><strong>Census data:</strong> {{ geography.census_release }} unless noted</p>
+                <p class="caption"><strong>Census data:</strong> <span class="nudge-right">{{ geography.census_release }} unless noted</span></p>
             </div>
         </article>
     </div>
 
     <div id="slippy-map"></div>
 </div>
-
 {% endblock %}
 
 {% block content %}
@@ -323,7 +320,7 @@
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script type="text/javascript">
 // Make the header map
-d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geoid }}?geom=true", function(error, json) {
+d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -451,7 +448,7 @@ var flaggedMOE = $('.stat-row sup'),
 flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
 
 // Enable the single-table topic picker
-var thisSumlev = '{{ sumlev }}',
+var thisSumlev = '{{ geography.this.sumlevel }}',
     thisGeoShortName = '{{ geography.this.short_name }}',
     thisGeoID = '{{ geography.this.full_geoid }}',
     placeGeoID = '{{ geography.parents.place.full_geoid }}',

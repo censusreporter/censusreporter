@@ -453,6 +453,16 @@ aside .aside-block {
     border: 1px solid #02aeab;
     padding: .67em 1.25em .33em;
 }
+#cover-profile .header-extra-links p {
+    float: left;
+    line-height: 1.5;
+}
+#cover-profile ul {
+    list-style: none;
+    font-size: .83em;
+    margin: .5em 0 1em 2em;
+    line-height: 1.5;
+}
 
 .column-full,
 .column-half,
@@ -826,6 +836,9 @@ aside .aside-block {
 }
 .push-right {
     margin-left: 1em;
+}
+.nudge-right {
+    margin-left: .33em;
 }
 .context-block {
     display: block;

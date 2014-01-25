@@ -155,26 +155,7 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = kwargs['geography_id']
-
-        page_context = {
-            'state_fips_code': None,
-            'geography_fips_code': None,
-        }
-
-        if 'US' in geography_id:
-            geoIDcomponents = geography_id.split('US')
-
-            sumlev = geoIDcomponents[0][:3]
-            page_context['sumlev'] = sumlev
-
-            fips_code = geoIDcomponents[1]
-            if len(fips_code) >= 2:
-                state_fips = fips_code[:2]
-                page_context['state_fips_code'] = state_fips
-                page_context['state_geoid'] = '04000US%s' % state_fips
-
-            if sumlev == '050' and len(fips_code) == 5:
-                page_context['county_fips_code'] = fips_code
+        page_context = {}
 
         # hit our API
         #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
@@ -196,9 +177,21 @@ class GeographyDetailView(TemplateView):
             raise Http404
 
         # Put this down here to make sure geoid is valid before using it
-        page_context['geoid'] = geography_id
-        page_context['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlev]['name']
+        sumlevel = page_context['geography']['this']['sumlevel']
+        page_context['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlevel]['name']
+        page_context['geography']['this']['short_geoid'] = geography_id.split('US')[1]
+        try:
+            release_bits = page_context['geography']['census_release'].split(' ')
+            page_context['geography']['census_release_year'] = release_bits[1][2:]
+            page_context['geography']['census_release_level'] = release_level = release_bits[2][:1]
+        except:
+            pass
 
+        # ProPublica Opportunity Gap app doesn't include smallest schools
+        # Census narrative profiles only exist for some sumlevs, and only 1- and 3-year
+        if release_level in ['1','3'] and sumlevel in ['010', '020', '030', '040', '050', '160', '500', '950', '960', '970']:
+            page_context['geography']['this']['show_extra_links'] = True
+            
         tiger_release = 'tiger2012'
         geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])
         r = requests.get(geo_endpoint)
