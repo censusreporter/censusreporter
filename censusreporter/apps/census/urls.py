@@ -14,13 +14,63 @@ geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_M
 comparison_formats = 'map|table|distribution|json|csv'
 
 urlpatterns = patterns('',
-    (r'^admin/', include(admin.site.urls)),
-
     url(
         regex   = '^$',
         view    = HomepageView.as_view(),
         kwargs  = {},
         name    = 'homepage',
+    ),
+
+    # e.g. /profiles/16000US5367000/ (Spokane, WA)
+    url(
+        regex   = '^profiles/(?P<geography_id>[-\w]+)/$',
+        view    = GeographyDetailView.as_view(),
+        kwargs  = {},
+        name    = 'geography_detail',
+    ),
+
+    # e.g. /table/B01001/
+    url(
+        regex   = '^data/$',
+        view    = DataView.as_view(),
+        kwargs  = {},
+        name    = 'data_detail',
+    ),
+
+    url(
+        regex   = '^compare/$',
+        view    = ComparisonBuilder.as_view(),
+        kwargs  = {},
+        name    = 'comparison_builder',
+    ),
+
+    # e.g. /compare/04000US53/050/ (counties in Washington)
+    url(
+        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/$',
+        view    = ComparisonView.as_view(),
+        kwargs  = {},
+        name    = 'geography_comparison',
+    ),
+    # e.g. /compare/04000US53/050/map/
+    url(
+        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<format>%s)/$' % comparison_formats,
+        view    = ComparisonView.as_view(),
+        kwargs  = {},
+        name    = 'geography_comparison_detail',
+    ),
+
+    url(
+        regex   = '^glossary/$',
+        view    = TemplateView.as_view(template_name="glossary.html"),
+        kwargs  = {},
+        name    = 'glossary',
+    ),
+
+    url(
+        regex   = '^locate/$',
+        view    = LocateView.as_view(),
+        kwargs  = {},
+        name    = 'locate',
     ),
 
     url(
@@ -58,65 +108,4 @@ urlpatterns = patterns('',
         name    = 'geo_search',
     ),
     ## END LOCAL DEV VERSION OF API ##
-
-    url(
-        regex   = '^locate/$',
-        view    = LocateView.as_view(),
-        kwargs  = {},
-        name    = 'locate',
-    ),
-
-    url(
-        regex   = '^compare/$',
-        view    = ComparisonBuilder.as_view(),
-        kwargs  = {},
-        name    = 'comparison_builder',
-    ),
-
-    # e.g. /table/B01001/
-    url(
-        regex   = '^data/$',
-        view    = DataView.as_view(),
-        kwargs  = {},
-        name    = 'data_detail',
-    ),
-
-    # e.g. /profiles/16000US5367000/ (Spokane, WA)
-    url(
-        regex   = '^profiles/(?P<geography_id>[-\w]+)/$',
-        view    = GeographyDetailView.as_view(),
-        kwargs  = {},
-        name    = 'geography_detail',
-    ),
-
-    # e.g. /compare/04000US53/050/ (counties in Washington)
-    url(
-        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/$',
-        view    = ComparisonView.as_view(),
-        kwargs  = {},
-        name    = 'geography_comparison',
-    ),
-    # e.g. /compare/04000US53/050/map/
-    url(
-        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<format>%s)/$' % comparison_formats,
-        view    = ComparisonView.as_view(),
-        kwargs  = {},
-        name    = 'geography_comparison_detail',
-    ),
-
-    url(
-        regex   = '^glossary/$',
-        view    = TemplateView.as_view(template_name="glossary.html"),
-        kwargs  = {},
-        name    = 'glossary',
-    ),
-
-    url(
-        regex   = '^glossary-example/$',
-        view    = TemplateView.as_view(template_name="glossary-example.html"),
-        kwargs  = {},
-        name    = 'glossary-example',
-    ),
-
-
 )
