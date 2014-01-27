@@ -1,0 +1,24 @@
+{% extends '_base.html' %}
+
+{% block head_title %}Glossary Example - {{ block.super }}{% endblock %}
+
+{% block content %}
+<h2>Popups</h2>
+<div id="demonstrate-popups">
+<p>This is a sentence with some glossary terms like <span class='glossary-term'>place</span> and <span class='glossary-term'>county subdivision</span>.</p>
+<p>Sometimes we don't want to use the full keyword in our text, like with <span class='glossary-term' data-keyword="metropolitan-statistical-area">MSA</span></p>
+</div>
+
+<h2>Links</h2>
+<div id="demonstrate-links">
+<p>This is a sentence with some glossary terms like <span class='glossary-term'>place</span> and <span class='glossary-term'>county subdivision</span>.</p>
+<p>Sometimes we don't want to use the full keyword in our text, like with <span class='glossary-term' data-keyword="metropolitan-statistical-area">MSA</span></p>
+</div>
+{% endblock %}
+{% block body_javascript_extra %}
+<script>
+Glossary.init("{% url 'glossary' %}",".glossary-term","#demonstrate-popups");
+Glossary.initLinks("{% url 'glossary' %}",".glossary-term","#demonstrate-links");
+</script>
+
+{% endblock %}

@@ -6,6 +6,8 @@ from .views import (HomepageView, GeographyDetailView, ComparisonView,
     ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson,
     GeoSearch, LocateView, HealthcheckView, DataView)
 
+from django.views.generic.base import TemplateView
+
 admin.autodiscover()
 
 geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
@@ -101,4 +103,20 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'geography_comparison_detail',
     ),
+
+    url(
+        regex   = '^glossary/$',
+        view    = TemplateView.as_view(template_name="glossary.html"),
+        kwargs  = {},
+        name    = 'glossary',
+    ),
+
+    url(
+        regex   = '^glossary-example/$',
+        view    = TemplateView.as_view(template_name="glossary-example.html"),
+        kwargs  = {},
+        name    = 'glossary-example',
+    ),
+
+
 )
