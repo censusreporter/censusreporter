@@ -35,8 +35,8 @@ for applying things across that entire family of pages.
 </div>
 {% endblock %}
 
-{% block body_javascript_extra %}
-<script>
+{% block body_javascript_extra %}{{ block.super }}
+<script type="text/javascript">
 var chosenParentGeoID = '{{ parent_id }}',
     chosenParentName = '{{ comparison_metadata.parent_name }}'
     chosenSumlev = '{{ descendant_sumlev }}',

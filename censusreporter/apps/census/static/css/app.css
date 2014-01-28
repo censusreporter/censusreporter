@@ -750,6 +750,10 @@ aside .aside-block {
     stroke-linejoin: round;
 }
 
+.glossary-term {
+    border-bottom: 1px dashed #777;
+    cursor: help;
+}
 .hovercard {
     position: absolute;
     text-align: center;

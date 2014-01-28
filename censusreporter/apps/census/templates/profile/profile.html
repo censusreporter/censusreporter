@@ -315,7 +315,7 @@
 </article>
 {% endblock %}
 
-{% block body_javascript_extra %}
+{% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script type="text/javascript">

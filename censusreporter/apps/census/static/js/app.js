@@ -1,3 +1,4 @@
+// navigation menu
 $('#menu-toggle').on('click', function() {
     $('#menu').slideToggle(150);
 })
@@ -8,6 +9,7 @@ $('body').on('click', 'tr', function(){
     $(this).toggleClass('highlight');
 })
 
+// attach browser dimensions for help with charts and tables
 window.browserWidth = document.documentElement.clientWidth;
 window.browserHeight = document.documentElement.clientHeight;
 
@@ -21,6 +23,17 @@ window.log = function(){
 };
 // make it safe to use console.log always
 (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();)b[a]=b[a]||c})(window.console=window.console||{});
+
+// prepare ajax spinners
+$('body').append('<div id="body-spinner"></div>');
+var spinnerTarget = document.getElementById('body-spinner'),
+    spinner = new Spinner();
+$(document).ajaxSend(function(event, request, settings) {
+    spinner.spin(spinnerTarget);
+});
+$(document).ajaxComplete(function(event, request, settings) {
+    spinner.stop();
+});
 
 // standard mapping of summary level code to summary level name
 var sumlevMap = {
@@ -67,7 +80,6 @@ var sumlevChildren = {
     '970': ['060','140','150','160','860'],
 };
 
-
 var releaseNames = {
     'acs2012_1yr': {'name': 'ACS 2012 1-year', 'years': '2012'},
     'acs2012_3yr': {'name': 'ACS 2012 3-year', 'years': '2010-2012'},
@@ -93,6 +105,7 @@ var valFmt = function(value, statType, disablePct) {
 // commas for human-friendly integers
 var commaFmt = d3.format(",");
 
+// math utils
 var calcPct = function(numerator, denominator) {
     if (numerator >= 0 && denominator >= 0) {
         return Math.round(((numerator / denominator) * 100) * 10) / 10
@@ -110,12 +123,11 @@ var calcPctMOE = function(numerator, denominator, numerator_moe, denominator_moe
     return null
 }
 
-// math utils
-function roundNumber(n) {
+var roundNumber = function(n) {
     return (Math.round(n * 10) / 10);
 }
 
-function numberWithCommas(n) {
+var numberWithCommas = function(n) {
     var parts = roundNumber(n).toString().split(".");
     return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 }

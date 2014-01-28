@@ -74,17 +74,6 @@ var makeTopicSelectWidget = function(element) {
     });
 }
 
-// prepare ajax spinners
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner');
-    spinner = new Spinner();
-$(document).ajaxSend(function(event, request, settings) {
-    spinner.spin(spinnerTarget);
-});
-$(document).ajaxComplete(function(event, request, settings) {
-    spinner.stop();
-});
-
 var getData = function() {
     if (tableID && geoIDs) {
         var params = {

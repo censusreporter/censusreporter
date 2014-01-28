@@ -269,18 +269,6 @@ function updateChosenItem(element, itemText) {
     element.find('.hover-hide').text(itemText);
 }
 
-// prepare ajax spinners
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner');
-    spinner = new Spinner();
-
-$(document).ajaxSend(function(event, request, settings) {
-    spinner.spin(spinnerTarget);
-});
-$(document).ajaxComplete(function(event, request, settings) {
-    spinner.stop();
-});
-
 function checkComparison() {
     if (chosenTableID && currentYear && chosenSumlev && chosenParentGeoID) {
         queryGo.removeClass('disabled').addClass('go');

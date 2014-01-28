@@ -12,7 +12,6 @@
         {% block head_css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/glossary.css">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
         <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
@@ -99,9 +98,9 @@
         {% block body_javascript %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
         <script src="{{ STATIC_URL }}js/app.js"></script>
         <script src="{{ STATIC_URL }}js/glossary.js"></script>
-        <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
         <script src="{{ STATIC_URL }}js/vendor/typeahead.min.js"></script>
         <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
