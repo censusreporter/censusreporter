@@ -9,65 +9,65 @@
 {% block head_title %}Glossary - {{ block.super }}{% endblock %}
 
 {% block content %}
-<h2>Glossary</h2>
-<p>Brief definitions of key Census terms in plain language. Do you think we're missing something? <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a>.</p>
+<article id="glossary">
+    <header>
+        <h1>Glossary</h1>
+        <p>Brief definitions of key Census terms in plain language. Do you think we're missing something? <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a>.</p>
+    </header>
 
-{% comment %}These Census links might be good as a sidebar.{%endcomment%}
-<div>
-<p>Here are a few key official Census sources where you can find more technical definitions.</p>
-<ul>
-  <li>
-    <a href="http://www.census.gov/acs/www/guidance_for_data_users/geography/">Geography and the American Community Survey</a>
-  </li>
-  <li><a href="http://www.census.gov/population/metro/">Metropolitan and Micropolitan Statistical Areas Main</a></li>
-</ul>
-</div>
+    <section id="glossary-contents">
+        <aside>
+            <p>Here are a few key official Census sources where you can find more technical definitions.</p>
+            <ul>
+                <li><a href="http://www.census.gov/acs/www/guidance_for_data_users/geography/">Geography and the American Community Survey</a></li>
+                <li><a href="http://www.census.gov/population/metro/">Metropolitan and Micropolitan Statistical Areas Main</a></li>
+            </ul>
+        </aside>
 
-  <dl class="glossary">
-    <dt id="term-cbsa">Core-Based Statistical Area (CBSA)</dt>
-    <dd>
-      <p>Officially specified by the Office of Management and Budget, the CBSA is the Census 
-            <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing a "metropolitan area." Technically, CBSAs are either <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">metropolitan</a> or <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">micropolitan statistical areas</a>—both describe a specific group of counties (or sometimes just one county) around a core urban area.</p>
-      <p>
-        While metro areas vary greatly in size, for some kinds of analysis they are better units of comparison than the single Census <a href="{% url 'glossary' %}#term-place">place</a> at the core.
-      </p>
-    </dd>
+        <dl class="glossary">
+            <dt id="term-cbsa">Core-Based Statistical Area (CBSA)</dt>
+            <dd>
+                <p>Officially specified by the Office of Management and Budget, the CBSA is the Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing a "metropolitan area." Technically, CBSAs are either <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">metropolitan</a> or <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">micropolitan statistical areas</a>—both describe a specific group of counties (or sometimes just one county) around a core urban area.</p>
+                <p>While metro areas vary greatly in size, for some kinds of analysis they are better units of comparison than the single Census <a href="{% url 'glossary' %}#term-place">place</a> at the core.</p>
+            </dd>
 
-    <dt id="term-county-subdivision">County Subdivision</dt>
-    <dd><p>
-      While the name is a bit generic, in some parts of the US, the county subdivision is the most appropriate <a href="{% url 'glossary' %}#term-summary-level">summary level</a> to use for statistical analysis. Specifically, in the New England states, New York, and Wisconsin, towns and boroughs are treated as county subdivisions. </p>
-      <p>Especially in midwestern states, townships are a familiar geography which the Census organizes in the county subdivision summary level.</p>
-      <p>
-      For more, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation on county subdivisions</a>.
-    </p>
-    </dd>
+            <dt id="term-county-subdivision">County Subdivision</dt>
+            <dd>
+                <p>While the name is a bit generic, in some parts of the US, the county subdivision is the most appropriate <a href="{% url 'glossary' %}#term-summary-level">summary level</a> to use for statistical analysis. Specifically, in the New England states, New York, and Wisconsin, towns and boroughs are treated as county subdivisions. </p>
+                <p>Especially in midwestern states, townships are a familiar geography which the Census organizes in the county subdivision summary level.</p>
+                <p>For more, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation on county subdivisions</a>.</p>
+            </dd>
 
-    <dt id="term-margin-of-error">Margin of Error</dt>
-    <dd><p>
-      A number describing the statistical confidence in an estimate. When the margin of error is more than 10% of the estimate, Census Reporter recommends using caution when presenting the estimate. Know your wiggle-words.
-    </p></dd>
+            <dt id="term-margin-of-error">Margin of Error</dt>
+            <dd>
+                <p>A number describing the statistical confidence in an estimate. When the margin of error is more than 10% of the estimate, Census Reporter recommends using caution when presenting the estimate. Know your wiggle-words.</p>
+            </dd>
 
+            <dt id="term-metropolitan-statistical-area">Metropolitan Statistical Area (MSA)</dt>
+            <dd>
+                <p>A county or counties around an urban area of population greater than 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p>
+            </dd>
 
-    <dt id="term-metropolitan-statistical-area">Metropolitan Statistical Area (MSA)</dt>
-    <dd><p>A county or counties around an urban area of population greater than 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p></dd>
+            <dt id="term-micropolitan-statistical-area">Micropolitan Statistical Area (μSA)</dt>
+            <dd>
+                <p>A county or counties around an urban area of population between 10,000 and 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p>
+            </dd>
 
-    <dt id="term-micropolitan-statistical-area">Micropolitan Statistical Area (μSA)</dt>
-    <dd><p>A county or counties around an urban area of population between 10,000 and 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p></dd>
+            <dt id="term-place">Place</dt>
+            <dd>
+                <p>A Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing officially incorporated governments such as cities, towns, villages, and boroughs. Census "places" also include unincorporated areas which are identifiable by name: the Census Bureau calls these CDPs, or "Census Designated Places.</p>
+                <p>In some parts of the country (especially New England, New York, Wisconsin and Alaska), <a href="{% url 'glossary' %}#term-county-subdivision">county subdivisions</a> are a more appropriate unit of comparison than Census places.</p>
+                <p>For more technical details, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Census documentation on places</a>.</p>
+            </dd>
 
-    <dt id="term-place">Place</dt>
-    <dd>
-      <p>A Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing officially incorporated governments such as cities, towns, villages, and boroughs. Census "places" also include unincorporated areas which are identifiable by name: the Census Bureau calls these CDPs, or "Census Designated Places.</p>
-      <p>In some parts of the country (especially New England, New York, Wisconsin and Alaska), <a href="{% url 'glossary' %}#term-county-subdivision">county subdivisions</a> are a more appropriate unit of comparison than Census places.</p>
-      <p>For more technical details, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Census documentation on places</a>.
-      </p>
-    </dd>
-
-    <dt id="term-summary-level">Summary Level</dt>
-    <dd><p>The Census Bureau tabulates data for many different geographic scales. Summary Level is the generic term for a kind of geography, such as state, county, or <a href="{% url 'glossary' %}#term-place">place</a>. There are also summary levels for somewhat esoteric tabulations, such as the parts of Census tracts which are divided between places.</p>
-    <p>For more, see our guide to summary levels. (coming soon)</p>
-    </dd>
-
-  </dl>
+            <dt id="term-summary-level">Summary Level</dt>
+            <dd>
+                <p>The Census Bureau tabulates data for many different geographic scales. Summary Level is the generic term for a kind of geography, such as state, county, or <a href="{% url 'glossary' %}#term-place">place</a>. There are also summary levels for somewhat esoteric tabulations, such as the parts of Census tracts which are divided between places.</p>
+                <p>For more, see our guide to summary levels. (coming soon)</p>
+            </dd>
+        </dl>
+    </section>
+</article>
 {% endblock %}
 
 
