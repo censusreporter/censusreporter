@@ -281,6 +281,7 @@ img.screenshot {
 #page-footer ul.ul-icon-list {
     padding-left: 0;
     text-align: center;
+    line-height: 2;
 }
 .content-container {
     padding: 1em 0;

@@ -75,7 +75,7 @@ Glossary.validateTerms = function(selector, container_selector) {
 // creates popup glossary card when term is hovered
 Glossary.popup = function(obj) {
     $('#glossary-card').remove(); // just in case
-    $('body').append('<div id="glossary-card" class="hovercard"><small>&times; Close</small></div>');
+    $('body').append('<div id="glossary-card" class="hovercard"><small><i class="fa fa-times-circle"></i> Close</small></div>');
 
     var term = Glossary.getTermForObject(obj),
         offset = $(obj).offset();
