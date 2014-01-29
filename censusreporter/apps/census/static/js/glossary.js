@@ -24,18 +24,25 @@ Glossary.init = function (url, selector, container_selector) {
     });
     
     // create the popup listener
-    $(container_selector).off('mouseover.glossary', selector);
-    $(container_selector).on('mouseover.glossary', selector, function() {
+    $(container_selector).off('click', selector);
+    $(container_selector).on('click', selector, function(e) {
+        e.stopPropagation();
         Glossary.popup(this);
     });
 
     // handle alternate dismissals of glossary card
-    $(document.body).keydown(function(e){ // keydown instead of keypress for Chrome...
-        if(e.which == 27){
+    $(document.body).on('keydown', function(e) {
+        if (e.which == 27) {
             $('#glossary-card').remove();
         }
     });
-    $(document.body).click(function(e){ 
+    $(document.body).on('click', '#glossary-card', function(e) {
+        e.stopPropagation();
+    });
+    $(document.body).on('click', '.close', function(e) {
+        $('#glossary-card').remove();
+    });
+    $(document.body).on('click', function(e) {
         $('#glossary-card').remove();
     });
     
@@ -55,9 +62,11 @@ Glossary.init = function (url, selector, container_selector) {
 Glossary.addTerms = function(data) {
     $(data).find('dt').each(function(){
         var term = $(this),
-            idList = this.id.split(/\s+/);
+            keywordList = (!!term.data('alt-keywords')) ? term.data('alt-keywords').split(/\s+/) : [],
+            id = this.id;
             
-        $.each(idList, function(i, item) {
+        keywordList.push(id);
+        $.each(keywordList, function(i, item) {
             Glossary.terms[item.replace('term-','')] = {
                 name: term.text(),
                 definition: term.next().html()
@@ -79,16 +88,16 @@ Glossary.validateTerms = function(selector, container_selector) {
 // creates popup glossary card when term is hovered
 Glossary.popup = function(obj) {
     $('#glossary-card').remove(); // just in case
-    $('body').append('<div id="glossary-card" class="hovercard"><small><i class="fa fa-times-circle"></i> Close</small></div>');
-
+    $('body').append('<div id="glossary-card" class="hovercard"><small class="close"><i class="fa fa-times-circle"></i> Close</small></div>');
+    
     var term = Glossary.getTermForObject(obj),
         offset = $(obj).offset();
-        
+    
     if (!!term) {
         $('#glossary-card')
             .append('<dt>' + term.name + '</dt><dd>' + term.definition + '</dd>')
             .css('top', offset.top + 25)
-            .css('left', offset.left - 25);
+            .css('left', offset.left - 35);
     }
 }
 
