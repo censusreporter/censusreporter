@@ -19,7 +19,7 @@ Glossary.init = function (url, selector, container_selector) {
     // get data from glossary page and tuck it into a dictionary,
     // then validate links inside the container
     $.get(url, function(data) {
-        Glossary.addTerms(data)
+        Glossary.addTerms(data);
         Glossary.validateTerms(selector, container_selector);
     });
     
@@ -52,13 +52,17 @@ Glossary.init = function (url, selector, container_selector) {
 }
 
 // takes html from glossary page and builds term dictionary
-Glossary.addTerms = function(data, selector) {
+Glossary.addTerms = function(data) {
     $(data).find('dt').each(function(){
-        var term = $(this);
-        Glossary.terms[this.id.replace('term-','')] = {
-            name: term.text(),
-            definition: term.next().html()
-        };
+        var term = $(this),
+            idList = this.id.split(/\s+/);
+            
+        $.each(idList, function(i, item) {
+            Glossary.terms[item.replace('term-','')] = {
+                name: term.text(),
+                definition: term.next().html()
+            };
+        })
     });
 }
 
@@ -91,7 +95,7 @@ Glossary.popup = function(obj) {
 // gets keyword from HTML element, returns glossary term/definition or null
 Glossary.getTermForObject = function(obj) {
     var keyword = $(obj).data('keyword') || obj.textContent,
-        slug = keyword.toLowerCase().replace(/[^a-z0-9-]/,'-');
+        slug = keyword.toLowerCase().replace(/[^a-z0-9-]/g,'-');
         
     return Glossary.terms[slug]
 }
@@ -117,6 +121,17 @@ Glossary.initLinks = function (url, selector, container_selector) {
     $(container_selector).off('click.glossary', selector);
     $(container_selector).on('click.glossary', selector, function() {
         Glossary.openLink(this);
+    });
+
+    // listen for new glossary terms on page and validate them
+    $('body').on('glossaryUpdate', function(e, selection){
+        // if the event itself gets passed a container,
+        // only scan that container for glossary terms
+        if (!!selection) {
+            Glossary.validateTerms(selector, selection);
+        } else {
+            Glossary.validateTerms(selector, container_selector);
+        }
     });
 }
 
