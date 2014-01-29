@@ -750,10 +750,6 @@ aside .aside-block {
     stroke-linejoin: round;
 }
 
-.glossary-term {
-    border-bottom: 1px dashed #777;
-    cursor: help;
-}
 .hovercard {
     position: absolute;
     text-align: center;
@@ -2007,6 +2003,32 @@ section.chart-divider h2 {
     padding-top: 0;
 }
 
+#glossary-card {
+    width: 300px;
+    text-align: left;
+    padding: 1em 1.2em;
+    pointer-events: auto;
+}
+#glossary-card small {
+    float: right;
+    cursor: pointer;
+}
+#glossary-card dt {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: .5em;
+}
+#glossary-card dd {
+    margin: 0;
+}
+#glossary-card p:last-child {
+    margin-bottom: 0;
+}
+
+.glossary-term {
+    border-bottom: 1px dashed #777;
+    cursor: help;
+}
 
 /* AUTOCOMPLETE */
 .tt-hint {

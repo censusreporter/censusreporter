@@ -497,6 +497,7 @@ if (!!parentLinkContainer) {
             })
             // push the whole thing into the header box ... thingy
             parentLinkContainer.html(parentLinksPrefix + parentLinkSets.join(', '));
+            $('body').trigger('glossaryUpdate', parentLinkContainer);
         });
 }
 
