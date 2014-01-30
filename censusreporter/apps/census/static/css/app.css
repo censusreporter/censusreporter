@@ -2030,7 +2030,8 @@ section.chart-divider h2 {
     border-bottom: 1px dashed #777;
     cursor: help;
 }
-#glossary header {
+#glossary header,
+.topic header {
     margin: 1em 0 2em;
 }
 #glossary aside {
@@ -2049,12 +2050,34 @@ section.chart-divider h2 {
     margin: 0;
     padding: 0 0 0 1.5em;
 }
-.glossary dt {
+.glossary dt,
+.topics dt {
     font-weight: bold;
     margin-bottom: .67em;
 }
-.glossary dd {
+.topics dt {
+    font-size: 1.5em;
+}
+.glossary dd,
+.topics dd {
     margin: 0 0 2em 1em;
+}
+.topic h2 {
+    font-size: 1.4em;
+}
+.topic table {
+    font-size: 1em;
+    background-color: #fff;
+    margin: 2em 0;
+}
+.topic table td {
+    padding: .5em 1em;
+}
+.topic ul {
+    line-height: 1.3;
+}
+.topic li {
+    margin-bottom: .5em;
 }
 
 /* AUTOCOMPLETE */

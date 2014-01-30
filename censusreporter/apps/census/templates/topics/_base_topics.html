@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+
+{% block head_title %}{% if topic.title %}{{ topic.title }}{% else %}Topics{% endif %} - {{ block.super }}{% endblock %}
+
+{% block content_container %}
+<div class="content-container wrapper clearfix">
+    <article id="topics{% if topic.slug %}-{{ topic.slug }}{% endif %}" class="topic">
+        <header>
+            <h1>{{ topic.title }}</h1>
+            <p>{{ topic.description }}</p>
+        </header>
+
+        {% block content %}{% endblock %}
+    </article>
+</div>
+{% endblock %}

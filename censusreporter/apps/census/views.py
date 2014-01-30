@@ -210,6 +210,41 @@ class GeographyDetailView(TemplateView):
         return page_context
 
 
+## TOPICS ##
+TOPICS_MAP = {
+    'age-sex': {
+        'title': 'Age and sex',
+        'slug': 'age-sex',
+        'description': 'How the Census approaches the topics of age and sex, and the tables that include age and sex data.',
+        'template_name': 'age_sex.html'
+    },
+}
+
+class TopicView(TemplateView):
+    template_name = 'topics/topics_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        if 'topic_slug' in kwargs:
+            topic_slug = kwargs['topic_slug']
+            try:
+                page_context = {
+                    'topic': TOPICS_MAP[topic_slug],
+                }
+                self.template_name = 'topics/%s' % TOPICS_MAP[topic_slug]['template_name']
+            except:
+                raise Http404
+        else:
+            page_context = {
+                'topic': {
+                    'title': 'Topics',
+                    'slug': '',
+                    'description': 'Pages describing the concepts and tables covered by the Census and American Community Survey.',
+                },
+                'topics_list': [v for k, v in sorted(TOPICS_MAP.items())],
+            }
+
+        return page_context
+
 ### COMPARISONS ###
 
 class DataView(TemplateView):

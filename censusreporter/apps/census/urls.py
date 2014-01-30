@@ -4,7 +4,7 @@ from django.contrib import admin
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, ComparisonView,
     ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson,
-    GeoSearch, LocateView, HealthcheckView, DataView)
+    GeoSearch, LocateView, HealthcheckView, DataView, TopicView)
 
 from django.views.generic.base import TemplateView
 
@@ -35,6 +35,20 @@ urlpatterns = patterns('',
         view    = DataView.as_view(),
         kwargs  = {},
         name    = 'data_detail',
+    ),
+
+    url(
+        regex   = '^topics/$',
+        view    = TopicView.as_view(),
+        kwargs  = {},
+        name    = 'topic_list',
+    ),
+
+    url(
+        regex   = '^topics/(?P<topic_slug>[-\w]+)/$',
+        view    = TopicView.as_view(),
+        kwargs  = {},
+        name    = 'topic_detail',
     ),
 
     url(
