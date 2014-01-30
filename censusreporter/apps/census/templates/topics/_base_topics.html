@@ -6,6 +6,7 @@
 <div class="content-container wrapper clearfix">
     <article id="topics{% if topic.slug %}-{{ topic.slug }}{% endif %}" class="topic">
         <header>
+            {% if topic.slug %}<p class="display-type"><a href="{% url 'topic_list' %}">&larr; Topics</a></p>{% endif %}
             <h1>{{ topic.title }}</h1>
             <p>{{ topic.description }}</p>
         </header>
