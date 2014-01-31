@@ -2090,6 +2090,7 @@ section.chart-divider h2 {
 }
 .topic aside img {
     width: 400px;
+    margin-bottom: 1em;
 }
 #lightbox {
     position: fixed;
