@@ -83,6 +83,10 @@ var getData = function() {
         $.getJSON(dataAPI, params)
             .done(function(results) {
                 makeDataTable(results);
+            })
+            .fail(function(xhr, textStatus, error) {
+                var message = $.parseJSON(xhr.responseText);
+                $('article').html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
             });
     }
 }
