@@ -2089,7 +2089,7 @@ section.chart-divider h2 {
     width: auto;
 }
 .topic aside img {
-    width: 250px;
+    width: 400px;
 }
 #lightbox {
     position: fixed;
@@ -2423,6 +2423,9 @@ section.chart-divider h2 {
     .card {
         font-size: 1em;
     }
+    .topic aside img {
+        width: 300px;
+    }
 }
 @media only screen and (max-width: 640px) {
     .tool-set {
@@ -2539,6 +2542,9 @@ section.chart-divider h2 {
     .step-explainer .boxed {
         padding-right: .83em;
     }
+    .topic aside img {
+        width: 250px;
+    }
 }
 @media only screen and (max-width: 480px) {
     .column-third,
@@ -2610,6 +2616,14 @@ section.chart-divider h2 {
     }
     .narrow-only {
         display: inline;
+    }
+    .topic aside {
+        float: none;
+        display: block;
+        margin: 1em 0;
+    }
+    .topic aside img {
+        width: 100%;
     }
 }
 @media only screen and (max-width: 360px) {
