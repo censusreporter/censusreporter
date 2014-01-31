@@ -211,14 +211,30 @@ class GeographyDetailView(TemplateView):
 
 
 ## TOPICS ##
-TOPICS_MAP = {
-    'age-sex': {
+
+'''
+Hey, it's a CMS!
+
+Title/slug/description will be used to create the list page at /topics/
+
+Title/description will also be used to create the header on the detail page
+at /topics/{{ slug }}/. The contents of an individual page should go inside
+{{ template_name }}, which belongs in /templates/topics.
+
+Screenshots of survey questions should be placed in /static/img/questions,
+and the filenames listed in {{ question_images }} for each entry.
+'''
+TOPICS_LIST = [
+    {
         'title': 'Age and sex',
         'slug': 'age-sex',
         'description': 'How the Census approaches the topics of age and sex, and the tables that include age and sex data.',
-        'template_name': 'age_sex.html'
+        'template_name': 'age_sex.html',
+        'question_images': ['age-sex.png',],
     },
-}
+]
+
+TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
 
 class TopicView(TemplateView):
     template_name = 'topics/topics_list.html'
