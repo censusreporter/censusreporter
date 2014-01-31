@@ -4,12 +4,20 @@
 <section id="topic-overview">
     <h2>Overview</h2>
     
-    {% if topic.question_images %}
+    {% if topic.question_images or topic.question_pdfs %}
     <aside>
         <h3>Survey questions on this topic</h3>
         {% for image in topic.question_images %}
         <a href="{{ STATIC_URL }}img/questions/{{ image }}" class="lightbox"><img src="{{ STATIC_URL }}img/questions/{{ image }}"></a>
         {% endfor %}
+        {% if topic.question_pdfs %}
+        <h3 style="margin-top: 10px">"Why We Ask": Federal Needs and Community Benefits</h3>
+        <ul>
+        {% for label,link in topic.question_pdfs %}
+            <li><a href="{{ link }}">{{ label }}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
     </aside>
     {% endif %}
     

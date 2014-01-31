@@ -231,6 +231,10 @@ TOPICS_LIST = [
         'description': 'How the Census approaches the topics of age and sex, and the tables that include age and sex data.',
         'template_name': 'age_sex.html',
         'question_images': ['age-sex.png',],
+        'question_pdfs': [
+            ('Age','http://www.census.gov/acs/www/Downloads/QbyQfact/age.pdf'),
+            ('Sex','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
+        ]
     },
 ]
 
