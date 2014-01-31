@@ -15,3 +15,24 @@
     </article>
 </div>
 {% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script>
+jQuery(document).ready(function($) {
+    $(document.body).on('click', '.lightbox', function(e) {
+        e.preventDefault();
+        var lightbox = '<div id="lightbox"><div class="hovercard-wrapper"><div class="hovercard"><small class="close"><i class="fa fa-times-circle"></i> Close</small><img src="' + $(this).attr("href") +'" /></div></div></div>';
+        $('body').append(lightbox);
+    });
+    // handle dismissals of lightbox
+    $(document.body).on('keydown', function(e) {
+        if (e.which == 27) {
+            $('#lightbox').remove();
+        }
+    });
+    $(document.body).on('click', '#lightbox', function(e) {
+        $('#lightbox').remove();
+    });
+});
+</script>
+{% endblock %}
