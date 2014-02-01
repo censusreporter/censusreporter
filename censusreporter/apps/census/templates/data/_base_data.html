@@ -34,6 +34,7 @@ for applying things across that entire family of pages.
 {% endblock %}
 
 {% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script>
 var chosenRelease = '{{ release }}',
     chosenTableID = '{{ table.table_id }}',

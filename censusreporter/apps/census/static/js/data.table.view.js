@@ -94,16 +94,17 @@ var getData = function() {
 var makeParentOptions = function() {
     // no tribbles!
     d3.selectAll('#comparison-parents').remove();
-
     if (!!primaryGeoID) {
         var parentGeoAPI = rootGeoAPI + primaryGeoID + '/parents',
             parentOptionsContainer = d3.select('#data-tabular aside').append('div')
                 .attr('class', 'aside-block')
                 .attr('id', 'comparison-parents');
 
+            parentOptionsContainer.append('h2')
+                .text('Add geographies');
+
         $.getJSON(parentGeoAPI)
             .done(function(results) {
-
                 parentOptionsContainer.append('p')
                     .attr('class', 'bottom display-type strong')
                     .html('Compare with other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
@@ -113,7 +114,12 @@ var makeParentOptions = function() {
                     .selectAll('li')
                         .data(results['parents'])
                     .enter().append('li').append('a')
-                        .attr('href', function(d) { return '/compare/' + d.geoid + '/' + thisSumlev + '/table/?table=' + tableID })
+                        .attr('href', function(d) {
+                            var newGeoIDs = geoIDs.slice(0);
+                            newGeoIDs.push(thisSumlev + '|' + d.geoid);
+                            
+                            return '/data/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');
+                        })
                         .text(function(d) { return d.display_name });
 
             });
@@ -138,7 +144,12 @@ var makeChildOptions = function(name) {
             .selectAll('li')
                 .data(sumlevChildren[thisSumlev])
             .enter().append('li').append('a')
-                .attr('href', function(d) { return '/compare/' + primaryGeoID + '/' + d + '/table/?table=' + tableID })
+                .attr('href', function(d) {
+                    var newGeoIDs = geoIDs.slice(0);
+                    newGeoIDs.push(d + '|' + primaryGeoID);
+
+                    return '/data/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');
+                })
                 .text(function(d) { return sumlevMap[d]['plural'] });
         
         if (!!name) {
@@ -153,6 +164,7 @@ var makeDataTable = function(results) {
     var table = results.tables[tableID],
         release = results.release,
         data = results.data,
+        dataGeoIDs = _.keys(results.geography),
         primaryGeoName = (!!primaryGeoID) ? results.geography[primaryGeoID].name : null,
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
@@ -165,14 +177,17 @@ var makeDataTable = function(results) {
             Head: [],
             Body: []
         };
-        
-    // fill in some metadata
+
+    // fill in some metadata and instructions
     d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
+    d3.select('aside').html('<p><a id="change-table" href="#">Change table</a></p>');
+    d3.select('#tool-notes').html('<div class="tool-group">Click a row to highlight</div>');
         
     var headerBits = ['<th class="name">Column</th>'];
     var gridHeaderBits = ['Column'];
-    geoIDs.forEach(function(g) {
+
+    dataGeoIDs.forEach(function(g) {
         headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + g + '">' + results.geography[g].name + '</a></th>');
         gridHeaderBits.push('<a href="/profiles/' + g + '">' + results.geography[g].name + '</a>');
     })
@@ -185,7 +200,7 @@ var makeDataTable = function(results) {
         var rowBits = ['<td class="name column-name indent-' + v.indent + '">' + v.name + '</td>'];
         var gridRowBits = ['<div class="name indent-' + v.indent + '">' + v.name + '</div>'];
 
-        geoIDs.forEach(function(g) {
+        dataGeoIDs.forEach(function(g) {
             var thisDenominator = data[g][tableID].estimate[denominatorColumn],
                 thisDenominatorMOE = data[g][tableID].error[denominatorColumn],
                 thisValue = data[g][tableID].estimate[k],
@@ -238,7 +253,7 @@ var makeDataTable = function(results) {
     setGridWindowHeight();
     
     // add the comparison links and names
-    addGeographyNames();
+    addGeographyNames(primaryGeoName);
 }
 
 var setGridWindowHeight = function() {
@@ -249,15 +264,13 @@ var setGridWindowHeight = function() {
     $('#table-results-container').css('height', bestHeight+'px');
 }
 
-var addGeographyNames = function() {
-    if (!!primaryGeoID) {
+var addGeographyNames = function(primaryGeoName) {
+    if (!!primaryGeoID && !!primaryGeoName) {
         makeParentOptions();
         makeChildOptions(primaryGeoName);
 
         // update the place name in table search header
-        if (!!results.geography[primaryGeoID]) {
-            topicSelectContainer.find('h1').text('Find data for ' + primaryGeoName);
-        }
+        topicSelectContainer.find('h1').text('Find data for ' + primaryGeoName);
     }
 }
 
