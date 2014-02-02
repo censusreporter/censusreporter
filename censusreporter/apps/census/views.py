@@ -497,7 +497,7 @@ class BaseComparisonView(TemplateView):
 
         return value, percentage
 
-    def make_table_values_by_geo(self, data, table, percentify=False):
+    def make_table_values_by_geo(self, data, table, percentify=False, with_MOE=False):
         '''
         Returns a list of dicts that can be turned into a data grid,
         where rows are geographies and columns are fields in the table.
@@ -516,6 +516,7 @@ class BaseComparisonView(TemplateView):
 
             for (column_id, column) in table['columns'].iteritems():
                 column_key = column_id.upper()
+                moe = child['error'][column_id]
 
                 if '.' in column_id:
                     geo_item['values'].update({
@@ -524,6 +525,10 @@ class BaseComparisonView(TemplateView):
                             'value_alt': None,
                         }
                     })
+                    if with_MOE:
+                        geo_item['values'][column_key].update({
+                            'moe': moe,
+                        })
                 else:
                     if percentify:
                         value = child['data'][column_id]
@@ -535,19 +540,30 @@ class BaseComparisonView(TemplateView):
                                 'value_alt': total,
                             }
                         })
+                        if with_MOE:
+                            geo_item['values'][column_key].update({
+                                'moe': moe,
+                            })
                     else:
                         geo_item['values'].update({
                             column_key: {
                                 'value': child['data'][column_id],
                             }
                         })
+                        if with_MOE:
+                            geo_item['values'][column_key].update({
+                                'moe': moe,
+                            })
 
             values_by_geo.append(geo_item)
 
         column_names = []
         for (column_id, column) in table['columns'].iteritems():
             name = column['name']
-            column_names.append(name)
+            if with_MOE:
+                column_names.extend([name, '%s MOE' % name])
+            else:
+                column_names.append(name)
 
         return column_names, values_by_geo
 
@@ -865,7 +881,8 @@ class ComparisonView(BaseComparisonView):
             columns, rows = self.make_table_values_by_geo(
                 comparison_data['child_geographies'],
                 cleaned_table,
-                percentify=False
+                percentify=False,
+                with_MOE=True
             )
             filename = '%s_%s_%s_in_%s.csv' % (self.release, self.table_id, self.descendant_sumlev, self.parent_id)
             response = HttpResponse(content_type='text/csv')
@@ -874,8 +891,15 @@ class ComparisonView(BaseComparisonView):
             writer = unicodecsv.writer(response, encoding='utf-8')
             writer.writerow(['Name','GeoID'] + columns)
             for row in rows:
+                vals = [values['value'] for field, values in row['values'].items()]
+                moes = [values['moe'] for field, values in row['values'].items()]
+                combined = []
+                for v, m in zip(vals, moes):
+                    combined.extend([v, m])
+
                 writer.writerow(
-                    [row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()]
+                    #[row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()]
+                    [row['name'], row['geoID']] + [i for i in combined]
                 )
             return response
 
