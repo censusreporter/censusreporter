@@ -2,28 +2,8 @@
 
 {% block content %}
 <section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
     <h2>Overview</h2>
-    
-    {% if topic.question_images or topic.question_pdfs %}
-    <aside>
-        {% if topic.question_images %}
-            <h3>Survey questions on this topic</h3>
-            {% for image in topic.question_images %}
-                <a href="{{ STATIC_URL }}img/questions/{{ image }}" class="lightbox"><img src="{{ STATIC_URL }}img/questions/{{ image }}"></a>
-            {% endfor %}
-        {% endif %}
-        
-        {% if topic.question_pdfs %}
-            <h3>&ldquo;Why We Ask&rdquo;: Federal Needs and Community Benefits</h3>
-            <ul>
-            {% for label,link in topic.question_pdfs %}
-                <li><a href="{{ link }}">{{ label }}</a></li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    </aside>
-    {% endif %}
-    
     <p>Throughout the American Community Survey, data is broken down by age and sex. However, there are a few tables that are focused directly on these basic statistics.</p>
 
     <p><em>Note:</em> do not substitute the word &ldquo;gender&rdquo; for &ldquo;sex.&rdquo; Census Bureau specifically refers to the biological sex of survey respondents, not their gender presentation.</p>

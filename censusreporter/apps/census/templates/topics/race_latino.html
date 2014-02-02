@@ -1,0 +1,210 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}
+<h2>Overview</h2>
+<p>As with <a href="{% url 'topic_detail' 'age-sex' %}">age and sex</a>, Census data of all types is reported by race. However, there are a small number of tables which specifically tabulate answers to the Census question on race.</p>
+
+<p>The primary tabulation of responses to the race question is the table <strong>B02001</strong>. However, <strong>be warned</strong>: Census data about race is complicated. While casual language and even much reporting proceeds as if each person had exactly one race, the Census Bureau allows each person to select as many as six race options, one of which is simply "some other race." Furthermore, "hispanic/latino" is not a race, but a characteristic tracked independently. Note that hispanic respondents disproportionately choose "some other race alone": nationwide, more than 25% of hispanics make that choice, compared to a fraction of a percent of non-hispanics.</p>
+
+<p>In many cases, reporters wish to treat “hispanic” as a race-like category. In that case, use the <strong>B03002</strong> table. If your geography is included in the ACS 1-year and 3-year release, you may prefer to use the <strong>C03002</strong> table, which has the same data, but omits the columns detailing the race of hispanics. (This table is not included in the ACS 5-year release.) If you simply want the total of people who are Hispanic/Latino in a given geography, you can simplify further using the <strong>B03003</strong> table, which has three columns: total population, hispanic, and not-hispanic.</p>
+
+<p>If you do not want or need to distinguish “hispanic/latino” as a race-like category, you can use the <strong>B02001</strong> table, which provides counts of people who selected only one race for each of the six choices, as well as a count of people who selected two or more races. In 2012, about 97% of the population were estimated to be of one race alone, and less than 0.2% were estimated to be of more than two races.</p>
+
+<p>There are six tables summarizing the number of people claiming each of the six race choices. Each table has exactly one column.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>B02008</td>
+                <td>White Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td>B02009</td>
+                <td>Black or African American Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td>B02010</td>
+                <td>American Indian and Alaska Native Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td>B02011</td>
+                <td>Asian Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td>B02012</td>
+                <td>Native Hawaiian and Other Pacific Islander Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td>B02013</td>
+                <td>Some Other Race Alone or in Combination With One or More Other Races</td>
+            </tr>
+        </tbody>
+    </table>
+
+<ul>
+</ul><p>Of course, a single person may be counted in more than one of these tables, so the sum of these for a given geography will almost certainly be more than the total estimated population for that geography. Do not make the mistake of adding them.</p>
+
+<h2>
+<a name="wiki-details" class="anchor" href="#wiki-details"><span class="octicon octicon-link"></span></a>Details</h2>
+
+<p>Finally, there are a number of "detailed" tables which can be used to find estimates of specialized populations and subgroups. However, because of sample size and privacy concerns, many of the detailed tables are only provided at the state and national level.</p>
+
+<h3>B02003: Detailed Race</h3>
+
+<p>This table provides estimates for all possible combinations of the six race choices. It is only available at the national level.</p>
+
+<h3>Subgroups: Choctaw, Chinese and more</h3>
+
+<p>When considering race, the Census Bureau treat "Black" and "White" as simple "yes/no" questions. However, for the other race options, respondents can be much more specific. The ACS question on race has specific checkboxes for "Chinese," "Japanese," "Guamian," "Samoan," and others, as well as a blank where respondents can enter a race which is not already listed when checking "Other Asian" or "Other Pacific Islander."</p>
+
+<p>In the 2011 American Community Survey, <a href="http://www.census.gov/acs/www/data_documentation/2011_data_product_changes/">the Census Bureau changed the way these responses were reported</a>. Previously, there had been tables for each of "American Indian and Alaska Native," (AIAN) "Asian," and "Native Hawaiian and other Pacific Islander" (NHPI). The tables estimated the population for people of one of these races alone in many subgroupings. With the 2011 1-year data release, those tables were discontinued, replaced by three tables with the same name but different codes, and three more tables tabulating estimates for all people specifying that race, alone or in any combination. </p>
+
+<table>
+<thead><tr>
+<th></th>
+<th>race alone, or hispanic origin</th>
+<th>alone or in any combo</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>AIAN</td>
+<td>
+<strong>B02014</strong> (55 columns), <strong>C02014</strong> (9 columns)</td>
+<td>
+<strong>B02017</strong> (54 columns)</td>
+</tr>
+<tr>
+<td>Asian</td>
+<td>
+<strong>B02015</strong> (25 columns), <strong>C02014</strong> (8 columns)</td>
+<td>
+<strong>B02018</strong> (24 columns)</td>
+</tr>
+<tr>
+<td>NHPI</td>
+<td>
+<strong>B02016</strong> (12 columns), <strong>C02016</strong> (5 columns)</td>
+<td>
+<strong>B02019</strong> (11 columns)</td>
+</tr>
+<tr>
+<td>Hispanic</td>
+<td>
+<strong>B03001</strong> (31 columns), <strong>C03001</strong> (10 columns)</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+
+Here is the complete listing of tables which the Census Bureau classifies as about race or Hispanic/Latino origin:
+
+<table>
+    <thead>
+        <tr>
+            <th>code</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        	<td><strong>B02001</strong></td>
+            <td>Race</td>
+        </tr>
+        <tr>
+            <td><strong>B02003<sup>‡</sup></strong></td>
+            <td>Detailed Race</td>
+        </tr>
+        <tr>
+            <td><strong>B02005<sup>‡</sup></strong></td>
+            <td>American Indian and Alaska Native Alone for Selected Tribal Groupings</td>
+        </tr>
+        <tr>
+            <td><strong>B02006<sup>‡</sup></strong></td>
+            <td>Asian Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong>B02007<sup>‡</sup></strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong>B02008</strong></td>
+            <td>White Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong>B02009</strong></td>
+            <td>Black or African American Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong>B02010</strong></td>
+            <td>American Indian and Alaska Native Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong>B02011</strong></td>
+            <td>Asian Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong>B02012</strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong>B02013</strong></td>
+            <td>Some Other Race Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong>B02014<sup>‡</sup></strong></td>
+            <td>American Indian and Alaska Native Alone for Selected Tribal Groupings</td>
+        </tr>
+        <tr>
+            <td><strong>B02015<sup>‡</sup></strong></td>
+            <td>Asian Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong>B02016<sup>‡</sup></strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong>B02017</strong></td>
+            <td>American Indian and Alaska Native (AIAN) Alone or in Any Combination by Selected Tribal Groupings</td>
+        </tr>
+        <tr>
+            <td><strong>B02018</strong></td>
+            <td>Asian Alone or in Any Combination by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong>B02019</strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone or in Any Combination by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong>B03001<sup>‡</sup></strong></td>
+            <td>Hispanic or Latino Origin by Specific Origin</td>
+        </tr>
+        <tr>
+            <td><strong>B03002<sup>‡</sup></strong></td>
+            <td>Hispanic or Latino Origin by Race</td>
+        </tr>
+        <tr>
+            <td><strong>B03003</strong></td>
+            <td>Hispanic or Latino Origin</td>
+        </tr>
+
+        <tr>
+            <td><strong>B25006</strong></td>
+            <td>Race of Householder</td>
+        </tr>
+    </tbody>
+</table>
+<p><sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.</p>
+
+</section>
+
+<section id="topic-elsewhere">
+</section>
+{% endblock %}

@@ -236,6 +236,17 @@ TOPICS_LIST = [
             ('Sex','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
         ]
     },
+    {
+        'title': 'Race and Hispanic/Latino Origin',
+        'slug': 'race-latino',
+        'description': 'Race is a complex issue, and no less so with census data.',
+        'template_name': 'race_latino.html',
+        # 'question_images': ['race-latino.png',],
+        'question_pdfs': [
+            ('Race','http://www.census.gov/acs/www/Downloads/QbyQfact/race.pdf'),
+            ('Hispanic or Latino Origin','http://www.census.gov/acs/www/Downloads/QbyQfact/hispanic.pdf')
+        ]
+    },
 ]
 
 TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
