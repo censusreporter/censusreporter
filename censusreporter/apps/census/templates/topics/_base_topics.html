@@ -33,6 +33,9 @@ jQuery(document).ready(function($) {
     $(document.body).on('click', '#lightbox', function(e) {
         $('#lightbox').remove();
     });
+
+    Glossary.init("{% url 'glossary' %}",".glossary-term");
+
 });
 </script>
 {% endblock %}
