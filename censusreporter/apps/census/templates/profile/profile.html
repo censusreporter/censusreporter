@@ -389,57 +389,69 @@ var gracefulType = function(chartType) {
     return chartType
 }
 
-$.each(chartContainers, function(i) {
-    var chartID = $(this).prop('id'),
-        chartDataID = chartID.replace('chart-','').replace('alt-','').split('-'),
-        chartType = gracefulType(chartDataID[0]),
-        chartData = profileData[chartDataID[1]],
-        chartChartTitle = $(this).data('chart-title'),
-        chartChartShowYAxis = $(this).data('chart-show-y-axis'),
-        chartInitialSort = $(this).data('initial-sort'),
-        chartStatType = $(this).data('stat-type'),
-        chartQualifier = $(this).data('qualifier') || null,
-        comparisonThisName = '{{ geography.this.short_name }}',
-        comparisonPlaceName = '{{ geography.parents.place.short_name }}',
-        comparisonCBSAName = '{{ geography.parents.CBSA.full_name }}',
-        comparisonCountyName = '{{ geography.parents.county.short_name }}',
-        comparisonStateName = '{{ geography.parents.state.short_name }}',
-        geographyData = profileData['geography'];
-        
-    // allow arbitrary nesting in API data structure
-    var drilldown = chartDataID.length - 1;
-    if (drilldown >= 2) {
-        for (var i = 2; i <= drilldown; i++) {
-            chartData = chartData[chartDataID[i]]
+var makeCharts = function() {
+    $.each(chartContainers, function(i, obj) {
+        $(obj).empty();
+        var chartID = $(this).prop('id'),
+            chartDataID = chartID.replace('chart-','').replace('alt-','').split('-'),
+            chartType = gracefulType(chartDataID[0]),
+            chartData = profileData[chartDataID[1]],
+            chartChartTitle = $(this).data('chart-title'),
+            chartChartShowYAxis = $(this).data('chart-show-y-axis'),
+            chartInitialSort = $(this).data('initial-sort'),
+            chartStatType = $(this).data('stat-type'),
+            chartQualifier = $(this).data('qualifier') || null,
+            comparisonThisName = '{{ geography.this.short_name }}',
+            comparisonPlaceName = '{{ geography.parents.place.short_name }}',
+            comparisonCBSAName = '{{ geography.parents.CBSA.full_name }}',
+            comparisonCountyName = '{{ geography.parents.county.short_name }}',
+            comparisonStateName = '{{ geography.parents.state.short_name }}',
+            geographyData = profileData['geography'];
+
+        // allow arbitrary nesting in API data structure
+        var drilldown = chartDataID.length - 1;
+        if (drilldown >= 2) {
+            for (var i = 2; i <= drilldown; i++) {
+                chartData = chartData[chartDataID[i]]
+            }
         }
-    }
 
-    // determine whether data point is from anything other
-    // than the primary ACS release for this page
-    for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
-    var thisRelease = chartData[key]['acs_release'],
-        noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
-        
-    chartQualifier = Array(chartQualifier, noteRelease)
-            .filter(function(n) { return n }).join('; ');
+        // determine whether data point is from anything other
+        // than the primary ACS release for this page
+        for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
+        var thisRelease = chartData[key]['acs_release'],
+            noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
-    Charts[i] = Chart({
-        chartContainer: chartID,
-        chartType: chartType,
-        chartHeight: 160,
-        chartData: chartData,
-        chartQualifier: chartQualifier,
-        chartChartTitle: chartChartTitle,
-        chartInitialSort: chartInitialSort,
-        chartStatType: chartStatType,
-        comparisonThisName: comparisonThisName,
-        comparisonPlaceName: comparisonPlaceName,
-        comparisonCBSAName: comparisonCBSAName,
-        comparisonCountyName: comparisonCountyName,
-        comparisonStateName: comparisonStateName,
-        geographyData: geographyData
+        chartQualifier = Array(chartQualifier, noteRelease)
+                .filter(function(n) { return n }).join('; ');
+
+        Charts[i] = Chart({
+            chartContainer: chartID,
+            chartType: chartType,
+            chartHeight: 160,
+            chartData: chartData,
+            chartQualifier: chartQualifier,
+            chartChartTitle: chartChartTitle,
+            chartInitialSort: chartInitialSort,
+            chartStatType: chartStatType,
+            comparisonThisName: comparisonThisName,
+            comparisonPlaceName: comparisonPlaceName,
+            comparisonCBSAName: comparisonCBSAName,
+            comparisonCountyName: comparisonCountyName,
+            comparisonStateName: comparisonStateName,
+            geographyData: geographyData
+        });
     });
-});
+}
+makeCharts();
+
+// listen for resize, redraw charts to new dimensions
+var lazyRedrawCharts = _.debounce(function() {
+    window.browserWidth = document.documentElement.clientWidth;
+    window.browserHeight = document.documentElement.clientHeight;
+    makeCharts();
+}, 100);
+$(window).resize(lazyRedrawCharts);
 
 // Add note to rows with flagged MOE
 var flaggedMOE = $('.stat-row sup'),
