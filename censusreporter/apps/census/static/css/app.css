@@ -2119,6 +2119,60 @@ section.chart-divider h2 {
     cursor: pointer;
 }
 
+tfoot tr.help-text {
+    padding: 1em 0 0 1em;
+    display: table-row;
+    line-height: 1.8;
+}
+
+tfoot tr.help-text td dl {
+    margin: 0;
+    padding-left: 1.5em;
+
+}
+tfoot tr.help-text td dl dt {
+ font-weight: bold;
+}
+/* dl-horizontal borrowed with modifications from Twitter Bootstrap */
+.dl-horizontal {
+  *zoom: 1;
+}
+.dl-horizontal:before,
+.dl-horizontal:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.dl-horizontal:after {
+  clear: both;
+}
+.dl-horizontal dt {
+  float: left;
+/*  width: 160px;*/
+  clear: left;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dl-horizontal dd {
+  /*margin-left: 180px;*/
+}
+
+@media (max-width: 767px) {
+.dl-horizontal dt {
+    float: none;
+    clear: none;
+    width: auto;
+    text-align: left;
+  }
+  .dl-horizontal dd {
+    margin-left: 0;
+  }
+}
+/* END dl-horizontal borrowed from Twitter Bootstrap */
+
+
 
 /* AUTOCOMPLETE */
 .tt-hint {
