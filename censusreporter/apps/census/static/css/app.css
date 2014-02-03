@@ -379,7 +379,7 @@ section {
     margin-bottom: 2em;
 }
 #profile .section-container section:last-child,
-#data-tabular .section-container section:last-child {
+#data-display .section-container section:last-child {
     margin-bottom: .5em;
 }
 header.section-contents h1,
@@ -2000,7 +2000,7 @@ section.chart-divider h2 {
     padding-left: 8px;
 }
 #chosen-table .data-drawer,
-#data-tabular .data-drawer {
+#data-display .data-drawer {
     padding-top: 0;
 }
 

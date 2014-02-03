@@ -280,19 +280,30 @@ class TopicView(TemplateView):
 
 class DataView(TemplateView):
     template_name = 'data/data_tabular.html'
+    
+    def dispatch(self, *args, **kwargs):
+        self.table = self.request.GET.get('table', None)
+        self.primary_geo_id = self.request.GET.get('primary_geoid', None)
+        self.geo_ids = self.request.GET.get('geoids', None)
+        self.release_slug = self.request.GET.get('release', None)
+        self.release = ACS_RELEASES.get(self.release_slug, None)
+
+        self.format = self.kwargs.get('format', None)
+
+        if self.format == 'distribution':
+            self.template_name = 'data/data_distribution.html'
+        
+        #TODO: implement formats for map, csv, json
+    
+        return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        table = self.request.GET.get('table', None)
-        primary_geo_id = self.request.GET.get('primary_geoid', None)
-        geo_ids = self.request.GET.get('geoids', None)
-        release_slug = self.request.GET.get('release', None)
-        release = ACS_RELEASES.get(release_slug, None)
-        
         page_context = {
-            'table': table or '',
-            'primary_geo_id': primary_geo_id or '',
-            'geo_ids': geo_ids or '',
-            'release': release or '',
+            'table': self.table or '',
+            'primary_geo_id': self.primary_geo_id or '',
+            'geo_ids': self.geo_ids or '',
+            'release': self.release or '',
+            'data_format': self.format,
         }
 
         return page_context

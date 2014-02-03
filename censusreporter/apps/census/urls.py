@@ -31,7 +31,7 @@ urlpatterns = patterns('',
 
     # e.g. /table/B01001/
     url(
-        regex   = '^data/$',
+        regex   = '^data/(?P<format>%s)/$' % comparison_formats,
         view    = DataView.as_view(),
         kwargs  = {},
         name    = 'data_detail',

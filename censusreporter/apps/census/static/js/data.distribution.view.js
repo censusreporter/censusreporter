@@ -13,7 +13,7 @@ var tableID = tableID || null,
 
 var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#query-topic-picker'),
-    resultsContainer = $('#data-display');
+    resultsContainer = $('#data-distribution');
 
 var makeTopicSelectWidget = function(element) {
     element.typeahead('destroy');
@@ -82,7 +82,7 @@ var getData = function() {
         }
         $.getJSON(dataAPI, params)
             .done(function(results) {
-                makeDataTable(results);
+                makeDataDisplay(results);
             })
             .fail(function(xhr, textStatus, error) {
                 var message = $.parseJSON(xhr.responseText);
@@ -160,7 +160,7 @@ var makeChildOptions = function(name) {
     }
 }
 
-var makeDataTable = function(results) {
+var makeDataDisplay = function(results) {
     var table = results.tables[tableID],
         release = results.release,
         data = results.data,
@@ -168,97 +168,64 @@ var makeDataTable = function(results) {
         primaryGeoName = (!!primaryGeoID) ? results.geography[primaryGeoID].name : null,
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
-        colspan = (denominatorColumn !== null) ? 4 : 2;
-        dataContainer = d3.select('#data-display'),
-        resultsContainer = d3.select('.data-drawer'),
-        gridData = {
-            Head: [],
-            Body: []
-        };
+        dataContainer = d3.select('#data-container');
 
     // fill in some metadata and instructions
     d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
     d3.select('aside').html('<p><a id="change-table" href="#">Change table</a></p>');
-    d3.select('#tool-notes').html('<div class="tool-group">Click a row to highlight</div>');
+    d3.select('#tool-notes').html('<div class="tool-group">Click a point to lock display</div>');
     dataContainer.select('h1').html('Table ' + tableID);
     dataContainer.select('h2').text(table.title);
-
-    var headerBits = ['<th class="name">Column</th>'];
-    var gridHeaderBits = ['Column'];
-
+        
     dataGeoIDs.forEach(function(g) {
-        headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + g + '">' + results.geography[g].name + '</a></th>');
-        gridHeaderBits.push('<a href="/profiles/' + g + '">' + results.geography[g].name + '</a>');
+        console.log(g)
     })
-    gridData.Head.push(gridHeaderBits);
     
     var columns = d3.map(table.columns),
-        tableContents = [];
+        charts = {};
         
     columns.forEach(function(k, v) {
-        var rowBits = ['<td class="name column-name indent-' + v.indent + '">' + v.name + '</td>'];
-        var gridRowBits = ['<div class="name indent-' + v.indent + '">' + v.name + '</div>'];
-
-        dataGeoIDs.forEach(function(g) {
-            var thisDenominator = data[g][tableID].estimate[denominatorColumn],
-                thisDenominatorMOE = data[g][tableID].error[denominatorColumn],
-                thisValue = data[g][tableID].estimate[k],
-                thisValueMOE = data[g][tableID].error[k]
-                gridRowCol = '';
-
-            // provide percentages first, to match chart style
-            if (!!denominatorColumn) {
-                if (thisValue >= 0) {
-                    rowBits.push('<td class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</td><td class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</td>');
-                    gridRowCol += '<span class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</span>';
-                    gridRowCol += '<span class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</span>';
-                } else {
-                    rowBits.push('<td></td><td></td>')
-                }
-            }
+        console.log(k,v)
+        var minValue,
+            maxValue,
+            medianValue
+            medianPctOfRange = 50;//fix these
+        
+        charts[k] = dataContainer.append('section')
+                .attr('class', 'coal-chart-container')
+                .attr('id', 'coal-chart-'+k)
             
-            // add raw numbers
-            rowBits.push('<td class="value">' + valFmt(thisValue, statType) + '</td><td class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</td>');
-            gridRowCol += '<span class="value">' + valFmt(thisValue, statType) + '</span>';
-            gridRowCol += '<span class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
-            gridRowBits.push(gridRowCol);
-        })
-        tableContents.push('<tr>' + rowBits.join('') + '</tr>');
-        gridData.Body.push(gridRowBits);
+        charts[k].append('h2')
+                .attr('id', k)
+                .html('<a class="permalink" href="#'+k+'">'+v.name+' <i class="fa fa-link"></i></a>');
+
+        var chart = charts[k].append('ul')
+            .attr('class', 'coal-chart');
+            
+        chart.append('li')
+            .attr('class', 'tick-mark tick-mark-min')
+            .html('<span><b>Min:</b> '+minValue+'</span>');
+
+        chart.append('li')
+            .attr('class', 'tick-mark')
+            .attr('style', 'left:'+medianPctOfRange+'%;')
+            .html(function() {
+                var marginTop = (medianPctOfRange < 12) ? 'margin-top:38px;' : '';
+                return '<span style="'+marginTop+'"><b>Median:</b> '+maxValue+'</span>';
+            });
+
+        chart.append('li')
+            .attr('class', 'tick-mark tick-mark-max')
+            .html('<span><b>Max:</b> '+maxValue+'</span>');
     })
 
-    var tableData = '<table id="results" class="full-width"><thead><tr>' + headerBits.join('') + '</tr></thead><tbody>' + tableContents.join('') + '</tbody></table>';
-    
     // add the data and show container
     //resultsContainer.html(tableData);
     //resultsContainer.fadeIn('fast');
     
-    var table = $('#table-results').css({
-        height: '100%',
-        width: '100%',
-        overflow: 'auto'
-    });
-
-    var myGrid = new Grid("table-results", {
-            srcType : "json", 
-            srcData : gridData, 
-            fixedCols : 1
-        });
-
-    // be smart about fixed height
-    setGridWindowHeight();
-    
     // add the comparison links and names
     addGeographyNames(primaryGeoName);
-}
-
-var setGridWindowHeight = function() {
-    var top = document.getElementById('table-results-container').getBoundingClientRect().top,
-        maxContainerHeight = Math.floor(browserHeight - top - 120),
-        tableHeight = $('#table-results').height() + 50,
-        bestHeight = (tableHeight < maxContainerHeight) ? tableHeight : maxContainerHeight;
-    $('#table-results-container').css('height', bestHeight+'px');
 }
 
 var addGeographyNames = function(primaryGeoName) {
@@ -282,27 +249,4 @@ jQuery(document).ready(function(){
         resultsContainer.fadeOut('fast');
     });
 
-    $("#table-results-container").on('mouseover', '.g_BR', function(e) {
-        var thisClass = $(this).attr('class').split(' ');
-        var thisRow = $.grep(thisClass, function(c) {
-            return c.substr(0,3) == 'g_R';
-        });
-        $('.'+thisRow+':not(.g_HR)').addClass('hover');
-    });
-
-    $("#table-results-container").on('mouseleave', '.g_BR', function(e) {
-        var thisClass = $(this).attr('class').split(' ');
-        var thisRow = $.grep(thisClass, function(c) {
-            return c.substr(0,3) == 'g_R';
-        });
-        $('.'+thisRow+':not(.g_HR)').removeClass('hover');
-    });
-    
-    $("#table-results-container").on('click', '.g_BR', function(e) {
-        var thisClass = $(this).attr('class').split(' ');
-        var thisRow = $.grep(thisClass, function(c) {
-            return c.substr(0,3) == 'g_R';
-        });
-        $('.'+thisRow+':not(.g_HR)').toggleClass('highlight');
-    });
 });
