@@ -241,7 +241,7 @@ TOPICS_LIST = [
         'slug': 'race-latino',
         'description': 'Race is a complex issue, and no less so with census data.',
         'template_name': 'race_latino.html',
-        # 'question_images': ['race-latino.png',],
+        'question_images': ['race.png',],
         'question_pdfs': [
             ('Race','http://www.census.gov/acs/www/Downloads/QbyQfact/race.pdf'),
             ('Hispanic or Latino Origin','http://www.census.gov/acs/www/Downloads/QbyQfact/hispanic.pdf')
