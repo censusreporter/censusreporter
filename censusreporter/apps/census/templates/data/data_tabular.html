@@ -38,11 +38,5 @@
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/vendor/Grid.js"></script>
-<script>
-var primaryGeoID = '{{ primary_geo_id }}',
-    geoIDs = '{{ geo_ids }}'.split(','),
-    tableID = '{{ table }}',
-    dataFormat = '{{ data_format }}';
-</script>
 <script src="{{ STATIC_URL }}js/data.table.view.js"></script>
 {% endblock %}

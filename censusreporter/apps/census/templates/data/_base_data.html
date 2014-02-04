@@ -36,6 +36,11 @@ for applying things across that entire family of pages.
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script>
+var primaryGeoID = '{{ primary_geoid }}',
+    geoIDs = '{{ geoids }}'.split(','),
+    tableID = '{{ table }}',
+    dataFormat = '{{ data_format }}';
+
 // download submenu
 $('.toggle-sub-group').hover(function() {
     $(this).find('.sub-group').toggle();
