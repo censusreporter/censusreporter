@@ -82,7 +82,7 @@ var getData = function() {
         }
         $.getJSON(dataAPI, params)
             .done(function(results) {
-                makeDataTable(results);
+                makeDataDisplay(results);
             })
             .fail(function(xhr, textStatus, error) {
                 var message = $.parseJSON(xhr.responseText);
@@ -160,7 +160,23 @@ var makeChildOptions = function(name) {
     }
 }
 
-var makeDataTable = function(results) {
+var sortDataBy = function(field, sortFunc) {
+    // allow reverse sorts, e.g. '-value'
+    var sortOrder = (field[0] === "-") ? -1 : 1;
+    if (sortOrder == -1) {
+        field = field.substr(1);
+    }
+    
+    // allow passing in a sort function
+    var key = sortFunc ? function (x) { return sortFunc(x[field]); } : function (x) { return x[field]; };
+
+    return function (a,b) {
+        var A = key(a), B = key(b);
+        return ((A < B) ? -1 : (A > B) ? +1 : 0) * sortOrder;
+    }
+}
+
+var makeDataDisplay = function(results) {
     var table = results.tables[tableID],
         release = results.release,
         data = results.data,
@@ -176,6 +192,13 @@ var makeDataTable = function(results) {
             Body: []
         };
 
+    var sortedPlaces = _.map(results.geography, function(v, k) {
+        return {
+            geoID: k,
+            name: v.name
+        }
+    }).sort(sortDataBy('name'));
+
     // fill in some metadata and instructions
     d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
@@ -188,9 +211,10 @@ var makeDataTable = function(results) {
     var headerBits = ['<th class="name">Column</th>'];
     var gridHeaderBits = ['Column'];
 
-    dataGeoIDs.forEach(function(g) {
-        headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + g + '">' + results.geography[g].name + '</a></th>');
-        gridHeaderBits.push('<a href="/profiles/' + g + '">' + results.geography[g].name + '</a>');
+    sortedPlaces.forEach(function(g) {
+        var geoID = g.geoID;
+        headerBits.push('<th class="name" colspan="' + colspan + '"><a href="/profiles/' + geoID + '">' + results.geography[geoID].name + '</a></th>');
+        gridHeaderBits.push('<a href="/profiles/' + geoID + '">' + results.geography[geoID].name + '</a>');
     })
     gridData.Head.push(gridHeaderBits);
     
@@ -201,11 +225,12 @@ var makeDataTable = function(results) {
         var rowBits = ['<td class="name column-name indent-' + v.indent + '">' + v.name + '</td>'];
         var gridRowBits = ['<div class="name indent-' + v.indent + '">' + v.name + '</div>'];
 
-        dataGeoIDs.forEach(function(g) {
-            var thisDenominator = data[g][tableID].estimate[denominatorColumn],
-                thisDenominatorMOE = data[g][tableID].error[denominatorColumn],
-                thisValue = data[g][tableID].estimate[k],
-                thisValueMOE = data[g][tableID].error[k]
+        sortedPlaces.forEach(function(g) {
+            var geoID = g.geoID,
+                thisDenominator = data[geoID][tableID].estimate[denominatorColumn],
+                thisDenominatorMOE = data[geoID][tableID].error[denominatorColumn],
+                thisValue = data[geoID][tableID].estimate[k],
+                thisValueMOE = data[geoID][tableID].error[k]
                 gridRowCol = '';
 
             // provide percentages first, to match chart style
