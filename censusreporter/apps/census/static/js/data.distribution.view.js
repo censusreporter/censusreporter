@@ -206,7 +206,8 @@ var makeDataDisplay = function(results) {
         primaryGeoName = (!!primaryGeoID) ? results.geography[primaryGeoID].name : null,
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
-        dataContainer = d3.select('#data-container');
+        dataContainer = d3.select('#data-display'),
+        resultsContainer = d3.select('#data-container');
 
     // fill in some metadata and instructions
     d3.select('#release-name').text(release.name);
@@ -298,7 +299,7 @@ var makeDataDisplay = function(results) {
             .domain([columnData.minValue, columnData.maxValue]);
         columnData.medianPctOfRange = roundNumber(xScale(columnData.medianValue), 1);
         
-        charts[k] = dataContainer.append('section')
+        charts[k] = resultsContainer.append('section')
                 .attr('class', 'coal-chart-container')
                 .attr('id', 'coal-chart-'+k)
             
