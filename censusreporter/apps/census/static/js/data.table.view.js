@@ -184,7 +184,7 @@ var addNumberToggles = function() {
                 .text('Show: ')
             .append('ul')
                 .classed('toggle-controls', true)
-                .html('<li><a id="show-percentage">Percentages</a></li><li><a id="show-number">Raw numbers</a></li>');
+                .html('<li><a id="show-percentage">Percentages</a></li><li><a id="show-number">Totals</a></li>');
     
     $('#show-number').css('text-decoration', 'none');
     var toggleControls = $('.toggle-controls a');
