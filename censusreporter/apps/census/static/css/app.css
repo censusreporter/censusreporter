@@ -379,7 +379,7 @@ section {
     margin-bottom: 2em;
 }
 #profile .section-container section:last-child,
-#data-display .section-container section:last-child {
+#data-tabular .section-container section:last-child {
     margin-bottom: .5em;
 }
 header.section-contents h1,
@@ -619,12 +619,13 @@ aside .aside-block {
     font-weight: 500;
     color: #777;
 }
+.data-drawer.grid {
+    font-size: .83em;
+}
 .grid .name,
 .grid .value,
 .grid .context {
     display: inline-block;
-    font-size: 13px;
-    line-height: 18px;
 }
 .grid .name {
     font-weight: bold;
@@ -635,9 +636,8 @@ aside .aside-block {
     padding-right: 1em;
 }
 .grid .context {
-    font-size: 11px;
-    padding-top: 1px;
-    margin-bottom: -1px;
+    font-size: .9em;
+    margin-bottom: -.1em;
     width: 4em;
 }
 .stat .context {
@@ -2000,7 +2000,7 @@ section.chart-divider h2 {
     padding-left: 8px;
 }
 #chosen-table .data-drawer,
-#data-display .data-drawer {
+#data-tabular .data-drawer {
     padding-top: 0;
 }
 
@@ -2118,60 +2118,6 @@ section.chart-divider h2 {
     float: right;
     cursor: pointer;
 }
-
-tfoot tr.help-text {
-    padding: 1em 0 0 1em;
-    display: table-row;
-    line-height: 1.8;
-}
-
-tfoot tr.help-text td dl {
-    margin: 0;
-    padding-left: 1.5em;
-
-}
-tfoot tr.help-text td dl dt {
- font-weight: bold;
-}
-/* dl-horizontal borrowed with modifications from Twitter Bootstrap */
-.dl-horizontal {
-  *zoom: 1;
-}
-.dl-horizontal:before,
-.dl-horizontal:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.dl-horizontal:after {
-  clear: both;
-}
-.dl-horizontal dt {
-  float: left;
-/*  width: 160px;*/
-  clear: left;
-  text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.dl-horizontal dd {
-  /*margin-left: 180px;*/
-}
-
-@media (max-width: 767px) {
-.dl-horizontal dt {
-    float: none;
-    clear: none;
-    width: auto;
-    text-align: left;
-  }
-  .dl-horizontal dd {
-    margin-left: 0;
-  }
-}
-/* END dl-horizontal borrowed from Twitter Bootstrap */
-
 
 
 /* AUTOCOMPLETE */

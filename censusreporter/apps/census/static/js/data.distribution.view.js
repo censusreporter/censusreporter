@@ -107,7 +107,7 @@ var makeParentOptions = function() {
             .done(function(results) {
                 parentOptionsContainer.append('p')
                     .attr('class', 'bottom display-type strong')
-                    .html('Compare with other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
+                    .html('Add other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
 
                 parentOptionsContainer.append('ul')
                         .attr('class', 'sumlev-list')
@@ -137,7 +137,7 @@ var makeChildOptions = function(name) {
     
         childOptionsContainer.append('p')
                 .attr('class', 'bottom display-type strong')
-                .html('Compare &hellip;');
+                .html('Add &hellip;');
 
         childOptionsContainer.append('ul')
                 .attr('class', 'sumlev-list')

@@ -107,7 +107,7 @@ var makeParentOptions = function() {
             .done(function(results) {
                 parentOptionsContainer.append('p')
                     .attr('class', 'bottom display-type strong')
-                    .html('Compare with other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
+                    .html('Add other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
 
                 parentOptionsContainer.append('ul')
                         .attr('class', 'sumlev-list')
@@ -137,7 +137,7 @@ var makeChildOptions = function(name) {
     
         childOptionsContainer.append('p')
                 .attr('class', 'bottom display-type strong')
-                .html('Compare &hellip;');
+                .html('Add &hellip;');
 
         childOptionsContainer.append('ul')
                 .attr('class', 'sumlev-list')
@@ -175,6 +175,31 @@ var sortDataBy = function(field, sortFunc) {
         return ((A < B) ? -1 : (A > B) ? +1 : 0) * sortOrder;
     }
 }
+var addNumberToggles = function() {
+    $('.number').hide();
+    
+    var notes = d3.select('#tool-notes'),
+        toggle = notes.append('div')
+                .classed('tool-group', true)
+                .text('Show: ')
+            .append('ul')
+                .classed('toggle-controls', true)
+                .html('<li><a id="show-percentage">Percentages</a></li><li><a id="show-number">Raw numbers</a></li>');
+    
+    $('#show-number').css('text-decoration', 'none');
+    var toggleControls = $('.toggle-controls a');
+    toggleControls.on('click', function() {
+        var clicked = $(this),
+            hideClass = (clicked.attr('id') == 'show-number') ? '.percentage' : '.number',
+            showClass = clicked.attr('id').replace('show-','.');
+        
+        toggleControls.css('text-decoration', 'none');
+        clicked.css('text-decoration', 'underline');
+
+        $(hideClass).css('display', 'none');
+        $(showClass).css('display', 'inline-block');
+    })
+}
 
 var makeDataDisplay = function(results) {
     var table = results.tables[tableID],
@@ -207,7 +232,7 @@ var makeDataDisplay = function(results) {
     d3.select('#tool-notes').html('<div class="tool-group">Click a row to highlight</div>');
     dataContainer.select('h1').html('Table ' + tableID);
     dataContainer.select('h2').text(table.title);
-
+    
     var headerBits = ['<th class="name">Column</th>'];
     var gridHeaderBits = ['Column'];
 
@@ -236,18 +261,18 @@ var makeDataDisplay = function(results) {
             // provide percentages first, to match chart style
             if (!!denominatorColumn) {
                 if (thisValue >= 0) {
-                    rowBits.push('<td class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</td><td class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</td>');
-                    gridRowCol += '<span class="value">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</span>';
-                    gridRowCol += '<span class="context">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</span>';
+                    rowBits.push('<td class="value"><span class="percentage">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</span></td><td class="context"><span class="percentage">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</span></td>');
+                    gridRowCol += '<span class="value percentage">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</span>';
+                    gridRowCol += '<span class="context percentage">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</span>';
                 } else {
                     rowBits.push('<td></td><td></td>')
                 }
             }
             
             // add raw numbers
-            rowBits.push('<td class="value">' + valFmt(thisValue, statType) + '</td><td class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</td>');
-            gridRowCol += '<span class="value">' + valFmt(thisValue, statType) + '</span>';
-            gridRowCol += '<span class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
+            rowBits.push('<td class="value"><span class="number">' + valFmt(thisValue, statType) + '</span></td><td class="context"><span class="number">&plusmn;' + valFmt(thisValueMOE, statType) + '</span></td>');
+            gridRowCol += '<span class="value number">' + valFmt(thisValue, statType) + '</span>';
+            gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
             gridRowBits.push(gridRowCol);
         })
         tableContents.push('<tr>' + rowBits.join('') + '</tr>');
@@ -271,6 +296,10 @@ var makeDataDisplay = function(results) {
             srcData : gridData, 
             fixedCols : 1
         });
+
+    if (!!denominatorColumn) {
+        addNumberToggles();
+    }
 
     // be smart about fixed height
     setGridWindowHeight();
