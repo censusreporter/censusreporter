@@ -1,5 +1,9 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
 
+{% block head_css_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.css">
+{% endblock %}
+
 {% block content %}
 <section class="clearfix hidden" id="query-topic-picker">
     <h1>Find data</h1>
@@ -15,7 +19,10 @@
     <div class="section-container">
         <section id="data-container" class="clearfix">
             <h2 class="column-header"></h2>
-            <aside></aside>
+            <aside>
+                <p>These charts show how data in this table is distributed, helping identify patterns, clusters and outliers.</p>
+                <p>Highlighting a point on one chart will also highlight it on the others.</p>
+            </aside>
             <div id="tool-notes" class="tool-set caption-tool-set"></div>
             <p class="caption">
                 <span id="release-name" class="caption-group strong"></span>
@@ -33,5 +40,7 @@ var primaryGeoID = '{{ primary_geo_id }}',
     tableID = '{{ table }}',
     dataFormat = '{{ data_format }}';
 </script>
+<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/chroma.min.js"></script>
 <script src="{{ STATIC_URL }}js/data.distribution.view.js"></script>
 {% endblock %}

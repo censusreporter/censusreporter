@@ -64,7 +64,7 @@ var makeTopicSelectWidget = function(element) {
         element.typeahead('setQuery', '');
         tableID = datum['table_id'];
         
-        var url = '/data/?table=' + tableID;
+        var url = '/data/'+dataFormat+'/?table=' + tableID;
         if (!!geoIDs) { url += "&geoids=" + geoIDs.join(',') }
         if (!!primaryGeoID) { url += "&primary_geoid=" + primaryGeoID }
         window.location = url;
@@ -179,7 +179,8 @@ var makeDataTable = function(results) {
     // fill in some metadata and instructions
     d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
-    d3.select('aside').html('<p><a id="change-table" href="#">Change table</a></p>');
+    d3.select('aside').insert('p', ':first-child')
+        .html('<a id="change-table" href="#">Change table</a>');
     d3.select('#tool-notes').html('<div class="tool-group">Click a row to highlight</div>');
     dataContainer.select('h1').html('Table ' + tableID);
     dataContainer.select('h2').text(table.title);

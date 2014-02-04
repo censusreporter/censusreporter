@@ -123,8 +123,12 @@ var calcPctMOE = function(numerator, denominator, numerator_moe, denominator_moe
     return null
 }
 
-var roundNumber = function(n) {
-    return (Math.round(n * 10) / 10);
+var roundNumber = function(value, decimals) {
+    var precision = (!!decimals) ? decimals : 0,
+        factor = Math.pow(10, precision),
+        value = Math.round(value * factor) / factor;
+    
+    return value;
 }
 
 var numberWithCommas = function(n) {

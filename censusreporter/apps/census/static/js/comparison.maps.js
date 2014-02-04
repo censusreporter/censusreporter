@@ -74,7 +74,7 @@ function makeMap(geodata) {
         .text(function(d){
             if (typeof(d) != 'undefined') {
                 if (!!percentify) {
-                    return roundNumber(d) + '%'
+                    return roundNumber(d, 1) + '%'
                 } else {
                     return numberWithCommas(d)
                 }
