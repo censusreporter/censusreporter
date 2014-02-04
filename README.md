@@ -10,9 +10,8 @@ Quick clone and setup. Assumes you have `virtualenvwrapper` installed.
     >> add2virtualenv ./censusreporter/apps
     
 Make sure your virtualenv knows the proper DJANGO_SETTINGS_MODULE:
-
-    >> cdvirtualenv census
-    >> cd bin
+    >> workon census
+    >> cdvirtualenv bin
     >> touch postactivate
     
 Add this to your `postactivate` (changing 'dev' to 'prod' as appropriate):
