@@ -288,6 +288,12 @@ class DataView(TemplateView):
         self.release_slug = self.request.GET.get('release', None)
         self.release = ACS_RELEASES.get(self.release_slug, None)
 
+        if not self.table or not self.geo_ids:
+            errors = {
+                'Missing': 'This view requires `table` and `geo_ids` parameters in the querystring.'
+            }
+            raise_404_with_messages(self.request, errors)
+
         self.format = self.kwargs.get('format', None)
 
         if self.format == 'distribution':
