@@ -1256,6 +1256,10 @@ form.inline-form .select2-container {
     margin: .25em .75em;
 }
 
+tr.help-text {
+    display: table-row;
+}
+
 .filter-group {
     font-size: 1em;
     cursor: pointer;
@@ -2122,6 +2126,62 @@ section.chart-divider h2 {
     float: right;
     cursor: pointer;
 }
+
+ul.compact * {
+    margin: 0 inherit;
+}
+
+tfoot tr.help-text {
+    padding: 1em 0 0 1em;
+    line-height: 1.8;
+}
+
+dl#racial-iteration {
+    padding-left: 1.5em;
+
+}
+dl#racial-iteration dt {
+ font-weight: bold;
+}
+
+/* dl-horizontal borrowed with modifications from Twitter Bootstrap */
+.dl-horizontal {
+  *zoom: 1;
+}
+.dl-horizontal:before,
+.dl-horizontal:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.dl-horizontal:after {
+  clear: both;
+}
+.dl-horizontal dt {
+  float: left;
+/*  width: 160px;*/
+  clear: left;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dl-horizontal dd {
+  /*margin-left: 180px;*/
+}
+
+@media (max-width: 767px) {
+.dl-horizontal dt {
+    float: none;
+    clear: none;
+    width: auto;
+    text-align: left;
+  }
+  .dl-horizontal dd {
+    margin-left: 0;
+  }
+}
+/* END dl-horizontal borrowed from Twitter Bootstrap */
 
 
 /* AUTOCOMPLETE */
