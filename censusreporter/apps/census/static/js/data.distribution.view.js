@@ -51,11 +51,11 @@ var makeTopicSelectWidget = function(element) {
             }
         },
         limit: 1500,
-        template: [//{% verbatim %}
+        template: [
             '{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
             '<p class="result-name">{{simple_table_name}}</p>',
             '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
-            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'//{% endverbatim %}
+            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'
         ].join(''),
         engine: Hogan
     });

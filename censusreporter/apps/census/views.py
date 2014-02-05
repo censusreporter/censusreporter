@@ -913,6 +913,7 @@ class ComparisonView(BaseComparisonView):
                 percentify=False,
                 with_MOE=True
             )
+
             filename = '%s_%s_%s_in_%s.csv' % (self.release, self.table_id, self.descendant_sumlev, self.parent_id)
             response = HttpResponse(content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="%s"' % filename

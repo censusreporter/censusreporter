@@ -51,11 +51,11 @@ var makeTopicSelectWidget = function(element) {
             }
         },
         limit: 1500,
-        template: [//{% verbatim %}
+        template: [
             '{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
             '<p class="result-name">{{simple_table_name}}</p>',
             '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
-            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'//{% endverbatim %}
+            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'
         ].join(''),
         engine: Hogan
     });
@@ -227,21 +227,20 @@ var addNumberToggles = function() {
     var notes = d3.select('#tool-notes'),
         toggle = notes.append('div')
                 .classed('tool-group', true)
-                .text('Show: ')
-            .append('ul')
-                .classed('toggle-controls', true)
-                .html('<li><a id="show-percentage">Percentages</a></li><li><a id="show-number">Totals</a></li>');
+            .append('a')
+                .classed('toggle-control', true)
+                .attr('id', 'show-number')
+                .text('Switch to totals');
     
-    $('#show-number').css('text-decoration', 'none');
-    var toggleControls = $('.toggle-controls a');
-    toggleControls.on('click', function() {
+    var toggleControl = $('.toggle-control');
+    toggleControl.on('click', function() {
         var clicked = $(this),
-            hideClass = (clicked.attr('id') == 'show-number') ? '.percentage' : '.number',
-            showClass = clicked.attr('id').replace('show-','.');
-        
-        toggleControls.css('text-decoration', 'none');
-        clicked.css('text-decoration', 'underline');
+            showClass = clicked.attr('id').replace('show-','.'),
+            hideClass = (showClass == '.number') ? '.percentage' : '.number',
+            toggleID = (showClass == '.number') ? 'show-percentage' : 'show-number',
+            toggleText = (showClass == '.number') ? 'Switch to percentages' : 'Switch to totals';
 
+        toggleControl.attr('id', toggleID).text(toggleText);
         $(hideClass).css('display', 'none');
         $(showClass).css('display', 'inline-block');
     })
@@ -275,7 +274,6 @@ var makeDataDisplay = function(results) {
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
     d3.select('aside').insert('p', ':first-child')
         .html('<a id="change-table" href="#">Change table</a>');
-    d3.select('#tool-notes').html('<div class="tool-group">Click a row to highlight</div>');
     dataContainer.select('h1').html('Table ' + tableID);
     dataContainer.select('h2').text(table.title);
     
@@ -343,9 +341,13 @@ var makeDataDisplay = function(results) {
             fixedCols : 1
         });
 
+    // add some table controls and notes
     if (!!denominatorColumn) {
         addNumberToggles();
     }
+    d3.select('#tool-notes').append('div')
+            .classed('tool-group', true)
+            .text('Click a row to highlight');
 
     // be smart about fixed height
     setGridWindowHeight();
