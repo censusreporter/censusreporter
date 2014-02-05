@@ -91,6 +91,55 @@ var getData = function() {
     }
 }
 
+function makeGeoSelectWidget() {
+    var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
+        selectContainer = d3.select('#data-display aside').append('div')
+            .attr('class', 'aside-block search')
+            .attr('id', 'comparison-add');
+
+    selectContainer.append('p')
+        .attr('class', 'bottom display-type strong')
+        .text('Add a geography');
+        
+    selectContainer.append('input')
+        .attr('name', 'geography_add')
+        .attr('id', 'geography-add')
+        .attr('type', 'text')
+        .attr('placeholder', 'Find a place')
+        .attr('autocomplete', 'off');
+    
+    var element = $('#geography-add');
+    element.typeahead({
+        name: 'add_place',
+        valueKey: 'full_geoid',
+        nameKey: 'full_name',
+        remote: {
+            url: geoSearchAPI,
+            replace: function (url, uriEncodedQuery) {
+                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
+            },
+            filter: function(response) {
+                var results = response.results;
+                results.map(function(item) {
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                });
+                return results;
+            }
+        },
+        limit: 20,
+        template: '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>',
+        engine: Hogan
+    });
+
+    element.on('typeahead:selected', function(event, datum) {
+        event.stopPropagation();
+        var newGeoIDs = geoIDs.slice(0);
+        newGeoIDs.push(datum['full_geoid']);
+        element.typeahead('setQuery', datum['full_name']);
+        window.location = '/data/'+dataFormat+'/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');;
+    });
+}
+
 var makeParentOptions = function() {
     // no tribbles!
     d3.selectAll('#comparison-parents').remove();
@@ -100,14 +149,11 @@ var makeParentOptions = function() {
                 .attr('class', 'aside-block')
                 .attr('id', 'comparison-parents');
 
-            parentOptionsContainer.append('h2')
-                .text('Add geographies');
-
         $.getJSON(parentGeoAPI)
             .done(function(results) {
                 parentOptionsContainer.append('p')
                     .attr('class', 'bottom display-type strong')
-                    .html('Add other ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
+                    .html('Add all ' + sumlevMap[thisSumlev]['plural'] + ' in&nbsp;&hellip;');
 
                 parentOptionsContainer.append('ul')
                         .attr('class', 'sumlev-list')
@@ -288,7 +334,7 @@ var makeDataDisplay = function(results) {
     var table = $('#table-results').css({
         height: '100%',
         width: '100%',
-        overflow: 'auto'
+        overflow: 'hidden'
     });
 
     var myGrid = new Grid("table-results", {
@@ -317,6 +363,7 @@ var setGridWindowHeight = function() {
 }
 
 var addGeographyNames = function(primaryGeoName) {
+    makeGeoSelectWidget();
     if (!!primaryGeoID && !!primaryGeoName) {
         makeParentOptions();
         makeChildOptions(primaryGeoName);

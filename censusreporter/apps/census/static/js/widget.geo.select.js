@@ -24,7 +24,8 @@ function makeGeoSelectWidget(element) {
         engine: Hogan
     });
 
-    element.on('typeahead:selected', function(obj, datum) {
+    element.on('typeahead:selected', function(event, datum) {
+        event.stopPropagation();
         element.typeahead('setQuery', datum['full_name']);
         window.location = '/profiles/' + datum['full_geoid'];
     });

@@ -417,7 +417,11 @@ aside .aside-block {
     margin-top: 1em;
     clear: both;
 }
-
+aside .search input {
+    font-size: .83em;
+    margin: .33em 0 1em;
+    padding: .15em .5em 0;
+}
 .wrapper {
     width: auto;
     margin: 0 1.5em;
@@ -2179,7 +2183,15 @@ section.chart-divider h2 {
     width: 100%;
     padding-left: 12em;
 }
-
+aside .search .tt-dropdown-menu {
+    font-size: .75em;
+}
+aside .search .result-type {
+    float: none;
+    display: block;
+    margin: .25em 0 0;
+    font-size: .9em;
+}
 .result-name .result-type {
     float: right;
     margin: .17em .33em 0 1em;
