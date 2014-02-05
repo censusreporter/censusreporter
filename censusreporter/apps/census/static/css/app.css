@@ -2315,13 +2315,13 @@ aside .search .result-type {
         width: 1120px;
         margin: 0 auto;
     }
-}
+} /* END: @media only screen and (min-width: 1140px) */
 @media only screen and (max-width: 1139px) {
     .chosen {
         margin: 0 0 1em;
     }
     
-}
+} /* END: @media only screen and (max-width: 1139px) */
 @media only screen and (max-width: 768px) {
     article,
     article.column-full {
@@ -2439,7 +2439,7 @@ aside .search .result-type {
     .topic aside img {
         width: 300px;
     }
-}
+} /* END: @media only screen and (max-width: 768px) */
 @media only screen and (max-width: 640px) {
     .tool-set {
         float: none;
@@ -2558,7 +2558,7 @@ aside .search .result-type {
     .topic aside img {
         width: 250px;
     }
-}
+} /* END: @media only screen and (max-width: 640px) */
 @media only screen and (max-width: 480px) {
     .column-third,
     .column-half .column-half,
