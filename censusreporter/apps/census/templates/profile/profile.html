@@ -342,8 +342,8 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
             "color": "#00d",
             "fillColor": "#ccc",
             "weight": 1.0,
-            "opacity": 0.1,
-            "fillOpacity": 0.1,
+            "opacity": 0.3,
+            "fillOpacity": 0.3,
         },
     geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
         clipTiles: true,
@@ -358,7 +358,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
 
             layer.on('mouseover', function() {
                 layer.setStyle({
-                    "fillOpacity": 0.3,
+                    "fillOpacity": 0.5,
                 });
             });
             layer.on('mouseout', function() {
