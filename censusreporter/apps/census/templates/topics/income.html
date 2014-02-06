@@ -1,0 +1,221 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>There are many American Community Survey tables which provide information on the income of people living in the United States. Even for releases of data collected over three or five years, income data is reported in infla-
+tion-adjusted dollars for the release year.</p>
+
+Most income data is reported at the household level, but there are tables which are focused on family households, as well as some which report on individual income. There are also some tables which are particularly applicable to understanding income inequality, 
+including one, <strong>B19083</strong> which provides the <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noreferrer">Gini index</a>  for a place as its only column.</p>
+
+<p>Income is reported in a number of ways: as a median value, or as a series of medians for groups within a total population; as a number 
+
+of people or households earning in a certain bracket; as well as a few other structures.</p>
+<h2>Median Income</h2>
+<p>Median incomes are reported by household, with subsets for only family households and also for nonfamily 
+
+households. One table, B19326 reports median income for individuals by sex.</p>
+
+<p></p>For all of these tables, income refers to income for "the last 12 months" prior to the survey response.</p>
+    
+
+
+<table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>B19013<sup>‡</sup></strong></td>
+                <td>Median Household Income</td>
+        </tr>
+        <tr>
+            <td><strong>B19019</strong></td>
+            <td>Median Household Income by Household Size</td>
+        </tr>
+        <tr>
+            <td><strong>B19049</strong></td>
+            <td>Median Household Income by Age of Householder</td>
+        </tr>
+        <tr>
+            <td><strong>B19113<sup>‡</sup></strong></td>
+            <td>Median Family Income</td>
+        </tr>
+        <tr>
+            <td><strong>B19119</strong></td>
+            <td>Median Family Income by Family Size</td>
+        </tr>
+        <tr>
+            <td><strong>B19121</strong></td>
+            <td>Median Family Income by Number of Earners in Family</td>
+        </tr>
+        <tr>
+            <td><strong>B19125</strong></td>
+            <td>Median Family Income by Presence of Own Children Under 18 Years</td>
+        </tr>
+        <tr>
+            <td><strong>B19126</strong></td>
+            <td>Median Family Income by Family Type by Presence of Own Children Under 18 Years</td>
+        </tr>
+        <tr>
+            <td><strong>B19202<sup>‡</sup></strong></td>
+            <td>Median Nonfamily Household Income</td>
+        </tr>
+        <tr>
+            <td><strong>B19215</strong></td>
+            <td>Median Nonfamily Household Income by Sex of Householder by Living Alone by Age of Householder</td>
+        </tr>
+        <tr>
+            <td><strong>B19326</strong></td>
+            <td>Median Income by Sex by Work Experience in the Past 12 Months for the Population 15 Years and Over With Income</td>
+        </tr>
+</tbody>
+</table>
+<p><sup>‡</sup>Tables <strong>B19013</strong>, <strong>B19113</strong> and <strong>B19202</strong> are available in racial iterations using codes <strong>A-I</strong>:</p>
+
+<ul>
+<li>
+<strong>B19013A, B19113A, B19202A</strong>: White alone</li>
+<li>
+<strong>B19013B, B19113B, B19202B</strong>: Black or African American Alone</li>
+<li>
+<strong>B19013C, B19113C, B19202C</strong>: American Indian and Alaska Native Alone</li>
+<li>
+<strong>B19013D, B19113D, B19202D</strong>: Asian Alone</li>
+<li>
+<strong>B19013E, B19113E, B19202E</strong>: Native Hawaiian and Other Pacific Islander Alone </li>
+<li>
+<strong>B19013F, B19113F, B19202F</strong>: Some Other Race Alone</li>
+<li>
+<strong>B19013G, B19113G, B19202G</strong>: Two or More Races</li>
+<li>
+<strong>B19013H, B19113H, B19202H</strong>: White Alone, Not Hispanic or Latino</li>
+<li>
+<strong>B19013I, B19113I, B19202I</strong>: Hispanic or Latino</li>
+</ul>
+<h2>Aggregate income</h2>
+
+<p>The various aggregate income tables provide the total amount of income, as well as broken down by income type, for the summary geography.</p>
+
+<p>Table <strong>B19313</strong> aggregates all income in the geography, which will produce a number somewhat higher than <strong>B19025</strong> because it includes people who live in "group quarters."</p>
+
+<p>Table <strong>B19301</strong>, "Per Capita income", is simply the value for <strong>B19313</strong> "Aggregate Income" divided by the total population estimate for the summary geography. This statistic is more or less the 'average' income. Note the potential for misunderstanding: A) the aggregate income is divided among all people, not only those who actually had income, and B) as with any average, outliers (very big earners) can have a disproportionate effect on resulting figure.</p>
+
+<p>For all of these tables, income refers to income for "the last 12 months" prior to the survey response.</p>
+
+<table>
+<thead><tr>
+<th>code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>B19025<sup>‡</sup></strong></td>
+<td>Aggregate Household Income</td>
+</tr>
+<tr>
+<td><strong>B19050</strong></td>
+<td>Aggregate Household Income by Age of Householder</td>
+</tr>
+<tr>
+<td><strong>B19061</strong></td>
+<td>Aggregate Earnings for Households</td>
+</tr>
+<tr>
+<td><strong>B19062</strong></td>
+<td>Aggregate Wage or Salary Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19063</strong></td>
+<td>Aggregate Self-employment Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19064</strong></td>
+<td>Aggregate Interest, Dividends, or Net Rental Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19065</strong></td>
+<td>Aggregate Social Security Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19066</strong></td>
+<td>Aggregate Supplemental Security Income (SSI) for Households</td>
+</tr>
+<tr>
+<td><strong>B19067</strong></td>
+<td>Aggregate Public Assistance Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19069</strong></td>
+<td>Aggregate Retirement Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19070</strong></td>
+<td>Aggregate Other Types of Income for Households</td>
+</tr>
+<tr>
+<td><strong>B19127</strong></td>
+<td>Aggregate Family Income</td>
+</tr>
+<tr>
+<td><strong>B19128</strong></td>
+<td>Aggregate Family Income by Family Type by Presence of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong>B19129</strong></td>
+<td>Aggregate Family Income by Number of Workers in Family</td>
+</tr>
+<tr>
+<td><strong>B19130</strong></td>
+<td>Aggregate Family Income by Family Type by Age of Householder</td>
+</tr>
+<tr>
+<td><strong>B19214</strong></td>
+<td>Aggregate Nonfamily Household Income</td>
+</tr>
+<tr>
+<td><strong>B19216</strong></td>
+<td>Aggregate Nonfamily Household Income by Sex of Householder by Living Alone by Age of Householder</td>
+</tr>
+<tr>
+<td><strong>B19301<sup>‡</sup></strong></td>
+<td>Per Capita Income</td>
+</tr>
+<tr>
+<td><strong>B19313<sup>‡</sup></strong></td>
+<td>Aggregate Income</td>
+</tr>
+</tbody>
+</table><p><sup>‡</sup>Tables <strong>B19025</strong>, <strong>B19301</strong> and <strong>B19313</strong> are available in racial iterations using codes <strong>A-I</strong>:</p>
+
+<ul>
+<li>
+<strong>B19025A, B19301A, B19313A</strong>: White alone</li>
+<li>
+<strong>B19025B, B19301B, B19313B</strong>: Black or African American Alone</li>
+<li>
+<strong>B19025C, B19301C, B19313C</strong>: American Indian and Alaska Native Alone</li>
+<li>
+<strong>B19025D, B19301D, B19313D</strong>: Asian Alone</li>
+<li>
+<strong>B19025E, B19301E, B19313E</strong>: Native Hawaiian and Other Pacific Islander Alone </li>
+<li>
+<strong>B19025F, B19301F, B19313F</strong>: Some Other Race Alone</li>
+<li>
+<strong>B19025G, B19301G, B19313G</strong>: Two or More Races</li>
+<li>
+<strong>B19025H, B19301H, B19313H</strong>: White Alone, Not Hispanic or Latino</li>
+<li>
+<strong>B19025I, B19301I, B19313I</strong>: Hispanic or Latino</li>
+</ul>
+
+
+</section>
+{% endblock %}
+
+
