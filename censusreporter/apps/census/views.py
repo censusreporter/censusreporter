@@ -251,7 +251,7 @@ TOPICS_LIST = [
     {
         'title': 'Income',
         'slug': 'imcome',
-        'description': 'How the Census approaches the topics of income data.',
+        'description': 'How the Census approaches the topic of income.',
         'template_name': 'income.html',
         'question_images': ['income.png',],
         'question_pdf': [
