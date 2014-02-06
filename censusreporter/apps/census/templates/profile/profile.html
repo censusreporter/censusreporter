@@ -3,19 +3,14 @@
 {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
-<!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
-<![endif]-->
-<link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+<link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
   <!--[if lte IE 8]>
-    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' >
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
   <![endif]-->
 {% endblock %}
 
 {% block head_javascript_extra %}
-<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
-<script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
@@ -318,6 +313,7 @@
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
+<script src="{{ STATIC_URL }}js/TileLayer.GeoJSON.js"></script>
 <script type="text/javascript">
 // Make the header map
 d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
@@ -340,6 +336,40 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
             position: 'topright'
         }));
     }
+
+    var defaultStyle = {
+            "clickable": true,
+            "color": "#00d",
+            "fillColor": "#ccc",
+            "weight": 1.0,
+            "opacity": 0.1,
+            "fillOpacity": 0.1,
+        },
+    geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
+        clipTiles: true,
+        unique: function(feature) {
+            return feature.properties.geoid;
+        }
+    }, {
+        style: defaultStyle,
+        onEachFeature: function(feature, layer) {
+            if (feature.properties.geoid == thisGeoID)
+                return;
+
+            layer.on('mouseover', function() {
+                layer.setStyle({
+                    "fillOpacity": 0.3,
+                });
+            });
+            layer.on('mouseout', function() {
+                layer.setStyle(defaultStyle);
+            });
+            layer.on('click', function() {
+                window.location.replace('/profiles/' + feature.properties.geoid);
+            });
+        }
+    });
+    map.addLayer(geojsonTileLayer);
 
     var featureLayer = L.geoJson(json, {
         style: {
@@ -473,7 +503,8 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
     rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
-    parentGeoAPI = rootGeoAPI + thisGeoID + '/parents';
+    parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
+    tilesGeoAPI = rootGeoAPI + '/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 if (!!parentLinkContainer) {
     // set up the listener for trigger to reveal hidden groups
