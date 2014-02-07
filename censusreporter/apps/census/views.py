@@ -255,7 +255,7 @@ TOPICS_LIST = [
         'template_name': 'income.html',
         'question_images': ['income.png',],
         'question_pdf': [
-            ('All income questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf'),
+            ('All income questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
         ]
     },
     
