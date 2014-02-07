@@ -250,11 +250,11 @@ TOPICS_LIST = [
     
     {
         'title': 'Income',
-        'slug': 'imcome',
+        'slug': 'income',
         'description': 'How the Census approaches the topic of income.',
         'template_name': 'income.html',
         'question_images': ['income.png',],
-        'question_pdf': [
+        'question_pdfs': [
             ('All income questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
         ]
     },
