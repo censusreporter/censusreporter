@@ -295,14 +295,14 @@ class DataView(TemplateView):
     
     def dispatch(self, *args, **kwargs):
         self.table = self.request.GET.get('table', None)
-        self.primary_geoid = self.request.GET.get('primary_geoid', None)
-        self.geoids = self.request.GET.get('geoids', None)
+        self.primary_geo_id = self.request.GET.get('primary_geo_id', None)
+        self.geo_ids = self.request.GET.get('geo_ids', None)
         self.release_slug = self.request.GET.get('release', None)
         self.release = ACS_RELEASES.get(self.release_slug, None)
 
-        if not self.table or not self.geoids:
+        if not self.table or not self.geo_ids:
             errors = {
-                'Missing': 'This view requires `table` and `geoids` parameters in the querystring.'
+                'Missing': 'This view requires `table` and `geo_ids` parameters in the querystring.'
             }
             raise_404_with_messages(self.request, errors)
 
@@ -311,17 +311,20 @@ class DataView(TemplateView):
         if self.format == 'distribution':
             self.template_name = 'data/data_distribution.html'
         
-        #TODO: implement formats for map, csv, json
+        #TODO: implement formats for map
     
         return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+        download_link_prefix = 'http://api.censusreporter.org/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
+        
         page_context = {
             'table': self.table or '',
-            'primary_geoid': self.primary_geoid or '',
-            'geoids': self.geoids or '',
+            'primary_geo_id': self.primary_geo_id or '',
+            'geo_ids': self.geo_ids or '',
             'release': self.release or '',
             'data_format': self.format,
+            'download_link_prefix': download_link_prefix,
         }
 
         return page_context

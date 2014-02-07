@@ -178,7 +178,7 @@ var calcMedian = function(values) {
     if (values.length % 2) {
         return values[half];
     } else {
-        return (values[half-1] + values[half]) / 2.0;
+        return Math.round(((values[half-1] + values[half]) / 2.0) * 100) / 100;
     }
 }
 
@@ -206,16 +206,23 @@ var makeDataDisplay = function(results) {
         primaryGeoName = (!!primaryGeoID) ? results.geography[primaryGeoID].name : null,
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
+        headerContainer = d3.select('#header-container'),
         dataContainer = d3.select('#data-display'),
         resultsContainer = d3.select('#data-container');
 
     // fill in some metadata and instructions
-    d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
     d3.select('aside').insert('p', ':first-child')
         .html('<a id="change-table" href="#">Change table</a>');
-    dataContainer.select('h1').html('Table ' + tableID);
-    dataContainer.select('h2').text(table.title);
+    headerContainer.select('h1').text(table.title);
+    dataContainer.select('h1').text('Table ' + tableID);
+    dataContainer.select('h2').text(release.name);
+    
+    // for long table titles, bump down the font size
+    if (table.title.length > 160) {
+        headerContainer.select('h1')
+            .style('font-size', '1.6em')
+    }
     
     var notes = d3.select('#tool-notes');
     notes.append('div')

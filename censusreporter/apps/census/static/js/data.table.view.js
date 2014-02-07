@@ -2,8 +2,9 @@
 
 // the template including this should set the following vars:
 // var primaryGeoID = '{{ primary_geo_id }}',
-//     geoIDs = '{{ geo_list }}',
-//     tableID = '{{ table }}';
+//     geoIDs = '{{ geo_ids }}',
+//     tableID = '{{ table }}',
+//     dataFormat = '{{ data_format }}';
 
 var tableID = tableID || null,
     thisSumlev = (!!primaryGeoID) ? primaryGeoID.substr(0,3) : null,
@@ -136,7 +137,7 @@ function makeGeoSelectWidget() {
         var newGeoIDs = geoIDs.slice(0);
         newGeoIDs.push(datum['full_geoid']);
         element.typeahead('setQuery', datum['full_name']);
-        window.location = '/data/'+dataFormat+'/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');;
+        window.location = '/data/'+dataFormat+'/?table='+tableID+'&primary_geo_id='+primaryGeoID+'&geo_ids='+newGeoIDs.join(',');;
     });
 }
 
@@ -164,7 +165,7 @@ var makeParentOptions = function() {
                             var newGeoIDs = geoIDs.slice(0);
                             newGeoIDs.push(thisSumlev + '|' + d.geoid);
                             
-                            return '/data/'+dataFormat+'/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');
+                            return '/data/'+dataFormat+'/?table='+tableID+'&primary_geo_id='+primaryGeoID+'&geo_ids='+newGeoIDs.join(',');
                         })
                         .text(function(d) { return d.display_name });
 
@@ -194,7 +195,7 @@ var makeChildOptions = function(name) {
                     var newGeoIDs = geoIDs.slice(0);
                     newGeoIDs.push(d + '|' + primaryGeoID);
 
-                    return '/data/'+dataFormat+'/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');
+                    return '/data/'+dataFormat+'/?table='+tableID+'&primary_geo_id='+primaryGeoID+'&geo_ids='+newGeoIDs.join(',');
                 })
                 .text(function(d) { return sumlevMap[d]['plural'] });
         
@@ -255,6 +256,7 @@ var makeDataDisplay = function(results) {
         statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
         denominatorColumn = table.denominator_column_id || null,
         colspan = (denominatorColumn !== null) ? 4 : 2;
+        headerContainer = d3.select('#header-container'),
         dataContainer = d3.select('#data-display'),
         resultsContainer = d3.select('.data-drawer'),
         gridData = {
@@ -270,12 +272,18 @@ var makeDataDisplay = function(results) {
     }).sort(sortDataBy('name'));
 
     // fill in some metadata and instructions
-    d3.select('#release-name').text(release.name);
     d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
     d3.select('aside').insert('p', ':first-child')
         .html('<a id="change-table" href="#">Change table</a>');
-    dataContainer.select('h1').html('Table ' + tableID);
-    dataContainer.select('h2').text(table.title);
+    headerContainer.select('h1').text(table.title);
+    dataContainer.select('h1').text('Table ' + tableID);
+    dataContainer.select('h2').text(release.name);
+
+    // for long table titles, bump down the font size
+    if (table.title.length > 160) {
+        headerContainer.select('h1')
+            .style('font-size', '1.6em')
+    }
     
     var headerBits = ['<th class="name">Column</th>'];
     var gridHeaderBits = ['Column'];

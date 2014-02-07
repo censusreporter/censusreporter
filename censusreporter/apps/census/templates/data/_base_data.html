@@ -8,43 +8,50 @@ for applying things across that entire family of pages.
 {% block head_title %}Table {% if table %}{{ table }}{% endif %} {% if release %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
 
 {% block header_content %}
-<div class="wrapper clearfix">
-
+<div id="header-container" class="wrapper clearfix header-container">
+    <h1>Table {{ table }}</h1>
+    
     <div class="tool-set header-tool-set">
         <div class="tool-group">
-            <ul class="toggle-set">{% comment %}
-                <li><a class="{% if format == 'table' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
-                <li><a class="{% if format == 'map' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
-                <li><a class="{% if format == 'distribution' %}active{% endif %}" href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>{% endcomment %}
+            <ul class="toggle-set">
+                <li><a class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
+                <li><a class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
             </ul>
         </div>
-        <div class="tool-group toggle-sub-group">{% comment %}
+        <div class="tool-group toggle-sub-group">
             <a href="#">
                 Download the data
             </a>
             <ul class="sub-group">
-                <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'csv' %}?{{ request.GET.urlencode }}">CSV</a></li>
-                <li><a href="{% url 'geography_comparison_detail' parent_id descendant_sumlev 'json' %}?{{ request.GET.urlencode }}">JSON</a></li>
-            </ul>{% endcomment %}
+                <li><a target="_new" href="{{ download_link_prefix }}&format=csv">CSV</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=xlsx">Excel</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=geojson">GeoJSON</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=kml">KML</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=shp">Shapefile</a></li>
+            </ul>
         </div>
     </div>
 
-    {#}<h1>Table {{ table.table_id }}</h1>{#}
 </div>
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script>
-var primaryGeoID = '{{ primary_geoid }}',
-    geoIDs = '{{ geoids }}'.split(','),
+var primaryGeoID = '{{ primary_geo_id }}',
+    geoIDs = '{{ geo_ids }}'.split(','),
     tableID = '{{ table }}',
     dataFormat = '{{ data_format }}';
+
+// toggle links
+$('.toggle-set a').hover(function() {
+    $('.toggle-set a').not(this).toggleClass('unhovered');
+    $(this).toggleClass('hovered');
+});
 
 // download submenu
 $('.toggle-sub-group').hover(function() {
     $(this).find('.sub-group').toggle();
-    $(this).find('a').toggleClass('hovered');
 });
 </script>
 {% endblock %}

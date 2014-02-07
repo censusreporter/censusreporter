@@ -287,6 +287,10 @@ img.screenshot {
     padding: 1em 0;
     clear: both;
 }
+.header-container {
+    padding: 2em 0 0;
+    clear: both;
+}
 
 article,
 article.column-full {
@@ -1130,17 +1134,13 @@ table .name {
 table .value {
     text-align: right;
 }
-tr.even td {
-    background-color: #eff1e9;
-}
+tr.even td,
 tr.highlight td {
-    background: #b4bc96;
+    background-color: #e0e4d4;
 }
-.grid .highlight {
-    background-color: #b4bc96;
-}
+.grid .highlight,
 .grid .hover {
-    background-color: #d1d7bf;
+    background-color: #e0e4d4;
 }
 tr:hover td,
 tr.even:hover td {
@@ -1470,19 +1470,21 @@ ul.toggle-set li {
     position: relative;
 }
 .toggle-set a {
-    background-color: #eff1e9;
-    border-top: 1px solid #e8eadf;
-    border-bottom: 1px solid #cad0b5;
+    background-color: #a1d0c6;
+    border-bottom: 1px solid #67b3a3;
     text-decoration: none;
     color: #888;
-    border-right: 1px solid #f9f9f9;
+    margin-right: 1px;
 }
 .toggle-set a,
 .toggle-sub-group a {
     padding: .25em 0 .33em;
     display: block;
 }
-ul.toggle-set li:first-child a {
+.toggle-sub-group a {
+    margin-top: .15em;
+}
+.toggle-set li:first-child a {
     -webkit-border-top-left-radius: 4px;
     -webkit-border-bottom-left-radius: 4px;
     -moz-border-radius-topleft: 4px;
@@ -1490,7 +1492,7 @@ ul.toggle-set li:first-child a {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
-ul.toggle-set li:last-child a {
+.toggle-set li:last-child a {
     -webkit-border-top-right-radius: 4px;
     -webkit-border-bottom-right-radius: 4px;
     -moz-border-radius-topright: 4px;
@@ -1499,19 +1501,23 @@ ul.toggle-set li:last-child a {
     border-bottom-right-radius: 4px;
     border-right: 0;
 }
-ul.toggle-set a.active,
-ul.toggle-set a:hover {
-    background-color: #d9ddca;
-    color: #111;
+.toggle-set a.active,
+.toggle-set a:hover,
+.toggle-set a.hovered {
+    background-color: #1a9d95;
+    color: #fff;
 }
-ul.toggle-set a.hovered,
-ul.toggle-set a:hover {
-    background-color: #cad0b5;
+.toggle-set a.unhovered {
+    background-color: #a1d0c6;
+    color: #888;
 }
 ul.toggle-set .toggle-sub-group a:hover {
     -webkit-border-bottom-right-radius: 0;
     -moz-border-radius-bottomright: 0;
     border-bottom-right-radius: 0;
+}
+.toggle-sub-group a:hover {
+    color: #1a9d95;
 }
 ul.sub-group {
     display: none;
@@ -1557,8 +1563,8 @@ ul.sub-group a:hover {
     text-decoration: none;
     padding: .33em .5em;
     color: #fff;
-    background-color: #f55b2c;
-    border-color: #f55b2c;
+    background-color: #1a9d95;
+    border-color: #1a9d95;
 }
 
 /* CHARTS */
