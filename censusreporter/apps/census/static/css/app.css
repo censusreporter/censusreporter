@@ -382,8 +382,7 @@ section {
 #profile .section-container section {
     margin-bottom: 2em;
 }
-#profile .section-container section:last-child,
-#data-tabular .section-container section:last-child {
+.section-container section:last-child {
     margin-bottom: .5em;
 }
 header.section-contents h1,

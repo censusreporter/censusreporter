@@ -13,7 +13,8 @@ var tableID = tableID || null,
 
 var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#query-topic-picker'),
-    resultsContainer = $('#data-display');
+    dataHeader = $('#header-container'),
+    dataWrapper = $('#data-display');
 
 var makeTopicSelectWidget = function(element) {
     element.typeahead('destroy');
@@ -65,8 +66,8 @@ var makeTopicSelectWidget = function(element) {
         tableID = datum['table_id'];
         
         var url = '/data/'+dataFormat+'/?table=' + tableID;
-        if (!!geoIDs) { url += "&geoids=" + geoIDs.join(',') }
-        if (!!primaryGeoID) { url += "&primary_geoid=" + primaryGeoID }
+        if (!!geoIDs) { url += "&geo_ids=" + geoIDs.join(',') }
+        if (!!primaryGeoID) { url += "&primary_geo_id=" + primaryGeoID }
         window.location = url;
         // TODO: pushState to maintain history without page reload
         //getData();
@@ -118,7 +119,7 @@ var makeParentOptions = function() {
                             var newGeoIDs = geoIDs.slice(0);
                             newGeoIDs.push(thisSumlev + '|' + d.geoid);
                             
-                            return '/data/'+dataFormat+'/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');
+                            return '/data/'+dataFormat+'/?table='+tableID+'&primary_geo_id='+primaryGeoID+'&geo_ids='+newGeoIDs.join(',');
                         })
                         .text(function(d) { return d.display_name });
 
@@ -148,7 +149,7 @@ var makeChildOptions = function(name) {
                     var newGeoIDs = geoIDs.slice(0);
                     newGeoIDs.push(d + '|' + primaryGeoID);
 
-                    return '/data/'+dataFormat+'/?table='+tableID+'&primary_geoid='+primaryGeoID+'&geoids='+newGeoIDs.join(',');
+                    return '/data/'+dataFormat+'/?table='+tableID+'&primary_geo_id='+primaryGeoID+'&geo_ids='+newGeoIDs.join(',');
                 })
                 .text(function(d) { return sumlevMap[d]['plural'] });
         
@@ -416,9 +417,10 @@ jQuery(document).ready(function(){
     
     $("#data-display").on('click', '#change-table', function(e) {
         e.preventDefault();
+        dataHeader.hide()
+        dataWrapper.hide()
         topicSelectContainer.toggle();
         topicSelect.focus();
-        resultsContainer.fadeOut('fast');
     });
 
 });

@@ -14,7 +14,8 @@ var tableID = tableID || null,
 
 var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#query-topic-picker'),
-    resultsContainer = $('#data-display');
+    dataHeader = $('#header-container'),
+    dataWrapper = $('#data-display');
 
 var makeTopicSelectWidget = function(element) {
     element.typeahead('destroy');
@@ -66,8 +67,8 @@ var makeTopicSelectWidget = function(element) {
         tableID = datum['table_id'];
         
         var url = '/data/'+dataFormat+'/?table=' + tableID;
-        if (!!geoIDs) { url += "&geoids=" + geoIDs.join(',') }
-        if (!!primaryGeoID) { url += "&primary_geoid=" + primaryGeoID }
+        if (!!geoIDs) { url += "&geo_ids=" + geoIDs.join(',') }
+        if (!!primaryGeoID) { url += "&primary_geo_id=" + primaryGeoID }
         window.location = url;
         // TODO: pushState to maintain history without page reload
         //getData();
@@ -358,19 +359,25 @@ var makeDataDisplay = function(results) {
             .text('Click a row to highlight');
 
     // be smart about fixed height
+    window.tableHeight = $('#table-results').height()+20;
     setGridWindowHeight();
     
     // add the comparison links and names
     addGeographyNames(primaryGeoName);
 }
 
-var setGridWindowHeight = function() {
+// listen for resize, redraw table to new dimensions
+var setGridWindowHeight = _.debounce(function() {
+    window.browserWidth = document.documentElement.clientWidth;
+    window.browserHeight = document.documentElement.clientHeight;
+
     var top = document.getElementById('table-results-container').getBoundingClientRect().top,
-        maxContainerHeight = Math.floor(browserHeight - top - 120),
-        tableHeight = $('#table-results').height() + 50,
+        maxContainerHeight = Math.floor(browserHeight - top - 20),
         bestHeight = (tableHeight < maxContainerHeight) ? tableHeight : maxContainerHeight;
+
     $('#table-results-container').css('height', bestHeight+'px');
-}
+}, 100);
+$(window).resize(setGridWindowHeight);
 
 var addGeographyNames = function(primaryGeoName) {
     makeGeoSelectWidget();
@@ -389,9 +396,10 @@ jQuery(document).ready(function(){
     
     $("#data-display").on('click', '#change-table', function(e) {
         e.preventDefault();
+        dataHeader.hide()
+        dataWrapper.hide()
         topicSelectContainer.toggle();
         topicSelect.focus();
-        resultsContainer.fadeOut('fast');
     });
 
     $("#table-results-container").on('mouseover', '.g_BR', function(e) {
