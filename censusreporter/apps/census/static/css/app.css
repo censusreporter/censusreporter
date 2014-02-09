@@ -2321,15 +2321,20 @@ aside .search .result-type {
 }
 
 .message {
-    margin: 1em 0;
+    margin: 1em 0 2em;
     padding: .67em 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 .message-error {
     padding: .67em 1em;
     background-color: #F5835D;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+}
+.message-help {
+    padding: .67em 1em;
+    background-color: #fff;
+    border: 1px solid #e0e4d4;
 }
 
 /* HELPERS */

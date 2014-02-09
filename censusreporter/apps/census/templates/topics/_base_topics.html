@@ -4,7 +4,8 @@
 
 {% block content_container %}
 <div class="content-container wrapper clearfix">
-    <div id="help-feedback-solicitation">In addition to serving data, Census Reporter wants to help you understand how to use it. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if there are topics you'd like to see us explain.</div>
+    <p id="help-feedback-solicitation" class="message message-help display-type">In addition to serving data, Census Reporter wants to help you understand how to use it. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if there are topics you&rsquo;d like to see us explain.</p>
+    
     <article id="topics{% if topic.slug %}-{{ topic.slug }}{% endif %}" class="topic">
         <header>
             {% if topic.slug %}<p class="display-type"><a href="{% url 'topic_list' %}">&larr; Topics</a></p>{% endif %}
@@ -36,7 +37,6 @@ jQuery(document).ready(function($) {
     });
 
     Glossary.init("{% url 'glossary' %}",".glossary-term");
-
 });
 </script>
 {% endblock %}
