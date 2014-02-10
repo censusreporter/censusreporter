@@ -247,6 +247,18 @@ TOPICS_LIST = [
             ('Hispanic or Latino Origin','http://www.census.gov/acs/www/Downloads/QbyQfact/hispanic.pdf')
         ]
     },
+    
+    {
+        'title': 'Income',
+        'slug': 'income',
+        'description': 'How the Census approaches the topic of income.',
+        'template_name': 'income.html',
+        'question_images': ['income.png',],
+        'question_pdfs': [
+            ('All income questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
+        ]
+    },
+    
     {
         'title': 'Employment',
         'slug': 'employment',
