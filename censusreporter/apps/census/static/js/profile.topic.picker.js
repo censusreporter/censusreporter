@@ -40,7 +40,7 @@ function makeTopicSelectWidget(element) {
                 //topicResultNumber.text(resultNumber + ' matches');
                 if (resultNumber === 0) {
                     response.push({
-                        table_name: 'Sorry, no matches found. Try removing filters or changing your keyword search.'
+                        table_name: 'Sorry, no matches found. Try changing your keyword search.'
                     });
                 }
                 response.map(function(item) {

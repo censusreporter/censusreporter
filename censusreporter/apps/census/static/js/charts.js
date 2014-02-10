@@ -732,7 +732,7 @@ function Chart(options) {
             clicked = d3.select(this),
             hide = clicked.classed("opened"),
             tableID = chart.capitalize(chart.initialData.metadata.table_id),
-            tableURL = '/data/?table='+tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+chart.geoIDs.join(',');
+            tableURL = '/data/table/?table='+tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+chart.geoIDs.join(',');
         chart.dataDrawer = row.select(".data-drawer");
         
         // make sure we're in a pristine state

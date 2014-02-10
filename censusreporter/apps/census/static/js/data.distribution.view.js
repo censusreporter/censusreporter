@@ -352,7 +352,7 @@ var makeDataDisplay = function(results) {
     })
     
     // add the comparison links and names
-    //addGeographyNames(primaryGeoName);
+    addGeographyNames(primaryGeoName);
     displaySetup();
 }
 
