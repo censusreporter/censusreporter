@@ -291,6 +291,9 @@ img.screenshot {
     padding: 2em 0 0;
     clear: both;
 }
+#header-container h1 {
+    padding-right: 370px;
+}
 
 article,
 article.column-full {
@@ -526,16 +529,39 @@ aside .search input {
     font-size: 3em;
     margin-bottom: .25em;
 }
-#homepage #profile h1 {
+#homepage #profile h1,
+#homepage #explore h1 {
     float: left;
     width: 285px;
 }
-#homepage #geography-select {
+#explore-topic-metadata p {
+    float: left;
+    width: 260px;
+    text-align: right;
+    padding-top: .5em;
+}
+#homepage #geography-select,
+#homepage #topic-select,
+#homepage #topic-place-select {
     font-size: 1.6em;
     padding: .25em .5em 0;
     width: 100%;
 }
-#homepage #geography-select-wrapper {
+#homepage #explore dl {
+    margin: 0 1em 2em;
+}
+#homepage #explore dt, dd {
+    font-size: 1.3em;
+}
+#homepage #explore dt {
+    font-weight: bold;
+    float: left;
+}
+#homepage #explore dd {
+    padding-left: 100px;
+    margin-bottom: .75em;
+}
+#homepage .input-wrapper {
     padding-top: .25em;
     padding-left: 300px;
 }
@@ -557,6 +583,14 @@ aside .search input {
 }
 #homepage #query-builder-bar {
     margin: 1.5em 0;
+}
+.homepage-action {
+    clear: both;
+    margin: 0 0 2em;
+}
+.homepage-action .help-text {
+    margin: .67em 1.2em;
+    font-style: italic;
 }
 .or {
     font-family: "Merriweather", Georgia, serif;
@@ -2495,10 +2529,16 @@ aside .search .result-type {
         padding: .25em .5em 0;
         width: 100%;
     }
-    #homepage #geography-select-wrapper {
+    #homepage .input-wrapper {
         padding-top: 0;
         padding-left: 0;
         margin-bottom: 1em;
+    }
+    #explore-topic-metadata p {
+        width: auto;
+        float: none;
+        text-align: left;
+        padding: 0 0 .25em 1em;
     }
     #homepage #geography-select-wrapper .action-button {
         font-size: 1.1em;
@@ -2508,6 +2548,10 @@ aside .search .result-type {
     }
     .topic aside img {
         width: 300px;
+    }
+    #header-container h1 {
+        padding: 1em 0 0;
+        clear: both;
     }
 } /* END: @media only screen and (max-width: 768px) */
 @media only screen and (max-width: 640px) {
@@ -2628,6 +2672,9 @@ aside .search .result-type {
     .topic aside img {
         width: 250px;
     }
+    .header-container {
+        padding-top: 1em;
+    }
 } /* END: @media only screen and (max-width: 640px) */
 @media only screen and (max-width: 480px) {
     .column-third,
@@ -2667,10 +2714,18 @@ aside .search .result-type {
         margin-top: 150px;
     }
     #homepage h1.article-header {
-        font-size: 2.5em;
+        font-size: 2.2em;
     }
-    #homepage #geography-select {
+    #homepage #geography-select,
+    #homepage #topic-select {
         font-size: 1.2em;
+    }
+    #homepage #explore dt {
+        float: none;
+    }
+    #homepage #explore dd {
+        padding-left: 0;
+        margin: .25em 0 0.75em 1em;
     }
     .callout h3 {
         font-size: 21px;

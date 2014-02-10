@@ -6,14 +6,9 @@
 {% block content_container %}
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
-        <section class="column-full clearfix">
-            {% comment %}<p class="explain">
-                This feature is under active development, so may occasionally appear broken.
-            </p>
-            We&rsquo;ll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, Oct. 17-19,</a> to introduce it. Come by &ldquo;the midway&rdquo; and tell us what you think!{% endcomment %}
-            
+        <section class="column-full clearfix homepage-action">
             <h1 class="article-header">Profile a place</h1>
-            <div id="geography-select-wrapper">
+            <div id="geography-select-wrapper" class="input-wrapper">
                 <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
                 <div class="geolocate-only">
                     <span class="or">or</span>
@@ -50,16 +45,19 @@
 
 
 <div class="content-container clearfix">
-    <article id="compare" class="clearfix wrapper">
-        {% include "compare/_blocks/_comparison_builder_steps.html" %}
+    {% comment %}<article id="compare" class="clearfix wrapper">
+        {% include "compare/_blocks/_comparison_builder_steps.html" %}{% endcomment %}
 
-        <section>
+    <article id="explore" class="clearfix wrapper">
+        {% include "data/_blocks/_data_query_builder.html" %}
+
+        <section id="explore-callouts">
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="fa fa-search"></i>
                     Explore
                 </h3>
-                <p>Census data is massive, and sometimes it&rsquo;s hard to find the table you&rsquo;re looking for. Topic filtering and search are here to help.</p>
+                <p>Census data is massive, and sometimes it&rsquo;s hard to find the table you&rsquo;re looking for. Search by table and column keywords.</p>
             </div>
             <div class="column-third callout with-icon">
                 <h3>
@@ -93,7 +91,7 @@
                 <img src="{{ STATIC_URL }}img/examples/us_median_income_map.png">
                 <span class="caption">How does median income compare from state to state? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/16000US0644000/">
+            <a class="column-third card" href="/profiles/16000US0644000/#language">
                 <img src="{{ STATIC_URL }}img/examples/language_los_angeles.png">
                 <span class="caption">What languages do people speak at home in Los Angeles? <span class="more">More &rarr;</span></span>
             </a>
@@ -101,15 +99,15 @@
                 <img src="{{ STATIC_URL }}img/examples/us_geographic_mobility_distribution.png">
                 <span class="caption">Where are people most mobile, and what skills do they have? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/16000US5367000/">
+            <a class="column-third card" href="/profiles/16000US5367000/#poverty">
                 <img src="{{ STATIC_URL }}img/examples/poverty_spokane.png">
                 <span class="caption">How many children live in poverty in Spokane, Wash.? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/compare/01000US/040/table/?release=acs2012_1yr&table=B02001">
+            <a class="column-third card" href="/data/table/?table=B02001&geo_ids=040|01000US">
                 <img src="{{ STATIC_URL }}img/examples/us_race_table.png">
                 <span class="caption">What is the racial makeup of the U.S., and how do states compare? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/16000US3916000/">
+            <a class="column-third card" href="/profiles/16000US3916000/#educational-attainment">
                 <img src="{{ STATIC_URL }}img/examples/education_cleveland.png">
                 <span class="caption">How many people have college degrees in Cleveland? <span class="more">More &rarr;</span></span>
             </a>
@@ -127,5 +125,6 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 </script>
-<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
+{#}<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>{#}
+<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
 {% endblock %}
