@@ -1,0 +1,100 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+<p>It is more trouble than you might guess to get a simple count of the number of people 65 and older in a geography. The most direct route is to take a table which has a <span class="glossary-term">universe</span> 'Population 65 Years and Over' and use the value from the first (total) column. As of the 2012 ACS releases, the preferred table for this is <strong>B09020</strong>. This table was introduced in 2008 to replace <strong>B09017</strong>, and with the 2012 release, <strong>B09020</strong> is available in all of the 1-, 3- and 5-year releases.</p>
+<p>Otherwise, here are Census tables pertinent to senior citizens:</p>
+<h3 id="b09020-senior-citizen-living-arrangements">B09020: Senior citizen living arrangements</h3>
+<p>Table <strong>B09020</strong> can be used to determine how many citizens 65 years or older live alone, live with family members or non-relatives, or live in assisted living or other institutions (what the census calls "Group Quarters"). Earlier ACS releases had a similar table, <strong>B09017</strong> which is identical, except that the current table counts citizens who are the "parent-in-law" of the <span class="glossary-term">householder</span> separately, while the old table included that relationship with "other relatives."</p>
+<h3 id="b11007-households-by-presence-of-senior-citizens">B11007: Households by presence of senior citizens</h3>
+<p>Table <strong>B11007</strong> counts households instead of individual people. It is another way to identify the number of households with seniors living alone, compared to households with seniors living with other people, family or non-family.</p>
+<h3 id="b23004-and-c23004-working-seniors">B23004 and C23004: Working seniors</h3>
+<p>Use table <strong>B23004</strong> for detailed information on working senior citizens. Data is broken down by age (65-74 years old and 75 and older), and whether they worked in the previous 12 months before completing the survey, whether they were still working or unemployed.</p>
+<p>Table <strong>C23004</strong> is only available in the 1- and 3-year ACS releases. It provides a simpler view of this data, with no age breakdown and then whether the person was working or trying to work at the time of completing the survey, retired, or long-term unemployed.</p>
+<h2 id="grandparents">Grandparents</h2>
+<p>The ACS has many tables providing various information about cases where grandparents and grandchildren live together. In various combinations, these tables provide data on the grandparent's responsibility for the grandchildren, the presence of the grandchildren's parent in the home, the employment, disability, poverty and marital status of the grandparents, and information about the housing itself: how long the grandparents have lived in their home, how many housing units are in the home, and more.</p>
+<p>For all of these tables, "Grandchildren" refers to children under 18 years old.</p>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B10001</strong></td>
+<td>Grandchildren Living With a Grandparent Householder by Age of Grandchild</td>
+</tr>
+<tr>
+<td><strong>B10002</strong></td>
+<td>Grandchildren Living With a Grandparent Householder by Grandparent Responsibility and Presence of Parent</td>
+</tr>
+<tr>
+<td><strong>B10010</strong></td>
+<td>Median Family Income for Families With Grandparent Householders And/or Spouses Living With Own Grandchildren by Responsibility for Own Grandchildren and Presence of Parent of Grandchild</td>
+</tr>
+<tr>
+<td><strong>B10050</strong></td>
+<td>Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren by Length of Time Responsible for Own Grandchildren for the Population 30 Years and Over</td>
+</tr>
+<tr>
+<td><strong>B10051<sup>†</sup></strong></td>
+<td>Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren by Presence of Parent of Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10052</strong></td>
+<td>Disability Status of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10053</strong></td>
+<td>Nativity by Grandparents Responsible for Own Grandchildren by Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10054</strong></td>
+<td>Language and Ability to Speak English of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10055</strong></td>
+<td>Disability Status of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10056</strong></td>
+<td>Sex of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10057</strong></td>
+<td>Marital Status by Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10058</strong></td>
+<td>Employment Status of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10059</strong></td>
+<td>Poverty Status in the Past 12 Months of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10060</strong></td>
+<td>Units in Structure of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10061</strong></td>
+<td>Tenure of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong>B10063</strong></td>
+<td>Households With Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Presence of Parent of Grandchildren</td>
+</tr>
+</tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.
+            </td>
+        </tr>
+    </tfoot>
+
+</table>
+{% endblock %}

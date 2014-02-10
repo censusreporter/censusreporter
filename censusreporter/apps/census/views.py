@@ -259,6 +259,17 @@ TOPICS_LIST = [
             ('Class of worker; Industry; Occupation','http://www.census.gov/acs/www/Downloads/QbyQfact/worker.pdf'),
         ]
     },
+    {
+        'title': 'Seniors',
+        'slug': 'seniors',
+        'description': 'In addition to basic Census data about age, there are a small number of Census tables which focus directly on data about older Americans, and on grandparents as caregivers.',
+        'template_name': 'seniors.html',
+        'question_images': ['seniors.png',],
+        'question_pdfs': [
+            ('Age','http://www.census.gov/acs/www/Downloads/QbyQfact/age.pdf'),
+            ('Grandparents as caregivers','http://www.census.gov/acs/www/Downloads/QbyQfact/grandparents.pdf'),
+        ]
+    },
 ]
 
 TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
