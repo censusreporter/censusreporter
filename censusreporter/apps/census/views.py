@@ -252,7 +252,7 @@ TOPICS_LIST = [
         'slug': 'employment',
         'description': 'While the ACS is not always the best source for employment data, it provides interesting information for small geographies that other sources don\'t cover.',
         'template_name': 'employment.html',
-        # 'question_images': ['employment.png',],
+        'question_images': ['employment.png',],
         'question_pdfs': [
             ('Labor force status','http://www.census.gov/acs/www/Downloads/QbyQfact/labor.pdf'),
             ('Work status','http://www.census.gov/acs/www/Downloads/QbyQfact/work_status.pdf'),
