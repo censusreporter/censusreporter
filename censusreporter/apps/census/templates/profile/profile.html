@@ -7,6 +7,7 @@
   <!--[if lte IE 8]>
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
   <![endif]-->
+<link href='{{STATIC_URL}}css/leaflet.label.css' rel='stylesheet' />
 {% endblock %}
 
 {% block head_javascript_extra %}
@@ -314,6 +315,7 @@
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/TileLayer.GeoJSON.js"></script>
+<script src="{{ STATIC_URL }}js/leaflet.label.js"></script>
 <script type="text/javascript">
 // Make the header map
 d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
@@ -356,6 +358,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
             if (feature.properties.geoid == thisGeoID)
                 return;
 
+            layer.bindLabel(feature.properties.name);
             layer.on('mouseover', function() {
                 layer.setStyle({
                     "fillOpacity": 0.5,
