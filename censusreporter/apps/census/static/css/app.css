@@ -1167,17 +1167,11 @@ table .name {
 table .value {
     text-align: right;
 }
-tr.even td,
-tr.highlight td {
-    background-color: #e0e4d4;
-}
+tr:hover td,
+tr.highlight td,
 .grid .highlight,
 .grid .hover {
     background-color: #e0e4d4;
-}
-tr:hover td,
-tr.even:hover td {
-    background: #d1d7bf;
 }
 table .percentage, table .raw-number {
     display: block

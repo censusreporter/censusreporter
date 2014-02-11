@@ -777,7 +777,7 @@ function Chart(options) {
                 } else {
                     // data shaped for grouped chart
                     d.values.forEach(function(k, i) {
-                        k.context.name = d.name + ': ' + chart.capitalize(k.name);
+                        k.name = d.name + ': ' + chart.capitalize(k.name);
                         rowValues.push(k);
                     })
                 }
