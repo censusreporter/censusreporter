@@ -859,6 +859,9 @@ aside .search input {
     padding: 1.5em 0 0;
     overflow-x: auto;
 }
+#table-results.data-drawer {
+    padding-top: .25em;
+}
 .data-drawer th {
     border-left: 5px solid #fff;
 }
