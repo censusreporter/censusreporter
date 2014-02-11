@@ -69,23 +69,11 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
         makePlaceSelectWidget(placeSelect);
-        placeSelectContainer.show();
+        placeSelectContainer.slideDown();
         placeSelect.focus();
-        topicSelectContainer.hide();
-        makeTableMetadata(datum);
-        element.typeahead('setQuery', '');
+        $('#explore-callouts').hide();
         //topicFilters.prop('checked', false);
     });
-}
-
-function makeTableMetadata(data) {
-    $('#explore-callouts').hide();
-    var tableMetadataSection = $('<section id="explore-topic-metadata" class="homepage-action"><div class="input-wrapper"><dl></dl></div></section>').insertAfter(placeSelectContainer),
-        tableMetadata = $('#explore-topic-metadata dl');
-
-    $('#explore-topic-metadata').prepend('<p><a id="change-table" href="#">Change table</a></p>');
-    tableMetadata.append('<dt>Table '+data.table_id+'</dt><dd>'+data.table_name+'</dd>');
-    tableMetadata.append('<dt>Universe</dt><dd>'+data.universe+'</dd>');
 }
 
 function makePlaceSelectWidget(element) {

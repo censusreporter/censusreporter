@@ -532,7 +532,8 @@ aside .search input {
 #homepage #profile h1,
 #homepage #explore h1 {
     float: left;
-    width: 285px;
+    width: 150px;
+    text-align: right;
 }
 #explore-topic-metadata p {
     float: left;
@@ -563,7 +564,7 @@ aside .search input {
 }
 #homepage .input-wrapper {
     padding-top: .25em;
-    padding-left: 300px;
+    padding-left: 180px;
 }
 #homepage #geography-select-wrapper .geolocate-only {
     clear: both;
