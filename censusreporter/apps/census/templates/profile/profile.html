@@ -511,7 +511,7 @@ var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
     rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
     parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
-    tilesGeoAPI = rootGeoAPI + '/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 if (!!parentLinkContainer) {
     // set up the listener for trigger to reveal hidden groups
