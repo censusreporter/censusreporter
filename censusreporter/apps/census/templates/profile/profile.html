@@ -385,6 +385,10 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
     map.addLayer(featureLayer);
     var objBounds = featureLayer.getBounds();
 
+    if (thisSumlev === "010") {
+        objBounds = L.latLngBounds(L.latLng(24.396, -124.849), L.latLng(49.384, -66.885));
+    }
+
     if (browserWidth > 768) {
         var z;
         for(z = 16; z > 2; z--) {
@@ -397,10 +401,10 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
             }
         }
 
-        map.setView(featureLayer.getBounds().getCenter(), z);
+        map.setView(objBounds.getCenter(), z);
         map.panBy([-270, 0], {animate: false});
     } else {
-        map.fitBounds(featureLayer.getBounds());
+        map.fitBounds(objBounds);
     }
 })
 
@@ -507,7 +511,7 @@ var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
     rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
     parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
-    tilesGeoAPI = rootGeoAPI + '/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 if (!!parentLinkContainer) {
     // set up the listener for trigger to reveal hidden groups

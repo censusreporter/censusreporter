@@ -548,20 +548,6 @@ aside .search input {
     padding: .25em .5em 0;
     width: 100%;
 }
-#homepage #explore dl {
-    margin: 0 1em 2em;
-}
-#homepage #explore dt, dd {
-    font-size: 1.3em;
-}
-#homepage #explore dt {
-    font-weight: bold;
-    float: left;
-}
-#homepage #explore dd {
-    padding-left: 100px;
-    margin-bottom: .75em;
-}
 #homepage .input-wrapper {
     padding-top: .25em;
     padding-left: 180px;
@@ -663,6 +649,7 @@ aside .search input {
 }
 .data-drawer.grid {
     font-size: .83em;
+    padding-top: 0;
 }
 .grid .name,
 .grid .value,
@@ -1855,47 +1842,6 @@ section.chart-divider h2 {
     float: right;
 }
 
-#homepage #query-topic {
-    width: 24%;
-}
-#homepage #query-geographies {
-    width: 49%;
-}
-#homepage #query-go {
-    width: 20%;
-}
-
-#homepage .float-query #query-topic,
-#homepage .float-query #query-go {
-    width: 25%;
-}
-#homepage .float-query #query-geographies {
-    width: 44%;
-}
-#homepage .float-query h1.article-header {
-    float: left;
-    width: 30%;
-}
-#homepage .float-query #query-builder-bar {
-    margin-top: .67em;
-    padding-left: 33%;
-    width: 100%;
-}
-
-#homepage .float-query #query-builder-bar .highlight,
-#homepage .float-query #query-topic,
-#homepage .float-query #query-geographies,
-#homepage .float-query #query-release, 
-#homepage .float-query #query-builder-bar #query-go {
-    font-size: 1em;
-}
-
-#homepage .float-query #query-builder-bar .query-chosen {
-    height: 37px;
-}
-#homepage .float-query #query-builder-bar section[id$="-picker"] {
-    top: 36px;
-}
 #query-release {
     margin-right: 0;
 }
@@ -1910,12 +1856,6 @@ section.chart-divider h2 {
     -moz-border-radius: 4px;
     border-radius: 4px;
     cursor: pointer;
-}
-#homepage .float-query #query-topic .query-chosen,
-#homepage .float-query #query-geographies .query-chosen,
-#homepage .float-query #query-release .query-chosen,
-#homepage .float-query #query-go .query-chosen {
-    margin-left: 1.5em;
 }
 
 #query-topic .query-chosen {
@@ -2636,11 +2576,6 @@ aside .search .result-type {
     #query-geography-picker li {
         margin-bottom: .67em;
     }
-    #homepage #query-topic,
-    #homepage #query-geographies,
-    #homepage #query-go {
-        width: 100%;
-    }
     #query-topic .query-chosen,
     #query-geographies .query-chosen,
     #query-release .query-chosen,
@@ -2717,13 +2652,6 @@ aside .search .result-type {
     #homepage #geography-select,
     #homepage #topic-select {
         font-size: 1.2em;
-    }
-    #homepage #explore dt {
-        float: none;
-    }
-    #homepage #explore dd {
-        padding-left: 0;
-        margin: .25em 0 0.75em 1em;
     }
     .callout h3 {
         font-size: 21px;
