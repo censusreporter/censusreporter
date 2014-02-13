@@ -12,6 +12,8 @@ Comparison({
     dataWrapper: '#data-display',
     dataContainer: '#data-container'
 })
+
+This expects to have Underscore, D3 and jQuery.
 */
 
 function Comparison(options) {
@@ -94,6 +96,7 @@ function Comparison(options) {
             headerContainer = d3.select('#header-container'),
             dataContainer = d3.select('#data-display'),
             resultsContainer = d3.select('.data-drawer'),
+            aside = d3.select('aside'),
             gridData = {
                 Head: [],
                 Body: []
@@ -108,8 +111,10 @@ function Comparison(options) {
 
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
-        d3.select('aside').insert('p', ':first-child')
+        aside.insert('p', ':first-child')
             .html('<a id="change-table" href="#">Change table</a>');
+        aside.selectAll('.hidden')
+            .classed('hidden', false);
         headerContainer.select('h1').text(table.title);
         dataContainer.select('h1').text('Table ' + comparison.tableID);
         dataContainer.select('h2').text(release.name);
@@ -197,12 +202,15 @@ function Comparison(options) {
             denominatorColumn = table.denominator_column_id || null,
             headerContainer = d3.select('#header-container'),
             dataContainer = d3.select('#data-display'),
-            resultsContainer = d3.select('#data-container');
+            resultsContainer = d3.select('#data-container'),
+            aside = d3.select('aside');
 
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
-        d3.select('aside').insert('p', ':first-child')
+        aside.insert('p', ':first-child')
             .html('<a id="change-table" href="#">Change table</a>');
+        aside.selectAll('.hidden')
+            .classed('hidden', false);
         headerContainer.select('h1').text(table.title);
         dataContainer.select('h1').text('Table ' + comparison.tableID);
         dataContainer.select('h2').text(release.name);
