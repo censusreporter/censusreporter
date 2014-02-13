@@ -551,7 +551,8 @@ aside .search input {
 #homepage #explore dl {
     margin: 0 1em 2em;
 }
-#homepage #explore dt, dd {
+#homepage #explore dt,
+#homepage #explore dd {
     font-size: 1.3em;
 }
 #homepage #explore dt {
@@ -663,6 +664,7 @@ aside .search input {
 }
 .data-drawer.grid {
     font-size: .83em;
+    padding-top: 0;
 }
 .grid .name,
 .grid .value,
