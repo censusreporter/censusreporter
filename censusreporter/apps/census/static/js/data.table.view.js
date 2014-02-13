@@ -345,10 +345,10 @@ var makeDataDisplay = function(results) {
     });
 
     var myGrid = new Grid("table-results", {
-            srcType : "json", 
-            srcData : gridData, 
-            fixedCols : 1
-        });
+        srcType : "json",
+        srcData : gridData,
+        fixedCols : 1
+    });
 
     // add some table controls and notes
     if (!!denominatorColumn) {
@@ -371,11 +371,11 @@ var setGridWindowHeight = _.debounce(function() {
     window.browserWidth = document.documentElement.clientWidth;
     window.browserHeight = document.documentElement.clientHeight;
 
-    var top = document.getElementById('table-results-container').getBoundingClientRect().top,
+    var top = document.getElementById('results-container').getBoundingClientRect().top,
         maxContainerHeight = Math.floor(browserHeight - top - 20),
         bestHeight = (tableHeight < maxContainerHeight) ? tableHeight : maxContainerHeight;
 
-    $('#table-results-container').css('height', bestHeight+'px');
+    $('#results-container').css('height', bestHeight+'px');
 }, 100);
 $(window).resize(setGridWindowHeight);
 
@@ -402,7 +402,7 @@ jQuery(document).ready(function(){
         topicSelect.focus();
     });
 
-    $("#table-results-container").on('mouseover', '.g_BR', function(e) {
+    $("#data-display").on('mouseover', '.g_BR', function(e) {
         var thisClass = $(this).attr('class').split(' ');
         var thisRow = $.grep(thisClass, function(c) {
             return c.substr(0,3) == 'g_R';
@@ -410,7 +410,7 @@ jQuery(document).ready(function(){
         $('.'+thisRow+':not(.g_HR)').addClass('hover');
     });
 
-    $("#table-results-container").on('mouseleave', '.g_BR', function(e) {
+    $("#data-display").on('mouseleave', '.g_BR', function(e) {
         var thisClass = $(this).attr('class').split(' ');
         var thisRow = $.grep(thisClass, function(c) {
             return c.substr(0,3) == 'g_R';
@@ -418,7 +418,7 @@ jQuery(document).ready(function(){
         $('.'+thisRow+':not(.g_HR)').removeClass('hover');
     });
     
-    $("#table-results-container").on('click', '.g_BR', function(e) {
+    $("#data-display").on('click', '.g_BR', function(e) {
         var thisClass = $(this).attr('class').split(' ');
         var thisRow = $.grep(thisClass, function(c) {
             return c.substr(0,3) == 'g_R';

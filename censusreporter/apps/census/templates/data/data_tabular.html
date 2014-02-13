@@ -1,41 +1,9 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
 
 {% block head_css_extra %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/Grid.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/grid.css">
 {% endblock %}
 
-{% block content %}
-<section class="clearfix hidden header-container" id="query-topic-picker">
-    <h1>Find data</h1>
-    <div class="typeahead-container">
-        <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
-    </div>
-</section>
-
-<article id="data-display" class="clearfix">
-    <header class="section-contents">
-        <h1>Data table</h1>
-    </header>
-    <div class="section-container">
-        <section class="clearfix stat-row">
-            <h2 class="column-header"></h2>
-            
-            <aside></aside>
-
-            <div id="tool-notes" class="tool-set caption-tool-set"></div>
-            <p class="caption">
-                <span id="table-universe" class="caption-group"></span>
-            </p>
-            
-            <div id="table-results-container">
-                <div class="data-drawer grid" id="table-results"></div>
-            </div>
-        </section>
-    </div>
-</article>
-{% endblock %}
-
-{% block body_javascript_extra %}{{ block.super }}
+{% block page_specific_javascript %}
 <script src="{{ STATIC_URL }}js/vendor/Grid.js"></script>
-<script src="{{ STATIC_URL }}js/data.table.view.js"></script>
 {% endblock %}

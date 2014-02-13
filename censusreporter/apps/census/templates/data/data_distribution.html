@@ -4,36 +4,12 @@
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.css">
 {% endblock %}
 
-{% block content %}
-<section class="clearfix hidden header-container" id="query-topic-picker">
-    <h1>Find data</h1>
-    <div class="typeahead-container">
-        <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
-    </div>
-</section>
-
-<article id="data-display" class="clearfix">
-    <header class="section-contents">
-        <h1>Data table</h1>
-    </header>
-    <div class="section-container">
-        <section id="data-container" class="clearfix">
-            <h2 class="column-header"></h2>
-            <aside>
-                <p>These charts show how data in this table is distributed, helping identify patterns, clusters and outliers.</p>
-                <p>Highlighting a point on one chart will also highlight it on the others.</p>
-            </aside>
-            <div id="tool-notes" class="tool-set caption-tool-set"></div>
-            <p class="caption">
-                <span id="table-universe" class="caption-group"></span>
-            </p>
-        </section>
-    </div>
-</article>
+{% block aside_notes %}
+<p>These charts show how data in this table is distributed, helping identify patterns, clusters and outliers.</p>
+<p>Highlighting a point on one chart will also highlight it on the others.</p>
 {% endblock %}
 
-{% block body_javascript_extra %}{{ block.super }}
+{% block page_specific_javascript %}
 <script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/chroma.min.js"></script>
-<script src="{{ STATIC_URL }}js/data.distribution.view.js"></script>
 {% endblock %}
