@@ -128,8 +128,9 @@ function Comparison(options) {
         // build the header
         var gridHeaderBits = ['Column'];
         sortedPlaces.forEach(function(g) {
-            var geoID = g.geoID;
-            gridHeaderBits.push('<a href="/profiles/' + geoID + '">' + comparison.data.geography[geoID].name + '</a>');
+            var geoID = g.geoID,
+                geoName = comparison.data.geography[geoID].name;
+            gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '">' + geoName + '</a>');
         })
         gridData.Head.push(gridHeaderBits);
 

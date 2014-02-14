@@ -105,6 +105,48 @@ var valFmt = function(value, statType, disablePct) {
 // commas for human-friendly integers
 var commaFmt = d3.format(",");
 
+// underscore.string formatters
+var escapeRegExp = function(str) {
+  if (str == null) return '';
+  return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+}
+
+var defaultToWhiteSpace = function(characters) {
+  if (characters == null)
+    return '\\s';
+  else if (characters.source)
+    return characters.source;
+  else
+    return '[' + escapeRegExp(characters) + ']';
+}
+
+var nativeTrim = String.prototype.trim;
+var trim = function(str, characters) {
+  if (str == null) return '';
+  if (!characters && nativeTrim) return nativeTrim.call(str);
+  characters = defaultToWhiteSpace(characters);
+  return String(str).replace(new RegExp('\^' + characters + '+|' + characters + '+$', 'g'), '');
+}
+
+var dasherize = function(str) {
+  return trim(str).replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
+}
+
+var slugify = function(str) {
+  if (str == null) return '';
+
+  var from = "ąàáäâãåæăćęèéëêìíïîłńòóöôõøśșțùúüûñçżź",
+      to = "aaaaaaaaaceeeeeiiiilnoooooosstuuuunczz",
+      regex = new RegExp(defaultToWhiteSpace(from), 'g');
+
+  str = String(str).toLowerCase().replace(regex, function(c){
+    var index = from.indexOf(c);
+    return to.charAt(index) || '-';
+  });
+
+  return dasherize(str.replace(/[^\w\s-]/g, ''));
+}
+
 // math utils
 var calcPct = function(numerator, denominator) {
     if (numerator >= 0 && denominator >= 0) {

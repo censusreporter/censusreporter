@@ -45,7 +45,7 @@
                         <tr>
                             <th class="name">Column</th>
                             {% for geo in geo_names %}
-                            <th class="value" title="{{ geo.name }}"><a href="{% url 'geography_detail' geo.geoid %}">{{ geo.name }}</a></th>
+                            <th class="value" title="{{ geo.name }}"><a href="{% url 'geography_detail_geoid' geo.geoid %}">{{ geo.name }}</a></th>
                             {% endfor %}
                         </tr>
                     </thead>
@@ -79,7 +79,7 @@
                     <tbody>
                         {% for geo in values_by_geo %}
                         <tr class="{% cycle 'odd' 'even' %}">
-                            <td class="name"><a href="{% url 'geography_detail' geo.geoID %}">{{ geo.name }}</a></td>
+                            <td class="name"><a href="{% url 'geography_detail_geoid' geo.geoID %}">{{ geo.name }}</a></td>
                             <td class="value">{{ geo.total_population|floatformat|intcomma }}</td>
                             {% for group, values in geo.values.items %}
                             <td class="value toggle-target">

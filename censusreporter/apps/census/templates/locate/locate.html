@@ -16,7 +16,7 @@
             <ul class="location-list">
             {% for place in places %}
                 <li>
-                    <a href="{% url 'geography_detail' place.full_geoid %}" class="card">
+                    <a href="{% url 'geography_detail_geoid' place.full_geoid %}" class="card">
                         <span class="identifier">{{ place.sumlev_name }}</span>
                         {{ place.full_name }}
                     </a>

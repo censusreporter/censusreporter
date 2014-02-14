@@ -14,6 +14,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils import simplejson
 from django.utils.safestring import SafeString
+from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
@@ -96,6 +97,40 @@ def raise_404_with_messages(request, error_data={}):
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile.html'
+    
+    def dispatch(self, *args, **kwargs):
+        self.geo_id = self.kwargs.get('geography_id', None)
+        self.slug = self.kwargs.get('slug', None)
+        
+        if not self.slug:
+            geo = self.get_geography(self.geo_id)
+            if geo:
+                try:
+                    # if possible, redirect to slugged URL
+                    slug = slugify(geo['properties']['display_name'])
+                    return HttpResponseRedirect(
+                        reverse('geography_detail', args=(self.geo_id, slug))
+                    )
+                except:
+                    # if we have a strange situation where there's no
+                    # display name attached to the geography, we should
+                    # go ahead and display the profile page
+                    pass
+            else:
+                # if we get nothing from the API, pass through for 404
+                pass
+        
+        return super(GeographyDetailView, self).dispatch(*args, **kwargs)
+        
+    def get_geography(self, geo_id):
+        endpoint = settings.API_URL + '/1.0/geo/tiger2012/%s' % self.geo_id
+        r = requests.get(endpoint)
+        status_code = r.status_code
+
+        if status_code == 200:
+            geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            return geo_data
+        return None
 
     def enhance_api_data(self, api_data):
         dict_list = find_dicts_with_key(api_data, 'values')
@@ -154,12 +189,12 @@ class GeographyDetailView(TemplateView):
         return api_data
 
     def get_context_data(self, *args, **kwargs):
-        geography_id = kwargs['geography_id']
+        geography_id = self.geo_id
         page_context = {}
 
         # hit our API
-        #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % kwargs['geography_id']
+        #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, geography_id)
+        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
         r = requests.get(acs_endpoint)
         status_code = r.status_code
         
@@ -193,7 +228,7 @@ class GeographyDetailView(TemplateView):
             page_context['geography']['this']['show_extra_links'] = True
             
         tiger_release = 'tiger2012'
-        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])
+        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
         r = requests.get(geo_endpoint)
 
         if r.status_code == 200:
