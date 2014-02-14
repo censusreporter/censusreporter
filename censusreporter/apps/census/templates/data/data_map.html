@@ -1,0 +1,92 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block head_css_extra %}
+<link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+<link href='{{STATIC_URL}}css/leaflet.label.css' rel='stylesheet' />
+{% endblock %}
+
+{% block head_javascript_extra %}
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
+{% endblock %}
+
+{% block body_class %}full-screen{% endblock %}
+{% block body %}
+<div id="slippy-map"></div>
+{% endblock %}
+
+{% block page_specific_javascript %}
+<script src="{{ STATIC_URL }}js/leaflet.label.js"></script>
+<script type="text/javascript">
+// Make the header map
+d3.json("http://api.censusreporter.org/1.0/geo/show/tiger2012?geo_ids={{ geo_ids }}", function(error, json) {
+    if (error) return console.warn(error);
+    var allowMapDrag = (browserWidth > 480) ? true : false;
+
+    // draw a geom
+    var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+        scrollWheelZoom: false,
+        zoomControl: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        dragging: allowMapDrag,
+        touchZoom: allowMapDrag
+    });
+
+    if (allowMapDrag) {
+        map.addControl(new L.Control.Zoom({
+            position: 'topright'
+        }));
+    }
+
+    var defaultStyle = {
+        "clickable": true,
+        "color": "#00d",
+        "fillColor": "#ccc",
+        "weight": 1.0,
+        "opacity": 0.3,
+        "fillOpacity": 0.3,
+    }
+    var featureLayer = L.geoJson(json, {
+        style: defaultStyle,
+        onEachFeature: function(feature, layer) {
+            layer.bindLabel(feature.properties.name);
+            layer.on('mouseover', function() {
+                layer.setStyle({
+                    "fillOpacity": 0.5,
+                });
+            });
+            layer.on('mouseout', function() {
+                layer.setStyle(defaultStyle);
+            });
+            layer.on('click', function() {
+                window.location.replace('/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name));
+            });
+        }
+    });
+    map.addLayer(featureLayer);
+    var objBounds = featureLayer.getBounds();
+
+    if (browserWidth > 768) {
+        var z,
+            targetWidth = browserWidth - 100,
+            targetHeight = browserHeight - 100;
+        for(z = 16; z > 2; z--) {
+            var swPix = map.project(objBounds.getSouthWest(), z),
+                nePix = map.project(objBounds.getNorthEast(), z),
+                pixWidth = Math.abs(nePix.x - swPix.x),
+                pixHeight = Math.abs(nePix.y - swPix.y);
+            if (pixWidth < targetWidth && pixHeight < targetHeight) {
+                break;
+            }
+        }
+        map.setView(objBounds.getCenter(), z);
+    } else {
+        map.fitBounds(objBounds);
+    }
+})
+</script>
+{% endblock %}

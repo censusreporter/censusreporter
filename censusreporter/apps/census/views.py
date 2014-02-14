@@ -349,7 +349,7 @@ class TopicView(TemplateView):
 ### COMPARISONS ###
 
 class DataView(TemplateView):
-    template_name = 'data/data_tabular.html'
+    template_name = 'data/data_table.html'
     
     def dispatch(self, *args, **kwargs):
         self.table = self.request.GET.get('table', None)
@@ -365,9 +365,10 @@ class DataView(TemplateView):
             raise_404_with_messages(self.request, errors)
 
         self.format = self.kwargs.get('format', None)
-
-        if self.format == 'distribution':
-            self.template_name = 'data/data_distribution.html'
+        if self.format in ['table', 'distribution', 'map']:
+            self.template_name = 'data/data_%s.html' % self.format
+        else:
+            raise Http404
         
         #TODO: implement formats for map
     
