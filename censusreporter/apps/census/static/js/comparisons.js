@@ -156,8 +156,10 @@ function Comparison(options) {
                 }
 
                 // add raw numbers
-                gridRowCol += '<span class="value number">' + valFmt(thisValue, statType) + '</span>';
-                gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
+                if (thisValue >= 0) {
+                    gridRowCol += '<span class="value number">' + valFmt(thisValue, statType) + '</span>';
+                    gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
+                }
                 gridRowBits.push(gridRowCol);
             })
             gridData.Body.push(gridRowBits);
