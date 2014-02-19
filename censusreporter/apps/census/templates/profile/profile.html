@@ -368,7 +368,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
                 layer.setStyle(defaultStyle);
             });
             layer.on('click', function() {
-                window.location.replace('/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name));
+                window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
             });
         }
     });
