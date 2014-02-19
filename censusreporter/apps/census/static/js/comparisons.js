@@ -189,6 +189,31 @@ function Comparison(options) {
         comparison.dataDisplayHeight = $('#data-results').height()+20;
         comparison.setResultsContainerHeight();
         $(window).resize(comparison.setResultsContainerHeight);
+        
+        // add hover listeners for grid rows
+        $("#data-display").on('mouseover', '.g_BR', function(e) {
+            var thisClass = $(this).attr('class').split(' ');
+            var thisRow = $.grep(thisClass, function(c) {
+                return c.substr(0,3) == 'g_R';
+            });
+            $('.'+thisRow+':not(.g_HR)').addClass('hover');
+        });
+
+        $("#data-display").on('mouseleave', '.g_BR', function(e) {
+            var thisClass = $(this).attr('class').split(' ');
+            var thisRow = $.grep(thisClass, function(c) {
+                return c.substr(0,3) == 'g_R';
+            });
+            $('.'+thisRow+':not(.g_HR)').removeClass('hover');
+        });
+    
+        $("#data-display").on('click', '.g_BR', function(e) {
+            var thisClass = $(this).attr('class').split(' ');
+            var thisRow = $.grep(thisClass, function(c) {
+                return c.substr(0,3) == 'g_R';
+            });
+            $('.'+thisRow+':not(.g_HR)').toggleClass('highlight');
+        });
 
         // add the comparison links, names, and typeahead
         comparison.addGeographyCompareTools();

@@ -65,7 +65,7 @@ function makeTopicSelectWidget(element) {
         element.typeahead('setQuery', '');
         chosenTableID = datum['table_id'];
 
-        window.location = '/data/table/?table=' + chosenTableID + "&geo_ids=" + theseGeoIDs.join(',') + "&primary_geo_id=" + thisGeoID;
+        window.location = '/data/table/?table=' + chosenTableID + "&geo_ids=" + thisGeoID + "&primary_geo_id=" + thisGeoID;
     });
 }
 
