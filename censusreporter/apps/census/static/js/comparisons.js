@@ -81,9 +81,217 @@ function Comparison(options) {
         if (comparison.dataFormat == 'table') {
             comparison.makeTableDisplay();
         }
+        if (comparison.dataFormat == 'map') {
+            comparison.makeMapDisplay();
+        }
         if (comparison.dataFormat == 'distribution') {
             comparison.makeDistributionDisplay();
         }
+    }
+    
+    comparison.makeMapDisplay = function() {
+        var table = comparison.data.tables[comparison.tableID],
+            release = comparison.data.release,
+            data = comparison.data.data,
+            dataGeoIDs = _.keys(comparison.data.geography),
+            statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
+            denominatorColumn = table.denominator_column_id || null,
+            valueType = (!!denominatorColumn) ? 'percentage' : 'estimate',
+            headerContainer = d3.select('#map-controls');
+
+        var labelTitle = "",
+            chosenColumnTitle = d3.select("#column-title-chosen");
+
+        d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
+        headerContainer.select('h1').text(table.title);
+        headerContainer.select('#table-id').text('Table ' + comparison.tableID);
+        headerContainer.select('#release').text(release.name);
+    
+        var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2012?geo_ids=" + comparison.geoIDs.join(','),
+            allowMapDrag = (browserWidth > 480) ? true : false;
+
+        // prep the column keys and names
+        comparison.columns = table.columns;
+        if (!!denominatorColumn) {
+            var columnChoiceDenominator = '<li class="indent-'+table.columns[denominatorColumn]['indent']+'"><span class="label">'+table.columns[denominatorColumn]['name']+'</span></li>';
+            delete comparison.columns[denominatorColumn]
+        }
+        comparison.columnKeys = _.keys(comparison.columns);
+        comparison.prefixColumnNames(comparison.columns);
+
+        var makeColumnChoice = function(columnKey) {
+            var columnData = comparison.columns[columnKey];
+            var choice = '<li class="indent-'+columnData.indent+'">';
+            if (columnKey.indexOf('.') != -1) {
+                choice += '<span class="label">'+columnData.name+'</span>';
+            } else {
+                choice += '<a href="#" id="column-select-'+columnKey+'" data-value="'+columnKey+'" data-full-name="'+columnData.prefixed_name+'">'+columnData.name+'</a>'
+            }
+            choice += '</li>';
+            
+            return choice;
+        }
+
+        var columnChoices = d3.select('#column-picker-choices');
+        columnChoices.selectAll("li")
+                .data(comparison.columnKeys)
+            .enter().append("li")
+                .html(function(d) {
+                    return makeColumnChoice(d);
+                });
+                
+        if (!!denominatorColumn) {
+            columnChoices.insert('li', ':first-child')
+                .html(columnChoiceDenominator);
+        }
+
+        d3.json(geoAPI, function(error, json) {
+            if (error) return console.warn(error);
+            
+            // add table data to each geography's properties
+            _.each(json.features, function(e) {
+                e.properties.data = data[e.properties.geoid][comparison.tableID];
+                // add percentages if possible
+                if (!!denominatorColumn) {
+                    e.properties.data.percentage = {};
+                    _.each(comparison.columnKeys, function(k) {
+                        var thisValue = e.properties.data.estimate[k],
+                            thisDenominator = e.properties.data.estimate[denominatorColumn];
+                        e.properties.data.percentage[k] = calcPct(thisValue, thisDenominator);
+                    })
+                }
+            })
+
+            // draw the base map
+            var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+                scrollWheelZoom: false,
+                zoomControl: false,
+                dragging: allowMapDrag,
+                touchZoom: allowMapDrag
+            });
+            if (allowMapDrag) {
+                map.addControl(new L.Control.Zoom({
+                    position: 'topright'
+                }));
+            }
+
+            var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
+
+            var makeLabel = function(feature, column) {
+                if (!!feature.properties.data) {
+                    var label = "<span class='label-title'>" + comparison.columns[column]['prefixed_name'] + "</span>";
+                    label += "<span class='name'>" + feature.properties.name + "</span>";
+                    if (!!feature.properties.data.percentage[column]) {
+                        label += "<span class='value'>" + feature.properties.data.percentage[column] + "%";
+                        if (!!feature.properties.data.estimate[column]) {
+                            label += " (" + numberWithCommas(feature.properties.data.estimate[column]) + ")";
+                        }
+                        label += "</span>";
+                    }
+                    else if (!!feature.properties.data.estimate[column]) {
+                        label += "<span class='value'>" + numberWithCommas(feature.properties.data.estimate[column]) + "</span>";
+                    }
+                }
+                return label;
+            }
+
+            // rebuild map with new data on select menu change
+            var changeMap = function(column) {
+                labelTitle = comparison.columns[column]['prefixed_name'];
+                chosenColumnTitle.text(labelTitle);
+                makeChoropleth(column);
+            }
+
+            // build map based on specific column of data
+            var makeChoropleth = function(column) {
+                var values = d3.values(data).map(function(d) {
+                    return d[comparison.tableID][valueType][column];
+                });
+                
+                var quantize = d3.scale.quantile()
+                    .domain([d3.min(values), d3.max(values)])
+                    .range(d3.range(5));
+
+                var labelData = quantize.quantiles().slice(0);
+                labelData.unshift(d3.min(values));
+                labelData.push(d3.max(values));
+                var legendLabels = d3.select("#map-legend")
+                    .selectAll("span")
+                    .data(labelData)
+                    .text(function(d){
+                        if (typeof(d) != 'undefined') {
+                            if (!!denominatorColumn) {
+                                return roundNumber(d, 1) + '%'
+                            } else {
+                                return numberWithCommas(d)
+                            }
+                        }
+                    });
+
+                var styleFeature = function(feature) {
+                    return {
+                        fillColor: quintileColors[quantize(feature.properties.data[valueType][column])],
+                        weight: 1.0,
+                        opacity: 1.0,
+                        color: '#fff',
+                        fillOpacity: 1.0
+                    };
+                }
+                
+                var featureLayer = L.geoJson(json, {
+                    style: styleFeature,
+                    onEachFeature: function(feature, layer) {
+                        var label = makeLabel(feature, column);
+                        layer.bindLabel(label, {className: 'hovercard'});
+                        layer.on('click', function() {
+                            window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                        });
+                    }
+                });
+                map.addLayer(featureLayer);
+                var objBounds = featureLayer.getBounds();
+
+                if (browserWidth > 768) {
+                    var z,
+                        targetWidth = browserWidth - 100,
+                        targetHeight = browserHeight - 100;
+                    for(z = 16; z > 2; z--) {
+                        var swPix = map.project(objBounds.getSouthWest(), z),
+                            nePix = map.project(objBounds.getNorthEast(), z),
+                            pixWidth = Math.abs(nePix.x - swPix.x),
+                            pixHeight = Math.abs(nePix.y - swPix.y);
+                        if (pixWidth < targetWidth && pixHeight < targetHeight) {
+                            break;
+                        }
+                    }
+                    map.setView(objBounds.getCenter(), z);
+                } else {
+                    map.fitBounds(objBounds);
+                }
+            }
+            // initial page load, make map with first column
+            changeMap(comparison.columnKeys[0]);
+
+            // set up dropdown for changing data column
+            var dataSelector = $('.data-selector');
+            dataSelector.on('click', '.item-chosen', function(e) {
+                e.preventDefault();
+                var chosenGroup = $(this);
+                chosenGroup.toggleClass('open');
+                chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+            });
+            dataSelector.on('click', 'a', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var selected = $(this);
+                var selectedVal = selected.data('value');
+                dataSelector.find('a').removeClass('option-selected');
+                selected.addClass('option-selected');
+                var chosenGroup = $(this).closest('.item-chosen');
+                chosenGroup.toggleClass('open');
+                changeMap(selectedVal);
+            });
+        })
     }
     
     comparison.makeTableDisplay = function() {
@@ -694,7 +902,7 @@ function Comparison(options) {
     
     comparison.prefixColumnNames = function(columns) {
         var prefixPieces = {};
-        columns.forEach(function(k, v) {
+        _.each(columns, function(v) {
             // update the dict of prefix names
             var prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
             prefixPieces[v.indent] = prefixName;

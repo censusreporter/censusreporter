@@ -9,26 +9,7 @@ for applying things across that entire family of pages.
 
 {% block header_content %}
 <div id="header-container" class="wrapper clearfix header-container">
-    <div class="tool-set header-tool-set">
-        <div class="tool-group">
-            <ul class="toggle-set">
-                <li><a class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
-                <li><a class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
-            </ul>
-        </div>
-        <div class="tool-group toggle-sub-group">
-            <a href="#">
-                Download the data
-            </a>
-            <ul class="sub-group">
-                <li><a target="_new" href="{{ download_link_prefix }}&format=csv">CSV</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=xlsx">Excel</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=geojson">GeoJSON</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=kml">KML</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=shp">Shapefile</a></li>
-            </ul>
-        </div>
-    </div>
+    {% include 'data/_blocks/_toggle_menu.html' %}
     <h1>Table {{ table }}</h1>
 </div>
 {% endblock %}

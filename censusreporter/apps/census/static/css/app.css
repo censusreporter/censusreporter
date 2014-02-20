@@ -142,6 +142,9 @@ h2.subhead {
     line-height: 1.3;
     margin-bottom: .5em;
 }
+.select-header {
+    margin-bottom: .5em;
+}
 .ul-icon-list {
     list-style: none;
     padding: 0;
@@ -884,6 +887,37 @@ aside .search input {
 .q3 { background-color: #428476; fill: #428476; } /* Viridian */
 .q4 { background-color: #264b44; fill: #264b44; } /* Plantation */
 
+#map-controls {
+    position: absolute;
+    z-index: 99;
+    top: 20px;
+    left: 20px;
+    background-color: #fff;
+    padding: 1em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #02aeab;
+    padding: .67em 1em 1.2em;
+}
+#map-controls h1 {
+    margin-bottom: .5em;
+}
+#map-controls h2 span {
+    margin-right: 1.5em;
+}
+#map-controls #map-legend,
+#map-controls #map-select {
+    width: 100%;
+    display: block;
+    float: none;
+}
+#map-controls #map-legend {
+    margin: 2em 0;
+}
+#map-controls .header-tool-set {
+    margin: .25em 0 1.5em;
+}
 #map-legend,
 #map-select {
     width: 50%;
@@ -1068,7 +1102,6 @@ svg text {
     fill: #111;
 }
 
-
 .x.axis text,
 .y.axis text {
     font-weight: bold;
@@ -1116,6 +1149,12 @@ svg text {
     position: absolute;
     display: block;
     margin: 0 0 0 .5em;
+}
+.map-layer path {
+    fill: #000;
+    fill-opacity: .2;
+    stroke: #fff;
+    stroke-width: 1.5px;
 }
 
 /* TABLES */
