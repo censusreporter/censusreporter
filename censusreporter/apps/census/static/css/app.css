@@ -891,7 +891,7 @@ aside .search input {
     position: absolute;
     z-index: 99;
     top: 20px;
-    left: 20px;
+    right: 20px;
     background-color: #fff;
     padding: 1em;
     -webkit-border-radius: 3px;
@@ -899,15 +899,18 @@ aside .search input {
     border-radius: 3px;
     border: 1px solid #02aeab;
     padding: .67em 1em 1.2em;
+    max-width: 480px;
 }
 #map-controls h1 {
     margin-bottom: .5em;
+    clear: both;
 }
 #map-controls h2 span {
     margin-right: 1.5em;
 }
 #map-controls #map-legend,
-#map-controls #map-select {
+#map-controls #map-select,
+#map-controls .header-tool-set {
     width: 100%;
     display: block;
     float: none;
@@ -943,6 +946,9 @@ ul.quantile-legend li {
     width: 16.5%;
     position: relative;
     margin: 0;
+}
+ul.quantile-legend li.empty {
+    width: 40px;
 }
 ul.quantile-legend span.quantile-label {
     position: absolute;
