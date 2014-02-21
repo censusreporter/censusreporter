@@ -14,51 +14,59 @@
 
 {% block body_class %}full-screen{% endblock %}
 {% block body %}
-<section id="map-controls" class="clearfix">
-    {% include 'data/_blocks/_toggle_menu.html' %}
+<div id="map-controls" class="clearfix">
+    <header class="box-header">
+        <a class="title" href="{% url 'homepage' %}">
+            <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+        </a>
+    </header>
+    <section class="box-content clearfix">
+        {% include 'data/_blocks/_toggle_menu.html' %}
 
-    <h1></h1>
-    <h2><span id="table-id"></span><span id="release"></span></h2>
+        <h1></h1>
+        <h2><span id="table-id"></span><span id="release"></span></h2>
 
-    <p class="caption">
-        <span id="table-universe" class="caption-group"></span>
-    </p>
+        <p class="caption">
+            <span id="table-universe" class="caption-group"></span>
+        </p>
     
-    <div class="legend-bar">
-        {# MAP LEGEND #}
-        <div class="tool-group" id="map-legend">
-            <ul class="quantile-legend">
-                <li class="empty">
-                    <span class="quantile-label"></span>
-                </li><li class="q0">
-                    <span class="quantile-label"></span>
-                </li><li class="q1">
-                    <span class="quantile-label"></span>
-                </li><li class="q2">
-                    <span class="quantile-label"></span>
-                </li><li class="q3">
-                    <span class="quantile-label"></span>
-                </li><li class="q4">
-                    <span class="quantile-label"></span>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    {# SELECTOR FOR DATA FIELD #}
-    <h2 class="select-header">Show column</h2>
-    <div class="tool-group data-selector clearfix" id="map-select">
-        <div class="item-chosen" id="column-picker">
-            <h3 class="item-chosen-title">
-                <i class="fa fa-chevron-circle-down"></i>
-                <span id="column-title-chosen"></span>
-            </h3>
-            <div class="item-choices">
-                <ul class="filter-list clearfix" id="column-picker-choices"></ul>
+        <div class="legend-bar">
+            {# MAP LEGEND #}
+            <div class="tool-group" id="map-legend">
+                <ul class="quantile-legend">
+                    <li class="empty">
+                        <span class="quantile-label"></span>
+                    </li><li class="q0">
+                        <span class="quantile-label"></span>
+                    </li><li class="q1">
+                        <span class="quantile-label"></span>
+                    </li><li class="q2">
+                        <span class="quantile-label"></span>
+                    </li><li class="q3">
+                        <span class="quantile-label"></span>
+                    </li><li class="q4">
+                        <span class="quantile-label"></span>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-</section>
+
+        {# SELECTOR FOR DATA FIELD #}
+        <div class="tool-group data-selector clearfix" id="map-select">
+            <h2 class="select-header">Show column</h2>
+            <div class="item-chosen" id="column-picker">
+                <h3 class="item-chosen-title">
+                    <i class="fa fa-chevron-circle-down"></i>
+                    <span id="column-title-chosen"></span>
+                </h3>
+                <div class="item-choices">
+                    <ul class="filter-list clearfix" id="column-picker-choices"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 <div id="slippy-map"></div>
 {% endblock %}
 

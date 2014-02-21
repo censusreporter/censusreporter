@@ -144,7 +144,7 @@ function Comparison(options) {
             columnChoices.insert('li', ':first-child')
                 .html(columnChoiceDenominator);
         }
-
+        
         d3.json(geoAPI, function(error, json) {
             if (error) return console.warn(error);
             
@@ -291,6 +291,7 @@ function Comparison(options) {
                 chosenGroup.toggleClass('open');
                 changeMap(selectedVal);
             });
+            dataSelector.fadeIn();
         })
     }
     

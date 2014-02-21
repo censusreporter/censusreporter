@@ -186,26 +186,42 @@ img.screenshot {
 }
 
 /* LAYOUT */
-#page-header {
+#page-header,
+.box-header {
     background-color: #014948;
 }
 #page-header .wrapper {
     padding: .5em 0;
 }
-#page-header-title a {
+#page-header-title a,
+.box-header a {
     color: #f7f8f3;
     text-decoration: none;
 }
 #page-header-title a.title {
     font-size: 21px;
 }
-#page-header-title img {
+#page-header-title img,
+.box-header img {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
     margin: 0 3px 0 0;
     vertical-align: baseline;
     height: 21px;
+}
+.box-header {
+    padding: .25em .5em;
+}
+.box-header img {
+    height: 16px;
+}
+.box-header a {
+    font-size: 16px;
+}
+.box-content {
+    padding: .67em 1em 1.4em;
+    margin-bottom: 0;
 }
 
 #menu {
@@ -786,7 +802,6 @@ aside .search input {
 .hovercard {
     position: absolute;
     text-align: center;
-    padding: .83em;
     font-size: 13px;
     background: #fff;
     border: solid 1px #777;
@@ -796,6 +811,12 @@ aside .search input {
     pointer-events: none;
     z-index: 999;
 }
+.hovercard,
+.leaflet-label.hovercard {
+    font-size: 13px;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: .83em 1em;
+}
 .hovercard .label-title,
 .hovercard .name,
 .hovercard .value {
@@ -804,6 +825,9 @@ aside .search input {
 .hovercard .label-title,
 .hovercard .name {
     font-weight: bold;
+}
+.leaflet-label.hovercard .value {
+    font-weight: normal;
 }
 .hovercard .label-title {
     margin-bottom: .5em;
@@ -893,12 +917,10 @@ aside .search input {
     top: 20px;
     right: 20px;
     background-color: #fff;
-    padding: 1em;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    border: 1px solid #02aeab;
-    padding: .67em 1em 1.2em;
+    border: 1px solid #014948;
     max-width: 480px;
 }
 #map-controls h1 {
@@ -914,6 +936,9 @@ aside .search input {
     width: 100%;
     display: block;
     float: none;
+}
+#map-controls #map-select {
+    display: none;
 }
 #map-controls #map-legend {
     margin: 2em 0;
