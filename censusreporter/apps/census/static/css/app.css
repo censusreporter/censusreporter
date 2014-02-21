@@ -942,6 +942,7 @@ aside .search input {
 }
 #map-controls #map-legend {
     margin: 2em 0;
+    text-align: center;
 }
 #map-controls .header-tool-set {
     margin: .25em 0 1.5em;
@@ -972,8 +973,8 @@ ul.quantile-legend li {
     position: relative;
     margin: 0;
 }
-ul.quantile-legend li.empty {
-    width: 40px;
+#map-controls ul.quantile-legend {
+    margin-right: -16.5%;
 }
 ul.quantile-legend span.quantile-label {
     position: absolute;
@@ -981,6 +982,9 @@ ul.quantile-legend span.quantile-label {
     width: 100%;
     left: 50%;
     text-align: center;
+}
+#map-controls ul.quantile-legend span.quantile-label {
+    left: -50%;
 }
 
 /* CHARTS */

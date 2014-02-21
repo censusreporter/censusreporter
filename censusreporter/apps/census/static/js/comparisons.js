@@ -97,16 +97,74 @@ function Comparison(options) {
             statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
             denominatorColumn = table.denominator_column_id || null,
             valueType = (!!denominatorColumn) ? 'percentage' : 'estimate',
-            headerContainer = d3.select('#map-controls');
+            headerContainer = d3.select('#map-data');
+            
+        var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
+            
+        headerContainer.append('h1').text(table.title);
+        headerContainer.append('h2')
+            .html('<span>Table '+ comparison.tableID +'</span><span>'+ release.name +'</span>');
+        headerContainer.append('p')
+                .classed('caption', true)
+            .append('span')
+                .classed('caption-group', true)
+                .html('<strong>Table universe:</strong> '+ table.universe);
+                
+        var makeLegendContainer = function(colors) {
+            var legendContainer = headerContainer.append('div')
+                    .classed('legend-bar', true)
+                .append('div')
+                    .classed('tool-group', true)
+                    .attr('id', 'map-legend')
+                .append('ul')
+                    .classed('quantile-legend', true)
+
+            // add padded item for last category
+            colors.push(null)
+            
+            legendContainer.selectAll('li')
+                    .data(colors)
+                .enter().append('li')
+                    .style('background-color', function(d) { if (d) { return d }})
+                    .classed('empty', function(d) { return (d == null) })
+                .append('span')
+                    .classed('quantile-label', true);
+        }
+        makeLegendContainer(quintileColors);
+        
+        var makeDataSelector = function() {
+            var dataSelector = headerContainer.append('div')
+                    .classed('tool-group data-selector clearfix', true)
+                    .attr('id', 'map-select');
+            
+            dataSelector.append('h2')
+                    .classed('select-header', true)
+                    .text('Show column');
+                    
+            var chosen = dataSelector.append('div')
+                    .classed('item-chosen', true)
+                    .attr('id', 'column-picker');
+                    
+            var chosenTitle = chosen.append('h3')
+                    .classed('item-chosen-title', true);
+                    
+            chosenTitle.append('i')
+                    .classed('fa fa-chevron-circle-down', true);
+
+            chosenTitle.append('span')
+                    .attr('id', 'column-title-chosen');
+                    
+            var chosenChoices = chosen.append('div')
+                    .classed('item-choices', true)
+                .append('ul')
+                    .classed('filter-list clearfix', true)
+                    .attr('id', 'column-picker-choices');
+        }
+        makeDataSelector();
 
         var labelTitle = "",
             chosenColumnTitle = d3.select("#column-title-chosen");
 
-        d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
-        headerContainer.select('h1').text(table.title);
-        headerContainer.select('#table-id').text('Table ' + comparison.tableID);
-        headerContainer.select('#release').text(release.name);
-    
         var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2012?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -174,8 +232,6 @@ function Comparison(options) {
                     position: 'topright'
                 }));
             }
-
-            var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
 
             var makeLabel = function(feature, column) {
                 if (!!feature.properties.data) {
