@@ -37,7 +37,7 @@
         {% endif %}
     </span>
 
-    {% if geography.comparatives and not stat_class == 'secondary' %}
+    {% if geography.comparatives and stat.values.this and not stat_class == 'secondary' %}
     <ul class="context-phrases">
         {% for sumlev in geography.comparatives %}
             {% build_comparative_item sumlev stat stat_type geography %}
