@@ -921,14 +921,31 @@ aside .search input {
     -moz-border-radius: 3px;
     border-radius: 3px;
     border: 1px solid #014948;
-    max-width: 480px;
+    width: 480px;
 }
-#map-controls h1 {
+#map-controls h1,
+#map-controls .header-container {
     margin-bottom: .5em;
     clear: both;
+    padding: 0;
 }
 #map-controls h2 span {
     margin-right: 1.5em;
+}
+#map-controls ul.metadata {
+    line-height: 1.3;
+    list-style: none;
+    margin: 0 0 1em;
+    padding: 0;
+}
+#map-controls ul.metadata li {
+    display: inline;
+    font-size: .83em;
+}
+#map-controls ul.metadata li.bigger {
+    margin-right: 1.5em;
+    font-weight: 700;
+    font-size: 1em;
 }
 #map-controls #map-legend,
 #map-controls #map-select,

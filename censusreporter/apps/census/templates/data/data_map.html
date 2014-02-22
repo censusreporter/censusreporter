@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block body_class %}full-screen{% endblock %}
+
 {% block body %}
 <div id="map-controls" class="clearfix">
     <header class="box-header">
@@ -20,8 +21,11 @@
             <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
         </a>
     </header>
+    
     <section id="map-data" class="box-content clearfix">
         {% include 'data/_blocks/_toggle_menu.html' %}
+        {% include 'data/_blocks/_topic_select_input.html' %}
+        <div id="data-display"></div>
     </section>
 </div>
 

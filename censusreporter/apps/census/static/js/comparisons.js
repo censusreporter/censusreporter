@@ -97,13 +97,23 @@ function Comparison(options) {
             statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
             denominatorColumn = table.denominator_column_id || null,
             valueType = (!!denominatorColumn) ? 'percentage' : 'estimate',
-            headerContainer = d3.select('#map-data');
+            headerContainer = d3.select('#data-display');
             
         var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
             
         headerContainer.append('h1').text(table.title);
-        headerContainer.append('h2')
-            .html('<span>Table '+ comparison.tableID +'</span><span>'+ release.name +'</span>');
+        
+        var headerMetadataContainer = headerContainer.append('ul')
+                .classed('metadata', true);
+        headerMetadataContainer.append('li')
+                .classed('bigger', true)
+                .text('Table '+ comparison.tableID);
+        headerMetadataContainer.append('li')
+                .classed('bigger', true)
+                .text(release.name);
+        headerMetadataContainer.append('li')
+                .html('<a id="change-table" href="#">Change table</a>');
+
         headerContainer.append('p')
                 .classed('caption', true)
             .append('span')
