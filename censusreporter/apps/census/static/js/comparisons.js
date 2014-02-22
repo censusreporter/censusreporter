@@ -268,8 +268,8 @@ function Comparison(options) {
 
             var makeLabel = function(feature, column) {
                 if (!!feature.properties.data) {
-                    var label = "<span class='label-title'>" + comparison.columns[column]['prefixed_name'] + "</span>";
-                    label += "<span class='name'>" + feature.properties.name + "</span>";
+                    var label = "<span class='label-title'>" + feature.properties.name + "</span>";
+                    label += "<span class='name'>" + comparison.columns[column]['prefixed_name'] + "</span>";
                     if (!!feature.properties.data.percentage[column]) {
                         label += "<span class='value'>" + feature.properties.data.percentage[column] + "%";
                         if (!!feature.properties.data.estimate[column]) {
