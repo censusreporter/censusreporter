@@ -493,7 +493,9 @@ aside .search input {
     margin: .5em 0 1em 2em;
     line-height: 1.5;
 }
-
+.column-row {
+    clear: both;
+}
 .column-full,
 .column-half,
 .column-third,
@@ -2135,6 +2137,10 @@ section.chart-divider h2 {
     margin: 0;
     padding: 0 0 0 1.5em;
 }
+dl {
+    clear: both;
+    margin-top: 2em;
+}
 .glossary dt,
 .topics dt {
     font-weight: bold;
@@ -2430,6 +2436,9 @@ aside .search .result-type {
 .invisible {
     display: none !important;
     visibility: hidden;
+}
+.clear {
+    clear: both;
 }
 .clearfix:before,
 .clearfix:after {

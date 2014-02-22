@@ -1,4 +1,4 @@
-{% extends '_base.html' %}{% load humanize %}
+{% extends '_base.html' %}{% load humanize partition %}
 
 {% block head_title %}{{ block.super }}{% endblock %}
 {% block body_id %}homepage{% endblock %}
@@ -80,6 +80,31 @@
 
 
 <div class="content-container clearfix tan-stripe">
+    <article id="topics" class="clearfix wrapper">
+        <header class="column-full">
+            <h1 class="article-header">Topics</h1>
+            <p class="explainer">Learn more about the concepts and tables covered by the Census and American Community Survey. We&rsquo;ll be adding more of these pages in the next few months, so <a href="http://censusreporter.uservoice.com/" data-uv-trigger>let us know</a> if there are topics you&rsquo;d like to see us explain.</p>
+        </header>
+        <section class="clear clearfix">
+            <dl class="topics">
+                {% for row in topics_list|columns:3 %}
+                <div class="column-row clearfix">
+                    {% for topic in row %}
+                    <div class="column-third">
+                        <dt id="topic-{{ topic.slug }}"><a href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a></dt>
+                        <dd>{% if topic.short_description %}{{ topic.short_description|safe|linebreaks }}{% else %}{{ topic.description|safe|linebreaks }}{% endif %}</dd>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </dl>
+        </section>
+    </article>
+</div>
+
+
+
+<div class="content-container clearfix">
     <article id="examples" class="clearfix wrapper">
         <header class="column-full">
             <h1 class="article-header">Using this site</h1>

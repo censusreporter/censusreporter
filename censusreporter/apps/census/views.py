@@ -263,7 +263,7 @@ TOPICS_LIST = [
     {
         'title': 'Age and sex',
         'slug': 'age-sex',
-        'description': 'How the Census approaches the topics of age and sex, and the tables that include age and sex data.',
+        'description': 'How the Census approaches the topics of age and sex.',
         'template_name': 'age_sex.html',
         'question_images': ['age-sex.png',],
         'question_pdfs': [
@@ -297,7 +297,8 @@ TOPICS_LIST = [
     {
         'title': 'Employment',
         'slug': 'employment',
-        'description': 'While the ACS is not always the best source for employment data, it provides interesting information for small geographies that other sources don\'t cover.',
+        'description': 'While the ACS is not always the best source for employment data, it provides interesting information for small geographies that other sources don&rsquo;t cover.',
+        'short_description': 'Interesting information for small geographies that other sources don&rsquo;t cover.',
         'template_name': 'employment.html',
         'question_images': ['employment.png',],
         'question_pdfs': [
@@ -310,6 +311,7 @@ TOPICS_LIST = [
         'title': 'Seniors',
         'slug': 'seniors',
         'description': 'In addition to basic Census data about age, there are a small number of Census tables which focus directly on data about older Americans, and on grandparents as caregivers.',
+        'short_description': 'Data about older Americans, and on grandparents as caregivers.',
         'template_name': 'seniors.html',
         'question_images': ['seniors.png',],
         'question_pdfs': [
@@ -1004,15 +1006,7 @@ class HomepageView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'hide_nav_tools': True,
-            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
-            'topic_economic_filters': TOPIC_FILTERS['Economics'],
-            'topic_family_filters': TOPIC_FILTERS['Families'],
-            'topic_housing_filters': TOPIC_FILTERS['Housing'],
-            'topic_social_filters': TOPIC_FILTERS['Social'],
-            'sumlev_choices': SUMLEV_CHOICES,
-            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
-            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
-            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
+            'topics_list': [v for k, v in sorted(TOPICS_MAP.items())],
         }
 
         return page_context
