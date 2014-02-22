@@ -185,7 +185,7 @@ function Comparison(options) {
             delete comparison.columns[denominatorColumn]
         }
         comparison.columnKeys = _.keys(comparison.columns);
-        comparison.prefixColumnNames(comparison.columns);
+        comparison.prefixColumnNames(comparison.columns, denominatorColumn);
 
         var makeColumnChoice = function(columnKey) {
             var columnData = comparison.columns[columnKey];
@@ -967,15 +967,18 @@ function Comparison(options) {
         }
     }
     
-    comparison.prefixColumnNames = function(columns) {
-        var prefixPieces = {};
+    comparison.prefixColumnNames = function(columns, suppressDenominator) {
+        var prefixPieces = {},
+            indentAdd = (!!suppressDenominator) ? 0 : 1;
         _.each(columns, function(v) {
             // update the dict of prefix names
             var prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
             prefixPieces[v.indent] = prefixName;
             // compile to prefixed name
-            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+1).join(': ');
+            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+indentAdd).join(': ');
+            console.log(v.prefixed_name)
         })
+        console.log(prefixPieces)
     }
 
     comparison.calcMedian = function(values) {
