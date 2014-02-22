@@ -109,6 +109,84 @@ function Comparison(options) {
                 .classed('caption-group', true)
                 .html('<strong>Table universe:</strong> '+ table.universe);
 
+        // add the "change table" picker
+        var makeDataSelector = function() {
+            var dataSelector = headerContainer.append('div')
+                    .classed('tool-group clearfix', true)
+                    .attr('id', 'column-select');
+    
+            dataSelector.append('h2')
+                    .classed('select-header', true)
+                    .text('Show column');
+            
+            var chosen = dataSelector.append('div')
+                    .classed('item-chosen', true)
+                    .attr('id', 'column-picker');
+            
+            var chosenTitle = chosen.append('h3')
+                    .classed('item-chosen-title', true);
+            
+            chosenTitle.append('i')
+                    .classed('fa fa-chevron-circle-down', true);
+
+            chosenTitle.append('span')
+                    .attr('id', 'column-title-chosen');
+            
+            var chosenChoices = chosen.append('div')
+                    .classed('item-choices', true)
+                .append('ul')
+                    .classed('filter-list clearfix', true)
+                    .attr('id', 'column-picker-choices');
+
+            var makeColumnChoice = function(columnKey) {
+                var columnData = comparison.columns[columnKey];
+                var choice = '<li class="indent-'+columnData.indent+'">';
+                if (columnKey.indexOf('.') != -1) {
+                    choice += '<span class="label">'+columnData.name+'</span>';
+                } else {
+                    choice += '<a href="#" id="column-select-'+columnKey+'" data-value="'+columnKey+'" data-full-name="'+columnData.prefixed_name+'">'+columnData.name+'</a>'
+                }
+                choice += '</li>';
+
+                return choice;
+            }
+
+            // prep the column keys and names
+            comparison.columns = table.columns;
+            if (!!denominatorColumn) {
+                var columnChoiceDenominator = '<li class="indent-'+table.columns[denominatorColumn]['indent']+'"><span class="label">'+table.columns[denominatorColumn]['name']+'</span></li>';
+                delete comparison.columns[denominatorColumn]
+            }
+            comparison.columnKeys = _.keys(comparison.columns);
+            comparison.prefixColumnNames(comparison.columns, denominatorColumn);
+
+            var columnChoices = d3.select('#column-picker-choices');
+            columnChoices.selectAll("li")
+                    .data(comparison.columnKeys)
+                .enter().append("li")
+                    .html(function(d) {
+                        return makeColumnChoice(d);
+                    });
+
+            if (!!denominatorColumn) {
+                columnChoices.insert('li', ':first-child')
+                    .html(columnChoiceDenominator);
+            }
+        }
+        makeDataSelector();
+        
+        // add container for dynamically-built legend
+        var makeLegendContainer = function() {
+            comparison.legendContainer = headerContainer.append('div')
+                    .classed('legend-bar', true)
+                .append('div')
+                    .classed('tool-group', true)
+                    .attr('id', 'map-legend')
+                .append('ul')
+                    .classed('quantile-legend', true);
+        }
+        makeLegendContainer();
+        
         // add the "change summary level" picker
         var sortedSumlevList = comparison.makeSortedSumlevMap(comparison.sumlevMap);
         var makeSumlevSelector = function() {
@@ -151,83 +229,6 @@ function Comparison(options) {
         }
         makeSumlevSelector();
         
-        var makeLegendContainer = function() {
-            comparison.legendContainer = headerContainer.append('div')
-                    .classed('legend-bar', true)
-                .append('div')
-                    .classed('tool-group', true)
-                    .attr('id', 'map-legend')
-                .append('ul')
-                    .classed('quantile-legend', true);
-        }
-        makeLegendContainer();
-        
-        // add the "change table" picker
-        var makeDataSelector = function() {
-            var dataSelector = headerContainer.append('div')
-                    .classed('tool-group clearfix', true)
-                    .attr('id', 'column-select');
-            
-            dataSelector.append('h2')
-                    .classed('select-header', true)
-                    .text('Show column');
-                    
-            var chosen = dataSelector.append('div')
-                    .classed('item-chosen', true)
-                    .attr('id', 'column-picker');
-                    
-            var chosenTitle = chosen.append('h3')
-                    .classed('item-chosen-title', true);
-                    
-            chosenTitle.append('i')
-                    .classed('fa fa-chevron-circle-down', true);
-
-            chosenTitle.append('span')
-                    .attr('id', 'column-title-chosen');
-                    
-            var chosenChoices = chosen.append('div')
-                    .classed('item-choices', true)
-                .append('ul')
-                    .classed('filter-list clearfix', true)
-                    .attr('id', 'column-picker-choices');
-
-            var makeColumnChoice = function(columnKey) {
-                var columnData = comparison.columns[columnKey];
-                var choice = '<li class="indent-'+columnData.indent+'">';
-                if (columnKey.indexOf('.') != -1) {
-                    choice += '<span class="label">'+columnData.name+'</span>';
-                } else {
-                    choice += '<a href="#" id="column-select-'+columnKey+'" data-value="'+columnKey+'" data-full-name="'+columnData.prefixed_name+'">'+columnData.name+'</a>'
-                }
-                choice += '</li>';
-    
-                return choice;
-            }
-
-            // prep the column keys and names
-            comparison.columns = table.columns;
-            if (!!denominatorColumn) {
-                var columnChoiceDenominator = '<li class="indent-'+table.columns[denominatorColumn]['indent']+'"><span class="label">'+table.columns[denominatorColumn]['name']+'</span></li>';
-                delete comparison.columns[denominatorColumn]
-            }
-            comparison.columnKeys = _.keys(comparison.columns);
-            comparison.prefixColumnNames(comparison.columns, denominatorColumn);
-
-            var columnChoices = d3.select('#column-picker-choices');
-            columnChoices.selectAll("li")
-                    .data(comparison.columnKeys)
-                .enter().append("li")
-                    .html(function(d) {
-                        return makeColumnChoice(d);
-                    });
-
-            if (!!denominatorColumn) {
-                columnChoices.insert('li', ':first-child')
-                    .html(columnChoiceDenominator);
-            }
-        }
-        makeDataSelector();
-
         var columnTitle = "",
             chosenColumnTitle = d3.select("#column-title-chosen"),
             sumlevTitle = "",
