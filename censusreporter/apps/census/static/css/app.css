@@ -925,7 +925,7 @@ aside .search input {
 }
 #map-controls h1,
 #map-controls .header-container {
-    margin-bottom: .5em;
+    margin: .5em 0;
     clear: both;
     padding: 0;
 }
@@ -935,7 +935,7 @@ aside .search input {
 #map-controls ul.metadata {
     line-height: 1.3;
     list-style: none;
-    margin: 0 0 1em;
+    margin: 0 0 .8em;
     padding: 0;
 }
 #map-controls ul.metadata li {
@@ -948,21 +948,27 @@ aside .search input {
     font-size: 1em;
 }
 #map-controls #map-legend,
-#map-controls #map-select,
+#map-controls #column-select,
+#map-controls #sumlev-select,
 #map-controls .header-tool-set {
     width: 100%;
     display: block;
     float: none;
 }
-#map-controls #map-select {
+#map-controls #map-legend,
+#map-controls #column-select,
+#map-controls #sumlev-select {
+    clear: both;
+    margin-top: 1em;
     display: none;
 }
 #map-controls #map-legend {
     margin: 2em 0;
     text-align: center;
 }
-#map-controls .header-tool-set {
-    margin: .25em 0 1.5em;
+#map-controls .header-tool-set,
+#map-controls .caption {
+    margin: .25em 0 0;
 }
 #map-legend,
 #map-select {
@@ -991,7 +997,7 @@ ul.quantile-legend li {
     margin: 0;
 }
 #map-controls ul.quantile-legend {
-    margin-right: -16.5%;
+    margin-left: -16.5%;
 }
 ul.quantile-legend span.quantile-label {
     position: absolute;
@@ -999,9 +1005,6 @@ ul.quantile-legend span.quantile-label {
     width: 100%;
     left: 50%;
     text-align: center;
-}
-#map-controls ul.quantile-legend span.quantile-label {
-    left: -50%;
 }
 
 /* CHARTS */

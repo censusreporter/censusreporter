@@ -37,17 +37,8 @@ function Comparison(options) {
         comparison.dataHeader = $(options.dataHeader);
         comparison.dataWrapper = $(options.dataWrapper);
         comparison.dataContainer = $(options.dataContainer);
-
-        // standard listeners
-        comparison.dataWrapper.on('click', '#change-table', function(e) {
-            e.preventDefault();
-            comparison.dataHeader.hide()
-            comparison.dataWrapper.hide()
-            comparison.topicSelectContainer.toggle();
-            comparison.topicSelect.focus();
-        });
         
-        // add the hidden table selector
+        // add the "change table" widget and listener
         comparison.makeTopicSelectWidget();
         
         // go get the data
@@ -82,6 +73,8 @@ function Comparison(options) {
             comparison.makeTableDisplay();
         }
         if (comparison.dataFormat == 'map') {
+            // create groupings of geoIDs by sumlev
+            comparison.sumlevMap = comparison.makeSumlevMap();
             comparison.makeMapDisplay();
         }
         if (comparison.dataFormat == 'distribution') {
@@ -93,16 +86,13 @@ function Comparison(options) {
         var table = comparison.data.tables[comparison.tableID],
             release = comparison.data.release,
             data = comparison.data.data,
-            dataGeoIDs = _.keys(comparison.data.geography),
             statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
             denominatorColumn = table.denominator_column_id || null,
             valueType = (!!denominatorColumn) ? 'percentage' : 'estimate',
             headerContainer = d3.select('#data-display');
             
-        var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
-            
+        // add the metadata to the header box
         headerContainer.append('h1').text(table.title);
-        
         var headerMetadataContainer = headerContainer.append('ul')
                 .classed('metadata', true);
         headerMetadataContainer.append('li')
@@ -113,39 +103,70 @@ function Comparison(options) {
                 .text(release.name);
         headerMetadataContainer.append('li')
                 .html('<a id="change-table" href="#">Change table</a>');
-
         headerContainer.append('p')
                 .classed('caption', true)
             .append('span')
                 .classed('caption-group', true)
                 .html('<strong>Table universe:</strong> '+ table.universe);
-                
-        var makeLegendContainer = function(colors) {
-            var legendContainer = headerContainer.append('div')
+
+        // add the "change summary level" picker
+        var sortedSumlevList = comparison.makeSortedSumlevMap(comparison.sumlevMap);
+        var makeSumlevSelector = function() {
+            var sumlevSelector = headerContainer.append('div')
+                    .classed('tool-group clearfix', true)
+                    .attr('id', 'sumlev-select');
+    
+            sumlevSelector.append('h2')
+                    .classed('select-header', true)
+                    .text('Show summary level');
+            
+            var chosen = sumlevSelector.append('div')
+                    .classed('item-chosen', true)
+                    .attr('id', 'sumlev-picker');
+            
+            var chosenTitle = chosen.append('h3')
+                    .classed('item-chosen-title', true);
+            
+            chosenTitle.append('i')
+                    .classed('fa fa-chevron-circle-down', true);
+
+            chosenTitle.append('span')
+                    .attr('id', 'sumlev-title-chosen');
+            
+            var chosenChoices = chosen.append('div')
+                    .classed('item-choices', true)
+                .append('ul')
+                    .classed('filter-list clearfix', true)
+                    .attr('id', 'sumlev-picker-choices');
+
+            var sumlevChoices = d3.select('#sumlev-picker-choices');
+            sumlevChoices.selectAll("li")
+                    .data(sortedSumlevList)
+                .enter().append("li")
+                    .classed("indent-1", true)
+                    .html(function(d) {
+                        var thisName = (d.name.name == 'nation') ? 'nation' : d.name.plural;
+                        return '<a href="#" id="sumlev-select-'+d.sumlev+'" data-value="'+d.sumlev+'">'+comparison.capitalize(thisName)+'</a>';
+                    });
+        }
+        makeSumlevSelector();
+        
+        var makeLegendContainer = function() {
+            comparison.legendContainer = headerContainer.append('div')
                     .classed('legend-bar', true)
                 .append('div')
                     .classed('tool-group', true)
                     .attr('id', 'map-legend')
                 .append('ul')
-                    .classed('quantile-legend', true)
-
-            // add padded item for last category
-            colors.push(null)
-            
-            legendContainer.selectAll('li')
-                    .data(colors)
-                .enter().append('li')
-                    .style('background-color', function(d) { if (d) { return d }})
-                    .classed('empty', function(d) { return (d == null) })
-                .append('span')
-                    .classed('quantile-label', true);
+                    .classed('quantile-legend', true);
         }
-        makeLegendContainer(quintileColors);
+        makeLegendContainer();
         
+        // add the "change table" picker
         var makeDataSelector = function() {
             var dataSelector = headerContainer.append('div')
-                    .classed('tool-group data-selector clearfix', true)
-                    .attr('id', 'map-select');
+                    .classed('tool-group clearfix', true)
+                    .attr('id', 'column-select');
             
             dataSelector.append('h2')
                     .classed('select-header', true)
@@ -169,49 +190,51 @@ function Comparison(options) {
                 .append('ul')
                     .classed('filter-list clearfix', true)
                     .attr('id', 'column-picker-choices');
+
+            var makeColumnChoice = function(columnKey) {
+                var columnData = comparison.columns[columnKey];
+                var choice = '<li class="indent-'+columnData.indent+'">';
+                if (columnKey.indexOf('.') != -1) {
+                    choice += '<span class="label">'+columnData.name+'</span>';
+                } else {
+                    choice += '<a href="#" id="column-select-'+columnKey+'" data-value="'+columnKey+'" data-full-name="'+columnData.prefixed_name+'">'+columnData.name+'</a>'
+                }
+                choice += '</li>';
+    
+                return choice;
+            }
+
+            // prep the column keys and names
+            comparison.columns = table.columns;
+            if (!!denominatorColumn) {
+                var columnChoiceDenominator = '<li class="indent-'+table.columns[denominatorColumn]['indent']+'"><span class="label">'+table.columns[denominatorColumn]['name']+'</span></li>';
+                delete comparison.columns[denominatorColumn]
+            }
+            comparison.columnKeys = _.keys(comparison.columns);
+            comparison.prefixColumnNames(comparison.columns, denominatorColumn);
+
+            var columnChoices = d3.select('#column-picker-choices');
+            columnChoices.selectAll("li")
+                    .data(comparison.columnKeys)
+                .enter().append("li")
+                    .html(function(d) {
+                        return makeColumnChoice(d);
+                    });
+
+            if (!!denominatorColumn) {
+                columnChoices.insert('li', ':first-child')
+                    .html(columnChoiceDenominator);
+            }
         }
         makeDataSelector();
 
-        var labelTitle = "",
-            chosenColumnTitle = d3.select("#column-title-chosen");
+        var columnTitle = "",
+            chosenColumnTitle = d3.select("#column-title-chosen"),
+            sumlevTitle = "",
+            chosenSumlevTitle = d3.select("#sumlev-title-chosen");
 
         var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2012?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
-
-        // prep the column keys and names
-        comparison.columns = table.columns;
-        if (!!denominatorColumn) {
-            var columnChoiceDenominator = '<li class="indent-'+table.columns[denominatorColumn]['indent']+'"><span class="label">'+table.columns[denominatorColumn]['name']+'</span></li>';
-            delete comparison.columns[denominatorColumn]
-        }
-        comparison.columnKeys = _.keys(comparison.columns);
-        comparison.prefixColumnNames(comparison.columns, denominatorColumn);
-
-        var makeColumnChoice = function(columnKey) {
-            var columnData = comparison.columns[columnKey];
-            var choice = '<li class="indent-'+columnData.indent+'">';
-            if (columnKey.indexOf('.') != -1) {
-                choice += '<span class="label">'+columnData.name+'</span>';
-            } else {
-                choice += '<a href="#" id="column-select-'+columnKey+'" data-value="'+columnKey+'" data-full-name="'+columnData.prefixed_name+'">'+columnData.name+'</a>'
-            }
-            choice += '</li>';
-            
-            return choice;
-        }
-
-        var columnChoices = d3.select('#column-picker-choices');
-        columnChoices.selectAll("li")
-                .data(comparison.columnKeys)
-            .enter().append("li")
-                .html(function(d) {
-                    return makeColumnChoice(d);
-                });
-                
-        if (!!denominatorColumn) {
-            columnChoices.insert('li', ':first-child')
-                .html(columnChoiceDenominator);
-        }
         
         d3.json(geoAPI, function(error, json) {
             if (error) return console.warn(error);
@@ -261,24 +284,56 @@ function Comparison(options) {
                 return label;
             }
 
-            // rebuild map with new data on select menu change
-            var changeMap = function(column) {
-                labelTitle = comparison.columns[column]['prefixed_name'];
-                chosenColumnTitle.text(labelTitle);
-                makeChoropleth(column);
+            // rebuild map controls with new data on select menu change
+            var changeMapControls = function() {
+                columnTitle = comparison.columns[comparison.chosenColumn]['prefixed_name'];
+                chosenColumnTitle.text(columnTitle);
+                sumlevTitle = comparison.sumlevMap[comparison.chosenSumlev]['name']['plural'];
+                chosenSumlevTitle.text(comparison.capitalize(sumlevTitle));
             }
 
             // build map based on specific column of data
-            var makeChoropleth = function(column) {
-                var values = d3.values(data).map(function(d) {
-                    return d[comparison.tableID][valueType][column];
+            var makeChoropleth = function() {
+                if (comparison.featureLayer) {
+                    map.removeLayer(comparison.featureLayer);
+                }
+                
+                var viewGeoData = _.filter(json.features, function(g) {
+                    var thisSumlev = g.properties.geoid.slice(0, 3);
+                    return thisSumlev == comparison.chosenSumlev;
+                })
+
+                var values = d3.values(viewGeoData).map(function(d) {
+                    return d.properties.data[valueType][comparison.chosenColumn];
                 });
                 
-                var quantize = d3.scale.quantile()
-                    .domain([d3.min(values), d3.max(values)])
-                    .range(d3.range(5));
 
-                var labelData = quantize.quantiles().slice(0);
+                // create the legend
+                var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
+                var buildLegend = function(colors) {
+                    var scaleStops = (values.length >= 5) ? 5 : values.length;
+
+                    comparison.quantize = d3.scale.quantile()
+                        .domain([d3.min(values), d3.max(values)])
+                        .range(d3.range(scaleStops));
+
+                    colors = _.last(colors, scaleStops);
+                    comparison.colors = colors.slice(0);
+                    colors.unshift(null);
+
+                    comparison.legendContainer.selectAll('li').remove();
+                    comparison.legendContainer.selectAll('li')
+                            .data(colors)
+                        .enter().append('li')
+                            .style('background-color', function(d) { if (d) { return d }})
+                            .classed('empty', function(d) { return (d == null) })
+                        .append('span')
+                            .classed('quantile-label', true);
+                }
+                buildLegend(quintileColors);
+
+                // add the actual label values
+                var labelData = comparison.quantize.quantiles().slice(0);
                 labelData.unshift(d3.min(values));
                 labelData.push(d3.max(values));
                 var legendLabels = d3.select("#map-legend")
@@ -296,7 +351,9 @@ function Comparison(options) {
 
                 var styleFeature = function(feature) {
                     return {
-                        fillColor: quintileColors[quantize(feature.properties.data[valueType][column])],
+                        fillColor: comparison.colors[
+                            comparison.quantize(feature.properties.data[valueType][comparison.chosenColumn])
+                        ],
                         weight: 1.0,
                         opacity: 1.0,
                         color: '#fff',
@@ -304,18 +361,18 @@ function Comparison(options) {
                     };
                 }
                 
-                var featureLayer = L.geoJson(json, {
+                comparison.featureLayer = L.geoJson(viewGeoData, {
                     style: styleFeature,
                     onEachFeature: function(feature, layer) {
-                        var label = makeLabel(feature, column);
+                        var label = makeLabel(feature, comparison.chosenColumn);
                         layer.bindLabel(label, {className: 'hovercard'});
                         layer.on('click', function() {
                             window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                         });
                     }
                 });
-                map.addLayer(featureLayer);
-                var objBounds = featureLayer.getBounds();
+                map.addLayer(comparison.featureLayer);
+                var objBounds = comparison.featureLayer.getBounds();
 
                 if (browserWidth > 768) {
                     var z,
@@ -335,11 +392,41 @@ function Comparison(options) {
                     map.fitBounds(objBounds);
                 }
             }
+            
             // initial page load, make map with first column
-            changeMap(comparison.columnKeys[0]);
+            // and sumlev with the most geographies
+            comparison.chosenColumn = comparison.columnKeys[0];
+            comparison.chosenSumlev = sortedSumlevList[0]['sumlev'];
+            changeMapControls();
+            makeChoropleth();
+
+            // set up dropdown for changing summary level
+            var sumlevSelector = $('#sumlev-select');
+            sumlevSelector.on('click', '.item-chosen', function(e) {
+                e.preventDefault();
+                var chosenGroup = $(this);
+                chosenGroup.toggleClass('open');
+                chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+            });
+            sumlevSelector.on('click', 'a', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var selected = $(this);
+                comparison.chosenSumlev = selected.data('value');
+                sumlevSelector.find('a').removeClass('option-selected');
+                selected.addClass('option-selected');
+                var chosenGroup = $(this).closest('.item-chosen');
+                chosenGroup.toggleClass('open');
+                changeMapControls();
+                makeChoropleth();
+            });
+            sumlevSelector.fadeIn();
+            
+            // show the legend now
+            $('#map-legend').fadeIn();
 
             // set up dropdown for changing data column
-            var dataSelector = $('.data-selector');
+            var dataSelector = $('#column-select');
             dataSelector.on('click', '.item-chosen', function(e) {
                 e.preventDefault();
                 var chosenGroup = $(this);
@@ -350,22 +437,23 @@ function Comparison(options) {
                 e.preventDefault();
                 e.stopPropagation();
                 var selected = $(this);
-                var selectedVal = selected.data('value');
+                comparison.chosenColumn = selected.data('value');
                 dataSelector.find('a').removeClass('option-selected');
                 selected.addClass('option-selected');
                 var chosenGroup = $(this).closest('.item-chosen');
                 chosenGroup.toggleClass('open');
-                changeMap(selectedVal);
+                changeMapControls();
+                makeChoropleth();
             });
             dataSelector.fadeIn();
         })
+        return comparison;
     }
     
     comparison.makeTableDisplay = function() {
         var table = comparison.data.tables[comparison.tableID],
             release = comparison.data.release,
             data = comparison.data.data,
-            dataGeoIDs = _.keys(comparison.data.geography),
             statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
             denominatorColumn = table.denominator_column_id || null,
             headerContainer = d3.select('#header-container'),
@@ -494,6 +582,7 @@ function Comparison(options) {
 
         // add the comparison links, names, and typeahead
         comparison.addGeographyCompareTools();
+        return comparison;
     }
 
     comparison.makeDistributionDisplay = function() {
@@ -697,6 +786,7 @@ function Comparison(options) {
                 'border-color': targetColor.darken(20).hex()
             });
         }
+        return comparison;
     }
     
     comparison.makeTopicSelectWidget = function() {
@@ -751,6 +841,16 @@ function Comparison(options) {
             window.location = url;
             // TODO: pushState to maintain history without page reload
         });
+
+        // standard listeners
+        comparison.dataWrapper.on('click', '#change-table', function(e) {
+            e.preventDefault();
+            comparison.dataHeader.hide()
+            comparison.dataWrapper.hide()
+            comparison.topicSelectContainer.toggle();
+            comparison.topicSelect.focus();
+        });
+        
         return comparison;
     }
 
@@ -976,9 +1076,44 @@ function Comparison(options) {
             prefixPieces[v.indent] = prefixName;
             // compile to prefixed name
             v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+indentAdd).join(': ');
-            console.log(v.prefixed_name)
         })
-        console.log(prefixPieces)
+    }
+
+    comparison.makeSumlevMap = function() {
+        var sumlevSets = {};
+        _.each(comparison.geoIDs, function(i) {
+            var thisSumlev = i.slice(0, 3);
+            sumlevSets[thisSumlev] = sumlevSets[thisSumlev] || {};
+            sumlevSets[thisSumlev]['geoIDs'] = sumlevSets[thisSumlev]['geoIDs'] || [];
+            sumlevSets[thisSumlev]['geoIDs'].push(i)
+        });
+        _.each(_.keys(comparison.data.geography), function(i) {
+            var thisSumlev = i.slice(0, 3);
+            sumlevSets[thisSumlev]['count'] = sumlevSets[thisSumlev]['count'] || 0;
+            sumlevSets[thisSumlev]['count'] += 1;
+        });
+        _.each(_.keys(sumlevSets), function(i) {
+            sumlevSets[i]['name'] = sumlevMap[i];
+        });
+        
+        return sumlevSets;
+    }
+    
+    comparison.makeSortedSumlevMap = function(sumlevSets) {
+        sumlevSets = _.map(sumlevSets, function(v, k) {
+            return {
+                sumlev: k,
+                name: v.name,
+                count: v.count,
+                geoIDs: v.geoIDs
+            }
+        }).sort(comparison.sortDataBy('-count'));
+
+        return sumlevSets;
+    }
+
+    comparison.capitalize = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     comparison.calcMedian = function(values) {
