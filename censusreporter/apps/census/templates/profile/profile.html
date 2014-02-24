@@ -34,11 +34,11 @@
                     </span>
                 </div>
             </div>
-            {% if geo_metadata.square_miles %}
+            {% if geo_metadata.square_miles or geo_metadata.population_density %}
             <div class="column-half">
                 <div class="stat">
                     <span class="secondary">
-                        <span class="value">{{ geo_metadata.square_miles|floatformat|intcomma }}</span>
+                        <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
                         <span class="name"> square miles</span>
                     </span>
                     <span class="secondary">
@@ -84,7 +84,7 @@
     </div>
 </article>
 
-<p class="explain">Hover over charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
+<p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
 
 <article id="demographics" class="clearfix">
     <header class="section-contents">
