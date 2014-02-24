@@ -271,7 +271,7 @@ function Comparison(options) {
                 if (!!feature.properties.data) {
                     var label = "<span class='label-title'>" + feature.properties.name + "</span>";
                     label += "<span class='name'>" + comparison.columns[column]['prefixed_name'] + "</span>";
-                    if (!!feature.properties.data.percentage[column]) {
+                    if (!!denominatorColumn && !!feature.properties.data.percentage[column]) {
                         label += "<span class='value'>" + feature.properties.data.percentage[column] + "%";
                         if (!!feature.properties.data.estimate[column]) {
                             label += " (" + numberWithCommas(feature.properties.data.estimate[column]) + ")";
@@ -374,6 +374,13 @@ function Comparison(options) {
                 });
                 map.addLayer(comparison.featureLayer);
                 var objBounds = comparison.featureLayer.getBounds();
+                if (comparison.chosenSumlev === '040') {
+                    var geoIDList = _.map(viewGeoData, function(g) {
+                        return g.properties.geoid
+                    })
+                    if ((_.indexOf(geoIDList, '04000US02') > -1) || (_.indexOf(geoIDList, '04000US15') > -1))
+                    objBounds = L.latLngBounds(L.latLng(17.831509, -179.231086), L.latLng(71.4410, -66.9406));
+                }
 
                 if (browserWidth > 768) {
                     var z,
