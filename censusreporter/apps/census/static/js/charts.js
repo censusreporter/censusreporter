@@ -845,7 +845,11 @@ function Chart(options) {
         chart.hovercard = chart.chartContainer.append("div")
             .attr("class", "hovercard")
             .style("width", "200px")
-            .style("opacity", 1e-6);
+            .style("pointer-events", "auto")
+            .style("opacity", 1e-6)
+            .on("click", function() {
+                chart.hovercard.style("opacity", 1e-6);
+            });
     }
     
     chart.fillHovercard = function(data) {
@@ -931,7 +935,7 @@ function Chart(options) {
                 .style("opacity", 1e-6);
         }
     }
-
+    
     chart.addChartTitle = function(container) {
         if (!!chart.chartChartTitle) {
             container.append("h3")
