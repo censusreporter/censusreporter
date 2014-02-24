@@ -923,6 +923,7 @@ aside .search input {
     border-radius: 3px;
     border: 1px solid #014948;
     width: 480px;
+    overflow-y: auto;
 }
 #map-controls h1,
 #map-controls .header-container {

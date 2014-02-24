@@ -267,6 +267,7 @@ function Comparison(options) {
                 }));
             }
 
+            // build the info labels
             var makeLabel = function(feature, column) {
                 if (!!feature.properties.data) {
                     var label = "<span class='label-title'>" + feature.properties.name + "</span>";
@@ -378,8 +379,9 @@ function Comparison(options) {
                     var geoIDList = _.map(viewGeoData, function(g) {
                         return g.properties.geoid
                     })
-                    if ((_.indexOf(geoIDList, '04000US02') > -1) || (_.indexOf(geoIDList, '04000US15') > -1))
-                    objBounds = L.latLngBounds(L.latLng(17.831509, -179.231086), L.latLng(71.4410, -66.9406));
+                    if ((_.indexOf(geoIDList, '04000US02') > -1) || (_.indexOf(geoIDList, '04000US15') > -1)) {
+                        objBounds = L.latLngBounds(L.latLng(17.831509, -179.231086), L.latLng(71.4410, -66.9406));
+                    }
                 }
 
                 if (browserWidth > 768) {
@@ -432,6 +434,10 @@ function Comparison(options) {
             
             // show the legend now
             $('#map-legend').fadeIn();
+            
+            $('#map-controls').css('max-height', function() {
+                return (document.documentElement.clientHeight - 40) + 'px';
+            })
 
             // set up dropdown for changing data column
             var dataSelector = $('#column-select');
