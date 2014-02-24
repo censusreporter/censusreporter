@@ -915,8 +915,8 @@ aside .search input {
 #map-controls {
     position: absolute;
     z-index: 99;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    left: 10px;
     background-color: #fff;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -2792,6 +2792,12 @@ aside .search .result-type {
     }
     .topic aside img {
         width: 100%;
+    }
+    .chart .hovercard {
+        /* an !important is better than recalculating
+        every time the hover listener fires */
+        left: -5% !important;
+        width: 110% !important;
     }
 }
 @media only screen and (max-width: 360px) {

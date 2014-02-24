@@ -513,6 +513,10 @@ var parentLinkContainer = $('#header-box .caption'),
     parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
     tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
+$('.stat-row').on('click', '.stat', function() {
+    $(this).find('.context').toggle();
+})
+
 if (!!parentLinkContainer) {
     // set up the listener for trigger to reveal hidden groups
     $('#header-box').on('click', '.link-reveal', function() {

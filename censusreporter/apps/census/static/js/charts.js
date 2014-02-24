@@ -258,6 +258,7 @@ function Chart(options) {
         
         // listen for column hovers
         chart.bars = chart.htmlBase.selectAll(".bar")
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.mouseover)
             .on("mouseout", chart.mouseout);
             
@@ -490,6 +491,7 @@ function Chart(options) {
 
         // listen for column hovers
         chart.columns
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.mouseover)
             .on("mouseout", chart.mouseout);
             
@@ -691,11 +693,13 @@ function Chart(options) {
 
         // listen for arc hovers
         chart.arcs
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
         // listen for legend hovers
         chart.legendItems
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
 
@@ -888,6 +892,17 @@ function Chart(options) {
         }
 
         return card
+    }
+    
+    chart.cardToggle = function(data) {
+        var cardData = (chart.chartType == 'pie') ? data.data : data;
+        if (!!chart.hovercard) {
+            if (chart.hovercard.style("opacity") == 1) {
+                chart.mouseout();
+            } else {
+                chart.mouseover(cardData);
+            }
+        }
     }
     
     chart.mouseover = function(data) {
