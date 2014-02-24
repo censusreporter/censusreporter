@@ -554,7 +554,6 @@ aside .search input {
 #homepage #explore h1 {
     float: left;
     width: 150px;
-    text-align: right;
 }
 #explore-topic-metadata p {
     float: left;
@@ -2561,7 +2560,8 @@ aside .search .result-type {
         padding: 1em .25em;
         margin-top: 0;
     }
-    #homepage #profile h1 {
+    #homepage #profile h1,
+    #homepage #explore h1 {
         float: none;
         width: auto;
     }
