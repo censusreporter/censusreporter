@@ -513,6 +513,7 @@ var parentLinkContainer = $('#header-box .caption'),
     parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
     tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
+// for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
     $(this).find('.context').toggle();
 })
