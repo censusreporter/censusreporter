@@ -358,7 +358,7 @@ TOPICS_LIST = [
     
          {
         'title': 'Public Assistance',
-        'slug': 'puplic-assistance',
+        'slug': 'public-assistance',
         'description': 'Public assistance data from the ACS.',
         'template_name': 'public-assistance.html',
          'question_images': ['public-assistance.png',],
