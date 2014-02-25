@@ -1,0 +1,9 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/Grid.css">
+{% endblock %}
+
+{% block page_specific_javascript %}
+<script src="{{ STATIC_URL }}js/vendor/Grid.js"></script>
+{% endblock %}

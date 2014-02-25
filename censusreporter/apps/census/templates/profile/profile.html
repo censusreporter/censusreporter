@@ -368,7 +368,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
                 layer.setStyle(defaultStyle);
             });
             layer.on('click', function() {
-                window.location.replace('/profiles/' + feature.properties.geoid);
+                window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
             });
         }
     });
@@ -511,7 +511,7 @@ var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
     rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
     parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
-    tilesGeoAPI = rootGeoAPI + '/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 if (!!parentLinkContainer) {
     // set up the listener for trigger to reveal hidden groups
@@ -534,7 +534,7 @@ if (!!parentLinkContainer) {
             var parentLinkSets = _.map(parentRelations, function(r) {
                 // ... compile a set of links to individual profile pages
                 var parentLinkSet = _.map(parentGroups[r], function(v, k) {
-                    return '<a href="/profiles/' + v.geoid + '/">' + v.display_name + '</a>';
+                    return '<a href="/profiles/' + v.geoid + '-' + slugify(v.display_name) + '/">' + v.display_name + '</a>';
                 });
                 var numParents = parentLinkSet.length;
                 // if more than one of a sumlev type, group behind reveal link

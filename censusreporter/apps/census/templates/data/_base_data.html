@@ -9,37 +9,48 @@ for applying things across that entire family of pages.
 
 {% block header_content %}
 <div id="header-container" class="wrapper clearfix header-container">
-    <div class="tool-set header-tool-set">
-        <div class="tool-group">
-            <ul class="toggle-set">
-                <li><a class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
-                <li><a class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
-            </ul>
-        </div>
-        <div class="tool-group toggle-sub-group">
-            <a href="#">
-                Download the data
-            </a>
-            <ul class="sub-group">
-                <li><a target="_new" href="{{ download_link_prefix }}&format=csv">CSV</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=xlsx">Excel</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=geojson">GeoJSON</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=kml">KML</a></li>
-                <li><a target="_new" href="{{ download_link_prefix }}&format=shp">Shapefile</a></li>
-            </ul>
-        </div>
-    </div>
+    {% include 'data/_blocks/_toggle_menu.html' %}
     <h1>Table {{ table }}</h1>
 </div>
 {% endblock %}
 
+{% block content %}
+{% include 'data/_blocks/_topic_select_input.html' %}
+
+<article id="data-display" class="clearfix">
+    <header class="section-contents">
+        <h1>Data table</h1>
+    </header>
+    <div class="section-container">
+        <section id="data-container" class="clearfix">
+            <h2 class="column-header"></h2>
+            <aside>{% block aside_notes %}{% endblock %}</aside>
+            
+            <div id="tool-notes" class="tool-set caption-tool-set"></div>
+            <p class="caption">
+                <span id="table-universe" class="caption-group"></span>
+            </p>
+        </section>
+    </div>
+</article>
+{% endblock %}
+
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
+<script src="{{ STATIC_URL }}js/comparisons.js"></script>
+{% block page_specific_javascript %}{% endblock %}
 <script>
-var primaryGeoID = '{{ primary_geo_id }}',
-    geoIDs = '{{ geo_ids }}'.split(','),
-    tableID = '{{ table }}',
-    dataFormat = '{{ data_format }}';
+new Comparison({
+    tableID: '{{ table }}',
+    dataFormat: '{{ data_format }}',
+    geoIDs: '{{ geo_ids }}'.split(','),
+    primaryGeoID: '{{ primary_geo_id }}',
+    topicSelect: '#topic-select',
+    topicSelectContainer: '#query-topic-picker',
+    dataHeader: '#header-container',
+    dataWrapper: '#data-display',
+    dataContainer: '#data-container'
+})
 
 // toggle links
 $('.toggle-set a').hover(function() {
