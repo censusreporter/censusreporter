@@ -1,0 +1,129 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>The American Community Survey added questions about health insurance in 2008. Edits were made to the health care questions in 2009 that make direct comparison with the first year responses impossible without adjustments. In 2012, tables were added to count health insurance coverage for people aged 19 to 25.</p>
+
+<p>The simplest source for data about coverage is table <strong>C27001</strong>. This table divides males and females into three age brackets: children (under 18), senior citizens (65 and older), and adults (18-64). For each combination of sex and age, there are simply two columns: covered, or not covered. The <strong>B27001</strong> table provides finer grained detail, with nine age brackets. These tables are also provided in the nine standard racial iterations.</p>
+
+<p>Tables <strong>B27002/C27002</strong> through <strong>B27009/C27009</strong> are structured indentically, but only count specific types of coverage. There are no racial iterations for these tables.</p>
+
+<table>
+<thead><tr>
+<th>code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>B27001<sup>†‡</sup></strong></td>
+<td>Health Insurance Coverage Status by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27002<sup>‡</sup></strong></td>
+<td>Private Health Insurance Status by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27003<sup>‡</sup></strong></td>
+<td>Public Health Insurance Status by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27004<sup>‡</sup></strong></td>
+<td>Employer-based Health Insurance by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27005<sup>‡</sup></strong></td>
+<td>Direct-purchase Health Insurance by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27006<sup>‡</sup></strong></td>
+<td>Medicare Coverage by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27007<sup>‡</sup></strong></td>
+<td>Medicaid/Means-tested Public Coverage by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27008<sup>‡</sup></strong></td>
+<td>Tricare/Military Health Coverage by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27009<sup>‡</sup></strong></td>
+<td>VA Health Care by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27010<sup>‡</sup></strong></td>
+<td>Types of Health Insurance Coverage by Age</td>
+</tr>
+<tr>
+<td><strong>B27011</strong></td>
+<td>Health Insurance Coverage Status and Type by Employment Status by Age</td>
+</tr>
+<tr>
+<td><strong>B27012<sup>‡</sup></strong></td>
+<td>Health Insurance Coverage Status and Type by Work Experience by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27013<sup>‡</sup></strong></td>
+<td>Private Health Insurance by Work Experience by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27014<sup>‡</sup></strong></td>
+<td>Public Health Insurance by Work Experience by Sex by Age</td>
+</tr>
+<tr>
+<td><strong>B27015</strong></td>
+<td>Health Insurance Coverage Status and Type by Household Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars)</td>
+</tr>
+<tr>
+<td><strong>B27016<sup>‡</sup></strong></td>
+<td>Health Insurance Coverage Status and Type by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
+</tr>
+<tr>
+<td><strong>B27017<sup>‡</sup></strong></td>
+<td>Private Health Insurance by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
+</tr>
+<tr>
+<td><strong>B27018<sup>‡</sup></strong></td>
+<td>Public Health Insurance by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
+</tr>
+<tr>
+<td><strong>B27019</strong></td>
+<td>Health Insurance Coverage Status and Type by Age by Educational Attainment</td>
+</tr>
+<tr>
+<td><strong>B27020</strong></td>
+<td>Health Insurance Coverage Status and Type by Citizenship Status</td>
+</tr>
+<tr>
+<td><strong>B27021</strong></td>
+<td>Health Insurance Coverage Status and Type by Living Arrangement</td>
+</tr>
+<tr>
+<td><strong>B27022</strong></td>
+<td>Health Insurance Coverage Status by Sex by Enrollment Status for Young Adults Aged 19 to 25</td>
+</tr>
+<tr>
+<td><strong>B27023</strong></td>
+<td>Private Health Insurance by Sex by Enrollment Status for Young Adults Aged 19 to 25</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Tables <strong>B27001</strong>, <strong>C27001</strong> also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+</section>
+{% endblock %}
+
+

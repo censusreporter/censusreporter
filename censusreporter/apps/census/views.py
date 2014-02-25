@@ -236,15 +236,110 @@ TOPICS_LIST = [
             ('Sex','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
         ]
     },
+    
+        {
+        'title': 'Children',
+        'slug': 'children',
+        'description': 'Tables concerning Children. Helpful to consider in relation to Families.',
+        'template_name': 'children.html',
+        'question_images': ['relationship.png',],
+        'question_pdfs': [
+            ('Questions on Family Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
+        ]
+    },
+    
+    {
+        'title': 'Commute',
+        'slug': 'commute',
+        'description': 'Commute data from the American Community Survey.',
+        'template_name': 'commute.html',
+        'question_images': ['commuting.png',],
+        'question_pdfs': [
+            ('Vehicles Available','http://www.census.gov/acs/www/Downloads/QbyQfact/vehicle.pdf'),
+            ('Place of Work and Journey to Work','http://www.census.gov/acs/www/Downloads/QbyQfact/PJ_work.pdf')
+        ]
+    },
+    
+       {
+        'title': 'Families',
+        'slug': 'families',
+        'description': 'Families are an important topic in Census and a key framework for considering many kinds of data. ',
+        'template_name': 'families.html',
+        'question_images': ['relationship.png',],
+        'question_pdfs': [
+            ('ACS Question on Householder Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
+        ]
+    },
+   
+    {
+        'title': 'Health Insurance',
+        'slug': 'health-insurance',
+        'description': 'The ACS has a number of questions that deal with health insurance and many corresponding tables.',
+        'template_name': 'health-insurance.html',
+        'question_images': ['health-insurance.png',],
+        'question_pdfs': [
+            ('Questions on Health Insurance Coverage','http://www.census.gov/acs/www/Downloads/QbyQfact/health_insurance.pdf'),
+        ]
+    },
+    
     {
         'title': 'Race and Hispanic/Latino Origin',
         'slug': 'race-latino',
-        'description': 'Race is a complex issue, and no less so with census data.',
+        'description': 'Race is a complex issue, and no less so with census data. A large proportion of Census tables are broken down by race, which we explain here.',
         'template_name': 'race_latino.html',
         'question_images': ['race.png',],
         'question_pdfs': [
             ('Race','http://www.census.gov/acs/www/Downloads/QbyQfact/race.pdf'),
             ('Hispanic or Latino Origin','http://www.census.gov/acs/www/Downloads/QbyQfact/hispanic.pdf')
+        ]
+    },
+    
+        {
+        'title': 'Migration',
+        'slug': 'migration',
+        'description': 'A break-down of how Census deals with Migration data.',
+        'template_name': 'migration.html',
+         'question_images': ['migration.png',],
+        'question_pdfs': [
+            ('Questions related to Residence One Year Ago from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/residence.pdf')
+            
+        ]
+    },
+    
+    {
+        'title': 'Poverty',
+        'slug': 'poverty',
+        'description': 'Poverty data and how it is used within the ACS.',
+        'template_name': 'poverty.html',
+         'question_images': ['income.png',],
+        'question_pdfs': [
+            ('Questions related to Income and Poverty from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
+            
+        ]
+    },
+    
+         {
+        'title': 'Public Assistance',
+        'slug': 'puplic-assistance',
+        'description': 'Public assistance data from the ACS.',
+        'template_name': 'public-assistance.html',
+         'question_images': ['public-assistance.png',],
+        'question_pdfs': [
+            ('Questions on Income Sources from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf'),
+            ('Question about Food Stamps from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/food_stamp.pdf')
+     
+        ]
+    },
+    
+    {
+        'title': 'Same-Sex Couples',
+        'slug': 'same-sex',
+        'description': 'Although Census does not ask about them directly, there are a number of ways to get at data about same-sex couples using ACS data.',
+        'template_name': 'same-sex.html',
+        'question_images': ['same-sex.png',],
+        'question_pdfs': [
+            ('Questions on Relationships from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
+            ('Question on Gender from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
         ]
     },
     
@@ -255,7 +350,7 @@ TOPICS_LIST = [
         'template_name': 'income.html',
         'question_images': ['income.png',],
         'question_pdfs': [
-            ('All income questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
+            ('All Income Questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
         ]
     },
     
@@ -266,9 +361,9 @@ TOPICS_LIST = [
         'template_name': 'employment.html',
         'question_images': ['employment.png',],
         'question_pdfs': [
-            ('Labor force status','http://www.census.gov/acs/www/Downloads/QbyQfact/labor.pdf'),
-            ('Work status','http://www.census.gov/acs/www/Downloads/QbyQfact/work_status.pdf'),
-            ('Class of worker; Industry; Occupation','http://www.census.gov/acs/www/Downloads/QbyQfact/worker.pdf'),
+            ('Labor Force Status','http://www.census.gov/acs/www/Downloads/QbyQfact/labor.pdf'),
+            ('Work Status','http://www.census.gov/acs/www/Downloads/QbyQfact/work_status.pdf'),
+            ('Class of Worker; Industry; Occupation','http://www.census.gov/acs/www/Downloads/QbyQfact/worker.pdf'),
         ]
     },
     {
@@ -279,7 +374,7 @@ TOPICS_LIST = [
         'question_images': ['seniors.png',],
         'question_pdfs': [
             ('Age','http://www.census.gov/acs/www/Downloads/QbyQfact/age.pdf'),
-            ('Grandparents as caregivers','http://www.census.gov/acs/www/Downloads/QbyQfact/grandparents.pdf'),
+            ('Grandparents as Caregivers','http://www.census.gov/acs/www/Downloads/QbyQfact/grandparents.pdf'),
         ]
     },
 ]
