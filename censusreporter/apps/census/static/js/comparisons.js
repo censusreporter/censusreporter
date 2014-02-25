@@ -67,7 +67,12 @@ function Comparison(options) {
     
     comparison.makeDataDisplay = function() {
         // traffic cop, opportunity for any middleware-type things here
+        
+        // determine whether we have a primary geo to key off of
         comparison.primaryGeoName = (!!comparison.primaryGeoID) ? comparison.data.geography[comparison.primaryGeoID].name : null;
+        
+        // clean up the data
+        comparison.data = comparison.cleanData(comparison.data);
         
         if (comparison.dataFormat == 'table') {
             comparison.makeTableDisplay();
@@ -412,6 +417,9 @@ function Comparison(options) {
             comparison.chosenSumlev = sortedSumlevList[0]['sumlev'];
             changeMapControls();
             makeChoropleth();
+
+
+            console.log(comparison.sumlevMap)
 
             // set up dropdown for changing summary level
             var sumlevSelector = $('#sumlev-select');
@@ -1089,6 +1097,17 @@ function Comparison(options) {
             var A = key(a), B = key(b);
             return ((A < B) ? -1 : (A > B) ? +1 : 0) * sortOrder;
         }
+    }
+    
+    comparison.cleanData = function(data) {
+        //  remove non-data headers that are the first field in the table,
+        // which simply duplicate information from the table name.
+        _.each(_.keys(data.tables[comparison.tableID]['columns']), function(k) {
+            if (k.indexOf('000.5') != -1) {
+                delete data.tables[comparison.tableID]['columns'][k];
+            }
+        })
+        return data
     }
     
     comparison.prefixColumnNames = function(columns, suppressDenominator) {
