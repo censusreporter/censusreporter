@@ -220,7 +220,7 @@ img.screenshot {
     font-size: 16px;
 }
 .box-content {
-    padding: .67em 1em 1.4em;
+    padding: .67em 1em;
     margin-bottom: 0;
 }
 
@@ -430,6 +430,9 @@ aside ul.sumlev-list {
     list-style: none;
     margin: 0.33em 0 .67em .67em;
     padding: 0;
+}
+aside ul.sumlev-list .remove {
+    margin-left: .5em;
 }
 aside li {
     margin-bottom: .25em;
@@ -914,7 +917,7 @@ aside .search input {
 
 #map-controls {
     position: absolute;
-    z-index: 99;
+    z-index: 49;
     top: 10px;
     left: 10px;
     background-color: #fff;
@@ -952,10 +955,15 @@ aside .search input {
 #map-controls #map-legend,
 #map-controls #column-select,
 #map-controls #sumlev-select,
-#map-controls .header-tool-set {
+#map-controls .header-tool-set,
+#map-controls aside {
     width: 100%;
     display: block;
     float: none;
+}
+#map-controls aside {
+    margin: 0;
+    padding: 0;
 }
 #map-controls #map-legend,
 #map-controls #column-select,

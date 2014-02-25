@@ -1,0 +1,114 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>These tables address the topic of public assistance.</p>
+<table>
+<thead><tr>
+<th>code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>B22001<sup>‡</sup></strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Presence of People 60 Years and Over for Households</td>
+</tr>
+<tr>
+<td><strong>B22002<sup>‡</sup></strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Presence of Children Under 18 Years by Household Type for Households</td>
+</tr>
+<tr>
+<td><strong>B22003</strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Poverty Status in the Past 12 Months for Households</td>
+</tr>
+<tr>
+<td><strong>B22004</strong></td>
+<td>Receipt of Food Stamps in the Past 12 Months by Disability Status for Households</td>
+</tr>
+<tr>
+<td><strong>B22005<sup>†</sup></strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Race of Householder</td>
+</tr>
+<tr>
+<td><strong>B22007<sup>‡</sup></strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Family Type by Number of Workers in Family in the Past 12 Months</td>
+</tr>
+<tr>
+<td><strong>B22008</strong></td>
+<td>Median Household Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars) by Receipt of Food Stamps/SNAP in the Past 12 Months</td>
+</tr>
+<tr>
+<td><strong>B22009</strong></td>
+<td>Aggregate Food Stamp Benefits in the Past 12 Months (In 2007 Inflation-adjusted Dollars) for Households</td>
+</tr>
+<tr>
+<td><strong>B22010</strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Disability Status for Households</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<h2>
+Other ACS Tables That ACS Includes in Public Assistance</h2>
+
+<table>
+<thead><tr>
+<th>code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>B09010</strong></td>
+<td>Receipt of Supplemental Security Income (SSI), Cash Public Assistance Income, or Food Stamps/SNAP in the Past 12 Months by Household Type for Children Under 18 Years in Households</td>
+</tr>
+<tr>
+<td><strong>B13015</strong></td>
+<td>Women 15 to 50 Years Who Had a Birth in the Past 12 Months by Marital Status and Receipt of Public Assistance Income in the Past 12 Months</td>
+</tr>
+<tr>
+<td><strong>B17015<sup>‡</sup></strong></td>
+<td>Poverty Status in the Past 12 Months of Families by Family Type by Social Security Income by Supplemental Security Income (SSI) and Cash Public Assistance Income</td>
+</tr>
+<tr>
+<td><strong>B19057</strong></td>
+<td>Public Assistance Income in the Past 12 Months for Households</td>
+</tr>
+<tr>
+<td><strong>B19058</strong></td>
+<td>Public Assistance Income or Food Stamps/SNAP in the Past 12 Months for Households</td>
+</tr>
+<tr>
+<td><strong>B19067</strong></td>
+<td>Aggregate Public Assistance Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars) for Households</td>
+</tr>
+<tr>
+<td><strong>B99221</strong></td>
+<td>Imputation of Food Stamps/SNAP Receipt</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</section>
+{% endblock %}
+
+
