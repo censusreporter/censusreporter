@@ -38,6 +38,8 @@ def get_max_value(nested_dicts):
 def get_division(num1, num2, precision=1):
     '''requires ints or int-like strings'''
     if num1 and num2:
+        if precision == -1:
+            return float(num1) / float(num2)
         return round(float(num1) / float(num2), precision) or None
     return None
 

@@ -181,3 +181,12 @@
     .g_HeadStatic, .g_FootStatic { margin-left : 0px !important; }
     .g_BodyFixed2 { margin-top : 0px !important; }
 }
+.g_HeadFixed i.fa {
+    float: right;
+    font-size: 1.3em;
+    margin-top: -.5em;
+    margin-right: -.75em;
+    line-height: 2em;
+    padding-right: .33em;
+    border-right: 3px solid #333;
+}

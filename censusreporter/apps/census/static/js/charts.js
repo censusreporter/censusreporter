@@ -256,8 +256,9 @@ function Chart(options) {
         // now that bars are in place, capture height for hover calculations
         chart.settings.height = parseInt(chart.chartContainer.style('height'), 10);
         
-        // listen for column hovers
+        // listen for interactions
         chart.bars = chart.htmlBase.selectAll(".bar")
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.mouseover)
             .on("mouseout", chart.mouseout);
             
@@ -448,7 +449,7 @@ function Chart(options) {
                         });
                         
             // now that we've created all the columns in their groups,
-            // select them for hover handling
+            // select them for interaction handling
             chart.columns = chart.htmlBase.selectAll(".column");
         } else {
             chart.columns = chart.htmlBase.selectAll(".column")
@@ -488,8 +489,9 @@ function Chart(options) {
                     });
         }
 
-        // listen for column hovers
+        // listen for column interactions
         chart.columns
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.mouseover)
             .on("mouseout", chart.mouseout);
             
@@ -612,7 +614,7 @@ function Chart(options) {
             .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 7) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
-        // hover state highlights the arc and associated legend item,
+        // interaction state highlights the arc and associated legend item,
         // and displays the data name and value in center of chart.
         // filters based on data to trigger arc/legend at same time.
         chart.arcHover = function(data) {
@@ -689,13 +691,15 @@ function Chart(options) {
         // add initial center label
         chart.arcReset();
 
-        // listen for arc hovers
+        // listen for arc interactions
         chart.arcs
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
-        // listen for legend hovers
+        // listen for legend interactions
         chart.legendItems
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
 
@@ -840,8 +844,27 @@ function Chart(options) {
     chart.initHovercard = function() {
         chart.hovercard = chart.chartContainer.append("div")
             .attr("class", "hovercard")
-            .style("width", "200px")
-            .style("opacity", 1e-6);
+            .style("width", function() {
+                return (browserWidth > 480) ? "200px" : "110%";
+            })
+            .style("pointer-events", "auto")
+            .style("opacity", 1e-6)
+            .on("click", function() {
+                d3.event.stopPropagation();
+                chart.mouseout();
+            });
+    }
+    
+    chart.cardToggle = function(data) {
+        var cardData = (chart.chartType == 'pie') ? data.data : data;
+        if (!!chart.hovercard) {
+            if (chart.hovercard.style("opacity") == 1 && comparison.clicked == d) {
+                chart.mouseout();
+            } else {
+                chart.mouseover(cardData);
+                comparison.clicked = d;
+            }
+        }
     }
     
     chart.fillHovercard = function(data) {
@@ -891,7 +914,7 @@ function Chart(options) {
     }
     
     chart.mouseover = function(data) {
-        // ensure we have hovercard so other hover events can safely call this
+        // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
             chart.hovercard
                 .html(chart.fillHovercard(data))
@@ -908,7 +931,7 @@ function Chart(options) {
     }
 
     chart.mouseout = function() {
-        // ensure we have hovercard so other hover events can safely call this
+        // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
             chart.hovercard
                 .transition()
@@ -916,7 +939,7 @@ function Chart(options) {
                 .style("opacity", 1e-6);
         }
     }
-
+    
     chart.addChartTitle = function(container) {
         if (!!chart.chartChartTitle) {
             container.append("h3")

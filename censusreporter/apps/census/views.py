@@ -238,9 +238,12 @@ class GeographyDetailView(TemplateView):
             # add a few last things
             # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
             square_miles = get_division(geo_metadata['aland'], 2589988)
+            if square_miles < .1:
+                square_miles = get_division(geo_metadata['aland'], 2589988, 3)
             total_pop = page_context['geography']['this']['total_population']
+            population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
             page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = get_division(total_pop, square_miles)
+            page_context['geo_metadata']['population_density'] = population_density
 
         return page_context
 
