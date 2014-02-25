@@ -97,6 +97,9 @@ function Comparison(options) {
             valueType = (!!denominatorColumn) ? 'percentage' : 'estimate',
             headerContainer = d3.select('#data-display');
             
+        // need to trigger overflow-y: visible for table search
+        comparison.lockedParent = $('#map-controls');
+            
         // add the metadata to the header box
         headerContainer.append('h1').text(table.title);
         var headerMetadataContainer = headerContainer.append('ul')
@@ -114,7 +117,7 @@ function Comparison(options) {
             .append('span')
                 .classed('caption-group', true)
                 .html('<strong>Table universe:</strong> '+ table.universe);
-
+                
         // add the "change table" picker
         var makeDataSelector = function() {
             var dataSelector = headerContainer.append('div')
@@ -447,7 +450,7 @@ function Comparison(options) {
             // show the legend now
             $('#map-legend').fadeIn();
             
-            $('#map-controls').css('max-height', function() {
+            comparison.lockedParent.css('max-height', function() {
                 return (document.documentElement.clientHeight - 40) + 'px';
             })
 
@@ -884,6 +887,9 @@ function Comparison(options) {
             comparison.dataWrapper.hide()
             comparison.topicSelectContainer.toggle();
             comparison.topicSelect.focus();
+            if (!!comparison.lockedParent) {
+                comparison.lockedParent.css('overflow-y', 'visible');
+            }
         });
         
         return comparison;

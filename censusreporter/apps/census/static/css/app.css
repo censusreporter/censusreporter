@@ -917,7 +917,7 @@ aside .search input {
 
 #map-controls {
     position: absolute;
-    z-index: 99;
+    z-index: 49;
     top: 10px;
     left: 10px;
     background-color: #fff;
