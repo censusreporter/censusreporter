@@ -181,3 +181,6 @@
     .g_HeadStatic, .g_FootStatic { margin-left : 0px !important; }
     .g_BodyFixed2 { margin-top : 0px !important; }
 }
+.g_HeadFixed i.fa {
+    float: right;
+}

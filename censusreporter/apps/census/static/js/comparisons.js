@@ -398,6 +398,9 @@ function Comparison(options) {
                         }
                     }
                     map.setView(objBounds.getCenter(), z);
+                    if (browserWidth < 1600) {
+                        map.panBy([-200, 0], {animate: false});
+                    }
                 } else {
                     map.fitBounds(objBounds);
                 }
@@ -503,7 +506,7 @@ function Comparison(options) {
         }
 
         // build the header
-        var gridHeaderBits = ['Column'];
+        var gridHeaderBits = ['<i class="fa fa-arrows-h"></i>Column'];
         sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = comparison.data.geography[geoID].name;
@@ -514,7 +517,10 @@ function Comparison(options) {
         // build the columns
         var columns = d3.map(table.columns);
         columns.forEach(function(k, v) {
-            var gridRowBits = ['<div class="name indent-' + v.indent + '">' + v.name + '</div>'];
+            var truncatedName = function() {
+                return (v.name.length > 50) ? v.name.substr(0,50) + "..." : v.name;
+            }
+            var gridRowBits = ['<div class="name indent-' + v.indent + '" data-full-name="' + v.name + '">' + truncatedName() + '</div>'];
 
             sortedPlaces.forEach(function(g) {
                 var geoID = g.geoID,
@@ -553,7 +559,11 @@ function Comparison(options) {
         comparison.grid = new Grid(comparison.resultsContainerID, {
             srcType: "json",
             srcData: gridData,
-            fixedCols: 1
+            allowColumnResize: true,
+            fixedCols: 1,
+            onResizeColumn: function() {
+                $('.name').text(function() { return $(this).data('full-name') })
+            }
         });
 
         // add some table controls and notes
