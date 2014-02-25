@@ -506,7 +506,7 @@ function Comparison(options) {
         }
 
         // build the header
-        var gridHeaderBits = ['<i class="fa fa-arrows-h"></i>Column'];
+        var gridHeaderBits = ['<i class="fa fa-long-arrow-right"></i>Column'];
         sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = comparison.data.geography[geoID].name;
