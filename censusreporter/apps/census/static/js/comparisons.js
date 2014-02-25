@@ -70,6 +70,9 @@ function Comparison(options) {
         
         // determine whether we have a primary geo to key off of
         comparison.primaryGeoName = (!!comparison.primaryGeoID) ? comparison.data.geography[comparison.primaryGeoID].name : null;
+
+        // create groupings of geoIDs by sumlev
+        comparison.sumlevMap = comparison.makeSumlevMap();
         
         // clean up the data
         comparison.data = comparison.cleanData(comparison.data);
@@ -78,8 +81,6 @@ function Comparison(options) {
             comparison.makeTableDisplay();
         }
         if (comparison.dataFormat == 'map') {
-            // create groupings of geoIDs by sumlev
-            comparison.sumlevMap = comparison.makeSumlevMap();
             comparison.makeMapDisplay();
         }
         if (comparison.dataFormat == 'distribution') {
@@ -233,6 +234,9 @@ function Comparison(options) {
                     });
         }
         makeSumlevSelector();
+        
+        // add the aside for geography tools
+        headerContainer.append('aside')
         
         var columnTitle = "",
             chosenColumnTitle = d3.select("#column-title-chosen"),
@@ -418,9 +422,6 @@ function Comparison(options) {
             changeMapControls();
             makeChoropleth();
 
-
-            console.log(comparison.sumlevMap)
-
             // set up dropdown for changing summary level
             var sumlevSelector = $('#sumlev-select');
             sumlevSelector.on('click', '.item-chosen', function(e) {
@@ -472,6 +473,8 @@ function Comparison(options) {
             });
             dataSelector.fadeIn();
         })
+        
+        comparison.makeChosenGeoList();
         return comparison;
     }
     
@@ -1012,6 +1015,42 @@ function Comparison(options) {
         return comparison;
     }
 
+    comparison.makeChosenGeoList = function() {
+        // no tribbles!
+        d3.selectAll('#comparison-chosen').remove();
+
+        var chosenGeoContainer = d3.select(options.dataWrapper+' aside').append('div')
+                .attr('class', 'aside-block')
+                .attr('id', 'comparison-chosen-geos');
+
+        chosenGeoContainer.append('p')
+                .attr('class', 'bottom display-type strong')
+                .html('Selected geographies');
+
+        var geoOptions = _.flatten(_.map(comparison.sumlevMap, function(s) {
+            return s.selections
+        }))
+
+        var chosenGeoOptions = chosenGeoContainer.append('ul')
+                .attr('class', 'sumlev-list')
+            .selectAll('li')
+                .data(geoOptions)
+            .enter().append('li')
+                .attr('data-geoid', function(d) { return d.geoID })
+                .text(function(d) { return d.name });
+
+        var removeGeoOptions = chosenGeoOptions.append('a')
+                .classed('remove', true)
+                .attr('href', '#')
+                .attr('data-geoid', function(d) { return d.geoID })
+                .html('<small>Remove</small>')
+                .on('click', function(d) {
+                    comparison.removeGeoID(d.geoID)
+                });
+        
+        return comparison;
+    }
+    
     comparison.addGeographyCompareTools = function() {
         // add typeahead place picker
         comparison.makeGeoSelectWidget();
@@ -1024,6 +1063,9 @@ function Comparison(options) {
             // update the place name in table search header
             comparison.topicSelectContainer.find('h1').text('Find data for ' + comparison.primaryGeoName);
         }
+        
+        // show the currently selected geographies
+        comparison.makeChosenGeoList();
     }
     
     comparison.addNumberToggles = function() {
@@ -1068,6 +1110,17 @@ function Comparison(options) {
         }
         
         return url
+    }
+    
+    comparison.removeGeoID = function(geoID) {
+        var theseGeoIDs = _.filter(comparison.geoIDs.slice(0), function(g) {
+            return g != geoID;
+        })
+
+        var url = comparison.buildComparisonURL(
+            comparison.dataFormat, comparison.tableID, theseGeoIDs, comparison.primaryGeoID
+        );
+        window.location = url;
     }
 
     comparison.setResultsContainerHeight = _.debounce(function() {
@@ -1125,10 +1178,18 @@ function Comparison(options) {
     comparison.makeSumlevMap = function() {
         var sumlevSets = {};
         _.each(comparison.geoIDs, function(i) {
-            var thisSumlev = i.slice(0, 3);
+            var thisSumlev = i.slice(0, 3),
+                thisName;
             sumlevSets[thisSumlev] = sumlevSets[thisSumlev] || {};
-            sumlevSets[thisSumlev]['geoIDs'] = sumlevSets[thisSumlev]['geoIDs'] || [];
-            sumlevSets[thisSumlev]['geoIDs'].push(i)
+            sumlevSets[thisSumlev]['selections'] = sumlevSets[thisSumlev]['selections'] || [];
+            
+            if (i.indexOf('|') > -1) {
+                var nameBits = i.split('|');
+                thisName = comparison.capitalize(sumlevMap[nameBits[0]]['plural']) + ' in ' + nameBits[1];
+            } else {
+                thisName = comparison.data.geography[i]['name'];
+            }
+            sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i})
         });
         _.each(_.keys(comparison.data.geography), function(i) {
             var thisSumlev = i.slice(0, 3);
