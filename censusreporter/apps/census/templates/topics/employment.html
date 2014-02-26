@@ -39,6 +39,9 @@
 <p>Employment status is reported by sex, age and race in the <strong>B23002</strong> and <strong>C23002</strong> series of tables. Neither of these tables appear in a non-racial tabulation, but each is tabulated in the standard nine subsets for race and hispanic origin. The <strong>C23002</strong> tables have only two age brackets: 16-64 and 65 and older. The <strong>C23002</strong> tables are available for all releases, but the <strong>B23002</strong> tables are only offered in the ACS 1- and 3-year releases.</p>
 <p>There are dozens more tables which crosstabulate employment status with other characteristics, such as education, poverty status, disability status, veteran status and more. </p>
 
+<p>
+  In the table below, some table names have been simplified. Employment status is always only for the population 16 years and over. Questions about work status and hours worked are for the last 12 months. References to the respondent's "own children" are for children under 18 years.
+</p>
 <table>
 <thead>
 <tr>
@@ -49,15 +52,19 @@
 <tbody>
 <tr>
 <td><strong>B23001<sup>‡</sup></strong></td>
-<td>Sex by Age by Employment Status for the Population 16 Years and Over</td>
+<td>Sex by Age by Employment Status</td>
+</tr>
+<tr>
+<td><strong>B23002<sup>ª</sup></strong></td>
+<td>Sex by Age by Employment Status (racial iterations)</td>
 </tr>
 <tr>
 <td><strong>B23003</strong></td>
-<td>Presence of Own Children Under 18 Years by Age of Own Children Under 18 Years by Employment Status for Females 20 to 64 Years</td>
+<td>Presence of Own Children by Age of Own Children by Employment Status for Females 20 to 64 Years</td>
 </tr>
 <tr>
 <td><strong>B23004<sup>‡</sup></strong></td>
-<td>Work Status in the Past 12 Months by Age by Employment Status for the Civilian Population 65 Years and Over</td>
+<td>Work Status by Age by Employment Status for the Civilian Population 65 Years and Over</td>
 </tr>
 <tr>
 <td><strong>B23006</strong></td>
@@ -65,19 +72,19 @@
 </tr>
 <tr>
 <td><strong>B23007<sup>‡</sup></strong></td>
-<td>Presence of Own Children Under 18 Years by Family Type by Employment Status</td>
+<td>Presence of Own Children by Family Type by Employment Status</td>
 </tr>
 <tr>
 <td><strong>B23008<sup>‡</sup></strong></td>
-<td>Age of Own Children Under 18 Years in Families and Subfamilies by Living Arrangements by Employment Status of Parents</td>
+<td>Age of Own Children in Families and Subfamilies by Living Arrangements by Employment Status of Parents</td>
 </tr>
 <tr>
 <td><strong>B23009</strong></td>
-<td>Presence of Own Children Under 18 Years by Family Type by Number of Workers in Family in the Past 12 Months</td>
+<td>Presence of Own Children by Family Type by Number of Workers in Family</td>
 </tr>
 <tr>
 <td><strong>B23010</strong></td>
-<td>Presence of Own Children Under 18 Years in Married-couple Families by Work Experience of Householder and Spouse</td>
+<td>Presence of Own Children in Married-couple Families by Work Experience of Householder and Spouse</td>
 </tr>
 <tr>
 <td><strong>B23013</strong></td>
@@ -85,27 +92,27 @@
 </tr>
 <tr>
 <td><strong>B23018</strong></td>
-<td>Aggregate Usual Hours Worked in the Past 12 Months by Sex for Workers 16 to 64 Years</td>
+<td>Aggregate Usual Hours Worked by Sex for Workers 16 to 64 Years</td>
 </tr>
 <tr>
 <td><strong>B23020</strong></td>
-<td>Mean Usual Hours Worked in the Past 12 Months for Workers 16 to 64 Years</td>
+<td>Mean Usual Hours Worked for Workers 16 to 64 Years</td>
 </tr>
 <tr>
 <td><strong>B23022<sup>‡</sup></strong></td>
-<td>Sex by Work Status in the Past 12 Months by Usual Hours Worked Per Week in the Past 12 Months by Weeks Worked in the Past 12 Months for the Population 16 to 64 Years</td>
+<td>Sex by Work Status by Usual Hours Worked Per Week by Weeks Worked for the Population 16 to 64 Years</td>
 </tr>
 <tr>
 <td><strong>B23023<sup>‡</sup></strong></td>
-<td>Sex by Disability Status by Work Status in the Past 12 Months by Usual Hours Worked Per Week in the Past 12 Months by Weeks Worked in the Past 12 Months for the Population 16 to 64 Years</td>
+<td>Sex by Disability Status by Work Status by Usual Hours Worked Per Week by Weeks Worked for the Population 16 to 64 Years</td>
 </tr>
 <tr>
 <td><strong>B23024</strong></td>
-<td>Poverty Status in the Past 12 Months by Disability Status by Employment Status for the Population 20 to 64 Years</td>
+<td>Poverty Status by Disability Status by Employment Status for the Population 20 to 64 Years</td>
 </tr>
 <tr>
 <td><strong>B23025</strong></td>
-<td>Employment Status for the Population 16 Years and Over</td>
+<td>Employment Status</td>
 </tr>
 </tbody>
     <tfoot>
@@ -113,7 +120,7 @@
             <td colspan="2">
                 <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
                 <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
-                <sup>ª</sup>No basic 'B' table is offered.<br>
+                <sup>ª</sup>No basic table is offered–only <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iteration</a> tables.<br>
             </td>
         </tr>
     </tfoot>
