@@ -451,7 +451,7 @@ aside sup {
     top: -.125em;
 }
 aside .aside-block {
-    margin-top: 1em;
+    margin: .5em 0 1em;
     clear: both;
 }
 aside .search input {
@@ -984,7 +984,14 @@ aside .action-button {
 }
 #map-controls aside {
     margin: 0;
-    padding: 0;
+    padding: 0 1em .33em;
+}
+#map-controls aside .action-button {
+    float: right;
+}
+#map-controls #comparison-add-header,
+#map-controls #query-topic-picker h1 {
+    font-size: 1.3em;
 }
 #map-controls #map-legend,
 #map-controls #column-select,
@@ -1500,7 +1507,7 @@ textarea#results {
 }
 .tool-group {
     position: relative;
-    margin-right: 2em;
+    margin-right: 1.5em;
     font-size: .83em;
 }
 .tool-group:last-child {
@@ -1608,7 +1615,7 @@ ul.toggle-set {
 ul.toggle-set li {
     margin: 0;
     float: left;
-    width: 100px;
+    width: 90px;
     text-align: center;
     position: relative;
 }

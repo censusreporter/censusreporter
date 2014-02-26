@@ -240,7 +240,7 @@ function Comparison(options) {
         makeSumlevSelector();
         
         // add the aside for geography tools
-        headerContainer.append('aside')
+        comparison.aside = d3.select('#map-controls').append('aside');
         
         var columnTitle = "",
             chosenColumnTitle = d3.select("#column-title-chosen"),
@@ -478,7 +478,7 @@ function Comparison(options) {
             dataSelector.fadeIn();
         })
         
-        comparison.makeChosenGeoList();
+        comparison.addGeographyCompareTools();
         return comparison;
     }
 
@@ -883,13 +883,7 @@ function Comparison(options) {
         // standard listeners
         comparison.dataWrapper.on('click', '#change-table', function(e) {
             e.preventDefault();
-            comparison.dataHeader.hide()
-            comparison.dataWrapper.hide()
-            comparison.topicSelectContainer.toggle();
-            comparison.topicSelect.focus();
-            if (!!comparison.lockedParent) {
-                comparison.lockedParent.css('overflow-y', 'visible');
-            }
+            comparison.toggleTableSearch();
         });
         
         return comparison;
@@ -911,6 +905,7 @@ function Comparison(options) {
 
         selectContainer.append('p')
             .attr('class', 'bottom display-type strong')
+            .attr('id', 'comparison-add-header')
             .text('Add a geography');
 
         selectContainer.append('input')
@@ -1078,7 +1073,24 @@ function Comparison(options) {
     }
     
     comparison.toggleGeoControls = function() {
-        $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children').toggle();
+        $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children, #map-data #data-display').toggle();
+        if (!!comparison.lockedParent) {
+            var toggledY = (comparison.lockedParent.css('overflow-y') == 'auto') ? 'visible' : 'auto';
+            comparison.lockedParent.css('overflow-y', toggledY);
+        }
+    }
+    
+    comparison.toggleTableSearch = function() {
+        comparison.dataHeader.toggle();
+        comparison.dataWrapper.toggle();
+
+        if (!!comparison.lockedParent) {
+            comparison.lockedParent.find('aside').toggle();
+            comparison.lockedParent.css('overflow-y', 'visible');
+        }
+
+        comparison.topicSelectContainer.toggle();
+        comparison.topicSelect.focus();
     }
     
     comparison.addGeographyCompareTools = function() {
