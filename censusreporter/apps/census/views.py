@@ -264,7 +264,7 @@ and the filenames listed in {{ question_images }} for each entry.
 '''
 TOPICS_LIST = [
     {
-        'title': 'Age and sex',
+        'title': 'Age and Sex',
         'slug': 'age-sex',
         'description': 'How the Census approaches the topics of age and sex.',
         'template_name': 'age_sex.html',
