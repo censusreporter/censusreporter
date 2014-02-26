@@ -480,7 +480,7 @@ function Comparison(options) {
         comparison.makeChosenGeoList();
         return comparison;
     }
-    
+
     comparison.makeTableDisplay = function() {
         var table = comparison.data.tables[comparison.tableID],
             release = comparison.data.release,
@@ -495,13 +495,6 @@ function Comparison(options) {
                 Head: [],
                 Body: []
             };
-
-        var sortedPlaces = _.map(comparison.data.geography, function(v, k) {
-            return {
-                geoID: k,
-                name: v.name
-            }
-        }).sort(comparison.sortDataBy('name'));
 
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
@@ -520,7 +513,9 @@ function Comparison(options) {
         }
 
         // build the header
-        var gridHeaderBits = ['<i class="fa fa-long-arrow-right"></i>Column'];
+        var sortedPlaces = comparison.getSortedPlaces('name'),
+            gridHeaderBits = ['<i class="fa fa-long-arrow-right"></i>Column'];
+
         sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = comparison.data.geography[geoID].name;
@@ -627,7 +622,7 @@ function Comparison(options) {
         var table = comparison.data.tables[comparison.tableID],
             release = comparison.data.release,
             data = comparison.data.data,
-            dataGeoIDs = _.keys(comparison.data.geography),
+            dataGeoIDs = _.keys(data),
             statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
             denominatorColumn = table.denominator_column_id || null,
             headerContainer = d3.select('#header-container'),
@@ -665,13 +660,7 @@ function Comparison(options) {
         //select2 needs an empty container first for placeholder
         placeSelect.append('option');
 
-        var sortedPlaces = _.map(comparison.data.geography, function(v, k) {
-            return {
-                geoID: k,
-                name: v.name
-            }
-        }).sort(comparison.sortDataBy('name'));
-
+        var sortedPlaces = comparison.getSortedPlaces('name');
         placeSelect.selectAll('.geo')
                 .data(sortedPlaces)
             .enter().append('option')
@@ -1142,6 +1131,17 @@ function Comparison(options) {
         $('#'+comparison.resultsContainerID).css('height', bestHeight+'px');
     }, 100);
 
+    comparison.getSortedPlaces = function(field) {
+        var sortedPlaces = _.map(comparison.data.data, function(v, k) {
+            return {
+                geoID: k,
+                name: comparison.data.geography[k]['name']
+            }
+        }).sort(comparison.sortDataBy(field));
+
+        return sortedPlaces
+    }
+
     comparison.sortDataBy = function(field, sortFunc) {
         // allow reverse sorts, e.g. '-value'
         var sortOrder = (field[0] === "-") ? -1 : 1;
@@ -1191,13 +1191,13 @@ function Comparison(options) {
             
             if (i.indexOf('|') > -1) {
                 var nameBits = i.split('|');
-                thisName = comparison.capitalize(sumlevMap[nameBits[0]]['plural']) + ' in ' + nameBits[1];
+                thisName = comparison.capitalize(sumlevMap[nameBits[0]]['plural']) + ' in ' + comparison.data.geography[nameBits[1]]['name'];
             } else {
                 thisName = comparison.data.geography[i]['name'];
             }
             sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i})
         });
-        _.each(_.keys(comparison.data.geography), function(i) {
+        _.each(_.keys(comparison.data.data), function(i) {
             var thisSumlev = i.slice(0, 3);
             sumlevSets[thisSumlev]['count'] = sumlevSets[thisSumlev]['count'] || 0;
             sumlevSets[thisSumlev]['count'] += 1;
