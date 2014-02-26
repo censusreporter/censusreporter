@@ -2177,6 +2177,9 @@ dl {
     clear: both;
     margin-top: 2em;
 }
+dl.glossary {
+    clear: none;
+}
 .glossary dt,
 .topics dt {
     font-weight: bold;
