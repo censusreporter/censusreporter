@@ -36,6 +36,7 @@ function Comparison(options) {
         comparison.topicSelectContainer = $(options.topicSelectContainer);
         comparison.dataHeader = $(options.dataHeader);
         comparison.dataWrapper = $(options.dataWrapper);
+        comparison.aside = d3.select(options.dataWrapper+' aside');
         comparison.dataContainer = $(options.dataContainer);
         
         // add the "change table" widget and listener
@@ -498,12 +499,17 @@ function Comparison(options) {
 
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
-        aside.insert('p', ':first-child')
-            .html('<a id="change-table" href="#">Change table</a>');
         aside.selectAll('.hidden')
             .classed('hidden', false);
         headerContainer.select('h1').text(table.title);
-        dataContainer.select('h1').text('Table ' + comparison.tableID);
+        
+        // tableID and change table link
+        dataContainer.select('h1').text('Table ' + comparison.tableID)
+                .append('a')
+            .attr('id', 'change-table')
+            .attr('href', '#')
+            .text('Change');
+
         dataContainer.select('h2').text(release.name);
 
         // for long table titles, bump down the font size
@@ -632,12 +638,17 @@ function Comparison(options) {
 
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + table.universe);
-        aside.insert('p', ':first-child')
-            .html('<a id="change-table" href="#">Change table</a>');
         aside.selectAll('.hidden')
             .classed('hidden', false);
         headerContainer.select('h1').text(table.title);
-        dataContainer.select('h1').text('Table ' + comparison.tableID);
+
+        // tableID and change table link
+        dataContainer.select('h1').text('Table ' + comparison.tableID)
+                .append('a')
+            .attr('id', 'change-table')
+            .attr('href', '#')
+            .text('Change');
+            
         dataContainer.select('h2').text(release.name);
 
         // for long table titles, bump down the font size
@@ -885,9 +896,18 @@ function Comparison(options) {
     }
 
     comparison.makeGeoSelectWidget = function() {
-        var selectContainer = d3.select(options.dataWrapper+' aside').append('div')
-            .attr('class', 'aside-block search')
+        var selectContainer = comparison.aside.append('div')
+            .attr('class', 'aside-block search hidden')
             .attr('id', 'comparison-add');
+
+        selectContainer.append('a')
+                .classed('action-button', true)
+                .attr('href', '#')
+                .text('Show selected places')
+                .on('click', function() {
+                    d3.event.preventDefault();
+                    comparison.toggleGeoControls();
+                })
 
         selectContainer.append('p')
             .attr('class', 'bottom display-type strong')
@@ -943,8 +963,8 @@ function Comparison(options) {
         
         if (!!comparison.primaryGeoID && comparison.thisSumlev != '010') {
             var parentGeoAPI = comparison.rootGeoAPI + comparison.primaryGeoID + '/parents',
-                parentOptionsContainer = d3.select(options.dataWrapper+' aside').append('div')
-                    .attr('class', 'aside-block')
+                parentOptionsContainer = comparison.aside.append('div')
+                    .attr('class', 'aside-block hidden')
                     .attr('id', 'comparison-parents');
 
             $.getJSON(parentGeoAPI)
@@ -978,8 +998,8 @@ function Comparison(options) {
         d3.selectAll('#comparison-children').remove();
 
         if (!!comparison.primaryGeoID && comparison.thisSumlev != '150') {
-            var childOptionsContainer = d3.select(options.dataWrapper+' aside').append('div')
-                    .attr('class', 'aside-block')
+            var childOptionsContainer = comparison.aside.append('div')
+                    .attr('class', 'aside-block hidden')
                     .attr('id', 'comparison-children');
 
             childOptionsContainer.append('p')
@@ -1012,11 +1032,20 @@ function Comparison(options) {
 
     comparison.makeChosenGeoList = function() {
         // no tribbles!
-        d3.selectAll('#comparison-chosen').remove();
+        d3.selectAll('#comparison-chosen-geos').remove();
 
-        var chosenGeoContainer = d3.select(options.dataWrapper+' aside').append('div')
+        var chosenGeoContainer = comparison.aside.append('div')
                 .attr('class', 'aside-block')
                 .attr('id', 'comparison-chosen-geos');
+
+        chosenGeoContainer.append('a')
+                .classed('action-button', true)
+                .attr('href', '#')
+                .text('Add more places')
+                .on('click', function() {
+                    d3.event.preventDefault();
+                    comparison.toggleGeoControls();
+                })
 
         chosenGeoContainer.append('p')
                 .attr('class', 'bottom display-type strong')
@@ -1033,17 +1062,23 @@ function Comparison(options) {
             .enter().append('li')
                 .attr('data-geoid', function(d) { return d.geoID })
                 .text(function(d) { return d.name });
-
-        var removeGeoOptions = chosenGeoOptions.append('a')
-                .classed('remove', true)
-                .attr('href', '#')
-                .attr('data-geoid', function(d) { return d.geoID })
-                .html('<small>Remove</small>')
-                .on('click', function(d) {
-                    comparison.removeGeoID(d.geoID)
-                });
-        
+                
+        if (geoOptions.length > 1) {
+            var removeGeoOptions = chosenGeoOptions.append('a')
+                    .classed('remove', true)
+                    .attr('href', '#')
+                    .attr('data-geoid', function(d) { return d.geoID })
+                    .html('<small>Remove</small>')
+                    .on('click', function(d) {
+                        comparison.removeGeoID(d.geoID)
+                    });
+        }
+                
         return comparison;
+    }
+    
+    comparison.toggleGeoControls = function() {
+        $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children').toggle();
     }
     
     comparison.addGeographyCompareTools = function() {
@@ -1108,9 +1143,14 @@ function Comparison(options) {
     }
     
     comparison.removeGeoID = function(geoID) {
+        d3.event.preventDefault();
+        
         var theseGeoIDs = _.filter(comparison.geoIDs.slice(0), function(g) {
             return g != geoID;
         })
+        if (comparison.primaryGeoID == geoID) {
+            comparison.primaryGeoID = null;
+        }
 
         var url = comparison.buildComparisonURL(
             comparison.dataFormat, comparison.tableID, theseGeoIDs, comparison.primaryGeoID
