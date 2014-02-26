@@ -321,7 +321,7 @@ TOPICS_LIST = [
     },
     
     {
-        'title': 'Race and Hispanic/Latino Origin',
+        'title': 'Race and Latino Origin',
         'slug': 'race-latino',
         'description': 'Race is a complex issue, and no less so with census data. A large proportion of Census tables are broken down by race, which we explain here.',
         'template_name': 'race_latino.html',

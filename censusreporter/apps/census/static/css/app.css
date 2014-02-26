@@ -591,6 +591,13 @@ aside .search input {
     margin-top: .83em;
     font-style: italic;
 }
+#homepage #topics header {
+    margin-bottom: 1em;
+}
+#homepage #topics h2 {
+    font-size: 1.5em;
+}
+
 #homepage #query-builder-bar {
     margin: 1.5em 0;
 }
