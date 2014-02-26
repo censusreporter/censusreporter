@@ -97,7 +97,7 @@ function Comparison(options) {
             denominatorColumn = table.denominator_column_id || null,
             valueType = (!!denominatorColumn) ? 'percentage' : 'estimate',
             headerContainer = d3.select('#data-display');
-            
+
         // need to trigger overflow-y: visible for table search
         comparison.lockedParent = $('#map-controls');
             
@@ -283,17 +283,20 @@ function Comparison(options) {
             // build the info labels
             var makeLabel = function(feature, column) {
                 if (!!feature.properties.data) {
-                    var label = "<span class='label-title'>" + feature.properties.name + "</span>";
+                    var thisValue = feature.properties.data.estimate[column],
+                        thisPct = (!!denominatorColumn) ? feature.properties.data.percentage[column] : null,
+                        label = "<span class='label-title'>" + feature.properties.name + "</span>";
+                        
                     label += "<span class='name'>" + comparison.columns[column]['prefixed_name'] + "</span>";
-                    if (!!denominatorColumn && !!feature.properties.data.percentage[column]) {
-                        label += "<span class='value'>" + feature.properties.data.percentage[column] + "%";
-                        if (!!feature.properties.data.estimate[column]) {
-                            label += " (" + numberWithCommas(feature.properties.data.estimate[column]) + ")";
+                    if (!!thisPct) {
+                        label += "<span class='value'>" + valFmt(thisPct, statType) + "%";
+                        if (!!thisValue) {
+                            label += " (" + valFmt(thisValue, statType) + ")";
                         }
                         label += "</span>";
                     }
-                    else if (!!feature.properties.data.estimate[column]) {
-                        label += "<span class='value'>" + numberWithCommas(feature.properties.data.estimate[column]) + "</span>";
+                    else if (!!thisValue) {
+                        label += "<span class='value'>" + valFmt(thisValue, statType) + "</span>";
                     }
                 }
                 return label;
@@ -359,7 +362,8 @@ function Comparison(options) {
                             if (!!denominatorColumn) {
                                 return roundNumber(d, 1) + '%'
                             } else {
-                                return numberWithCommas(d)
+                                var prefix = (statType == 'dollar') ? '$' : '';
+                                return prefix + numberWithCommas(d)
                             }
                         }
                     });
