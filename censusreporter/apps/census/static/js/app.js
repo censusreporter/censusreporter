@@ -149,7 +149,9 @@ var slugify = function(str) {
 
 // math utils
 var calcPct = function(numerator, denominator) {
-    if (numerator >= 0 && denominator >= 0) {
+    if (denominator == 0) {
+        return 0
+    } else if (numerator >= 0 && denominator > 0) {
         return Math.round(((numerator / denominator) * 100) * 10) / 10
     }
     return null
@@ -157,7 +159,9 @@ var calcPct = function(numerator, denominator) {
 
 var calcPctMOE = function(numerator, denominator, numerator_moe, denominator_moe) {
     // From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
-    if (numerator >= 0 && denominator >= 0) {
+    if (denominator == 0) {
+        return 0
+    } else if (numerator >= 0 && denominator >= 0) {
         var estimated_ratio = (numerator / denominator),
             moe_ratio = Math.sqrt(Math.pow(numerator_moe, 2) + (Math.pow(estimated_ratio, 2) * Math.pow(denominator_moe, 2))) / denominator;
         return Math.round((moe_ratio * 100) * 10) / 10
