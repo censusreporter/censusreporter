@@ -37,25 +37,25 @@ $(document).ajaxComplete(function(event, request, settings) {
 
 // standard mapping of summary level code to summary level name
 var sumlevMap = {
-    "010": {"name": "nation", "plural": "nations"},
-    "020": {"name": "region", "plural": "regions"},
-    "030": {"name": "division", "plural": "divisions"},
-    "040": {"name": "state", "plural": "states"},
-    "050": {"name": "county", "plural": "counties"},
-    "060": {"name": "county subdivision", "plural": "county subdivisions"},
-    "140": {"name": "census tract", "plural": "census tracts"},
-    "150": {"name": "block group", "plural": "block groups"},
-    "160": {"name": "place", "plural": "places"},
-    "250": {"name": "native area", "plural": "native areas"},
-    "310": {"name": "metro area", "plural": "metro areas"},
-    "500": {"name": "congressional district", "plural": "congressional districts"},
-    "610": {"name": "state house (upper)", "plural": "state houses (upper)"},
-    "620": {"name": "state house (lower)", "plural": "state houses (lower)"},
-    "700": {"name": "voting tabulation district", "plural": "voting tabulation districts"},
-    "860": {"name": "ZIP code", "plural": "ZIP codes"},
-    "950": {"name": "school district (elementary)", "plural": "school districts (elementary)"},
-    "960": {"name": "school district (secondary)", "plural": "school districts (secondary)"},
-    "970": {"name": "school district (unified)", "plural": "school districts (unified)"}
+    "010": {"name": "nation", "plural": "nations", "sumlev": "010"},
+    "020": {"name": "region", "plural": "regions", "sumlev": "020"},
+    "030": {"name": "division", "plural": "divisions", "sumlev": "030"},
+    "040": {"name": "state", "plural": "states", "sumlev": "040"},
+    "050": {"name": "county", "plural": "counties", "sumlev": "050"},
+    "060": {"name": "county subdivision", "plural": "county subdivisions", "sumlev": "060"},
+    "140": {"name": "census tract", "plural": "census tracts", "sumlev": "140"},
+    "150": {"name": "block group", "plural": "block groups", "sumlev": "150"},
+    "160": {"name": "place", "plural": "places", "sumlev": "160"},
+    "250": {"name": "native area", "plural": "native areas", "sumlev": "250"},
+    "310": {"name": "metro area", "plural": "metro areas", "sumlev": "310"},
+    "500": {"name": "congressional district", "plural": "congressional districts", "sumlev": "500"},
+    "610": {"name": "state house (upper)", "plural": "state houses (upper)", "sumlev": "610"},
+    "620": {"name": "state house (lower)", "plural": "state houses (lower)", "sumlev": "620"},
+    "700": {"name": "voting tabulation district", "plural": "voting tabulation districts", "sumlev": "700"},
+    "860": {"name": "ZIP code", "plural": "ZIP codes", "sumlev": "860"},
+    "950": {"name": "school district (elementary)", "plural": "school districts (elementary)", "sumlev": "950"},
+    "960": {"name": "school district (secondary)", "plural": "school districts (secondary)", "sumlev": "960"},
+    "970": {"name": "school district (unified)", "plural": "school districts (unified)", "sumlev": "970"}
 };
 
 var sumlevChildren = {
@@ -104,6 +104,10 @@ var valFmt = function(value, statType, disablePct) {
 
 // commas for human-friendly integers
 var commaFmt = d3.format(",");
+
+var capitalize = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 // underscore.string formatters
 var escapeRegExp = function(str) {

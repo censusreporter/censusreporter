@@ -35,7 +35,19 @@ for applying things across that entire family of pages.
 </div>
 {% endblock %}
 
-{% block body_javascript_extra %}{{ block.super }}
+{% block body_javascript %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
+<script src="{{ STATIC_URL }}js/app.js"></script>
+<script src="{{ STATIC_URL }}js/glossary.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/typeahead.bundle.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/handlebars-v1.3.0.js"></script>
+
+<script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
+<script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
+
+<script src="{{ STATIC_URL }}js/vendor/typeahead.min.js"></script>
 <script type="text/javascript">
 var chosenParentGeoID = '{{ parent_id }}',
     chosenParentName = '{{ comparison_metadata.parent_name }}'
@@ -52,4 +64,5 @@ $('.toggle-sub-group').hover(function() {
 });
 </script>
 <script src="{{ STATIC_URL }}js/comparison.picker.js"></script>
-{% endblock %}
+
+{% endblock body_javascript %}

@@ -458,6 +458,7 @@ aside .search input {
     font-size: .83em;
     margin: .33em 0 1em;
     padding: .15em .5em 0;
+    width: 100%;
 }
 aside .action-button {
     font-size: .83em;
@@ -567,6 +568,10 @@ aside .action-button {
     font-size: 3em;
     margin-bottom: .25em;
 }
+#homepage h1.article-header-right {
+    text-align: right;
+    padding-right: .1em;
+}
 #homepage #profile h1,
 #homepage #explore h1 {
     float: left;
@@ -579,8 +584,7 @@ aside .action-button {
     padding-top: .5em;
 }
 #homepage #geography-select,
-#homepage #topic-select,
-#homepage #topic-place-select {
+#homepage #explore input {
     font-size: 1.6em;
     padding: .25em .5em 0;
     width: 100%;
@@ -622,6 +626,7 @@ aside .action-button {
 .homepage-action .help-text {
     margin: .67em 1.2em;
     font-style: italic;
+    font-size: 1em;
 }
 .or {
     font-family: "Merriweather", Georgia, serif;
@@ -2318,7 +2323,13 @@ dl#racial-iteration dt {
     height: 320px;
     overflow-y: auto;
 }
-
+.tt-dropdown-menu h2 {
+    font-size: 1.2em;
+    padding: .83em;
+    margin-bottom: 0;
+    background-color: #014948;
+    color: #fff;
+}
 .tt-suggestion {
   display: block;
   padding: 1.25em .83em .83em;
@@ -2326,9 +2337,10 @@ dl#racial-iteration dt {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.tt-suggestion.tt-is-under-cursor {
+.tt-suggestion.tt-cursor {
   color: #fff;
   background-color: #027b7a;
+  cursor: pointer;
 }
 
 .tt-suggestion h5,
@@ -2358,6 +2370,10 @@ dl#racial-iteration dt {
 #profile #query-topic-picker .typeahead-container {
     width: 100%;
     padding-left: 12em;
+}
+#query-topic-picker #topic-select,
+#topic-picker #topic-select {
+    width: 100%;
 }
 aside .search .tt-dropdown-menu {
     font-size: .75em;

@@ -5,66 +5,127 @@ var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#explore-topic-picker'),
     placeSelect = $('#topic-place-select'),
     placeSelectContainer = $('#explore-topic-place-picker'),
+    parentSelect = $('#topic-place-select-parent'),
+    parentSelectContainer = $('#explore-topic-place-picker-parent'),
     chosenTableID,
+    chosenSumlev,
+    chosenSumlevPluralName,
+    chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970',
+    chosenSumlevAncestorOptions,
     chosenGeoID;
 
-placeSelectContainer.hide();
 
-var triggerAutocompleteWildCardFallback = function(element) {
-    if (!!element.val() && element.val() != '*') {
-        element.typeahead('setQuery', element.val());
-    } else {
-        element.typeahead('setQuery', '*').val('');
+var topicSelectEngine = new Bloodhound({
+    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    limit: 1500,
+    remote: {
+        url: tableSearchAPI,
+        replace: function (url, query) {
+            url += '?';
+            if (query) {
+                url += 'q=' + query;
+            }
+            //var selectedTopics = selectedTopicFilterValues();
+            //if (selectedTopics.length > 0) {
+            //    url += '&topics=' + selectedTopics.join(',');
+            //}
+            return url;
+        },
+        filter: function(response) {
+            var resultNumber = response.length;
+            if (resultNumber === 0) {
+                response.push({
+                    table_name: 'Sorry, no matches found. Try changing your search.'
+                });
+            }
+            response.map(function(item) {
+                if (!!item['topics']) {
+                    item['topic_string'] = item['topics'].join(', ');
+                }
+            });
+            return response;
+        }
     }
-};
+});
+topicSelectEngine.initialize();
+
+var placeSelectEngine = new Bloodhound({
+    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    limit: 20,
+    remote: {
+        url: geoSearchAPI,
+        replace: function (url, query) {
+            return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
+        },
+        filter: function(response) {
+            var resultNumber = response.length;
+            if (resultNumber === 0) {
+                response.push({
+                    table_name: 'Sorry, no matches found. Try changing your search.'
+                });
+            }
+            var results = response.results;
+            results.map(function(item) {
+                item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+            });
+            return results;
+        }
+    }
+});
+placeSelectEngine.initialize();
+
+var sumlevSelectEngine = new Bloodhound({
+    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.plural_name); },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: [
+        {name: 'state', plural_name: 'states', sumlev: '040', ancestor_sumlev_list: '010,020,030', ancestor_options: 'the United States' },
+        {name: 'county', plural_name: 'counties', sumlev: '050', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+        {name: 'county subdivision', plural_name: 'county subdivisions', sumlev: '060', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+        {name: 'place', plural_name: 'places', sumlev: '160', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+        {name: 'metro area', plural_name: 'metro areas', sumlev: '310', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+        {name: 'native area', plural_name: 'native areas', sumlev: '250', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+        {name: 'census tract', plural_name: 'census tracts', sumlev: '140', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a state, county or place' },
+        {name: 'block group', plural_name: 'block groups', sumlev: '150', ancestor_sumlev_list: '010,020,030,040,050,140,160', ancestor_options: 'the United States, a state, county, place or census tract' },
+        {name: 'zip codes', plural_name: 'ZIP codes', sumlev: '860', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a state, county or place' },
+        {name: 'congressional district', plural_name: 'congressional districts', sumlev: '500', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+        {name: 'state senate district', plural_name: 'state senate districts', sumlev: '610', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+        {name: 'state house district', plural_name: 'state house districts', sumlev: '620', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+        {name: 'voting tabulation district', plural_name: 'voting tabulation districts', sumlev: '700', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+        {name: 'elementary school district', plural_name: 'elementary school districts', sumlev: '950', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+        {name: 'secondary school district', plural_name: 'secondary school districts', sumlev: '960', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+        {name: 'unified school district', plural_name: 'unified school districts', sumlev: '970', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county'}
+    ]
+});
+sumlevSelectEngine.initialize();
+
+// hide the geography stuff to start
+placeSelectContainer.hide();
+parentSelectContainer.hide();
 
 function makeTopicSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
+        autoselect: true,
+        highlight: false,
+        hint: false,
+        minLength: 2
+    }, {
         name: 'topics',
-        valueKey: 'unique_key',
-        nameKey: 'simple_table_name',
-        remote: {
-            url: tableSearchAPI,
-            replace: function (url, uriEncodedQuery) {
-                url += '?';
-                if (uriEncodedQuery) {
-                    url += 'q=' + uriEncodedQuery;
-                }
-                //var selectedTopics = selectedTopicFilterValues();
-                //if (selectedTopics.length > 0) {
-                //    url += '&topics=' + selectedTopics.join(',');
-                //}
-                return url;
-            },
-            filter: function(response) {
-                var resultNumber = response.length;
-                if (resultNumber === 0) {
-                    response.push({
-                        table_name: 'Sorry, no matches found. Try changing your keyword search.'
-                    });
-                }
-                response.map(function(item) {
-                    if (!!item['topics']) {
-                        item['topic_string'] = item['topics'].join(', ');
-                    }
-                });
-                return response;
-            }
-        },
-        limit: 1500,
-        template: [
-            '{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
-            '<p class="result-name">{{simple_table_name}}</p>',
-            '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
-            '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'
-        ].join(''),
-        engine: Hogan
+        displayKey: 'simple_table_name',
+        source: topicSelectEngine.ttAdapter(),
+        templates: {
+            suggestion: Handlebars.compile(
+                [
+                    '{{#if table_id}}<h5 class="result-type">{{#if column_name}}Column in {{/if}}Table {{table_id}}</h5>{{/if}}',
+                    '<p class="result-name">{{simple_table_name}}</p>',
+                    '{{#if column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/if}}',
+                    '{{#if topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/if}}'
+                ].join('')
+            )
+        }
     });
-
-    //element.on('typeahead:initialized', function() {
-    //    triggerAutocompleteWildCardFallback(element);
-    //});
 
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
@@ -79,35 +140,81 @@ function makeTopicSelectWidget(element) {
 function makePlaceSelectWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
+        autoselect: true,
+        highlight: false,
+        hint: false,
+        minLength: 2
+    }, {
+        name: 'summary_levels',
+        displayKey: 'plural_name',
+        source: sumlevSelectEngine.ttAdapter(),
+        templates: {
+            header: '<h2>Summary levels</h2>',
+            suggestion: Handlebars.compile(
+                '<p class="result-name"><span class="result-type">{{sumlev}}</span>{{plural_name}}</p>'
+            )
+        }
+    }, {
         name: 'geographies',
-        valueKey: 'full_geoid',
-        nameKey: 'full_name',
-        remote: {
-            url: geoSearchAPI,
-            replace: function (url, uriEncodedQuery) {
-                return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
-            },
-            filter: function(response) {
-                var results = response.results;
-                results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
-                });
-                return results;
+        displayKey: 'full_name',
+        source: placeSelectEngine.ttAdapter(),
+        templates: {
+            header: '<h2>Geographies</h2>',
+            suggestion: Handlebars.compile(
+                '<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'
+            )
+        }
+    });
+
+    element.on('typeahead:selected', function(obj, datum) {
+        if (!datum['full_geoid']) {
+            chosenSumlev = datum['sumlev'];
+            chosenSumlevPluralName = datum['plural_name'];
+            chosenSumlevAncestorList = datum['ancestor_sumlev_list'],
+            chosenSumlevAncestorOptions = datum['ancestor_options'];
+            parentSelectContainer.find('.help-text').text(
+                'Select a place to explore your chosen summary level. ' + capitalize(chosenSumlevPluralName) + ' can be compared within ' + chosenSumlevAncestorOptions + '.'
+            );
+            makeParentSelectWidget(parentSelect);
+            if (chosenSumlev == '040') {
+                parentSelect.typeahead('val', 'United States');
             }
-        },
-        limit: 20,
-        template: '<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>',
-        engine: Hogan
+            parentSelectContainer.slideDown();
+            parentSelect.focus();
+        } else {
+            chosenGeoID = datum['full_geoid'];
+            sendToDataView(chosenTableID, chosenGeoID);
+        }
+    });
+}
+
+function makeParentSelectWidget(element) {
+    element.typeahead('destroy');
+    element.typeahead({
+        autoselect: true,
+        highlight: false,
+        hint: false,
+        minLength: 2
+    }, {
+        name: 'geographies',
+        displayKey: 'full_name',
+        source: placeSelectEngine.ttAdapter(),
+        templates: {
+            suggestion: Handlebars.compile(
+                '<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'
+            )
+        }
     });
 
     element.on('typeahead:selected', function(obj, datum) {
         chosenGeoID = datum['full_geoid'];
-        sendToDataView(chosenTableID, chosenGeoID);
+        sendToDataView(chosenTableID, chosenGeoID, chosenSumlev);
     });
 }
 
-function sendToDataView(chosenTableID, chosenGeoID) {
-    var targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + chosenGeoID + '&primary_geo_id=' + chosenGeoID;
+function sendToDataView(chosenTableID, chosenGeoID, chosenSumlev) {
+    var theseGeoIDs = (!!chosenSumlev) ? chosenSumlev + '|' + chosenGeoID : chosenGeoID,
+        targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + theseGeoIDs + '&primary_geo_id=' + chosenGeoID;
     window.location.href = targetURL;
 }
 
@@ -118,6 +225,7 @@ jQuery(document).ready(function(){
         $('#explore-topic-metadata').remove();
         $('#explore-callouts').show();
         placeSelectContainer.hide()
+        parentSelectContainer.hide()
         topicSelectContainer.toggle();
         topicSelect.focus();
     });

@@ -31,7 +31,7 @@ function Comparison(options) {
         comparison.geoIDs = options.geoIDs;
         comparison.primaryGeoID = options.primaryGeoID || null;
         comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.substr(0,3) : null,
-
+        comparison.chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970',
         comparison.topicSelect = $(options.topicSelect);
         comparison.topicSelectContainer = $(options.topicSelectContainer);
         comparison.dataHeader = $(options.dataHeader);
@@ -831,50 +831,64 @@ function Comparison(options) {
         return comparison;
     }
     
+    comparison.topicSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 1500,
+        remote: {
+            url: comparison.tableSearchAPI,
+            replace: function (url, query) {
+                url += '?';
+                if (query) {
+                    url += 'q=' + query;
+                }
+                return url;
+            },
+            filter: function(response) {
+                var resultNumber = response.length;
+                if (resultNumber === 0) {
+                    response.push({
+                        table_name: 'Sorry, no matches found. Try changing your search.'
+                    });
+                }
+                response.map(function(item) {
+                    if (!!item['topics']) {
+                        item['topic_string'] = item['topics'].join(', ');
+                    }
+                });
+                return response;
+            }
+        }
+    });
+    
     comparison.makeTopicSelectWidget = function() {
+        comparison.topicSelectEngine.initialize();
+
         var element = comparison.topicSelect;
         
         element.typeahead('destroy');
         element.typeahead({
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
             name: 'topics',
-            valueKey: 'unique_key',
-            nameKey: 'simple_table_name',
-            remote: {
-                url: comparison.tableSearchAPI,
-                replace: function (url, uriEncodedQuery) {
-                    url += '?';
-                    if (uriEncodedQuery) {
-                        url += 'q=' + uriEncodedQuery;
-                    }
-                    return url;
-                },
-                filter: function(response) {
-                    var resultNumber = response.length;
-                    if (resultNumber === 0) {
-                        response.push({
-                            table_name: 'Sorry, no matches found. Try changing your keyword search.'
-                        });
-                    }
-                    response.map(function(item) {
-                        if (!!item['topics']) {
-                            item['topic_string'] = item['topics'].join(', ');
-                        }
-                    });
-                    return response;
-                }
-            },
-            limit: 1500,
-            template: [
-                '{{#table_id}}<h5 class="result-type">{{#column_name}}Column in {{/column_name}}Table {{table_id}}</h5>{{/table_id}}',
-                '<p class="result-name">{{simple_table_name}}</p>',
-                '{{#column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/column_name}}',
-                '{{#topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/topic_string}}'
-            ].join(''),
-            engine: Hogan
+            displayKey: 'simple_table_name',
+            source: comparison.topicSelectEngine.ttAdapter(),
+            templates: {
+                suggestion: Handlebars.compile(
+                    [
+                        '{{#if table_id}}<h5 class="result-type">{{#if column_name}}Column in {{/if}}Table {{table_id}}</h5>{{/if}}',
+                        '<p class="result-name">{{simple_table_name}}</p>',
+                        '{{#if column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/if}}',
+                        '{{#if topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/if}}'
+                    ].join('')
+                )
+            }
         });
 
         element.on('typeahead:selected', function(obj, datum) {
-            element.typeahead('setQuery', '');
             comparison.tableID = datum['table_id'];
 
             var url = comparison.buildComparisonURL(
@@ -892,13 +906,58 @@ function Comparison(options) {
         
         return comparison;
     }
+    
+    comparison.geoSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 20,
+        remote: {
+            url: geoSearchAPI,
+            replace: function (url, query) {
+                return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
+            },
+            filter: function(response) {
+                var results = response.results;
+                results.map(function(item) {
+                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                });
+                return results;
+            }
+        }
+    });
+    
+    comparison.sumlevSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.plural_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: [
+            {name: 'state', plural_name: 'states', sumlev: '040', ancestor_sumlev_list: '010,020,030', ancestor_options: 'the United States' },
+            {name: 'county', plural_name: 'counties', sumlev: '050', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+            {name: 'county subdivision', plural_name: 'county subdivisions', sumlev: '060', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+            {name: 'place', plural_name: 'places', sumlev: '160', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+            {name: 'metro area', plural_name: 'metro areas', sumlev: '310', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+            {name: 'native area', plural_name: 'native areas', sumlev: '250', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+            {name: 'census tract', plural_name: 'census tracts', sumlev: '140', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a state, county or place' },
+            {name: 'block group', plural_name: 'block groups', sumlev: '150', ancestor_sumlev_list: '010,020,030,040,050,140,160', ancestor_options: 'the United States, a state, county, place or census tract' },
+            {name: 'zip codes', plural_name: 'ZIP codes', sumlev: '860', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a state, county or place' },
+            {name: 'congressional district', plural_name: 'congressional districts', sumlev: '500', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+            {name: 'state senate district', plural_name: 'state senate districts', sumlev: '610', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+            {name: 'state house district', plural_name: 'state house districts', sumlev: '620', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States or a state' },
+            {name: 'voting tabulation district', plural_name: 'voting tabulation districts', sumlev: '700', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+            {name: 'elementary school district', plural_name: 'elementary school districts', sumlev: '950', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+            {name: 'secondary school district', plural_name: 'secondary school districts', sumlev: '960', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county' },
+            {name: 'unified school district', plural_name: 'unified school districts', sumlev: '970', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a state or county'}
+        ]
+    });
 
     comparison.makeGeoSelectWidget = function() {
-        var selectContainer = comparison.aside.append('div')
+        comparison.geoSelectEngine.initialize();
+        comparison.sumlevSelectEngine.initialize();
+
+        comparison.geoSelectContainer = comparison.aside.append('div')
             .attr('class', 'aside-block search hidden')
             .attr('id', 'comparison-add');
 
-        selectContainer.append('a')
+        comparison.geoSelectContainer.append('a')
                 .classed('action-button', true)
                 .attr('href', '#')
                 .text('Show selected places')
@@ -907,12 +966,12 @@ function Comparison(options) {
                     comparison.toggleGeoControls();
                 })
 
-        selectContainer.append('p')
+        comparison.geoSelectContainer.append('p')
             .attr('class', 'bottom display-type strong')
             .attr('id', 'comparison-add-header')
             .text('Add a geography');
 
-        selectContainer.append('input')
+        comparison.geoSelectContainer.append('input')
             .attr('name', 'geography_add')
             .attr('id', 'geography-add')
             .attr('type', 'text')
@@ -921,39 +980,109 @@ function Comparison(options) {
 
         var element = $('#geography-add');
         element.typeahead({
-            name: 'add_place',
-            valueKey: 'full_geoid',
-            nameKey: 'full_name',
-            remote: {
-                url: comparison.geoSearchAPI,
-                replace: function (url, uriEncodedQuery) {
-                    return url += '?q=' + uriEncodedQuery + '&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
-                },
-                filter: function(response) {
-                    var results = response.results;
-                    results.map(function(item) {
-                        item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
-                    });
-                    return results;
-                }
-            },
-            limit: 20,
-            template: '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>',
-            engine: Hogan
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
+            name: 'summary_levels',
+            displayKey: 'plural_name',
+            source: comparison.sumlevSelectEngine.ttAdapter(),
+            templates: {
+                header: '<h2>Summary levels</h2>',
+                suggestion: Handlebars.compile(
+                    '<p class="result-name">{{plural_name}}<span class="result-type">{{sumlev}}</span></p>'
+                )
+            }
+        }, {
+            name: 'geographies',
+            displayKey: 'full_name',
+            source: comparison.geoSelectEngine.ttAdapter(),
+            templates: {
+                header: '<h2>Geographies</h2>',
+                suggestion: Handlebars.compile(
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                )
+            }
         });
 
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
-            element.typeahead('setQuery', datum['full_name']);
 
-            comparison.geoIDs.push(datum['full_geoid']);
+            if (!datum['full_geoid']) {
+                // we have a sumlev choice, so provide a parent input
+                comparison.chosenSumlev = datum['sumlev'];
+                comparison.chosenSumlevPluralName = datum['plural_name'];
+                comparison.chosenSumlevAncestorList = datum['ancestor_sumlev_list'],
+                comparison.chosenSumlevAncestorOptions = datum['ancestor_options'];
+
+                comparison.makeParentSelectWidget();
+                $('#geography-add-parent-container').slideDown();
+                $('#geography-add-parent').focus();
+            } else {
+                // we have a geoID, so add it
+                comparison.geoIDs.push(datum['full_geoid']);
+                var url = comparison.buildComparisonURL(
+                    comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
+                );
+                window.location = url;
+            }
+            // TODO: pushState to maintain history without page reload
+        });
+    }
+    
+    comparison.makeParentSelectWidget = function() {
+        var parentContainer = comparison.geoSelectContainer.append('div')
+                .attr('id', 'geography-add-parent-container')
+                .classed('hidden', true);
+
+        parentContainer.append('p')
+                .attr('class', 'bottom display-type strong')
+                .html('&hellip; in &hellip;');
+        
+        parentContainer.append('input')
+                .attr('name', 'geography_add_parent')
+                .attr('id', 'geography-add-parent')
+                .attr('type', 'text')
+                .attr('placeholder', 'Find a place')
+                .attr('autocomplete', 'off');
+                
+        parentContainer.append('p')
+                .attr('class', 'display-type')
+                .text(comparison.capitalize(comparison.chosenSumlevPluralName) + ' can be compared within ' + comparison.chosenSumlevAncestorOptions + '.');
+
+        var element = $('#geography-add-parent');
+        element.typeahead({
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
+            name: 'geographies',
+            displayKey: 'full_name',
+            source: comparison.geoSelectEngine.ttAdapter(),
+            templates: {
+                header: '<h2>Geographies</h2>',
+                suggestion: Handlebars.compile(
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                )
+            }
+        });
+
+        if (comparison.chosenSumlev == '040') {
+            element.typeahead('val', 'United States');
+        }
+
+        element.on('typeahead:selected', function(event, datum) {
+            event.stopPropagation();
+
+            comparison.geoIDs.push(comparison.chosenSumlev + '|' + datum['full_geoid']);
             var url = comparison.buildComparisonURL(
                 comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
             );
             window.location = url;
             // TODO: pushState to maintain history without page reload
         });
-        return comparison;
     }
     
     comparison.makeParentOptions = function() {
