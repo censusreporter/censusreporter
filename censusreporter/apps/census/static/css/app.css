@@ -2377,6 +2377,7 @@ dl#racial-iteration dt {
 }
 aside .search .tt-dropdown-menu {
     font-size: .75em;
+    top: 3em !important;
 }
 aside .search .result-type {
     float: none;

@@ -70,7 +70,15 @@ function Comparison(options) {
         // traffic cop, opportunity for any middleware-type things here
         
         // determine whether we have a primary geo to key off of
-        comparison.primaryGeoName = (!!comparison.primaryGeoID) ? comparison.data.geography[comparison.primaryGeoID].name : null;
+        if (!!comparison.primaryGeoID && !!comparison.data.geography[comparison.primaryGeoID]) {
+            comparison.primaryGeoName = comparison.data.geography[comparison.primaryGeoID].name
+        } else {
+            // case where primaryGeoID is passed as param, but not part of data returned by API
+            comparison.primaryGeoID = null
+        }
+        
+        // validated list of geoIDs with data
+        comparison.dataGeoIDs = _.keys(comparison.data.data);
 
         // create groupings of geoIDs by sumlev
         comparison.sumlevMap = comparison.makeSumlevMap();
@@ -632,7 +640,6 @@ function Comparison(options) {
         var table = comparison.data.tables[comparison.tableID],
             release = comparison.data.release,
             data = comparison.data.data,
-            dataGeoIDs = _.keys(data),
             statType = (table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number',
             denominatorColumn = table.denominator_column_id || null,
             headerContainer = d3.select('#header-container'),
@@ -703,7 +710,7 @@ function Comparison(options) {
                 columnValuesPct = [],
                 geoColumnData = {};
 
-            dataGeoIDs.forEach(function(g) {
+            comparison.dataGeoIDs.forEach(function(g) {
                 var thisValue = data[g][comparison.tableID].estimate[k];
                 geoColumnData[g] = {
                     name: comparison.data.geography[g].name,
@@ -1077,6 +1084,7 @@ function Comparison(options) {
             event.stopPropagation();
 
             comparison.geoIDs.push(comparison.chosenSumlev + '|' + datum['full_geoid']);
+            comparison.primaryGeoID = datum['full_geoid'];
             var url = comparison.buildComparisonURL(
                 comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
             );
