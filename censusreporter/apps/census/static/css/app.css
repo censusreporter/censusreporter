@@ -2732,6 +2732,14 @@ aside .search .result-type {
     #query-geography-picker #sumlevs-schools {
         margin-top: 1.4em;
     }
+    #profile #query-topic-picker .typeahead-container {
+        display: block;
+        padding-left: 0 .75em;
+    }
+    #profile #query-topic-picker h2 {
+        position: relative;
+        margin-bottom: .33em;
+    }
     #geography-picker li,
     #query-geography-picker li {
         margin-bottom: .67em;
