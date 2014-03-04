@@ -392,7 +392,7 @@ function Comparison(options) {
                     style: styleFeature,
                     onEachFeature: function(feature, layer) {
                         var label = makeLabel(feature, comparison.chosenColumn);
-                        layer.bindLabel(label, {className: 'hovercard'});
+                        layer.bindLabel(label, {className: 'hovercard', direction: 'auto'});
                         layer.on('click', function() {
                             window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                         });

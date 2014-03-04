@@ -358,7 +358,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
             if (feature.properties.geoid == thisGeoID)
                 return;
 
-            layer.bindLabel(feature.properties.name);
+            layer.bindLabel(feature.properties.name, {direction: 'auto'});
             layer.on('mouseover', function() {
                 layer.setStyle({
                     "fillOpacity": 0.5,

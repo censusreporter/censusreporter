@@ -847,6 +847,10 @@ aside .action-button {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: .83em 1em;
 }
+.leaflet-label.hovercard {
+    white-space: normal;
+    width: 250px;
+}
 .hovercard .label-title,
 .hovercard .name,
 .hovercard .value {
