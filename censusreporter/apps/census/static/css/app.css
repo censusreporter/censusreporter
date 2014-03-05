@@ -460,6 +460,9 @@ aside .search input {
     padding: .15em .5em 0;
     width: 100%;
 }
+aside #geography-add-parent {
+    margin-bottom: .2em;
+}
 aside .action-button {
     font-size: .83em;
     display: inline-block;
