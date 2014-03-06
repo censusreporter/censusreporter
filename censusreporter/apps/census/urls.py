@@ -38,6 +38,13 @@ urlpatterns = patterns('',
         name    = 'geography_detail_geoid',
     ),
 
+    url(
+        regex   = '^data/$',
+        view    = TemplateView.as_view(template_name="data/data_builder.html"),
+        kwargs  = {},
+        name    = 'data_builder',
+    ),
+
     # e.g. /table/B01001/
     url(
         regex   = '^data/(?P<format>%s)/$' % comparison_formats,
