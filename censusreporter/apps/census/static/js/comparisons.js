@@ -127,7 +127,7 @@ function Comparison(options) {
                 .classed('caption-group', true)
                 .html('<strong>Table universe:</strong> '+ table.universe);
                 
-        // add the "change table" picker
+        // add the "show column" picker
         var makeDataSelector = function() {
             var dataSelector = headerContainer.append('div')
                     .classed('tool-group clearfix', true)
@@ -267,10 +267,15 @@ function Comparison(options) {
                 // add percentages if possible
                 if (!!denominatorColumn) {
                     e.properties.data.percentage = {};
+                    e.properties.data.percentage_error = {};
                     _.each(comparison.columnKeys, function(k) {
                         var thisValue = e.properties.data.estimate[k],
-                            thisDenominator = e.properties.data.estimate[denominatorColumn];
+                            thisValueMOE = e.properties.data.error[k],
+                            thisDenominator = e.properties.data.estimate[denominatorColumn],
+                            thisDenominatorMOE = e.properties.data.error[denominatorColumn];
+
                         e.properties.data.percentage[k] = calcPct(thisValue, thisDenominator);
+                        e.properties.data.percentage_error[k] = calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE);
                     })
                 }
             })
@@ -291,21 +296,28 @@ function Comparison(options) {
             // build the info labels
             var makeLabel = function(feature, column) {
                 if (!!feature.properties.data) {
+                    console.log(feature.properties.data)
                     var thisValue = feature.properties.data.estimate[column],
+                        thisValueMOE = feature.properties.data.error[column],
                         thisPct = (!!denominatorColumn) ? feature.properties.data.percentage[column] : null,
-                        label = "<span class='label-title'>" + feature.properties.name + "</span>";
+                        thisPctMOE = (!!denominatorColumn) ? feature.properties.data.percentage_error[column] : null,
+                        label = '<span class="label-title">' + feature.properties.name + '</span>';
                         
-                    label += "<span class='name'>" + comparison.columns[column]['prefixed_name'] + "</span>";
+                    label += '<span class="name">' + comparison.columns[column]['prefixed_name'] + '</span>';
+                    label += '<span class="value">';
                     if (!!thisPct) {
-                        label += "<span class='value'>" + valFmt(thisPct, statType) + "%";
-                        if (!!thisValue) {
-                            label += " (" + valFmt(thisValue, statType) + ")";
-                        }
+                        label += '<span class="inline-stat">' + valFmt(thisPct, 'percentage');
+                        label += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>'
                         label += "</span>";
                     }
-                    else if (!!thisValue) {
-                        label += "<span class='value'>" + valFmt(thisValue, statType) + "</span>";
+                    if (!!thisValue) {
+                        var openParen = (!!thisPct) ? '(' : null,
+                            closeParen = (!!thisPct) ? ')' : null;
+                        label += '<span class="inline-stat">' + openParen + valFmt(thisValue, statType);
+                        label += '<span class="context">&plusmn;' + valFmt(thisValueMOE, statType) + '</span>';
+                        label += closeParen + '</span>';
                     }
+                    label += '</span>';
                 }
                 return label;
             }
@@ -444,7 +456,7 @@ function Comparison(options) {
                 e.preventDefault();
                 var chosenGroup = $(this);
                 chosenGroup.toggleClass('open');
-                chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+                chosenGroup.find('i[class^="fa "]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
             });
             sumlevSelector.on('click', 'a', function(e) {
                 e.preventDefault();
@@ -473,7 +485,7 @@ function Comparison(options) {
                 e.preventDefault();
                 var chosenGroup = $(this);
                 chosenGroup.toggleClass('open');
-                chosenGroup.find('i[class^="fa-"]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+                chosenGroup.find('i[class^="fa "]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
             });
             dataSelector.on('click', 'a', function(e) {
                 e.preventDefault();

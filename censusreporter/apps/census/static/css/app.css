@@ -892,8 +892,11 @@ aside .action-button {
 .hovercard li {
     margin-bottom: .67em;
 }
-.hovercard li .context {
+.hovercard .context {
     margin-left: .5em;
+}
+.hovercard .inline-stat {
+    margin: 0 .5em;
 }
 .chart-get-data {
     float: right;
