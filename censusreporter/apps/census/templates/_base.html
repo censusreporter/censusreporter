@@ -43,7 +43,7 @@
         <header id="page-header">
             <div id="page-header-title" class="wrapper clearfix">
                 {% if not hide_nav_tools %}
-                <i id="menu-toggle" class="fa fa-reorder"></i>
+                <i id="menu-toggle" class="fa fa-bars"></i>
                 {% endif %}
                 <a class="title" href="{% url 'homepage' %}">
                     <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
@@ -56,9 +56,9 @@
                     {% if not hide_nav_compare %}
                     <span class="separator">or</span>
                     <div class="tool-group">
-                        <a class="button" href="{% url 'comparison_builder' %}">
+                        <a class="button" href="{% url 'data_builder' %}">
                             <i class="fa fa-chevron-circle-right"></i>
-                            Compare places
+                            Search for data
                         </a>
                     </div>
                     {% endif %}

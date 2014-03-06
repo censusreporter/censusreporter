@@ -304,12 +304,18 @@ a.action-button {
     line-height: 2;
 }
 .content-container {
-    padding: 1em 0;
+    padding: 2em 0;
     clear: both;
+}
+.data-view .content-container {
+    padding: 1em 0;
 }
 .header-container {
     padding: 2em 0 0;
     clear: both;
+}
+.content-container .header-container {
+    padding-top: 1em;
 }
 #header-container h1 {
     padding-right: 370px;
@@ -460,9 +466,12 @@ aside .search input {
     padding: .15em .5em 0;
     width: 100%;
 }
+aside #geography-add-parent {
+    margin-bottom: .2em;
+}
 aside .action-button {
     font-size: .83em;
-    display: inline-block;
+    display: block;
     margin-bottom: 1em;
 }
 .wrapper {
@@ -564,11 +573,15 @@ aside .action-button {
 .tan-stripe {
     background-color: #eff1e9;
 }
-#homepage h1.article-header {
+h1.article-header {
     font-size: 3em;
     margin-bottom: .25em;
 }
-#homepage h1.article-header-right {
+.data-builder h1.article-header,
+#query-topic-picker h1 {
+    font-size: 2.5em;
+}
+h1.article-header-right {
     text-align: right;
     padding-right: .1em;
 }
@@ -577,6 +590,16 @@ aside .action-button {
     float: left;
     width: 150px;
 }
+.data-builder h1 {
+    float: none;
+    text-align: left;
+    padding-right: 0;
+    width: auto;
+}
+.data-builder #explore-topic-picker h1:after {
+    content: ' ACS data';
+}
+
 #explore-topic-metadata p {
     float: left;
     width: 260px;
@@ -584,21 +607,26 @@ aside .action-button {
     padding-top: .5em;
 }
 #homepage #geography-select,
-#homepage #explore input {
+#explore input,
+#query-topic-picker input {
     font-size: 1.6em;
     padding: .25em .5em 0;
     width: 100%;
 }
-#homepage .input-wrapper {
+#map-controls #query-topic-picker input {
+    font-size: 1em;
+}
+#homepage #profile .input-wrapper,
+#homepage #explore .input-wrapper {
     padding-top: .25em;
     padding-left: 180px;
 }
-#homepage #geography-select-wrapper .geolocate-only {
+#geography-select-wrapper .geolocate-only {
     clear: both;
     width: 100%;
     margin: 1em auto;
 }
-#homepage #geography-select-wrapper .action-button {
+#geography-select-wrapper .action-button {
     display: block;
     margin-left: 3em;
 }
@@ -615,7 +643,9 @@ aside .action-button {
 #homepage #topics h2 {
     font-size: 1.5em;
 }
-
+#homepage #explore-topic-picker .primary-explainer {
+    display: none;
+}
 #homepage #query-builder-bar {
     margin: 1.5em 0;
 }
@@ -2453,7 +2483,7 @@ aside .search .result-type {
 }
 
 .message {
-    margin: 1em 0 2em;
+    margin: 0 0 2em;
     padding: .67em 0;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -2564,6 +2594,9 @@ aside .search .result-type {
         margin-left: 0;
         width: auto;
         padding: 0;
+    }
+    aside .action-button {
+        display: inline-block;
     }
     #glossary aside {
         float: right;
@@ -2818,7 +2851,7 @@ aside .search .result-type {
     #cover-profile {
         margin-top: 150px;
     }
-    #homepage h1.article-header {
+    h1.article-header {
         font-size: 2.2em;
     }
     #homepage #geography-select,
@@ -2869,7 +2902,7 @@ aside .search .result-type {
     }
 }
 @media only screen and (max-width: 360px) {
-    #homepage h1.article-header {
+    h1.article-header {
         font-size: 2.2em;
     }
 }
