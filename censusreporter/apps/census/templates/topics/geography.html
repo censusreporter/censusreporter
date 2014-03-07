@@ -33,19 +33,29 @@
     For each of these, the next level down is a perfect subdivision&mdash;that is, all of the "parent" geography is covered by the "children." As always, there are subtle exceptions: Puerto Rico is a <strong>040</strong> summary level, but it is not technically part of the <strong>010</strong> (United States). And, while Washington, DC is not a state, it is counted in <strong>040</strong>, and it is part of <strong>010</strong>. And while there is no true county government for DC, there is a record for it in the <strong>050</strong> summary level, to maintain this consistency.
 
 </p>
-<h3>Places</h3>
+
+<p>
+    There is no clearly designated "official" list of Census summary levels, but there is <a href="http://factfinder2.census.gov/help/en/glossary/s/summary_level_code_list.htm">in the American FactFinder help documentation. The Missouri Census Data Center created <a href="http://mcdc2.missouri.edu/cgi-bin/browse?/pub/sasfmats/Ssumlev.sas@">a list designed for use with SAS statistical software</a>. (Even if you don't use SAS, it's easy to read and may come in handy sometimes.) It's part of their own <a href="http://mcdc.missouri.edu/allabout/sumlevs/">extensive documentation about Census summary levels</a>.
+</p>
+
+
+<h3>Your town</h3>
 <p>
     Reporters will often want numbers for the cities and towns in their coverage area. This can be more complicated than you might first believe.
 </p>
 <p>
-    Incorporated cities, towns, and villages are part of the  <strong>160</strong> summary level, generically described as <strong>places</strong> The <strong>160</strong> level also includes "Census designated places," or CDPs, which provide data for unincorporated areas which are commonly recognized by people who live in or near them. Place boundaries can divide census tracts and cross county borders, but a place is always contained in a single state.
+    Incorporated cities, towns, and villages are part of the  <strong>160</strong> summary level, generically described as <strong>places</strong> The <strong>160</strong> level also includes "Census designated places," or CDPs, which provide data for unincorporated areas which are commonly recognized by people who live in or near them. Place boundaries can divide census tracts and cross county borders, but a place is always contained in a single state. In every state, there is some territory which isn't in any census "place."
 </p>
 <p>
-    
+   In some parts of the US, the county subdivision is a more appropriate summary level to use for this kind of statistical analysis. In 12 states, most or all county subdivisions serve as local governments much like cities and towns. Specifically, those states are Connecticut, Maine, Massachusetts, Michigan, Minnesota, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, and Wisconsin.
 </p>
 <p>
-    There is no clearly designated "official" list of Census summary levels, but there is <a href="http://factfinder2.census.gov/help/en/glossary/s/summary_level_code_list.htm">in the American FactFinder help documentation. The Missouri Census Data Center created <a href="http://mcdc2.missouri.edu/cgi-bin/browse?/pub/sasfmats/Ssumlev.sas@">a list designed for use with SAS statistical software</a>. (Even if you don't use SAS, it's easy to read and may come in handy sometimes.) It's part of their own <a href="http://mcdc.missouri.edu/allabout/sumlevs/">extensive documentation about Census summary levels</a>.
+    In these and 17 more states, most or all county subdivisions are legal entities, known to the Census Bureau as <em>minor civil divisions</em> (or MCDs). In the rest of the states, county subdivisions exist for statistical purposes, but are less likely to be important for journalists. Nine states have county subdivisions which are a mix of MCDs (representing legal entities) and statistical areas known as <em>unorganized territories</em>. For more guidance on understanding county subdivisions, consult the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">census documentation</a>.
 </p>
+<p>
+    Especially when comparing cities around the US, it may be more appropriate to compare <em>metropolitan areas</em>. Technically, the census calls these <em>core based statistical areas</em> (or CBSAs), a general term which includes both metropolitan and <em>micropolitan statistical areas</em>. A CBSA is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties. You can learn much more about this on the Census' <a href="http://www.census.gov/population/metro/">Metropolitan and Micropolitan Statistical Areas Main Page</a>.
+</p>
+
 </section>
 {% endblock %}
 
