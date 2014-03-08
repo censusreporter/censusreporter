@@ -462,7 +462,7 @@ aside .search input {
 }
 aside .action-button {
     font-size: .83em;
-    display: inline-block;
+    display: block;
     margin-bottom: 1em;
 }
 .wrapper {
@@ -1790,21 +1790,21 @@ section.chart-divider h2 {
 .coal-chart li a.selected.hovered {
     z-index: 4;
 }
-.coal-chart li a span {
+.coal-chart li a .hovercard {
     position: absolute;
     width: 15em;
     bottom: 1.5em;
     right: -7.5em;
     font-size: .83em;
-    line-height: 1.2;
+    line-height: 1.3;
     text-align: center;
     display: none;
     padding: .5em;
     border: 1px solid #e0e0e0;
 }
-.coal-chart li a:hover span,
-.coal-chart li a.hovered span,
-.coal-chart li a.selected span {
+.coal-chart li a:hover .hovercard,
+.coal-chart li a.hovered .hovercard,
+.coal-chart li a.selected .hovercard {
     display: block;
     background-color: #fff;
 }
