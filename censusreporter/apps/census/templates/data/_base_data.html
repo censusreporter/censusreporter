@@ -1,11 +1,13 @@
 {% extends '_base.html' %}
 
 {% comment %}
-This page provides a base for all table view templates to inherit from,
+This page provides a base for all data view templates to inherit from,
 for applying things across that entire family of pages.
 {% endcomment %}
 
 {% block head_title %}Table {% if table %}{{ table }}{% endif %} {% if release %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
+
+{% block body_class %}data-view{% endblock %}
 
 {% block header_content %}
 <div id="header-container" class="wrapper clearfix header-container">

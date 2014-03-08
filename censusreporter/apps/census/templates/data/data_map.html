@@ -14,7 +14,7 @@
 <script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
 {% endblock %}
 
-{% block body_class %}full-screen{% endblock %}
+{% block body_class %}{{ block.super }} full-screen{% endblock %}
 
 {% block body %}
 <div id="map-controls" class="clearfix">
