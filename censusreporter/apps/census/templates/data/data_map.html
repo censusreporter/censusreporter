@@ -1,5 +1,7 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
 
+{% block head_title %}Map View: {{ block.super }}{% endblock %}
+
 {% block head_css_extra %}
 <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
   <!--[if lte IE 8]>
@@ -25,8 +27,9 @@
     <section id="map-data" class="box-content clearfix">
         {% include 'data/_blocks/_toggle_menu.html' %}
         {% include 'data/_blocks/_topic_select_input.html' %}
-        <div id="data-display"></div>
+        <div id="header-container"></div>
     </section>
+    <aside></aside>
 </div>
 
 <div id="slippy-map"></div>
