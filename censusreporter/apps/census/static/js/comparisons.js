@@ -105,6 +105,9 @@ function Comparison(options) {
 
 
 
+
+
+
     // BEGIN THE MAP-SPECIFIC THINGS
     comparison.makeMapDisplay = function() {
         // some extra setup for map view
@@ -127,7 +130,7 @@ function Comparison(options) {
             if (error) return console.warn(error);
 
             comparison.geoFeatures = json.features;
-            comparison.mergeData();
+            comparison.mergeMapData();
 
             // draw the base map
             comparison.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
@@ -375,7 +378,7 @@ function Comparison(options) {
         return label;
     }
 
-    comparison.mergeData = function() {
+    comparison.mergeMapData = function() {
         // add table data to each geography's properties
         _.each(comparison.geoFeatures, function(e) {
             e.properties.data = comparison.values[e.properties.geoid][comparison.tableID];
@@ -516,27 +519,16 @@ function Comparison(options) {
 
 
 
-
-
-
+    // BEGIN THE GRID-SPECIFIC THINGS
     comparison.makeTableDisplay = function() {
         comparison.showStandardMetadata();
+        comparison.addContainerMetadata();
         
-        var dataContainer = d3.select('#data-display'),
-            gridData = {
+        var gridData = {
                 Head: [],
                 Body: []
             };
         
-        // tableID and change table link
-        dataContainer.select('h1').text('Table ' + comparison.tableID)
-                .append('a')
-            .attr('id', 'change-table')
-            .attr('href', '#')
-            .text('Change');
-
-        dataContainer.select('h2').text(comparison.release.name);
-
         // for long table titles, bump down the font size
         if (comparison.table.title.length > 160) {
             comparison.headerContainer.select('h1')
@@ -622,7 +614,7 @@ function Comparison(options) {
         $(window).resize(comparison.setResultsContainerHeight);
         
         // add hover listeners for grid rows
-        $("#data-display").on('mouseover', '.g_BR', function(e) {
+        comparison.displayWrapper.on('mouseover', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
             var thisRow = $.grep(thisClass, function(c) {
                 return c.substr(0,3) == 'g_R';
@@ -630,7 +622,7 @@ function Comparison(options) {
             $('.'+thisRow+':not(.g_HR)').addClass('hover');
         });
 
-        $("#data-display").on('mouseleave', '.g_BR', function(e) {
+        comparison.displayWrapper.on('mouseleave', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
             var thisRow = $.grep(thisClass, function(c) {
                 return c.substr(0,3) == 'g_R';
@@ -638,7 +630,7 @@ function Comparison(options) {
             $('.'+thisRow+':not(.g_HR)').removeClass('hover');
         });
     
-        $("#data-display").on('click', '.g_BR', function(e) {
+        comparison.displayWrapper.on('click', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
             var thisRow = $.grep(thisClass, function(c) {
                 return c.substr(0,3) == 'g_R';
@@ -653,18 +645,9 @@ function Comparison(options) {
 
     comparison.makeDistributionDisplay = function() {
         comparison.showStandardMetadata();
+        comparison.addContainerMetadata();
         
-        var dataContainer = d3.select('#data-display'),
-            resultsContainer = d3.select('#data-container');
-
-        // tableID and change table link
-        dataContainer.select('h1').text('Table ' + comparison.tableID)
-                .append('a')
-            .attr('id', 'change-table')
-            .attr('href', '#')
-            .text('Change');
-            
-        dataContainer.select('h2').text(comparison.release.name);
+        var resultsContainer = d3.select('#data-container');
 
         // for long table titles, bump down the font size
         if (comparison.table.title.length > 160) {
@@ -875,6 +858,13 @@ function Comparison(options) {
         comparison.headerContainer.append('h1').text(comparison.table.title);
     }
 
+
+    comparison.addContainerMetadata = function() {
+        // tableID and change table link
+        comparison.displayWrapper.find('h1').text('Table ' + comparison.tableID)
+            .append('<a href="#" id="change-table">Change</a>');
+        comparison.displayWrapper.find('h2').text(comparison.release.name);
+    }
 
     // typeahead autocomplete setup
     comparison.topicSelectEngine = new Bloodhound({
@@ -1253,7 +1243,7 @@ function Comparison(options) {
     }
     
     comparison.toggleGeoControls = function() {
-        $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children, #map-data #data-display').toggle();
+        $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children, #map-controls #data-display').toggle();
         if (!!comparison.lockedParent) {
             var toggledY = (comparison.lockedParent.css('overflow-y') == 'auto') ? 'visible' : 'auto';
             comparison.lockedParent.css('overflow-y', toggledY);

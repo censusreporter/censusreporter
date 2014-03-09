@@ -23,13 +23,17 @@
             <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
         </a>
     </header>
-    
-    <section id="map-data" class="box-content clearfix">
-        {% include 'data/_blocks/_toggle_menu.html' %}
-        {% include 'data/_blocks/_topic_select_input.html' %}
-        <div id="header-container"></div>
-    </section>
-    <aside></aside>
+    <div class="box-content">
+        <section class="clearfix">
+            {% include 'data/_blocks/_toggle_menu.html' %}
+            {% include 'data/_blocks/_topic_select_input.html' %}
+        </section>
+
+        <section id="data-display" class="clearfix">
+            <div id="header-container"></div>
+        </section>
+        <aside></aside>
+    </div>
 </div>
 
 <div id="slippy-map"></div>

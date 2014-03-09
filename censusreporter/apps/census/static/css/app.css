@@ -212,6 +212,7 @@ img.screenshot {
 }
 .box-header {
     padding: .25em .5em;
+    margin-bottom: .67em;
 }
 .box-header img {
     height: 16px;
@@ -220,7 +221,10 @@ img.screenshot {
     font-size: 16px;
 }
 .box-content {
-    padding: .67em 1em;
+    padding: 0 1em;
+    margin-bottom: .67em;
+}
+.box-content section {
     margin-bottom: 0;
 }
 
@@ -1025,8 +1029,8 @@ h1.article-header-right {
     float: none;
 }
 #map-controls aside {
+    padding: .67em 0 .33em;
     margin: 0;
-    padding: 0 1em .33em;
 }
 #map-controls aside .action-button {
     float: right;
