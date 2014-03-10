@@ -264,6 +264,7 @@ function Comparison(options) {
             var chosenGroup = $(this);
             chosenGroup.toggleClass('open');
             chosenGroup.find('i[class^="fa "]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+            comparison.trackEvent('Map View', 'Open column selector', '');
         });
         comparison.dataSelector.on('click', 'a', function(e) {
             e.preventDefault();
@@ -276,6 +277,7 @@ function Comparison(options) {
             chosenGroup.toggleClass('open');
             comparison.changeMapControls();
             comparison.showChoropleth();
+            comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
         });
     }
 
@@ -329,6 +331,7 @@ function Comparison(options) {
             var chosenGroup = $(this);
             chosenGroup.toggleClass('open');
             chosenGroup.find('i[class^="fa "]').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+            comparison.trackEvent('Map View', 'Open summary level selector', '');
         });
         comparison.sumlevSelector.on('click', 'a', function(e) {
             e.preventDefault();
@@ -341,6 +344,7 @@ function Comparison(options) {
             chosenGroup.toggleClass('open');
             comparison.changeMapControls();
             comparison.showChoropleth();
+            comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
         });
     }
     
@@ -462,6 +466,7 @@ function Comparison(options) {
                 var label = comparison.makeMapLabel(feature, comparison.chosenColumn);
                 layer.bindLabel(label, {className: 'hovercard', direction: 'auto'});
                 layer.on('click', function() {
+                    comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                 });
             }
@@ -617,6 +622,7 @@ function Comparison(options) {
                 return c.substr(0,3) == 'g_R';
             });
             $('.'+thisRow+':not(.g_HR)').toggleClass('highlight');
+            comparison.trackEvent('Table View', 'Click to toggle row highlight', '');
         });
 
         // be smart about fixed height
@@ -767,6 +773,7 @@ function Comparison(options) {
         comparison.coalCharts.on('click', 'a', function(e) {
             e.preventDefault();
             comparison.toggleSelectedDistributionPoints($(this).data('index'));
+            comparison.trackEvent('Distribution View', 'Click to toggle point highlight', '');
         })
     }
 
@@ -802,6 +809,7 @@ function Comparison(options) {
         });
         placePicker.on('change', function(e) {
             comparison.toggleSelectedDistributionPoints($(this).val());
+            comparison.trackEvent('Distribution View', 'Use dropdown to toggle point highlight', '');
         })
 
         // color scale for locked chart points
@@ -924,6 +932,7 @@ function Comparison(options) {
 
         element.on('typeahead:selected', function(obj, datum) {
             comparison.tableID = datum['table_id'];
+            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
 
             var url = comparison.buildComparisonURL(
                 comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
@@ -936,6 +945,7 @@ function Comparison(options) {
         comparison.displayWrapper.on('click', '#change-table', function(e) {
             e.preventDefault();
             comparison.toggleTableSearch();
+            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle table search', '');
         });
         
         return comparison;
@@ -998,6 +1008,7 @@ function Comparison(options) {
                 .on('click', function() {
                     d3.event.preventDefault();
                     comparison.toggleGeoControls();
+                    comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle geo search', '');
                 })
 
         comparison.geoSelectContainer.append('p')
@@ -1056,6 +1067,8 @@ function Comparison(options) {
             } else {
                 // we have a geoID, so add it
                 comparison.geoIDs.push(datum['full_geoid']);
+                comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
+
                 var url = comparison.buildComparisonURL(
                     comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
                 );
@@ -1109,9 +1122,11 @@ function Comparison(options) {
 
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
-
-            comparison.geoIDs.push(comparison.chosenSumlev + '|' + datum['full_geoid']);
+            var geoGroup = comparison.chosenSumlev + '|' + datum['full_geoid']
+            comparison.geoIDs.push(geoGroup);
             comparison.primaryGeoID = datum['full_geoid'];
+            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
+
             var url = comparison.buildComparisonURL(
                 comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
             );
@@ -1208,6 +1223,7 @@ function Comparison(options) {
                 .on('click', function() {
                     d3.event.preventDefault();
                     comparison.toggleGeoControls();
+                    comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle geo search', '');
                 })
 
         chosenGeoContainer.append('p')
@@ -1234,6 +1250,7 @@ function Comparison(options) {
                     .html('<small>Remove</small>')
                     .on('click', function(d) {
                         comparison.removeGeoID(d.geoID)
+                        comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Remove geography', d.geoID);
                     });
         }
                 
@@ -1300,6 +1317,7 @@ function Comparison(options) {
             toggleControl.attr('id', toggleID).text(toggleText);
             $(hideClass).css('display', 'none');
             $(showClass).css('display', 'inline-block');
+            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle percent/number display', showClass);
         })
         return comparison;
     }
