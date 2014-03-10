@@ -75,9 +75,20 @@ function Comparison(options) {
         comparison.values = comparison.data.data;
         comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.substr(0,3) : null;
         comparison.statType = (comparison.table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number';
-        comparison.denominatorColumn = comparison.table.denominator_column_id || null;
+        comparison.sortedPlaces = comparison.getSortedPlaces('name');
+
+        comparison.denominatorColumn = (!!comparison.table.denominator_column_id) ? jQuery.extend({id: comparison.table.denominator_column_id}, comparison.table.columns[comparison.table.denominator_column_id]) : null;
         comparison.valueType = (!!comparison.denominatorColumn) ? 'percentage' : 'estimate';
 
+        // prep the column keys and names
+        if (!!comparison.denominatorColumn) {
+            delete comparison.table.columns[comparison.denominatorColumn.id]
+            // add percentage values to column data
+            comparison.addPercentageDataValues();
+        }
+        comparison.columnKeys = _.keys(comparison.table.columns);
+        comparison.prefixColumnNames(comparison.table.columns, comparison.denominatorColumn);
+        
         // determine whether we have a primary geo to key off of
         if (!!comparison.primaryGeoID && !!comparison.data.geography[comparison.primaryGeoID]) {
             comparison.primaryGeoName = comparison.data.geography[comparison.primaryGeoID].name
@@ -93,7 +104,7 @@ function Comparison(options) {
     
     comparison.makeDataDisplay = function() {
         if (comparison.dataFormat == 'table') {
-            comparison.makeTableDisplay();
+            comparison.makeGridDisplay();
         }
         if (comparison.dataFormat == 'map') {
             comparison.makeMapDisplay();
@@ -102,8 +113,6 @@ function Comparison(options) {
             comparison.makeDistributionDisplay();
         }
     }
-
-
 
 
 
@@ -149,7 +158,7 @@ function Comparison(options) {
             // and sumlev with the most geographies
             comparison.chosenColumn = comparison.columnKeys[0];
             comparison.changeMapControls();
-            comparison.drawChoropleth();
+            comparison.showChoropleth();
 
             comparison.sumlevSelector.fadeIn();
             comparison.mapLegend.fadeIn();
@@ -222,7 +231,7 @@ function Comparison(options) {
                 .attr('id', 'column-picker-choices');
 
         var makeColumnChoice = function(columnKey) {
-            var columnData = comparison.columns[columnKey];
+            var columnData = comparison.table.columns[columnKey];
             var choice = '<li class="indent-'+columnData.indent+'">';
             if (columnKey.indexOf('.') != -1) {
                 choice += '<span class="label">'+columnData.name+'</span>';
@@ -234,15 +243,6 @@ function Comparison(options) {
             return choice;
         }
 
-        // prep the column keys and names
-        comparison.columns = comparison.table.columns;
-        if (!!comparison.denominatorColumn) {
-            var columnChoiceDenominator = '<li class="indent-'+comparison.table.columns[comparison.denominatorColumn]['indent']+'"><span class="label">'+comparison.table.columns[comparison.denominatorColumn]['name']+'</span></li>';
-            delete comparison.columns[comparison.denominatorColumn]
-        }
-        comparison.columnKeys = _.keys(comparison.columns);
-        comparison.prefixColumnNames(comparison.columns, comparison.denominatorColumn);
-
         var columnChoices = d3.select('#column-picker-choices');
         columnChoices.selectAll("li")
                 .data(comparison.columnKeys)
@@ -252,6 +252,7 @@ function Comparison(options) {
                 });
 
         if (!!comparison.denominatorColumn) {
+            var columnChoiceDenominator = '<li class="indent-'+comparison.denominatorColumn.indent+'"><span class="label">'+comparison.denominatorColumn.name+'</span></li>';
             columnChoices.insert('li', ':first-child')
                 .html(columnChoiceDenominator);
         }
@@ -274,7 +275,7 @@ function Comparison(options) {
             var chosenGroup = $(this).closest('.item-chosen');
             chosenGroup.toggleClass('open');
             comparison.changeMapControls();
-            comparison.drawChoropleth();
+            comparison.showChoropleth();
         });
     }
 
@@ -339,13 +340,13 @@ function Comparison(options) {
             var chosenGroup = $(this).closest('.item-chosen');
             chosenGroup.toggleClass('open');
             comparison.changeMapControls();
-            comparison.drawChoropleth();
+            comparison.showChoropleth();
         });
     }
     
     comparison.changeMapControls = function() {
         // rebuild map controls with new data on select menu change
-        var columnTitle = comparison.columns[comparison.chosenColumn]['prefixed_name'];
+        var columnTitle = comparison.table.columns[comparison.chosenColumn]['prefixed_name'];
         d3.select("#column-title-chosen").text(columnTitle);
         var sumlevTitle = comparison.sumlevMap[comparison.chosenSumlev]['name']['plural'];
         d3.select("#sumlev-title-chosen").text(comparison.capitalize(sumlevTitle));
@@ -359,7 +360,7 @@ function Comparison(options) {
                 thisPctMOE = (!!comparison.denominatorColumn) ? feature.properties.data.percentage_error[column] : null,
                 label = '<span class="label-title">' + feature.properties.name + '</span>';
                 
-            label += '<span class="name">' + comparison.columns[column]['prefixed_name'] + '</span>';
+            label += '<span class="name">' + comparison.table.columns[column]['prefixed_name'] + '</span>';
             label += '<span class="value">';
             if (!!thisPct) {
                 label += '<span class="inline-stat">' + valFmt(thisPct, 'percentage');
@@ -367,8 +368,8 @@ function Comparison(options) {
                 label += "</span>";
             }
             if (!!thisValue) {
-                var openParen = (!!thisPct) ? '(' : null,
-                    closeParen = (!!thisPct) ? ')' : null;
+                var openParen = (!!thisPct) ? '(' : '',
+                    closeParen = (!!thisPct) ? ')' : '';
                 label += '<span class="inline-stat">' + openParen + valFmt(thisValue, comparison.statType);
                 label += '<span class="context">&plusmn;' + valFmt(thisValueMOE, comparison.statType) + '</span>';
                 label += closeParen + '</span>';
@@ -382,24 +383,10 @@ function Comparison(options) {
         // add table data to each geography's properties
         _.each(comparison.geoFeatures, function(e) {
             e.properties.data = comparison.values[e.properties.geoid][comparison.tableID];
-            // add percentages if possible
-            if (!!comparison.denominatorColumn) {
-                e.properties.data.percentage = {};
-                e.properties.data.percentage_error = {};
-                _.each(comparison.columnKeys, function(k) {
-                    var thisValue = e.properties.data.estimate[k],
-                        thisValueMOE = e.properties.data.error[k],
-                        thisDenominator = e.properties.data.estimate[comparison.denominatorColumn],
-                        thisDenominatorMOE = e.properties.data.error[comparison.denominatorColumn];
-
-                    e.properties.data.percentage[k] = calcPct(thisValue, thisDenominator);
-                    e.properties.data.percentage_error[k] = calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE);
-                })
-            }
         })
     }
 
-    comparison.drawChoropleth = function() {
+    comparison.showChoropleth = function() {
         // build map based on specific column of data
         if (comparison.featureLayer) {
             comparison.map.removeLayer(comparison.featureLayer);
@@ -511,50 +498,51 @@ function Comparison(options) {
             comparison.map.fitBounds(objBounds);
         }
     }
-
     // DONE WITH THE MAP-SPECIFIC THINGS
 
 
 
 
-
-
     // BEGIN THE GRID-SPECIFIC THINGS
-    comparison.makeTableDisplay = function() {
+    comparison.makeGridDisplay = function() {
         comparison.showStandardMetadata();
         comparison.addContainerMetadata();
         
-        var gridData = {
-                Head: [],
-                Body: []
-            };
+        comparison.makeGridHeader();
+        comparison.makeGridRows();
+        comparison.showGrid();
         
-        // for long table titles, bump down the font size
-        if (comparison.table.title.length > 160) {
-            comparison.headerContainer.select('h1')
-                .style('font-size', '1.6em');
-        }
-
-        // build the header
-        var sortedPlaces = comparison.getSortedPlaces('name'),
-            gridHeaderBits = ['<i class="fa fa-long-arrow-right"></i>Column'];
-
-        sortedPlaces.forEach(function(g) {
+        comparison.addGridControls();
+        comparison.addGeographyCompareTools();
+        
+        return comparison;
+    }
+    
+    comparison.makeGridHeader = function() {
+        comparison.gridData = comparison.gridData || {};
+        
+        var gridHeaderBits = ['<i class="fa fa-long-arrow-right"></i>Column'];
+        comparison.sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = comparison.data.geography[geoID].name;
             gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '">' + geoName + '</a>');
         })
-        gridData.Head.push(gridHeaderBits);
+
+        comparison.gridData.Head = [gridHeaderBits];
+    }
+
+    comparison.makeGridRows = function() {
+        comparison.gridData = comparison.gridData || {};
+        var truncatedName = function(name) {
+            return (name.length > 50) ? name.substr(0,50) + "..." : name;
+        }
 
         // build the columns
-        comparison.columns = d3.map(comparison.table.columns);
-        comparison.columns.forEach(function(k, v) {
-            var truncatedName = function() {
-                return (v.name.length > 50) ? v.name.substr(0,50) + "..." : v.name;
-            }
-            var gridRowBits = ['<div class="name indent-' + v.indent + '" data-full-name="' + v.name + '">' + truncatedName() + '</div>'];
+        var gridRows = [];
+        _.each(comparison.table.columns, function(v, k) {
+            var gridRowBits = ['<div class="name indent-' + v.indent + '" data-full-name="' + v.name + '">' + truncatedName(v.name) + '</div>'];
 
-            sortedPlaces.forEach(function(g) {
+            comparison.sortedPlaces.forEach(function(g) {
                 var geoID = g.geoID,
                     thisValue = comparison.values[geoID][comparison.tableID].estimate[k],
                     thisValueMOE = comparison.values[geoID][comparison.tableID].error[k]
@@ -562,12 +550,12 @@ function Comparison(options) {
 
                 // provide percentages first, to match chart style
                 if (!!comparison.denominatorColumn) {
-                    var thisDenominator = comparison.values[geoID][comparison.tableID].estimate[comparison.denominatorColumn],
-                        thisDenominatorMOE = comparison.values[geoID][comparison.tableID].error[comparison.denominatorColumn];
+                    var thisPct = comparison.values[geoID][comparison.tableID].percentage[k],
+                        thisPctMOE = comparison.values[geoID][comparison.tableID].percentage_error[k];
 
                     if (thisValue >= 0) {
-                        gridRowCol += '<span class="value percentage">' + valFmt(calcPct(thisValue, thisDenominator), 'percentage') + '</span>';
-                        gridRowCol += '<span class="context percentage">&plusmn;' + valFmt(calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE), 'percentage') + '</span>';
+                        gridRowCol += '<span class="value percentage">' + valFmt(thisPct, 'percentage') + '</span>';
+                        gridRowCol += '<span class="context percentage">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
                     }
                 }
 
@@ -578,11 +566,16 @@ function Comparison(options) {
                 }
                 gridRowBits.push(gridRowCol);
             })
-            gridData.Body.push(gridRowBits);
+            gridRows.push(gridRowBits);
         })
-
-        // show the grid
+        
+        comparison.gridData.Body = gridRows;
+    }
+    
+    comparison.showGrid = function() {
         comparison.resultsContainerID = 'data-results';
+
+        // add empty container for the grid
         comparison.dataContainer.append('div')
             .classed('data-drawer grid', true)
             .attr('id', comparison.resultsContainerID)
@@ -590,9 +583,10 @@ function Comparison(options) {
             .style('width', '100%')
             .style('overflow', 'hidden');
             
+        // send comparison.gridData through Grid.js and into grid container
         comparison.grid = new Grid(comparison.resultsContainerID, {
             srcType: "json",
-            srcData: gridData,
+            srcData: comparison.gridData,
             allowColumnResize: true,
             fixedCols: 1,
             onResizeColumn: function() {
@@ -600,19 +594,6 @@ function Comparison(options) {
             }
         });
 
-        // add some table controls and notes
-        if (!!comparison.denominatorColumn) {
-            comparison.addNumberToggles();
-        }
-        d3.select('#tool-notes').append('div')
-                .classed('tool-group', true)
-                .text('Click a row to highlight');
-
-        // be smart about fixed height
-        comparison.dataDisplayHeight = $('#data-results').height()+20;
-        comparison.setResultsContainerHeight();
-        $(window).resize(comparison.setResultsContainerHeight);
-        
         // add hover listeners for grid rows
         comparison.displayWrapper.on('mouseover', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
@@ -638,91 +619,83 @@ function Comparison(options) {
             $('.'+thisRow+':not(.g_HR)').toggleClass('highlight');
         });
 
-        // add the comparison links, names, and typeahead
-        comparison.addGeographyCompareTools();
-        return comparison;
+        // be smart about fixed height
+        comparison.dataDisplayHeight = $('#data-results').height()+20;
+        comparison.setResultsContainerHeight();
+        $(window).resize(comparison.setResultsContainerHeight);
     }
+    
+    comparison.addGridControls = function() {
+        if (!!comparison.denominatorColumn) {
+            comparison.addNumberToggles();
+        }
 
+        d3.select('#tool-notes').append('div')
+                .classed('tool-group', true)
+                .text('Click a row to highlight');
+    }
+    // DONE WITH THE GRID-SPECIFIC THINGS
+
+
+
+
+    // BEGIN THE DISTRIBUTION-SPECIFIC THINGS
     comparison.makeDistributionDisplay = function() {
         comparison.showStandardMetadata();
         comparison.addContainerMetadata();
         
-        var resultsContainer = d3.select('#data-container');
+        comparison.addDistributionControls();
+        comparison.makeDistributionChartData();
+        comparison.showDistributionCharts();
+        
+        comparison.addGeographyCompareTools();
 
-        // for long table titles, bump down the font size
-        if (comparison.table.title.length > 160) {
-            comparison.headerContainer.select('h1')
-                .style('font-size', '1.6em')
-        }
-
-        var notes = d3.select('#tool-notes');
-        notes.append('div')
-            .classed('tool-group', true)
-            .text('Click a point to lock display');
-
-        var placeSelect = notes.append('div')
-                .classed('tool-group', true)
-                .text('Find ')
-            .append('select')
-                .attr('id', 'coal-picker')
-                .attr('data-placeholder', 'Select a geography');
-        //select2 needs an empty container first for placeholder
-        placeSelect.append('option');
-
-        var sortedPlaces = comparison.getSortedPlaces('name');
-        placeSelect.selectAll('.geo')
-                .data(sortedPlaces)
-            .enter().append('option')
-                .classed('geo', true)
-                .attr('value', function(d) {
-                    return 'geography-'+d.geoID;
-                })
-                .text(function(d) { return d.name });
-
+        return comparison;
+    }
+    
+    comparison.makeDistributionChartData = function() {
         comparison.charts = {};
-        comparison.columnKeys = _.keys(comparison.table.columns);
-        comparison.columns = d3.map(comparison.table.columns);
-        if (!!comparison.denominatorColumn) {
-            comparison.columns.remove(comparison.denominatorColumn)
-        }
-        comparison.prefixColumnNames(comparison.columns, comparison.denominatorColumn);
-        
-        // add percentage values to each geography
-        if (!!comparison.denominatorColumn) {
-            _.each(comparison.values, function(e) {
-                var thisData = e[comparison.tableID];
-                thisData.percentage = {};
-                thisData.percentage_error = {};
-                _.each(comparison.columnKeys, function(k) {
-                    var thisValue = thisData.estimate[k],
-                        thisValueMOE = thisData.error[k],
-                        thisDenominator = thisData.estimate[comparison.denominatorColumn],
-                        thisDenominatorMOE = thisData.error[comparison.denominatorColumn];
+        comparison.chartColumnData = {};
 
-                    thisData.percentage[k] = calcPct(thisValue, thisDenominator);
-                    thisData.percentage_error[k] = calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE);
-                })
-            })
-        }
-        
-        // build a chart for each column in the table
-        comparison.columns.forEach(function(k, v) {
-            var columnData = { column: k },
-                geoColumnData = {};
-
+        // build chart data for each column in the table
+        _.each(comparison.table.columns, function(v, k) {
             var valuesList = _.map(comparison.values, function(g) { return g[comparison.tableID][comparison.valueType][k] });
-
-            columnData.minValue = d3.min(valuesList);
-            columnData.maxValue = d3.max(valuesList);
-            columnData.valuesRange = columnData.maxValue - columnData.minValue;
-            columnData.medianValue = d3.median(valuesList);
-
-            var xScale = d3.scale.linear()
+            
+            comparison.chartColumnData[k] = {
+                column: k,
+                geographies: {}
+            };
+            
+            comparison.chartColumnData[k].minValue = d3.min(valuesList);
+            comparison.chartColumnData[k].maxValue = d3.max(valuesList);
+            comparison.chartColumnData[k].valuesRange = comparison.chartColumnData[k].maxValue - comparison.chartColumnData[k].minValue;
+            comparison.chartColumnData[k].medianValue = d3.median(valuesList);
+            
+            comparison.chartColumnData[k].xScale = d3.scale.linear()
                 .range([0, 100])
-                .domain([columnData.minValue, columnData.maxValue]);
-            columnData.medianPctOfRange = roundNumber(xScale(columnData.medianValue), 1);
+                .domain([comparison.chartColumnData[k].minValue, comparison.chartColumnData[k].maxValue]);
+            comparison.chartColumnData[k].medianPctOfRange = roundNumber(comparison.chartColumnData[k].xScale(comparison.chartColumnData[k].medianValue), 1);
+            
+            comparison.sortedPlaces.forEach(function(g) {
+                var geoID = g.geoID,
+                    thisValue = comparison.values[geoID][comparison.tableID][comparison.valueType][k],
+                    thisValueMOE = (!!comparison.denominatorColumn) ? comparison.values[geoID][comparison.tableID].percentage_error[k] : comparison.values[geoID][comparison.tableID].error[k];
+            
+                comparison.chartColumnData[k].geographies[geoID] = {
+                    name: comparison.data.geography[geoID].name,
+                    value: thisValue,
+                    moe: thisValueMOE,
+                    geoID: geoID
+                }
+            })
+        })
+    }
 
-            comparison.charts[k] = resultsContainer.append('section')
+    comparison.showDistributionCharts = function() {
+        comparison.chartDisplayFmt = (!!comparison.denominatorColumn) ? 'percentage' : comparison.statType;
+
+        _.each(comparison.table.columns, function(v, k) {
+            comparison.charts[k] = comparison.dataContainer.append('section')
                     .attr('class', 'coal-chart-container')
                     .attr('id', 'coal-chart-'+k)
 
@@ -735,51 +708,26 @@ function Comparison(options) {
 
             chart.append('li')
                 .attr('class', 'tick-mark tick-mark-min')
-                .html('<span><b>Min:</b> '+columnData.minValue+'</span>');
+                .html('<span><b>Min:</b> '+valFmt(comparison.chartColumnData[k].minValue, comparison.chartDisplayFmt)+'</span>');
 
             chart.append('li')
                 .attr('class', 'tick-mark')
-                .attr('style', 'left:'+columnData.medianPctOfRange+'%;')
+                .attr('style', 'left:'+comparison.chartColumnData[k].medianPctOfRange+'%;')
                 .html(function() {
-                    var marginTop = (columnData.medianPctOfRange < 12 || columnData.medianPctOfRange > 88) ? 'margin-top:38px;' : '';
-                    return '<span style="'+marginTop+'"><b>Median:</b> '+columnData.medianValue+'</span>';
+                    var marginTop = (comparison.chartColumnData[k].medianPctOfRange < 12 || comparison.chartColumnData[k].medianPctOfRange > 88) ? 'margin-top:38px;' : '';
+                    return '<span style="'+marginTop+'"><b>Median:</b> '+valFmt(comparison.chartColumnData[k].medianValue, comparison.chartDisplayFmt)+'</span>';
                 });
 
             chart.append('li')
                 .attr('class', 'tick-mark tick-mark-max')
-                .html('<span><b>Max:</b> '+columnData.maxValue+'</span>');
-
-            sortedPlaces.forEach(function(g) {
-                var geoID = g.geoID,
-                    thisValue = comparison.values[geoID][comparison.tableID].estimate[k],
-                    thisValueMOE = comparison.values[geoID][comparison.tableID].error[k];
-            
-                geoColumnData[geoID] = {
-                    name: comparison.data.geography[geoID].name,
-                    value: thisValue,
-                    displayValue: thisValue,
-                    displayFmt: comparison.statType,
-                    geoID: geoID
-                }
-
-                if (!!comparison.denominatorColumn) {
-                    var thisDenominator = comparison.values[geoID][comparison.tableID].estimate[comparison.denominatorColumn],
-                        thisDenominatorMOE = comparison.values[geoID][comparison.tableID].error[comparison.denominatorColumn],
-                        thisPct = calcPct(thisValue, thisDenominator);
-
-                    geoColumnData[geoID].value_pct = thisPct;
-                    geoColumnData[geoID].displayValue = thisPct;
-                    geoColumnData[geoID].displayFmt = 'percentage';
-                }
-            })
-            columnData.geographies = geoColumnData;
+                .html('<span><b>Max:</b> '+valFmt(comparison.chartColumnData[k].maxValue, comparison.chartDisplayFmt)+'</span>');
 
             var chartPoints = chart.selectAll('.chart-point')
-                    .data(d3.values(columnData.geographies))
+                    .data(d3.values(comparison.chartColumnData[k].geographies))
                 .enter().append('li')
                     .classed('chart-point', true)
                     .style('left', function(d) {
-                        return roundNumber(xScale(d.displayValue), 1)+'%';
+                        return roundNumber(comparison.chartColumnData[k].xScale(d.value), 1)+'%';
                     });
                     
             var chartPointCircles = chartPoints.append('a')
@@ -795,75 +743,125 @@ function Comparison(options) {
                     .text(function(d) { return d.name });
             chartPointLabels.append('span')
                     .classed('value percentage', true)
-                    .text(function(d) { return valFmt(d.displayValue, d.displayFmt) });
+                    .text(function(d) { return valFmt(d.value, comparison.chartDisplayFmt) })
+                .append('span')
+                    .classed('context', true)
+                    .html(function(d) { return '&plusmn;' + valFmt(d.moe, comparison.chartDisplayFmt) });
         })
 
-        // add the comparison links, names, and typeahead
-        comparison.addGeographyCompareTools();
-
         // set up the chart point listeners
-        var coalCharts = $('.coal-chart'),
-            coalChartPoints = $('.coal-chart a'),
-            placePicker = $('#coal-picker');
+        comparison.coalCharts = $('.coal-chart');
+        comparison.coalChartPoints = $('.coal-chart a');
 
-        coalCharts.on('mouseover', 'a', function(e) {
+        comparison.coalCharts.on('mouseover', 'a', function(e) {
             var chosenIndex = $(this).data('index'),
-                filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
+                filteredPoints = comparison.coalChartPoints.filter('[data-index='+chosenIndex+']');
 
             filteredPoints.addClass('hovered');
             filteredPoints.children('span').css('display', 'block');
         })
-        coalCharts.on('mouseout', 'a', function(e) {
-            coalChartPoints.removeClass('hovered');
-            coalChartPoints.children('span').removeAttr('style');
+        comparison.coalCharts.on('mouseout', 'a', function(e) {
+            comparison.coalChartPoints.removeClass('hovered');
+            comparison.coalChartPoints.children('span').removeAttr('style');
         })
-        coalCharts.on('click', 'a', function(e) {
+        comparison.coalCharts.on('click', 'a', function(e) {
             e.preventDefault();
-            toggleSelectedPoints($(this).data('index'));
+            comparison.toggleSelectedDistributionPoints($(this).data('index'));
         })
+    }
+
+    comparison.addDistributionControls = function() {
+        var notes = d3.select('#tool-notes');
+        notes.append('div')
+            .classed('tool-group', true)
+            .text('Click a point to lock display');
+
+        var placeSelect = notes.append('div')
+                .classed('tool-group', true)
+                .text('Find ')
+            .append('select')
+                .attr('id', 'coal-picker');
+
+        // add the geography select options
+        // select2 needs an empty option first for placeholder
+        placeSelect.append('option');
+        placeSelect.selectAll('.geo')
+                .data(comparison.sortedPlaces)
+            .enter().append('option')
+                .classed('geo', true)
+                .attr('value', function(d) {
+                    return 'geography-'+d.geoID;
+                })
+                .text(function(d) { return d.name });
 
         // add the place picker to highlight points on charts
+        var placePicker = $('#coal-picker');
         placePicker.select2({
             placeholder: 'Select a geography',
             width: 'resolve'
         });
         placePicker.on('change', function(e) {
-            toggleSelectedPoints($(this).val());
+            comparison.toggleSelectedDistributionPoints($(this).val());
         })
 
         // color scale for locked chart points
-        var colorScale = chroma.scale('RdYlBu').domain([0,6]),
-            colorIndex = 0;
-        var toggleSelectedPoints = function(chosenIndex) {
-            var filteredPoints = coalChartPoints.filter('[data-index='+chosenIndex+']');
-            // if adding a new selection, pick next color in scale
-            if (!filteredPoints.hasClass('selected')) {
-                targetColor = colorScale((colorIndex+=1) % 6);
-            }
-            filteredPoints.toggleClass('selected').removeAttr('style').filter('.selected').css({
-                'background-color': targetColor.hex(),
-                'border-color': targetColor.darken(20).hex()
-            });
-        }
-        return comparison;
+        comparison.colorScale = chroma.scale('RdYlBu').domain([0,6]);
+        comparison.colorIndex = 0;
     }
 
+    comparison.toggleSelectedDistributionPoints = function(chosenIndex) {
+        var filteredPoints = comparison.coalChartPoints.filter('[data-index='+chosenIndex+']');
+        // if adding a new selection, pick next color in scale
+        if (!filteredPoints.hasClass('selected')) {
+            targetColor = comparison.colorScale((comparison.colorIndex+=1) % 6);
+        }
+        filteredPoints.toggleClass('selected').removeAttr('style').filter('.selected').css({
+            'background-color': targetColor.hex(),
+            'border-color': targetColor.darken(20).hex()
+        });
+    }
+    // DONE WITH THE DISTRIBUTION-SPECIFIC THINGS
 
-    // utilities
+
+
+
+    // utilities and standard comparison tools
     comparison.showStandardMetadata = function() {
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + comparison.table.universe);
         comparison.aside.selectAll('.hidden')
             .classed('hidden', false);
         comparison.headerContainer.append('h1').text(comparison.table.title);
-    }
 
+        // for long table titles, bump down the font size
+        if (comparison.table.title.length > 160) {
+            comparison.headerContainer.select('h1')
+                .style('font-size', '1.6em');
+        }
+    }
 
     comparison.addContainerMetadata = function() {
         // tableID and change table link
         comparison.displayWrapper.find('h1').text('Table ' + comparison.tableID)
             .append('<a href="#" id="change-table">Change</a>');
         comparison.displayWrapper.find('h2').text(comparison.release.name);
+    }
+
+    comparison.addPercentageDataValues = function() {
+        _.each(comparison.values, function(e) {
+            var thisData = e[comparison.tableID];
+            thisData.percentage = {};
+            thisData.percentage_error = {};
+            _.each(_.keys(comparison.table.columns), function(k) {
+                var thisValue = thisData.estimate[k],
+                    thisValueMOE = thisData.error[k],
+                    thisDenominator = thisData.estimate[comparison.denominatorColumn.id],
+                    thisDenominatorMOE = thisData.error[comparison.denominatorColumn.id];
+
+                thisData.percentage[k] = calcPct(thisValue, thisDenominator);
+                thisData.percentage_error[k] = calcPctMOE(thisValue, thisDenominator, thisValueMOE, thisDenominatorMOE);
+            })
+        })
     }
 
     // typeahead autocomplete setup
