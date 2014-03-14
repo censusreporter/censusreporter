@@ -29,27 +29,31 @@ function Chart(options) {
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
+
+        // add a bit of geodata for links and hovercards
+        var geographyThis = options.geographyData.this,
+            geographyParents = options.geographyData.parents;
+
         chart.comparisonNames = {
-            'this': (!!options.comparisonThisName) ? options.comparisonThisName : 'here',
-            'place': (!!options.comparisonPlaceName) ? options.comparisonPlaceName : 'place',
-            'CBSA': (!!options.comparisonCBSAName) ? options.comparisonCBSAName : 'CBSA',
-            'county': (!!options.comparisonCountyName) ? options.comparisonCountyName : 'county',
-            'state': (!!options.comparisonStateName) ? options.comparisonStateName : 'state',
-            'nation': (!!options.comparisonNationName) ? options.comparisonNationName : 'United States'
+            'this': (!!geographyThis) ? geographyThis.short_name : 'here',
+            'place': (!!geographyParents.place) ? geographyParents.place.short_name : 'place',
+            'CBSA': (!!geographyParents.CBSA) ? geographyParents.CBSA.short_name : 'CBSA',
+            'county': (!!geographyParents.county) ? geographyParents.county.short_name : 'county',
+            'state': (!!geographyParents.state) ? geographyParents.state.short_name : 'state',
+            'nation': (!!geographyParents.nation) ? geographyParents.nation.short_name : 'United States'
         }
         chart.comparisonNamePhrases = {
-            'this': (!!options.comparisonThisName) ? 'in ' + options.comparisonThisName : 'here',
-            'place': (!!options.comparisonPlaceName) ? 'in ' + options.comparisonPlaceName : 'placewide',
-            'CBSA': (!!options.comparisonCBSAName) ? 'in the ' + options.comparisonCBSAName : 'CBSA-wide',
-            'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
-            'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
-            'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
+            'this': (!!geographyThis) ? 'in ' + geographyThis.short_name : 'here',
+            'place': (!!geographyParents.place) ? 'in ' + geographyParents.place.short_name : 'placewide',
+            'CBSA': (!!geographyParents.CBSA) ? 'in the ' + geographyParents.CBSA.short_name : 'CBSA-wide',
+            'county': (!!geographyParents.county) ? 'in ' + geographyParents.county.short_name : 'countywide',
+            'state': (!!geographyParents.state) ? 'in ' + geographyParents.state.short_name : 'statewide',
+            'nation': (!!geographyParents.nation) ? 'in ' + geographyParents.nation.short_name : 'nationwide'
         }
         
-        // get a bit of geodata for links
-        chart.primaryGeoID = options.geographyData.this.full_geoid;
-        chart.geoIDs = [options.geographyData.this.full_geoid];
-        d3.values(options.geographyData.parents).forEach(function(g) {
+        chart.primaryGeoID = geographyThis.full_geoid;
+        chart.geoIDs = [geographyThis.full_geoid];
+        d3.values(geographyParents).forEach(function(g) {
             chart.geoIDs.push(g.full_geoid)
         });
 

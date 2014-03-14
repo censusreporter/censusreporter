@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="http://censusreporter.org/static/css/embed.charts.css">
+    </head>
+    <body>
+        <div id="census-chart" class="census-chart-embed census-chart-pie"></div>
+        <script>
+        var chartData = {"metadata": {"universe": "Total population", "acs_release": "ACS 2012 5-year", "table_id": "b01001"}, "percent_under_18": {"name": "Under 18", "values": {"this": 3.03, "place": 21.71, "county": 21.71}, "error": {"this": 2.57, "place": 0.23, "county": 0.23}, "numerators": {"this": 100.0, "place": 134753.0, "county": 134753.0}, "numerator_errors": {"this": 84.2, "place": 1429.8, "county": 1429.8}, "index": {"this": 100.0, "place": 14.0, "county": 14.0}, "error_ratio": {"this": 84.8, "place": 1.1, "county": 1.1}}, "percent_18_to_64": {"name": "18 to 64", "values": {"this": 93.35, "place": 66.55, "county": 66.55}, "error": {"this": 14.66, "place": 0.42, "county": 0.42}, "numerators": {"this": 3076.0, "place": 413044.0, "county": 413044.0}, "numerator_errors": {"this": 398.1, "place": 2629.4, "county": 2629.4}, "index": {"this": 100.0, "place": 140.0, "county": 140.0}, "error_ratio": {"this": 15.7, "place": 0.6, "county": 0.6}}, "percent_over_65": {"name": "65 and over", "values": {"this": 3.61, "place": 11.74, "county": 11.74}, "error": {"this": 2.82, "place": 0.22, "county": 0.22}, "numerators": {"this": 119.0, "place": 72847.0, "county": 72847.0}, "numerator_errors": {"this": 92.2, "place": 1371.5, "county": 1371.5}, "index": {"this": 100.0, "place": 31.0, "county": 31.0}, "error_ratio": {"this": 78.1, "place": 1.9, "county": 1.9}}};
+        var geographyData = {"census_release": "ACS 2012 5-year", "parents": {"place": {"total_population": 620644, "short_name": "Baltimore", "land_area": 209644972, "sumlevel": "160", "full_name": "Baltimore, MD", "full_geoid": "16000US2404000"}, "county": {"total_population": 620644, "short_name": "Baltimore city", "land_area": 209644972, "sumlevel": "050", "full_name": "Baltimore city, MD", "full_geoid": "05000US24510"}, "state": {"total_population": 5785496, "short_name": "Maryland", "land_area": 25142229984, "sumlevel": "040", "full_name": "Maryland", "full_geoid": "04000US24"}, "nation": {"total_population": 309138711, "short_name": "United States", "land_area": 9158687485691, "sumlevel": "010", "full_name": "United States", "full_geoid": "01000US"}}, "this": {"total_population": 3295, "short_name": "Census Tract 401", "land_area": 1197981, "sumlevel": "140", "full_name": "Census Tract 401, Baltimore, MD", "full_geoid": "14000US24510040100"}, "comparatives": ["place", "county"]};
+        </script>
+        <script src="http://censusreporter.org/static/js/embed.chart.bundle.js"></script>
+    </body>
+</html>

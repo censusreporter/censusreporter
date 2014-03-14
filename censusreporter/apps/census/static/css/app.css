@@ -1,3 +1,4 @@
+@import 'charts.css';
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
 @import url(http://fonts.googleapis.com/css?family=Merriweather);
@@ -212,6 +213,7 @@ img.screenshot {
 }
 .box-header {
     padding: .25em .5em;
+    margin-bottom: .67em;
 }
 .box-header img {
     height: 16px;
@@ -220,7 +222,10 @@ img.screenshot {
     font-size: 16px;
 }
 .box-content {
-    padding: .67em 1em;
+    padding: 0 1em;
+    margin-bottom: .67em;
+}
+.box-content section {
     margin-bottom: 0;
 }
 
@@ -613,6 +618,7 @@ h1.article-header-right {
     padding: .25em .5em 0;
     width: 100%;
 }
+#profile #query-topic-picker input,
 #map-controls #query-topic-picker input {
     font-size: 1em;
 }
@@ -858,106 +864,6 @@ h1.article-header-right {
     stroke: #fff;
     stroke-linejoin: round;
 }
-
-.hovercard {
-    position: absolute;
-    text-align: center;
-    font-size: 13px;
-    background: #fff;
-    border: solid 1px #777;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    pointer-events: none;
-    z-index: 999;
-}
-.hovercard,
-.leaflet-label.hovercard {
-    font-size: 13px;
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-    padding: .83em 1em;
-}
-.leaflet-label.hovercard {
-    white-space: normal;
-    width: 250px;
-}
-.hovercard .label-title,
-.hovercard .name,
-.hovercard .value {
-    display: block;
-}
-.hovercard .label-title,
-.hovercard .name {
-    font-weight: bold;
-}
-.leaflet-label.hovercard .value {
-    font-weight: normal;
-}
-.hovercard .label-title {
-    margin-bottom: .5em;
-}
-.hovercard h3,
-.hovercard h4,
-.hovercard ul,
-.hovercard .note {
-    text-align: left;
-    margin: 0 0 6px;
-}
-.hovercard .note {
-    line-height: 1.3;
-    font-size: .83em;
-    margin: .67em 0 0;
-}
-.hovercard ul {
-    padding: 0;
-    line-height: 1.3;
-    font-size: .9em;
-    list-style: none;
-    margin-bottom: 1em;
-}
-.hovercard ul:last-child,
-.hovercard li:last-child {
-    margin-bottom: 0;
-}
-.hovercard li {
-    margin-bottom: .67em;
-}
-.hovercard li .context {
-    margin-left: .5em;
-}
-.chart-get-data {
-    float: right;
-    cursor: pointer;
-}
-.chart.highlighted {
-    margin: -.5em;
-    padding: .5em;
-}
-.data-drawer {
-    padding: 1.5em 0 0;
-    overflow-x: auto;
-}
-#table-results.data-drawer {
-    padding-top: .25em;
-}
-.data-drawer th {
-    border-left: 5px solid #fff;
-}
-.data-drawer th:first-child {
-    border-left: none;
-}
-.data-drawer td.context {
-    vertical-align: bottom;
-}
-.data-drawer h3.chart-title {
-    padding-left: 8px;
-    margin-bottom: 6px;
-}
-.data-drawer .chart-get-data {
-    font-size: .75em;
-    float: left;
-    margin: 8px;
-}
 .push-right {
     margin-left: 1em;
 }
@@ -1022,8 +928,8 @@ h1.article-header-right {
     float: none;
 }
 #map-controls aside {
+    padding: .67em 0 .33em;
     margin: 0;
-    padding: 0 1em .33em;
 }
 #map-controls aside .action-button {
     float: right;
@@ -1059,6 +965,20 @@ h1.article-header-right {
     height: 4em;
     float: right;
 }
+.leaflet-label.hovercard {
+    white-space: normal;
+    width: 250px;
+}
+.leaflet-label.hovercard .value {
+    font-weight: normal;
+}
+.leaflet-label.hovercard {
+    font-size: 13px;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: .83em 1em;
+}
+
+
 ul.quantile-legend {
     list-style: none;
     margin: 0;
@@ -1084,204 +1004,6 @@ ul.quantile-legend span.quantile-label {
     text-align: center;
 }
 
-/* CHARTS */
-.column-chart,
-.bar-chart,
-.pie-chart {
-    font-size: 0.75em;
-    position: relative;
-    font-weight: 500;
-}
-.column-set,
-.bar-set {
-    position: relative;
-}
-.grouped-column-chart .column-set {
-    margin-bottom: 2.5em;
-}
-.column {
-    position: absolute;
-    cursor: pointer;
-    bottom: 0;
-    -webkit-border-top-left-radius: 2px;
-    -moz-border-radius-topleft: 2px;
-    border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topright: 2px;
-    border-top-right-radius: 2px;
-}
-.column .area {
-    background-color: #014948;
-    -webkit-border-top-left-radius: 2px;
-    -moz-border-radius-topleft: 2px;
-    border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topright: 2px;
-    border-top-right-radius: 2px;
-    display: block;
-}
-.column:hover {
-    opacity: 1;
-}
-
-.bar-set {
-    clear: both;
-    width: 100%;
-    margin-bottom: .33em;
-}
-.bar {
-    display: block;
-    cursor: pointer;
-    height: 2.5em;
-    padding: .5em;
-    margin-top: .75em;
-}
-.bar .area {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    -webkit-border-top-right-radius: 2px;
-    -moz-border-radius-topright: 2px;
-    border-top-right-radius: 2px;
-    -webkit-border-bottom-right-radius: 2px;
-    -moz-border-radius-bottomright: 2px;
-    border-bottom-right-radius: 2px;
-}
-.bar .label {
-    position: absolute;
-    padding-left: .5em;
-}
-.bar-set h4.label {
-    margin: .25em 0;
-}
-.bar-group {
-    margin-bottom: 2em;
-}
-.bar-group .bar {
-    margin: .5em 0 0;
-}
-.axis {
-  shape-rendering: crispEdges;
-}
-.x.axis line,
-.x.axis path,
-.y.axis path {
-    display: none;
-}
-.column .label,
-.column-group .label {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-}
-.column .label,
-.column:hover .label,
-.bar .label,
-.bar:hover .label {
-    color: #111;
-}
-.column .axis.label,
-.column-group .axis.label {
-    font-weight: bold;
-    line-height: 1.1;
-}
-.column .axis.label.secondary,
-.column-group .axis.label.secondary,
-.bar-group .label.secondary {
-    font-weight: normal;
-}
-svg text {
-    font-size: 1em;
-}
-.pie-chart .legend {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.legend-full-width {
-    margin: .5em 0;
-    width: 100%;
-}
-.legend-item {
-    cursor: pointer;
-    color: #888;
-    fill: #888;
-    line-height: 1.1;
-    margin-bottom: .33em;
-    clear: both;
-    padding-left: 15px;
-}
-.legend-full-width .legend-item {
-    width: 45%;
-    margin-right: 5%;
-    float: left;
-    clear: none;
-}
-.legend-item .swatch {
-    opacity: .8;
-    float: left;
-    margin-left: -15px;
-    height: 10px;
-    width: 10px;
-}
-.legend-item .label {
-}
-.legend-item:hover,
-.legend-item.hovered {
-    opacity: 1;
-    color: #111;
-    fill: #111;
-}
-
-.x.axis text,
-.y.axis text {
-    font-weight: bold;
-}
-.y.axis text {
-    fill: #c5c5c5;
-}
-.y.axis line {
-    stroke: #f5f5f5;
-}
-.arc,
-.arc-group path {
-    stroke: #fff;
-    cursor: pointer;
-}
-.arc,
-.legend-item .swatch {
-    opacity: .8;
-}
-.arc.hovered,
-.legend-item.hovered .swatch {
-    opacity: 1;
-}
-.center-group .label-name,
-.center-group .label-value {
-    display: block;
-    line-height: 1.1;
-    position: absolute;
-    text-align: center;
-}
-.center-group .label-name {
-    font-size: 1.1em;
-}
-.center-group .label-value {
-    font-weight: bold;
-    font-size: 2em;
-}
-.chart-title {
-    font-size: 13px;
-    font-weight: bold;
-    line-height: 1;
-    margin-bottom: 7px;
-}
-.chart-qualifier {
-    position: absolute;
-    display: block;
-    margin: 0 0 0 .5em;
-}
 .map-layer path {
     fill: #000;
     fill-opacity: .2;
@@ -1428,16 +1150,6 @@ form.inline-form input,
 form.inline-form select,
 form.inline-form .select2-container {
     margin: 0 .5em;
-}
-.sentence-fragment-group {
-    display: inline-block;
-}
-.sentence-fragment {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: .75em;
-}
-.sentence-fragment .select2-container {
 }
 .help-text {
     font-size: .83em;
@@ -1817,21 +1529,21 @@ section.chart-divider h2 {
 .coal-chart li a.selected.hovered {
     z-index: 4;
 }
-.coal-chart li a span {
+.coal-chart li a .hovercard {
     position: absolute;
     width: 15em;
     bottom: 1.5em;
     right: -7.5em;
     font-size: .83em;
-    line-height: 1.2;
+    line-height: 1.3;
     text-align: center;
     display: none;
     padding: .5em;
     border: 1px solid #e0e0e0;
 }
-.coal-chart li a:hover span,
-.coal-chart li a.hovered span,
-.coal-chart li a.selected span {
+.coal-chart li a:hover .hovercard,
+.coal-chart li a.hovered .hovercard,
+.coal-chart li a.selected .hovercard {
     display: block;
     background-color: #fff;
 }

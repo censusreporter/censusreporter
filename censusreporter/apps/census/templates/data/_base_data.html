@@ -12,7 +12,6 @@ for applying things across that entire family of pages.
 {% block header_content %}
 <div id="header-container" class="wrapper clearfix header-container">
     {% include 'data/_blocks/_toggle_menu.html' %}
-    <h1>Table {{ table }}</h1>
 </div>
 {% endblock %}
 
@@ -21,7 +20,7 @@ for applying things across that entire family of pages.
 
 <article id="data-display" class="clearfix">
     <header class="section-contents">
-        <h1>Data table</h1>
+        <h1>Table {{ table }}</h1>
     </header>
     <div class="section-container">
         <section id="data-container" class="clearfix">
@@ -49,8 +48,8 @@ new Comparison({
     primaryGeoID: '{{ primary_geo_id }}',
     topicSelect: '#topic-select',
     topicSelectContainer: '#query-topic-picker',
-    dataHeader: '#header-container',
-    dataWrapper: '#data-display',
+    displayHeader: '#header-container',
+    displayWrapper: '#data-display',
     dataContainer: '#data-container'
 })
 

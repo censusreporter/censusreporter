@@ -1,5 +1,7 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
 
+{% block head_title %}Grid View: {{ block.super }}{% endblock %}
+
 {% block head_css_extra %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/Grid.css">
 {% endblock %}

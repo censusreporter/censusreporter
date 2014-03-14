@@ -438,11 +438,6 @@ var makeCharts = function() {
             chartInitialSort = $(this).data('initial-sort'),
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
-            comparisonThisName = '{{ geography.this.short_name }}',
-            comparisonPlaceName = '{{ geography.parents.place.short_name }}',
-            comparisonCBSAName = '{{ geography.parents.CBSA.full_name }}',
-            comparisonCountyName = '{{ geography.parents.county.short_name }}',
-            comparisonStateName = '{{ geography.parents.state.short_name }}',
             geographyData = profileData['geography'];
 
         // allow arbitrary nesting in API data structure
@@ -461,7 +456,7 @@ var makeCharts = function() {
 
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
-
+        console.log(chartData, geographyData)
         Charts[i] = Chart({
             chartContainer: chartID,
             chartType: chartType,
@@ -471,11 +466,6 @@ var makeCharts = function() {
             chartChartTitle: chartChartTitle,
             chartInitialSort: chartInitialSort,
             chartStatType: chartStatType,
-            comparisonThisName: comparisonThisName,
-            comparisonPlaceName: comparisonPlaceName,
-            comparisonCBSAName: comparisonCBSAName,
-            comparisonCountyName: comparisonCountyName,
-            comparisonStateName: comparisonStateName,
             geographyData: geographyData
         });
     });
