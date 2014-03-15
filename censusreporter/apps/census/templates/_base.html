@@ -14,9 +14,13 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
+        <!--[if lt IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.js"></script>
+        <![endif]-->
         <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-        {#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
-        <script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.min.js"></script>
+        {#}<script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>{#}
         {% block head_javascript_extra %}{% endblock %}{% endblock %}
         <!-- Begin Google Analytics -->
         <script>
