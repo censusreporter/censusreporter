@@ -228,11 +228,11 @@ svg text {
     border-radius: 4px;
     pointer-events: none;
     z-index: 999;
-}
-.hovercard {
-    font-size: 13px;
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: .83em 1em;
+}
+.chart .hovercard {
+    pointer-events: auto;
 }
 .hovercard .label-title,
 .hovercard .name,

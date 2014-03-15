@@ -31,7 +31,7 @@ function Chart(options) {
         chart.chartColorScale = options.chartColorScale || 'Set2S';
 
         // add a bit of geodata for links and hovercards
-        var geographyThis = options.geographyData.this,
+        var geographyThis = options.geographyData['this'],
             geographyParents = options.geographyData.parents;
 
         chart.comparisonNames = {
@@ -81,7 +81,7 @@ function Chart(options) {
                     .forEach(function(v, i) {
                         dataObj.values.push({
                             name: v,
-                            value: +d[v].values.this,
+                            value: +d[v].values['this'],
                             context: d[v]
                         })
                     })
@@ -89,7 +89,7 @@ function Chart(options) {
                 // otherwise, just grab the name and value of the data point
                 dataObj = {
                     name: d.name,
-                    value: +d.values.this,
+                    value: +d.values['this'],
                     context: d
                 }
             }
@@ -851,7 +851,6 @@ function Chart(options) {
             .style("width", function() {
                 return (browserWidth > 480) ? "200px" : "110%";
             })
-            .style("pointer-events", "auto")
             .style("opacity", 1e-6)
             .on("click", function() {
                 d3.event.stopPropagation();
@@ -877,8 +876,8 @@ function Chart(options) {
             phraseBits,
             compareBits,
             contextData = data.context,
-            moeFlag = contextData.error_ratio.this >= 10 ? "<sup>&dagger;</sup>" : "",
-            cardStat = chart.valFmt(contextData.values.this) + moeFlag,
+            moeFlag = contextData.error_ratio['this'] >= 10 ? "<sup>&dagger;</sup>" : "",
+            cardStat = chart.valFmt(contextData.values['this']) + moeFlag,
             cardComparison = [];
 
         d3.keys(contextData.values).forEach(function(k, i) {
