@@ -99,15 +99,21 @@
     If you've done a little work with data, you've already learned that names are difficult to use to connect data. There are many cities called Cleveland in the US, and even within a state, we've found duplicate city and school district names. Therefore, it's important that every specific geography have a unique identifier. As with summary levels, it's difficult to find a formal definition or listing from the Census Bureau, but here's how Census Reporter handles geographic identifiers, which we usually refer to as <strong>geoIDs</strong>.
 </p>
 <p>
-    The Census Bureau lists geoIDs for places as part of its <a href="http://www.census.gov/geo/maps-data/data/gazetteer2013.html">gazetteer files</a>, which are the attribute data which accompanies official <span class="glossary-term">TIGER</span> shapefiles (maps). 
+    The Census Bureau lists geoIDs for places as part of its <a href="http://www.census.gov/geo/maps-data/data/gazetteer2013.html">gazetteer files</a>, which are the attribute data which accompanies official <span class="glossary-term">TIGER</span> shapefiles (maps). Census geoIDs are unique among geographies at the same summary level. However, they aren't necessarily unique among all geoIDs. In order to give each row in the summary file a unique identifier that clearly identified its geography, we adapted a practice we've seen elsewhere. 
 </p>
 <p>
-    Census geoIDs are unique among geographies at the same summary level. However, they aren't necessarily unique among all geoIDs. In order to give each row in the summary file a unique identifier that clearly identified its geography, we adapted a practice we've seen elsewhere. 
-</p>
-<p>
-    We pre
+    Census Reporter geoids are, whereever possible, Census Bureau geoids prefixed with a seven-character string. The string is in the format <strong>{summary level}{geographic component}US{geoid}</strong>. In almost all cases, the <a href="#geographic-component">geographic component</a> is <strong>00</strong>, and the common summary levels are described above. For example, the is the Census Reporter geoid for the city of Chicago, Illinois is <strong>16000US1714000</strong>. It has these parts:
+    <ul style="list-style: none">
+        <li><strong>160</strong>: Summary level</li>
+        <li><strong>00</strong>: Geographic component</li>
+        <li><strong>US</strong>: Separator</li>
+        <li><strong>1714000</strong>: GeoID for Chicago</li>
+    </ul>
+    If you know a geoID for a place, you can automatically go to the Census Reporter profile for that place. The URL format is <code>censusreporter.com/profile/{geoid}</code>. You may notice that in your browser, the profile URLs are longer, including the name of the place on the page. Don't worry about that; Census Reporter recognizes "geoID only" URLs and handles them. So, this URL will take you to the profile for Chicago: <a href="http://censusreporter.org/profiles/16000US1714000/"><code>censusreporter.org/profiles/16000US1714000/</code></a>
 </p>
 
+<h2 id="geographic-components">Geographic Components</h2>
+For larger geographies, provides some tabulations
 </section>
 {% endblock %}
 
