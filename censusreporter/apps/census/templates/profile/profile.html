@@ -110,7 +110,7 @@
             </div>
             <div class="column-two-thirds">
                 <h2 class="column-header"><a class="permalink" href="#race" id="race">Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
-                <div id="chart-column-demographics-race" data-stat-type="scaled-percentage" data-qualifier="Racial categories include non-Hispanic population only"></div>
+                <div id="chart-column-demographics-race" data-stat-type="scaled-percentage" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
             </div>
         </section>
 
@@ -313,8 +313,10 @@
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/underscore-1.5.2.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<!--[if gt IE 9]><!-->
 <script src="{{ STATIC_URL }}js/TileLayer.GeoJSON.js"></script>
+<!--<![endif]-->
 <script src="{{ STATIC_URL }}js/leaflet.label.js"></script>
 <script type="text/javascript">
 // Make the header map
@@ -339,40 +341,42 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
         }));
     }
 
-    var defaultStyle = {
-            "clickable": true,
-            "color": "#00d",
-            "fillColor": "#ccc",
-            "weight": 1.0,
-            "opacity": 0.3,
-            "fillOpacity": 0.3,
-        },
-    geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
-        clipTiles: true,
-        unique: function(feature) {
-            return feature.properties.geoid;
-        }
-    }, {
-        style: defaultStyle,
-        onEachFeature: function(feature, layer) {
-            if (feature.properties.geoid == thisGeoID)
-                return;
+    if (L.TileLayer.GeoJSON) {
+        var defaultStyle = {
+                "clickable": true,
+                "color": "#00d",
+                "fillColor": "#ccc",
+                "weight": 1.0,
+                "opacity": 0.3,
+                "fillOpacity": 0.3,
+            },
+        geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
+            clipTiles: true,
+            unique: function(feature) {
+                return feature.properties.geoid;
+            }
+        }, {
+            style: defaultStyle,
+            onEachFeature: function(feature, layer) {
+                if (feature.properties.geoid == thisGeoID)
+                    return;
 
-            layer.bindLabel(feature.properties.name, {direction: 'auto'});
-            layer.on('mouseover', function() {
-                layer.setStyle({
-                    "fillOpacity": 0.5,
+                layer.bindLabel(feature.properties.name, {direction: 'auto'});
+                layer.on('mouseover', function() {
+                    layer.setStyle({
+                        "fillOpacity": 0.5,
+                    });
                 });
-            });
-            layer.on('mouseout', function() {
-                layer.setStyle(defaultStyle);
-            });
-            layer.on('click', function() {
-                window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-            });
-        }
-    });
-    map.addLayer(geojsonTileLayer);
+                layer.on('mouseout', function() {
+                    layer.setStyle(defaultStyle);
+                });
+                layer.on('click', function() {
+                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                });
+            }
+        });
+        map.addLayer(geojsonTileLayer);
+    }
 
     var featureLayer = L.geoJson(json, {
         style: {
@@ -456,7 +460,7 @@ var makeCharts = function() {
 
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
-        console.log(chartData, geographyData)
+
         Charts[i] = Chart({
             chartContainer: chartID,
             chartType: chartType,

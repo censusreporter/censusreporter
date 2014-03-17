@@ -2483,7 +2483,7 @@ aside .search .result-type {
     }
     #profile #query-topic-picker .typeahead-container {
         display: block;
-        padding-left: 0 .75em;
+        padding: 0 .75em;
     }
     #profile #query-topic-picker h2 {
         position: relative;
