@@ -29,6 +29,7 @@ function Chart(options) {
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
+        chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
 
         // add a bit of geodata for links and hovercards
         var geographyThis = options.geographyData['this'],
@@ -856,6 +857,11 @@ function Chart(options) {
                 d3.event.stopPropagation();
                 chart.mouseout();
             });
+
+        chart.hovercard.dimensions = {
+            height: 0,
+            width: 0
+        };
     }
     
     chart.cardToggle = function(data) {
@@ -917,6 +923,9 @@ function Chart(options) {
     }
     
     chart.mouseover = function(data) {
+        // reset screen position to account for scrolling
+        chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
+
         // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
             chart.hovercard
@@ -924,13 +933,28 @@ function Chart(options) {
                 .transition()
                 .duration(200)
                 .style("opacity", 1);
+
+            chart.hovercard.dimensions = {
+                height: +chart.hovercard.style("height").replace("px",""),
+                width: +chart.hovercard.style("width").replace("px","")
+            }
         }
     }
 
     chart.mousemove = function() {
+        var mouseTop = d3.mouse(this)[1],
+            mouseLeft = d3.mouse(this)[0],
+            bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height,
+            bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width);
+
+        chart.hovercard.position = {
+            top: (bufferTop < 10) ? mouseTop + 5 : mouseTop - chart.hovercard.dimensions.height - 5,
+            left: (bufferRight < 10) ? mouseLeft - chart.hovercard.dimensions.width - 5 : mouseLeft + 5
+        }
+
         chart.hovercard
-            .style("left", (d3.mouse(this)[0]) + "px")
-            .style("bottom", (chart.settings.height - d3.mouse(this)[1] + 5) + "px");
+            .style("left", (chart.hovercard.position.left) + "px")
+            .style("top", (chart.hovercard.position.top) + "px");
     }
 
     chart.mouseout = function() {
