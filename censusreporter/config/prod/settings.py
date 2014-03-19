@@ -10,9 +10,9 @@ ALLOWED_HOSTS = [
     '.censusreporter.org',
 ]
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': 'localhost:11211',
-    }
-}
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#        'LOCATION': 'localhost:11211',
+#    }
+#}
