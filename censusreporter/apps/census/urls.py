@@ -1,22 +1,22 @@
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
+from django.views.decorators.cache import cache_page
+from django.views.generic.base import TemplateView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import (HomepageView, GeographyDetailView, ComparisonView,
-    ComparisonBuilder, PlaceSearchJson, TableSearch, TableSearchJson,
-    GeoSearch, LocateView, HealthcheckView, DataView, TopicView)
-
-from django.views.generic.base import TemplateView
+from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
+    TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
+    DataView, TopicView)
 
 admin.autodiscover()
 
-geography_type_options = '|'.join([str.replace(' ','-') for str in GEOGRAPHIES_MAP.keys()])
-comparison_formats = 'map|table|distribution|json|csv'
+STANDARD_CACHE_TIME = 60*15 # 15-minute cache
+COMPARISON_FORMATS = 'map|table|distribution'
 
 urlpatterns = patterns('',
     url(
         regex   = '^$',
-        view    = HomepageView.as_view(),
+        view    = cache_page(STANDARD_CACHE_TIME)(HomepageView.as_view()),
         kwargs  = {},
         name    = 'homepage',
     ),
@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     # e.g. /profiles/16000US5367000-spokane-wa/ (Spokane, WA)
     url(
         regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)-(?P<slug>[-\w]+)/$',
-        view    = GeographyDetailView.as_view(),
+        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
     ),
@@ -33,65 +33,43 @@ urlpatterns = patterns('',
     # this should redirect to slugged version of the URL above
     url(
         regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)/$',
-        view    = GeographyDetailView.as_view(),
+        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail_geoid',
     ),
 
     url(
         regex   = '^data/$',
-        view    = TemplateView.as_view(template_name="data/data_builder.html"),
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="data/data_builder.html")),
         kwargs  = {},
         name    = 'data_builder',
     ),
 
     # e.g. /table/B01001/
     url(
-        regex   = '^data/(?P<format>%s)/$' % comparison_formats,
-        view    = DataView.as_view(),
+        regex   = '^data/(?P<format>%s)/$' % COMPARISON_FORMATS,
+        view    = cache_page(STANDARD_CACHE_TIME)(DataView.as_view()),
         kwargs  = {},
         name    = 'data_detail',
     ),
 
     url(
         regex   = '^topics/$',
-        view    = TopicView.as_view(),
+        view    = cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
         kwargs  = {},
         name    = 'topic_list',
     ),
 
     url(
         regex   = '^topics/(?P<topic_slug>[-\w]+)/$',
-        view    = TopicView.as_view(),
+        view    = cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
         kwargs  = {},
         name    = 'topic_detail',
     ),
 
     url(
-        regex   = '^compare/$',
-        view    = ComparisonBuilder.as_view(),
-        kwargs  = {},
-        name    = 'comparison_builder',
-    ),
-
-    # e.g. /compare/04000US53/050/ (counties in Washington)
-    url(
-        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/$',
-        view    = ComparisonView.as_view(),
-        kwargs  = {},
-        name    = 'geography_comparison',
-    ),
-    # e.g. /compare/04000US53/050/map/
-    url(
-        regex   = '^compare/(?P<parent_id>[-\w]+)/(?P<descendant_sumlev>[-\w]+)/(?P<format>%s)/$' % comparison_formats,
-        view    = ComparisonView.as_view(),
-        kwargs  = {},
-        name    = 'geography_comparison_detail',
-    ),
-
-    url(
         regex   = '^glossary/$',
-        view    = TemplateView.as_view(template_name="glossary.html"),
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="glossary.html")),
         kwargs  = {},
         name    = 'glossary',
     ),

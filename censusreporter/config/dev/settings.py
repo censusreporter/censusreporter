@@ -11,3 +11,10 @@ ALLOWED_HOSTS = [
 ]
 
 #API_URL = 'http://0.0.0.0:5000'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
