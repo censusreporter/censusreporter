@@ -38,7 +38,7 @@ function Chart(options) {
         chart.comparisonNames = {
             'this': (!!geographyThis) ? geographyThis.short_name : 'here',
             'place': (!!geographyParents.place) ? geographyParents.place.short_name : 'place',
-            'CBSA': (!!geographyParents.CBSA) ? geographyParents.CBSA.short_name : 'CBSA',
+            'CBSA': (!!geographyParents.CBSA) ? geographyParents.CBSA.full_name : 'CBSA',
             'county': (!!geographyParents.county) ? geographyParents.county.short_name : 'county',
             'state': (!!geographyParents.state) ? geographyParents.state.short_name : 'state',
             'nation': (!!geographyParents.nation) ? geographyParents.nation.short_name : 'United States'
@@ -46,7 +46,7 @@ function Chart(options) {
         chart.comparisonNamePhrases = {
             'this': (!!geographyThis) ? 'in ' + geographyThis.short_name : 'here',
             'place': (!!geographyParents.place) ? 'in ' + geographyParents.place.short_name : 'placewide',
-            'CBSA': (!!geographyParents.CBSA) ? 'in the ' + geographyParents.CBSA.short_name : 'CBSA-wide',
+            'CBSA': (!!geographyParents.CBSA) ? 'in the ' + geographyParents.CBSA.full_name : 'CBSA-wide',
             'county': (!!geographyParents.county) ? 'in ' + geographyParents.county.short_name : 'countywide',
             'state': (!!geographyParents.state) ? 'in ' + geographyParents.state.short_name : 'statewide',
             'nation': (!!geographyParents.nation) ? 'in ' + geographyParents.nation.short_name : 'nationwide'

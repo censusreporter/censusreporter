@@ -41,7 +41,7 @@ for applying things across that entire family of pages.
 <script src="{{ STATIC_URL }}js/comparisons.js"></script>
 {% block page_specific_javascript %}{% endblock %}
 <script>
-new Comparison({
+dataView = new Comparison({
     tableID: '{{ table }}',
     dataFormat: '{{ data_format }}',
     geoIDs: '{{ geo_ids }}'.split(','),
