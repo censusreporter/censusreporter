@@ -7,7 +7,7 @@
   <!--[if lte IE 8]>
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
   <![endif]-->
-<link href='{{STATIC_URL}}css/leaflet.label.css' rel='stylesheet' />
+<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
 {% endblock %}
 
 {% block head_javascript_extra %}
@@ -313,11 +313,10 @@
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
 <!--[if gt IE 9]><!-->
 <script src="{{ STATIC_URL }}js/TileLayer.GeoJSON.js"></script>
 <!--<![endif]-->
-<script src="{{ STATIC_URL }}js/leaflet.label.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
 // Make the header map
 d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {

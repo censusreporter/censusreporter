@@ -45,9 +45,6 @@
 
 
 <div class="content-container clearfix">
-    {% comment %}<article id="compare" class="clearfix wrapper">
-        {% include "compare/_blocks/_comparison_builder_steps.html" %}{% endcomment %}
-
     <article id="explore" class="clearfix wrapper">
         {% include "data/_blocks/_data_query_builder.html" %}
 
@@ -147,6 +144,5 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 </script>
-{#}<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>{#}
 <script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
 {% endblock %}

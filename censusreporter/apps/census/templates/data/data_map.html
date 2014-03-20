@@ -7,7 +7,7 @@
   <!--[if lte IE 8]>
     <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
   <![endif]-->
-<link href='{{STATIC_URL}}css/leaflet.label.css' rel='stylesheet' />
+<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
 {% endblock %}
 
 {% block head_javascript_extra %}
@@ -40,5 +40,5 @@
 {% endblock %}
 
 {% block page_specific_javascript %}
-<script src="{{ STATIC_URL }}js/leaflet.label.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 {% endblock %}
