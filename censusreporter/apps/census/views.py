@@ -89,19 +89,19 @@ def raise_404_with_messages(request, error_data={}):
     for k, v in error_data.items():
         error_text = '<strong>%s:</strong> %s' % (k.title(), v)
         messages.error(request, error_text)
-        
+
     raise Http404
-    
+
 
 ### DETAIL ###
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile.html'
-    
+
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get('geography_id', None)
         self.slug = self.kwargs.get('slug', None)
-        
+
         if not self.slug:
             geo = self.get_geography(self.geo_id)
             if geo:
@@ -119,9 +119,9 @@ class GeographyDetailView(TemplateView):
             else:
                 # if we get nothing from the API, pass through for 404
                 pass
-        
+
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
-        
+
     def get_geography(self, geo_id):
         endpoint = settings.API_URL + '/1.0/geo/tiger2012/%s' % self.geo_id
         r = requests.get(endpoint)
@@ -160,7 +160,7 @@ class GeographyDetailView(TemplateView):
                 if sumlevel in raw['values']:
                     enhanced['values'][sumlevel] = raw['values'][sumlevel]
                     enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
-                    
+
                     # add to our list of comparatives for the template to use
                     if sumlevel != 'this':
                         comparative_sumlevs.append(sumlevel)
@@ -197,7 +197,7 @@ class GeographyDetailView(TemplateView):
         acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
         r = requests.get(acs_endpoint)
         status_code = r.status_code
-        
+
         if status_code == 200:
             profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
             profile_data = self.enhance_api_data(profile_data)
@@ -226,7 +226,7 @@ class GeographyDetailView(TemplateView):
         # Census narrative profiles only exist for some sumlevs, and only 1- and 3-year
         if release_level in ['1','3'] and sumlevel in ['010', '020', '030', '040', '050', '160', '500', '950', '960', '970']:
             page_context['geography']['this']['show_extra_links'] = True
-            
+
         tiger_release = 'tiger2012'
         geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
         r = requests.get(geo_endpoint)
@@ -274,7 +274,7 @@ TOPICS_LIST = [
             ('Sex','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
         ]
     },
-    
+
         {
         'title': 'Children',
         'slug': 'children',
@@ -285,7 +285,7 @@ TOPICS_LIST = [
             ('Questions on Family Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
         ]
     },
-    
+
     {
         'title': 'Commute',
         'slug': 'commute',
@@ -297,7 +297,7 @@ TOPICS_LIST = [
             ('Place of Work and Journey to Work','http://www.census.gov/acs/www/Downloads/QbyQfact/PJ_work.pdf')
         ]
     },
-    
+
        {
         'title': 'Families',
         'slug': 'families',
@@ -308,7 +308,7 @@ TOPICS_LIST = [
             ('ACS Question on Householder Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
         ]
     },
-   
+
     {
         'title': 'Health Insurance',
         'slug': 'health-insurance',
@@ -319,7 +319,7 @@ TOPICS_LIST = [
             ('Questions on Health Insurance Coverage','http://www.census.gov/acs/www/Downloads/QbyQfact/health_insurance.pdf'),
         ]
     },
-    
+
     {
         'title': 'Race and Latino Origin',
         'slug': 'race-latino',
@@ -331,7 +331,7 @@ TOPICS_LIST = [
             ('Hispanic or Latino Origin','http://www.census.gov/acs/www/Downloads/QbyQfact/hispanic.pdf')
         ]
     },
-    
+
         {
         'title': 'Migration',
         'slug': 'migration',
@@ -340,10 +340,10 @@ TOPICS_LIST = [
          'question_images': ['migration.png',],
         'question_pdfs': [
             ('Questions related to Residence One Year Ago from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/residence.pdf')
-            
+
         ]
     },
-    
+
     {
         'title': 'Poverty',
         'slug': 'poverty',
@@ -352,10 +352,10 @@ TOPICS_LIST = [
          'question_images': ['income.png',],
         'question_pdfs': [
             ('Questions related to Income and Poverty from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
-            
+
         ]
     },
-    
+
          {
         'title': 'Public Assistance',
         'slug': 'public-assistance',
@@ -365,10 +365,10 @@ TOPICS_LIST = [
         'question_pdfs': [
             ('Questions on Income Sources from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf'),
             ('Question about Food Stamps from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/food_stamp.pdf')
-     
+
         ]
     },
-    
+
     {
         'title': 'Same-Sex Couples',
         'slug': 'same-sex',
@@ -380,7 +380,7 @@ TOPICS_LIST = [
             ('Question on Gender from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
         ]
     },
-    
+
     {
         'title': 'Income',
         'slug': 'income',
@@ -391,7 +391,7 @@ TOPICS_LIST = [
             ('All Income Questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
         ]
     },
-    
+
     {
         'title': 'Employment',
         'slug': 'employment',
@@ -450,7 +450,7 @@ class TopicView(TemplateView):
 
 class DataView(TemplateView):
     template_name = 'data/data_table.html'
-    
+
     def dispatch(self, *args, **kwargs):
         self.table = self.request.GET.get('table', None)
         self.primary_geo_id = self.request.GET.get('primary_geo_id', None)
@@ -469,14 +469,14 @@ class DataView(TemplateView):
             self.template_name = 'data/data_%s.html' % self.format
         else:
             raise Http404
-        
+
         #TODO: implement formats for map
-    
+
         return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         download_link_prefix = 'http://api.censusreporter.org/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
-        
+
         page_context = {
             'table': self.table or '',
             'primary_geo_id': self.primary_geo_id or '',
@@ -505,7 +505,7 @@ class BaseComparisonView(TemplateView):
 
         r = requests.get(API_ENDPOINT, params=API_PARAMS)
         status_code = r.status_code
-        
+
         if status_code == 200:
             data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
@@ -625,7 +625,7 @@ class BaseComparisonView(TemplateView):
         # states in the United States, remove Puerto Rico and D.C.
         if _parent_id == '01000US' and _descendant_sumlev == '040':
             keys_to_clean.extend(['04000US11','04000US72'])
-            
+
         for key in keys_to_clean:
             if key in data: del data[key]
 
@@ -1043,7 +1043,7 @@ class ComparisonView(BaseComparisonView):
             }
             r = requests.get(COUNTS_API, params=COUNTS_API_PARAMS)
             status_code = r.status_code
-            
+
             if status_code == 200:
                 counts_data = simplejson.loads(r.text, object_pairs_hook=dict)
                 counts = sorted(counts_data.items(), key=lambda item: item[1]['results'], reverse=True)
@@ -1053,7 +1053,7 @@ class ComparisonView(BaseComparisonView):
                     'table': self.table_id,
                     'release': counts[0][1]['release_slug']
                 }
-                
+
                 return HttpResponseRedirect(url + '?' + urlencode(url_params))
             elif status_code == 404 or status_code == 400:
                 error_data = simplejson.loads(r.text)
@@ -1279,6 +1279,16 @@ class TableSearch(TemplateView):
 
         return page_context
 
+class TableElasticsearch(TemplateView):
+    template_name = 'search/table_elasticsearch.html'
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            'release_options': ['ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
+        }
+        tables = None
+        columns = None
+
 class GeoSearch(TemplateView):
     template_name = 'search/geo_search.html'
 
@@ -1305,7 +1315,7 @@ class LocateView(TemplateView):
 
         r = requests.get(API_ENDPOINT, params=API_PARAMS)
         status_code = r.status_code
-        
+
         if status_code == 200:
             data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:

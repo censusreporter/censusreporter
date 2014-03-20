@@ -1,0 +1,34 @@
+{% extends '_base.html' %}
+
+{% block head_css_extra %}
+<style>
+.nowrap {white-space: nowrap;}
+input, select {width: 200px; height: 2.2em;}
+
+@media only screen and (max-width: 768px) {
+    td a {
+        display: block;
+    }
+}
+@media only screen and (max-width: 620px) {
+    form.inline-form input, form.inline-form select {
+        display: block;
+        margin: .25em 0 .75em 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="clearfix" id="query-topic-picker">
+    <h2>Find table</h2>
+    <div class="typeahead-container">
+        <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
+    </div>
+</section>
+
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
+{% endblock %}
