@@ -58,5 +58,7 @@ def deploy(branch='master'):
         # Make sure everything is correctly owned
         sudo('chown www-data:www-data -R %s %s' % (code_dir, virtualenv_dir))
 
+    # Clear the cache
+    sudo('echo \'flush_all\' | nc localhost 11211')
     # Restart apache
     sudo('service apache2 restart')
