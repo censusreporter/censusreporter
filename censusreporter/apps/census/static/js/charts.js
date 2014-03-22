@@ -951,10 +951,27 @@ function Chart(options) {
             top: (bufferTop < 10) ? mouseTop + 5 : mouseTop - chart.hovercard.dimensions.height - 5,
             left: (bufferRight < 10) ? mouseLeft - chart.hovercard.dimensions.width - 5 : mouseLeft + 5
         }
+        chart.hovercard.position = {
+            vertical: {
+                direction: (bufferTop < 10) ? 'top' : 'bottom',
+                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.settings.height - mouseTop + 5
+            },
+            horizontal: {
+                direction: (bufferRight < 10) ? 'right' : 'left',
+                pixels: (bufferRight < 10) ? chart.settings.width - mouseLeft + 5 : mouseLeft + 5
+            }
+        }
 
+        // asking for chart.hovercard.style("height") and chart.hovercard.style("width")
+        // gives inconsistent results because of IE box model. So we can't count on addition
+        // using hovercard height and width. Instead, we reset top/bottom and left/right
+        // (in case of flips, we don't want to hold onto the old value) and position based
+        // on proximity to screen edge.
         chart.hovercard
-            .style("left", (chart.hovercard.position.left) + "px")
-            .style("top", (chart.hovercard.position.top) + "px");
+            .style("left", "auto").style("right", "auto")
+            .style(chart.hovercard.position.horizontal.direction, (chart.hovercard.position.horizontal.pixels) + "px")
+            .style("top", "auto").style("bottom", "auto")
+            .style(chart.hovercard.position.vertical.direction, (chart.hovercard.position.vertical.pixels) + "px");
     }
 
     chart.mouseout = function() {
