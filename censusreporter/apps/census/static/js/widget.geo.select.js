@@ -1,5 +1,5 @@
 var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
-    geoSelect = $('#geography-select')
+    geoSelect = $('#geography-select'),
     chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
 
 var geoSelectEngine = new Bloodhound({
@@ -13,9 +13,9 @@ var geoSelectEngine = new Bloodhound({
         },
         filter: function(response) {
             var results = response.results;
-            results.map(function(item) {
+            _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
-            });
+            })
             return results;
         }
     }

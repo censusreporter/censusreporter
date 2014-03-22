@@ -1,3 +1,5 @@
+jQuery.support.cors = true;
+
 // navigation menu
 $('#menu-toggle').on('click', function() {
     $('#menu').slideToggle(150);
@@ -77,7 +79,7 @@ var sumlevChildren = {
     '860': ['140','150'],
     '950': ['060','140','150','160','860'],
     '960': ['060','140','150','160','860'],
-    '970': ['060','140','150','160','860'],
+    '970': ['060','140','150','160','860']
 };
 
 var releaseNames = {

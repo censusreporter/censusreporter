@@ -14,7 +14,6 @@ var topicSelect = $('#topic-select'),
     chosenSumlevAncestorOptions,
     chosenGeoID;
 
-
 var topicSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -22,15 +21,7 @@ var topicSelectEngine = new Bloodhound({
     remote: {
         url: tableSearchAPI,
         replace: function (url, query) {
-            url += '?';
-            if (query) {
-                url += 'q=' + query;
-            }
-            //var selectedTopics = selectedTopicFilterValues();
-            //if (selectedTopics.length > 0) {
-            //    url += '&topics=' + selectedTopics.join(',');
-            //}
-            return url;
+            return url += '?q=' + query;
         },
         filter: function(response) {
             var resultNumber = response.length;
@@ -39,7 +30,7 @@ var topicSelectEngine = new Bloodhound({
                     table_name: 'Sorry, no matches found. Try changing your search.'
                 });
             }
-            response.map(function(item) {
+            _.map(response, function(item) {
                 if (!!item['topics']) {
                     item['topic_string'] = item['topics'].join(', ');
                 }
@@ -67,7 +58,7 @@ var placeSelectEngine = new Bloodhound({
                 });
             }
             var results = response.results;
-            results.map(function(item) {
+            _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
             });
             return results;

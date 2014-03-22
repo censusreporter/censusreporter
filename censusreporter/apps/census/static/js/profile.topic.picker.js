@@ -23,15 +23,7 @@ var topicSelectEngine = new Bloodhound({
     remote: {
         url: tableSearchAPI,
         replace: function (url, query) {
-            url += '?';
-            if (query) {
-                url += 'q=' + query;
-            }
-            //var selectedTopics = selectedTopicFilterValues();
-            //if (selectedTopics.length > 0) {
-            //    url += '&topics=' + selectedTopics.join(',');
-            //}
-            return url;
+            return url += '?q=' + query;
         },
         filter: function(response) {
             var resultNumber = response.length;
@@ -40,7 +32,7 @@ var topicSelectEngine = new Bloodhound({
                     table_name: 'Sorry, no matches found. Try changing your search.'
                 });
             }
-            response.map(function(item) {
+            _.map(response, function(item) {
                 if (!!item['topics']) {
                     item['topic_string'] = item['topics'].join(', ');
                 }
