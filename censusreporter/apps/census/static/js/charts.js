@@ -794,56 +794,68 @@ function Chart(options) {
 
             chart.dataTableHeader = chart.dataTable.append("thead")
                 .append("tr")
-                    .html(function() { return chart.makeDataDrawerHeader(rowValues[0]) });
+                .call(chart.fillDataDrawerHeader, rowValues[0]);
 
             chart.tableRows = chart.dataTable.append("tbody")
-                .selectAll("tr")
-                    .data(rowValues)
-                .enter().append("tr")
-                    .html(function(d) { return chart.makeDataDrawerRow(d) });
-                    
+                .call(chart.fillDataDrawerRows, rowValues);
+
             chart.dataDrawer
                 .append("a")
                     .classed("chart-get-data opened", true)
                     .text("Hide the data")
-                    .on("click", chart.toggleDataDrawer)
+                    .on("click", chart.toggleDataDrawer);
         }
     }
     
     chart.DataDrawerPlaces = ['this', 'place', 'CBSA', 'county', 'state', 'nation'];
     
-    chart.makeDataDrawerHeader = function(d) {
-        var rowBits = ['<th class="name">Column</th>'],
-            colspan,
-            cellContents;
-            
+    chart.fillDataDrawerHeader = function(selection, d) {
+        var headerData = [
+            { colspan: 1, cellClass: 'name', cellContents: 'Column' }
+        ];
+
         chart.DataDrawerPlaces.forEach(function(k, i) {
             if (d.context.values[k] >= 0) {
-                colspan = (d.context.numerators[k] !== null) ? 4 : 2;
-                cellContents = chart.comparisonNames[k];
-                rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
+                headerData.push({
+                    colspan: (d.context.numerators[k] !== null) ? 4 : 2,
+                    cellClass: 'name',
+                    cellContents: chart.comparisonNames[k]
+                });
             }
         });
-        return rowBits.join('');
+
+        selection.selectAll("th")
+                .data(headerData)
+            .enter().append("th")
+                .attr("class", function(d) { return d.cellClass })
+                .attr("colspan", function(d) { return d.colspan })
+                .text(function(d) { return d.cellContents });
     }
     
-    chart.makeDataDrawerRow = function(d) {
-        var rowBits = ['<td class="name">' + d.name + '</td>'],
-            cellContents;
-
-        chart.DataDrawerPlaces.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
-                // add the primary value
-                rowBits.push('<td class="value">' + chart.getValueFmt(d, k, 1) + '</td><td class="context">&plusmn;' + chart.valFmt(d.context.error[k], 1) + '</td>');
-
-                // add the numerator value if it exists
-                if (d.context.numerators[k] !== null) {
-                    cellContents = chart.commaFmt(d.context.numerators[k]) + '</td><td class="context">&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + '';
-                    rowBits.push('<td class="value">' + cellContents + '</td>');
+    chart.fillDataDrawerRows = function(selection, rowValues) {
+        rowValues.forEach(function(d) {
+            rowData = [
+                { cellClass: 'name', cellContents: d.name }
+            ];
+            chart.DataDrawerPlaces.forEach(function(k, i) {
+                if (d.context.values[k] >= 0) {
+                    // add the primary value
+                    rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
+                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
+                    // add the numerator value if it exists
+                    if (d.context.numerators[k] !== null) {
+                        rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
+                        rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
+                    }
                 }
-            }
-        });
-        return rowBits.join('');
+            });
+            
+            selection.append("tr").selectAll("td")
+                    .data(rowData)
+                .enter().append("td")
+                    .attr("class", function(d) { return d.cellClass })
+                    .html(function(d) { return d.cellContents });
+        })
     }
     
     chart.initHovercard = function() {
