@@ -1,15 +1,23 @@
 from fabric.api import *
 from fabric.contrib.files import *
-from fabric.colors import red
 
+root_dir = '/home/www-data'
+code_dir = '%s/django_app' % root_dir
+virtualenv_name = 'django_venv'
+virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
+newrelic_app_name = 'Census Reporter Django'
+
+def install_newrelic(api_key):
+    """ Install the New Relic Python and Server agents using the specified API key. """
+    with cd(code_dir):
+        with prefix('source %s/bin/activate' % virtualenv_dir):
+            sudo('newrelic-admin generate-config %s %s/newrelic.ini' % (api_key, code_dir), user='www-data')
+
+    sudo("sed -i \"s/Python Application/%s/g\" %s/newrelic.ini" % (newrelic_app_name, code_dir), user='www-data')
 
 def deploy(branch='master'):
     "Deploy the specified branch to the remote host."
 
-    root_dir = '/home/www-data'
-    code_dir = '%s/django_app' % root_dir
-    virtualenv_name = 'django_venv'
-    virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
     host = 'censusreporter.org'
 
     sudo('mkdir -p %s' % root_dir)
