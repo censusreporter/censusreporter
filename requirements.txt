@@ -1,4 +1,4 @@
-newrelic==2.12.0.10
+newrelic==2.16.0.12
 Django==1.5.4
 requests==1.2.0
 wsgiref==0.1.2
