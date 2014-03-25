@@ -1,6 +1,12 @@
 {% extends 'topics/_base_topics.html' %}
 
 {% block content %}
+<style>
+    #geoid-explainer { background-color: inherit; margin: 20px;}
+    #geoid-explainer td { padding: 2px 7px;}
+    #geoid-explainer .part { font-weight: bold; text-align: right; }
+    #geoid-explainer .description { text-align: left; width: 90%; }
+</style>
 <section id="topic-overview">
 <aside>
     Selected Census Bureau Documentation
@@ -103,17 +109,33 @@
 </p>
 <p>
     Census Reporter geoids are, whereever possible, Census Bureau geoids prefixed with a seven-character string. The string is in the format <strong>{summary level}{geographic component}US{geoid}</strong>. In almost all cases, the <a href="#geographic-component">geographic component</a> is <strong>00</strong>, and the common summary levels are described above. For example, the is the Census Reporter geoid for the city of Chicago, Illinois is <strong>16000US1714000</strong>. It has these parts:
-    <ul style="list-style: none">
-        <li><strong>160</strong>: Summary level</li>
-        <li><strong>00</strong>: Geographic component</li>
-        <li><strong>US</strong>: Separator</li>
-        <li><strong>1714000</strong>: GeoID for Chicago</li>
-    </ul>
+    <table id="geoid-explainer">
+        <tr>
+            <td class="part">160</td>
+            <td class="description"><a href="summary-levels">Summary level</a> (three digits)</td>
+        </tr>
+        <tr>
+            <td class="part">00</td>
+            <td class="description">Geographic component (always 00)<sup>*</sup></td>
+        </tr>
+        <tr>
+            <td class="part">US</td>
+            <td class="description">Separator (always US)</td>
+        </tr>
+        <tr>
+            <td class="part">1714000</td>
+            <td class="description">identifier (variable length depending on summary level)</td>
+        </tr>
+        <tfoot>
+            <tr class="help-text">
+                <td colspan="2"><sup>*</sup>Geographic components offer alternative data tabulations for states and larger areas. For example, there are separate components for urban areas and rural areas. Census Reporter does not show geographic component data, although it is <a href="http://censusreporter.tumblr.com/post/55886690087/using-census-data-in-postgresql">available in our raw SQL data</a>.</td>
+            </tr>
+        </tfoot>
+    </table>
+
     If you know a geoID for a place, you can automatically go to the Census Reporter profile for that place. The URL format is <code>censusreporter.com/profile/{geoid}</code>. You may notice that in your browser, the profile URLs are longer, including the name of the place on the page. Don't worry about that; Census Reporter recognizes "geoID only" URLs and handles them. So, this URL will take you to the profile for Chicago: <a href="http://censusreporter.org/profiles/16000US1714000/"><code>censusreporter.org/profiles/16000US1714000/</code></a>
 </p>
 
-<h2 id="geographic-components">Geographic Components</h2>
-For larger geographies, provides some tabulations
 </section>
 {% endblock %}
 
