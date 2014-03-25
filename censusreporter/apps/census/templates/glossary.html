@@ -25,7 +25,13 @@
             </ul>
         </aside>
 
+
         <dl class="glossary">
+            <dt id="term-csa" data-alt-keywords="combined-statistical-area">Combined Statistical Area (CSA)</dt>
+            <dd>
+                <p>Officially specified by the Office of Management and Budget, a CSA combines adjacent <a href="{% url 'glossary' %}#term-cbsa">CBSAs</a> which have a moderate degree of social and economic ties. Ties between the component CBSAs in a CSA are not as strong as ties between the counties in any of the individual CBSAs.</p>
+            </dd>
+
             <dt id="term-cbsa" data-alt-keywords="core-based-statistical-area">Core-Based Statistical Area (CBSA)</dt>
             <dd>
                 <p>Officially specified by the Office of Management and Budget, the CBSA is the Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing a &ldquo;metropolitan area.&rdquo; Technically, CBSAs are either <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">metropolitan</a> or <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">micropolitan statistical areas</a>—both describe a specific group of counties (or sometimes just one county) around an urban core.</p>
@@ -34,9 +40,8 @@
 
             <dt id="term-county-subdivision">County Subdivision</dt>
             <dd>
-                <p>While the name is a bit generic, in some parts of the US, the county subdivision is the most appropriate <a href="{% url 'glossary' %}#term-summary-level">summary level</a> to use for statistical analysis. Specifically, in the New England states, New York, and Wisconsin, towns and boroughs are treated as county subdivisions. </p>
-                <p>Especially in midwestern states, townships are a familiar geography which the Census organizes in the county subdivision summary level.</p>
-                <p>For more, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation on county subdivisions</a>.</p>
+                <p>Because each state organizes its governments differently, there are some states where the "county subdivision" <a href="{% url 'glossary' %}#term-summary-level">summary level</a> is important, and others where it is unlikely be be used for analysis. In 12 states, most or all county subdivisions serve as local governments much like cities and towns. Specifically, those states are Connecticut, Maine, Massachusetts, Michigan, Minnesota, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, and Wisconsin. In these and 17 more states, most or all county subdivisions are legal entities, known to the Census Bureau as <em>minor civil divisions</em> (or MCDs). In the rest of the states, county subdivisions exist for statistical purposes, but are less likely to be important for journalists.</p>
+                <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
             </dd>
 
             <dt id="term-householder">Householder</dt>

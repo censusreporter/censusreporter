@@ -310,6 +310,13 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Geography',
+        'slug': 'geography',
+        'description': "Geography is fundamental to the Census Bureau's process of tabulating data. Here are the key concepts you need to understand.",
+        'template_name': 'geography.html',
+    },
+    
+    {
         'title': 'Health Insurance',
         'slug': 'health-insurance',
         'description': 'The ACS has a number of questions that deal with health insurance and many corresponding tables.',

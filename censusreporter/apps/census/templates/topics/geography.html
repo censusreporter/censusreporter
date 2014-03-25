@@ -1,0 +1,142 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<style>
+    #geoid-explainer { background-color: inherit; margin: 20px;}
+    #geoid-explainer td { padding: 2px 7px;}
+    #geoid-explainer .part { font-weight: bold; text-align: right; }
+    #geoid-explainer .description { text-align: left; width: 90%; }
+</style>
+<section id="topic-overview">
+<aside>
+    Selected Census Bureau Documentation
+    <ul>
+        <li><a href="http://www.census.gov/acs/www/guidance_for_data_users/geography/">Geography and the American Community Survey</a></li>
+        <li><a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Geographic Terms and Concepts - Place</a></li>
+        <li><a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Geographic Terms and Concepts - County Subdivision</a></li>
+        <li><a href="http://www.census.gov/population/metro/">Metropolitan and Micropolitan Statistical Areas Main</a></li>
+    </ul>
+</aside>
+
+<p>
+    Despite the centrality of geography to Census data, many key concepts are not centrally defined. Instead, each data release documents the subsets of geographic metadata that are relevant to that release. Fortunately, the metadata is consistent from release to release—it's just sometimes hard to find a single source that lays out all of the details.
+</p>
+<p>
+    There are two broad areas about geography to understand: what kinds of places the Census has data for (<a href="#summary-levels">summary levels</a>) and how each of those individual places is identified (<a href="#geoids">geoIDs</a>).
+</p>
+<h2 id="summary-levels">Summary Levels</h2>
+<p>
+    For privacy reasons, the Census Bureau doesn't release the raw responses to the American Community Survey. Therefore, all data in the American Community Survey is summarized for different places that researchers and reporters might analyze. The various classes of place for which data is available are called "summary levels." Some of the summary levels are obvious: state or county. Some are more nuanced. All of the geographies in a summary level are independent—they never overlap each other. Summary levels have a hierarchy: some are conceptually "bigger" than others, although, of course, there are several cities in America with more area or population than the state of Rhode Island.
+</p>
+<p>
+    Summary levels have three-digit numeric codes, sometimes beginning with a zero. If you get more involved in Census data analysis, these codes will become familiar, and you may even start to use them as shorthand for the summary levels they identify.
+</p>
+<p>
+    These are the fundamental summary levels of the Census:
+    <dl class="dl-horizontal">
+        <dt>010</dt>
+        <dd>The United States</dd>
+        <dt>040</dt>
+        <dd>States</dd>
+        <dt>050</dt>
+        <dd>Counties</dd>
+        <dt>140</dt>
+        <dd>Census Tracts</dd>
+    </dl>
+</p>
+<p>
+    For each of these, the next level down is a perfect subdivision&mdash;that is, all of the "parent" geography is covered by the "children." As always, there are subtle exceptions: Puerto Rico is a <strong>040</strong> summary level, but it is not technically part of the <strong>010</strong> (United States). And, while Washington, DC is not a state, it is counted in <strong>040</strong>, and it is part of <strong>010</strong>. And while there is no true county government for DC, there is a record for it in the <strong>050</strong> summary level, to maintain this consistency.
+</p>
+
+<p>
+    There is no clearly designated "official" list of Census summary levels, but there is <a href="http://factfinder2.census.gov/help/en/glossary/s/summary_level_code_list.htm"> a list in the American FactFinder help documentation.</a> The Missouri Census Data Center created <a href="http://mcdc2.missouri.edu/cgi-bin/browse?/pub/sasfmats/Ssumlev.sas@">a list designed for use with SAS statistical software</a>. (Even if you don't use SAS, it's easy to read and may come in handy sometimes.) It's part of their own <a href="http://mcdc.missouri.edu/allabout/sumlevs/">extensive documentation about Census summary levels</a>.
+</p>
+
+<h3>Your town</h3>
+<p>
+    Reporters will often want statistics for the cities and towns in their coverage area. For basic access on Census Reporter, all you need to do is search for the name of your city 
+    This can be more complicated than you might first guess.
+</p>
+<h4>Places (summary level 160)</h4>
+<p>
+    Incorporated cities, towns, and villages are part of the  <strong>160</strong> summary level, generically described as <strong>places</strong> The <strong>160</strong> level also includes "Census designated places," or CDPs, which provide data for unincorporated areas which are commonly recognized by people who live in or near them. Place boundaries can divide census tracts and cross county borders, but a place is always contained in a single state. In every state, there is some territory which isn't in any census "place."
+</p>
+<p>
+    In an attempt to use simpler language, Census Reporter will occasionally use the word 'place' to mean any Census geography at any summary level. Let us know if you think we're being carelessly unclear.
+</p>
+
+<h4>County Subdivisions (summary level 060)</h4>
+<p>
+   In some parts of the US, the county subdivision is a more appropriate summary level to use for this kind of statistical analysis . In 12 states, most or all county subdivisions serve as local governments much like cities and towns. Specifically, those states are Connecticut, Maine, Massachusetts, Michigan, Minnesota, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, and Wisconsin.
+</p>
+<p>
+    In these and 17 more states, most or all county subdivisions are legal entities, known to the Census Bureau as <em>minor civil divisions</em> (or MCDs). In the rest of the states, county subdivisions exist for statistical purposes, but are less likely to be important for journalists. Nine states have county subdivisions which are a mix of MCDs (representing legal entities) and statistical areas known as <em>unorganized territories</em>. For more guidance on understanding county subdivisions, consult the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">census documentation</a>.
+</p>
+<h4>Metropolitan and Micropolitan Areas (summary level 310)</h4>
+<p>
+    Especially when comparing cities around the US, it may be more appropriate to compare <em>metropolitan areas</em>. Technically, the census calls these <em>core based statistical areas</em> (or CBSAs), a general term which includes both metropolitan and <em>micropolitan statistical areas</em>. A CBSA is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties. You can learn much more about this on the Census' <a href="http://www.census.gov/population/metro/">Metropolitan and Micropolitan Statistical Areas Main Page</a>. Most of the time, Census Reporter uses "metropolitan area" as a general term for both kinds of CBSA.
+</p>
+<h3>Other Interesting Summary Levels</h3>
+<p>
+    In addition to data about cities, counties, and states, the Census Bureau tabulates data for several other potentially useful geographies, listed below. As with other summary levels, each of these has companion summary levels that subdivide them or account for intersecting boundaries.
+    <dl class="dl-horizontal">
+        <dt>500</dt>
+        <dd>Congressional District</dd>
+        <dt>610</dt>
+        <dd>State Legislative District (Upper Chamber)</dd>
+        <dt>620</dt>
+        <dd>State Legislative District (Lower Chamber)</dd>
+        <dt>700</dt>
+        <dd>Voting District</dd>
+        <dt>860</dt>
+        <dd>5-Digit ZIP Code Tabulation Area</dd>
+        <dt>950</dt>
+        <dd>School District (Elementary)</dd>
+        <dt>960</dt>
+        <dd>School District (Secondary)</dd>
+        <dt>970</dt>
+        <dd>School District (Unified)</dd>
+
+
+    </dl>
+</p>
+<h2 id="geoids">Geographic Identifiers, or GeoIDs</h2>
+<p>
+    If you've done a little work with data, you've already learned that names are difficult to use to connect data. There are many cities called Cleveland in the US, and even within a state, we've found duplicate city and school district names. Therefore, it's important that every specific geography have a unique identifier. As with summary levels, it's difficult to find a formal definition or listing from the Census Bureau, but here's how Census Reporter handles geographic identifiers, which we usually refer to as <strong>geoIDs</strong>.
+</p>
+<p>
+    The Census Bureau lists geoIDs for places as part of its <a href="http://www.census.gov/geo/maps-data/data/gazetteer2013.html">gazetteer files</a>, which are the attribute data which accompanies official <span class="glossary-term">TIGER</span> shapefiles (maps). Census geoIDs are unique among geographies at the same summary level. However, they aren't necessarily unique among all geoIDs. In order to give each row in the summary file a unique identifier that clearly identified its geography, we adapted a practice we've seen elsewhere. 
+</p>
+<p>
+    Census Reporter geoids are, whereever possible, Census Bureau geoids prefixed with a seven-character string. The string is in the format <strong>{summary level}{geographic component}US{geoid}</strong>. In almost all cases, the <a href="#geographic-component">geographic component</a> is <strong>00</strong>, and the common summary levels are described above. For example, the is the Census Reporter geoid for the city of Chicago, Illinois is <strong>16000US1714000</strong>. It has these parts:
+    <table id="geoid-explainer">
+        <tr>
+            <td class="part">160</td>
+            <td class="description"><a href="summary-levels">Summary level</a> (three digits)</td>
+        </tr>
+        <tr>
+            <td class="part">00</td>
+            <td class="description">Geographic component (always 00)<sup>*</sup></td>
+        </tr>
+        <tr>
+            <td class="part">US</td>
+            <td class="description">Separator (always US)</td>
+        </tr>
+        <tr>
+            <td class="part">1714000</td>
+            <td class="description">identifier (variable length depending on summary level)</td>
+        </tr>
+        <tfoot>
+            <tr class="help-text">
+                <td colspan="2"><sup>*</sup>Geographic components offer alternative data tabulations for states and larger areas. For example, there are separate components for urban areas and rural areas. Census Reporter does not show geographic component data, although it is <a href="http://censusreporter.tumblr.com/post/55886690087/using-census-data-in-postgresql">available in our raw SQL data</a>.</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    If you know a geoID for a place, you can automatically go to the Census Reporter profile for that place. The URL format is <code>censusreporter.com/profile/{geoid}</code>. You may notice that in your browser, the profile URLs are longer, including the name of the place on the page. Don't worry about that; Census Reporter recognizes "geoID only" URLs and handles them. So, this URL will take you to the profile for Chicago: <a href="http://censusreporter.org/profiles/16000US1714000/"><code>censusreporter.org/profiles/16000US1714000/</code></a>
+</p>
+
+</section>
+{% endblock %}
+
+
