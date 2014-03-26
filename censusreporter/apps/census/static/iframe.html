@@ -2,21 +2,27 @@
 <html>
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <link rel="stylesheet" href="http://censusreporter.org/static/css/embed.charts.css">
+        <link rel="stylesheet" href="css/embed.charts.css">
         <!--[if lt IE 9]>
         <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.js"></script>
         <![endif]-->
     </head>
     <body>
-        <div id="census-chart" class="census-chart-embed census-chart-pie"></div>
-        <script>
-        var chartData = window.parent.chartData,
-            geographyData = window.parent.geographyData;
-        </script>
+        <div id="census-chart" class="census-chart-embed"></div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.min.js"></script>
         <script src="http://censusreporter.org/static/js/charts.js"></script>
-        <script src="http://censusreporter.org/static/js/embed.chart.make.js"></script>
+        <script>
+        var chartDiv = $('#census-chart'),
+            chartData = parent.chartData,
+            geographyData = parent.geographyData,
+            chartType = parent.chartType,
+            chartChartTitle = parent.chartChartTitle,
+            chartInitialSort = parent.chartInitialSort,
+            chartStatType = parent.chartStatType,
+            chartQualifier = parent.chartQualifier;
+        </script>
+        <script src="js/embed.chart.make.js"></script>
     </body>
 </html>

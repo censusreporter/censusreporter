@@ -15,14 +15,10 @@
 
 .census-chart-embed {
     margin: 1em;
-    padding: 1em;
     background-color: #fff;
     line-height: 1.4;
     font-size: 14px;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.census-chart-pie {
-    max-width: 300px;
 }
 .census-chart-embed .chart-title {
     margin-bottom: 1em;
@@ -30,6 +26,18 @@
 .census-chart-embed .chart-get-data {
     display: none;
 }
+.census-chart-embed .hovercard {
+    /* an !important is better than recalculating
+    every time the hover listener fires */
+    width: 100% !important;
+    top: 100% !important;
+    left: 0 !important;
+    bottom: auto !important;
+    right: auto !important;
+    border: none;
+    padding: .67em;
+}
+
 .column-chart,
 .bar-chart,
 .pie-chart {
