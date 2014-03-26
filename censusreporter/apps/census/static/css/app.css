@@ -1989,9 +1989,23 @@ dl.glossary {
     width: auto;
     pointer-events: auto;
 }
-#lightbox small {
+#lightbox .close {
+    display: block;
     float: right;
+    margin-bottom: .75em;
     cursor: pointer;
+}
+#profile #lightbox .hovercard-wrapper {
+    width: 600px;
+}
+#profile #lightbox .hovercard {
+    text-align: left;
+}
+#profile #lightbox textarea {
+    width: 100%;
+    margin: .5em 0;
+    padding: .5em;
+    height: 5em;
 }
 
 ul.compact * {

@@ -30,6 +30,8 @@ function Chart(options) {
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
+        chart.rawGeographyData = options.geographyData;
+        chart.rawChartData = options.chartData;
 
         // add a bit of geodata for links and hovercards
         var geographyThis = options.geographyData['this'],
@@ -724,7 +726,52 @@ function Chart(options) {
         
         return chart;
     }
+    
+    chart.showEmbedCode = function() {
+        var embedVars = [
+            'var chartData = ' + JSON.stringify(chart.rawChartData) + ';',
+            'var geographyData = ' + JSON.stringify(chart.rawGeographyData) + ';',
+            'var chartType = "' + chart.chartType + '";',
+            'var chartChartTitle = "' + (chart.chartChartTitle || '') + '";',
+            'var chartInitialSort = "' + (chart.chartInitialSort || '') + '";',
+            'var chartStatType = "' + (chart.chartStatType || '') + '";',
+            'var chartQualifier = "' + (chart.chartQualifier || '') + '";'
+        ].join('\n');
+        
+        var embedHeight = 350,
+            embedWidth = (chart.chartType == 'pie') ? 300 : 720;
+            
+        var embedCode = [
+            '<iframe src="iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
+            '\n<script src="data:application/x-javascript;base64,'+btoa(embedVars)+'"></script>'
+        ].join('');
+        
+        var lightboxWrapper = d3.select('body').append('div')
+                .attr('id', 'lightbox');
+                
+        var lightbox = lightboxWrapper.append('div')
+                .classed('hovercard-wrapper', true)
+            .append('div')
+                .classed('hovercard', true);
 
+        lightbox.append('small')
+                .classed('close clearfix', true)
+                .html('<i class="fa fa-times-circle"></i> Close')
+                .on('click', function() {
+                    d3.event.stopPropagation();
+                    d3.select('#lightbox').remove();
+                });
+                
+        lightbox.append('h2')
+                .text('Embed code for this chart');
+                
+        lightbox.append('textarea')
+                .html(embedCode)
+                .on('click', function() {
+                    this.select();
+                })
+    }
+    
     // pass in data obj, get back formatted value label with MOE flag
     chart.getValueFmt = function(data, geoStr, precision) {
         var place = (!!geoStr) ? geoStr : 'this',
@@ -771,7 +818,8 @@ function Chart(options) {
                             titleText = "Table " + tableID;
                         }
                         return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
-                    });
+                    })
+                    .on("click", chart.showEmbedCode); // temporarily attached here for testing
 
             chart.dataTable = chart.dataDrawer.append("table")
                     .attr("id", "data-table")
