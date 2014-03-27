@@ -745,7 +745,7 @@ function Chart(options) {
         var embedCode = [
             '<iframe id="census-embed" name="census-embed"  src="http://censusreporter.org/static/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
             '\n<script src="data:application/x-javascript;base64,'+btoa(embedString)+'"></script>',
-            '\n<script src="http://http://censusreporter.org/static/js/embed.chart.make.js"></script>'
+            '\n<script src="http://censusreporter.org/static/js/embed.chart.make.js"></script>'
         ].join('');
         
         var lightboxWrapper = d3.select('body').append('div')
