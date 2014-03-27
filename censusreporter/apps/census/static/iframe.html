@@ -10,19 +10,43 @@
     </head>
     <body>
         <div id="census-chart" class="census-chart-embed"></div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.2/d3.min.js"></script>
+        <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
         <script src="http://censusreporter.org/static/js/charts.js"></script>
-        <script>
-        var chartDiv = $('#census-chart'),
-            chartData = parent.chartData,
-            geographyData = parent.geographyData,
-            chartType = parent.chartType,
-            chartChartTitle = parent.chartChartTitle,
-            chartInitialSort = parent.chartInitialSort,
-            chartStatType = parent.chartStatType,
-            chartQualifier = parent.chartQualifier;
+        <script type="text/javascript">
+            window.browserWidth = document.documentElement.clientWidth;
+            var gracefulType = function(chartType) {
+                // convert certain chart types to more readable versions at narrow widths
+                if (browserWidth <= 360) {
+                    if (chartType == 'column' || chartType == 'histogram') {
+                        return 'bar'
+                    } else if (chartType == 'grouped_column') {
+                        return 'grouped_bar'
+                    }
+                }
+                return chartType
+            }
+
+            function receiveMessage(event) {
+                embedVars = event.data;
+                Chart({
+                    chartContainer: 'census-chart',
+                    chartType: gracefulType(embedVars.chartType),
+                    chartHeight: 160,
+                    chartData: embedVars.chartData,
+                    chartQualifier: embedVars.chartQualifier,
+                    chartChartTitle: embedVars.chartChartTitle,
+                    chartInitialSort: embedVars.chartInitialSort,
+                    chartStatType: embedVars.chartStatType,
+                    geographyData: embedVars.geographyData
+                });
+            }
+
+            if (window.addEventListener) {
+                window.addEventListener("message", receiveMessage, false);
+            }
+            else { // IE8 or earlier
+                window.attachEvent("onmessage", receiveMessage, false);
+            }
         </script>
-        <script src="js/embed.chart.make.js"></script>
     </body>
 </html>

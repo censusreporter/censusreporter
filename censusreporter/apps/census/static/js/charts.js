@@ -728,22 +728,24 @@ function Chart(options) {
     }
     
     chart.showEmbedCode = function() {
-        var embedVars = [
-            'var chartData = ' + JSON.stringify(chart.rawChartData) + ';',
-            'var geographyData = ' + JSON.stringify(chart.rawGeographyData) + ';',
-            'var chartType = "' + chart.chartType + '";',
-            'var chartChartTitle = "' + (chart.chartChartTitle || '') + '";',
-            'var chartInitialSort = "' + (chart.chartInitialSort || '') + '";',
-            'var chartStatType = "' + (chart.chartStatType || '') + '";',
-            'var chartQualifier = "' + (chart.chartQualifier || '') + '";'
-        ].join('\n');
+        var embedVars = {
+            chartData: chart.rawChartData,
+            geographyData: chart.rawGeographyData,
+            chartType: chart.chartType,
+            chartChartTitle: (chart.chartChartTitle || ''),
+            chartInitialSort: (chart.chartInitialSort || ''),
+            chartStatType: (chart.chartStatType || ''),
+            chartQualifier: (chart.chartQualifier || '')
+        }
         
-        var embedHeight = 350,
+        var embedString = 'var embedVars = ' + JSON.stringify(embedVars) + ';',
+            embedHeight = 350,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720;
             
         var embedCode = [
-            '<iframe src="iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
-            '\n<script src="data:application/x-javascript;base64,'+btoa(embedVars)+'"></script>'
+            '<iframe id="census-embed" name="census-embed"  src="http://censusreporter.org/static/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
+            '\n<script src="data:application/x-javascript;base64,'+btoa(embedString)+'"></script>',
+            '\n<script src="http://http://censusreporter.org/static/js/embed.chart.make.js"></script>'
         ].join('');
         
         var lightboxWrapper = d3.select('body').append('div')
