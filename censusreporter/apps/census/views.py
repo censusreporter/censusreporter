@@ -400,6 +400,13 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Table Codes',
+        'slug': 'table-codes',
+        'description': 'While Census Reporter hopes to save you from the details, you may be interested to understand some of the rationale behind American Community Survey table identifiers.',
+        'template_name': 'table-codes.html',
+    },
+
+    {
         'title': 'Employment',
         'slug': 'employment',
         'description': 'While the ACS is not always the best source for employment data, it provides interesting information for small geographies that other sources don&rsquo;t cover.',
