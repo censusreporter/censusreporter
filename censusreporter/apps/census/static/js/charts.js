@@ -765,13 +765,43 @@ function Chart(options) {
                 });
                 
         lightbox.append('h2')
-                .text('Embed code for this chart');
+                .html('Embed code for this chart <span class="tag">BETA</span>');
+
+        lightbox.append('p')
+                .text('Copy from the textarea below, then paste into your own CMS or HTML page.');
                 
         lightbox.append('textarea')
                 .html(embedCode)
                 .on('click', function() {
                     this.select();
                 })
+
+        lightbox.append('h3')
+                .html('What you&rsquo;re copying');
+                
+        var instructions = [
+            'An iframe served from the Census Reporter site, which includes all the code required to draw a chart.',
+            'An encoded version of the data. Pasting this onto your page means that even if our database is unavailable, your chart will still show up just fine.',
+            'A short script that lets the frame on our site fetch the data encoded on your site, and make the chart.'
+        ]
+        lightbox.append('ol').selectAll('li')
+                .data(instructions)
+            .enter().append('li')
+                .text(function(d) { return d });
+
+        lightbox.append('h3')
+                .html('Notes on usage');
+
+        var notes = [
+            'Embeddable charts are a still a beta feature. We will continue to refine this code.',
+            'These embeds have been tested in current versions of Firefox, Safari and Chrome. They also work in Internet Explorer 9 and above.',
+            'The iframe and javascript from Census Reporter is currently served over a standard http connection, so if you embed a chart on an https page, you are likely to see mixed-content warnings.'
+        ]
+                
+        lightbox.append('ul').selectAll('li')
+                .data(notes)
+            .enter().append('li')
+                .text(function(d) { return d });
     }
     
     // pass in data obj, get back formatted value label with MOE flag

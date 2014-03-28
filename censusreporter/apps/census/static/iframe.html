@@ -3,18 +3,14 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <link rel="stylesheet" href="css/embed.charts.css">
-        <!--[if lt IE 9]>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.js"></script>
-        <![endif]-->
     </head>
     <body>
         <div id="census-chart" class="census-chart-embed"></div>
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
         <script src="http://censusreporter.org/static/js/charts.js"></script>
         <script type="text/javascript">
-            window.browserWidth = document.documentElement.clientWidth;
             var gracefulType = function(chartType) {
+                window.browserWidth = document.documentElement.clientWidth;
                 // convert certain chart types to more readable versions at narrow widths
                 if (browserWidth <= 360) {
                     if (chartType == 'column' || chartType == 'histogram') {
@@ -27,7 +23,7 @@
             }
 
             function receiveMessage(event) {
-                embedVars = event.data;
+                embedVars = JSON.parse(event.data);
                 Chart({
                     chartContainer: 'census-chart',
                     chartType: gracefulType(embedVars.chartType),

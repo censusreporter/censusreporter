@@ -707,7 +707,6 @@ h1.article-header-right {
     text-transform: uppercase;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: normal;
-    vertical-align: text-top;
     color: #fff;
     font-size: .8em;
     padding: .15em .33em;
@@ -2004,9 +2003,9 @@ dl.glossary {
 }
 #profile #lightbox textarea {
     width: 100%;
-    margin: .5em 0;
+    margin: 0 0 1em;
     padding: .5em;
-    height: 5em;
+    height: 6em;
 }
 
 ul.compact * {

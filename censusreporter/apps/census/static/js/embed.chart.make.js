@@ -1,4 +1,5 @@
 window.onload=function(){ 
     var embed = document.getElementById('census-embed');
-    embed.contentWindow.postMessage(embedVars, 'http://censusreporter.org');
+    // IE9 can only send strings via postmessage
+    embed.contentWindow.postMessage(JSON.stringify(embedVars), 'http://censusreporter.org');
 };
