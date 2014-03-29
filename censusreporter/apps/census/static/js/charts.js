@@ -768,7 +768,7 @@ function Chart(options) {
                 .html('Embed code for this chart <span class="tag">BETA</span>');
 
         lightbox.append('p')
-                .text('Copy from the textarea below, then paste into your own CMS or HTML page.');
+                .text('Copy the code below, then paste into your own CMS or HTML page. Embeds have been tested in Firefox, Safari and Chrome, and they work in IE 9 and above.');
                 
         lightbox.append('textarea')
                 .html(embedCode)
@@ -776,28 +776,26 @@ function Chart(options) {
                     this.select();
                 })
 
-        lightbox.append('h3')
-                .html('What you&rsquo;re copying');
+        lightbox.append('p').append('a')
+                .classed('display-type', true)
+                .attr('href', '#')
+                .text('What am I copying?')
+                .on('click', function() {
+                    d3.event.preventDefault();
+                    d3.select('#lightbox-instructions')
+                        .classed('hidden', false);
+                });
                 
         var instructions = [
             'An iframe served from the Census Reporter site, which includes all the code required to draw a chart.',
             'An encoded version of the data. Pasting this onto your page means that even if our database is unavailable, your chart will still show up just fine.',
             'A short script that lets the frame on our site fetch the data encoded on your site, and make the chart.'
         ]
-        lightbox.append('ol').selectAll('li')
+        lightbox.append('ol')
+                .attr('id', 'lightbox-instructions')
+                .classed('hidden', true)
+            .selectAll('li')
                 .data(instructions)
-            .enter().append('li')
-                .text(function(d) { return d });
-
-        lightbox.append('h3')
-                .html('Notes on usage');
-
-        var notes = [
-            'These embeds have been tested in current versions of Firefox, Safari and Chrome. They also work in Internet Explorer 9 and above.'
-        ]
-                
-        lightbox.append('ul').selectAll('li')
-                .data(notes)
             .enter().append('li')
                 .text(function(d) { return d });
     }
