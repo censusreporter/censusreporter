@@ -743,9 +743,9 @@ function Chart(options) {
             embedWidth = (chart.chartType == 'pie') ? 300 : 720;
             
         var embedCode = [
-            '<iframe id="census-embed" name="census-embed"  src="http://censusreporter.org/static/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
+            '<iframe id="census-embed" name="census-embed"  src="https://s3-us-west-2.amazonaws.com/census-embed/1.0/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
             '\n<script src="data:application/x-javascript;base64,'+btoa(embedString)+'"></script>',
-            '\n<script src="http://censusreporter.org/static/js/embed.chart.make.js"></script>'
+            '\n<script src="https://s3-us-west-2.amazonaws.com/census-embed/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
         var lightboxWrapper = d3.select('body').append('div')
@@ -793,9 +793,7 @@ function Chart(options) {
                 .html('Notes on usage');
 
         var notes = [
-            'Embeddable charts are a still a beta feature. We will continue to refine this code.',
-            'These embeds have been tested in current versions of Firefox, Safari and Chrome. They also work in Internet Explorer 9 and above.',
-            'The iframe and javascript from Census Reporter is currently served over a standard http connection, so if you embed a chart on an https page, you are likely to see mixed-content warnings.'
+            'These embeds have been tested in current versions of Firefox, Safari and Chrome. They also work in Internet Explorer 9 and above.'
         ]
                 
         lightbox.append('ul').selectAll('li')
