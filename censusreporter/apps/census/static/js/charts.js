@@ -743,9 +743,9 @@ function Chart(options) {
             embedWidth = (chart.chartType == 'pie') ? 300 : 720;
             
         var embedCode = [
-            '<iframe id="census-embed" name="census-embed"  src="https://s3-us-west-2.amazonaws.com/census-embed/1.0/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
+            '<iframe id="census-embed" name="census-embed"  src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
             '\n<script src="data:application/x-javascript;base64,'+btoa(embedString)+'"></script>',
-            '\n<script src="https://s3-us-west-2.amazonaws.com/census-embed/1.0/js/embed.chart.make.js"></script>'
+            '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
         var lightboxWrapper = d3.select('body').append('div')
