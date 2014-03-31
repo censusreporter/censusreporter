@@ -768,7 +768,7 @@ function Chart(options) {
                 .html('Embed code for this chart <span class="tag">BETA</span>');
 
         lightbox.append('p')
-                .text('Copy the code below, then paste into your own CMS or HTML page. Embeds have been tested in Firefox, Safari and Chrome, and they work in IE 9 and above.');
+                .text('Copy the code below, then paste into your own CMS or HTML page. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE 9 and above.');
                 
         lightbox.append('textarea')
                 .html(embedCode)

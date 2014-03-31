@@ -7,14 +7,14 @@
     <body>
         <div id="census-chart" class="census-chart-embed"></div>
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
-        <script src="http://censusreporter.org/static/js/charts.js"></script>
+        <script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/charts.js"></script>
         <script type="text/javascript">
             var embedData = {
                 parentOrigin: ''
             };
             
             var resetContainer = function() {
-                window.browserWidth = parent.document.documentElement.clientWidth;
+                window.browserWidth = document.documentElement.clientWidth;
                 embedData.container = document.getElementById('census-chart');
                 embedData.container.innerHTML = "";
             }
