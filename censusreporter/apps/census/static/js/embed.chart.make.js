@@ -50,12 +50,12 @@ function makeCensusEmbed() {
     embed.setFrameSize = function() {
         var parentWidth = embed.container.parentNode.offsetWidth;
         embed.container.width = (parentWidth <= embed.naturalWidth) ? parentWidth : embed.naturalWidth;
-        embed.container.height = (embed.frameHeight >= embed.naturalHeight) ? embed.frameHeight : embed.naturalHeight;
+        embed.container.height = (embed.frameHeight >= embed.naturalHeight) ? embed.frameHeight+60 : embed.naturalHeight;
     }
     
     embed.sendDataToFrame = function(data) {
         // IE9 can only send strings
-        embed.container.contentWindow.postMessage(JSON.stringify(data), 'http://localhost:8000');
+        embed.container.contentWindow.postMessage(JSON.stringify(data), 'https://s3.amazonaws.com');
     }
     
     embed.init();
