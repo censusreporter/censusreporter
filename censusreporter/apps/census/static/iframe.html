@@ -9,10 +9,19 @@
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
         <script src="http://censusreporter.org/static/js/charts.js"></script>
         <script type="text/javascript">
+            var embedData = {
+                parentOrigin: ''
+            };
+            
+            var resetContainer = function() {
+                window.browserWidth = parent.document.documentElement.clientWidth;
+                embedData.container = document.getElementById('census-chart');
+                embedData.container.innerHTML = "";
+            }
+            
             var gracefulType = function(chartType) {
-                window.browserWidth = document.documentElement.clientWidth;
                 // convert certain chart types to more readable versions at narrow widths
-                if (browserWidth <= 360) {
+                if (browserWidth <= 480) {
                     if (chartType == 'column' || chartType == 'histogram') {
                         return 'bar'
                     } else if (chartType == 'grouped_column') {
@@ -22,27 +31,42 @@
                 return chartType
             }
 
-            function receiveMessage(event) {
-                embedVars = JSON.parse(event.data);
-                Chart({
-                    chartContainer: 'census-chart',
-                    chartType: gracefulType(embedVars.chartType),
-                    chartHeight: 160,
-                    chartData: embedVars.chartData,
-                    chartQualifier: embedVars.chartQualifier,
-                    chartChartTitle: embedVars.chartChartTitle,
-                    chartInitialSort: embedVars.chartInitialSort,
-                    chartStatType: embedVars.chartStatType,
-                    geographyData: embedVars.geographyData
-                });
+            var handleMessage = function(event) {
+                var messageData = JSON.parse(event.data);
+                embedData.parentOrigin = event.origin;
+                if (messageData.resize) {
+                    makeChart();
+                } else {
+                    embedData.data = messageData;
+                    makeChart();
+                }
             }
 
-            if (window.addEventListener) {
-                window.addEventListener("message", receiveMessage, false);
+            var sendDataToParent = function(data) {
+                // IE9 can only send strings via postmessage
+                parent.postMessage(JSON.stringify(data), embedData.parentOrigin);
             }
-            else { // IE8 or earlier
-                window.attachEvent("onmessage", receiveMessage, false);
+
+            var makeChart = function() {
+                resetContainer();
+                var chart = Chart({
+                    chartContainer: 'census-chart',
+                    chartType: gracefulType(embedData.data.chartType),
+                    chartHeight: 160,
+                    chartData: embedData.data.chartData,
+                    chartQualifier: embedData.data.chartQualifier,
+                    chartChartTitle: embedData.data.chartChartTitle,
+                    chartInitialSort: embedData.data.chartInitialSort,
+                    chartStatType: embedData.data.chartStatType,
+                    geographyData: embedData.data.geographyData
+                });
+                sendDataToParent({ chartHeight: chart.settings.height })
             }
+
+            var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+            var eventListener = window[eventMethod];
+            var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
+            eventListener(messageEvent, handleMessage, false);
         </script>
     </body>
 </html>

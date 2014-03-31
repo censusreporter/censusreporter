@@ -26,17 +26,6 @@
 .census-chart-embed .chart-get-data {
     display: none;
 }
-.census-chart-embed .hovercard {
-    /* an !important is better than recalculating
-    every time the hover listener fires */
-    width: 100% !important;
-    top: 100% !important;
-    left: 0 !important;
-    bottom: auto !important;
-    right: auto !important;
-    border: none;
-    padding: .67em;
-}
 
 .column-chart,
 .bar-chart,
@@ -177,9 +166,6 @@
     fill: #111;
 }
 
-
-
-
 .hovercard {
     position: absolute;
     text-align: center;
@@ -313,6 +299,28 @@
     font-size: 2em;
 }
 
+@media only screen and (min-width: 481px) {
+    .census-chart-embed .hovercard {
+        /* an !important is better than recalculating
+        every time the hover listener fires */
+        width: 100% !important;
+        border: none;
+        padding: .67em;
+        top: 100% !important;
+        left: 0 !important;
+        bottom: auto !important;
+        right: auto !important;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .chart .hovercard,
+    .census-chart-embed .hovercard {
+        /* an !important is better than recalculating
+        every time the hover listener fires */
+        left: -5% !important;
+        width: 110% !important;
+    }
+}
 
 svg text {
     font-size: 1em;

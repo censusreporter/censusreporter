@@ -2620,12 +2620,6 @@ aside .search .result-type {
     .topic aside img {
         width: 100%;
     }
-    .chart .hovercard {
-        /* an !important is better than recalculating
-        every time the hover listener fires */
-        left: -5% !important;
-        width: 110% !important;
-    }
 }
 @media only screen and (max-width: 360px) {
     h1.article-header {
