@@ -4,7 +4,7 @@ from fabric.api import env, task, require, local, sudo
 
 from sqlalchemy.schema import CreateTable
 
-from api.models import Ward, Municipality, District, Province
+from api.models import Base
 from api.config import DB_USER, DB_NAME, DB_PASSWORD
 
 
@@ -17,9 +17,6 @@ from api.config import DB_USER, DB_NAME, DB_PASSWORD
 DATABASE_HOST = []
 PSQL_STRING = 'PGPASSWORD=%s psql -d %s -U %s -h localhost' \
         % (DB_PASSWORD, DB_NAME, DB_USER)
-
-# in order of creation
-MODEL_CLASSES = (Province, District, Municipality, Ward)
 
 
 @task
@@ -59,14 +56,15 @@ def drop_database():
         local('echo "DROP DATABASE %s" | sudo -u postgres psql' % DB_NAME)
         return
 
-    sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user=postgres)
+    sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user='postgres')
 
 
 @task
 def reset_tables():
     require('deploy_type', 'deploy_user', provided_by=[dev, prod])
 
-    truncate_cmd = "TRUNCATE %s" % ', '.join(m.__tablename__ for m in reversed(MODEL_CLASSES))
+    truncate_cmd = "TRUNCATE %s CASCADE" % ', '.join(t.name for t in
+                                             reversed(Base.metadata.sorted_tables))
 
     if env.deploy_type == 'dev':
         local('echo "%s" | %s' % (truncate_cmd, PSQL_STRING))
@@ -79,8 +77,8 @@ def reset_tables():
 def create_tables():
     require('deploy_type', 'deploy_user', provided_by=[dev, prod])
 
-    for model in MODEL_CLASSES:
-        table_create = CreateTable(model.__table__)
+    for table in Base.metadata.sorted_tables:
+        table_create = CreateTable(table)
         if env.deploy_type == 'dev':
             local('echo "%s" | %s' % (table_create, PSQL_STRING))
         else:
