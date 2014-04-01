@@ -12,15 +12,37 @@
     display: block;
     margin: 0 0 0 .5em;
 }
-
 .census-chart-embed {
-    margin: 1em;
+    margin: .67em;
     background-color: #fff;
     line-height: 1.4;
     font-size: 14px;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+.census-chart-embed #census-chart {
+    margin: 1em 1em .67em;
+}
+.census-chart-embed .credit {
+    margin: 0 1em;
+    font-size: 14px;
+    position: absolute;
+    right: 1em;
+    z-index: 999;
+}
+.census-chart-embed .credit a {
+    color: #111;
+    text-decoration: none;
+}
+.census-chart-embed .credit img {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin: 0 3px 0 0;
+    vertical-align: baseline;
+    height: 16px;
+}
 .census-chart-embed .chart-title {
+    font-size: 16px;
     margin-bottom: 1em;
 }
 .census-chart-embed .chart-get-data {
