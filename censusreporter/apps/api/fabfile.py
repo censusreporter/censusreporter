@@ -56,10 +56,10 @@ def drop_database():
     require('deploy_type', 'deploy_user', provided_by=[dev, prod])
 
     if env.deploy_type == 'dev':
-        local('echo "DROP DATABASE %s" | %s' % (DB_NAME, PSQL_STRING))
+        local('echo "DROP DATABASE %s" | sudo -u postgres psql' % DB_NAME)
         return
 
-    sudo('echo "DROP DATABASE %s" | %s' % (DB_NAME, PSQL_STRING), user=env.deploy_user)
+    sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user=postgres)
 
 
 @task

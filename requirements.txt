@@ -4,3 +4,4 @@ wsgiref==0.1.2
 numpy==1.7.0
 unicodecsv==0.9.4
 sqlalchemy==0.9.4
+psycopg2==2.5.2
