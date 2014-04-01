@@ -35,6 +35,7 @@
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
+{% comment %}
 <div id="cover-map" class="clearfix">
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
@@ -79,6 +80,7 @@
 
     <div id="slippy-map"></div>
 </div>
+{% endcomment %}
 {% endblock %}
 
 {% block content %}
@@ -91,6 +93,7 @@
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
 
+{% comment %}
 <article id="demographics" class="clearfix">
     <header class="section-contents">
         <h1>Demographics</h1>
@@ -252,7 +255,7 @@
 
     </div>
 </article>
-
+{% endcomment %}
 
 <article id="social" class="clearfix">
     <header class="section-contents">
@@ -264,17 +267,17 @@
             <h2><a class="permalink" href="#educational-attainment" id="educational-attainment">Educational attainment <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-half">
+            {% comment %}<div class="column-half">
                 <div class="column-half">
                     {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_high_school_grad_or_higher stat_type='percentage' %}
                 </div>
                 <div class="column-half">
                     {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
                 </div>
-            </div>
+            </div>{% endcomment %}
             <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
         </section>
-
+        {% comment %}
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#language" id="language">Language <i class="fa fa-link"></i></a></h2>
             <aside>
@@ -311,6 +314,7 @@
                 </a>
             </div>
         </section>
+        {% endcomment %}
 
     </div>
 </article>
@@ -324,7 +328,7 @@
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
 // Make the header map
-d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
+/*d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -414,7 +418,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
     } else {
         map.fitBounds(objBounds);
     }
-})
+})*/
 
 // Create all the charts
 var Charts = {},

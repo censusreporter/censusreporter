@@ -239,26 +239,30 @@ class GeographyDetailView(TemplateView):
 
         # hit our API
         #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, geography_id)
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
-        r = requests.get(acs_endpoint)
-        status_code = r.status_code
+        #acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
+        #r = requests.get(acs_endpoint)
+        #status_code = r.status_code
 
-        if status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            profile_data = self.enhance_api_data(profile_data)
-            page_context.update(profile_data)
-            
-            profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            #self.write_profile_json(profile_data_json)
-            
-            page_context.update({
-                'profile_data_json': profile_data_json
-            })
-        elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
-            raise_404_with_messages(self.request, error_data)
-        else:
-            raise Http404
+        #if status_code == 200:
+        from api.queries import get_location_profile
+        profile_data = get_location_profile('EC', 'province')
+        #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        profile_data = self.enhance_api_data(profile_data)
+        page_context.update(profile_data)
+
+        profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+        #self.write_profile_json(profile_data_json)
+
+        page_context.update({
+            'profile_data_json': profile_data_json
+        })
+        #elif status_code == 404 or status_code == 400:
+        #    error_data = simplejson.loads(r.text)
+        #    raise_404_with_messages(self.request, error_data)
+        #else:
+        #    raise Http404
+
+        return page_context
 
         # Put this down here to make sure geoid is valid before using it
         sumlevel = page_context['geography']['this']['sumlevel']
