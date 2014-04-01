@@ -120,18 +120,20 @@ class GeographyDetailView(TemplateView):
 
         # hit our API
         #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % kwargs['geography_id']
-        r = requests.get(acs_endpoint)
+        #acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % kwargs['geography_id']
+        #r = requests.get(acs_endpoint)
 
-        if r.status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            profile_data = self.enhance_api_data(profile_data)
-            page_context.update(profile_data)
-            page_context.update({
-                'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            })
-        else:
-            raise Http404
+        #if r.status_code == 200:
+        from api.queries import get_location_profile
+        profile_data = get_location_profile('EC', 'province')
+        #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        profile_data = self.enhance_api_data(profile_data)
+        page_context.update(profile_data)
+        page_context.update({
+            'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+        })
+        #else:
+        #    raise Http404
 
         # Put this down here to make sure geoid is valid before using it
         page_context['geoid'] = geography_id
