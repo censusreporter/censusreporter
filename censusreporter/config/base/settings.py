@@ -29,8 +29,8 @@ INSTALLED_APPS = (
 )
 
 ALLOWED_HOSTS = []
-TIME_ZONE = 'America/Chicago'
-LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'Africa/Johannesburg'
+LANGUAGE_CODE = 'en-uk'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
@@ -101,9 +101,8 @@ LOGGING = {
 }
 
 ADMINS = (
-    ('Ian Dees', 'ian.dees@gmail.com'),
-    ('Joe Germuska', 'joegermuska@gmail.com'),
-    ('Ryan Pitts', 'ryan.a.pitts@gmail.com'),
+    ('Greg Kempe', 'greg@kempe.net'),
+    ('Rizmari Versfeld', 'rizziepit@gmail.com'),
 )
 MANAGERS = ADMINS
 
