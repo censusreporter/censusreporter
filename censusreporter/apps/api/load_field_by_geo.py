@@ -10,6 +10,7 @@ from api.utils import get_session, _engine
 def open_census_csv(filepath):
     f = open(filepath)
     reader = csv.reader(f, delimiter=",")
+    # skip headers
     for row in reader:
         if len(row) > 1:
             break
@@ -25,15 +26,15 @@ def open_census_csv(filepath):
         includes_total = False
     yield field_name, categories
 
-    # skip "Geography" linke
+    # skip "Geography" line
     next(reader)
 
     for row in reader:
         geo_name = row[0]
         if geo_name == 'Total':
             break
-        if categories[-1] == "":
-            del categories[-1]
+        if row[-1] == "":
+            del row[-1]
         if includes_total:
             yield geo_name, row[1:-1]
         else:
@@ -54,16 +55,14 @@ if __name__ == '__main__':
 
     # figure out which geo level the data is at
     geo_name, values = next(data)
-    geo_name = geo_name.split(':')[0]
     while len(geo_name) == 3 and not geo_name.startswith('DC'):
         geo_name, values = next(data)
-        geo_name = geo_name.split(':')[0]
 
-    if len(geo_name) in (5, 6):
+    if len(geo_name.split(':')[0]) in (5, 6):
         geo_level = 'municipality'
     elif 'Ward' in geo_name:
         geo_level = 'ward'
-    elif len(geo_name) >= 7:
+    elif len(geo_name.split(':')[0]) >= 7:
         geo_level = 'province'
         session = get_session()
         province_codes = dict((p.name, p.code) for p in session.query(Province))
