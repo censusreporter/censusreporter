@@ -16,6 +16,8 @@ from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
+from api.controller import get_profile, LocationNotFound
+
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none,\
     SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
@@ -124,8 +126,11 @@ class GeographyDetailView(TemplateView):
         #r = requests.get(acs_endpoint)
 
         #if r.status_code == 200:
-        from api.queries import get_location_profile
-        profile_data = get_location_profile('EC', 'province')
+        try:
+            geo_level, geo_code = geography_id.split('-')
+            profile_data = get_profile(geo_code, geo_level)
+        except (ValueError, LocationNotFound):
+            raise Http404
         #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         profile_data = self.enhance_api_data(profile_data)
         page_context.update(profile_data)
