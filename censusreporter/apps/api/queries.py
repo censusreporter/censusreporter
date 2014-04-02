@@ -1,10 +1,10 @@
-from .models import get_table_model
+from .models import get_model_from_fields
 from .utils import get_session
 
 
 def get_location_profile(geo_code, geo_level):
     session = get_session()
-    db_model = get_table_model('highest educational level', geo_level)
+    db_model = get_model_from_fields(['highest educational level'], geo_level)
     query = session.query(db_model).filter(getattr(db_model, '%s_code' % geo_level) \
                                            == geo_code).order_by('category')
     data = {}
@@ -12,7 +12,7 @@ def get_location_profile(geo_code, geo_level):
     for i, obj in enumerate(query):
         total += obj.total
         data['percent_%s' % str(i)] = {
-            "name": obj.category,
+            "name": getattr(obj, 'highest educational level'),
             "error": {
                 "this": 0.0,
             },
