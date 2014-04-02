@@ -257,64 +257,26 @@
 </article>
 {% endcomment %}
 
-<article id="social" class="clearfix">
+<article id="education" class="clearfix">
     <header class="section-contents">
-        <h1>Social</h1>
+        <h1>Education</h1>
     </header>
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#educational-attainment" id="educational-attainment">Educational attainment <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#highest-educational-level" id="highest-educational-level">Highest educational level <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            {% comment %}<div class="column-half">
+            <div class="column-half">
                 <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_high_school_grad_or_higher stat_type='percentage' %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_get_or_higher stat_type='percentage' %}
                 </div>
                 <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_fet_or_higher stat_type='percentage' %}
                 </div>
-            </div>{% endcomment %}
-            <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
-        </section>
-        {% comment %}
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#language" id="language">Language <i class="fa fa-link"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.language.percent_non_english_at_home stat_type='percentage' %}
             </div>
-            <div class="column-third" id="chart-pie-social-language-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17"></div>
-            <div class="column-third" id="chart-pie-social-language-adults" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+"></div>
+            <div class="column-half" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level"></div>
         </section>
-
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#place-of-birth" id="place-of-birth">Place of birth <i class="fa fa-link"></i></a></h2>
-            <aside></aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.place_of_birth.percent_foreign_born stat_type='percentage' %}
-            </div>
-            <div class="column-three-quarters" id="chart-column-social-place_of_birth-distribution" data-chart-title="Place of birth for foreign-born population" data-stat-type="scaled-percentage"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#veteran-status" id="veteran-status">Veteran status <i class="fa fa-link"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.percentage stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-column-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service" data-qualifier="Civilian veterans who served during wartime only"></div>
-            <div class="column-quarter">
-                <a class="stat number">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.number stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.sex.male stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.sex.female stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                </a>
-            </div>
-        </section>
-        {% endcomment %}
 
     </div>
 </article>
@@ -467,8 +429,8 @@ var makeCharts = function() {
         var thisRelease = chartData[key]['acs_release'],
             noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
-        chartQualifier = Array(chartQualifier, noteRelease)
-                .filter(function(n) { return n }).join('; ');
+        chartQualifier = (chartQualifier && noteRelease) ? Array(chartQualifier, noteRelease)
+            .filter(function(n) { return n }).join('; ') : null;
 
         Charts[i] = Chart({
             chartContainer: chartID,
