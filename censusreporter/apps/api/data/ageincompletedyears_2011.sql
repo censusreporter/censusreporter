@@ -66,6 +66,19 @@ CREATE TABLE ageincompletedyears_province (
 ALTER TABLE public.ageincompletedyears_province OWNER TO census;
 
 --
+-- Name: ageincompletedyears_ward; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE ageincompletedyears_ward (
+    total integer NOT NULL,
+    "age in completed years" character varying(128) NOT NULL,
+    ward_code character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.ageincompletedyears_ward OWNER TO census;
+
+--
 -- Data for Name: ageincompletedyears_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
@@ -35914,6 +35927,14 @@ COPY ageincompletedyears_province (total, "age in completed years", province_cod
 
 
 --
+-- Data for Name: ageincompletedyears_ward; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY ageincompletedyears_ward (total, "age in completed years", ward_code) FROM stdin;
+\.
+
+
+--
 -- Name: ageincompletedyears_country_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
@@ -35946,6 +35967,14 @@ ALTER TABLE ONLY ageincompletedyears_province
 
 
 --
+-- Name: ageincompletedyears_ward_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY ageincompletedyears_ward
+    ADD CONSTRAINT ageincompletedyears_ward_pkey PRIMARY KEY ("age in completed years", ward_code);
+
+
+--
 -- Name: ageincompletedyears_district_district_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
@@ -35967,6 +35996,14 @@ ALTER TABLE ONLY ageincompletedyears_municipality
 
 ALTER TABLE ONLY ageincompletedyears_province
     ADD CONSTRAINT ageincompletedyears_province_province_code_fkey FOREIGN KEY (province_code) REFERENCES province(code);
+
+
+--
+-- Name: ageincompletedyears_ward_ward_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY ageincompletedyears_ward
+    ADD CONSTRAINT ageincompletedyears_ward_ward_code_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
 
 
 --
