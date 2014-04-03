@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from .models import get_model_from_fields
 from .utils import get_session
 
@@ -85,6 +87,26 @@ EDUCATION_FET_OR_HIGHER = set([
     'Higher Degree Masters / PhD',
 ])
 
+COLLAPSED_AGE_CATEGORIES = {
+    '00 - 04': '0-9',
+    '05 - 09': '0-9',
+    '10 - 14': '10-19',
+    '15 - 19': '10-19',
+    '20 - 24': '20-29',
+    '25 - 29': '20-29',
+    '30 - 34': '30-39',
+    '35 - 39': '30-39',
+    '40 - 44': '40-49',
+    '45 - 49': '40-49',
+    '50 - 54': '50-59',
+    '55 - 59': '50-59',
+    '60 - 64': '60-69',
+    '65 - 69': '60-69',
+    '70 - 74': '70-79',
+    '75 - 79': '70-79',
+    '80 - 84': '80+',
+    '85+': '80+',
+}
 
 
 def get_profile(geo_code, geo_level):
@@ -96,13 +118,121 @@ def get_profile(geo_code, geo_level):
             data[section] = globals()[function_name](geo_code, geo_level, session)
     
     session.close()
-    return data 
+    return data
+
+
+def get_demographics_profile(geo_code, geo_level, session):
+    # population group
+    db_model_pop = get_model_from_fields(['population group'], geo_level)
+    objects = get_objects_by_geo(db_model_pop, geo_code, geo_level,
+                                 session, order_by='population group')
+
+    pop_dist_data = OrderedDict()
+    total_pop = 0.0
+    for obj in objects:
+        pop_group = getattr(obj, 'population group')
+        total_pop += obj.total
+        pop_dist_data[pop_group] = {
+            "name": pop_group,
+            "numerators": {"this": obj.total},
+            "error": {"this": 0.0},
+        }
+
+    # age groups
+    db_model_age = get_model_from_fields(['age groups in 5 years'], geo_level)
+    objects = get_objects_by_geo(db_model_age, geo_code, geo_level,
+                                 session, order_by='age groups in 5 years')
+
+    age_dist_data = OrderedDict()
+    total_age = 0.0
+    for obj in objects:
+        age_group = getattr(obj, 'age groups in 5 years')
+        total_age += obj.total
+        age_dist_data[age_group] = {
+            "name": age_group,
+            "numerators": {"this": obj.total},
+            "error": {"this": 0.0},
+        }
+    age_dist_data = collapse_categories(age_dist_data,
+                                        COLLAPSED_AGE_CATEGORIES,
+                                        key_order=('0-9', '10-19',
+                                                   '20-29', '30-39',
+                                                   '40-49', '50-59',
+                                                   '60-69', '70-79',
+                                                   '80+'))
+
+    # calculate percentages
+    for data, total in zip((pop_dist_data, age_dist_data),
+                           (total_pop, total_age)):
+        for fields in data.values():
+            fields["values"] = {"this": round(fields["numerators"]["this"]
+                                              / total * 100, 2)}
+
+    final_data = {'population_group_distribution': pop_dist_data,
+                  'age_group_distribution': age_dist_data}
+
+    # median age/age category if possible (might not have data at ward level)
+    try:
+        db_model_age = get_model_from_fields(['age in completed years'], geo_level)
+        objects = sorted(
+            get_objects_by_geo(db_model_age, geo_code, geo_level, session),
+            key=lambda x: int(getattr(x, 'age in completed years'))
+        )
+        # median age
+        median = calculate_median(objects, 'age in completed years')
+        final_data['median_age'] = {
+            "name": "Median age",
+            "values": {"this": median},
+            "error": {"this": 0.0}
+        }
+        # age category
+        under_18 = 0.0
+        over_or_65 = 0.0
+        between_18_64 = 0.0
+        total = 0.0
+        for obj in objects:
+            age = int(getattr(obj, 'age in completed years'))
+            total += obj.total
+            if age < 18:
+                under_18 += obj.total
+            elif age >= 65:
+                over_or_65 += obj.total
+            else:
+                between_18_64 += obj.total
+        final_data['age_category_distribution'] = OrderedDict((
+            ("under_18", {
+                "name": "Under 18",
+                "error": {"this": 0.0},
+                "values": {"this": round(under_18 / total, 2)}
+            }),
+            ("18_to_64", {
+                "name": "18 to 64",
+                "error": {"this": 0.0},
+                "values": {"this": round(between_18_64 / total, 2)}
+            }),
+            ("65_and_over", {
+                "name": "65 and over",
+                "error": {"this": 0.0},
+                "values": {"this": round(over_or_65 / total, 2)}
+            })
+        ))
+    except LocationNotFound:
+        final_data['median_age'] = {
+            "name": "Median age",
+            "error": {"this": 0.0}
+        }
+        final_data['age_category_distribution'] = {
+            "": {
+                "name": "N/A",
+                "error": {"this": 0.0},
+                "values": {"this": 0}
+            }
+        }
+
+    return final_data
+
 
 '''
-def get_demographics_profile(geo_code, geo_level, session):
-    pass
-
-
 def get_economics_profile(geo_code, geo_level, session):
     pass
 
@@ -113,20 +243,15 @@ def get_sanitation_profile(geo_code, geo_level, session):
 
 
 def get_education_profile(geo_code, geo_level, session):
-    geo_attr = '%s_code' % geo_level
     db_model = get_model_from_fields(['highest educational level'], geo_level)
-    query = session.query(db_model) \
-                   .filter(getattr(db_model, geo_attr) == geo_code) \
-                   .order_by(getattr(db_model, 'highest educational level'))
-    if not query:
-        raise LocationNotFound("%s with code '%s' not found"
-                               % (geo_level, geo_code))
+    objects = get_objects_by_geo(db_model, geo_code, geo_level,
+                                 session, order_by='highest educational level')
 
-    edu_dist_data = {}
+    edu_dist_data = OrderedDict()
     get_or_higher = 0.0
     fet_or_higher = 0.0
     total = 0.0
-    for i, obj in enumerate(query):
+    for i, obj in enumerate(objects):
         category_val = getattr(obj, 'highest educational level')
         # increment counters
         total += obj.total
@@ -140,7 +265,12 @@ def get_education_profile(geo_code, geo_level, session):
             "numerators": {"this": obj.total},
             "error": {"this": 0.0},
         }
-    edu_dist_data = collapse_categories(edu_dist_data, COLLAPSED_EDUCATION_CATEGORIES)
+    edu_dist_data = collapse_categories(edu_dist_data,
+                                        COLLAPSED_EDUCATION_CATEGORIES,
+                                        key_order=('None', 'Other',
+                                                   '<= Gr 3', 'GET',
+                                                   'FET', 'HET',
+                                                   'Post-grad'))
     edu_split_data = {
         'percent_get_or_higher': {
             "name": "Completed GET or higher",
@@ -155,16 +285,19 @@ def get_education_profile(geo_code, geo_level, session):
     }
     # calculate percentages
     for data in (edu_dist_data, edu_split_data):
-        for key, vals in data.iteritems():
-            vals["values"] = {"this": (round(vals["numerators"]["this"]
-                                       / total * 100, 2))}
+        for fields in data.values():
+            fields["values"] = {"this": round(fields["numerators"]["this"]
+                                              / total * 100, 2)}
 
     return {'educational_attainment_distribution': edu_dist_data,
             'educational_attainment': edu_split_data}
 
 
-def collapse_categories(data, categories):
-    collapsed = {}
+def collapse_categories(data, categories, key_order=None):
+    if key_order:
+        collapsed = OrderedDict((key, {'name': key}) for key in key_order)
+    else:
+        collapsed = {}
 
     # level 1: iterate over categories in data
     for fields in data.values():
@@ -177,7 +310,7 @@ def collapse_categories(data, categories):
                 continue
             new_fields.setdefault(measurement_key, {})
             new_measurement_objects = new_fields[measurement_key]
-            # level 3: iterate of data points in measure objects
+            # level 3: iterate over data points in measurement objects
             for datapoint_key, datapoint_value in measurement_objects.iteritems():
                 try:
                     new_measurement_objects.setdefault(datapoint_key, 0)
@@ -186,3 +319,42 @@ def collapse_categories(data, categories):
                     new_measurement_objects[datapoint_key] = datapoint_value
 
     return collapsed
+
+
+def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
+    geo_attr = '%s_code' % geo_level
+    objects = session.query(db_model).filter(getattr(db_model, geo_attr)
+                                             == geo_code)
+    if order_by is not None:
+        objects = objects.order_by(getattr(db_model, order_by))
+    objects = objects.all()
+    if len(objects) == 0:
+        raise LocationNotFound("%s.%s with code '%s' not found"
+                               % (db_model.__tablename__, geo_attr, geo_code))
+    return objects
+
+
+def calculate_median(objects, field_name):
+    '''
+    Calculates the median where obj.total is the distribution count and
+    getattr(obj, field_name) is the distribution category.
+    Note: this function assumes the objects are sorted.
+    '''
+    total = 0
+    for obj in objects:
+        total += obj.total
+    half = total / 2.0
+
+    counter = 0
+    for i, obj in enumerate(objects):
+        counter += obj.total
+        if counter > half:
+            if counter - half == 1:
+                # total must be even (otherwise counter - half ends with .5)
+                return (float(getattr(objects[i - 1], field_name)) +
+                        float(getattr(obj, field_name))) / 2.0
+            return float(getattr(obj, field_name))
+        elif counter == half:
+            # total must be even (otherwise half ends with .5)
+            return (float(getattr(obj, field_name)) +
+                    float(getattr(objects[i + 1], field_name))) / 2.0
