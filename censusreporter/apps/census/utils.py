@@ -2,7 +2,7 @@ from __future__ import division
 from collections import OrderedDict
 
 from django.utils import simplejson
-from django.utils.functional import lazy, Promise
+from django.utils.functional import Promise
 from django.utils.encoding import force_unicode
 
 
@@ -74,130 +74,7 @@ SUMLEV_CHOICES['Schools'] = [
     {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
 ]
 
-ACS_RELEASES = [
-    {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
-    {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
-    {'name': 'ACS 2011 5-Year', 'slug': 'acs2011_5yr', 'years': '2007-2011'},
-    {'name': 'ACS 2010 1-Year', 'slug': 'acs2010_1yr', 'years': '2010'},
-    {'name': 'ACS 2010 3-Year', 'slug': 'acs2010_3yr', 'years': '2008-2010'},
-    {'name': 'ACS 2010 5-Year', 'slug': 'acs2010_5yr', 'years': '2006-2010'},
-    {'name': 'ACS 2009 1-Year', 'slug': 'acs2009_1yr', 'years': '2009'},
-    {'name': 'ACS 2009 3-Year', 'slug': 'acs2009_3yr', 'years': '2007-2009'},
-    {'name': 'ACS 2008 1-Year', 'slug': 'acs2008_1yr', 'years': '2008'},
-    {'name': 'ACS 2008 3-Year', 'slug': 'acs2008_3yr', 'years': '2006-2008'},
-    {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
-    {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
-]
-
 NLTK_STOPWORDS = ['i','me','my','myself','we','our','ours','ourselves','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','they','them','their','theirs','themselves','what','which','who','whom','this','that','these','those','am','is','are','was','were','be','been','being','have','has','had','having','do','does','did','doing','a','an','the','and','but','if','or','because','as','until','while','of','at','by','for','with','about','against','between','into','through','during','before','after','above','below','to','from','up','down','in','out','on','off','over','under','again','further','then','once','here','there','when','where','why','how','all','any','both','each','few','more','most','other','some','such','no','nor','not','only','own','same','so','than','too','very','s','t','can','will','just','don','should','now']
-
-GEOGRAPHIES_MAP = {
-    'nation': {
-        'parent': None,
-        'children': 'regions, zctas, urban areas, cbsas',
-        'descendants': 'regions, zctas, urban areas, cbsas, divisions, states, school districts, congressional districts, urban growth areas, state legislative districts, public use microdata areas, places, counties, voting districts, traffic analysis zones, county subdivisions, subminor civil divisions, census tracts, block groups, census blocks'
-    },
-    'regions': {
-        'parent': 'nation',
-        'children': 'divisions',
-        'descendants': 'divisions, states, school districts, congressional districts, urban growth areas, state legislative districts, public use microdata areas, places, counties, voting districts, traffic analysis zones, county subdivisions, subminor civil divisions, census tracts, block groups, census blocks'
-    },
-    'zctas': {
-        'parent': 'nation',
-        'children': None,
-        'descendants': None,
-    },
-    'urban areas': {
-        'parent': 'nation',
-        'children': None,
-        'descendants': None,
-    },
-    'cbsas': {
-        'parent': 'nation',
-        'children': None,
-        'descendants': None,
-    },
-    'divisions': {
-        'parent': 'regions',
-        'children': 'states',
-        'descendants': 'states, school districts, congressional districts, urban growth areas, state legislative districts, public use microdata areas, places, counties, voting districts, traffic analysis zones, county subdivisions, subminor civil divisions, census tracts, block groups, census blocks'
-    },
-    'states': {
-        'parent': 'divisions',
-        'children': 'school districts, congressional districts, urban growth areas, state legislative districts, public use microdata areas, places, counties',
-        'descendants': 'school districts, congressional districts, urban growth areas, state legislative districts, public use microdata areas, places, counties, voting districts, traffic analysis zones, county subdivisions, subminor civil divisions, census tracts, block groups, census blocks'
-    },
-    'school districts': {
-        'parent': 'states',
-        'children': None,
-        'descendants': None,
-    },
-    'congressional districts': {
-        'parent': 'states',
-        'children': None,
-        'descendants': None,
-    },
-    'urban growth areas': {
-        'parent': 'states',
-        'children': None,
-        'descendants': None,
-    },
-    'state legislative districts': {
-        'parent': 'states',
-        'children': None,
-        'descendants': None,
-    },
-    'public use microdata areas': {
-        'parent': 'states',
-        'children': None,
-        'descendants': None,
-    },
-    'places': {
-        'parent': 'states',
-        'children': None,
-        'descendants': None,
-    },
-    'counties': {
-        'parent': 'states',
-        'children': 'voting districts, traffic analysis zones, county subdivisions, census tracts',
-        'descendants': 'voting districts, traffic analysis zones, county subdivisions, subminor civil divisions, census tracts, block groups, census blocks'
-    },
-    'voting districts': {
-        'parent': 'counties',
-        'children': None,
-        'descendants': None,
-    },
-    'traffic analysis zones': {
-        'parent': 'counties',
-        'children': None,
-        'descendants': None,
-    },
-    'county subdivisions': {
-        'parent': 'counties',
-        'children': 'subminor civil divisions',
-        'descendants': 'subminor civil divisions',
-    },
-    'subminor civil divisions': {
-        'parent': 'county subdivisions',
-        'children': None,
-        'descendants': None,
-    },
-    'census tracts': {
-        'parent': 'counties',
-        'children': 'block groups',
-        'descendants': 'block groups, census blocks',
-    },
-    'block groups': {
-        'parent': 'census tracts',
-        'children': 'census blocks',
-        'descendants': 'census blocks',
-    },
-    'census blocks': {
-        'parent': 'block groups',
-        'children': 'census blocks',
-        'descendants': 'census blocks',
-    },
-}
 
 # Sources:
 # http://mcdc2.missouri.edu/pub/data/sf32000/Techdoc/ch4_summary_level_seq_chart.pdf
