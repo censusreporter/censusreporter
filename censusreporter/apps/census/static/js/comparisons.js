@@ -545,12 +545,12 @@ function Comparison(options) {
         // build the columns
         var gridRows = [];
         _.each(comparison.table.columns, function(v, k) {
-            var gridRowBits = ['<div class="name indent-' + v.indent + '" data-full-name="' + v.name + '">' + truncatedName(v.name) + '</div>'];
+            var gridRowBits = ['<div class="name indent-' + v.indent + '" data-full-name="' + v.name + '" title="' + k + '">' + truncatedName(v.name) + '</div>'];
 
             comparison.sortedPlaces.forEach(function(g) {
                 var geoID = g.geoID,
                     thisValue = comparison.values[geoID][comparison.tableID].estimate[k],
-                    thisValueMOE = comparison.values[geoID][comparison.tableID].error[k]
+                    thisValueMOE = comparison.values[geoID][comparison.tableID].error[k],
                     gridRowCol = '';
 
                 // provide percentages first, to match chart style
