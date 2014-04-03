@@ -19,7 +19,7 @@ census_fields = set([
     'refuse disposal',
     'type of sector',
     'population group',
-    'age group in 5 years'
+    'age groups in 5 years'
 ])
 geo_levels = (
     'ward',
