@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
-from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
     DataView, TopicView, ExampleView, Elasticsearch)
