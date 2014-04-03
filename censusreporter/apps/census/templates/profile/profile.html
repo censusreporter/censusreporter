@@ -92,8 +92,6 @@
 </section>
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
-
-{% comment %}
 <article id="demographics" class="clearfix">
     <header class="section-contents">
         <h1>Demographics</h1>
@@ -104,28 +102,23 @@
             <h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.age.median_age.total stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.median_age stat_type='number' %}
             </div>
-            <div class="column-half" id="chart-histogram-demographics-age-distribution_by_decade-total" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
-            <div class="column-quarter" id="chart-pie-demographics-age-distribution_by_category" data-stat-type="percentage" data-chart-title="Population by age category" data-initial-sort="-value"></div>
+            <div class="column-half" id="chart-histogram-demographics-age_group_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
+            <div class="column-quarter" id="chart-pie-demographics-age_category_distribution" data-stat-type="percentage" data-chart-title="Population by age category"></div>
         </section>
-
         <section class="clearfix stat-row">
             <aside></aside>
-            <div class="column-third">
-                <h2 class="header-for-columns"><a class="permalink" href="#sex" id="sex">Sex <i class="fa fa-link"></i></a></h2>
-                <div id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
-            </div>
             <div class="column-two-thirds">
-                <h2 class="header-for-columns"><a class="permalink" href="#race" id="race">Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
-                <div id="chart-column-demographics-race" data-stat-type="scaled-percentage" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+                <h2 class="header-for-columns"><a class="permalink" href="#race" id="race">Population group<i class="fa fa-link"></i></a></h2>
+                <div id="chart-column-demographics-population_group_distribution" data-stat-type="scaled-percentage"></div>
             </div>
         </section>
 
     </div>
 </article>
 
-
+{% comment %}
 <article id="economics" class="clearfix">
     <header class="section-contents">
         <h1>Economics</h1>

@@ -287,23 +287,23 @@ class GeographyDetailView(TemplateView):
         if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
             page_context['geography']['this']['show_extra_links'] = True
 
-        tiger_release = 'tiger2012'
-        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
-        r = requests.get(geo_endpoint)
+        #tiger_release = 'tiger2012'
+        #geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
+        #r = requests.get(geo_endpoint)
 
-        if r.status_code == 200:
-            geo_metadata = simplejson.loads(r.text)['properties']
-            page_context['geo_metadata'] = geo_metadata
+        #if r.status_code == 200:
+        #    geo_metadata = simplejson.loads(r.text)['properties']
+        #    page_context['geo_metadata'] = geo_metadata
 
             # add a few last things
             # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = get_division(geo_metadata['aland'], 2589988)
-            if square_miles < .1:
-                square_miles = get_division(geo_metadata['aland'], 2589988, 3)
-            total_pop = page_context['geography']['this']['total_population']
-            population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
-            page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = population_density
+        #    square_miles = get_division(geo_metadata['aland'], 2589988)
+        #    if square_miles < .1:
+        #        square_miles = get_division(geo_metadata['aland'], 2589988, 3)
+        #    total_pop = page_context['geography']['this']['total_population']
+        #    population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
+        #    page_context['geo_metadata']['square_miles'] = square_miles
+        #    page_context['geo_metadata']['population_density'] = population_density
 
         return page_context
 
