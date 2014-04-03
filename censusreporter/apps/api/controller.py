@@ -15,6 +15,8 @@ PROFILE_SECTIONS = (
     'education',  # highest educational level
 )
 
+# Education categories
+
 COLLAPSED_EDUCATION_CATEGORIES = {
     'Gade 0': '<= Gr 3',
     'Grade 1 / Sub A': '<= Gr 3',
@@ -87,6 +89,8 @@ EDUCATION_FET_OR_HIGHER = set([
     'Higher Degree Masters / PhD',
 ])
 
+# Age categories
+
 COLLAPSED_AGE_CATEGORIES = {
     '00 - 04': '0-9',
     '05 - 09': '0-9',
@@ -106,6 +110,25 @@ COLLAPSED_AGE_CATEGORIES = {
     '75 - 79': '70-79',
     '80 - 84': '80+',
     '85+': '80+',
+}
+
+# Income categories
+
+COLLAPSED_INCOME_CATEGORIES = {
+    "No income": "0k",
+    "Not applicable": "N/A",
+    "R 102 401 - R 204 800": "> 102.4k",
+    "R 12 801 - R 25 600": "51.2k",
+    "R 1 601 - R 3 200": "3.2k",
+    "R 1 - R 400": "0.8k",
+    "R 204 801 or more": "> 102.4k",
+    "R 25 601 - R 51 200": "51.2k",
+    "R 3 201 - R 6 400": "6.4k",
+    "R 401 - R 800": "0.8k",
+    "R 51 201 - R 102 400": "102.4k",
+    "R 6 401 - R 12 800": "12.8k",
+    "R 801 - R 1 600": "1.6k",
+    "Unspecified": "Unspec.",
 }
 
 
@@ -146,10 +169,9 @@ def get_demographics_profile(geo_code, geo_level, session):
 
     # age groups
     db_model_age = get_model_from_fields(['age groups in 5 years'], geo_level)
-    objects = get_objects_by_geo(db_model_age, geo_code, geo_level,
-                                 session, order_by='age groups in 5 years')
+    objects = get_objects_by_geo(db_model_age, geo_code, geo_level, session)
 
-    age_dist_data = OrderedDict()
+    age_dist_data = {}
     total_age = 0.0
     for obj in objects:
         age_group = getattr(obj, 'age groups in 5 years')
@@ -251,11 +273,58 @@ def get_demographics_profile(geo_code, geo_level, session):
     return final_data
 
 
-'''
 def get_economics_profile(geo_code, geo_level, session):
-    pass
+    # income
+    db_model_income = get_model_from_fields(['individual monthly income'],
+                                            geo_level)
+    objects = get_objects_by_geo(db_model_income, geo_code, geo_level, session)
+    income_dist_data = {}
+    total_income = 0.0
+    for obj in objects:
+        total_income += obj.total
+        income_group = getattr(obj, 'individual monthly income')
+        income_dist_data[income_group] = {
+            "name": income_group,
+            "numerators": {"this": obj.total},
+            "error": {"this": 0.0},
+            "numerator_errors": {"this": 0.0},
+        }
+    income_dist_data = collapse_categories(income_dist_data,
+                                           COLLAPSED_INCOME_CATEGORIES,
+                                           key_order=('N/A', 'Unspec.', '0k',
+                                                      '0.8k', '1.6k', '3.2k',
+                                                      '6.4k', '12.8k', '51.2k',
+                                                      '102.4k', '> 102.4k'))
+
+    # sector
+    db_model_sector = get_model_from_fields(['type of sector'], geo_level)
+    objects = get_objects_by_geo(db_model_sector, geo_code, geo_level,
+                                 session, order_by='type of sector')
+    sector_dist_data = OrderedDict()
+    total_sector = 0.0
+    for obj in objects:
+        sector = getattr(obj, 'type of sector')
+        if sector == 'Not applicable' or obj.total == 0:
+            continue
+        total_sector += obj.total
+        sector_dist_data[sector] = {
+            "name": sector,
+            "numerators": {"this": obj.total},
+            "error": {"this": 0.0},
+            "numerator_errors": {"this": 0.0},
+        }
+
+    for data, total in zip((income_dist_data, sector_dist_data),
+                           (total_income, total_sector)):
+        for fields in data.values():
+            fields["values"] = {"this": round(fields["numerators"]["this"]
+                                              / total * 100, 2)}
+
+    return {'individual_income_distribution': income_dist_data,
+            'sector_type_distribution': sector_dist_data}
 
 
+'''
 def get_sanitation_profile(geo_code, geo_level, session):
     pass
 '''
@@ -263,10 +332,9 @@ def get_sanitation_profile(geo_code, geo_level, session):
 
 def get_education_profile(geo_code, geo_level, session):
     db_model = get_model_from_fields(['highest educational level'], geo_level)
-    objects = get_objects_by_geo(db_model, geo_code, geo_level,
-                                 session, order_by='highest educational level')
+    objects = get_objects_by_geo(db_model, geo_code, geo_level, session)
 
-    edu_dist_data = OrderedDict()
+    edu_dist_data = {}
     get_or_higher = 0.0
     fet_or_higher = 0.0
     total = 0.0

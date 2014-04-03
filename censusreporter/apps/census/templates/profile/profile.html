@@ -110,7 +110,7 @@
         <section class="clearfix stat-row">
             <aside></aside>
             <div class="column-two-thirds">
-                <h2 class="header-for-columns"><a class="permalink" href="#race" id="race">Population group<i class="fa fa-link"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink" href="#pop_group" id="pop_group">Population group<i class="fa fa-link"></i></a></h2>
                 <div id="chart-column-demographics-population_group_distribution" data-stat-type="scaled-percentage"></div>
             </div>
         </section>
@@ -118,51 +118,30 @@
     </div>
 </article>
 
-{% comment %}
 <article id="economics" class="clearfix">
     <header class="section-contents">
         <h1>Economics</h1>
     </header>
     <div class="section-container">
-
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#income" id="income">Income <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
-            </div>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.median_household_income stat_type='dollar' %}
-            </div>
-            <div class="column-half" id="chart-histogram-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage"></div>
+            <div class="column-two-thirds" id="chart-histogram-economics-individual_income_distribution" data-chart-title="Individual monthy income" data-stat-type="scaled-percentage" data-qualifier="Universe: Workers 16 and over (TODO)"></div>
         </section>
-
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#poverty" id="poverty">Poverty <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#sector" id="sector">Sector<i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            <div class="column-third" id="chart-pie-economics-sector_type_distribution" data-chart-title="Type of sector" data-stat-type="percentage"></div>
+            {% comment %}<div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
-            </div>
-            <div class="column-third" id="chart-pie-economics-poverty-children" data-chart-title="Children (Under 18)" data-stat-type="percentage"></div>
-            <div class="column-third" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div>
+            </div>{% endcomment %}
         </section>
-
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#commute" id="commute">Transportation to work <i class="fa fa-link"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.transportation_distribution.metadata.universe }}"></div>
-        </section>
-
     </div>
 </article>
 
-
+{% comment %}
 <article id="families" class="clearfix">
     <header class="section-contents">
         <h1>Families</h1>
@@ -268,7 +247,7 @@
                     {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_fet_or_higher stat_type='percentage' %}
                 </div>
             </div>
-            <div class="column-half" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level"></div>
+            <div class="column-half" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level" data-qualifier="Universe: Individuals 25 and over(TODO)"></div>
         </section>
 
     </div>
@@ -422,8 +401,8 @@ var makeCharts = function() {
         var thisRelease = chartData[key]['acs_release'],
             noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
-        chartQualifier = (chartQualifier && noteRelease) ? Array(chartQualifier, noteRelease)
-            .filter(function(n) { return n }).join('; ') : null;
+        /*chartQualifier = (chartQualifier && noteRelease) ? Array(chartQualifier, noteRelease)
+            .filter(function(n) { return n }).join('; ') : null;*/
 
         Charts[i] = Chart({
             chartContainer: chartID,
