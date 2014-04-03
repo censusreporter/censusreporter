@@ -622,8 +622,8 @@ h1.article-header-right {
 #map-controls #query-topic-picker input {
     font-size: 1em;
 }
-#homepage #profile .input-wrapper,
-#homepage #explore .input-wrapper {
+#homepage .input-wrapper,
+#homepage .input-wrapper {
     padding-top: .25em;
     padding-left: 180px;
 }
