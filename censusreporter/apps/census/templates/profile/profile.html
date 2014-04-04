@@ -344,7 +344,7 @@
                     {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_fet_or_higher stat_type='percentage' %}
                 </div>
             </div>
-            <div class="column-half" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level" data-qualifier="Universe: Individuals 25 and over(TODO)"></div>
+            <div class="column-half" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level" data-qualifier="Universe: {{ education.educational_attainment_distribution.metadata.universe }}"></div>
         </section>
 
     </div>

@@ -316,7 +316,9 @@ def get_sanitation_profile(geo_code, geo_level, session):
 
 
 def get_education_profile(geo_code, geo_level, session):
-    db_model = get_model_from_fields(['highest educational level'], geo_level)
+    db_model = get_model_from_fields(['highest educational level'], geo_level,
+                                     'highesteducationallevel_%s_25andover'
+                                     % geo_level)
     objects = get_objects_by_geo(db_model, geo_code, geo_level, session)
 
     edu_dist_data = {}
@@ -360,6 +362,9 @@ def get_education_profile(geo_code, geo_level, session):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
+
+    edu_dist_data['metadata'] = {'universe': 'Invididuals 25 and over'}
+    edu_split_data['metadata'] = {'universe': 'Invididuals 25 and over'}
 
     return {'educational_attainment_distribution': edu_dist_data,
             'educational_attainment': edu_split_data}
@@ -409,7 +414,7 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
 def calculate_median(objects, field_name):
     '''
     Calculates the median where obj.total is the distribution count and
-    getattr(obj, field_name) is the distribution category.
+    getattr(obj, field_name) is the distribution segment.
     Note: this function assumes the objects are sorted.
     '''
     total = 0
