@@ -515,15 +515,18 @@ aside .action-button {
     border: 1px solid #02aeab;
     padding: .67em 1.25em .33em;
 }
-#cover-profile .header-extra-links p {
-    float: left;
-    line-height: 1.5;
-}
 #cover-profile ul {
     list-style: none;
     font-size: .83em;
-    margin: .5em 0 1em 2em;
-    line-height: 1.5;
+}
+#cover-profile strong {
+    float: left;
+    margin-right: .5em;
+}
+#cover-profile .header-extra-links ul {
+    float: left;
+    padding: 0;
+    margin: .5em 0 1.5em;
 }
 .column-row {
     clear: both;
@@ -2119,8 +2122,11 @@ dl#racial-iteration dt {
 #menu .tt-dropdown-menu {
     width: 240px;
 }
+#profile .content-container {
+    padding-top: .5em;
+}
 #profile #query-topic-picker {
-    margin-bottom: 3em;
+    margin-bottom: 2em;
 }
 #profile #query-topic-picker h2 {
     position: absolute;
@@ -2371,7 +2377,7 @@ aside .search .result-type {
         height: 200px;
     }
     #cover-profile {
-        margin-top: 200px;
+        margin: 200px 1em 0;
     }
     #cover-profile article {
         background-color: inherit;
