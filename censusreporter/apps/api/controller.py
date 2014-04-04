@@ -300,6 +300,22 @@ def get_economics_profile(geo_code, geo_level, session):
                                                       '6.4k', '12.8k', '51.2k',
                                                       '102.4k', '> 102.4k'))
 
+    db_model_employ = get_model_from_fields(['official employment status'],
+                                            geo_level)
+    objects = get_objects_by_geo(db_model_employ, geo_code, geo_level, session)
+    employ_status = {}
+    total_workers = 0.0
+    for obj in objects:
+        employ_st = getattr(obj, 'official employment status')
+        if employ_st in ('Age less than 15 years', 'Not applicable'):
+            continue
+        total_workers += obj.total
+        employ_status[employ_st] = {
+            "name": employ_st,
+            "numerators": {"this": obj.total},
+            "error": {"this": 0.0}
+        }
+
     # sector
     db_model_sector = get_model_from_fields(['type of sector'], geo_level)
     objects = get_objects_by_geo(db_model_sector, geo_code, geo_level,
@@ -318,15 +334,17 @@ def get_economics_profile(geo_code, geo_level, session):
             "numerator_errors": {"this": 0.0},
         }
 
-    for data, total in zip((income_dist_data, sector_dist_data),
-                           (total_income, total_sector)):
+    for data, total in zip((income_dist_data, sector_dist_data, employ_status),
+                           (total_income, total_sector, total_workers)):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
     income_dist_data['metadata'] = {'universe': 'Officially employed individuals'}
+    employ_status['metadata'] = {'universe': 'Workers 15 and over'}
 
     return {'individual_income_distribution': income_dist_data,
+            'employment_status': employ_status,
             'sector_type_distribution': sector_dist_data}
 
 
