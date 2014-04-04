@@ -9,8 +9,8 @@ class LocationNotFound(Exception):
 
 
 PROFILE_SECTIONS = (
-    'demographics',  # population group, age group in 5 years
-    'economics',  # individual monthly income, type of sector
+    'demographics',  # population group, age group in 5 years, age in completed years
+    'economics',  # individual monthly income, type of sector, official employment status
     'sanitation',  # source of water, refuse disposal
     'education',  # highest educational level
 )
@@ -257,13 +257,17 @@ def get_demographics_profile(geo_code, geo_level, session):
 def get_economics_profile(geo_code, geo_level, session):
     # income
     db_model_income = get_model_from_fields(['individual monthly income'],
-                                            geo_level)
+                                            geo_level,
+                                            'individualmonthlyincome_%s_employedonly'
+                                            % geo_level)
     objects = get_objects_by_geo(db_model_income, geo_code, geo_level, session)
     income_dist_data = {}
     total_income = 0.0
     for obj in objects:
-        total_income += obj.total
         income_group = getattr(obj, 'individual monthly income')
+        if income_group == 'Not applicable':
+            continue
+        total_income += obj.total
         income_dist_data[income_group] = {
             "name": income_group,
             "numerators": {"this": obj.total},
@@ -271,7 +275,7 @@ def get_economics_profile(geo_code, geo_level, session):
         }
     income_dist_data = collapse_categories(income_dist_data,
                                            COLLAPSED_INCOME_CATEGORIES,
-                                           key_order=('N/A', 'Unspec.', '0k',
+                                           key_order=('Unspec.', '0k',
                                                       '0.8k', '1.6k', '3.2k',
                                                       '6.4k', '12.8k', '51.2k',
                                                       '102.4k', '> 102.4k'))
@@ -298,6 +302,8 @@ def get_economics_profile(geo_code, geo_level, session):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
+
+    income_dist_data['metadata'] = {'universe': 'Officially employed individuals'}
 
     return {'individual_income_distribution': income_dist_data,
             'sector_type_distribution': sector_dist_data}

@@ -56,8 +56,12 @@ def open_census_csv(filepath):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         raise ValueError("Requires 1 file path argument")
+    if len(sys.argv) == 3:
+        table_name = sys.argv[2]
+    else:
+        table_name = None
     filepath = sys.argv[1]
     if not os.path.isabs(filepath):
         filepath = os.path.join(os.getcwd(), filepath)
@@ -87,7 +91,7 @@ if __name__ == '__main__':
         raise ValueError("Cannot recognize the geo level of data")
 
     # get db model and create table if necessary
-    db_model = get_model_from_fields([field_name], geo_level)
+    db_model = get_model_from_fields([field_name], geo_level, table_name)
     Base.metadata.create_all(_engine, tables=[db_model.__table__])
 
     # restart generator
