@@ -15,6 +15,7 @@ MAX_TABLE_NAME_LENGTH = 63
 census_fields = set([
     'highest educational level',
     'individual monthly income',
+    'official employment status',
     'source of water',
     'refuse disposal',
     'type of sector',

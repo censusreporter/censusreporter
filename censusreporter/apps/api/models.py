@@ -65,17 +65,19 @@ Census data models
 _census_table_models = {}
 
 
-def get_model_from_fields(fields, geo_level):
+def get_model_from_fields(fields, geo_level, table_name=None):
     '''
     Generates an ORM model for arbitrary census fields by geography.
 
     :param list fields: the census fields in `api.utils.census_fields`, e.g. ['highest educational level', 'type of sector']
     :param str geo_level: one of the geographics levels defined in `api.utils.geo_levels`, e.g. 'province'
+    :param str table_name: the name of the database table, if different from the default table
     :return: ORM model class containing the given fields with type String(128), a 'total' field
     with type Integer and '%(geo_level)s_code' with type ForeignKey('%(geo_level)s.code')
     :rtype: Model
     '''
-    table_name = get_table_name(fields, geo_level)
+    if table_name is None:
+        table_name = get_table_name(fields, geo_level)
     if table_name in _census_table_models:
         return _census_table_models[table_name]
 
