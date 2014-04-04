@@ -1,72 +1,90 @@
-from fabric.api import *
-from fabric.contrib.files import *
+import os
+import pwd
+from fabric.api import cd, env, task, require, local, lcd, sudo
+from fabric.contrib.files import exists
 
-root_dir = '/home/www-data'
-code_dir = '%s/django_app' % root_dir
-virtualenv_name = 'django_venv'
-virtualenv_dir = '%s/%s' % (root_dir, virtualenv_name)
-newrelic_app_name = 'Census Reporter Django'
+from api.fabfile import (provision_api, create_api_database, drop_api_database,
+                         load_api_data)
 
-def install_newrelic(api_key):
-    """ Install the New Relic Python and Server agents using the specified API key. """
-    with cd(code_dir):
-        with prefix('source %s/bin/activate' % virtualenv_dir):
-            sudo('newrelic-admin generate-config %s %s/newrelic.ini' % (api_key, code_dir), user='www-data')
 
-    sudo("sed -i \"s/Python Application/%s/g\" %s/newrelic.ini" % (newrelic_app_name, code_dir), user='www-data')
+VIRTUALENV_DIR = 'censusreporter_ve'
+CODE_DIR = 'censusreporter'
+PROD_HOSTS = ['5.9.108.98:2224']
+PACKAGES = (
+    'git-core',
+    'python-virtualenv',
+    'sqlite3',
+    'memcached',
+    'upstart',
+    'nginx'
+)
 
-def deploy(branch='master'):
-    "Deploy the specified branch to the remote host."
 
-    host = 'censusreporter.org'
+@task
+def dev():
+    env.deploy_type = 'dev'
+    env.deploy_user = pwd.getpwuid(os.getuid())[0]
+    env.deploy_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../')
+    env.branch = None  # deploy whichever branch we are currently on
 
-    sudo('mkdir -p %s' % root_dir)
-    sudo('chown www-data:www-data %s' % root_dir)
 
-    # Install required packages
-    sudo('apt-get update')
-    sudo('apt-get install -y git')
+@task
+def prod():
+    env.deploy_type = 'prod'
+    env.deploy_user = 'www-data'
+    env.deploy_dir = '/var/www-data/'
+    env.branch = 'develop'
+    env.hosts = PROD_HOSTS
 
-    # Install and set up apache and mod_wsgi
-    sudo('apt-get install -y apache2 libapache2-mod-wsgi')
-    sudo('a2enmod wsgi')
-    sudo('rm -f /etc/apache2/sites-enabled/000-default')
-    sudo('rm -f /etc/apache2/sites-enabled/%s' % host)
-    sudo('rm -f /etc/apache2/sites-available/%s' % host)
-    upload_template('./server/apache2/site', '/etc/apache2/sites-available/%s' % host, use_sudo=True, context={
-        'domainname': host,
-        'django_project_path': '%s/censusreporter' % code_dir,
-        'django_static_path': '%s/censusreporter/apps/census/static' % code_dir,
-        'django_venv_path': '%s/lib/python2.7/site-packages' % virtualenv_dir
-    })
-    sudo('a2ensite %s' % host)
 
-    # Install up to virtualenv
-    sudo('apt-get install -y python-setuptools')
-    sudo('easy_install pip')
-    sudo('pip install virtualenv')
+@task
+def provision_censusreporter():
+    require('deploy_type', provided_by=[dev, prod])
 
-    # Create virtualenv and add our django app to its PYTHONPATH
-    sudo('virtualenv --no-site-packages %s' % virtualenv_dir)
-    sudo('rm -f %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir)
-    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter' % code_dir, use_sudo=True)
-    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter/apps' % code_dir, use_sudo=True)
-    append('%s/bin/activate' % virtualenv_dir, 'export DJANGO_SETTINGS_MODULE="config.prod.settings"', use_sudo=True)
+    commands = (
+        'apt-get install %s --no-upgrade' % ' '.join(PACKAGES),
+    )
+    if env.deploy_type == 'prod':
+        commands += (
+            'mkdir %s' % env.deploy_dir,
+            'chown -R %s:%s %s' % (env.deploy_user, env.deploy_user, env.deploy_dir),
+        )
 
-    with settings(warn_only=True):
-        if sudo('test -d %s' % code_dir).failed:
-            sudo('git clone git://github.com/censusreporter/censusreporter.git %s' % code_dir)
+    if env.deploy_type == 'dev':
+        local('; '.join('sudo %s' % cmd for cmd in commands))
+        local('sudo apt-get build-dep python-numpy --no-upgrade')
+        return
+    sudo('; '.join(commands))
+    sudo('apt-get build-dep python-numpy --no-upgrade')
 
-    with cd(code_dir):
-        sudo('git pull origin %s' % branch)
 
-        # Install pip requirements
-        sudo('source %s/bin/activate && pip install -r requirements.txt' % virtualenv_dir)
+@task
+def deploy_censusreporter():
+    require('deploy_type', 'deploy_user', 'deploy_dir', 'branch',
+            provided_by=[dev, prod])
 
-        # Make sure everything is correctly owned
-        sudo('chown www-data:www-data -R %s %s' % (code_dir, virtualenv_dir))
+    repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
+    ve_dir = os.path.join(env.deploy_dir, VIRTUALENV_DIR)
 
-    # Clear the cache
-    sudo('echo \'flush_all\' | nc localhost 11211')
-    # Restart apache
-    sudo('service apache2 restart')
+    if env.deploy_type == 'dev':
+        with lcd(repo_dir):
+            local('git pull')
+            local('. ~/.virtualenvs/%s/bin/activate && pip install -r requirements.txt'
+                  % CODE_DIR)
+        return
+
+    if not exists(ve_dir):
+        sudo('virtualenv -p python2.7 %s' % ve_dir, user=env.deploy_user)
+
+    if not exists(repo_dir):
+        with cd(env.deploy_dir):
+            sudo('git clone -b %s https://github.com/Rizziepit/censusreporter.git'
+                 % env.branch, user=env.deploy_user)
+    else:
+        with cd(repo_dir):
+            sudo('git checkout -B %s' % env.branch, user=env.deploy_user)
+            sudo('git pull origin %s' % env.branch, user=env.deploy_user)
+    with cd(repo_dir):
+        sudo('. ../%s/bin/activate && pip install -r requirements.txt '
+             '-r censusreporter/api/requirements.txt'
+             % VIRTUALENV_DIR, user=env.deploy_user)
