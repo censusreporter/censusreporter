@@ -71,19 +71,6 @@
     </div>
 </section>
 
-<article id="chosen-table" class="clearfix hidden">
-    <header class="section-contents">
-        <h1>Search data</h1>
-    </header>
-    <div class="section-container">
-        <section class="clearfix stat-row">
-            <h2 class="column-header"></h2>
-            <aside><p><a id="change-table" href="#">Change table</a></p></aside>
-            <div class="data-drawer" id="chosen-table-results"></div>
-        </section>
-    </div>
-</article>
-
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
 
 <article id="demographics" class="clearfix">
@@ -93,7 +80,7 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2 class="column-header"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.age.median_age.total stat_type='number' %}
@@ -105,11 +92,11 @@
         <section class="clearfix stat-row">
             <aside></aside>
             <div class="column-third">
-                <h2 class="column-header"><a class="permalink" href="#sex" id="sex">Sex <i class="fa fa-link"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink" href="#sex" id="sex">Sex <i class="fa fa-link"></i></a></h2>
                 <div id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
             </div>
             <div class="column-two-thirds">
-                <h2 class="column-header"><a class="permalink" href="#race" id="race">Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink" href="#race" id="race">Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
                 <div id="chart-column-demographics-race" data-stat-type="scaled-percentage" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
             </div>
         </section>

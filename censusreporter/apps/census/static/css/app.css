@@ -542,7 +542,7 @@ aside .action-button {
     float: left;
     margin: 0 2% 0 0;
 }
-.column-header {
+.header-for-columns {
     margin: 0 2% 1em 0;
 }
 .column-full {

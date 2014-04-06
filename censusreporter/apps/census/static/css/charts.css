@@ -334,6 +334,25 @@
         right: auto !important;
     }
 }
+@media only screen and (max-width: 640px) {
+    .chart-qualifier,
+    .chart-get-data {
+        float: left;
+        margin: 1em 0 0;
+        display: block;
+        position: relative;
+        clear: both;
+    }
+    .chart-get-data {
+        border-bottom: 1px dashed;
+        display: inline-block;
+    }
+    .column-chart,
+    .bar-chart,
+    .pie-chart {
+        padding-bottom: 3em;
+    }
+}
 @media only screen and (max-width: 480px) {
     .chart .hovercard,
     .census-chart-embed .hovercard {
