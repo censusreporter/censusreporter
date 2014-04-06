@@ -32,10 +32,10 @@ function Comparison(options) {
         comparison.primaryGeoID = options.primaryGeoID || null;
         comparison.chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
         // jQuery things
-        comparison.topicSelect = $(options.topicSelect);
-        comparison.topicSelectContainer = $(options.topicSelectContainer);
-        comparison.displayHeader = $(options.displayHeader);
-        comparison.displayWrapper = $(options.displayWrapper);
+        comparison.$topicSelect = $(options.topicSelect);
+        comparison.$topicSelectContainer = $(options.topicSelectContainer);
+        comparison.$displayHeader = $(options.displayHeader);
+        comparison.$displayWrapper = $(options.displayWrapper);
         // D3 things
         comparison.headerContainer = d3.select(options.displayHeader);
         comparison.dataContainer = d3.select(options.dataContainer);
@@ -63,7 +63,7 @@ function Comparison(options) {
                 })
                 .fail(function(xhr, textStatus, error) {
                     var message = $.parseJSON(xhr.responseText);
-                    comparison.displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
+                    comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
                 });
         }
         return comparison;
@@ -600,7 +600,7 @@ function Comparison(options) {
         });
 
         // add hover listeners for grid rows
-        comparison.displayWrapper.on('mouseover', '.g_BR', function(e) {
+        comparison.$displayWrapper.on('mouseover', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
             var thisRow = $.grep(thisClass, function(c) {
                 return c.substr(0,3) == 'g_R';
@@ -608,7 +608,7 @@ function Comparison(options) {
             $('.'+thisRow+':not(.g_HR)').addClass('hover');
         });
 
-        comparison.displayWrapper.on('mouseleave', '.g_BR', function(e) {
+        comparison.$displayWrapper.on('mouseleave', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
             var thisRow = $.grep(thisClass, function(c) {
                 return c.substr(0,3) == 'g_R';
@@ -616,7 +616,7 @@ function Comparison(options) {
             $('.'+thisRow+':not(.g_HR)').removeClass('hover');
         });
     
-        comparison.displayWrapper.on('click', '.g_BR', function(e) {
+        comparison.$displayWrapper.on('click', '.g_BR', function(e) {
             var thisClass = $(this).attr('class').split(' ');
             var thisRow = $.grep(thisClass, function(c) {
                 return c.substr(0,3) == 'g_R';
@@ -850,9 +850,9 @@ function Comparison(options) {
 
     comparison.addContainerMetadata = function() {
         // tableID and change table link
-        comparison.displayWrapper.find('h1').text('Table ' + comparison.tableID)
+        comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
             .append('<a href="#" id="change-table">Change</a>');
-        comparison.displayWrapper.find('h2').text(comparison.release.name);
+        comparison.$displayWrapper.find('h2').text(comparison.release.name);
     }
 
     comparison.addPercentageDataValues = function() {
@@ -873,7 +873,7 @@ function Comparison(options) {
     }
 
     // typeahead autocomplete setup
-    comparison.topicSelectEngine = new Bloodhound({
+    comparison.$topicSelectEngine = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 1500,
@@ -904,9 +904,9 @@ function Comparison(options) {
     });
     
     comparison.makeTopicSelectWidget = function() {
-        comparison.topicSelectEngine.initialize();
+        comparison.$topicSelectEngine.initialize();
 
-        var element = comparison.topicSelect;
+        var element = comparison.$topicSelect;
         
         element.typeahead('destroy');
         element.typeahead({
@@ -917,7 +917,7 @@ function Comparison(options) {
         }, {
             name: 'topics',
             displayKey: 'simple_table_name',
-            source: comparison.topicSelectEngine.ttAdapter(),
+            source: comparison.$topicSelectEngine.ttAdapter(),
             templates: {
                 suggestion: Handlebars.compile(
                     [
@@ -942,7 +942,7 @@ function Comparison(options) {
         });
 
         // standard listeners
-        comparison.displayWrapper.on('click', '#change-table', function(e) {
+        comparison.$displayWrapper.on('click', '#change-table', function(e) {
             e.preventDefault();
             comparison.toggleTableSearch();
             comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle table search', '');
@@ -1219,7 +1219,7 @@ function Comparison(options) {
         chosenGeoContainer.append('a')
                 .classed('action-button', true)
                 .attr('href', '#')
-                .text('Add more places')
+                .text('Show more places')
                 .on('click', function() {
                     d3.event.preventDefault();
                     comparison.toggleGeoControls();
@@ -1266,16 +1266,16 @@ function Comparison(options) {
     }
     
     comparison.toggleTableSearch = function() {
-        comparison.displayHeader.toggle();
-        comparison.displayWrapper.toggle();
+        comparison.$displayHeader.toggle();
+        comparison.$displayWrapper.toggle();
 
         if (!!comparison.lockedParent) {
             comparison.lockedParent.find('aside').toggle();
             comparison.lockedParent.css('overflow-y', 'visible');
         }
 
-        comparison.topicSelectContainer.toggle();
-        comparison.topicSelect.focus();
+        comparison.$topicSelectContainer.toggle();
+        comparison.$topicSelect.focus();
     }
     
     comparison.addGeographyCompareTools = function() {
@@ -1288,7 +1288,7 @@ function Comparison(options) {
             comparison.makeChildOptions();
 
             // update the place name in table search header
-            comparison.topicSelectContainer.find('h1').text('Find data for ' + comparison.primaryGeoName);
+            comparison.$topicSelectContainer.find('h1').text('Find data for ' + comparison.primaryGeoName);
         }
         
         // show the currently selected geographies
@@ -1397,7 +1397,7 @@ function Comparison(options) {
     }
     
     comparison.cleanData = function(data) {
-        //  remove non-data headers that are the first field in the table,
+        // remove non-data headers that are the first field in the table,
         // which simply duplicate information from the table name.
         _.each(_.keys(data.tables[comparison.tableID]['columns']), function(k) {
             if (k.indexOf('000.5') != -1) {
