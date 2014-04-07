@@ -13,15 +13,20 @@ MAX_TABLE_NAME_LENGTH = 63
 
 
 census_fields = set([
+    'age groups in 5 years',
+    'age in completed years',
+    'energy or fuel for cooking',
+    'energy or fuel for heating',
+    'energy or fuel for lighting',
     'highest educational level',
     'individual monthly income',
     'official employment status',
-    'source of water',
-    'refuse disposal',
-    'type of sector',
     'population group',
-    'age groups in 5 years',
-    'age in completed years',
+    'refuse disposal',
+    'source of water',
+    'toilet facilities',
+    'type of main dwelling',
+    'type of sector',
 ])
 geo_levels = (
     'ward',
