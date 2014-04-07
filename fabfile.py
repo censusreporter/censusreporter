@@ -19,7 +19,7 @@ PACKAGES = (
     'nginx'
 )
 # Nginx & Upstart constants
-SERVER_NAMES = '5.9.108.98 mmm-dashboard.code4sa.org'
+SERVER_NAMES = 'mmm-dashboard.code4sa.org ""'
 PROXY_PORT = 5001
 PROXY_HOST = '127.0.0.1'
 LOG_DIR = 'censusreporter_logs'
@@ -120,7 +120,7 @@ def get_nginx_template_context():
     return {
         'server-name': SERVER_NAMES,
         'server-port': 80,
-        'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static'),
+        'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
         'err-log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.err'),
         'proxy-host': PROXY_HOST,
