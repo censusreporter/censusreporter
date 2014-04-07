@@ -11,7 +11,7 @@ class LocationNotFound(Exception):
 PROFILE_SECTIONS = (
     'demographics',  # population group, age group in 5 years, age in completed years
     'economics',  # individual monthly income, type of sector, official employment status
-    'sanitation',  # source of water, refuse disposal
+    'service_delivery',  # source of water, refuse disposal
     'education',  # highest educational level
 )
 
@@ -129,6 +129,32 @@ COLLAPSED_INCOME_CATEGORIES = {
     "R 6 401 - R 12 800": "12.8k",
     "R 801 - R 1 600": "1.6k",
     "Unspecified": "Unspec.",
+}
+
+# Sanitation categories
+
+SHORT_WATER_SOURCE_CATEGORIES = {
+    "Regional/local water scheme (operated by municipality or other water services provider)": "Service provider",
+    "Water tanker": "Tanker",
+    "Spring": "Spring",
+    "Other": "Other",
+    "Dam/pool/stagnant water": "Dam",
+    "River/stream": "River",
+    "Not applicable": "N/A",
+    "Borehole": "Borehole",
+    "Rain water tank": "Rainwater tank",
+    "Water vendor": "Vendor",
+}
+
+SHORT_REFUSE_DISPOSAL_CATEGORIES = {
+    "Removed by local authority/private company less often": "Service provider (not regularly)",
+    "Own refuse dump": "Own dump",
+    "Communal refuse dump": "Communal dump",
+    "Other": "Other",
+    "Not applicable": "N/A",
+    "No rubbish disposal": "None",
+    "Unspecified": "Unspecified",
+    "Removed by local authority/private company at least once a week": "Service provider (regularly)",
 }
 
 
@@ -327,10 +353,84 @@ def get_economics_profile(geo_code, geo_level, session):
             'sector_type_distribution': sector_dist_data}
 
 
-'''
-def get_sanitation_profile(geo_code, geo_level, session):
-    pass
-'''
+def get_service_delivery_profile(geo_code, geo_level, session):
+    # water source
+    db_model_wsrc = get_model_from_fields(['source of water'], geo_level)
+    objects = get_objects_by_geo(db_model_wsrc, geo_code, geo_level, session,
+                                 order_by='-total')
+    water_src_data = OrderedDict()
+    total_wsrc = 0.0
+    total_water_sp = 0.0
+    # show 3 largest groups on their own and group the rest as 'Other'
+    for i, obj in enumerate(objects):
+        attr = getattr(obj, 'source of water')
+        if i < 3:
+            src = SHORT_WATER_SOURCE_CATEGORIES[attr]
+            water_src_data[src] = {
+                "name": src,
+                "numerators": {"this": obj.total},
+                "error": {"this": 0.0},
+            }
+        else:
+            src = 'Other'
+            water_src_data.setdefault(src, {
+                "name": src,
+                "numerators": {"this": 0.0},
+                "error": {"this": 0.0},
+            })
+            water_src_data[src]["numerators"]["this"] += obj.total
+        total_wsrc += obj.total
+        if attr.startswith('Regional/local water scheme'):
+            total_water_sp += obj.total
+
+    # refuse disposal
+    db_model_ref = get_model_from_fields(['refuse disposal'], geo_level)
+    objects = get_objects_by_geo(db_model_ref, geo_code, geo_level, session,
+                                 order_by='-total')
+    refuse_disp_data = OrderedDict()
+    total_ref = 0.0
+    total_ref_sp = 0.0
+    # show 3 largest groups on their own and group the rest as 'Other'
+    for i, obj in enumerate(objects):
+        attr = getattr(obj, 'refuse disposal')
+        if i < 3:
+            disp = SHORT_REFUSE_DISPOSAL_CATEGORIES[attr]
+            refuse_disp_data[disp] = {
+                "name": disp,
+                "numerators": {"this": obj.total},
+                "error": {"this": 0.0},
+            }
+        else:
+            disp = 'Other'
+            refuse_disp_data.setdefault(disp, {
+                "name": disp,
+                "numerators": {"this": 0.0},
+                "error": {"this": 0.0},
+            })
+            refuse_disp_data[disp]["numerators"]["this"] += obj.total
+        total_ref += obj.total
+        if attr.startswith('Removed by local authority'):
+            total_ref_sp += obj.total
+
+    for data, total in zip((water_src_data, refuse_disp_data),
+                           (total_wsrc, total_ref)):
+        for fields in data.values():
+            fields["values"] = {"this": round(fields["numerators"]["this"]
+                                              / total * 100, 2)}
+
+    return {'water_source_distribution': water_src_data,
+            'percentage_water_from_service_provider': {
+                "name": "Are getting water from a regional or local service provider",
+                "values": {"this": round(total_water_sp / total_wsrc * 100, 2)},
+                "error": {"this": 0}
+            },
+            'refuse_disposal_distribution': refuse_disp_data,
+            'percentage_ref_disp_from_service_provider': {
+                "name": "Are getting refuse disposal from a local authority or private company",
+                "values": {"this": round(total_ref_sp / total_ref * 100, 2)},
+                "error": {"this": 0}
+            }
+    }
 
 
 def get_education_profile(geo_code, geo_level, session):
@@ -421,7 +521,10 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
     objects = session.query(db_model).filter(getattr(db_model, geo_attr)
                                              == geo_code)
     if order_by is not None:
-        objects = objects.order_by(getattr(db_model, order_by))
+        if order_by[0] == '-':
+            objects = objects.order_by(getattr(db_model, order_by[1:]).desc())
+        else:
+            objects = objects.order_by(getattr(db_model, order_by))
     objects = objects.all()
     if len(objects) == 0:
         raise LocationNotFound("%s.%s with code '%s' not found"

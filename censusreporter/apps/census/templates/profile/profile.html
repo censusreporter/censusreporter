@@ -224,95 +224,45 @@
             <h2><a class="permalink" href="#income" id="income">Income <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third" id="chart-pie-economics-employment_status" data-chart-title="Employment status" data-stat-type="percentage" data-qualifier="Universe: {{ economics.employment_status.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-histogram-economics-individual_income_distribution" data-chart-title="Individual monthy income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.individual_income_distribution.metadata.universe }}"></div>
+            <div class="column-third" id="chart-pie-economics-employment_status" data-chart-title="Population by employment status" data-stat-type="percentage" data-qualifier="Universe: {{ economics.employment_status.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-histogram-economics-individual_income_distribution" data-chart-title="Employees by monthly income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.individual_income_distribution.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#sector" id="sector">Sector<i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third" id="chart-pie-economics-sector_type_distribution" data-chart-title="Type of sector" data-stat-type="percentage"></div>
-            {% comment %}<div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
-            </div>{% endcomment %}
+            <div class="column-third" id="chart-pie-economics-sector_type_distribution" data-chart-title="Population by type of sector" data-stat-type="percentage"></div>
         </section>
     </div>
 </article>
 
-{% comment %}
-<article id="families" class="clearfix">
+<article id="service_delivery" class="clearfix">
     <header class="section-contents">
-        <h1>Families</h1>
+        <h1>Service delivery</h1>
     </header>
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#households" id="households">Households <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#water" id="water">Water <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.households.number_of_households stat_type='count' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_water_from_service_provider stat_type='percentage' %}
             </div>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
-            </div>
-            <div class="column-third" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Population by household type"></div>
+            <div class="column-third" id="chart-pie-service_delivery-water_source_distribution" data-stat-type="percentage" data-chart-title="Population by water source"></div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#marital-status" id="marital-status">Marital status <i class="fa fa-link"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-third" id="chart-pie-families-marital_status" data-stat-type="percentage" data-qualifier="Universe: {{ families.marital_status.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-grouped_column-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Marital status, by sex"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#fertility" id="fertility">Fertility <i class="fa fa-link"></i></a></h2>
-            <aside></aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.fertility.total stat_type='percentage' %}
-            </div>
-            <div class="column-two-thirds">
-                <div id="chart-column-families-fertility-by_age" data-stat-type="scaled-percentage" data-chart-title="Women who gave birth during past year, by age group" data-qualifier="Universe: {{ families.fertility.by_age.metadata.universe }}"></div>
-            </div>
-        </section>
-
-    </div>
-</article>
-
-
-<article id="housing" class="clearfix">
-    <header class="section-contents">
-        <h1>Housing</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#housing-occupancy" id="housing-occupancy">Units &amp; Occupancy <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#refuse" id="refuse">Refuse disposal <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='count' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_ref_disp_from_service_provider stat_type='percentage' %}
             </div>
-            <div class="column-third" id="chart-pie-housing-units-occupancy_distribution" data-stat-type="percentage" data-chart-title="Occupied vs. Vacant"></div>
-            <div class="column-third" id="chart-pie-housing-ownership-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Ownership of occupied units"></div>
-        </section>
-        <section class="clearfix stat-row grouped-row">
-            <div class="column-third" id="chart-pie-housing-units-structure_distribution" data-stat-type="percentage" data-chart-title="Types of structure"></div>
-            <div class="column-two-thirds" id="chart-histogram-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population"></div>
+            <div class="column-third" id="chart-pie-service_delivery-refuse_disposal_distribution" data-chart-title="Population by refuse disposal" data-stat-type="percentage"></div>
         </section>
 
-        <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#housing-value" id="housing-value">Value <i class="fa fa-link"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.ownership.median_value stat_type='dollar' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-housing-ownership-value_distribution" data-chart-title="Value of owner-occupied housing units" data-stat-type="scaled-percentage"></div>
-        </section>
-
+        {% comment %}
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#geographical-mobility" id="geographical-mobility">Geographical mobility <i class="fa fa-link"></i></a></h2>
             <aside>
@@ -322,10 +272,10 @@
             </div>
             <div class="column-two-thirds" id="chart-histogram-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year"></div>
         </section>
+        {% endcomment %}
 
     </div>
 </article>
-{% endcomment %}
 
 <article id="education" class="clearfix">
     <header class="section-contents">
@@ -334,7 +284,7 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#highest-educational-level" id="highest-educational-level">Highest educational level <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#highest-educational-level" id="highest-educational-level">Educational level <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
