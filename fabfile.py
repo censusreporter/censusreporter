@@ -83,7 +83,7 @@ def deploy_censusreporter():
 
     if not exists(repo_dir):
         with cd(env.deploy_dir):
-            sudo('git clone -b %s https://github.com/Rizziepit/censusreporter.git'
+            sudo('git clone -b %s https://github.com/Code4SA/censusreporter.git'
                  % env.branch, user=env.deploy_user)
     else:
         with cd(repo_dir):
