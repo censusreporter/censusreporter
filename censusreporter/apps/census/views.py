@@ -12,15 +12,13 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.template import loader, TemplateDoesNotExist
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
-from api.controller import get_profile, get_geography, LocationNotFound
+from api.controller import get_profile, get_geography, get_locations, LocationNotFound
 
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
@@ -1227,32 +1225,20 @@ class ComparisonBuilder(TemplateView):
         return page_context
 
 
-## LOCAL DEV VERSION OF API ##
-
 class PlaceSearchJson(View):
     def get(self, request, *args, **kwargs):
-        geographies = Geography.objects.all()
+        if 'q' in request.GET:
+            search_term = request.GET['q']
+            geo_level = request.GET.get('geolevel', None)
+            return render_json_to_response(
+                {'results': get_locations(search_term, geo_level)}
+            )
 
-        if 'geoids' in self.request.GET:
-            geoid_list = self.request.GET['geoids'].split('|')
-            geographies = Geography.objects.filter(full_geoid__in=geoid_list)
+        return HttpResponseBadRequest('"q" parameter is required')
 
-        elif 'geoid' in self.request.GET:
-            geoid = self.request.GET['geoid']
-            geographies = Geography.objects.filter(full_geoid__exact=geoid)
 
-        elif 'q' in self.request.GET:
-            q = self.request.GET['q']
-            geographies = Geography.objects.filter(full_name__icontains=q)
+## LOCAL DEV VERSION OF API ##
 
-        if 'sumlevs' in self.request.GET:
-            allowed_sumlev_list = self.request.GET['sumlevs'].split(',')
-            geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
-
-        geographies = geographies.values()
-        geographies = geographies.only('full_name','full_geoid','sumlev')
-
-        return render_json_to_response(list(geographies))
 
 class TableSearchJson(View):
     def format_result(self, obj, obj_type):

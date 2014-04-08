@@ -1,6 +1,5 @@
-var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
-    geoSelect = $('#geography-select'),
-    chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
+var geoSearchAPI = '/place-search/json/',
+    geoSelect = $('#geography-select');
 
 var geoSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
@@ -9,12 +8,12 @@ var geoSelectEngine = new Bloodhound({
     remote: {
         url: geoSearchAPI,
         replace: function (url, query) {
-            return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
+            return url += '?q=' + query;
         },
         filter: function(response) {
             var results = response.results;
             _.map(results, function(item) {
-                item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                item['geo_level'] = item['full_geoid'].split('-')[0];
             })
             return results;
         }
@@ -34,14 +33,14 @@ function makeGeoSelectWidget(element) {
         source: geoSelectEngine.ttAdapter(),
         templates: {
             suggestion: Handlebars.compile(
-                '<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'
+                '<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>'
             )
         }
     });
 
     element.on('typeahead:selected', function(event, datum) {
         event.stopPropagation();
-        window.location = '/profiles/' + datum['full_geoid'] + '-' + slugify(datum['full_name']);
+        window.location = '/profiles/' + datum['full_geoid'] + '/';
     });
 }
 

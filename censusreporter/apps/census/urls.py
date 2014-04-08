@@ -94,13 +94,14 @@ urlpatterns = patterns('',
         name    = 'healthcheck',
     ),
 
-    ## LOCAL DEV VERSION OF API ##
     url(
         regex   = '^place-search/json/$',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
     ),
+
+    ## LOCAL DEV VERSION OF API ##
 
     url(
         regex   = '^table-search/$',
