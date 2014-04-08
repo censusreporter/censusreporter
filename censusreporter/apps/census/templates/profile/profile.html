@@ -1,6 +1,9 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize %}
 
+{% comment %}
 {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
+{% endcomment %}}
+{% block head_title %}{{ geography.name }} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -66,6 +69,14 @@
 {% endblock %}
 
 {% block content %}
+
+<h1>
+    {{ geography.name }}
+    {% for g in geography.parents %}
+        , {{ g.name }}
+    {% endfor %}
+</h1>
+
 {#}<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>{#}
 
 {% comment %}

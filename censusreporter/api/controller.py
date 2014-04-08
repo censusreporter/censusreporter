@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+import models
 from .models import get_model_from_fields
 from .utils import get_session
 
@@ -156,6 +157,33 @@ SHORT_REFUSE_DISPOSAL_CATEGORIES = {
     "Unspecified": "Unspecified",
     "Removed by local authority/private company at least once a week": "Service provider (regularly)",
 }
+
+
+def get_geography(geo_code, geo_level):
+    """
+    Get a geography model (Ward, Province, etc.) for this geography, or
+    raise LocationNotFound if it doesn't exist.
+    """
+    session = get_session()
+
+    try:
+        try:
+            model = {
+                'ward': models.Ward,
+                'district': models.District,
+                'province': models.Province,
+                'municipality': models.Municipality,
+            }[geo_level]
+        except KeyError:
+            raise LocationNotFound(geo_code)
+
+        geo = session.query(model).get(geo_code)
+        if not geo:
+            raise LocationNotFound(geo_code)
+
+        return geo
+    finally:
+        session.close()
 
 
 def get_profile(geo_code, geo_level):

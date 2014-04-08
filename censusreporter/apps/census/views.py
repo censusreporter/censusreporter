@@ -10,7 +10,7 @@ from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
-from api.controller import get_profile, LocationNotFound
+from api.controller import get_profile, get_geography, LocationNotFound
 
 from .models import Geography, Table, Column
 from .utils import (LazyEncoder, get_ratio, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS,
@@ -122,11 +122,14 @@ class GeographyDetailView(TemplateView):
         #if r.status_code == 200:
         try:
             geo_level, geo_code = geography_id.split('-')
+
+            geo = get_geography(geo_code, geo_level)
             profile_data = get_profile(geo_code, geo_level)
         except (ValueError, LocationNotFound):
             raise Http404
         #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         profile_data = self.enhance_api_data(profile_data)
+        page_context['geography'] = geo
         page_context.update(profile_data)
         page_context.update({
             'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
