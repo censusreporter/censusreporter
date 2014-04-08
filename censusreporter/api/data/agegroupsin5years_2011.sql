@@ -5262,7 +5262,9 @@ COPY agegroupsin5years_municipality (total, "age groups in 5 years", municipalit
 109817	60 - 64	CPT
 75143	65 - 69	CPT
 56137	70 - 74	CPT
-36	75 - 79	CPT
+22794	80 - 84	CPT
+16983	85+	CPT
+36430	75 - 79	CPT
 \.
 
 
