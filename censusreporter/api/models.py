@@ -1,6 +1,7 @@
 from sqlalchemy import (Column, ForeignKey, Integer, SmallInteger,
                         String, Table, MetaData)
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
+from sqlalchemy.orm import relationship
 
 from .utils import get_table_name
 
@@ -9,6 +10,11 @@ class Base(object):
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
+
+    def __repr__(self):
+        return '%s(%s)' % (self.__class__.__name__,
+                           ', '.join(['%s="%s"' % (c.name, getattr(self, c.name))
+                                      for c in self.__table__.columns]))
 
 
 Base = declarative_base(cls=Base)
@@ -27,6 +33,10 @@ class Ward(Base):
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
+    municipality = relationship('Municipality')
+    district = relationship('District')
+    province = relationship('Province')
+
 
 class Municipality(Base):
     # a 5-character string where the first 2 characters is the
@@ -38,6 +48,9 @@ class Municipality(Base):
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
+    district = relationship('District')
+    province = relationship('Province')
+
 
 class District(Base):
     # a 4-character string starting with 'DC' and followed by
@@ -47,6 +60,8 @@ class District(Base):
     code = Column(String(8), primary_key=True)
     name = Column(String(32), nullable=False)
     province_code = Column(String(3), ForeignKey('province.code'))
+
+    province = relationship('Province')
 
 
 class Province(Base):

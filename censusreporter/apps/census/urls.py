@@ -1,7 +1,8 @@
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
 
-from .views import HomepageView, GeographyDetailView, PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView
+from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
+                    TableSearch, TableSearchJson, GeoSearch, LocateView)
 
 admin.autodiscover()
 
@@ -15,13 +16,14 @@ urlpatterns = patterns('',
         name    = 'homepage',
     ),
 
-    ## LOCAL DEV VERSION OF API ##
     url(
         regex   = '^place-search/json/$',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
     ),
+
+     ## LOCAL DEV VERSION OF API ##
 
     url(
         regex   = '^table-search/$',
@@ -36,12 +38,6 @@ urlpatterns = patterns('',
         name    = 'table_search_json',
     ),
 
-    url(
-        regex   = '^geo-search/$',
-        view    = GeoSearch.as_view(),
-        kwargs  = {},
-        name    = 'geo_search',
-    ),
     ## END LOCAL DEV VERSION OF API ##
 
     url(

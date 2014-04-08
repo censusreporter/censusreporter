@@ -1,7 +1,9 @@
+import requests
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from .config import DB_NAME, DB_USER, DB_PASSWORD
+from .config import (DB_NAME, DB_USER, DB_PASSWORD, WARD_SEARCH_ENDPOINT)
 
 
 _engine = create_engine("postgresql://%s:%s@localhost/%s"
@@ -62,3 +64,61 @@ def get_table_name(fields, geo_level):
         table_name = table_name[:MAX_TABLE_NAME_LENGTH - table_name_length]
 
     return '%s_%s' % (table_name, geo_level)
+
+
+class Location(object):
+    '''
+    Simple object to represent a location in the South African
+    context.
+    '''
+    def __init__(self, address, province_code, ward_code, ward_no,
+                 municipality, coordinates):
+        self.address = address
+        self.province_code = province_code
+        # Northern Province is now called Limpopo
+        if self.province_code == 'NP':
+            self.province_code = 'LIM'
+        self.ward_code = ward_code
+        self.ward_no = ward_no
+        self.municipality = municipality
+        self.latitude = coordinates[0]
+        self.longitude = coordinates[1]
+
+    def __repr__(self):
+        return 'Location(address="%s", ward_code="%s", ' \
+               'municipality="%s", province_code="%s", ' \
+               'latitude=%s, longitude=%s, ward_no=%s)' \
+               % (self.address, self.ward_code, self.municipality,
+                  self.province_code, self.latitude, self.longitude,
+                  self.ward_no)
+
+
+class WardSearchException(Exception):
+    pass
+
+
+class WardSearchAPI(object):
+
+    def __init__(self, endpoint_url):
+        self.endpoint_url = endpoint_url
+
+    def search(self, term):
+        resp = requests.get(self.endpoint_url,
+                            params={'address': term})
+        if resp.status_code != 200:
+            raise WardSearchException('%s response code' % resp.status_code)
+        # if the request is invalid it returns the landing page html
+        elif resp.headers['content-type'] != 'application/json':
+            raise WardSearchException('Invalid request')
+
+        data = resp.json()
+        # this is not actually an error condition, just not found
+        if isinstance(data, dict) and 'error' in data:
+            return []
+
+        return [Location(obj['address'], obj['province'], obj['ward'],
+                         obj['wards_no'], obj['municipality'], obj['coords'])
+                for obj in data]
+
+
+ward_search_api = WardSearchAPI(WARD_SEARCH_ENDPOINT)
