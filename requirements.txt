@@ -5,3 +5,5 @@ numpy==1.7.0
 unicodecsv==0.9.4
 python-memcached==1.53
 gunicorn==18.0
+sqlalchemy==0.9.4
+psycopg2==2.5.2
