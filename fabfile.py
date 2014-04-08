@@ -97,8 +97,6 @@ def deploy_censusreporter():
 
     with cd(repo_dir), prefix('. ../%s/bin/activate' % VIRTUALENV_DIR):
         sudo('pip install -r requirements.txt', user=env.deploy_user)
-        sudo('pip install -r censusreporter/api/requirements.txt',
-             user=env.deploy_user)
         sudo('python manage.py collectstatic --settings=config.prod.settings '
              '--noinput', user=env.deploy_user)
 
