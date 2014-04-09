@@ -12,6 +12,9 @@ admin.autodiscover()
 STANDARD_CACHE_TIME = 60*15 # 15-minute cache
 COMPARISON_FORMATS = 'map|table|distribution'
 
+geo_levels = 'ward|municipality|district|province'
+
+
 urlpatterns = patterns('',
     url(
         regex   = '^$',
@@ -124,8 +127,8 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^elasticsearch/$',
-        view    = Elasticsearch.as_view(),
+        regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
+        view    = GeographyDetailView.as_view(),
         kwargs  = {},
         name    = 'elasticsearch',
     ),
