@@ -581,7 +581,7 @@ def get_locations(search_term, geo_level=None):
                 wards = []
         else:
             wards = [ward]
-        return serialize_locations(wards)
+        return serialize_demarcations(wards)
 
     elif geo_level is not None:
         model = globals()[geo_level.capitalize()]
