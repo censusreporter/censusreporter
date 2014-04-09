@@ -33,9 +33,15 @@ class Ward(Base):
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
-    municipality = relationship('Municipality')
-    district = relationship('District')
-    province = relationship('Province')
+    # associations
+    municipality  = relationship('Municipality', lazy=False)
+    district      = relationship('District', lazy=False)
+    province      = relationship('Province', lazy=False)
+
+    level = 'ward'
+
+    def parents(self):
+        return [self.municipality, self.district, self.province]
 
 
 class Municipality(Base):
@@ -48,8 +54,14 @@ class Municipality(Base):
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
-    district = relationship('District')
-    province = relationship('Province')
+    # associations
+    district  = relationship('District', lazy=False)
+    province  = relationship('Province', lazy=False)
+
+    level = 'municipality'
+
+    def parents(self):
+        return [self.district, self.province]
 
 
 class District(Base):
@@ -61,7 +73,12 @@ class District(Base):
     name = Column(String(32), nullable=False)
     province_code = Column(String(3), ForeignKey('province.code'))
 
-    province = relationship('Province')
+    province  = relationship('Province', lazy=False)
+
+    level = 'district'
+
+    def parents(self):
+        return [self.province]
 
 
 class Province(Base):
@@ -71,6 +88,12 @@ class Province(Base):
     # as defined here:
     # http://en.wikipedia.org/wiki/List_of_FIPS_region_codes_(S%E2%80%93U)#SF:_South_Africa
     fips_code = Column(String(4), index=True, unique=True, nullable=False)
+
+    level = 'province'
+
+    def parents(self):
+        # TODO: return nation
+        return []
 
 
 '''
