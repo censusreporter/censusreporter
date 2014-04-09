@@ -611,7 +611,12 @@ def get_locations(search_term, geo_level=None):
         return serialize_demarcations(wards)
 
     elif geo_level is not None:
-        model = globals()[geo_level.capitalize()]
+        # already checked that geo_level is valid
+        model = {
+            'district': District,
+            'municipality': Municipality,
+            'province': Province,
+        }[geo_level]
         # try to find by code or name
         demarcations = session.query(model).filter(
             or_(model.name.ilike(search_term + '%'),
