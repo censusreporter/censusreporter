@@ -2,26 +2,14 @@
 
 {% comment %}
 {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
-{% endcomment %}
-{% block head_title %}{{ geo.name }} - {{ block.super }}{% endblock %}
-
-{% block head_facebook_tags %}
-        <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
-        <meta property="og:site_name" content="Census Reporter" />
-        <meta property="og:url" content="http://censusreporter.org/profiles/{{ geography.this.full_geoid }}-{{ geography.this.full_name|slugify }}" />
-        <meta property="og:description" content="Population data and dollar figures from {{ geography.this.short_name}}, broken down by category: Demographics, Economics, Families, Housing and Social." />
-        <meta property="og:type" content="article" />
-        {#}<meta property="og:image" content="" />{#}
-{% endblock %}
-
-{% block head_twitter_tags %}
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@CensusReporter">
-        <meta name="twitter:creator" content="@CensusReporter">
-        <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
-        <meta name="twitter:description" content="Population data and dollar figures from {{ geography.this.short_name}}, broken down by category: Demographics, Economics, Families, Housing and Social.">
-        {#}<meta name="twitter:image" content="">{#}
-{% endblock %}
+{% endcomment %}}
+{% spaceless %}
+    {% if geo.level == "ward" %}
+        Ward {{ geo.ward_no }} ({{ geo.code }})
+    {% else %}
+        {{ geo.name }}
+    {% endif %}
+{% endspaceless %} - {{ block.super }}
 
 {% block head_css_extra %}
 <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
@@ -95,7 +83,16 @@
 </section>
 
 <h1>
-    {{ geo.name }}{% for g in geo.parents %}, {{ g.name }}{% endfor %}
+    {% spaceless %}
+        {% if geo.level == "ward" %}
+            Ward {{ geo.ward_no }} ({{ geo.code }})
+        {% else %}
+            {{ geo.name }}
+        {% endif %}
+        {% for g in geo.parents %}
+            {% if g.level != "district" %}, {{ g.name }}{% endif %}
+        {% endfor %}
+    {% endspaceless %}
 </h1>
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
