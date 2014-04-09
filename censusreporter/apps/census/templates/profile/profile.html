@@ -95,10 +95,7 @@
 </section>
 
 <h1>
-    {{ geo.name }}
-    {% for g in geo.parents %}
-        , {{ g.name }}
-    {% endfor %}
+    {{ geo.name }}{% for g in geo.parents %}, {{ g.name }}{% endfor %}
 </h1>
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
