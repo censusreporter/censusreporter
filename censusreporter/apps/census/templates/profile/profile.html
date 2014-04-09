@@ -71,10 +71,7 @@
 {% block content %}
 
 <h1>
-    {{ geography.name }}
-    {% for g in geography.parents %}
-        , {{ g.name }}
-    {% endfor %}
+    {{ geography.name }}{% for g in geography.parents %}, {{ g.name }}{% endfor %}
 </h1>
 
 {#}<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>{#}
