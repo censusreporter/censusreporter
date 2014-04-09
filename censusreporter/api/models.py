@@ -29,6 +29,7 @@ class Ward(Base):
     # to the ward number, e.g. 21001001 where ward_no = 1
     code = Column(String(8), primary_key=True)
     ward_no = Column(SmallInteger, nullable=False)
+    year = Column(String(4), index=True, nullable=False)
     muni_code = Column(String(8), ForeignKey('municipality.code'))
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
@@ -51,6 +52,7 @@ class Municipality(Base):
     # 3-letter codes, e.g. CPT (same code used for district)
     code = Column(String(8), primary_key=True)
     name = Column(String(32), nullable=False)
+    year = Column(String(4), index=True, nullable=False)
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
@@ -71,6 +73,7 @@ class District(Base):
     # 3-letter codes, e.g. CPT (same code used for municipality)
     code = Column(String(8), primary_key=True)
     name = Column(String(32), nullable=False)
+    year = Column(String(4), index=True, nullable=False)
     province_code = Column(String(3), ForeignKey('province.code'))
 
     province  = relationship('Province', lazy=False)
@@ -85,6 +88,7 @@ class Province(Base):
     # a 2 or 3-letter string
     code = Column(String(3), primary_key=True)
     name = Column(String(16), nullable=False)
+    year = Column(String(4), index=True, nullable=False)
     # as defined here:
     # http://en.wikipedia.org/wiki/List_of_FIPS_region_codes_(S%E2%80%93U)#SF:_South_Africa
     fips_code = Column(String(4), index=True, unique=True, nullable=False)
