@@ -4,7 +4,11 @@ from django.contrib import admin
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
                     TableSearch, TableSearchJson, GeoSearch, LocateView)
 
+
 admin.autodiscover()
+
+geo_levels = 'ward|municipality|district|province'
+
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
@@ -49,7 +53,7 @@ urlpatterns = patterns('',
 
     # e.g. /profiles/16000US5367000/ (Spokane, WA)
     url(
-        regex   = '^profiles/(?P<geography_id>[-\w]+)/$',
+        regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
         view    = GeographyDetailView.as_view(),
         kwargs  = {},
         name    = 'geography_detail',
