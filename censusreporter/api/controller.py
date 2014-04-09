@@ -624,7 +624,7 @@ def calculate_median(objects, field_name):
                     float(getattr(objects[i + 1], field_name))) / 2.0
 
 
-def get_locations(search_term, geo_level=None):
+def get_locations(search_term, geo_level=None, year='2011'):
     if geo_level is not None and geo_level not in geo_levels:
         raise ValueError('Invalid geo_level: %s' % geo_level)
     session = get_session()
@@ -636,7 +636,10 @@ def get_locations(search_term, geo_level=None):
             locations = ward_search_api.search(search_term)
             if locations:
                 ward_codes = [l.ward_code for l in locations]
-                wards = session.query(Ward).filter(Ward.code.in_(ward_codes)).all()
+                wards = session.query(Ward).filter(
+                    and_(Ward.code.in_(ward_codes),
+                         Ward.year == year)
+                ).all()
                 _complete_ward_data_from_api(locations, session)
             else:
                 wards = []
@@ -653,8 +656,9 @@ def get_locations(search_term, geo_level=None):
         }[geo_level]
         # try to find by code or name
         demarcations = session.query(model).filter(
-            or_(model.name.ilike(search_term + '%'),
-                model.code == search_term.upper())
+            and_(model.year == year,
+                 or_(model.name.ilike(search_term + '%'),
+                     model.code == search_term.upper()))
         ).all()
         return serialize_demarcations(demarcations)
 
@@ -675,7 +679,10 @@ def get_locations(search_term, geo_level=None):
             ward_codes = [l.ward_code for l in locations]
             wards = session.query(Ward).options(
                 joinedload('*', innerjoin=True)
-            ).filter(Ward.code.in_(ward_codes)).all()
+            ).filter(
+                and_(Ward.code.in_(ward_codes),
+                     Ward.year == year)
+            ).all()
             objects.update(wards)
             for ward in wards:
                 objects.update([ward.municipality, ward.district, ward.province])
@@ -683,9 +690,10 @@ def get_locations(search_term, geo_level=None):
         # find other matches
         for model in (Municipality, District, Province):
             objects.update(session.query(model).filter(
-                or_(model.name.ilike(search_term + '%'),
-                    model.name.ilike('City of %s' % search_term + '%'),
-                    model.code == search_term.upper())
+                and_(model.year == year,
+                     or_(model.name.ilike(search_term + '%'),
+                         model.name.ilike('City of %s' % search_term + '%'),
+                         model.code == search_term.upper()))
             ).all())
 
         order_map = {Ward: 1, Municipality: 2, District: 3, Province: 4}
