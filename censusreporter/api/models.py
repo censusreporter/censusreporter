@@ -39,7 +39,6 @@ class Ward(Base):
     province      = relationship('Province', lazy=False)
 
     level = 'ward'
-    census_release = 2011
 
     def parents(self):
         return [self.municipality, self.district, self.province]
@@ -60,7 +59,6 @@ class Municipality(Base):
     province  = relationship('Province', lazy=False)
 
     level = 'municipality'
-    census_release = 2011
 
     def parents(self):
         return [self.district, self.province]
@@ -78,7 +76,6 @@ class District(Base):
     province  = relationship('Province', lazy=False)
 
     level = 'district'
-    census_release = 2011
 
     def parents(self):
         return [self.province]

@@ -17,7 +17,7 @@
         <article class="clearfix column-half">
             <header class="column-full">
                 <h1 class="title">{{ geography.name }}{% for g in geography.parents %}, {{ g.name }}{% endfor %}</h1>
-                <p class="caption">Data: {{ geography.census_release }}</p>
+                {% comment %} <p class="caption">Data: {{ geography.year }}</p> {% endcomment %}
             </header>
             {% comment %}
             <div class="column-half">
