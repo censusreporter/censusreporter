@@ -35,7 +35,9 @@ class GeoNameMixin(object):
         long_name = self.short_name
         parent_names = [p.name for p in self.parents()
                         if p.level != 'district']
-        return '%s, %s' % (long_name, ', '.join(parent_names))
+        if len(parent_names) > 0:
+            return '%s, %s' % (long_name, ', '.join(parent_names))
+        return long_name
 
     def __unicode__(self):
         return self.long_name
