@@ -28,7 +28,7 @@ Setup a local Postgres database:
 
     >> psql
     create user census with password 'census';
-    create database census with owner census encoding 'UTF8' template template0;
+    create database census_2011 with owner census encoding 'UTF8' template template0;
 
 Populate the database with census data:
 
