@@ -24,7 +24,24 @@ Base = declarative_base(cls=Base)
 Geographic models
 '''
 
-class Ward(Base):
+class GeoNameMixin(object):
+
+    @property
+    def short_name(self):
+        return getattr(self, 'name', '')
+
+    @property
+    def long_name(self):
+        long_name = self.short_name
+        parent_names = [p.name for p in self.parents()
+                        if p.level != 'district']
+        return '%s, %s' % (long_name, ', '.join(parent_names))
+
+    def __unicode__(self):
+        return self.long_name
+
+
+class Ward(Base, GeoNameMixin):
     # an 8-digit number where the last 2 digits refer
     # to the ward number, e.g. 21001001 where ward_no = 1
     code = Column(String(8), primary_key=True)
@@ -43,8 +60,12 @@ class Ward(Base):
     def parents(self):
         return [self.municipality, self.district, self.province]
 
+    @property
+    def short_name(self):
+        return 'Ward %d (%s)' % (self.ward_no, self.code)
 
-class Municipality(Base):
+
+class Municipality(Base, GeoNameMixin):
     # a 5-character string where the first 2 characters is the
     # province code and the last 3 are digits, e.g. MP322
     # Note: a few municipalities exist for large city areas with
@@ -64,7 +85,7 @@ class Municipality(Base):
         return [self.district, self.province]
 
 
-class District(Base):
+class District(Base, GeoNameMixin):
     # a 4-character string starting with 'DC' and followed by
     # 1 or 2 digits, e.g. DC10
     # Note: a few districts exist for large city areas with
@@ -81,7 +102,7 @@ class District(Base):
         return [self.province]
 
 
-class Province(Base):
+class Province(Base, GeoNameMixin):
     # a 2 or 3-letter string
     code = Column(String(3), primary_key=True)
     name = Column(String(16), nullable=False)
