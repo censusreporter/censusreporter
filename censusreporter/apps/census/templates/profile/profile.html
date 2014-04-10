@@ -1,8 +1,5 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize %}
 
-{% comment %}
-{% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
-{% endcomment %}}
 {% block head_title %}{{ geography.name }} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
@@ -26,18 +23,17 @@
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
-{% comment %}
 <div id="cover-map" class="clearfix">
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header class="column-full">
-                <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
-                <p class="caption">Data: {{ geography.census_release }} unless noted</p>
+                <h1 class="title">{{ geography.census_release }}</h1>
+                <p class="caption">Data: 2011</p>
             </header>
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
-                        <span class="value">{{ geography.this.total_population|intcomma }}</span>
+                        <span class="value">???</span>
                         <span class="name">Population</span>
                     </span>
                 </div>
@@ -56,16 +52,11 @@
                 </div>
             </div>
             {% endif %}
-            <div class="column-full">
-                <p>This is some short, generated text that uses the facts and figures below to provide some narrative about the place being profiled.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis vehicula euismod. In erat quam, dictum eu leo non, euismod pretium diam. Maecenas rutrum dolor at diam placerat aliquam. Aenean rhoncus sapien ac venenatis euismod. Nam id ligula facilisis, placerat erat at, congue diam.</p>
-            </div>
         </article>
     </div>
 
     <div id="slippy-map"></div>
 </div>
-{% endcomment %}
 {% endblock %}
 
 {% block content %}
@@ -74,127 +65,6 @@
     {{ geography.name }}{% for g in geography.parents %}, {{ g.name }}{% endfor %}
 </h1>
 
-{#}<p class="explain">Indexes show data as a percentage of state and national values, highlighting values that diverge by at least 20%.</p>{#}
-
-{% comment %}
-<article id="test" class="clearfix">
-    <header class="section-contents">
-        <h1>Table B02001</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <aside></aside>
-            <div class="column-golden-wide">
-                <h2>Race</h2>
-                <table id="data-table" class="full-width">
-                    <thead>
-                        <tr>
-                            <th class="name">Column</th>
-                            <th class="value">Percentage</th>
-                            <th class="value">Number</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="odd">
-                            <td class="name indent-0">Total:</td>
-                            <td class="value">
-                                <span class="percentage">100%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">313,914,040</span>
-                            </td>
-                        </tr>
-
-                        <tr class="even">
-                            <td class="name indent-1">White alone</td>
-                            <td class="value">
-                                <span class="percentage">73.9%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">231,992,377</span>
-                            </td>
-                        </tr>
-
-                        <tr class="odd">
-                            <td class="name indent-1">Black or African American alone</td>
-                            <td class="value">
-                                <span class="percentage">12.6%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">39,623,138</span>
-                            </td>
-                        </tr>
-
-                        <tr class="even">
-                            <td class="name indent-1">American Indian and Alaska Native alone</td>
-
-                            <td class="value">
-                                <span class="percentage">0.8%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">2,563,505</span>
-                            </td>
-                        </tr>
-
-                        <tr class="odd">
-                            <td class="name indent-1">Asian alone</td>
-                            <td class="value">
-                                <span class="percentage">5%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">15,555,530</span>
-                            </td>
-                        </tr>
-
-                        <tr class="even">
-                            <td class="name indent-1">Native Hawaiian and Other Pacific Islander alone</td>
-                            <td class="value">
-                                <span class="percentage">0.2%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">543,198</span>
-                            </td>
-                        </tr>
-
-                        <tr class="odd">
-                            <td class="name indent-1">Some other race alone</td>
-                            <td class="value">
-                                <span class="percentage">4.6%</span>
-                            </td>
-                            <td class="value">
-                                <span class="raw-number">14,562,678</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="column-golden-narrow">
-                <h2>Create a comparison with this table</h2>
-
-                <div class="option-group">
-                    <h2 class="option-header">Compare Spokane against&hellip;</h3>
-                    <ul class="option-list">
-                        <li><a href="">Other cities in Washington</a></li>
-                        <li><a href="">Choose your own list of places to compare</a></li>
-                    </ul>
-                </div>
-
-                <div class="option-group">
-                    <h2 class="option-header">Divide Spokane by&hellip;</h2>
-                    <ul class="option-list">
-                        <li><a href="">Census Tracts</a></li>
-                        <li><a href="">Block Groups</a></li>
-                        <li><a href="">ZIP Codes</a></li>
-                    </ul>
-                </div>
-            </div>
-            {#}<div class="column-half" id="chart-column-testdata-marital_status_grouped-widowed" data-stat-type="scaled-percentage" data-chart-title="Marital status"></div>{#}
-        </section>
-
-    </div>
-</article>
-{% endcomment %}
 
 <p class="explain">Hover over charts and statistics for margins of error and additional information.</p>
 <article id="demographics" class="clearfix">
