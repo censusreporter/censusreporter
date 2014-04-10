@@ -11,15 +11,15 @@
 {% endblock %}
 
 {% block head_css_extra %}
-<link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
-  <!--[if lte IE 8]>
-    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
-  <![endif]-->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+<![endif]-->
 <link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
 {% endblock %}
 
 {% block head_javascript_extra %}
-<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
@@ -29,7 +29,7 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
-                <h1 class="title">{{ geo.name }}</h1>
+                <h1 class="title">{{ geo.name }}{% for g in geo.parents %}, {{ g.name }}{% endfor %}</h1>
                 <p class="caption"></p>
             </header>
             <div class="column-half">
@@ -76,19 +76,6 @@
         <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
     </div>
 </section>
-
-<h1>
-    {% spaceless %}
-        {% if geo.level == "ward" %}
-            Ward {{ geo.ward_no }} ({{ geo.code }})
-        {% else %}
-            {{ geo.name }}
-        {% endif %}
-        {% for g in geo.parents %}
-            {% if g.level != "district" %}, {{ g.name }}{% endif %}
-        {% endfor %}
-    {% endspaceless %}
-</h1>
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
 <article id="demographics" class="clearfix">
@@ -206,103 +193,67 @@
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
-<!--[if gt IE 9]><!-->
-<script src="{{ STATIC_URL }}js/TileLayer.GeoJSON.js"></script>
-<!--<![endif]-->
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
-// Make the header map
-/*d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
-    if (error) return console.warn(error);
-    var allowMapDrag = (browserWidth > 480) ? true : false;
 
-    // draw a geom
-    var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
-        scrollWheelZoom: false,
-        zoomControl: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        keyboard: false,
-        dragging: allowMapDrag,
-        touchZoom: allowMapDrag
-    });
+var geo_level = '{{ geo.level }}';
+var geo_code = '{{ geo.code }}';
 
-    if (allowMapDrag) {
-        map.addControl(new L.Control.Zoom({
-            position: 'topright'
-        }));
-    }
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?format=geojson&filter[" + geo_level + "]=" + geo_code, function(error, json) {
+  var allowMapDrag = (browserWidth > 480) ? true : false;
 
-    if (L.TileLayer.GeoJSON) {
-        var defaultStyle = {
-                "clickable": true,
-                "color": "#00d",
-                "fillColor": "#ccc",
-                "weight": 1.0,
-                "opacity": 0.3,
-                "fillOpacity": 0.3,
-            },
-        geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
-            clipTiles: true,
-            unique: function(feature) {
-                return feature.properties.geoid;
-            }
-        }, {
-            style: defaultStyle,
-            onEachFeature: function(feature, layer) {
-                if (feature.properties.geoid == thisGeoID)
-                    return;
+  // draw a geom
+  var map = L.map('slippy-map', {
+      scrollWheelZoom: false,
+      zoomControl: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      dragging: allowMapDrag,
+      touchZoom: allowMapDrag
+  });
 
-                layer.bindLabel(feature.properties.name, {direction: 'auto'});
-                layer.on('mouseover', function() {
-                    layer.setStyle({
-                        "fillOpacity": 0.5,
-                    });
-                });
-                layer.on('mouseout', function() {
-                    layer.setStyle(defaultStyle);
-                });
-                layer.on('click', function() {
-                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                });
-            }
-        });
-        map.addLayer(geojsonTileLayer);
-    }
+  if (allowMapDrag) {
+      map.addControl(new L.Control.Zoom({
+          position: 'topright'
+      }));
+  }
 
-    var featureLayer = L.geoJson(json, {
-        style: {
-            "fillColor": "#66c2a5",
-            "color": "#777",
-            "weight": 2,
-            "clickable": false
-        }
-    });
-    map.addLayer(featureLayer);
-    var objBounds = featureLayer.getBounds();
+  // add imagery
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+      maxZoom: 13
+  }).addTo(map);
 
-    if (thisSumlev === "010") {
-        objBounds = L.latLngBounds(L.latLng(24.396, -124.849), L.latLng(49.384, -66.885));
-    }
+  var featureLayer = L.geoJson(json, {
+      style: {
+          "fillColor": "#66c2a5",
+          "color": "#777",
+          "weight": 2,
+          "clickable": false
+      }
+  });
+  map.addLayer(featureLayer);
+  var objBounds = featureLayer.getBounds();
 
-    if (browserWidth > 768) {
-        var z;
-        for(z = 16; z > 2; z--) {
-            var swPix = map.project(objBounds.getSouthWest(), z),
-                nePix = map.project(objBounds.getNorthEast(), z),
-                pixWidth = Math.abs(nePix.x - swPix.x),
-                pixHeight = Math.abs(nePix.y - swPix.y);
-            if (pixWidth <  500 && pixHeight < 400) {
-                break;
-            }
-        }
+  if (browserWidth > 768) {
+      var z;
+      for(z = 16; z > 2; z--) {
+          var swPix = map.project(objBounds.getSouthWest(), z),
+              nePix = map.project(objBounds.getNorthEast(), z),
+              pixWidth = Math.abs(nePix.x - swPix.x),
+              pixHeight = Math.abs(nePix.y - swPix.y);
+          if (pixWidth <  500 && pixHeight < 400) {
+              break;
+          }
+      }
 
-        map.setView(objBounds.getCenter(), z);
-        map.panBy([-270, 0], {animate: false});
-    } else {
-        map.fitBounds(objBounds);
-    }
-})*/
+      map.setView(featureLayer.getBounds().getCenter(), z);
+      map.panBy([-270, 0], {animate: false});
+  } else {
+      map.fitBounds(featureLayer.getBounds());
+  }
+});
 
 // Create all the charts
 var Charts = {},
