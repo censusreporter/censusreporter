@@ -40,6 +40,7 @@ class Ward(Base):
     province  = relationship('Province', lazy=False)
 
     level = 'ward'
+    census_release = 2011
 
     def parents(self):
         return [self.muni, self.district, self.province]
@@ -61,6 +62,7 @@ class Municipality(Base):
     province  = relationship('Province', lazy=False)
 
     level = 'municipality'
+    census_release = 2011
 
     def parents(self):
         return [self.district, self.province]
@@ -80,6 +82,7 @@ class District(Base):
     province  = relationship('Province', lazy=False)
 
     level = 'district'
+    census_release = 2011
 
     def parents(self):
         return [self.province]
@@ -95,6 +98,7 @@ class Province(Base):
     fips_code = Column(String(4), index=True, unique=True, nullable=False)
 
     level = 'province'
+    census_release = 2011
 
     def parents(self):
         # TODO: return nation

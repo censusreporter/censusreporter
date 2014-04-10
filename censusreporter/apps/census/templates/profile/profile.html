@@ -1,8 +1,6 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize madlibs %}
 
-{% comment %}
-{% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
-{% endcomment %}}
+{% block head_title %}
 {% spaceless %}
     {% if geo.level == "ward" %}
         Ward {{ geo.ward_no }} ({{ geo.code }})
@@ -10,6 +8,7 @@
         {{ geo.name }}
     {% endif %}
 {% endspaceless %} - {{ block.super }}
+{% endblock %}
 
 {% block head_css_extra %}
 <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
@@ -26,20 +25,17 @@
 {% block body_id %}profile{% endblock %}
 
 {% block header_content %}
-{% comment %}
 <div id="cover-map" class="clearfix">
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
-                <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
-                {% if geography.this.sumlevel != '010' %}
+                <h1 class="title">{{ geo.name }}</h1>
                 <p class="caption"></p>
-                {% endif %}
             </header>
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
-                        <span class="value">{{ geography.this.total_population|intcomma }}</span>
+                        <span class="value">???</span>
                         <span class="name">Population</span>
                     </span>
                 </div>
@@ -64,14 +60,13 @@
             {% endif %}
             
             <div class="column-full">
-                <p class="caption"><strong>Census data:</strong> {{ geography.census_release }} unless noted</p>
+                <p class="caption"><strong>Census data:</strong> 2011 unless noted</p>
             </div>
         </article>
     </div>
 
     <div id="slippy-map"></div>
 </div>
-{% endcomment %}
 {% endblock %}
 
 {% block content %}
