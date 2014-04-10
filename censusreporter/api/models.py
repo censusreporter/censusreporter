@@ -59,7 +59,6 @@ class Ward(Base, GeoNameMixin):
     province  = relationship('Province', lazy=False)
 
     level = 'ward'
-    census_release = 2011
 
     def parents(self):
         return [self.muni, self.district, self.province]
@@ -85,7 +84,6 @@ class Municipality(Base, GeoNameMixin):
     province  = relationship('Province', lazy=False)
 
     level = 'municipality'
-    census_release = 2011
 
     def parents(self):
         return [self.district, self.province]
@@ -105,7 +103,6 @@ class District(Base, GeoNameMixin):
     province  = relationship('Province', lazy=False)
 
     level = 'district'
-    census_release = 2011
 
     def parents(self):
         return [self.province]
