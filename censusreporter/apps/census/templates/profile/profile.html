@@ -1,4 +1,4 @@
-{% extends 'profile/_base_profile.html' %}{% load humanize madlibs %}
+{{% extends 'profile/_base_profile.html' %}{% load humanize %}
 
 {% block head_title %}
 {% spaceless %}
@@ -20,6 +20,7 @@
 
 {% block head_javascript_extra %}
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
@@ -201,7 +202,7 @@
 var geo_level = '{{ geo.level }}';
 var geo_code = '{{ geo.code }}';
 
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?format=geojson&filter[" + geo_level + "]=" + geo_code, function(error, json) {
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_level + "]=" + geo_code, function(error, topo) {
   var allowMapDrag = (browserWidth > 480) ? true : false;
 
   // draw a geom
@@ -227,7 +228,7 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?format=geojson&filt
       maxZoom: 13
   }).addTo(map);
 
-  var featureLayer = L.geoJson(json, {
+  var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
       style: {
           "fillColor": "#66c2a5",
           "color": "#777",
