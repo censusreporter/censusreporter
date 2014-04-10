@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, ForeignKey, Integer, SmallInteger,
-                        String, Table, MetaData)
+                        String, Table, Numeric)
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship
 
@@ -124,6 +124,37 @@ class Province(Base, GeoNameMixin):
         # TODO: return nation
         return []
 
+
+'''
+Elections models
+'''
+
+class Votes(Base):
+    ward_code = Column(String(8), ForeignKey('ward.code'))
+    province_code = Column(String(3), ForeignKey('province.code'))
+    municipality_code = Column(String(8), ForeignKey('municipality.code'))
+    district_code = Column(String(8), ForeignKey('district.code'))
+
+    # an 8-digit code
+    # Note: a voting district is at sub-ward level
+    voting_district_code = Column(String(8), primary_key=True)
+    electoral_event = Column(String(32), primary_key=True)
+    party = Column(String(64), primary_key=True)
+    ballot_type = Column(String(8), primary_key=True)
+    registered_voters = Column(Integer)
+    total_votes = Column(Integer)
+    valid_votes = Column(Integer)
+    spoilt_votes = Column(Integer)
+    mec7_votes = Column(Integer)
+    # This value is a percentage close to, but not equal to, (total_votes / registered_voters * 100)
+    # The Electoral Commission must have some other way of calculating it.
+    voter_turnout = Column(Numeric(precision=5, scale=2))
+
+    # associations
+    ward  = relationship('Municipality', lazy=True)
+    municipality  = relationship('Municipality', lazy=True)
+    province      = relationship('Province', lazy=True)
+    district  = relationship('District', lazy=True)
 
 '''
 Census data models

@@ -6,7 +6,7 @@ from sqlalchemy import func
 
 import models
 from .models import (get_model_from_fields, Ward, District, Municipality,
-                     Province)
+                     Province, Votes)
 from .utils import get_session, ward_search_api, geo_levels
 
 
@@ -191,7 +191,7 @@ def get_geography(geo_code, geo_level):
         session.close()
 
 
-def get_profile(geo_code, geo_level):
+def get_census_profile(geo_code, geo_level):
     session = get_session()
     data = {}
     for section in PROFILE_SECTIONS:
@@ -754,3 +754,23 @@ def _complete_ward_data_from_api(locations, session):
             ward_obj.district_code = municipality.district_code
 
     session.commit()
+
+
+def get_elections_profile(geo_code, geo_level):
+    session = get_session()
+
+    try:
+        field_name = {
+            'ward': 'ward_code',
+            'province': 'province_code',
+            'municipality': 'municipality_code',
+            'district': 'district_code'
+        }[geo_level]
+        query = session.query(Votes).filter(getattr(Votes, field_name)
+                                            == geo_code)
+        
+        
+    except KeyError:
+        raise ValueError('Invalid geo_level: %s' % geo_level)
+    finally:
+        session.close()
