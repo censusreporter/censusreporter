@@ -25,6 +25,7 @@
                 <h1 class="title">{{ geography.name }}{% for g in geography.parents %}, {{ g.name }}{% endfor %}</h1>
                 <p class="caption">Data: {{ geography.census_release }}</p>
             </header>
+            {% comment %}
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
@@ -33,6 +34,7 @@
                     </span>
                 </div>
             </div>
+            {% endcomment %}
             {% if geo_metadata.square_miles %}
             <div class="column-half">
                 <div class="stat">
