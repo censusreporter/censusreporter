@@ -1,14 +1,6 @@
 {{% extends 'profile/_base_profile.html' %}{% load humanize %}
 
-{% block head_title %}
-{% spaceless %}
-    {% if geo.level == "ward" %}
-        Ward {{ geo.ward_no }} ({{ geo.code }})
-    {% else %}
-        {{ geo.name }}
-    {% endif %}
-{% endspaceless %} - {{ block.super }}
-{% endblock %}
+{% block head_title %}{{ geo.short_name }} - {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -24,7 +16,7 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
-                <h1 class="title">{{ geo.name }}{% for g in geo.parents %}, {{ g.name }}{% endfor %}</h1>
+                <h1 class="title">{{ geo.long_name }}</h1>
                 <p class="caption"></p>
             </header>
             {% comment %}
