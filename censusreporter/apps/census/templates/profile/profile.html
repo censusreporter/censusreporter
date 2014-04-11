@@ -195,6 +195,28 @@
 {% endcomment %}
 
 <p class="explain">Hover over charts and statistics for margins of error and additional information.</p>
+
+<article id="demographics" class="clearfix">
+    <header class="section-contents">
+        <h1>Elections</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <h2 class="column-header"><a class="permalink" href="#age" id="age">{{ elections.0.electoral_event }} <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=elections.0.registered_voters stat_type='number' %}
+            </div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=elections.0.average_turnout stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-histogram-elections-0-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party"></div>
+        </section>
+    </div>
+</article>
+
 <article id="demographics" class="clearfix">
     <header class="section-contents">
         <h1>Demographics</h1>
