@@ -796,10 +796,11 @@ def get_elections_profile(geo_code, geo_level):
                 })
                 party_data['Other']['numerators']['this'] += votes
         # calculate percentage for 'Other'
-        party_data['Other']['values'] = {'this': round(
-            party_data['Other']['numerators']['this'] / total_valid_votes * 100,
-            2
-        )}
+        if 'Other' in party_data:
+            party_data['Other']['values'] = {'this': round(
+                party_data['Other']['numerators']['this'] / total_valid_votes * 100,
+                2
+            )}
 
         return [{
             'electoral_event': '2011 municipal elections',
