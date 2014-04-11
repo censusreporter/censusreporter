@@ -110,6 +110,8 @@ if __name__ == '__main__':
 
         for category, value in zip(categories, values):
             kwargs = base_kwargs.copy()
+            if value.strip() == '-':
+                value = '0'
             kwargs.update({
                 'total': int(''.join(value.split(','))),
                 field_name: category,

@@ -18,7 +18,8 @@ from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
-from api.controller import get_profile, get_geography, get_locations, LocationNotFound
+from api.controller import (get_census_profile, get_geography, get_locations,
+                            get_elections_profile, LocationNotFound)
 
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
@@ -249,7 +250,8 @@ class GeographyDetailView(TemplateView):
             geo_level, geo_code = geography_id, self.slug
             
             geo = get_geography(geo_code, geo_level)
-            profile_data = get_profile(geo_code, geo_level)
+            profile_data = get_census_profile(geo_code, geo_level)
+            profile_data['elections'] = get_elections_profile(geo_code, geo_level)
         except (ValueError, LocationNotFound):
             raise Http404
         #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
