@@ -117,6 +117,7 @@ class Province(Base, GeoNameMixin):
     fips_code = Column(String(4), index=True, unique=True, nullable=False)
 
     level = 'province'
+    census_release = 2011
 
     def parents(self):
         # TODO: return nation
