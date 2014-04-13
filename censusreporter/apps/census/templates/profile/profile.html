@@ -204,9 +204,8 @@
 </article>
 {% endblock %}
 
-{% block body_javascript_extra %}
-{#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
-<script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
+{% block body_javascript_extra %}{{ block.super }}
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/topojson.v1.min.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script src="{{ STATIC_URL }}js/charts.js"></script>

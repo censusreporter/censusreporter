@@ -820,12 +820,14 @@ def get_elections_profile(geo_code, geo_level):
                     "name": party_short,
                     "numerators": {"this": votes},
                     "error": {"this": 0.0},
+                    "error_ratio": {"this": 0.0},
                     "values": {"this": round(votes / total_valid_votes * 100, 2)}
                 }
             else:
                 party_data.setdefault('Other', {
                     "name": "Other",
                     "numerators": {"this": 0.0},
+                    "error_ratio": {"this": 0.0},
                     "error": {"this": 0.0},
                 })
                 party_data['Other']['numerators']['this'] += votes
