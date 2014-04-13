@@ -59,10 +59,12 @@ def provision_censusreporter():
     if env.deploy_type == 'dev':
         local('; '.join('sudo %s' % cmd for cmd in commands))
         local('sudo apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
+        local('sudo npm config set registry http://registry.npmjs.org/')
         local('sudo npm -g install yuglify')
         return
     sudo('; '.join(commands))
     sudo('apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
+    sudo('npm config set registry http://registry.npmjs.org/')
     sudo('npm -g install yuglify')
 
 
