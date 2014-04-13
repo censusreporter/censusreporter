@@ -208,6 +208,10 @@ img.screenshot {
     float: right;
     padding: 8px 20px;
 }
+#page-header-title .logo img {
+    background-color: white;
+    padding: 2px;
+}
 
 #menu {
     float: right;
