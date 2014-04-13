@@ -211,6 +211,10 @@ img.screenshot {
     vertical-align: baseline;
     height: 21px;
 }
+#page-header-title .logo {
+    float: right;
+    padding: 8px 20px;
+}
 .box-header {
     padding: .25em .5em;
     margin-bottom: .67em;

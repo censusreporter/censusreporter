@@ -42,6 +42,9 @@
                     </div>
                 </div>
                 {% endif %}
+                <a class="logo" href="http://www.mediamonitoringafrica.org/">
+                    <img src="{{ STATIC_URL }}img/mma.png">
+                </a>
             </div>
         </header>
         {% block header_content %}{% endblock header_content %}
@@ -80,8 +83,6 @@
                         <i class="fa fa-tumblr"></i> <a href="#">Census Reporter blog</a>
                     </li>
                 </ul>
-                <a class="logo" href="http://www.mediamonitoringafrica.org/" style="display: block; text-align: center; margin-top: 64px;">
-                    <img src="{{ STATIC_URL }}img/MMA_logo-small.jpg"></a>
                 {% endblock footer_content %}
             </section>
         </footer>
