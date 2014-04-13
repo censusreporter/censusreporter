@@ -1,4 +1,4 @@
-{% extends '_base.html' %}{% load humanize partition %}
+{% extends '_base.html' %}{% load humanize %}
 
 {% block head_title %}{{ block.super }}{% endblock %}
 {% block body_id %}homepage{% endblock %}
@@ -110,5 +110,6 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 </script>
-<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
+<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
 {% endblock %}
