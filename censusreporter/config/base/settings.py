@@ -109,3 +109,46 @@ ADMINS = (
 MANAGERS = ADMINS
 
 API_URL = 'http://api.censusreporter.org'
+
+PIPELINE_CSS = {
+    'head': {
+        'source_filenames': (
+          'css/app.css',
+          'css/normalize.min.css',
+        ),
+        'output_filename': 'css/head.css',
+    },
+}
+
+PIPELINE_JS = {
+    'head': {
+        'source_filenames': (
+          'js/vendor/modernizr-2.6.2-respond-1.1.0.min.js',
+        ),
+        'output_filename': 'js/head.js',
+    },
+    'body': {
+        'source_filenames': (
+            'js/app.js',
+            'js/vendor/typeahead.min.js',
+            'js/vendor/hogan-2.0.0.js',
+            'js/widget.geo.select.js',
+        ),
+        'output_filename': 'js/body.js'
+    },
+    'body_extra_profile': {
+        'source_filenames': (
+            'js/vendor/d3.v3.min.js',
+            'js/vendor/topojson.v1.min.js',
+            'js/charts.js',
+        ),
+        'output_filename': 'js/body_profile.js'
+    },
+    'body_extra_home': {
+        'source_filenames': (
+            'js/vendor/spin.min.js',
+            'js/comparison.builder.js',
+        ),
+        'output_filename': 'js/body_home.js'
+    }
+}
