@@ -1,3 +1,5 @@
+{% load compressed %}
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -10,11 +12,10 @@
         <meta name="description" content="{% block head_meta_description %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_css %}
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
+        {% compressed_css "head" %}
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
-        <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
+        {% compressed_js "head" %}
         {% block head_javascript_extra %}{% endblock %}{% endblock %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
         <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" />
@@ -97,9 +98,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.js"></script>
         <![endif]-->
-        <script src="{{ STATIC_URL }}js/app.js"></script>
-        <script src="{{ STATIC_URL }}js/glossary.js"></script>
-        <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
+        {% compressed_js "body" %}
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
     </body>
 </html>
