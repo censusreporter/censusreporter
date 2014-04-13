@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-
+{% load staticfiles %}
 
 {% block content %}
     <article id="locate" class="clearfix">
@@ -29,7 +29,7 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
+<script src="{% static 'js/vendor/spin.min.js' %}"></script>
 <script>
 var lat = '{{ location.lat }}',
     lon = '{{ location.lon }}';
