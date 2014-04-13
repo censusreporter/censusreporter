@@ -1,4 +1,4 @@
-{% extends 'profile/_base_profile.html' %}{% load humanize %}
+{% extends 'profile/_base_profile.html' %}{% load humanize compressed %}
 
 {% block head_title %}{{ geography.short_name }} - {{ block.super }}{% endblock %}
 
@@ -168,11 +168,8 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-{#}<script src="http://d3js.org/d3.v3.min.js"></script>{#}
-<script src="{{ STATIC_URL }}js/vendor/d3.v3.min.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/topojson.v1.min.js"></script>
+{% compressed_js "body_extra_profile" %}
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
-<script src="{{ STATIC_URL }}js/charts.js"></script>
 <script type="text/javascript">
 
 var geo_level = '{{ geography.level }}';
