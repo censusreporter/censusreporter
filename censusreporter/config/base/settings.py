@@ -26,6 +26,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'census',
+    'pipeline',
 )
 
 ALLOWED_HOSTS = []
@@ -46,6 +47,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
