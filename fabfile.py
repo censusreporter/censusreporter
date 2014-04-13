@@ -16,7 +16,8 @@ PACKAGES = (
     'sqlite3',
     'memcached',
     'upstart',
-    'nginx'
+    'nginx',
+    'npm'  # Node is for yUglify
 )
 # Nginx & Upstart constants
 SERVER_NAMES = 'mmm-dashboard.code4sa.org ""'
@@ -58,9 +59,11 @@ def provision_censusreporter():
     if env.deploy_type == 'dev':
         local('; '.join('sudo %s' % cmd for cmd in commands))
         local('sudo apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
+        local('sudo npm -g install yuglify')
         return
     sudo('; '.join(commands))
     sudo('apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
+    sudo('npm -g install yuglify')
 
 
 @task
