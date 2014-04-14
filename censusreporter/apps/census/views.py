@@ -10,7 +10,9 @@ from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
-from api.controller import get_profile, get_geography, get_locations, LocationNotFound
+from api import LocationNotFound
+from api.controller import (get_census_profile, get_geography, get_locations,
+                            get_elections_profile)
 
 from .models import Geography, Table, Column
 from .utils import (LazyEncoder, get_ratio, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS,
@@ -124,7 +126,8 @@ class GeographyDetailView(TemplateView):
             geo_level, geo_code = geography_id.split('-')
 
             geo = get_geography(geo_code, geo_level)
-            profile_data = get_profile(geo_code, geo_level)
+            profile_data = get_census_profile(geo_code, geo_level)
+            profile_data['elections'] = get_elections_profile(geo_code, geo_level)
         except (ValueError, LocationNotFound):
             raise Http404
         #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)

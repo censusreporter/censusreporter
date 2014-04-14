@@ -1,16 +1,9 @@
 from collections import OrderedDict
 
-from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import or_, and_
-from sqlalchemy import func
+from api.models import get_model_from_fields
+from api.utils import get_session, LocationNotFound
 
-from .models import (get_model_from_fields, Ward, District, Municipality,
-                     Province)
-from .utils import get_session, ward_search_api, geo_levels
-
-
-class LocationNotFound(Exception):
-    pass
+from .utils import collapse_categories, calculate_median
 
 
 PROFILE_SECTIONS = (
@@ -163,34 +156,7 @@ SHORT_REFUSE_DISPOSAL_CATEGORIES = {
 }
 
 
-def get_geography(geo_code, geo_level):
-    """
-    Get a geography model (Ward, Province, etc.) for this geography, or
-    raise LocationNotFound if it doesn't exist.
-    """
-    session = get_session()
-
-    try:
-        try:
-            model = {
-                'ward': Ward,
-                'district': District,
-                'municipality': Municipality,
-                'province': Province,
-            }[geo_level]
-        except KeyError:
-            raise LocationNotFound(geo_code)
-
-        geo = session.query(model).get(geo_code)
-        if not geo:
-            raise LocationNotFound(geo_code)
-
-        return geo
-    finally:
-        session.close()
-
-
-def get_profile(geo_code, geo_level):
+def get_census_profile(geo_code, geo_level):
     session = get_session()
     data = {}
     for section in PROFILE_SECTIONS:
@@ -520,34 +486,6 @@ def get_education_profile(geo_code, geo_level, session):
             'educational_attainment': edu_split_data}
 
 
-def collapse_categories(data, categories, key_order=None):
-    if key_order:
-        collapsed = OrderedDict((key, {'name': key}) for key in key_order)
-    else:
-        collapsed = {}
-
-    # level 1: iterate over categories in data
-    for fields in data.values():
-        new_category_name = categories[fields['name']]
-        collapsed.setdefault(new_category_name, {'name': new_category_name})
-        new_fields = collapsed[new_category_name]
-        # level 2: iterate over measurement objects in category
-        for measurement_key, measurement_objects in fields.iteritems():
-            if measurement_key == 'name':
-                continue
-            new_fields.setdefault(measurement_key, {})
-            new_measurement_objects = new_fields[measurement_key]
-            # level 3: iterate over data points in measurement objects
-            for datapoint_key, datapoint_value in measurement_objects.iteritems():
-                try:
-                    new_measurement_objects.setdefault(datapoint_key, 0)
-                    new_measurement_objects[datapoint_key] += float(datapoint_value)
-                except (ValueError, TypeError):
-                    new_measurement_objects[datapoint_key] = datapoint_value
-
-    return collapsed
-
-
 def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
     geo_attr = '%s_code' % geo_level
     objects = session.query(db_model).filter(getattr(db_model, geo_attr)
@@ -562,148 +500,3 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
         raise LocationNotFound("%s.%s with code '%s' not found"
                                % (db_model.__tablename__, geo_attr, geo_code))
     return objects
-
-
-def calculate_median(objects, field_name):
-    '''
-    Calculates the median where obj.total is the distribution count and
-    getattr(obj, field_name) is the distribution segment.
-    Note: this function assumes the objects are sorted.
-    '''
-    total = 0
-    for obj in objects:
-        total += obj.total
-    half = total / 2.0
-
-    counter = 0
-    for i, obj in enumerate(objects):
-        counter += obj.total
-        if counter > half:
-            if counter - half == 1:
-                # total must be even (otherwise counter - half ends with .5)
-                return (float(getattr(objects[i - 1], field_name)) +
-                        float(getattr(obj, field_name))) / 2.0
-            return float(getattr(obj, field_name))
-        elif counter == half:
-            # total must be even (otherwise half ends with .5)
-            return (float(getattr(obj, field_name)) +
-                    float(getattr(objects[i + 1], field_name))) / 2.0
-
-
-def get_locations(search_term, geo_level=None):
-    if geo_level is not None and geo_level not in geo_levels:
-        raise ValueError('Invalid geo_level: %s' % geo_level)
-    session = get_session()
-
-    if geo_level == 'ward':
-        # try to find by ward code first, then address/place name
-        ward = session.query(Ward).get(search_term)
-        if not ward:
-            locations = ward_search_api.search(search_term)
-            if locations:
-                ward_codes = [l.ward_code for l in locations]
-                wards = session.query(Ward).filter(Ward.code.in_(ward_codes)).all()
-                _complete_ward_data_from_api(locations, session)
-            else:
-                wards = []
-        else:
-            wards = [ward]
-        return serialize_demarcations(wards)
-
-    elif geo_level is not None:
-        model = globals()[geo_level.capitalize()]
-        # try to find by code or name
-        demarcations = session.query(model).filter(
-            or_(model.name.ilike(search_term + '%'),
-                model.code == search_term.upper())
-        ).all()
-        return serialize_demarcations(demarcations)
-
-    else:
-        '''
-        This search differs from the above in that it first
-        search for wards. If it finds wards it adds the wards and
-        their provinces, districts and municipalities to the results.
-        It then also checks if any province, district or municipality
-        matches the search term in their own right, adding these
-        to the results as well.
-        '''
-        objects = set()
-        # look up wards
-        locations = ward_search_api.search(search_term)
-        if locations:
-            _complete_ward_data_from_api(locations, session)
-            ward_codes = [l.ward_code for l in locations]
-            wards = session.query(Ward).options(
-                joinedload('*', innerjoin=True)
-            ).filter(Ward.code.in_(ward_codes)).all()
-            objects.update(wards)
-            for ward in wards:
-                objects.update([ward.municipality, ward.district, ward.province])
-
-        # find other matches
-        for model in (Municipality, District, Province):
-            objects.update(session.query(model).filter(
-                or_(model.name.ilike(search_term + '%'),
-                    model.name.ilike('City of %s' % search_term + '%'),
-                    model.code == search_term.upper())
-            ).all())
-
-        order_map = {Ward: 1, Municipality: 2, District: 3, Province: 4}
-        objects = sorted(objects, key=lambda o: "%d%s" % (
-            order_map[o.__class__],
-            getattr(o, 'name', getattr(o, 'code'))
-        ))
-        return serialize_demarcations(objects)
-
-
-def serialize_demarcations(objects):
-    data = []
-    for obj in objects:
-        if isinstance(obj, Ward):
-            obj_dict = {
-                'full_name': '%s, %s, %s' % (obj.code, obj.municipality.name,
-                                             obj.province_code),
-                'full_geoid': 'ward-%s' % obj.code,
-            }
-        elif isinstance(obj, Municipality):
-            obj_dict = {
-                'full_name': '%s, %s' % (obj.name, obj.province_code),
-                'full_geoid': 'municipality-%s' % obj.code,
-            }
-        elif isinstance(obj, District):
-            obj_dict = {
-                'full_name': '%s, %s' % (obj.name, obj.province_code),
-                'full_geoid': 'district-%s' % obj.code,
-            }
-        elif isinstance(obj, Province):
-            obj_dict = {
-                'full_name': '%s' % obj.name,
-                'full_geoid': 'province-%s' % obj.code,
-            }
-        else:
-            raise ValueError("Unrecognized demarcation class")
-        data.append(obj_dict)
-    return data
-
-
-def _complete_ward_data_from_api(locations, session):
-    '''
-    Completes the ward data in the DB when a ward appears in a search result
-    '''
-    for location in locations:
-        ward_obj = session.query(Ward).get(location.ward_code)
-        if ward_obj is not None and not (ward_obj.province_code and
-                                         ward_obj.district_code and
-                                         ward_obj.muni_code):
-            ward_obj.province_code = location.province_code
-            # there are no duplicate names within a province, incidentally
-            municipality = session.query(Municipality).filter(
-                and_(func.lower(Municipality.name) ==
-                     func.lower(location.municipality),
-                     Municipality.province_code == location.province_code)
-            ).one()
-            ward_obj.muni_code = municipality.code
-            ward_obj.district_code = municipality.district_code
-
-    session.commit()
