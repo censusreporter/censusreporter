@@ -71,7 +71,7 @@
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=elections.0.average_turnout stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-histogram-elections-0-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party"></div>
+            <div class="column-half" id="chart-histogram-elections-0-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party" data-qualifier="Universe: {{ elections.0.party_distribution.metadata.universe }}"></div>
         </section>
     </div>
 </article>
