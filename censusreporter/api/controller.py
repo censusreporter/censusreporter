@@ -838,6 +838,10 @@ def get_elections_profile(geo_code, geo_level):
                 2
             )}
 
+        party_data['metadata'] = {
+            'universe': 'Proportional representative (PR) ballots only'
+        }
+
         return [{
             'electoral_event': '2011 municipal elections',
             'party_distribution': party_data,
