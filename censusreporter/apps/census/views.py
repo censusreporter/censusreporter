@@ -18,8 +18,9 @@ from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
+from api import LocationNotFound
 from api.controller import (get_census_profile, get_geography, get_locations,
-                            get_elections_profile, LocationNotFound)
+                            get_elections_profile)
 
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\

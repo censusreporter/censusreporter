@@ -66,6 +66,10 @@ def get_table_name(fields, geo_level):
     return '%s_%s' % (table_name, geo_level)
 
 
+class LocationNotFound(Exception):
+    pass
+
+
 class Location(object):
     '''
     Simple object to represent a location in the South African
