@@ -10,8 +10,9 @@ from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.views.generic import View, TemplateView
 
+from api import LocationNotFound
 from api.controller import (get_census_profile, get_geography, get_locations,
-                            get_elections_profile, LocationNotFound)
+                            get_elections_profile)
 
 from .models import Geography, Table, Column
 from .utils import (LazyEncoder, get_ratio, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS,
