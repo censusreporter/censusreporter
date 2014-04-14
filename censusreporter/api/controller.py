@@ -753,7 +753,7 @@ def get_elections_profile(geo_code, geo_level):
             'district': 'district_code'
         }[geo_level]
 
-        # only consider provincial votes for now
+        # only consider proportional representative (PR) votes for now
         votes_by_party = session \
                 .query(Votes.party, func.sum(Votes.valid_votes).label('vote_sum')) \
                 .filter(getattr(Votes, field_name) == geo_code,
