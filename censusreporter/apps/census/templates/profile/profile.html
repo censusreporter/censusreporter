@@ -76,18 +76,21 @@
     </header>
     <div class="section-container">
 
+        {% for key, election_data in elections.items %}
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#age" id="age">{{ elections.0.electoral_event }} <i class="fa fa-link"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#{{ election_data.name }}" id="{{ election_data.name }}">{{ election_data.name.capitalize }} <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=elections.0.registered_voters stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=election_data.registered_voters stat_type='number' %}
             </div>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=elections.0.average_turnout stat_type='percentage' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=election_data.average_turnout stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-histogram-elections-0-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party" data-qualifier="Universe: {{ elections.0.party_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-histogram-elections-{{ key }}-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party" data-qualifier="Universe: {{ election_data.party_distribution.metadata.universe }}"></div>
         </section>
+        {% endfor %}
+
     </div>
 </article>
 
