@@ -222,9 +222,10 @@ class GeographyDetailView(TemplateView):
         except:
             pass
 
-        # ProPublica Opportunity Gap app doesn't include smallest schools
-        # Census narrative profiles only exist for some sumlevs, and only 1- and 3-year
-        if release_level in ['1','3'] and sumlevel in ['010', '020', '030', '040', '050', '160', '500', '950', '960', '970']:
+        # ProPublica Opportunity Gap app doesn't include smallest schools.
+        # Originally, this also enabled links to Census narrative profiles,
+        # but those disappeared.
+        if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
             page_context['geography']['this']['show_extra_links'] = True
 
         tiger_release = 'tiger2012'
