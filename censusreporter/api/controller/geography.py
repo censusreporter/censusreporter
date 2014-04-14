@@ -1,5 +1,5 @@
 from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import or_, and_
+from sqlalchemy.sql.expression import or_
 from sqlalchemy import func
 
 from api.models import Ward, District, Municipality, Province
@@ -46,10 +46,11 @@ def get_locations(search_term, geo_level=None, year='2011'):
             locations = ward_search_api.search(search_term)
             if locations:
                 ward_codes = [l.ward_code for l in locations]
-                wards = session.query(Ward).filter(
-                    and_(Ward.code.in_(ward_codes),
-                         Ward.year == year)
-                ).all()
+                wards = session \
+                        .query(Ward) \
+                        .filter(Ward.code.in_(ward_codes)) \
+                        .filter(Ward.year == year) \
+                        .all()
                 _complete_ward_data_from_api(locations, session)
             else:
                 wards = []
@@ -65,11 +66,12 @@ def get_locations(search_term, geo_level=None, year='2011'):
             'province': Province,
         }[geo_level]
         # try to find by code or name
-        demarcations = session.query(model).filter(
-            and_(model.year == year,
-                 or_(model.name.ilike(search_term + '%'),
-                     model.code == search_term.upper()))
-        ).all()
+        demarcations = session \
+                .query(model) \
+                .filter(model.year == year) \
+                .filter(or_(model.name.ilike(search_term + '%'),
+                            model.code == search_term.upper())) \
+                .all()
         return serialize_demarcations(demarcations)
 
     else:
@@ -87,24 +89,26 @@ def get_locations(search_term, geo_level=None, year='2011'):
         if locations:
             _complete_ward_data_from_api(locations, session)
             ward_codes = [l.ward_code for l in locations]
-            wards = session.query(Ward).options(
-                joinedload('*', innerjoin=True)
-            ).filter(
-                and_(Ward.code.in_(ward_codes),
-                     Ward.year == year)
-            ).all()
+            wards = session \
+                    .query(Ward) \
+                    .options(joinedload('*', innerjoin=True)) \
+                    .filter(Ward.code.in_(ward_codes)) \
+                    .filter(Ward.year == year) \
+                    .all()
             objects.update(wards)
             for ward in wards:
                 objects.update([ward.municipality, ward.district, ward.province])
 
         # find other matches
         for model in (Municipality, District, Province):
-            objects.update(session.query(model).filter(
-                and_(model.year == year,
-                     or_(model.name.ilike(search_term + '%'),
-                         model.name.ilike('City of %s' % search_term + '%'),
-                         model.code == search_term.upper()))
-            ).all())
+            objects.update(session
+                .query(model)
+                .filter(model.year == year)
+                .filter(or_(model.name.ilike(search_term + '%'),
+                            model.name.ilike('City of %s' % search_term + '%'),
+                            model.code == search_term.upper()))
+                .all()
+            )
 
         order_map = {Ward: 1, Municipality: 2, District: 3, Province: 4}
         objects = sorted(objects, key=lambda o: "%d%s" % (
@@ -155,11 +159,13 @@ def _complete_ward_data_from_api(locations, session):
                                          ward_obj.muni_code):
             ward_obj.province_code = location.province_code
             # there are no duplicate names within a province, incidentally
-            municipality = session.query(Municipality).filter(
-                and_(func.lower(Municipality.name) ==
-                     func.lower(location.municipality),
-                     Municipality.province_code == location.province_code)
-            ).one()
+            municipality = session \
+                    .query(Municipality) \
+                    .filter(func.lower(Municipality.name) ==
+                            func.lower(location.municipality)) \
+                    .filter(Municipality.province_code ==
+                            location.province_code) \
+                    .one()
             ward_obj.muni_code = municipality.code
             ward_obj.district_code = municipality.district_code
 
