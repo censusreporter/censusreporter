@@ -252,14 +252,6 @@ function Chart(options) {
             
         chart.chartContainer
             .on("mousemove", chart.mousemove);
-
-        if (chart.chartType !== 'grouped_bar') {
-            chart.getData = chart.chartContainer
-                .append("a")
-                    .classed("chart-get-data", true)
-                    .text("Show the data")
-                    .on("click", chart.toggleDataDrawer);
-        }
         
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -480,14 +472,6 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        if (chart.chartType !== 'grouped_column') {
-            chart.getData = chart.chartContainer
-                .append("a")
-                    .classed("chart-get-data", true)
-                    .text("Show the data")
-                    .on("click", chart.toggleDataDrawer);
-        }
-
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
@@ -690,12 +674,6 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
-
         // add any explanatory lines
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
@@ -703,85 +681,7 @@ function Chart(options) {
         
         return chart;
     }
-    
-    chart.toggleDataDrawer = function() {
-        var row = d3.select(chart.findAncestor(this, 'section'));
-        chart.dataDrawer = row.select("#data-drawer");
-        
-        if (chart.dataDrawer.empty()) {
-            d3.select(this).text('Hide the data');
-            
-            chart.chartContainer.classed("highlighted", true);
-            
-            chart.dataDrawer = row.append("div")
-                    .attr("id", "data-drawer")
-                    .attr("class", "column-full");
-                    
-            chart.dataDrawer.append("h3")
-                    .attr("class", "chart-title")
-                    .text(function() {
-                        if (!!chart.chartChartTitle) {
-                            return chart.chartChartTitle + " (Table " + chart.capitalize(chart.initialData.metadata.table_id) + ")"
-                        }
-                        return "Table " + chart.capitalize(chart.initialData.metadata.table_id)
-                    });
 
-            chart.dataTable = chart.dataDrawer.append("table")
-                    .attr("id", "data-table")
-                    .attr("class", "full-width");
-                    
-            chart.dataTableHeader = chart.dataTable.append("thead")
-                .append("tr")
-                    .html(function() { return chart.makeDataDrawerHeader(chart.chartDataValues[0]) });
-
-            chart.tableRows = chart.dataTable.append("tbody")
-                .selectAll("tr")
-                    .data(chart.chartDataValues)
-                .enter().append("tr")
-                    .html(function(d) { return chart.makeDataDrawerRow(d) });
-        } else {
-            chart.dataDrawer.remove();
-            d3.select(this).text('Show the data');
-            chart.chartContainer.classed("highlighted", false);
-        }
-    }
-    
-    chart.makeDataDrawerHeader = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<th class="name">Column</th>'],
-            colspan,
-            cellContents;
-            
-        places.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
-                colspan = (d.context.numerators[k] !== null) ? 2 : 1;
-                cellContents = chart.comparisonNames[k];
-                rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
-            }
-        });
-        return rowBits.join('');
-    }
-    
-    chart.makeDataDrawerRow = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<td class="name">' + d.name + '</td>'],
-            cellContents;
-            
-        places.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
-                // add the primary value
-                rowBits.push('<td class="value">' + chart.valFmt(d.context.values[k]) + ' (&plusmn;' + chart.valFmt(d.context.error[k]) + ')</td>');
-
-                // add the numerator value if it exists
-                if (d.context.numerators[k] !== null) {
-                    cellContents = chart.commaFmt(d.context.numerators[k]) + ' (&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + ')';
-                    rowBits.push('<td class="value">' + cellContents + '</td>');
-                }
-            }
-        });
-        return rowBits.join('');
-    }
-    
     chart.initHovercard = function() {
         chart.hovercard = chart.chartContainer.append("div")
             .attr("class", "hovercard")
