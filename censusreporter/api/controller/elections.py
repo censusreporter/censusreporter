@@ -61,7 +61,6 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                     "name": party_short,
                     "name_long": obj.party,
                     "numerators": {"this": obj.valid_votes},
-                    "error": {"this": 0.0},
                     "values": {"this": round(obj.valid_votes /
                                              total_valid_votes * 100, 2)}
                 }
@@ -70,7 +69,6 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                     "name": "Other",
                     "name_long": "Other",
                     "numerators": {"this": 0.0},
-                    "error": {"this": 0.0},
                 })
                 party_data['Other']['numerators']['this'] += obj.valid_votes
         # calculate percentage for 'Other'
@@ -92,14 +90,12 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                 'registered_voters': {
                     "name": "Number of registered voters",
                     "values": {"this": first_party.registered_voters},
-                    "error": {"this": 0.0},
                 },
                 'average_turnout': {
                     "name": "Of registered voters cast their vote",
                     "values": {"this": first_party.average_voter_turnout},
                     "numerators": {"this": (first_party.total_votes +
                                             first_party.mec7_votes)},
-                    "error": {"this": 0.0},
                 }
             }
         }
@@ -122,6 +118,10 @@ def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
                    if p.get('name', 'Other') != 'Other']
 
     for level, code in get_summary_geo_info(geo_code, geo_level, session):
+        if code is None:
+            # necessary for now since not all wards have a province code
+            continue
+
         parties = session \
                 .query(VoteSummary) \
                 .filter(VoteSummary.geo_level == level) \
@@ -130,10 +130,6 @@ def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
                 .filter(VoteSummary.ballot_type == ballot_type) \
                 .filter(VoteSummary.party.in_(party_names)) \
                 .all()
-
-        if len(parties) == 0:
-            # necessary for now since not all wards have a province code
-            continue
 
         party_by_name = dict((obj.party, obj) for obj in parties)
         first_party = parties[0]

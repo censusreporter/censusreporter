@@ -31,15 +31,13 @@ function Chart(options) {
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.comparisonNames = {
             'this': (!!options.comparisonThisName) ? options.comparisonThisName : 'here',
-            'county': (!!options.comparisonCountyName) ? options.comparisonCountyName : 'county',
-            'state': (!!options.comparisonStateName) ? options.comparisonStateName : 'state',
-            'nation': (!!options.comparisonNationName) ? options.comparisonNationName : 'United States'
+            'province': (!!options.comparisonProvinceName) ? options.comparisonProvinceName : 'province',
+            'country': (!!options.comparisonNationName) ? options.comparisonNationName : 'South Africa'
         }
         chart.comparisonNamePhrases = {
             'this': (!!options.comparisonThisName) ? 'in ' + options.comparisonThisName : 'here',
-            'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
-            'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
-            'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
+            'province': (!!options.comparisonProvinceName) ? 'in ' + options.comparisonProvinceName : 'provincewide',
+            'country': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'countrywide'
         }
         
         var dataObj,
@@ -747,7 +745,7 @@ function Chart(options) {
     }
     
     chart.makeDataDrawerHeader = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
+        var places = ['this', 'province', 'country'],
             rowBits = ['<th class="name">Column</th>'],
             colspan,
             cellContents;
@@ -763,7 +761,7 @@ function Chart(options) {
     }
     
     chart.makeDataDrawerRow = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
+        var places = ['this', 'province', 'country'],
             rowBits = ['<td class="name">' + d.name + '</td>'],
             cellContents;
             

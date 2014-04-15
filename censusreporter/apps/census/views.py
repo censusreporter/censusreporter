@@ -78,18 +78,12 @@ class GeographyDetailView(TemplateView):
         
         for d in dict_list:
             values = d['values']
-            errors = d['error']
             geo_value = values['this']
 
             # add the context value to `values` dict
-            for sumlevel in ['county', 'state', 'nation']:
+            for sumlevel in ['province', 'country']:
                 if sumlevel in values:
                     values[sumlevel+'_index'] = get_ratio(geo_value, values[sumlevel])
-
-            # add the moe ratios
-            for sumlevel in ['this', 'county', 'state', 'nation']:
-                if (sumlevel in values) and (sumlevel in errors):
-                    errors[sumlevel+'_ratio'] = get_ratio(errors[sumlevel], values[sumlevel], 3)
 
         return api_data
 
