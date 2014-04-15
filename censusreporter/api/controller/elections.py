@@ -40,19 +40,29 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
     session = get_session()
 
     try:
-        summary = session.query(VoteSummary).filter(VoteSummary)
+        parties = session \
+                .query(VoteSummary) \
+                .filter(VoteSummary.geo_level == geo_level) \
+                .filter(VoteSummary.geo_code == geo_code) \
+                .filter(VoteSummary.electoral_event == election) \
+                .filter(VoteSummary.ballot_type == ballot_type) \
+                .order_by(VoteSummary.valid_votes.desc()) \
+                .all()
+        first_party = parties[0]
+        total_valid_votes = float(first_party.total_votes -
+                                  first_party.spoilt_votes)
 
         party_data = OrderedDict()
-        total_valid_votes = float(total_votes - spoilt_votes)
         # show 8 largest parties and group the rest as 'Other'
-        for i, (party, votes) in enumerate(votes_by_party):
+        for i, obj in enumerate(parties):
             if i < 8:
-                party_short = make_party_acronym(party)
+                party_short = make_party_acronym(obj.party)
                 party_data[party_short] = {
                     "name": party_short,
-                    "numerators": {"this": votes},
+                    "numerators": {"this": obj.valid_votes},
                     "error": {"this": 0.0},
-                    "values": {"this": round(votes / total_valid_votes * 100, 2)}
+                    "values": {"this": round(obj.valid_votes /
+                                             total_valid_votes * 100, 2)}
                 }
             else:
                 party_data.setdefault('Other', {
@@ -60,7 +70,7 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                     "numerators": {"this": 0.0},
                     "error": {"this": 0.0},
                 })
-                party_data['Other']['numerators']['this'] += votes
+                party_data['Other']['numerators']['this'] += obj.valid_votes
         # calculate percentage for 'Other'
         if 'Other' in party_data:
             party_data['Other']['values'] = {'this': round(
@@ -78,12 +88,12 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                 'party_distribution': party_data,
                 'registered_voters': {
                     "name": "Number of registered voters",
-                    "values": {"this": registered_voters},
+                    "values": {"this": first_party.registered_voters},
                     "error": {"this": 0.0},
                 },
                 'average_turnout': {
                     "name": "Of registered voters cast their vote",
-                    "values": {"this": round(average_turnout, 2)},
+                    "values": {"this": first_party.average_voter_turnout},
                     "error": {"this": 0.0},
                 }
             }

@@ -34,9 +34,8 @@ class Votes(Base):
     # mec7 votes in whole voting district - only valid for PR ballots
     mec7_votes = Column(Integer)
     # percentage in whole voting district
-    # This value is a percentage close to, but not equal to, (total_votes / registered_voters * 100)
-    # The Electoral Commission must have some other way of calculating it.
-    voter_turnout = Column(Numeric(precision=5, scale=2))
+    # max(total_votes) + max(mec7_votes) / registered_voters
+    voter_turnout = Column(Numeric(precision=5, scale=2, asdecimal=False))
 
     # associations
     ward  = relationship('Ward', lazy=True)
@@ -56,9 +55,11 @@ class VoteSummary(Base):
     registered_voters = Column(Integer)
     # total votes in geo per ballot type
     total_votes = Column(Integer)
+    # mec7 votes in geo - only valid for PR ballots
+    mec7_votes = Column(Integer)
     # valid votes in geo for the particular party per ballot type
     valid_votes = Column(Integer)
     # spoilt votes in geo per ballot type
     spoilt_votes = Column(Integer)
     # average percentage in geo
-    average_voter_turnout = Column(Numeric(precision=5, scale=2))
+    average_voter_turnout = Column(Numeric(precision=5, scale=2, asdecimal=False))
