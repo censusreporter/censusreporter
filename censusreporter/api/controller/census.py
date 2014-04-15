@@ -405,11 +405,13 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     return {'water_source_distribution': water_src_data,
             'percentage_water_from_service_provider': {
                 "name": "Are getting water from a regional or local service provider",
+                "numerators": {"this": total_water_sp},
                 "values": {"this": round(total_water_sp / total_wsrc * 100, 2)},
             },
             'refuse_disposal_distribution': refuse_disp_data,
             'percentage_ref_disp_from_service_provider': {
                 "name": "Are getting refuse disposal from a local authority or private company",
+                "numerators": {"this": total_ref_sp},
                 "values": {"this": round(total_ref_sp / total_ref * 100, 2)},
             }
     }
