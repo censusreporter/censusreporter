@@ -57,15 +57,19 @@ def calculate_median(objects, field_name):
                     float(getattr(objects[i + 1], field_name))) / 2.0
 
 
-def get_summary_geo_info(geo_object):
-    if geo_object.level in set(['ward', 'municipality', 'district']):
-        levels = ('country', 'province', geo_level)
-        codes = [None, geo_obj.province_code, geo_object.code]
-        return zip(levels, codes)
-    elif geo_object.level == 'province':
-        return zip(('country', 'province'), (None, geo_object.code))
+def get_summary_geo_info(geo_code=None, geo_level=None, session=None,
+                         geo_object=None):
+    if geo_object is not None:
+        geo_level = geo_object.level
+
+    if geo_level in set(['ward', 'municipality', 'district']):
+        if geo_object is None:
+            geo_object = get_geo_object(geo_code, geo_level, session)
+        return zip(('country', 'province'), ('ZA', geo_object.province_code))
+    elif geo_level == 'province':
+        return zip(('country', ), ('ZA', ))
     else:
-        return zip(('country', ), (None, ))
+        return tuple()
 
 
 def get_geo_object(geo_code, geo_level, session):
