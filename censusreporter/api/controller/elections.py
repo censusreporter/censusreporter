@@ -59,6 +59,7 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                 party_short = make_party_acronym(obj.party)
                 party_data[party_short] = {
                     "name": party_short,
+                    "name_long": obj.party,
                     "numerators": {"this": obj.valid_votes},
                     "error": {"this": 0.0},
                     "error_ratio": {"this": 0.0},
@@ -69,6 +70,7 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
             else:
                 party_data.setdefault('Other', {
                     "name": "Other",
+                    "name_long": "Other",
                     "numerators": {"this": 0.0},
                     "error_ratio": {"this": 0.0},
                     "error": {"this": 0.0},
@@ -78,7 +80,8 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
         # calculate percentage for 'Other'
         if 'Other' in party_data:
             party_data['Other']['values'] = {'this': round(
-                party_data['Other']['numerators']['this'] / total_valid_votes * 100,
+                party_data['Other']['numerators']['this']
+                / total_valid_votes * 100,
                 2
             )}
 
@@ -86,7 +89,7 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
             'universe': '%s ballots only' % BALLOT_TYPE_DESCRIPTION[ballot_type]
         }
 
-        return {
+        data = {
             election.replace(' ', '_'): {
                 'name': election, 
                 'party_distribution': party_data,
@@ -100,14 +103,58 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
                 'average_turnout': {
                     "name": "Of registered voters cast their vote",
                     "values": {"this": first_party.average_voter_turnout},
+                    "numerators": {"this": (first_party.total_votes +
+                                            first_party.mec7_votes)},
                     "error": {"this": 0.0},
                     "numerators": {"this": 0.0},
                     "numerator_errors": {"this": 0.0},
                 }
             }
         }
+        add_summary_data(data, geo_code, geo_level, election, ballot_type,
+                         session)
+        return data
 
     except KeyError:
         raise ValueError('Invalid geo_level: %s' % geo_level)
     finally:
         session.close()
+
+
+def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
+    data = data.values()[0]
+    party_dist_data = data['party_distribution']
+    registered_voters = data['registered_voters']
+    average_turnout = data['average_turnout']
+    party_names = [p['name_long'] for p in party_dist_data.values()
+                   if p.get('name', 'Other') != 'Other']
+
+    for level, code in get_summary_geo_info(geo_code, geo_level, session):
+        parties = session \
+                .query(VoteSummary) \
+                .filter(VoteSummary.geo_level == level) \
+                .filter(VoteSummary.geo_code == code) \
+                .filter(VoteSummary.electoral_event == election) \
+                .filter(VoteSummary.ballot_type == ballot_type) \
+                .filter(VoteSummary.party.in_(party_names)) \
+                .all()
+
+        if len(parties) == 0:
+            # necessary for now since not all wards have a province code
+            continue
+
+        party_by_name = dict((obj.party, obj) for obj in parties)
+        first_party = parties[0]
+        total_valid_votes = float(first_party.total_votes -
+                                  first_party.spoilt_votes)
+
+        for values in party_dist_data.values():
+            if values.get('name', 'Other') == 'Other':
+                continue
+            party_obj = party_by_name[values['name_long']]
+            values['numerators'][level] = party_obj.valid_votes
+            values['values'][level] = round(party_obj.valid_votes /
+                                            total_valid_votes * 100, 2)
+
+        registered_voters['values'][level] = first_party.registered_voters
+        average_turnout['values'][level] = first_party.average_voter_turnout
