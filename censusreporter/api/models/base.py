@@ -8,6 +8,30 @@ class Base(object):
     def __tablename__(cls):
         return cls.__name__.lower()
 
+
+    def as_dict(self):
+        return {
+            'full_geoid': '%s-%s' % (self.level, self.code),
+            'full_name': self.long_name,
+            'short_name': self.short_name,
+            'geo_level': self.level,
+        }
+
+    def as_dict_deep(self):
+        parents = dict((p.level, p.as_dict()) for p in self.parents())
+        # TODO: fill in real data
+        parents['country'] = {
+            'full_geoid': 'country-ZA',
+            'full_name': 'FAKE COUNTRY',
+            'short_name': 'FAKE COUNTRY',
+            'geo_level': 'country',
+        }
+
+        return {
+            'this': self.as_dict(),
+            'parents': parents,
+        }
+
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__,
                            ', '.join(['%s="%s"' % (c.name, getattr(self, c.name))

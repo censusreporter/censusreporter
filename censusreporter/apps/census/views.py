@@ -157,14 +157,22 @@ class GeographyDetailView(TemplateView):
 
             # create our containers for transformation
             for obj in ['values', 'error', 'numerators', 'numerator_errors']:
-                raw[obj] = d[obj]
+                if not obj in d:
+                    raw[obj] = {
+                        'this': 0,
+                        'province': 0,
+                        'country': 0,
+                    }
+                else:
+                    raw[obj] = d[obj]
+
                 enhanced[obj] = OrderedDict()
             enhanced['index'] = OrderedDict()
             enhanced['error_ratio'] = OrderedDict()
             comparative_sumlevs = []
 
             # enhance
-            for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
+            for sumlevel in ['this', 'province', 'country']:
 
                 # favor CBSA over county, but we don't want both
                 if sumlevel == 'county' and 'CBSA' in enhanced['values']:
@@ -253,10 +261,12 @@ class GeographyDetailView(TemplateView):
             geo = get_geography(geo_code, geo_level)
             profile_data = get_census_profile(geo_code, geo_level)
             profile_data['elections'] = get_elections_profile(geo_code, geo_level)
+            profile_data['geography'] = geo.as_dict_deep()
         except (ValueError, LocationNotFound):
             raise Http404
         #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         profile_data = self.enhance_api_data(profile_data)
+        # TODO: use profile_data['geography'] instead
         page_context['geo'] = geo
         page_context.update(profile_data)
 

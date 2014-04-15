@@ -3,7 +3,8 @@ from collections import OrderedDict
 from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
 
-from .utils import collapse_categories, calculate_median
+from .utils import (collapse_categories, calculate_median, get_summary_geo_info,
+                    merge_dicts, group_remainder)
 
 
 PROFILE_SECTIONS = (
@@ -158,19 +159,32 @@ SHORT_REFUSE_DISPOSAL_CATEGORIES = {
 
 def get_census_profile(geo_code, geo_level):
     session = get_session()
-    data = {}
-    for section in PROFILE_SECTIONS:
-        function_name = 'get_%s_profile' % section
-        if function_name in globals():
-            data[section] = globals()[function_name](geo_code, geo_level, session)
 
-    data['geography'] = {
-        'this': {},
-        'parents': {},
-    }
-    
-    session.close()
-    return data
+    try:
+        geo_summary_levels = get_summary_geo_info(geo_code, geo_level, session)
+        data = {}
+
+        for section in PROFILE_SECTIONS:
+            function_name = 'get_%s_profile' % section
+            if function_name in globals():
+                func = globals()[function_name]
+                data[section] = func(geo_code, geo_level, session)
+
+                # get profiles for province and/or country
+                summary_profiles = {}
+                for level, code in geo_summary_levels:
+                    # merge summary profile into current geo profile
+                    merge_dicts(data[section], func(code, level, session), level)
+
+        # tweaks to make the data nicer
+        # show 3 largest groups on their own and group the rest as 'Other'
+        group_remainder(data['service_delivery']['water_source_distribution'])
+        group_remainder(data['service_delivery']['refuse_disposal_distribution'])
+
+        return data
+
+    finally:
+        session.close()
 
 
 def get_demographics_profile(geo_code, geo_level, session):
@@ -187,8 +201,6 @@ def get_demographics_profile(geo_code, geo_level, session):
         pop_dist_data[pop_group] = {
             "name": pop_group,
             "numerators": {"this": obj.total},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
 
     # age groups
@@ -203,8 +215,6 @@ def get_demographics_profile(geo_code, geo_level, session):
         age_dist_data[age_group] = {
             "name": age_group,
             "numerators": {"this": obj.total},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
     age_dist_data = collapse_categories(age_dist_data,
                                         COLLAPSED_AGE_CATEGORIES,
@@ -236,9 +246,6 @@ def get_demographics_profile(geo_code, geo_level, session):
         final_data['median_age'] = {
             "name": "Median age",
             "values": {"this": median},
-            "error": {"this": 0.0},
-            "numerators": {"this": sum(x.total for x in objects)},
-            "numerator_errors": {"this": 0.0},
         }
         # age category
         under_18 = 0.0
@@ -257,40 +264,25 @@ def get_demographics_profile(geo_code, geo_level, session):
         final_data['age_category_distribution'] = OrderedDict((
             ("under_18", {
                 "name": "Under 18",
-                "error": {"this": 0.0},
-                "values": {"this": round(under_18 / total * 100, 2)},
-                "numerators": {"this": total},
-                "numerator_errors": {"this": 0.0},
+                "values": {"this": round(under_18 / total * 100, 2)}
             }),
             ("18_to_64", {
                 "name": "18 to 64",
-                "error": {"this": 0.0},
-                "values": {"this": round(between_18_64 / total * 100, 2)},
-                "numerators": {"this": total},
-                "numerator_errors": {"this": 0.0},
+                "values": {"this": round(between_18_64 / total * 100, 2)}
             }),
             ("65_and_over", {
                 "name": "65 and over",
-                "error": {"this": 0.0},
-                "values": {"this": round(over_or_65 / total * 100, 2)},
-                "numerators": {"this": total},
-                "numerator_errors": {"this": 0.0},
+                "values": {"this": round(over_or_65 / total * 100, 2)}
             })
         ))
     except LocationNotFound:
         final_data['median_age'] = {
             "name": "Median age",
-            "error": {"this": 0.0},
-            "numerators": {"this": 0},
-            "numerator_errors": {"this": 0.0},
         }
         final_data['age_category_distribution'] = {
             "": {
                 "name": "N/A",
-                "error": {"this": 0.0},
-                "values": {"this": 0},
-                "numerators": {"this": 0},
-                "numerator_errors": {"this": 0.0},
+                "values": {"this": 0}
             }
         }
 
@@ -314,8 +306,6 @@ def get_economics_profile(geo_code, geo_level, session):
         income_dist_data[income_group] = {
             "name": income_group,
             "numerators": {"this": obj.total},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
     income_dist_data = collapse_categories(income_dist_data,
                                            COLLAPSED_INCOME_CATEGORIES,
@@ -337,8 +327,6 @@ def get_economics_profile(geo_code, geo_level, session):
         employ_status[employ_st] = {
             "name": employ_st,
             "numerators": {"this": obj.total},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
 
     # sector
@@ -355,8 +343,6 @@ def get_economics_profile(geo_code, geo_level, session):
         sector_dist_data[sector] = {
             "name": sector,
             "numerators": {"this": obj.total},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
 
     for data, total in zip((income_dist_data, sector_dist_data, employ_status),
@@ -381,26 +367,13 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     water_src_data = OrderedDict()
     total_wsrc = 0.0
     total_water_sp = 0.0
-    # show 3 largest groups on their own and group the rest as 'Other'
-    for i, obj in enumerate(objects):
+    for obj in objects:
         attr = getattr(obj, 'source of water')
-        if i < 3:
-            src = SHORT_WATER_SOURCE_CATEGORIES[attr]
-            water_src_data[src] = {
-                "name": src,
-                "numerators": {"this": obj.total},
-                "error": {"this": 0.0},
-                "numerator_errors": {"this": 0.0},
-            }
-        else:
-            src = 'Other'
-            water_src_data.setdefault(src, {
-                "name": src,
-                "numerators": {"this": 0.0},
-                "error": {"this": 0.0},
-                "numerator_errors": {"this": 0.0},
-            })
-            water_src_data[src]["numerators"]["this"] += obj.total
+        src = SHORT_WATER_SOURCE_CATEGORIES[attr]
+        water_src_data[src] = {
+            "name": src,
+            "numerators": {"this": obj.total},
+        }
         total_wsrc += obj.total
         if attr.startswith('Regional/local water scheme'):
             total_water_sp += obj.total
@@ -412,26 +385,13 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     refuse_disp_data = OrderedDict()
     total_ref = 0.0
     total_ref_sp = 0.0
-    # show 3 largest groups on their own and group the rest as 'Other'
-    for i, obj in enumerate(objects):
+    for obj in objects:
         attr = getattr(obj, 'refuse disposal')
-        if i < 3:
-            disp = SHORT_REFUSE_DISPOSAL_CATEGORIES[attr]
-            refuse_disp_data[disp] = {
-                "name": disp,
-                "numerators": {"this": obj.total},
-                "error": {"this": 0.0},
-                "numerator_errors": {"this": 0.0},
-            }
-        else:
-            disp = 'Other'
-            refuse_disp_data.setdefault(disp, {
-                "name": disp,
-                "numerators": {"this": 0.0},
-                "error": {"this": 0.0},
-                "numerator_errors": {"this": 0.0},
-            })
-            refuse_disp_data[disp]["numerators"]["this"] += obj.total
+        disp = SHORT_REFUSE_DISPOSAL_CATEGORIES[attr]
+        refuse_disp_data[disp] = {
+            "name": disp,
+            "numerators": {"this": obj.total},
+        }
         total_ref += obj.total
         if attr.startswith('Removed by local authority'):
             total_ref_sp += obj.total
@@ -446,17 +406,11 @@ def get_service_delivery_profile(geo_code, geo_level, session):
             'percentage_water_from_service_provider': {
                 "name": "Are getting water from a regional or local service provider",
                 "values": {"this": round(total_water_sp / total_wsrc * 100, 2)},
-                "error": {"this": 0},
-                "numerators": {"this": 0.0},
-                "numerator_errors": {"this": 0.0},
             },
             'refuse_disposal_distribution': refuse_disp_data,
             'percentage_ref_disp_from_service_provider': {
                 "name": "Are getting refuse disposal from a local authority or private company",
                 "values": {"this": round(total_ref_sp / total_ref * 100, 2)},
-                "error": {"this": 0},
-                "numerators": {"this": 0.0},
-                "numerator_errors": {"this": 0.0},
             }
     }
 
@@ -483,8 +437,6 @@ def get_education_profile(geo_code, geo_level, session):
         edu_dist_data[str(i)] = {
             "name": category_val,
             "numerators": {"this": obj.total},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
     edu_dist_data = collapse_categories(edu_dist_data,
                                         COLLAPSED_EDUCATION_CATEGORIES,
@@ -496,14 +448,10 @@ def get_education_profile(geo_code, geo_level, session):
         'percent_get_or_higher': {
             "name": "Completed GET or higher",
             "numerators": {"this": get_or_higher},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         },
         'percent_fet_or_higher': {
             "name": "Completed FET or higher",
             "numerators": {"this": fet_or_higher},
-            "error": {"this": 0.0},
-            "numerator_errors": {"this": 0.0},
         }
     }
     # calculate percentages
@@ -520,9 +468,13 @@ def get_education_profile(geo_code, geo_level, session):
 
 
 def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
-    geo_attr = '%s_code' % geo_level
-    objects = session.query(db_model).filter(getattr(db_model, geo_attr)
-                                             == geo_code)
+    if geo_level == 'country':
+        objects = session.query(db_model)
+    else:
+        geo_attr = '%s_code' % geo_level
+        objects = session.query(db_model).filter(getattr(db_model, geo_attr)
+                                                 == geo_code)
+
     if order_by is not None:
         if order_by[0] == '-':
             objects = objects.order_by(getattr(db_model, order_by[1:]).desc())

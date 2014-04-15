@@ -36,7 +36,7 @@ COMPARISON_PHRASE_MAP = {
 @register.filter
 def comparison_index_phrase(value):
     '''
-    Each stat on the profile page can have nation-, state- and county-level
+    Each stat on the profile page can have country- and province-level
     values, indexed to 100 for comparisons (that is, expressed as a percentage
     of that statistic's value for the profile geography). That index value can
     be passed into this template filter to generate a comparative phrase.
