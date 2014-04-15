@@ -217,32 +217,35 @@
 var geo_level = '{{ geo.level }}';
 var geo_code = '{{ geo.code }}';
 
+var parent_geo_level = '{{ geography.parent.level }}';
+var parent_geo_code = '{{ geography.parent.code }}';
+
+// draw a map
+var allowMapDrag = (browserWidth > 480) ? true : false;
+var map = L.map('slippy-map', {
+    scrollWheelZoom: false,
+    zoomControl: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    dragging: allowMapDrag,
+    touchZoom: allowMapDrag
+});
+
+if (allowMapDrag) {
+    map.addControl(new L.Control.Zoom({
+        position: 'topright'
+    }));
+}
+
+// add imagery
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 13
+}).addTo(map);
+
+// add demarcation boundaries
 d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_level + "]=" + geo_code, function(error, topo) {
-  var allowMapDrag = (browserWidth > 480) ? true : false;
-
-  // draw a geom
-  var map = L.map('slippy-map', {
-      scrollWheelZoom: false,
-      zoomControl: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      keyboard: false,
-      dragging: allowMapDrag,
-      touchZoom: allowMapDrag
-  });
-
-  if (allowMapDrag) {
-      map.addControl(new L.Control.Zoom({
-          position: 'topright'
-      }));
-  }
-
-  // add imagery
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-      maxZoom: 13
-  }).addTo(map);
-
   var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
       style: {
           "fillColor": "#66c2a5",
@@ -272,6 +275,50 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_leve
       map.fitBounds(featureLayer.getBounds());
   }
 });
+
+// load surrounding map shapes at the same level
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + parent_geo_level + "]=" + parent_geo_code + "&quantization=5000", function(error, topo) {
+  var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+      style: {
+          "fillColor": "#66c2a5",
+          "color": "#777",
+          "weight": 2,
+          "clickable": true,
+      },
+      onEachFeature: function(feature, layer) {
+        layer.on('click', function(e) {
+          window.location = '/profiles/' + geo_level + '-' + feature.properties[geo_level];
+        });
+      },
+      filter: function(feature, layer) {
+        return feature.properties[geo_level] != geo_code;
+      }
+  });
+  map.addLayer(featureLayer);
+});
+
+// load surrounding map shapes at the parent's level
+if (parent_geo_level != '') {
+  d3.json("http://maps.code4sa.org/political/" + parent_geo_level, function(error, topo) {
+    var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+        style: {
+            "fillColor": "yellow",
+            "color": "#777",
+            "weight": 2,
+            "clickable": true,
+        },
+        onEachFeature: function(feature, layer) {
+          layer.on('click', function(e) {
+            window.location = '/profiles/' + parent_geo_level + '-' + feature.properties[parent_geo_level];
+          });
+        },
+        filter: function(feature, layer) {
+          return feature.properties[parent_geo_level] != parent_geo_code;
+        }
+    });
+    map.addLayer(featureLayer);
+  });
+}
 
 // Create all the charts
 var Charts = {},

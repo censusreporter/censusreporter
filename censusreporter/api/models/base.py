@@ -60,6 +60,12 @@ class GeoNameMixin(object):
             return '%s, %s' % (long_name, ', '.join(parent_names))
         return long_name
 
+    @property
+    def parent(self):
+        if self.parents():
+            return self.parents()[0]
+        return None
+
     def __unicode__(self):
         return self.long_name
 
