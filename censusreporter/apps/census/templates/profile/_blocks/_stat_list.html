@@ -6,16 +6,12 @@
                 N/A
             {% else %}
                 {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
-                {% if stat.error.this_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
             {% endif %}
 
 			{% if not stat_class == 'secondary' %}
-                {% if stat.error.this %}
-                    <span class="context moe">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
-                {% endif %}
 
                 {% if stat.numerators.this %}
-                    <span class="context">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }})</span>
+                    <span class="context">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }})</span>
                 {% endif %}
 			{% endif %}
         </span>
@@ -23,12 +19,9 @@
 		
 		{% if stat_class == 'secondary' %}
 			<span class="context">
-	            {% if stat.error.this %}
-	                &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
-	            {% endif %}
 
 	            {% if stat.numerators.this %}
-	                <span class="push-right">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma }})</span>
+	                <span class="push-right">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma }})</span>
 	            {% endif %}
 			</span>
 		{% endif %}
@@ -41,17 +34,11 @@
         <li>
             {% if stat.values.province_index and stat_type != 'count' %}
             {{ stat.values.province_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ geography.province.short_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.province|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
-            {% if stat.error.province_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
             {% else %}
             <strong>{{ geography.province.short_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.province|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %} 
             {% endif %}
             {% if stat.numerators.province %}
                 <span class="context">{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.province|floatformat|intcomma }}</span>
-                {% if stat.error.province %}
-                    <span class="context">(&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.province|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat.numerator_errors.province %} / &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.province|floatformat|intcomma }}{% endif %})</span>
-                {% endif %}
-            {% elif stat.error.province %}
-                <span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.province|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
             {% endif %}
         </li>
         {% endif %}
@@ -59,17 +46,11 @@
         <li>
             {% if stat.values.country_index and stat_type != 'count' %}
             {{ stat.values.country_index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} countrywide: {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.country|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
-            {% if stat.error.country_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
             {% else %}
             <strong>Countrywide:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.country|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}
             {% endif %}
             {% if stat.numerators.country %}
                 <span class="context">{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.country|floatformat|intcomma }}</span>
-                {% if stat.error.country %}
-                    <span class="context">(&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.country|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat.numerator_errors.country %} / &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.country|floatformat|intcomma }}{% endif %})</span>
-                {% endif %}
-            {% elif stat.error.country %}
-                <span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.country|floatformat|intcomma }}{% if stat_type == 'percentage' %}%{% endif %}</span>
             {% endif %}
         </li>
         {% endif %}
