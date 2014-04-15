@@ -24,12 +24,13 @@ def make_party_acronym(name):
         "AFRICAN CHRISTIAN ALLIANCE-AFRIKANER CHRISTEN ALLIANSIE": "ACA",
         "DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE": "DA",
         "CAPE PARTY/ KAAPSE PARTY": "CP",
-        "KOUGA 2000": "K2000"
+        "KOUGA 2000": "K2000",
+        "CONGRESS  OF THE PEOPLE": "COPE"  # extra space on purpose
     }
     try:
         return exceptions[name]
     except KeyError: 
-        ignore = set(('AND', 'BY', 'FOR', 'IN', 'OF', 'TO'))
+        ignore = set(('AND', 'BY', 'FOR', 'IN', 'OF', 'TO', 'THE'))
         acronym = ''.join([w.lstrip()[0] for w in name.split(' ')
                            if w.strip() and w.upper() not in ignore])
         return acronym
