@@ -146,3 +146,5 @@ def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
 
         registered_voters['values'][level] = first_party.registered_voters
         average_turnout['values'][level] = first_party.average_voter_turnout
+        average_turnout['numerators'][level] = (first_party.total_votes +
+                                                first_party.mec7_votes)
