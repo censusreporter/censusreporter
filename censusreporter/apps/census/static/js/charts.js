@@ -846,8 +846,7 @@ function Chart(options) {
                             titleText = "Table " + tableID;
                         }
                         return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
-                    })
-                    .on("click", chart.showEmbedCode); // temporarily attached here for testing
+                    });
 
             chart.dataTable = chart.dataDrawer.append("table")
                     .attr("id", "data-table")
@@ -870,7 +869,8 @@ function Chart(options) {
 
             chart.dataTableHeader = chart.dataTable.append("thead")
                 .append("tr")
-                .call(chart.fillDataDrawerHeader, rowValues[0]);
+                .call(chart.fillDataDrawerHeader, rowValues[0])
+                .on("click", chart.showEmbedCode); // temporarily attached here for testing
 
             chart.tableRows = chart.dataTable.append("tbody")
                 .call(chart.fillDataDrawerRows, rowValues);
