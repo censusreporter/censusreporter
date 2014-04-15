@@ -915,11 +915,11 @@ function Chart(options) {
             _.each(d.context.values, function(v, k) {
                 // add the primary value
                 rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
-                rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
+                // rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
                 // add the numerator value if it exists
                 if (d.context.numerators[k] !== null) {
                     rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
-                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
+                    //rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
                 }
             })
             
