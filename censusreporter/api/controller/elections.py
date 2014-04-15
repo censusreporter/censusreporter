@@ -2,8 +2,10 @@ from collections import OrderedDict
 
 from sqlalchemy import func, desc
 
-from api.models import Votes
+from api.models import VoteSummary
 from api.utils import get_session
+
+from .utils import get_summary_geo_info
 
 
 BALLOT_TYPE_DESCRIPTION = {
@@ -38,44 +40,7 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
     session = get_session()
 
     try:
-        field_name = {
-            'ward': 'ward_code',
-            'province': 'province_code',
-            'municipality': 'municipality_code',
-            'district': 'district_code',
-            'country': None,
-        }[geo_level]
-
-        # only consider proportional representative (PR) votes for now
-        votes_by_party = session \
-                .query(Votes.party, func.sum(Votes.valid_votes).label('vote_sum')) \
-                .filter(Votes.ballot_type == ballot_type) \
-                .filter(Votes.electoral_event == election) \
-                .group_by(Votes.party) \
-                .having(func.sum(Votes.valid_votes) > 0) \
-                .order_by(desc('vote_sum'))
-
-        if geo_level != 'country':
-            votes_by_party = votes_by_party.filter(getattr(Votes, field_name)
-                                                   == geo_code)
-
-        subquery = session \
-                .query(Votes.total_votes, Votes.registered_voters,
-                       Votes.voter_turnout, Votes.spoilt_votes) \
-                .filter(Votes.ballot_type == ballot_type) \
-                .filter(Votes.electoral_event == election) \
-                .distinct(Votes.voting_district_code) \
-
-        if geo_level != 'country':
-            subquery = subquery.filter(getattr(Votes, field_name) == geo_code)
-
-        subquery = subquery.subquery()
-        total_votes, spoilt_votes, registered_voters, average_turnout = session \
-                .query(func.sum(subquery.c.total_votes),
-                       func.sum(subquery.c.spoilt_votes),
-                       func.sum(subquery.c.registered_voters),
-                       func.avg(subquery.c.voter_turnout)) \
-                .one()
+        summary = session.query(VoteSummary).filter(VoteSummary)
 
         party_data = OrderedDict()
         total_valid_votes = float(total_votes - spoilt_votes)

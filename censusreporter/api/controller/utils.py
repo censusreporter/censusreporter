@@ -1,5 +1,7 @@
 from collections import OrderedDict
 
+from api.models import Ward, Municipality, District, Province
+
 
 def collapse_categories(data, categories, key_order=None):
     if key_order:
@@ -53,3 +55,28 @@ def calculate_median(objects, field_name):
             # total must be even (otherwise half ends with .5)
             return (float(getattr(obj, field_name)) +
                     float(getattr(objects[i + 1], field_name))) / 2.0
+
+
+def get_summary_geo_info(geo_object):
+    if geo_object.level in set(['ward', 'municipality', 'district']):
+        levels = ('country', 'province', geo_level)
+        codes = [None, geo_obj.province_code, geo_object.code]
+        return zip(levels, codes)
+    elif geo_object.level == 'province':
+        return zip(('country', 'province'), (None, geo_object.code))
+    else:
+        return zip(('country', ), (None, ))
+
+
+def get_geo_object(geo_code, geo_level, session):
+    model = {
+            'ward': Ward,
+            'district': District,
+            'municipality': Municipality,
+            'province': Province,
+            'country': None,
+    }[geo_level]
+
+    if model is None:
+        return None
+    return session.query(model).get(geo_code)
