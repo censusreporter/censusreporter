@@ -84,14 +84,14 @@ class Ward(Base, GeoNameMixin):
     province_code = Column(String(3), ForeignKey('province.code'))
 
     # associations
-    muni      = relationship('Municipality', lazy=False)
-    district  = relationship('District', lazy=False)
-    province  = relationship('Province', lazy=False)
+    municipality  = relationship('Municipality', lazy=False)
+    district      = relationship('District', lazy=False)
+    province      = relationship('Province', lazy=False)
 
     level = 'ward'
 
     def parents(self):
-        return [self.muni, self.district, self.province]
+        return [self.municipality, self.province]
 
     @property
     def short_name(self):
@@ -117,7 +117,7 @@ class Municipality(Base, GeoNameMixin):
     level = 'municipality'
 
     def parents(self):
-        return [self.district, self.province]
+        return [self.province]
 
 
 class District(Base, GeoNameMixin):

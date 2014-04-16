@@ -21,7 +21,7 @@
                   {{ geo.level|capfirst }}
                   in
                   {% for g in geo.parents %}
-                    <a href="/profiles/{{ g.level }}-{{ g.code }}">{{ geo.name }}</a>,
+                    <a href="/profiles/{{ g.level }}-{{ g.code }}">{{ g.name }}</a>,
                   {% endfor %}
                   South Africa
                 </p>
