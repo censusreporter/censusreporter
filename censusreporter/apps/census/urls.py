@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, TableElasticsearch)
+    DataView, TopicView, Elasticsearch)
 
 admin.autodiscover()
 
@@ -117,10 +117,10 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^table-elasticsearch/$',
-        view    = TableElasticsearch.as_view(),
+        regex   = '^elasticsearch/$',
+        view    = Elasticsearch.as_view(),
         kwargs  = {},
-        name    = 'table_elasticsearch',
+        name    = 'elasticsearch',
     ),
     ## END LOCAL DEV VERSION OF API ##
 )

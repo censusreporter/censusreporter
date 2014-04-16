@@ -316,7 +316,7 @@ TOPICS_LIST = [
         'description': "Geography is fundamental to the Census Bureau's process of tabulating data. Here are the key concepts you need to understand.",
         'template_name': 'geography.html',
     },
-    
+
     {
         'title': 'Health Insurance',
         'slug': 'health-insurance',
@@ -1294,8 +1294,8 @@ class TableSearch(TemplateView):
 
         return page_context
 
-class TableElasticsearch(TemplateView):
-    template_name = 'search/table_elasticsearch.html'
+class Elasticsearch(TemplateView):
+    template_name = 'search/elasticsearch.html'
 
     def get_context_data(self, *args, **kwargs):
         page_context = {

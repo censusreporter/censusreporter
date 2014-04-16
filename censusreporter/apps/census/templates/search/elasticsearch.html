@@ -1,0 +1,144 @@
+{% extends '_base.html' %}
+
+{% block head_css_extra %}
+<style>
+.nowrap {white-space: nowrap;}
+input, select {width: 200px; height: 2.2em;}
+
+@media only screen and (max-width: 768px) {
+    td a {
+        display: block;
+    }
+}
+@media only screen and (max-width: 620px) {
+    form.inline-form input, form.inline-form select {
+        display: block;
+        margin: .25em 0 .75em 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="clearfix" id="query-table-picker">
+    <h2>Find table</h2>
+    <div class="typeahead-container">
+        <input name="table_select" id="table-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
+    </div>
+</section>
+
+<section class="clearfix" id="query-geo-picker">
+    <h2>Find geo</h2>
+    <div class="typeahead-container">
+        <input name="geo_select" id="geo-select" type="text" placeholder="Search by place name..." autocomplete="off">
+    </div>
+</section>
+
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script type="text/javascript">
+    var topicSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 1500,
+        remote: {
+            url: "http://api.censusreporter.org/1.0/table/suggest",
+            replace: function (url, query) {
+                return url + '?q=' + query;
+            },
+            filter: function(response) {
+                var results = response.results;
+                var resultNumber = results.length;
+                if (resultNumber === 0) {
+                    response.push({
+                        table_name: 'Sorry, no matches found. Try changing your search.'
+                    });
+                }
+                _.map(results, function(item) {
+                    if (!!item['topics']) {
+                        item['topic_string'] = item['topics'].join(', ');
+                    }
+                });
+                return results;
+            }
+        }
+    });
+    topicSelectEngine.initialize();
+
+    function makeElasticSearchTopicSelectWidget(element) {
+        element.typeahead('destroy');
+        element.typeahead({
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
+            name: 'topics',
+            displayKey: 'table_id',
+            source: topicSelectEngine.ttAdapter(),
+            templates: {
+                suggestion: Handlebars.compile(
+                    [
+                        {% verbatim %}
+                        '<p class="result-name">{{table_title}}{{#if column_title}}&nbsp;&mdash;&nbsp;{{column_title}}{{/if}}</p>',
+                        ''
+                        {% endverbatim %}
+                    ].join('')
+                )
+            }
+        });
+    }
+
+    var geoSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 1500,
+        remote: {
+            url: "http://api.censusreporter.org/1.0/geo/suggest",
+            replace: function (url, query) {
+                return url + '?q=' + query;
+            },
+            filter: function(response) {
+                var data = response.results;
+                var resultNumber = data.length;
+                if (resultNumber === 0) {
+                    data.push({
+                        table_name: 'Sorry, no matches found. Try changing your search.'
+                    });
+                }
+                return data;
+            }
+        }
+    });
+    geoSelectEngine.initialize();
+
+    function makeElasticSearchGeoSelectWidget(element) {
+        element.typeahead('destroy');
+        element.typeahead({
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
+            name: 'geo',
+            displayKey: 'geoid',
+            source: geoSelectEngine.ttAdapter(),
+            templates: {
+                suggestion: Handlebars.compile(
+                    [
+                        {% verbatim %}
+                        '<p class="result-name">{{name}}</p>',
+                        {% endverbatim %}
+                    ].join('')
+                )
+            }
+        });
+    }
+
+    jQuery(document).ready(function(){
+        makeElasticSearchTopicSelectWidget($("#table-select"));
+        makeElasticSearchGeoSelectWidget($("#geo-select"));
+    });
+</script>
+{% endblock %}
