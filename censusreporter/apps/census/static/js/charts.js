@@ -31,15 +31,13 @@ function Chart(options) {
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.comparisonNames = {
             'this': (!!options.comparisonThisName) ? options.comparisonThisName : 'here',
-            'county': (!!options.comparisonCountyName) ? options.comparisonCountyName : 'county',
-            'state': (!!options.comparisonStateName) ? options.comparisonStateName : 'state',
-            'nation': (!!options.comparisonNationName) ? options.comparisonNationName : 'United States'
+            'province': (!!options.comparisonProvinceName) ? options.comparisonProvinceName : 'province',
+            'country': (!!options.comparisonNationName) ? options.comparisonNationName : 'South Africa'
         }
         chart.comparisonNamePhrases = {
             'this': (!!options.comparisonThisName) ? 'in ' + options.comparisonThisName : 'here',
-            'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
-            'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
-            'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
+            'province': (!!options.comparisonProvinceName) ? 'in ' + options.comparisonProvinceName : 'provincewide',
+            'country': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'countrywide'
         }
         
         var dataObj,
@@ -695,8 +693,7 @@ function Chart(options) {
             phraseBits,
             compareBits,
             contextData = data.context,
-            moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
-            cardStat = chart.valFmt(contextData.values.this) + moeFlag,
+            cardStat = chart.valFmt(contextData.values.this),
             cardComparison = [];
             
         // add cardStat MOE
@@ -710,12 +707,11 @@ function Chart(options) {
             if (k != 'this' && k.indexOf('_index') == -1) {
                 value = contextData.values[k];
                 index = contextData.values[k + '_index'];
-                moeFlag = contextData.error[k + '_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
                 
                 // generate the comparative text for this parent level
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
-                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNamePhrases[k] + ": " + chart.valFmt(value) + moeFlag;
+                    compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNamePhrases[k] + ": " + chart.valFmt(value);
 
                     // add comparison MOE
                     //compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
@@ -724,7 +720,7 @@ function Chart(options) {
                     //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
                     //}
                 } else {
-                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moeFlag;
+                    compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value);
                     
                     // add comparison MOE
                     //compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
@@ -745,17 +741,6 @@ function Chart(options) {
             "<ul><li>" + cardStat + "</li></ul>",
             "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
-        
-        var maxMOE = [];
-        d3.keys(contextData.error).forEach(function(k, v) {
-            if (k.indexOf('_ratio') != -1 && contextData.error[k]) {
-                maxMOE.push(contextData.error[k])
-            }
-        })
-        maxMOE.sort(function(x, y) { return y - x });
-        if (maxMOE[0] >= 10) {
-            card += "<div class='note'><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</div>"
-        }
 
         return card
     }

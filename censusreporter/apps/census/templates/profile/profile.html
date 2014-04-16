@@ -53,7 +53,7 @@
 {% block content %}
 
 
-<p class="explain">Hover over charts and statistics for margins of error and additional information.</p>
+<p class="explain">Hover over charts and statistics for additional information.</p>
 
 <article id="elections" class="clearfix">
     <header class="section-contents">
@@ -287,8 +287,7 @@ $.each(chartContainers, function(i) {
         chartStatType = $(this).data('stat-type'),
         chartQualifier = $(this).data('qualifier') || null,
         comparisonThisName = '{{ geography.this.short_name }}',
-        comparisonCountyName = '{{ geography.county.short_name }}',
-        comparisonStateName = '{{ geography.state.short_name }}';
+        comparisonProvinceName = '{{ geography.province.short_name }}'
 
     // allow arbitrary nesting in API data structure
     var drilldown = chartDataID.length - 1;
@@ -317,8 +316,7 @@ $.each(chartContainers, function(i) {
         chartInitialSort: chartInitialSort,
         chartStatType: chartStatType,
         comparisonThisName: comparisonThisName,
-        comparisonCountyName: comparisonCountyName,
-        comparisonStateName: comparisonStateName
+        comparisonProvinceName: comparisonProvinceName
     });
 });
 
