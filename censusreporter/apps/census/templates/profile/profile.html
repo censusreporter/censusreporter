@@ -16,8 +16,15 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
-                <h1 class="title">{{ geo.long_name }}</h1>
-                <p class="caption"></p>
+                <h1 class="title">{{ geo.short_name }}</h1>
+                <p class="caption">
+                  {{ geo.level|capfirst }}
+                  in
+                  {% for g in geo.parents %}
+                    <a href="/profiles/{{ g.level }}-{{ g.code }}">{{ geo.name }}</a>,
+                  {% endfor %}
+                  South Africa
+                </p>
             </header>
             {% comment %}
             <div class="column-half">
@@ -246,7 +253,7 @@ L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // add demarcation boundaries
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_level + "]=" + geo_code, function(error, topo) {
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=3000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
   var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
       style: {
           "fillColor": "#66c2a5",
@@ -279,8 +286,7 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_leve
 
 // load surrounding map shapes at the same level
 var filter = (parent_geo_level == '' ? '' : ("filter[" + parent_geo_level + "]=" + parent_geo_code));
-
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?" + filter, function(error, topo) {
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=3000" + filter, function(error, topo) {
     var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
         style: {
             "clickable": true,
@@ -317,7 +323,7 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?" + filter, functio
 
 // load remaining province shapes
 if (geo_level != 'province') {
-    d3.json("http://maps.code4sa.org/political/province", function(error, topo) {
+    d3.json("http://maps.code4sa.org/political/province?quantization=3000", function(error, topo) {
         var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
             style: {
                 "clickable": true,
