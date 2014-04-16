@@ -227,6 +227,8 @@ var geo_code = '{{ geo.code }}';
 var parent_geo_level = '{{ geo.parent.level }}';
 var parent_geo_code = '{{ geo.parent.code }}';
 
+var geo_parents = [{% for geo in geography.parents %} ['{{ geo.level }}', '{{ geo.code }}'] {% if not forloop.last %}, {% endif %} {% endfor %}];
+
 // draw a map
 var allowMapDrag = (browserWidth > 480) ? true : false;
 var map = L.map('slippy-map', {
@@ -284,76 +286,62 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&f
   }
 });
 
-// load surrounding map shapes at the same level
-if (parent_geo_level != '') {
-    d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + parent_geo_level + "]=" + parent_geo_code, function(error, topo) {
-        var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
-            style: {
-                "clickable": true,
-                "color": "#00d",
-                "fillColor": "#ccc",
-                "weight": 1.0,
-                "opacity": 0.3,
-                "fillOpacity": 0.3,
-            },
-            filter: function(feature, layer) {
-                // don't include this geo, we already have a shape for that
-                return feature.properties[geo_level] != geo_code;
-            },
-            onEachFeature: function(feature, layer) {
-                var name = feature.properties[geo_level + '_name'] || (geo_level + ' ' + feature.properties[geo_level]);
-                layer.bindLabel(name, {direction: 'auto'});
-                layer.on('mouseover', function() {
-                    layer.setStyle({
-                        "fillOpacity": 0.5,
-                    });
-                });
-                layer.on('mouseout', function() {
-                    layer.setStyle({
-                        "fillOpacity": 0.3,
-                    });
-                });
-                layer.on('click', function() {
-                    window.location = '/profiles/' + geo_level + '-' + feature.properties[geo_level];
-                });
-            },
-        });
-        map.addLayer(featureLayer);
-    });
-}
+// load surrounding map shapes
+var levels = [[geo_level, geo_code]].concat(geo_parents);
 
-// load remaining province shapes
-if (geo_level != 'province') {
-    d3.json("http://maps.code4sa.org/political/province?quantization=5000", function(error, topo) {
-        var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
-            style: {
-                "clickable": true,
-                "color": "#00d",
-                "fillColor": "#ccc",
-                "weight": 1.0,
-                "opacity": 0.3,
-                "fillOpacity": 0.3,
-            },
-            onEachFeature: function(feature, layer) {
-                layer.bindLabel(feature.properties.province_name, {direction: 'auto'});
-                layer.on('mouseover', function() {
-                    layer.setStyle({
-                        "fillOpacity": 0.5,
+for (var i = 0; i < levels.length; i++) {
+    var level = levels[i][0],
+        code  = levels[i][1];
+
+    // For each level, add map shapes for that level, limited to within the
+    // parent level (eg. wards within a municipality).
+
+    (function(level, code) {
+        if (level == 'province') {
+            var url = "province?";
+        } else {
+            var url = level + "?filter[" + levels[i+1][0] + "]=" + levels[i+1][1];
+        }
+
+        d3.json("http://maps.code4sa.org/political/" + url + '&quantization=5000', function(error, topo) {
+            if (!topo)
+                return;
+
+            var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+                style: {
+                    "clickable": true,
+                    "color": "#00d",
+                    "fillColor": "#ccc",
+                    "weight": 1.0,
+                    "opacity": 0.3,
+                    "fillOpacity": 0.3,
+                },
+                filter: function(feature, layer) {
+                    // don't include this smaller geo, we already have a shape for that
+                    return feature.id != code;
+                },
+                onEachFeature: function(feature, layer) {
+                    var name = feature.properties[level + '_name'] || (level + ' ' + feature.properties[level]);
+                    layer.bindLabel(name, {direction: 'auto'});
+
+                    layer.on('mouseover', function() {
+                        layer.setStyle({
+                            "fillOpacity": 0.5,
+                        });
                     });
-                });
-                layer.on('mouseout', function() {
-                    layer.setStyle({
-                        "fillOpacity": 0.3,
+                    layer.on('mouseout', function() {
+                        layer.setStyle({
+                            "fillOpacity": 0.3,
+                        });
                     });
-                });
-                layer.on('click', function(e) {
-                    window.location = '/profiles/province-' + feature.properties.province;
-                });
-            },
+                    layer.on('click', function() {
+                        window.location = '/profiles/' + level + '-' + feature.properties[level];
+                    });
+                },
+            });
+            map.addLayer(featureLayer);
         });
-        map.addLayer(featureLayer);
-        featureLayer.bringToBack();
-    });
+    })(level, code);
 }
 
 // Create all the charts
