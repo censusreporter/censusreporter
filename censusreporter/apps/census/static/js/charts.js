@@ -67,7 +67,7 @@ function Chart(options) {
         chart.chartDataValues = d3.map(options.chartData);
         metadataFields.forEach(function(v) {
             chart.chartDataValues.remove(v)
-        })
+        });
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
@@ -890,15 +890,13 @@ function Chart(options) {
             { colspan: 1, cellClass: 'name', cellContents: 'Column' }
         ];
 
-        chart.DataDrawerPlaces.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
-                headerData.push({
-                    colspan: (d.context.numerators[k] !== null) ? 4 : 2,
-                    cellClass: 'name',
-                    cellContents: chart.comparisonNames[k]
-                });
-            }
-        });
+        _.each(d.context.values, function(v, k) {
+            headerData.push({
+                colspan: (d.context.numerators[k] !== null) ? 4 : 2,
+                cellClass: 'name',
+                cellContents: chart.comparisonNames[k]
+            });
+        })
 
         selection.selectAll("th")
                 .data(headerData)
@@ -913,18 +911,16 @@ function Chart(options) {
             rowData = [
                 { cellClass: 'name', cellContents: d.name }
             ];
-            chart.DataDrawerPlaces.forEach(function(k, i) {
-                if (d.context.values[k] >= 0) {
-                    // add the primary value
-                    rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
-                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
-                    // add the numerator value if it exists
-                    if (d.context.numerators[k] !== null) {
-                        rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
-                        rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
-                    }
+            _.each(d.context.values, function(v, k) {
+                // add the primary value
+                rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
+                rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
+                // add the numerator value if it exists
+                if (d.context.numerators[k] !== null) {
+                    rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
+                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
                 }
-            });
+            })
             
             selection.append("tr").selectAll("td")
                     .data(rowData)
