@@ -110,6 +110,11 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
 
 
 def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
+    '''
+    Augments data with country and province-level election stats. It
+    adds vote percentages for each party provided in party_distribution.
+    It also adds datapoints for registered_voters and average_turnout.
+    '''
     data = data.values()[0]
     party_dist_data = data['party_distribution']
     registered_voters = data['registered_voters']
@@ -122,6 +127,7 @@ def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
             # necessary for now since not all wards have a province code
             continue
 
+        # this is a composite primary key lookup
         parties = session \
                 .query(VoteSummary) \
                 .filter(VoteSummary.geo_level == level) \

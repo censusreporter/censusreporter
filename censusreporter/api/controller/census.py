@@ -171,7 +171,6 @@ def get_census_profile(geo_code, geo_level):
                 data[section] = func(geo_code, geo_level, session)
 
                 # get profiles for province and/or country
-                summary_profiles = {}
                 for level, code in geo_summary_levels:
                     # merge summary profile into current geo profile
                     merge_dicts(data[section], func(code, level, session), level)
