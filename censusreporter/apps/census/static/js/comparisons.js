@@ -1403,20 +1403,24 @@ function Comparison(options) {
             if (k.indexOf('000.5') != -1) {
                 delete data.tables[comparison.tableID]['columns'][k];
             }
-        })
+        });
+        
         return data
     }
     
     comparison.prefixColumnNames = function(columns, suppressDenominator) {
-        var prefixPieces = {},
+        // some tables have a first non-total column with indent > 1,
+        // so we need to seed this with empty slots for later concatenation
+        var prefixPieces = {'1':'', '2':''},
             indentAdd = (!!suppressDenominator) ? 0 : 1;
+
         _.each(columns, function(v) {
             // update the dict of prefix names
             var prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
             prefixPieces[v.indent] = prefixName;
             // compile to prefixed name
-            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+indentAdd).join(': ');
-        })
+            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+indentAdd).filter(function(n){return n}).join(': ');
+        });
     }
 
     comparison.makeSumlevMap = function() {
