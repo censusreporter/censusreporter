@@ -241,7 +241,7 @@ L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // add demarcation boundaries
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=3000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
   var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
       style: {
           "fillColor": "#66c2a5",
@@ -273,45 +273,46 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=3000&f
 });
 
 // load surrounding map shapes at the same level
-var filter = (parent_geo_level == '' ? '' : ("filter[" + parent_geo_level + "]=" + parent_geo_code));
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=3000" + filter, function(error, topo) {
-    var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
-        style: {
-            "clickable": true,
-            "color": "#00d",
-            "fillColor": "#ccc",
-            "weight": 1.0,
-            "opacity": 0.3,
-            "fillOpacity": 0.3,
-        },
-        filter: function(feature, layer) {
-            // don't include this geo, we already have a shape for that
-            return feature.properties[geo_level] != geo_code;
-        },
-        onEachFeature: function(feature, layer) {
-            var name = feature.properties[geo_level + '_name'] || (geo_level + ' ' + feature.properties[geo_level]);
-            layer.bindLabel(name, {direction: 'auto'});
-            layer.on('mouseover', function() {
-                layer.setStyle({
-                    "fillOpacity": 0.5,
+if (parent_geo_level != '') {
+    d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + parent_geo_level + "]=" + parent_geo_code, function(error, topo) {
+        var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+            style: {
+                "clickable": true,
+                "color": "#00d",
+                "fillColor": "#ccc",
+                "weight": 1.0,
+                "opacity": 0.3,
+                "fillOpacity": 0.3,
+            },
+            filter: function(feature, layer) {
+                // don't include this geo, we already have a shape for that
+                return feature.properties[geo_level] != geo_code;
+            },
+            onEachFeature: function(feature, layer) {
+                var name = feature.properties[geo_level + '_name'] || (geo_level + ' ' + feature.properties[geo_level]);
+                layer.bindLabel(name, {direction: 'auto'});
+                layer.on('mouseover', function() {
+                    layer.setStyle({
+                        "fillOpacity": 0.5,
+                    });
                 });
-            });
-            layer.on('mouseout', function() {
-                layer.setStyle({
-                    "fillOpacity": 0.3,
+                layer.on('mouseout', function() {
+                    layer.setStyle({
+                        "fillOpacity": 0.3,
+                    });
                 });
-            });
-            layer.on('click', function() {
-                window.location = '/profiles/' + geo_level + '-' + feature.properties[geo_level];
-            });
-        },
+                layer.on('click', function() {
+                    window.location = '/profiles/' + geo_level + '-' + feature.properties[geo_level];
+                });
+            },
+        });
+        map.addLayer(featureLayer);
     });
-    map.addLayer(featureLayer);
-});
+}
 
 // load remaining province shapes
 if (geo_level != 'province') {
-    d3.json("http://maps.code4sa.org/political/province?quantization=3000", function(error, topo) {
+    d3.json("http://maps.code4sa.org/political/province?quantization=5000", function(error, topo) {
         var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
             style: {
                 "clickable": true,
@@ -339,6 +340,7 @@ if (geo_level != 'province') {
             },
         });
         map.addLayer(featureLayer);
+        featureLayer.bringToBack();
     });
 }
 
