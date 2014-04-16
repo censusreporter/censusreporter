@@ -67,7 +67,7 @@ class Ward(Base, GeoNameMixin):
     level = 'ward'
 
     def parents(self):
-        return [self.municipality, self.district, self.province]
+        return [self.municipality, self.province]
 
     @property
     def short_name(self):
@@ -93,7 +93,7 @@ class Municipality(Base, GeoNameMixin):
     level = 'municipality'
 
     def parents(self):
-        return [self.district, self.province]
+        return [self.province]
 
 
 class District(Base, GeoNameMixin):
