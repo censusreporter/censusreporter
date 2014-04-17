@@ -1303,6 +1303,44 @@ class Elasticsearch(TemplateView):
         }
         tables = None
         columns = None
+        geo_select = self.request.GET.get('geo_select')
+        table_select = self.request.GET.get('table_select')
+
+        if geo_select:
+            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
+            api_params = {
+                'q': geo_select,
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
+
+            print r.url
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                page_context['geos'] = data['results']
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
+        elif table_select:
+            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
+            api_params = {
+                'q': table_select,
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
+
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                page_context['tables'] = data['results']
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
+
+        return page_context
 
 class GeoSearch(TemplateView):
     template_name = 'search/geo_search.html'
