@@ -108,7 +108,8 @@ class WardSearchAPI(object):
 
     def search(self, term):
         resp = requests.get(self.endpoint_url,
-                            params={'address': term})
+                            params={'address': term,
+                                    'database': 'wards_2011'})
         if resp.status_code != 200:
             raise WardSearchException('%s response code' % resp.status_code)
         # if the request is invalid it returns the landing page html
