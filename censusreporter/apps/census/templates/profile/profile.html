@@ -7,6 +7,7 @@
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
 <![endif]-->
+<link href='/static/css/vendor/leaflet.label.css' rel='stylesheet' />
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
@@ -16,8 +17,15 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header class="column-full">
-                <h1 class="title">{{ geography.long_name }}</h1>
-                {% comment %} <p class="caption">Data: {{ geography.year }}</p> {% endcomment %}
+                <h1 class="title">{{ geography.short_name }}</h1>
+                <p class="caption">
+                  {{ geography.level|capfirst }}
+                  in
+                  {% for geo in geography.parents %}
+                    <a href="{% with geo_id=geo.level|add:"-"|add:geo.code %}{% url "geography_detail" geography_id=geo_id %}{% endwith %}">{{ geo.name }}</a>,
+                  {% endfor %}
+                  South Africa
+                </p>
             </header>
             {% comment %}
             <div class="column-half">
@@ -197,38 +205,45 @@
 <script src="{% static 'js/vendor/d3.v3.min.js' %}"></script>
 <script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script src="/static/js/vendor/leaflet.label.js"></script>
 <script src="{% static 'js/charts.js' %}"></script>
 <script type="text/javascript">
 
 var geo_level = '{{ geography.level }}';
 var geo_code = '{{ geography.code }}';
 
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_level + "]=" + geo_code, function(error, topo) {
-  var allowMapDrag = (browserWidth > 480) ? true : false;
+var parent_geo_level = '{{ geography.parent.level }}';
+var parent_geo_code = '{{ geography.parent.code }}';
 
-  // draw a geom
-  var map = L.map('slippy-map', {
-      scrollWheelZoom: false,
-      zoomControl: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      keyboard: false,
-      dragging: allowMapDrag,
-      touchZoom: allowMapDrag
-  });
+var geo_parents = [{% for geo in geography.parents %} ['{{ geo.level }}', '{{ geo.code }}'] {% if not forloop.last %}, {% endif %} {% endfor %}];
 
-  if (allowMapDrag) {
-      map.addControl(new L.Control.Zoom({
-          position: 'topright'
-      }));
-  }
+// draw a map
+var allowMapDrag = (browserWidth > 480) ? true : false;
+var map = L.map('slippy-map', {
+    scrollWheelZoom: false,
+    zoomControl: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    dragging: allowMapDrag,
+    touchZoom: allowMapDrag
+});
 
-  // add imagery
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-      maxZoom: 13
-  }).addTo(map);
+if (allowMapDrag) {
+    map.addControl(new L.Control.Zoom({
+        position: 'topright'
+    }));
+}
 
+// add imagery
+L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+	subdomains: 'abcd',
+	maxZoom: 13
+}).addTo(map);
+
+// add demarcation boundaries
+d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
   var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
       style: {
           "fillColor": "#66c2a5",
@@ -258,6 +273,64 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?filter[" + geo_leve
       map.fitBounds(featureLayer.getBounds());
   }
 });
+
+// load surrounding map shapes
+var levels = [[geo_level, geo_code]].concat(geo_parents);
+
+for (var i = 0; i < levels.length; i++) {
+    var level = levels[i][0],
+        code  = levels[i][1];
+
+    // For each level, add map shapes for that level, limited to within the
+    // parent level (eg. wards within a municipality).
+
+    (function(level, code) {
+        if (level == 'province') {
+            var url = "province?";
+        } else {
+            var url = level + "?filter[" + levels[i+1][0] + "]=" + levels[i+1][1];
+        }
+
+        d3.json("http://maps.code4sa.org/political/" + url + '&quantization=5000', function(error, topo) {
+            if (!topo)
+                return;
+
+            var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+                style: {
+                    "clickable": true,
+                    "color": "#00d",
+                    "fillColor": "#ccc",
+                    "weight": 1.0,
+                    "opacity": 0.3,
+                    "fillOpacity": 0.3,
+                },
+                filter: function(feature, layer) {
+                    // don't include this smaller geo, we already have a shape for that
+                    return feature.id != code;
+                },
+                onEachFeature: function(feature, layer) {
+                    var name = feature.properties[level + '_name'] || (level + ' ' + feature.properties[level]);
+                    layer.bindLabel(name, {direction: 'auto'});
+
+                    layer.on('mouseover', function() {
+                        layer.setStyle({
+                            "fillOpacity": 0.5,
+                        });
+                    });
+                    layer.on('mouseout', function() {
+                        layer.setStyle({
+                            "fillOpacity": 0.3,
+                        });
+                    });
+                    layer.on('click', function() {
+                        window.location = '/profiles/' + level + '-' + feature.properties[level];
+                    });
+                },
+            });
+            map.addLayer(featureLayer);
+        });
+    })(level, code);
+}
 
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
