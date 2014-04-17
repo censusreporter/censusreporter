@@ -1257,6 +1257,10 @@ class WardSearchProxy(View):
             resp = requests.get('http://wards.code4sa.org',
                                 params={'address': request.GET['address'],
                                         'database': 'wards_2011'})
+            if resp.status_code != 200:
+                return HttpResponseBadRequest()
+            elif resp.text.strip().startswith('{'):
+                return HttpResponse('[]', mimetype='application/javascript')
             return HttpResponse(resp.text, mimetype='application/javascript')
         except (KeyError, AttributeError):
             return HttpResponseBadRequest()
