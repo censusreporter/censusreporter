@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView
 
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, ExampleView, Elasticsearch)
+    DataView, TopicView, ExampleView, Elasticsearch, WardSearchProxy)
 
 admin.autodiscover()
 
@@ -102,6 +102,13 @@ urlpatterns = patterns('',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
+    ),
+
+    url(
+        regex   = '^ward-search/json/$',
+        view    = WardSearchProxy.as_view(),
+        kwargs  = {},
+        name    = 'ward_search_json',
     ),
 
     ## LOCAL DEV VERSION OF API ##

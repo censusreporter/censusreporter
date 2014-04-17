@@ -1,5 +1,5 @@
 var textmatchAPI = '/place-search/json/',
-    geocodingAPI = 'http://wards.code4sa.org/',
+    geocodingAPI = '/ward-search/json/',  //http://wards.code4sa.org/',
     resultTemplate = Handlebars.compile('<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>'),
     geoSelect = $('#geography-select');
 
@@ -29,13 +29,15 @@ var geoSelectEngine = new Bloodhound({
             return url += '?address=' + query + '&database=wards_2011';
         },
         filter: function(results) {
-            _.map(results, function(item) {
-                item.full_name = item.address;
-                item.full_geoid = 'ward-' + item.ward;
+            return results.map(function(item) {
+                return {
+                    full_name: [item['ward'], item['municipality'], item['province']].join(', '),
+                    full_geoid: 'ward-' + item['ward'],
+                    geo_level: 'ward',
+                    geo_code: item['ward'],
+                };
             });
-            return results;
         },
-        dataType: 'jsonp', // allow cross domain requests
     },
 });
 geoSelectEngine.initialize();
