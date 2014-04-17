@@ -462,12 +462,12 @@ aside sup {
     top: -.125em;
 }
 aside .aside-block {
-    margin: .5em 0 1em;
+    margin: 1em 0 1.5em;
     clear: both;
 }
 aside .search input {
     font-size: .83em;
-    margin: .33em 0 1em;
+    margin: .33em 0 0;
     padding: .15em .5em 0;
     width: 100%;
 }

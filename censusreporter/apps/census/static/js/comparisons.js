@@ -519,6 +519,7 @@ function Comparison(options) {
         
         comparison.addGridControls();
         comparison.addGeographyCompareTools();
+        comparison.lockVisibleGeoControls();
         
         return comparison;
     }
@@ -655,7 +656,8 @@ function Comparison(options) {
         comparison.showDistributionCharts();
         
         comparison.addGeographyCompareTools();
-
+        comparison.lockVisibleGeoControls();
+        
         return comparison;
     }
     
@@ -873,7 +875,7 @@ function Comparison(options) {
     }
 
     // typeahead autocomplete setup
-    comparison.$topicSelectEngine = new Bloodhound({
+    comparison.topicSelectEngine = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 1500,
@@ -904,7 +906,7 @@ function Comparison(options) {
     });
     
     comparison.makeTopicSelectWidget = function() {
-        comparison.$topicSelectEngine.initialize();
+        comparison.topicSelectEngine.initialize();
 
         var element = comparison.$topicSelect;
         
@@ -917,7 +919,7 @@ function Comparison(options) {
         }, {
             name: 'topics',
             displayKey: 'simple_table_name',
-            source: comparison.$topicSelectEngine.ttAdapter(),
+            source: comparison.topicSelectEngine.ttAdapter(),
             templates: {
                 suggestion: Handlebars.compile(
                     [
@@ -1182,7 +1184,7 @@ function Comparison(options) {
 
             childOptionsContainer.append('p')
                     .attr('class', 'bottom display-type strong')
-                    .html('Add &hellip;');
+                    .html('Divide ' + comparison.primaryGeoName + ' into &hellip;');
 
             childOptionsContainer.append('ul')
                     .attr('class', 'sumlev-list')
@@ -1198,12 +1200,6 @@ function Comparison(options) {
                         )
                     })
                     .text(function(d) { return sumlevMap[d]['plural'] });
-
-            if (!!comparison.primaryGeoName) {
-                childOptionsContainer.append('p')
-                        .attr('class', 'display-type strong')
-                        .html('&hellip; in ' + comparison.primaryGeoName);
-            }
         }
         return comparison;
     }
@@ -1265,6 +1261,11 @@ function Comparison(options) {
         }
     }
     
+    comparison.lockVisibleGeoControls = function() {
+        $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children').show();
+        $('aside .action-button').hide();
+    }
+    
     comparison.toggleTableSearch = function() {
         comparison.$displayHeader.toggle();
         comparison.$displayWrapper.toggle();
@@ -1279,6 +1280,9 @@ function Comparison(options) {
     }
     
     comparison.addGeographyCompareTools = function() {
+        // show the currently selected geographies
+        comparison.makeChosenGeoList();
+
         // add typeahead place picker
         comparison.makeGeoSelectWidget();
         
@@ -1286,13 +1290,7 @@ function Comparison(options) {
             // create shortcuts for adding groups of geographies to comparison
             comparison.makeParentOptions();
             comparison.makeChildOptions();
-
-            // update the place name in table search header
-            comparison.$topicSelectContainer.find('h1').text('Find data for ' + comparison.primaryGeoName);
         }
-        
-        // show the currently selected geographies
-        comparison.makeChosenGeoList();
     }
     
     comparison.addNumberToggles = function() {
