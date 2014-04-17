@@ -74,7 +74,7 @@ function Comparison(options) {
         comparison.release = comparison.data.release;
         comparison.values = comparison.data.data;
         comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.substr(0,3) : null;
-        comparison.statType = (comparison.table.title.toLowerCase().indexOf('dollars') !== -1) ? 'dollar' : 'number';
+        comparison.statType = comparison.getStatType(),
         comparison.sortedPlaces = comparison.getSortedPlaces('name');
 
         comparison.denominatorColumn = (!!comparison.table.denominator_column_id) ? jQuery.extend({id: comparison.table.denominator_column_id}, comparison.table.columns[comparison.table.denominator_column_id]) : null;
@@ -1406,6 +1406,15 @@ function Comparison(options) {
             var A = key(a), B = key(b);
             return ((A < B) ? -1 : (A > B) ? +1 : 0) * sortOrder;
         }
+    }
+    
+    comparison.getStatType = function() {
+        var title = comparison.table.title.toLowerCase();
+        
+        if (title.indexOf('dollars') !== -1 && title.indexOf('percent') == -1) {
+            return 'dollar'
+        }
+        return 'number';
     }
     
     comparison.cleanData = function(data) {
