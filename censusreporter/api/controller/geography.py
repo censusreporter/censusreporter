@@ -51,7 +51,6 @@ def get_locations(search_term, geo_level=None, year='2011'):
                         .filter(Ward.code.in_(ward_codes)) \
                         .filter(Ward.year == year) \
                         .all()
-                _complete_ward_data_from_api(locations, session)
             else:
                 wards = []
         else:
@@ -87,7 +86,6 @@ def get_locations(search_term, geo_level=None, year='2011'):
         # look up wards
         locations = ward_search_api.search(search_term)
         if locations:
-            _complete_ward_data_from_api(locations, session)
             ward_codes = [l.ward_code for l in locations]
             wards = session \
                     .query(Ward) \
@@ -146,27 +144,3 @@ def serialize_demarcations(objects):
             raise ValueError("Unrecognized demarcation class")
         data.append(obj_dict)
     return data
-
-
-def _complete_ward_data_from_api(locations, session):
-    '''
-    Completes the ward data in the DB when a ward appears in a search result
-    '''
-    for location in locations:
-        ward_obj = session.query(Ward).get(location.ward_code)
-        if ward_obj is not None and not (ward_obj.province_code and
-                                         ward_obj.district_code and
-                                         ward_obj.muni_code):
-            ward_obj.province_code = location.province_code
-            # there are no duplicate names within a province, incidentally
-            municipality = session \
-                    .query(Municipality) \
-                    .filter(func.lower(Municipality.name) ==
-                            func.lower(location.municipality)) \
-                    .filter(Municipality.province_code ==
-                            location.province_code) \
-                    .one()
-            ward_obj.muni_code = municipality.code
-            ward_obj.district_code = municipality.district_code
-
-    session.commit()
