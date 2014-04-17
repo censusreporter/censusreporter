@@ -686,13 +686,17 @@ function Comparison(options) {
             
             comparison.sortedPlaces.forEach(function(g) {
                 var geoID = g.geoID,
-                    thisValue = comparison.values[geoID][comparison.tableID][comparison.valueType][k],
-                    thisValueMOE = (!!comparison.denominatorColumn) ? comparison.values[geoID][comparison.tableID].percentage_error[k] : comparison.values[geoID][comparison.tableID].error[k];
-            
+                    thisValue = comparison.values[geoID][comparison.tableID].estimate[k],
+                    thisValueMOE = comparison.values[geoID][comparison.tableID].error[k],
+                    thisPct = (!!comparison.denominatorColumn) ? comparison.values[geoID][comparison.tableID].percentage[k] : null,
+                    thisPctMOE = (!!comparison.denominatorColumn) ? comparison.values[geoID][comparison.tableID].percentage_error[k] : null;
+                
                 comparison.chartColumnData[k].geographies[geoID] = {
                     name: comparison.data.geography[geoID].name,
-                    value: thisValue,
-                    moe: thisValueMOE,
+                    estimate: thisValue,
+                    estimate_moe: thisValueMOE,
+                    percentage: thisPct,
+                    percentage_moe: thisPctMOE,
                     geoID: geoID
                 }
             })
@@ -735,7 +739,7 @@ function Comparison(options) {
                 .enter().append('li')
                     .classed('chart-point', true)
                     .style('left', function(d) {
-                        return roundNumber(comparison.chartColumnData[k].xScale(d.value), 1)+'%';
+                        return roundNumber(comparison.chartColumnData[k].xScale(d[comparison.valueType]), 1)+'%';
                     });
                     
             var chartPointCircles = chartPoints.append('a')
@@ -747,14 +751,24 @@ function Comparison(options) {
                     .classed('hovercard', true);
                     
             chartPointLabels.append('span')
-                    .classed('name', true)
+                    .classed('label-title', true)
                     .text(function(d) { return d.name });
+
+            if (!!comparison.denominatorColumn) {
+                chartPointLabels.append('span')
+                        .classed('value', true)
+                        .text(function(d) { return valFmt(d.percentage, 'percentage') })
+                    .append('span')
+                        .classed('context', true)
+                        .html(function(d) { return '&plusmn;' + valFmt(d.percentage_moe, 'percentage') });
+            }
+
             chartPointLabels.append('span')
-                    .classed('value percentage', true)
-                    .text(function(d) { return valFmt(d.value, comparison.chartDisplayFmt) })
+                    .classed('value', true)
+                    .text(function(d) { return valFmt(d.estimate, comparison.statType) })
                 .append('span')
                     .classed('context', true)
-                    .html(function(d) { return '&plusmn;' + valFmt(d.moe, comparison.chartDisplayFmt) });
+                    .html(function(d) { return '&plusmn;' + valFmt(d.estimate_moe, comparison.statType) });
         })
 
         // set up the chart point listeners
