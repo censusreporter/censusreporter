@@ -677,7 +677,7 @@ function Comparison(options) {
             comparison.chartColumnData[k].minValue = d3.min(valuesList);
             comparison.chartColumnData[k].maxValue = d3.max(valuesList);
             comparison.chartColumnData[k].valuesRange = comparison.chartColumnData[k].maxValue - comparison.chartColumnData[k].minValue;
-            comparison.chartColumnData[k].medianValue = d3.median(valuesList);
+            comparison.chartColumnData[k].medianValue = roundNumber(d3.median(valuesList), 2);
             
             comparison.chartColumnData[k].xScale = d3.scale.linear()
                 .range([0, 100])
