@@ -1,23 +1,42 @@
-var geoSearchAPI = '/place-search/json/',
+var textmatchAPI = '/place-search/json/',
+    geocodingAPI = 'http://wards.code4sa.org/',
+    resultTemplate = Handlebars.compile('<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>'),
     geoSelect = $('#geography-select');
+
+var textMatchEngine = new Bloodhound({
+    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    limit: 20,
+    remote: {
+        url: textmatchAPI,
+        replace: function (url, query) {
+            return url += '?q=' + query;
+        },
+        filter: function(response) {
+            return response.results;
+        }
+    }
+});
+textMatchEngine.initialize();
 
 var geoSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     limit: 20,
     remote: {
-        url: geoSearchAPI,
+        url: geocodingAPI,
         replace: function (url, query) {
-            return url += '?q=' + query;
+            return url += '?address=' + query + '&database=wards_2011';
         },
-        filter: function(response) {
-            var results = response.results;
+        filter: function(results) {
             _.map(results, function(item) {
-                item['geo_level'] = item['full_geoid'].split('-')[0];
-            })
+                item.full_name = item.address;
+                item.full_geoid = 'ward-' + item.ward;
+            });
             return results;
-        }
-    }
+        },
+        dataType: 'jsonp', // allow cross domain requests
+    },
 });
 geoSelectEngine.initialize();
 
@@ -28,14 +47,23 @@ function makeGeoSelectWidget(element) {
         hint: false,
         minLength: 2
     }, {
-        name: 'profile',
+        // get textual matches from host
+        name: 'textmatch',
+        displayKey: 'full_name',
+        source: textMatchEngine.ttAdapter(),
+        limit: 20,
+        templates: {
+            suggestion: resultTemplate,
+        },
+    }, {
+        // get geocoded matches from Code4SA API
+        name: 'geocoded',
         displayKey: 'full_name',
         source: geoSelectEngine.ttAdapter(),
+        limit: 20,
         templates: {
-            suggestion: Handlebars.compile(
-                '<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>'
-            )
-        }
+            suggestion: resultTemplate,
+        },
     });
 
     element.on('typeahead:selected', function(event, datum) {
