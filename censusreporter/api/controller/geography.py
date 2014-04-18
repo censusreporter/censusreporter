@@ -2,7 +2,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import or_
 from sqlalchemy import func
 
-from api.models import Ward, District, Municipality, Province
+from api.models import Ward, District, Municipality, Province, Subplace
 from api.utils import (get_session, ward_search_api, geo_levels,
                        LocationNotFound)
 
@@ -42,7 +42,7 @@ def get_locations(search_term, geo_level=None, year='2011'):
     if geo_level:
         levels = [geo_level]
     else:
-        levels = ['province', 'municipality']
+        levels = ['province', 'municipality', 'subplace']
 
     objects = set()
 
@@ -52,16 +52,31 @@ def get_locations(search_term, geo_level=None, year='2011'):
         model = {
             'municipality': Municipality,
             'province': Province,
+            'subplace': Subplace,
         }[level]
 
-        objects.update(session
-            .query(model)
-            .filter(model.year == year)
-            .filter(or_(model.name.ilike(search_term + '%'),
-                        model.name.ilike('City of %s' % search_term + '%'),
-                        model.code == search_term.upper()))
-            .limit(10)
-        )
+        if level == 'subplace':
+            # check mainplace and subplace names
+            objects.update(session
+                .query(Ward)
+                .join(model)
+                .filter(model.year == year)
+                .filter(or_(model.subplace_name.ilike(search_term + '%'),
+                            model.subplace_name.ilike('City of %s' % search_term + '%'),
+                            model.mainplace_name.ilike(search_term + '%'),
+                            model.code == search_term))
+                .limit(10)
+            )
+
+        else:
+            objects.update(session
+                .query(model)
+                .filter(model.year == year)
+                .filter(or_(model.name.ilike(search_term + '%'),
+                            model.name.ilike('City of %s' % search_term + '%'),
+                            model.code == search_term.upper()))
+                .limit(10)
+            )
 
 
     order_map = {Ward: 3, Municipality: 2, Province: 1}

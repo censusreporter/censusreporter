@@ -131,3 +131,16 @@ class Province(Base, GeoNameMixin):
     def parents(self):
         # TODO: return nation
         return []
+
+
+class Subplace(Base):
+    code = Column(String(9), primary_key=True)
+    subplace_name  = Column(String(50), index=True, nullable=False)
+    mainplace_name = Column(String(50), index=True, nullable=False)
+    mainplace_code = Column(String(8), nullable=False)
+    ward_code = Column(String(8), ForeignKey('ward.code'), nullable=False)
+    muni_code = Column(String(8), ForeignKey('municipality.code'), nullable=False)
+    district_code = Column(String(8), ForeignKey('district.code'), nullable=False)
+    province_code = Column(String(3), ForeignKey('province.code'), nullable=False)
+    # same as the year of the constituent wards
+    year = Column(String(4), index=True, nullable=False)
