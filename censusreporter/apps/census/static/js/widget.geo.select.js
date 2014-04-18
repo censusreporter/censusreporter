@@ -53,6 +53,8 @@ function makeGeoSelectWidget(element) {
                     return url += '?address=' + uriEncodedQuery + '&database=wards_2011';
                 },
                 filter: function(response) {
+                    if (response.error !== undefined) return [];
+
                     var deduped_items = [];
                     response.map(function(item) {
                         var full_geoid = 'ward-' + item['ward'];
