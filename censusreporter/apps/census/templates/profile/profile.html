@@ -227,7 +227,7 @@ var geo_code = '{{ geo.code }}';
 var parent_geo_level = '{{ geo.parent.level }}';
 var parent_geo_code = '{{ geo.parent.code }}';
 
-var geo_parents = [{% for geo in geography.parents %} ['{{ geo.level }}', '{{ geo.code }}'] {% if not forloop.last %}, {% endif %} {% endfor %}];
+var geo_parents = [{% for g in geo.parents %} ['{{ g.level }}', '{{ g.code }}'] {% if not forloop.last %}, {% endif %} {% endfor %}];
 
 // draw a map
 var allowMapDrag = (browserWidth > 480) ? true : false;

@@ -31,12 +31,16 @@ var geoSelectEngine = new Bloodhound({
         filter: function(results) {
             return results.map(function(item) {
                 return {
-                    full_name: [item['ward'], item['municipality'], item['province']].join(', '),
+                    full_name: ['Ward ' + item['wards_no'] + ' (' + item['ward'] + ')',
+                                 item['municipality'], item['province']].join(', '),
                     full_geoid: 'ward-' + item['ward'],
                     geo_level: 'ward',
                     geo_code: item['ward'],
                 };
             });
+        },
+        ajax: {
+            dataType: 'jsonp',  // allow cross domain request
         },
     },
 });
