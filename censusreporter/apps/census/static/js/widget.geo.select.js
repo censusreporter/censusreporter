@@ -58,7 +58,8 @@ function makeGeoSelectWidget(element) {
                         var full_geoid = 'ward-' + item['ward'];
                         if (addRemoteItem(full_geoid)) {
                             deduped_items.push({
-                                full_name: [item['ward'], item['municipality'], item['province']].join(', '),
+                                full_name: ['Ward ' + item['wards_no'] + ' (' + item['ward'] + ')',
+                                            item['municipality'], item['province']].join(', '),
                                 full_geoid: full_geoid,
                                 geo_level: 'ward',
                                 geo_code: item['ward'],
@@ -67,7 +68,7 @@ function makeGeoSelectWidget(element) {
                     });
                     return deduped_items;
                 },
-                //dataType: 'jsonp',  // allow cross domain request
+                dataType: 'jsonp',  // allow cross domain request
             }
         })]
     );
@@ -76,7 +77,6 @@ function makeGeoSelectWidget(element) {
         if (settings.url.indexOf(textmatchAPI) > -1 ||
             settings.url.indexOf(geocodingAPI) > -1) {
             remote_data = {};
-            console.log('reset remote data');
         }
     });
 
