@@ -5,21 +5,22 @@
         <link rel="stylesheet" href="css/embed.charts.css">
     </head>
     <body class="census-chart-embed">
-        <div class="box-header">
+        <div class="embed-header"></div>
+        
+        <div id="census-chart"></div>
+        
+        <div class="embed-footer">
+            <ul>
+                <!--<li><a href="#" id="embed-trigger">Embed</a></li>-->
+                <li><a href="#" id="about-trigger">About</a></li>
+            </ul>
             <a class="title" href="http://censusreporter.org">
                 <img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo.png"> Census Reporter
             </a>
         </div>
-        
-        <div id="census-chart-about" class="embed-overlay"></div>
-        <div id="census-chart"></div>
-        
-        <div class="embed-footer">
-            asdf
-        </div>
 
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
-        <script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/charts.js"></script>
+        <script src="js/charts.js"></script>
         <script type="text/javascript">
             var embedData = {
                 parentOrigin: ''
@@ -51,6 +52,7 @@
                 } else {
                     embedData.data = messageData;
                     makeChart();
+                    makeChartPlace();
                     makeChartAbout();
                 }
             }
@@ -65,7 +67,7 @@
                 var chart = Chart({
                     chartContainer: 'census-chart',
                     chartType: gracefulType(embedData.data.chartType),
-                    chartHeight: 160,
+                    chartHeight: 200,
                     chartData: embedData.data.chartData,
                     chartQualifier: embedData.data.chartQualifier,
                     chartChartTitle: embedData.data.chartChartTitle,
@@ -74,12 +76,19 @@
                     geographyData: embedData.data.geographyData
                 });
                 sendDataToParent({ chartHeight: chart.settings.height });
-                console.log(embedData.data)
+            }
+
+            var makeChartPlace = function() {
+                d3.select('.embed-header').append('h3')
+                    .text(embedData.data.geographyData.this.full_name);
             }
             
             var makeChartAbout = function() {
-                var aboutData = embedData.data.chartData.metadata,
-                    aboutContainer = d3.select('#census-chart-about');
+                var aboutData = embedData.data.chartData.metadata;
+                var aboutContainer = d3.select('#census-chart')
+                        .append('div')
+                    .attr('id', 'census-chart-about')
+                    .classed('embed-overlay', true);
 
                 aboutContainer.append('h3')
                     .text('About this chart');
@@ -97,6 +106,19 @@
             var eventListener = window[eventMethod];
             var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
             eventListener(messageEvent, handleMessage, false);
+            
+            var aboutTrigger = document.getElementById('about-trigger');
+            aboutTrigger[eventMethod]('mouseover', function() {
+                document.getElementById('census-chart-about').style.display='block';
+            }, false);
+            aboutTrigger[eventMethod]('mouseout', function() {
+                document.getElementById('census-chart-about').style.display='none';
+            }, false);
+            aboutTrigger[eventMethod]('click', function() {
+                var state = document.getElementById('census-chart-about').style.display,
+                    toggle = (state == 'block') ? 'none' : 'block';
+                document.getElementById('census-chart-about').style.display=toggle;
+            }, false);
         </script>
     </body>
 </html>

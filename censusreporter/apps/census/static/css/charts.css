@@ -13,44 +13,34 @@
     margin: 0 0 0 .5em;
 }
 .census-chart-embed {
-    margin: .67em;
+    position: relative;
+    padding: .67em;
+    margin: 0;
     background-color: #fff;
     line-height: 1.4;
     font-size: 14px;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .census-chart-embed #census-chart {
-    margin: 1em 1em .67em;
+    margin: 0 1em;
+    position: relative;
 }
 .census-chart-embed .embed-overlay {
+    display: none;
     position: absolute;
-    padding: .67em 1em;
-    right: 0;
+    padding: .67em 2em .67em 1em;
+    right: .33em;
+    bottom: .15em;
     background-color: #fff;
     z-index: 100;
-}
-.census-chart-embed .credit {
-    margin: 0 1em;
-    font-size: 14px;
-    position: absolute;
-    right: 1em;
-    z-index: 999;
-}
-.census-chart-embed .credit a {
-    color: #111;
-    text-decoration: none;
-}
-.census-chart-embed .credit img {
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    margin: 0 3px 0 0;
-    vertical-align: baseline;
-    height: 16px;
+    -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 1);
+    -moz-box-shadow:    0 0 0 1px rgba(255, 255, 255, 1);
+    box-shadow:         0 0 0 1px rgba(255, 255, 255, 1);
 }
 .census-chart-embed .chart-title {
-    font-size: 16px;
-    margin-bottom: 1em;
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0 0 1em;
 }
 .census-chart-embed .chart-get-data {
     display: none;
@@ -304,33 +294,72 @@
     margin: 8px;
 }
 
-.box-header {
+.embed-header {
+    margin: 0 1em .33em;
+}
+.embed-header h3 {
+    margin: .5em 0 0;
+}
+
+.embed-footer {
+    height: 24px;
+    margin: .5em 1em 0;
     background-color: #014948;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
-.census-chart-embed .box-header {
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-.box-header a {
+.embed-footer a {
     color: #f7f8f3;
     text-decoration: none;
 }
-.box-header img {
+.embed-footer a.title {
+    color: #f7f8f3;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    line-height: 1;
+    padding: 4px 7px 0;
+}
+.embed-footer img {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
     margin: 0 3px 0 0;
     vertical-align: baseline;
-    height: 21px;
+    height: 13px;
 }
-.box-header {
-    padding: .25em .5em;
-    margin-bottom: .67em;
+.embed-footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: right;
 }
+.embed-footer li {
+    list-style: none;
+    float: left;
+    width: 5em;
+    text-align: center;
+}
+.embed-footer li a {
+    background-color: #001716;
+    height: 24px;
+    vertical-align: middle;
+    line-height: 1;
+    display: block;
+    font-size: 11px;
+    padding: 6px 1em 0;
+    margin-left: 1px;
+}
+#about-trigger {
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-right-radius: 3px;
+}
+
 .box-header img {
     height: 16px;
 }
@@ -373,8 +402,8 @@
         every time the hover listener fires */
         width: 100% !important;
         border: none;
-        padding: .67em;
-        top: 100% !important;
+        padding: 0 0 1em;
+        top: -2em !important;
         left: 0 !important;
         bottom: auto !important;
         right: auto !important;

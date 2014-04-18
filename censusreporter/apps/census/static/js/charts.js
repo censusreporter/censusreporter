@@ -739,7 +739,7 @@ function Chart(options) {
         }
         
         var embedString = 'var embedVars = ' + JSON.stringify(embedVars) + ';',
-            embedHeight = 350,
+            embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720;
             
         var embedCode = [
@@ -1014,8 +1014,6 @@ function Chart(options) {
         if (!!chart.hovercard) {
             chart.hovercard
                 .html(chart.fillHovercard(data))
-                .transition()
-                .duration(200)
                 .style("opacity", 1);
 
             chart.hovercard.dimensions = {
@@ -1062,8 +1060,6 @@ function Chart(options) {
         // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
             chart.hovercard
-                .transition()
-                .duration(200)
                 .style("opacity", 1e-6);
         }
     }
