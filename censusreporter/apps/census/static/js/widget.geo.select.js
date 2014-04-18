@@ -28,8 +28,10 @@ var geoSelectEngine = new Bloodhound({
         replace: function (url, query) {
             return url += '?address=' + query + '&database=wards_2011';
         },
-        filter: function(results) {
-            return results.map(function(item) {
+        filter: function(response) {
+            if (response.error !== undefined) return [];
+
+            return response.map(function(item) {
                 return {
                     full_name: ['Ward ' + item['wards_no'] + ' (' + item['ward'] + ')',
                                  item['municipality'], item['province']].join(', '),
