@@ -1,5 +1,5 @@
 var textmatchAPI = '/place-search/json/',
-    geocodingAPI = '/ward-search/json/',  //http://wards.code4sa.org/',
+    geocodingAPI = 'http://wards.code4sa.org/',
     resultTemplate = '<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>',
     geoSelect = $('#geography-select');
 
