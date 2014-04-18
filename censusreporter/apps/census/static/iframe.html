@@ -5,8 +5,19 @@
         <link rel="stylesheet" href="css/embed.charts.css">
     </head>
     <body class="census-chart-embed">
+        <div class="box-header">
+            <a class="title" href="http://censusreporter.org">
+                <img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo.png"> Census Reporter
+            </a>
+        </div>
+        
+        <div id="census-chart-about" class="embed-overlay"></div>
         <div id="census-chart"></div>
-        <h2 class="credit"><a href="http://censusreporter.org"><img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo-48x24.png"> Census Reporter</a></h2>
+        
+        <div class="embed-footer">
+            asdf
+        </div>
+
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
         <script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/charts.js"></script>
         <script type="text/javascript">
@@ -40,6 +51,7 @@
                 } else {
                     embedData.data = messageData;
                     makeChart();
+                    makeChartAbout();
                 }
             }
 
@@ -61,7 +73,24 @@
                     chartStatType: embedData.data.chartStatType,
                     geographyData: embedData.data.geographyData
                 });
-                sendDataToParent({ chartHeight: chart.settings.height })
+                sendDataToParent({ chartHeight: chart.settings.height });
+                console.log(embedData.data)
+            }
+            
+            var makeChartAbout = function() {
+                var aboutData = embedData.data.chartData.metadata,
+                    aboutContainer = d3.select('#census-chart-about');
+
+                aboutContainer.append('h3')
+                    .text('About this chart');
+                    
+                var aboutDataList = aboutContainer.append('ul');
+                aboutDataList.append('li')
+                    .html('<strong>Census release:</strong> ' + aboutData.acs_release);
+                aboutDataList.append('li')
+                    .html('<strong>Census data table:</strong> ' + aboutData.table_id.toUpperCase());
+                aboutDataList.append('li')
+                    .html('<strong>This chart counts:</strong> ' + aboutData.universe);
             }
 
             var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
