@@ -50,7 +50,7 @@ function makeCensusEmbed() {
     embed.setFrameSize = function() {
         var parentWidth = embed.container.parentNode.offsetWidth;
         embed.container.width = (parentWidth <= embed.naturalWidth) ? parentWidth : embed.naturalWidth;
-        embed.container.height = (embed.frameHeight >= embed.naturalHeight) ? embed.frameHeight+60 : embed.naturalHeight;
+        embed.container.height = (embed.frameHeight >= embed.naturalHeight) ? embed.frameHeight+80 : embed.naturalHeight;
     }
     
     embed.sendDataToFrame = function(data) {
