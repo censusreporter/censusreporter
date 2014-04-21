@@ -213,7 +213,7 @@ img.screenshot {
 }
 #page-header-title .logo {
     float: right;
-    padding: 8px 20px;
+    margin: 0.3em 8px 0;
 }
 #page-header-title .logo img {
     background-color: white;

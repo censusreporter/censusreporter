@@ -1,7 +1,7 @@
 var textmatchAPI = '/place-search/json/',
     geocodingAPI = 'http://wards.code4sa.org/',
     resultTemplate = Handlebars.compile('<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>'),
-    geoSelect = $('#geography-select');
+    geoSelect = $('#geography-select, #geography-select-home');
 
 var textMatchEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
