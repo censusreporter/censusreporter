@@ -395,8 +395,48 @@ def get_service_delivery_profile(geo_code, geo_level, session):
         if attr.startswith('Removed by local authority'):
             total_ref_sp += obj.total
 
-    for data, total in zip((water_src_data, refuse_disp_data),
-                           (total_wsrc, total_ref)):
+    # electricity
+    elec_attrs = ['electricity for cooking',
+                  'electricity for heating',
+                  'electricity for lighting']
+    db_model_elec = get_model_from_fields(elec_attrs, geo_level,
+                                          'electricityavailability_%s' % geo_level)
+    objects = get_objects_by_geo(db_model_elec, geo_code, geo_level, session)
+    total_elec = 0.0
+    total_some_elec = 0.0
+    elec_access_data = {
+        'total_all_elec': {
+            "name": "Have electricity for everything",
+            "numerators": {"this": 0.0},
+        },
+        'total_some_not_all_elec': {
+            "name": "Have electricity for some things",
+            "numerators": {"this": 0.0},
+        },
+        'total_no_elec': {
+            "name": "No electricity",
+            "numerators": {"this": 0.0},
+        }
+    }
+    for obj in objects:
+        total_elec += obj.total
+        has_some = False
+        has_all = True
+        for attr in elec_attrs:
+            val = True if getattr(obj, attr) == 'Yes' else False
+            has_all = has_all and val
+            has_some = has_some or val
+        if has_some:
+            total_some_elec += obj.total
+        if has_all:
+            elec_access_data['total_all_elec']['numerators']['this'] += obj.total
+        elif has_some:
+            elec_access_data['total_some_not_all_elec']['numerators']['this'] += obj.total
+        else:
+            elec_access_data['total_no_elec']['numerators']['this'] += obj.total
+
+    for data, total in zip((water_src_data, refuse_disp_data, elec_access_data),
+                           (total_wsrc, total_ref, total_elec)):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
@@ -412,7 +452,13 @@ def get_service_delivery_profile(geo_code, geo_level, session):
                 "name": "Are getting refuse disposal from a local authority or private company",
                 "numerators": {"this": total_ref_sp},
                 "values": {"this": round(total_ref_sp / total_ref * 100, 2)},
-            }
+            },
+            'percentage_electricity_access': {
+                "name": "Have electricity for at least one of cooking, heating or lighting",
+                "numerators": {"this": total_some_elec},
+                "values": {"this": round(total_some_elec / total_elec * 100, 2)}
+            },
+            'electricity_access_distribution': elec_access_data,
     }
 
 
