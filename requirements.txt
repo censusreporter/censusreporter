@@ -2,6 +2,7 @@ Django==1.5.4
 requests==1.2.0
 wsgiref==0.1.2
 numpy==1.7.0
+newrelic==2.18.1.15
 unicodecsv==0.9.4
 python-memcached==1.53
 gunicorn==18.0
