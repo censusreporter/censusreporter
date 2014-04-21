@@ -1,7 +1,7 @@
 var textmatchAPI = '/place-search/json/',
     geocodingAPI = 'http://wards.code4sa.org/',
     resultTemplate = '<p class="result-name"><span class="result-type">{{geo_level}}</span>{{full_name}}</p>',
-    geoSelect = $('#geography-select');
+    geoSelect = $('#geography-select, #geography-select-home');
 
 
 // contains geoid of each item in the current typeahead selection

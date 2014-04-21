@@ -14,11 +14,13 @@
             
             <h1 class="article-header">Profile a place</h1>
             <div id="geography-select-wrapper">
-                <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
+                <input name="geography_select" id="geography-select-home" type="text" placeholder="Start typing a place name or address..." autocomplete="off">
+                {% comment %}
                 <div class="geolocate-only">
                     <span class="or">or</span>
                     <a href="{% url 'locate' %}" class="action-button"><i class="fa fa-location-arrow"></i> <span class="wide-only">Find places based on</span><span class="narrow-only">Use</span> your current location</a>
                 </div>
+                {% endcomment %}
             </div>
         </section>
         <section>
