@@ -19,22 +19,42 @@ def open_census_csv(filepath):
     reader = csv.reader(f, delimiter=",")
     # skip headers
     for row in reader:
-        if len(row) > 1:
+        if len(row) == 0:
             break
 
-    field_name = row[0].lower()
-    categories = row[1:]
-    if categories[-1] == "":
-        del categories[-1]
-    if categories[-1] == 'Total':
-        includes_total = True
-        del categories[-1]
-    else:
-        includes_total = False
-    yield field_name, categories
+    fields = []
+    categories = None
+    for row in reader:
+        if row[0] == "Geography":
+            break
+        fields.append(row[0].lower())
+        categories_for_field = row[1:]
 
-    # skip "Geography" line
-    next(reader)
+        # Repeat category value until next value
+        last = categories_for_field[0]
+        for i, val in enumerate(categories_for_field):
+            if val == " ":
+                categories_for_field[i] = last
+            else:
+                last = val
+
+        # Remove last category value if empty or "Total"
+        if categories_for_field[-1] == "":
+            del categories_for_field[-1]
+        if categories_for_field[-1] == 'Total':
+            includes_total = True
+            del categories_for_field[-1]
+        else:
+            includes_total = False
+        
+        # zip the categories
+        if categories is None:
+            categories = [(c, ) for c in categories_for_field]
+        else:
+            categories = [tup + (categories_for_field[i], )
+                          for i, tup in enumerate(categories)]
+
+    yield fields, categories
 
     for i, row in enumerate(reader):
         if len(row) == 0:
@@ -67,7 +87,7 @@ if __name__ == '__main__':
         filepath = os.path.join(os.getcwd(), filepath)
 
     data = open_census_csv(filepath)
-    field_name, categories = next(data)
+    fields, categories = next(data)
 
     # figure out which geo level the data is at
     geo_name, values = next(data)
@@ -91,7 +111,7 @@ if __name__ == '__main__':
         raise ValueError("Cannot recognize the geo level of data")
 
     # get db model and create table if necessary
-    db_model = get_model_from_fields([field_name], geo_level, table_name)
+    db_model = get_model_from_fields(fields, geo_level, table_name)
     Base.metadata.create_all(_engine, tables=[db_model.__table__])
 
     # restart generator
@@ -112,10 +132,9 @@ if __name__ == '__main__':
             kwargs = base_kwargs.copy()
             if value.strip() == '-':
                 value = '0'
-            kwargs.update({
-                'total': int(''.join(value.split(','))),
-                field_name: category,
-            })
+            non_numeric_fields = dict((f, v) for f, v in zip(fields, category))
+            kwargs.update(non_numeric_fields)
+            kwargs['total'] = int(''.join(value.split(',')))
             session.add(db_model(**kwargs))
 
         session.flush()
