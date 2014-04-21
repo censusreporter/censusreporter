@@ -7,14 +7,16 @@ from api.models import get_model_from_fields, Base, Province
 from api.utils import get_session, _engine
 
 
-'''
-TODO: this script only caters for 2D data, i.e. geography and
-1 other field. Need to update it for an arbitrary number of
-fields.
-'''
-
-
 def open_census_csv(filepath):
+    '''
+    Reads a SuperCROSS or SuperWEB csv file.
+    First call returns column names and values.
+    Example: (['Like colour?', 'Colour'],
+              [('Yes', 'Blue'), ('Yes', 'Red'), ('No', 'Blue'), ('No', 'Red')])
+    Second through to final call returns the geo code (or name if it's a province)
+    and a list of integer totals, one for each combination of column values.
+    Example: ('DC10', [10, 14, 12, 7])
+    '''
     f = open(filepath)
     reader = csv.reader(f, delimiter=",")
     # skip headers
