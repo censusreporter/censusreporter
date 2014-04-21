@@ -20,6 +20,7 @@ census_fields = set([
     'energy or fuel for cooking',
     'energy or fuel for heating',
     'energy or fuel for lighting',
+    'gender',
     'highest educational level',
     'individual monthly income',
     'official employment status',

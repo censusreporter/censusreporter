@@ -188,17 +188,22 @@ def get_census_profile(geo_code, geo_level):
 
 def get_demographics_profile(geo_code, geo_level, session):
     # population group
-    db_model_pop = get_model_from_fields(['population group'], geo_level)
+    db_model_pop = get_model_from_fields(['population group', 'gender'], geo_level)
     objects = get_objects_by_geo(db_model_pop, geo_code, geo_level,
                                  session, order_by='population group')
 
     pop_dist_data = OrderedDict()
+    sex_grouping = OrderedDict((('female', {}), ('male', {})))
     total_pop = 0.0
+    total_female = 0.0
     for obj in objects:
         pop_group = getattr(obj, 'population group')
         total_pop += obj.total
-        pop_dist_data[pop_group] = {
-            "name": pop_group,
+        if obj.gender == 'Female':
+            total_female += obj.total
+        pop_dist_data.setdefault(pop_group, sex_grouping.copy())
+        pop_dist_data[pop_group][obj.gender.lower()] = {
+            "name": obj.gender,
             "numerators": {"this": obj.total},
         }
 
@@ -224,66 +229,59 @@ def get_demographics_profile(geo_code, geo_level, session):
                                                    '80+'))
 
     # calculate percentages
-    for data, total in zip((pop_dist_data, age_dist_data),
-                           (total_pop, total_age)):
+    for data, total in zip(pop_dist_data.values() + [age_dist_data, ],
+                           (total_pop, ) * len(pop_dist_data) + (total_age, )):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
+    # need to put the name in metadata dict for grouped data
+    for key, values in pop_dist_data.iteritems():
+        values['metadata'] = {'name': key}
+
     final_data = {'population_group_distribution': pop_dist_data,
                   'age_group_distribution': age_dist_data}
 
-    # median age/age category if possible (might not have data at ward level)
-    try:
-        db_model_age = get_model_from_fields(['age in completed years'], geo_level)
-        objects = sorted(
-            get_objects_by_geo(db_model_age, geo_code, geo_level, session),
-            key=lambda x: int(getattr(x, 'age in completed years'))
-        )
-        # median age
-        median = calculate_median(objects, 'age in completed years')
-        final_data['median_age'] = {
-            "name": "Median age",
-            "values": {"this": median},
-        }
-        # age category
-        under_18 = 0.0
-        over_or_65 = 0.0
-        between_18_64 = 0.0
-        total = 0.0
-        for obj in objects:
-            age = int(getattr(obj, 'age in completed years'))
-            total += obj.total
-            if age < 18:
-                under_18 += obj.total
-            elif age >= 65:
-                over_or_65 += obj.total
-            else:
-                between_18_64 += obj.total
-        final_data['age_category_distribution'] = OrderedDict((
-            ("under_18", {
-                "name": "Under 18",
-                "values": {"this": round(under_18 / total * 100, 2)}
-            }),
-            ("18_to_64", {
-                "name": "18 to 64",
-                "values": {"this": round(between_18_64 / total * 100, 2)}
-            }),
-            ("65_and_over", {
-                "name": "65 and over",
-                "values": {"this": round(over_or_65 / total * 100, 2)}
-            })
-        ))
-    except LocationNotFound:
-        final_data['median_age'] = {
-            "name": "Median age",
-        }
-        final_data['age_category_distribution'] = {
-            "": {
-                "name": "N/A",
-                "values": {"this": 0}
-            }
-        }
+    # median age/age category
+    db_model_age = get_model_from_fields(['age in completed years'], geo_level)
+    objects = sorted(
+        get_objects_by_geo(db_model_age, geo_code, geo_level, session),
+        key=lambda x: int(getattr(x, 'age in completed years'))
+    )
+    # median age
+    median = calculate_median(objects, 'age in completed years')
+    final_data['median_age'] = {
+        "name": "Median age",
+        "values": {"this": median},
+    }
+    # age category
+    under_18 = 0.0
+    over_or_65 = 0.0
+    between_18_64 = 0.0
+    total = 0.0
+    for obj in objects:
+        age = int(getattr(obj, 'age in completed years'))
+        total += obj.total
+        if age < 18:
+            under_18 += obj.total
+        elif age >= 65:
+            over_or_65 += obj.total
+        else:
+            between_18_64 += obj.total
+    final_data['age_category_distribution'] = OrderedDict((
+        ("under_18", {
+            "name": "Under 18",
+            "values": {"this": round(under_18 / total * 100, 2)}
+        }),
+        ("18_to_64", {
+            "name": "18 to 64",
+            "values": {"this": round(between_18_64 / total * 100, 2)}
+        }),
+        ("65_and_over", {
+            "name": "65 and over",
+            "values": {"this": round(over_or_65 / total * 100, 2)}
+        })
+    ))
 
     return final_data
 
