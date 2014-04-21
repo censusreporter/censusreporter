@@ -8,7 +8,7 @@ from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
 
 admin.autodiscover()
 
-geo_levels = 'ward|municipality|district|province'
+geo_levels = 'ward|municipality|province'
 
 
 urlpatterns = patterns('',
