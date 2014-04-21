@@ -139,17 +139,15 @@
             <div class="column-third" id="chart-pie-service_delivery-refuse_disposal_distribution" data-chart-title="Population by refuse disposal" data-stat-type="percentage"></div>
         </section>
 
-        {% comment %}
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#geographical-mobility" id="geographical-mobility">Geographical mobility <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#electricity" id="electricity">Electricity <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.migration.moved_since_previous_year stat_type='percentage' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_electricity_access stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year"></div>
+            <div class="column-third" id="chart-pie-service_delivery-electricity_access_distribution" data-stat-type="percentage" data-chart-title="Population by electricity usage"></div>
         </section>
-        {% endcomment %}
 
     </div>
 </article>
