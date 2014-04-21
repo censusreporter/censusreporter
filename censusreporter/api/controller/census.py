@@ -239,8 +239,19 @@ def get_demographics_profile(geo_code, geo_level, session):
     for key, values in pop_dist_data.iteritems():
         values['metadata'] = {'name': key}
 
-    final_data = {'population_group_distribution': pop_dist_data,
-                  'age_group_distribution': age_dist_data}
+    final_data = {
+        'population_group_distribution': pop_dist_data,
+        'age_group_distribution': age_dist_data,
+        'sex_ratio': OrderedDict((  # census data refers to sex as gender
+            ('Female', {
+                "name": "Female",
+                "values": {"this": round(total_female / total_pop * 100, 2)}
+            }),
+            ('Male', {
+                "name": "Male",
+                "values": {"this": round((total_pop - total_female) / total_pop * 100, 2)}
+            }),
+        ))}
 
     # median age/age category
     db_model_age = get_model_from_fields(['age in completed years'], geo_level)
