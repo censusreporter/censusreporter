@@ -1,0 +1,33 @@
+#landing-slippy-map {
+    width: 100%;
+    height: 35em;
+}
+
+#how-to .content-container {
+    padding: 2.5em 0;
+}
+
+#how-to h1.article-header {
+    font-size: 3em;
+    margin-bottom: .25em;
+}
+
+@media only screen and (max-width: 480px) {
+    #how-to h1.article-header {
+        font-size: 2.5em;
+    }
+
+    #how-to .content-container {
+        padding: 2em 0 1em;
+    }
+
+    #how-to .content-container:first-child {
+        padding-top: 1em;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    #how-to h1.article-header {
+        font-size: 2.2em;
+    }
+}
