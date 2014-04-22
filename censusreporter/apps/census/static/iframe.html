@@ -139,25 +139,28 @@
                     .html('<strong>This chart counts:</strong> ' + aboutData.universe);
             }
             
+            var addChartListeners = function() {
+                // allow for older IE
+                var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+                var eventListener = window[eventMethod];
+                var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
+                eventListener(messageEvent, handleMessage, false);
+            
+                $('.embed-footer').on('click', '#about-trigger', function(e) {
+                    e.preventDefault();
+                    $('#census-chart-about').toggle();
+                });
+                $('.embed-footer').on('mouseover', '#about-trigger', function(e) {
+                    $('#census-chart-about').show();
+                });
+                $('.embed-footer').on('mouseout', '#about-trigger', function(e) {
+                    $('#census-chart-about').hide();
+                });
+            }
+            
             chartSetup();
             getChartData();
-
-            // allow for older IE
-            var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-            var eventListener = window[eventMethod];
-            var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
-            eventListener(messageEvent, handleMessage, false);
-            
-            $('.embed-footer').on('click', '#about-trigger', function(e) {
-                e.preventDefault();
-                $('#census-chart-about').toggle();
-            });
-            $('.embed-footer').on('mouseover', '#about-trigger', function(e) {
-                $('#census-chart-about').show();
-            });
-            $('.embed-footer').on('mouseout', '#about-trigger', function(e) {
-                $('#census-chart-about').hide();
-            });
+            addChartListeners();
         </script>
     </body>
 </html>
