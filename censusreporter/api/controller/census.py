@@ -1,5 +1,7 @@
 from collections import OrderedDict
 
+from sqlalchemy import func
+
 from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
 
@@ -188,22 +190,17 @@ def get_census_profile(geo_code, geo_level):
 
 def get_demographics_profile(geo_code, geo_level, session):
     # population group
-    db_model_pop = get_model_from_fields(['population group', 'gender'], geo_level)
+    db_model_pop = get_model_from_fields(['population group'], geo_level)
     objects = get_objects_by_geo(db_model_pop, geo_code, geo_level,
                                  session, order_by='population group')
 
     pop_dist_data = OrderedDict()
-    sex_grouping = OrderedDict((('female', {}), ('male', {})))
     total_pop = 0.0
-    total_female = 0.0
     for obj in objects:
         pop_group = getattr(obj, 'population group')
         total_pop += obj.total
-        if obj.gender == 'Female':
-            total_female += obj.total
-        pop_dist_data.setdefault(pop_group, sex_grouping.copy())
-        pop_dist_data[pop_group][obj.gender.lower()] = {
-            "name": obj.gender,
+        pop_dist_data[pop_group] = {
+            "name": pop_group,
             "numerators": {"this": obj.total},
         }
 
@@ -228,16 +225,21 @@ def get_demographics_profile(geo_code, geo_level, session):
                                                    '60-69', '70-79',
                                                    '80+'))
 
+    # sex
+    db_model_sex = get_model_from_fields(['gender'], geo_level)
+    query = session.query(func.sum(db_model_sex.total)) \
+                   .filter(db_model_sex.gender == 'Male')
+    if geo_level != 'country':
+        geo_attr = '%s_code' % geo_level
+        query = query.filter(getattr(db_model_sex, geo_attr) == geo_code)
+    total_male = query.one()[0]
+
     # calculate percentages
-    for data, total in zip(pop_dist_data.values() + [age_dist_data, ],
-                           (total_pop, ) * len(pop_dist_data) + (total_age, )):
+    for data, total in zip((pop_dist_data, age_dist_data),
+                           (total_pop, total_age)):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
-
-    # need to put the name in metadata dict for grouped data
-    for key, values in pop_dist_data.iteritems():
-        values['metadata'] = {'name': key}
 
     final_data = {
         'population_group_distribution': pop_dist_data,
@@ -245,13 +247,17 @@ def get_demographics_profile(geo_code, geo_level, session):
         'sex_ratio': OrderedDict((  # census data refers to sex as gender
             ('Female', {
                 "name": "Female",
-                "values": {"this": round(total_female / total_pop * 100, 2)}
+                "values": {"this": round((total_pop - total_male) / total_pop * 100, 2)}
             }),
             ('Male', {
                 "name": "Male",
-                "values": {"this": round((total_pop - total_female) / total_pop * 100, 2)}
+                "values": {"this": round(total_male / total_pop * 100, 2)}
             }),
-        ))}
+        )),
+        'total_population': {
+            "name": "Citizens",
+            "values": {"this": total_pop}
+        }}
 
     # median age/age category
     db_model_age = get_model_from_fields(['age in completed years'], geo_level)
