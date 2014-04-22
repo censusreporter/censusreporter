@@ -65,6 +65,7 @@ class Ward(Base, GeoNameMixin):
     province      = relationship('Province', lazy=False)
 
     level = 'ward'
+    child_level = None
 
     def parents(self):
         return [self.municipality, self.province]
@@ -91,6 +92,7 @@ class Municipality(Base, GeoNameMixin):
     province  = relationship('Province', lazy=False)
 
     level = 'municipality'
+    child_level = 'ward'
 
     def parents(self):
         return [self.province]
@@ -110,6 +112,7 @@ class District(Base, GeoNameMixin):
     province  = relationship('Province', lazy=False)
 
     level = 'district'
+    child_level = 'municipality'
 
     def parents(self):
         return [self.province]
@@ -126,6 +129,7 @@ class Province(Base, GeoNameMixin):
     fips_code = Column(String(4), index=True, unique=True, nullable=False)
 
     level = 'province'
+    child_level = 'municipality'
     census_release = 2011
 
     def parents(self):
