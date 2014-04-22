@@ -26,16 +26,14 @@
                   South Africa
                 </p>
             </header>
-            {% comment %}
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
-                        <span class="value">???</span>
+                        <span class="value">{{ demographics.total_population.values.this|floatformat:"0" }}</span>
                         <span class="name">Population</span>
                     </span>
                 </div>
             </div>
-            {% endcomment %}
             {% if geo_metadata.square_miles or geo_metadata.population_density %}
             <div class="column-half">
                 <div class="stat">
