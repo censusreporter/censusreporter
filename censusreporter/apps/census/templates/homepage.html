@@ -3,6 +3,14 @@
 {% block head_title %}{{ block.super }}{% endblock %}
 {% block body_id %}homepage{% endblock %}
 
+{% block head_css_extra %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+<![endif]-->
+<link href='/static/css/vendor/leaflet.label.css' rel='stylesheet' />
+{% endblock %}
+
 {% block content_container %}
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
@@ -22,6 +30,9 @@
                 </div>
                 {% endcomment %}
             </div>
+        </section>
+        <section>
+            <div id="landing-slippy-map"></div>
         </section>
         <section>
             <div class="column-third callout with-icon">
@@ -87,6 +98,11 @@
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script src="{% static 'js/vendor/d3.v3.min.js' %}"></script>
+<script src="{% static 'js/vendor/topojson.v1.min.js' %}"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script src="/static/js/vendor/leaflet.label.js"></script>
+<script src="{% static 'js/charts.js' %}"></script>
 <script>
 // show 'use my current location' button
 if (Modernizr.geolocation) {
@@ -94,6 +110,70 @@ if (Modernizr.geolocation) {
 }
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
+
+// draw a map
+var allowMapDrag = (browserWidth > 480) ? true : false;
+var map = L.map('landing-slippy-map', {
+    scrollWheelZoom: false,
+    zoomControl: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    dragging: allowMapDrag,
+    touchZoom: allowMapDrag
+});
+
+map.setView({lat: -28.4796, lng: 24.698445}, 5);
+
+if (allowMapDrag) {
+    map.addControl(new L.Control.Zoom({
+        position: 'topright'
+    }));
+}
+
+// add imagery
+L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+	subdomains: 'abcd',
+	maxZoom: 13
+}).addTo(map);
+
+// add province boundaries
+d3.json("http://maps.code4sa.org/political/2011/province?quantization=1000", function(error, topo) {
+    if (!topo)
+        return;
+
+    var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+        style: {
+            "clickable": true,
+            "color": "#00d",
+            "fillColor": "#ccc",
+            "weight": 1.0,
+            "opacity": 0.3,
+            "fillOpacity": 0.3,
+        },
+        onEachFeature: function(feature, layer) {
+            var name = feature.properties['province_name'];
+            var code = feature.properties['province'];
+
+            layer.bindLabel(name, {direction: 'auto'});
+            layer.on('mouseover', function() {
+                layer.setStyle({
+                    "fillOpacity": 0.5,
+                });
+            });
+            layer.on('mouseout', function() {
+                layer.setStyle({
+                    "fillOpacity": 0.3,
+                });
+            });
+            layer.on('click', function() {
+                window.location = '/profiles/province-' + code;
+            });
+        },
+    });
+    map.addLayer(featureLayer);
+});
 </script>
 <script src="{% static 'js/vendor/spin.min.js' %}"></script>
 <script src="{% static 'js/comparison.builder.js' %}"></script>
