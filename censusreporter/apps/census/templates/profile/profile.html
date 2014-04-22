@@ -487,7 +487,7 @@ var lazyRedrawCharts = _.debounce(function() {
     window.browserWidth = document.documentElement.clientWidth;
     window.browserHeight = document.documentElement.clientHeight;
     makeCharts();
-}, 100);
+}, 50);
 $(window).resize(lazyRedrawCharts);
 
 // Add note to rows with flagged MOE
