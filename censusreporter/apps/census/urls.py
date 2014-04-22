@@ -2,12 +2,13 @@ from django.conf.urls import url, patterns, include
 from django.contrib import admin
 
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
-                    TableSearch, TableSearchJson, GeoSearch, LocateView)
+                    TableSearch, TableSearchJson, GeoSearch, LocateView,
+                    WardSearchProxy)
 
 
 admin.autodiscover()
 
-geo_levels = 'ward|municipality|district|province'
+geo_levels = 'ward|municipality|province'
 
 
 urlpatterns = patterns('',
@@ -25,6 +26,13 @@ urlpatterns = patterns('',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
+    ),
+
+    url(
+        regex   = '^ward-search/json/$',
+        view    = WardSearchProxy.as_view(),
+        kwargs  = {},
+        name    = 'ward_search_json',
     ),
 
      ## LOCAL DEV VERSION OF API ##

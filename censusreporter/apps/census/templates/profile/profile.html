@@ -293,7 +293,7 @@ for (var i = 0; i < levels.length; i++) {
             var url = level + "?filter[" + levels[i+1][0] + "]=" + levels[i+1][1];
         }
 
-        d3.json("http://maps.code4sa.org/political/" + url + '&quantization=5000', function(error, topo) {
+        d3.json("http://maps.code4sa.org/political/2011/" + url + '&quantization=5000', function(error, topo) {
             if (!topo)
                 return;
 

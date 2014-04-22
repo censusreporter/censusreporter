@@ -4715,12 +4715,25 @@ ALTER TABLE ONLY ward
 
 CREATE INDEX district_year_idx ON district USING btree (year);
 
+--
+-- Name: district_name_idx; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX district_name_idx ON district USING btree (name);
+
 
 --
 -- Name: municipality_year_idx; Type: INDEX; Schema: public; Owner: census; Tablespace: 
 --
 
 CREATE INDEX municipality_year_idx ON municipality USING btree (year);
+
+
+--
+-- Name: municipality_name_idx; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX municipality_name_idx ON municipality USING btree (name);
 
 
 --
@@ -4735,6 +4748,13 @@ CREATE INDEX province_fips_code_idx ON province USING btree (fips_code);
 --
 
 CREATE INDEX province_year_idx ON province USING btree (year);
+
+
+--
+-- Name: province_name_idx; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX province_name_idx ON province USING btree (name);
 
 
 --

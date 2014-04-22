@@ -206,7 +206,7 @@ img.screenshot {
 }
 #page-header-title .logo {
     float: right;
-    padding: 8px 20px;
+    margin: 0.3em 8px 0;
 }
 #page-header-title .logo img {
     background-color: white;
@@ -507,7 +507,7 @@ section aside sup {
     float: left;
     width: 285px;
 }
-#homepage #geography-select {
+#homepage #geography-select-home {
     font-size: 1.6em;
     padding: .25em .5em 0;
     width: 100%;
@@ -2140,7 +2140,7 @@ section.chart-divider h2 {
         float: none;
         width: auto;
     }
-    #homepage #geography-select {
+    #homepage #geography-select-home {
         font-size: 1.6em;
         padding: .25em .5em 0;
         width: 100%;
@@ -2313,7 +2313,7 @@ section.chart-divider h2 {
     #homepage h1.article-header {
         font-size: 2.5em;
     }
-    #homepage #geography-select {
+    #homepage #geography-select-home {
         font-size: 1.2em;
     }
     .callout h3 {

@@ -186,6 +186,29 @@ class PlaceSearchJson(View):
         return HttpResponseBadRequest('"q" parameter is required')
 
 
+class WardSearchProxy(View):
+
+    def get(self, request, *args, **kwargs):
+        try:
+            resp = requests.get('http://wards.code4sa.org',
+                                params={'address': request.GET['address'],
+                                        'database': 'wards_2011'})
+            if resp.status_code != 200:
+                return HttpResponseBadRequest()
+            elif resp.text.strip().startswith('{'):
+                return HttpResponse(self.pad_content(request, '[]'),
+                                    mimetype='application/javascript')
+            return HttpResponse(self.pad_content(request, resp.text),
+                                mimetype='application/javascript')
+        except (KeyError, AttributeError):
+            return HttpResponseBadRequest()
+
+    def pad_content(self, request, content):
+        if 'callback' in request.GET:
+            return '%s(%s);' % (request.GET['callback'], content)
+        return content
+
+
 ## LOCAL DEV VERSION OF API ##
 
 

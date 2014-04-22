@@ -1,4 +1,4 @@
-from .base import Base, Ward, Municipality, District, Province
+from .base import Base, Ward, Municipality, District, Province, Subplace
 from .census import get_model_from_fields
 from .elections import Votes, VoteSummary
 

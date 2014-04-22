@@ -80,7 +80,7 @@ class Municipality(Base, GeoNameMixin):
     # Note: a few municipalities exist for large city areas with
     # 3-letter codes, e.g. CPT (same code used for district)
     code = Column(String(8), primary_key=True)
-    name = Column(String(32), nullable=False)
+    name = Column(String(32), nullable=False, index=True)
     # same as the year of the constituent wards
     year = Column(String(4), index=True, nullable=False)
     district_code = Column(String(8), ForeignKey('district.code'))
@@ -102,7 +102,7 @@ class District(Base, GeoNameMixin):
     # Note: a few districts exist for large city areas with
     # 3-letter codes, e.g. CPT (same code used for municipality)
     code = Column(String(8), primary_key=True)
-    name = Column(String(32), nullable=False)
+    name = Column(String(32), nullable=False, index=True)
     # same as the year of the constituent wards
     year = Column(String(4), index=True, nullable=False)
     province_code = Column(String(3), ForeignKey('province.code'))
@@ -118,7 +118,7 @@ class District(Base, GeoNameMixin):
 class Province(Base, GeoNameMixin):
     # a 2 or 3-letter string
     code = Column(String(3), primary_key=True)
-    name = Column(String(16), nullable=False)
+    name = Column(String(16), nullable=False, index=True)
     # same as the year of the constituent wards
     year = Column(String(4), index=True, nullable=False)
     # as defined here:
@@ -131,3 +131,16 @@ class Province(Base, GeoNameMixin):
     def parents(self):
         # TODO: return nation
         return []
+
+
+class Subplace(Base):
+    code = Column(String(9), primary_key=True)
+    subplace_name  = Column(String(50), index=True, nullable=False)
+    mainplace_name = Column(String(50), index=True, nullable=False)
+    mainplace_code = Column(String(8), nullable=False)
+    ward_code = Column(String(8), ForeignKey('ward.code'), nullable=False)
+    muni_code = Column(String(8), ForeignKey('municipality.code'), nullable=False)
+    district_code = Column(String(8), ForeignKey('district.code'), nullable=False)
+    province_code = Column(String(3), ForeignKey('province.code'), nullable=False)
+    # same as the year of the constituent wards
+    year = Column(String(4), index=True, nullable=False)
