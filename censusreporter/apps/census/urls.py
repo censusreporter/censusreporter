@@ -23,6 +23,13 @@ urlpatterns = patterns('',
         name    = 'homepage',
     ),
 
+    url(
+        regex   = '^how-to/$',
+        view    = TemplateView.as_view(template_name="how_to.html"),
+        kwargs  = {},
+        name    = 'how-to',
+    ),
+
     # e.g. /profiles/16000US5367000-spokane-wa/ (Spokane, WA)
     url(
         regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)-(?P<slug>[-\w]+)/$',
