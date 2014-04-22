@@ -7,11 +7,13 @@
 <div class="content-container clearfix tan-stripe">
     <article id="examples" class="clearfix wrapper">
         <header class="column-full">
-            <h1 class="article-header">Using this site</h1>
-            <p class="explainer">Census Reporter is a <a href="http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">Knight News Challenge-funded project</a> to make it easier for journalists to write stories using information from the U.S. Census bureau. Place profiles and comparison pages provide a friendly interface for navigating data, including visualizations for a more useful first look.</p>
+            <h1 class="article-header">How to use this site</h1>
+            <p class="explainer"></p>
         </header>
         <section class="card-container clearfix">
-            <h2 class="column-full subhead">Examples</h2>
+            <h2 class="column-full subhead">Finding places</h2>
+            <h2 class="column-full subhead">Exploring data</h2>
+            {% comment %}
             <a class="column-third card" href="/compare/01000US/040/map/?release=acs2012_1yr&table=B06011">
                 <img src="{% static 'img/examples/us_median_income_map.png' %}">
                 <span class="caption">How does median income compare from state to state? <span class="more">More &rarr;</span></span>
@@ -36,6 +38,7 @@
                 <img src="{% static 'img/examples/education_cleveland.png' %}">
                 <span class="caption">How many people have college degrees in Cleveland? <span class="more">More &rarr;</span></span>
             </a>
+            {% endcomment %}
         </section>
     </article>
 </div>
