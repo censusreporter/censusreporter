@@ -438,7 +438,8 @@ var makeCharts = function() {
     $.each(chartContainers, function(i, obj) {
         $(obj).empty();
         var chartID = $(this).prop('id'),
-            chartDataID = chartID.replace('chart-','').replace('alt-','').split('-'),
+            chartDataKey = chartID.replace('chart-','').replace('alt-',''),
+            chartDataID = chartDataKey.split('-'),
             chartType = gracefulType(chartDataID[0]),
             chartData = profileData[chartDataID[1]],
             chartChartTitle = $(this).data('chart-title'),
@@ -467,6 +468,7 @@ var makeCharts = function() {
 
         Charts[i] = Chart({
             chartContainer: chartID,
+            chartDataKey: chartDataKey,
             chartType: chartType,
             chartHeight: 160,
             chartData: chartData,

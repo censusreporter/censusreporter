@@ -29,8 +29,8 @@
     display: none;
     position: absolute;
     padding: .67em 2em .67em 1em;
-    right: .33em;
-    bottom: .15em;
+    right: 1.33em;
+    bottom: .1em;
     background-color: #fff;
     z-index: 100;
     -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 1);

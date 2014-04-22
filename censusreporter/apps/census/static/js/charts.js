@@ -22,6 +22,7 @@ function Chart(options) {
         
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
+        chart.chartDataKey = options.chartDataKey;
         chart.chartChartTitle = options.chartChartTitle || null;
         chart.chartQualifier = options.chartQualifier || null;
         chart.chartInitialSort = options.chartInitialSort || null;
@@ -728,23 +729,24 @@ function Chart(options) {
     }
     
     chart.showEmbedCode = function() {
-        var embedVars = {
-            chartData: chart.rawChartData,
-            geographyData: chart.rawGeographyData,
-            chartType: chart.chartType,
-            chartChartTitle: (chart.chartChartTitle || ''),
-            chartInitialSort: (chart.chartInitialSort || ''),
-            chartStatType: (chart.chartStatType || ''),
-            chartQualifier: (chart.chartQualifier || '')
-        }
+        var embedHeight = 300,
+            embedWidth = (chart.chartType == 'pie') ? 300 : 720,
+            embedKey = chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1),
+            embedID = 'cr-embed-'+chart.primaryGeoID+'-'+embedKey,
+            embedParams = {
+                geoID: chart.primaryGeoID,
+                chartDataID: embedKey,
+                chartType: chart.chartType,
+                chartHeight: 200,
+                chartQualifier: (chart.chartQualifier || ''),
+                chartTitle: (chart.chartChartTitle || ''),
+                initialSort: (chart.chartInitialSort || ''),
+                statType: (chart.chartStatType || '')
+            };
+        var querystring = $.param(embedParams);
         
-        var embedString = 'var embedVars = ' + JSON.stringify(embedVars) + ';',
-            embedHeight = 300,
-            embedWidth = (chart.chartType == 'pie') ? 300 : 720;
-            
         var embedCode = [
-            '<iframe id="census-embed" name="census-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html" width="'+embedWidth+'" height="'+embedHeight+'" frameborder="0"></iframe>',
-            '\n<script src="data:application/x-javascript;base64,'+btoa(embedString)+'"></script>',
+            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;"></iframe>',
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
@@ -788,8 +790,7 @@ function Chart(options) {
                 
         var instructions = [
             'An iframe served from the Census Reporter site, which includes all the code required to draw a chart.',
-            'An encoded version of the data. Pasting this onto your page means that even if our database is unavailable, your chart will still show up just fine.',
-            'A short script that lets the frame on our site fetch the data encoded on your site, and make the chart.'
+            'A short script that lets the frame on our site talk to the page where you embed it, so it can respond to changes in page width.'
         ]
         lightbox.append('ol')
                 .attr('id', 'lightbox-instructions')

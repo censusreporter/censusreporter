@@ -1,13 +1,20 @@
-function makeCensusEmbed() {
-    var embed = {};
+function makeCensusEmbeds() {
+    var embed = {
+        embeds: {}
+    };
     
     embed.init = function() {
-        embed.container = document.getElementById('census-embed');
-        embed.naturalWidth = embed.container.width;
-        embed.naturalHeight = embed.frameHeight = embed.container.height;
-        embed.setFrameSize();
+        embed.containers = document.querySelectorAll('.census-reporter-embed');
+        embed.numContainers = embed.containers.length;
+        for (var i = 0; i < embed.numContainers; i++) {
+            embed.embeds[embed.containers[i].id] = {
+                naturalWidth: embed.containers[i].width,
+                naturalHeight: embed.containers[i].height,
+                frameHeight: embed.containers[i].height
+            }
+        }
         embed.addListeners();
-        embed.sendDataToFrame(embedVars);
+        embed.sendDataToFrames({ resize: 'resize' });
     }
     
     embed.addListeners = function() {
@@ -21,9 +28,9 @@ function makeCensusEmbed() {
     
     embed.handleMessage = function(event) {
         var messageData = JSON.parse(event.data);
-        if (messageData.chartHeight) {
-            embed.frameHeight = messageData.chartHeight;
-            embed.setFrameSize();
+        if (messageData.chartHeight && messageData.containerID) {
+            embed.embeds[messageData.containerID].frameHeight = messageData.chartHeight;
+            embed.setFrameSizes();
         }
     }
     
@@ -43,24 +50,30 @@ function makeCensusEmbed() {
     };
     
     embed.resize = embed.debounce(function() {
-        embed.setFrameSize();
-        embed.sendDataToFrame({ resize: 'resize' });
+        embed.setFrameSizes();
+        embed.sendDataToFrames({ resize: 'resize' });
     }, 200);
     
-    embed.setFrameSize = function() {
-        var parentWidth = embed.container.parentNode.offsetWidth;
-        embed.container.width = (parentWidth <= embed.naturalWidth) ? parentWidth : embed.naturalWidth;
-        embed.container.height = (embed.frameHeight >= embed.naturalHeight) ? embed.frameHeight+80 : embed.naturalHeight;
+    embed.setFrameSizes = function() {
+        for (var i = 0; i < embed.numContainers; i++) {
+            var thisContainer = embed.containers[i],
+                thisEmbed = embed.embeds[embed.containers[i].id],
+                parentWidth = thisContainer.parentNode.offsetWidth;
+            thisContainer.width = (parentWidth <= thisEmbed.naturalWidth) ? parentWidth : thisEmbed.naturalWidth;
+            thisContainer.height = (thisEmbed.frameHeight >= thisEmbed.naturalHeight) ? +thisEmbed.frameHeight+80 : thisEmbed.naturalHeight;
+        }
     }
     
-    embed.sendDataToFrame = function(data) {
+    embed.sendDataToFrames = function(data) {
         // IE9 can only send strings
-        embed.container.contentWindow.postMessage(JSON.stringify(data), 'https://s3.amazonaws.com');
+        for (var i = 0; i < embed.numContainers; i++) {
+            embed.containers[i].contentWindow.postMessage(JSON.stringify(data), 'http://localhost:8000');
+        }
     }
     
     embed.init();
 }
 
 window.onload = function() { 
-    makeCensusEmbed();
+    makeCensusEmbeds();
 };

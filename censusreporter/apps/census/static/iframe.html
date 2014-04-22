@@ -14,7 +14,7 @@
                 <!--<li><a href="#" id="embed-trigger">Embed</a></li>-->
                 <li><a href="#" id="about-trigger">About</a></li>
             </ul>
-            <a class="title" href="http://censusreporter.org">
+            <a class="title" href="http://censusreporter.org" target="_top">
                 <img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo.png"> Census Reporter
             </a>
         </div>
@@ -23,8 +23,44 @@
         <script src="js/charts.js"></script>
         <script type="text/javascript">
             var embedData = {
-                parentOrigin: ''
+                params: {},
+                data: {}
             };
+            
+            var chartSetup = function() {
+                var match,
+                    search = /([^&=]+)=?([^&]*)/g,
+                    decode = function (s) { return decodeURIComponent(s.replace(/\+/g, " ")); },
+                    query = window.location.search.substring(1);
+                    
+                while (match = search.exec(query)) {
+                    embedData.params[decode(match[1])] = decode(match[2]);
+                }
+
+                embedData.parentContainerID = 'cr-embed-'+embedData.params.geoID+'-'+embedData.params.chartDataID;
+                embedData.params.chartDataID = embedData.params.chartDataID.split('-');
+                embedData.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedData.params.geoID+'.json';
+            }
+
+            var getChartData = function() {
+                $.getJSON(embedData.dataSource)
+                    .done(function(results) {
+                        // allow arbitrary nesting in API data structure
+                        var data = results[embedData.params.chartDataID[0]],
+                            drilldown = embedData.params.chartDataID.length - 1;
+                        if (drilldown >= 1) {
+                            for (var i = 1; i <= drilldown; i++) {
+                                data = data[embedData.params.chartDataID[i]];
+                            }
+                        }
+                    
+                        embedData.data.chartData = data;
+                        embedData.data.geographyData = results.geography;
+                        makeChart();
+                        makeChartPlace();
+                        makeChartAbout();
+                    });
+            }
             
             var resetContainer = function() {
                 window.browserWidth = document.documentElement.clientWidth;
@@ -43,17 +79,12 @@
                 }
                 return chartType
             }
-
+            
             var handleMessage = function(event) {
                 var messageData = JSON.parse(event.data);
                 embedData.parentOrigin = event.origin;
                 if (messageData.resize) {
                     makeChart();
-                    makeChartAbout();
-                } else {
-                    embedData.data = messageData;
-                    makeChart();
-                    makeChartPlace();
                     makeChartAbout();
                 }
             }
@@ -67,16 +98,21 @@
                 resetContainer();
                 var chart = Chart({
                     chartContainer: 'census-chart',
-                    chartType: gracefulType(embedData.data.chartType),
-                    chartHeight: 200,
+                    chartType: gracefulType(embedData.params.chartType),
                     chartData: embedData.data.chartData,
-                    chartQualifier: embedData.data.chartQualifier,
-                    chartChartTitle: embedData.data.chartChartTitle,
-                    chartInitialSort: embedData.data.chartInitialSort,
-                    chartStatType: embedData.data.chartStatType,
+                    chartHeight: embedData.params.chartHeight,
+                    chartQualifier: embedData.params.chartQualifier,
+                    chartChartTitle: embedData.params.chartTitle,
+                    chartInitialSort: embedData.params.chartInitialSort,
+                    chartStatType: embedData.params.statType,
                     geographyData: embedData.data.geographyData
                 });
-                sendDataToParent({ chartHeight: chart.settings.height });
+                if (!!embedData.parentOrigin) {
+                    sendDataToParent({
+                        containerID: embedData.parentContainerID,
+                        chartHeight: chart.settings.height
+                    });
+                }
             }
 
             var makeChartPlace = function() {
@@ -102,24 +138,26 @@
                 aboutDataList.append('li')
                     .html('<strong>This chart counts:</strong> ' + aboutData.universe);
             }
+            
+            chartSetup();
+            getChartData();
 
+            // allow for older IE
             var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
             var eventListener = window[eventMethod];
             var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
             eventListener(messageEvent, handleMessage, false);
             
-            var aboutTrigger = document.getElementById('about-trigger');
-            aboutTrigger[eventMethod]('mouseover', function() {
-                document.getElementById('census-chart-about').style.display='block';
-            }, false);
-            aboutTrigger[eventMethod]('mouseout', function() {
-                document.getElementById('census-chart-about').style.display='none';
-            }, false);
-            aboutTrigger[eventMethod]('click', function() {
-                var state = document.getElementById('census-chart-about').style.display,
-                    toggle = (state == 'block') ? 'none' : 'block';
-                document.getElementById('census-chart-about').style.display=toggle;
-            }, false);
+            $('.embed-footer').on('click', '#about-trigger', function(e) {
+                e.preventDefault();
+                $('#census-chart-about').toggle();
+            });
+            $('.embed-footer').on('mouseover', '#about-trigger', function(e) {
+                $('#census-chart-about').show();
+            });
+            $('.embed-footer').on('mouseout', '#about-trigger', function(e) {
+                $('#census-chart-about').hide();
+            });
         </script>
     </body>
 </html>

@@ -1229,7 +1229,7 @@ function Comparison(options) {
         chosenGeoContainer.append('a')
                 .classed('action-button', true)
                 .attr('href', '#')
-                .text('Show more places')
+                .text('Add more places')
                 .on('click', function() {
                     d3.event.preventDefault();
                     comparison.toggleGeoControls();
