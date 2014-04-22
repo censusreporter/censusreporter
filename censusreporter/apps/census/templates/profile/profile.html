@@ -105,13 +105,17 @@
         </section>
         <section class="clearfix stat-row">
             <aside></aside>
-            <div class="column-third">
+            <div class="column-quarter">
+                <h2 class="column-header"><a class="permalink" href="#pop_count" id="pop_count">Population <i class="fa fa-link"></i></a></h2>
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.total_population stat_type='number' %}
+            </div>
+            <div class="column-half">
+                <h2 class="column-header"><a class="permalink" href="#pop_group" id="pop_group">Population group <i class="fa fa-link"></i></a></h2>
+                <div id="chart-column-demographics-population_group_distribution" data-stat-type="scaled-percentage"></div>
+            </div>
+            <div class="column-quarter">
                 <h2 class="column-header"><a class="permalink" href="#sex" id="sex">Sex <i class="fa fa-link"></i></a></h2>
                 <div id="chart-pie-demographics-sex_ratio" data-stat-type="percentage"></div>
-            </div>
-            <div class="column-two-thirds">
-                <h2 class="column-header"><a class="permalink" href="#pop_group" id="pop_group">Population group <i class="fa fa-link"></i></a></h2>
-                <div id="chart-grouped_column-demographics-population_group_distribution" data-stat-type="scaled-percentage"></div>
             </div>
         </section>
     </div>
