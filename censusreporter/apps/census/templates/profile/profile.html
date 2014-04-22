@@ -228,8 +228,7 @@
 var geo_level = '{{ geo.level }}';
 var geo_code = '{{ geo.code }}';
 
-var parent_geo_level = '{{ geo.parent.level }}';
-var parent_geo_code = '{{ geo.parent.code }}';
+var child_geo_level = '{{ geo.child_level|default:"" }}';
 
 var geo_parents = [{% for g in geo.parents %} ['{{ g.level }}', '{{ g.code }}'] {% if not forloop.last %}, {% endif %} {% endfor %}];
 
@@ -292,6 +291,9 @@ d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&f
 
 // load surrounding map shapes
 var levels = [[geo_level, geo_code]].concat(geo_parents);
+if (child_geo_level != '') {
+    levels.unshift([child_geo_level, '']);
+}
 
 for (var i = 0; i < levels.length; i++) {
     var level = levels[i][0],
