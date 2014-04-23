@@ -551,8 +551,8 @@ def geo_profile(geoid, acs='latest'):
     add_metadata(fertility['total'], 'B13016', 'Women 15 to 50 years', acs_name)
 
     fertility_by_age_dict = OrderedDict()
-    fertility['By_age'] = fertility_by_age_dict
-    add_metadata(fertility['By_age'], 'B13016', 'Women 15 to 50 years', acs_name)
+    fertility['by_age'] = fertility_by_age_dict
+    add_metadata(fertility['by_age'], 'B13016', 'Women 15 to 50 years', acs_name)
 
     fertility_by_age_dict['15_to_19'] = build_item('15-19', data, item_levels,
         'B13016003 B13016003 B13016011 + / %')
