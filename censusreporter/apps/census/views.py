@@ -201,6 +201,13 @@ class GeographyDetailView(TemplateView):
     def write_profile_json(self, data):
         if AWS_KEY and AWS_SECRET:
             s3 = S3Connection(AWS_KEY, AWS_SECRET)
+        else:
+            try:
+                s3 = S3Connection()
+            except:
+                s3 = None
+
+        if s3:
             bucket = s3.get_bucket('embed.censusreporter.org')
 
             # currently versioning embed data to 1.0
