@@ -1,0 +1,88 @@
+{% extends '_base.html' %}
+
+{% block head_css_extra %}
+<style>
+.nowrap {white-space: nowrap;}
+input, select {width: 200px; height: 2.2em;}
+
+@media only screen and (max-width: 768px) {
+    td a {
+        display: block;
+    }
+}
+@media only screen and (max-width: 620px) {
+    form.inline-form input, form.inline-form select {
+        display: block;
+        margin: .25em 0 .75em 0;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<article>
+    <h2>Search data tables and columns</h2>
+    <form class="inline-form">
+        <label for="q">Keyword or ID</label>
+        <input type="text" name="q" value="{{ q }}">
+        <label for="release">Release</label>
+        <select name="release" onchange="this.form.submit()">
+            <option value="">Any ...</option>
+            {% for option in release_options %}
+            <option value="{{ option }}"{% if option == release %} selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</article>
+
+{% if tables %}
+<article id="table-results">
+    <h2>Tables</h1>
+    <table>
+        <thead class="left-align">
+            <tr>
+                <th>Table ID</th>
+                <th>Table Name</th>
+                <th>Universe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for table in tables %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td class="nowrap">{{ table.release }} <a href="?table={{ table.table_id }}&release={{ table.release }}">{{ table.table_id }}</a></td>
+                <td>{{ table.table_name }}</td>
+                <td>{{ table.table_universe }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endif %}
+
+{% if columns %}
+<article id="column-results">
+    <h2>Columns</h1>
+    <table>
+        <thead class="left-align">
+            <tr>
+                <th>Table ID</th>
+                <th>Table Name</th>
+                <th>Column ID</th>
+                <th>Column Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for column in columns %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td class="nowrap">{{ column.table.release }} <a href="?table={{ column.parent_table_id }}&release={{ column.table.release }}">{{ column.parent_table_id }}</a></td>
+                <td>{{ column.table.table_name }}</td>
+                <td>{{ column.column_id }}</td>
+                <td class="indent-{{ column.indent_value }}">{{ column.column_name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endif %}
+
+{% endblock %}

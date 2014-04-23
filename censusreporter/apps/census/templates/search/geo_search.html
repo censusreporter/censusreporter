@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Census Reporter Geo Search Example</title>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" /><![endif]-->
+</head>
+<body>
+    <div id="map" style="width: 600px; height: 400px"></div>
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+    <script>
+
+        var map = L.map('map').setView([39.6, -96.4], 5);
+
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+        }).addTo(map);
+
+        function onGeoClick(e) {
+            console.log(e);
+        };
+
+        var geojsonLayer = new L.GeoJSON([], {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("<a href='/profiles/"+feature.properties.full_geoid+"/'>"+feature.properties.name+"</a>");
+            }
+        });
+
+        function onMapClick(e) {
+            console.log("You clicked the map at " + e.latlng.toString());
+            var xhrequest = new XMLHttpRequest();
+            var url= "http://api.censusreporter.org/1.0/geo/search?lat="+e.latlng.lat+"&lon="+e.latlng.lng+"&geom=true";
+            xhrequest.onreadystatechange = function() {
+                if (xhrequest.readyState == 4) {
+                    if (xhrequest.status == 200) {
+                        geojsonLayer.clearLayers();
+                        var layerItems =  JSON.parse(xhrequest.responseText).results;
+                        // add features to layer
+                        for (i=0; i<layerItems.length; i++){
+                            var geojsonFeature = layerItems[i].geom;
+                            geojsonFeature.properties = {
+                                full_geoid: layerItems[i].full_geoid,
+                                name: layerItems[i].name
+                            };
+                            geojsonLayer.addData(geojsonFeature);
+                        };
+                        map.addLayer(geojsonLayer);
+                    }
+                }
+            };
+            xhrequest.open('GET', url, true);
+            xhrequest.send(null);
+        }
+
+        map.on('click', onMapClick);
+
+    </script>
+</body>
+</html>
