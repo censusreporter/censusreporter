@@ -248,7 +248,7 @@ class GeographyDetailView(TemplateView):
             page_context.update(profile_data)
             
             profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            self.write_profile_json(profile_data_json)
+            #self.write_profile_json(profile_data_json)
             
             page_context.update({
                 'profile_data_json': profile_data_json
