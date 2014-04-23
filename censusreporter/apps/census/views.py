@@ -23,14 +23,14 @@ from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
      get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
      SUMLEV_CHOICES, ACS_RELEASES
-     
+
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 try:
     from config.dev.local import AWS_KEY, AWS_SECRET
 except:
     AWS_KEY = AWS_SECRET = None
-    
+
 
 import logging
 logger = logging.getLogger(__name__)
@@ -228,10 +228,10 @@ class GeographyDetailView(TemplateView):
                 with gzip.GzipFile(filename=key, mode='wb', fileobj=memfile) as gzip_data:
                     gzip_data.write(data)
                 memfile.seek(0)
-                
+
                 # store static version on S3
                 upload.set_contents_from_file(memfile)
-            
+
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
         page_context = {}
@@ -246,10 +246,10 @@ class GeographyDetailView(TemplateView):
             profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
             profile_data = self.enhance_api_data(profile_data)
             page_context.update(profile_data)
-            
+
             profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
             #self.write_profile_json(profile_data_json)
-            
+
             page_context.update({
                 'profile_data_json': profile_data_json
             })
