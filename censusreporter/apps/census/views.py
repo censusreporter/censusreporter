@@ -23,6 +23,7 @@ from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
      get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
      SUMLEV_CHOICES, ACS_RELEASES
+from .profile import geo_profile
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -237,13 +238,9 @@ class GeographyDetailView(TemplateView):
         page_context = {}
 
         # hit our API
-        #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, geography_id)
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
-        r = requests.get(acs_endpoint)
-        status_code = r.status_code
+        profile_data = geo_profile(geography_id)
 
-        if status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        if profile_data:
             profile_data = self.enhance_api_data(profile_data)
             page_context.update(profile_data)
 
@@ -253,9 +250,6 @@ class GeographyDetailView(TemplateView):
             page_context.update({
                 'profile_data_json': profile_data_json
             })
-        elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
-            raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
 
