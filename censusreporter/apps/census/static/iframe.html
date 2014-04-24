@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <base target="_parent" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <link rel="stylesheet" href="css/embed.charts.css">
     </head>
     <body class="census-chart-embed">
-        <div class="embed-header"></div>
-        
         <div id="census-chart"></div>
-        
         <div class="embed-footer">
             <ul>
                 <!--<li><a href="#" id="embed-trigger">Embed</a></li>-->
@@ -21,6 +19,7 @@
 
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
         <script src="js/charts.js"></script>
+        <script src="js/vendor/flippant.min.js"></script>
         <script type="text/javascript">
             var embedData = {
                 params: {},
@@ -57,9 +56,72 @@
                         embedData.data.chartData = data;
                         embedData.data.geographyData = results.geography;
                         makeChart();
-                        makeChartPlace();
                         makeChartAbout();
                     });
+            }
+
+            var makeChart = function() {
+                resetContainer();
+                makeChartPlace();
+                var chart = Chart({
+                    chartContainer: 'census-chart',
+                    chartType: gracefulType(embedData.params.chartType),
+                    chartData: embedData.data.chartData,
+                    chartHeight: embedData.params.chartHeight,
+                    chartQualifier: embedData.params.chartQualifier,
+                    chartChartTitle: embedData.params.chartTitle,
+                    chartInitialSort: embedData.params.chartInitialSort,
+                    chartStatType: embedData.params.statType,
+                    geographyData: embedData.data.geographyData
+                });
+                if (!!embedData.parentOrigin) {
+                    sendDataToParent({
+                        containerID: embedData.parentContainerID,
+                        chartHeight: chart.settings.height
+                    });
+                }
+            }
+            
+            var makeChartPlace = function() {
+                d3.select('#census-chart').append('h3')
+                    .classed('chart-header', true)
+                    .text(embedData.data.geographyData.this.full_name);
+            }
+            
+            var makeChartAbout = function() {
+                var aboutData = embedData.data.chartData.metadata;
+                embedData.chartAbout = [
+                    '<h3>About this chart</h3>',
+                    '<ul>',
+                    '<li><strong>Census release:</strong> ' + aboutData.acs_release + '</li>',
+                    '<li><strong>Census data table:</strong> <a href="http://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedData.params.geoID + '&geo_ids=' + embedData.params.geoID + '">' + aboutData.table_id.toUpperCase() + '</a></li>',
+                    '<li><strong>This chart counts:</strong> ' + aboutData.universe + '</li>',
+                    '<li><a href="http://censusreporter.org/profiles/' + embedData.params.geoID + '/">See more data from ' + embedData.data.geographyData.this.full_name + '</a>',
+                    '</ul>'
+                ].join('');
+            }
+            
+            var addChartListeners = function() {
+                // allow for older IE
+                var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+                var eventListener = window[eventMethod];
+                var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
+                eventListener(messageEvent, handleMessage, false);
+                
+                var flip = flippant.flip,
+                    back;
+                    
+                embedData.flipped = false,
+                $('.embed-footer').on('click', '#about-trigger', function(e) {
+                    e.preventDefault();
+                    if (!embedData.flipped) {
+                        back = flip(embedData.container, embedData.chartAbout)
+                        embedData.flipped = true;
+                    } else {
+                        back.close();
+                        embedData.flipped = false;
+                    }
+                });
             }
             
             var resetContainer = function() {
@@ -85,7 +147,6 @@
                 embedData.parentOrigin = event.origin;
                 if (messageData.resize) {
                     makeChart();
-                    makeChartAbout();
                 }
             }
 
@@ -94,70 +155,6 @@
                 parent.postMessage(JSON.stringify(data), embedData.parentOrigin);
             }
 
-            var makeChart = function() {
-                resetContainer();
-                var chart = Chart({
-                    chartContainer: 'census-chart',
-                    chartType: gracefulType(embedData.params.chartType),
-                    chartData: embedData.data.chartData,
-                    chartHeight: embedData.params.chartHeight,
-                    chartQualifier: embedData.params.chartQualifier,
-                    chartChartTitle: embedData.params.chartTitle,
-                    chartInitialSort: embedData.params.chartInitialSort,
-                    chartStatType: embedData.params.statType,
-                    geographyData: embedData.data.geographyData
-                });
-                if (!!embedData.parentOrigin) {
-                    sendDataToParent({
-                        containerID: embedData.parentContainerID,
-                        chartHeight: chart.settings.height
-                    });
-                }
-            }
-
-            var makeChartPlace = function() {
-                d3.select('.embed-header').append('h3')
-                    .text(embedData.data.geographyData.this.full_name);
-            }
-            
-            var makeChartAbout = function() {
-                var aboutData = embedData.data.chartData.metadata;
-                var aboutContainer = d3.select('#census-chart')
-                        .append('div')
-                    .attr('id', 'census-chart-about')
-                    .classed('embed-overlay', true);
-
-                aboutContainer.append('h3')
-                    .text('About this chart');
-                    
-                var aboutDataList = aboutContainer.append('ul');
-                aboutDataList.append('li')
-                    .html('<strong>Census release:</strong> ' + aboutData.acs_release);
-                aboutDataList.append('li')
-                    .html('<strong>Census data table:</strong> ' + aboutData.table_id.toUpperCase());
-                aboutDataList.append('li')
-                    .html('<strong>This chart counts:</strong> ' + aboutData.universe);
-            }
-            
-            var addChartListeners = function() {
-                // allow for older IE
-                var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-                var eventListener = window[eventMethod];
-                var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
-                eventListener(messageEvent, handleMessage, false);
-            
-                $('.embed-footer').on('click', '#about-trigger', function(e) {
-                    e.preventDefault();
-                    $('#census-chart-about').toggle();
-                });
-                $('.embed-footer').on('mouseover', '#about-trigger', function(e) {
-                    $('#census-chart-about').show();
-                });
-                $('.embed-footer').on('mouseout', '#about-trigger', function(e) {
-                    $('#census-chart-about').hide();
-                });
-            }
-            
             chartSetup();
             getChartData();
             addChartListeners();

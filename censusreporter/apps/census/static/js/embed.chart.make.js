@@ -52,7 +52,7 @@ function makeCensusEmbeds() {
     embed.resize = embed.debounce(function() {
         embed.setFrameSizes();
         embed.sendDataToFrames({ resize: 'resize' });
-    }, 200);
+    }, 100);
     
     embed.setFrameSizes = function() {
         for (var i = 0; i < embed.numContainers; i++) {

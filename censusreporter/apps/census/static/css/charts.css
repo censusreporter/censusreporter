@@ -7,6 +7,10 @@
     line-height: 1;
     margin-bottom: 7px;
 }
+.chart-header {
+    line-height: 1;
+    margin: 0 0 .5em;
+}
 .chart-qualifier {
     position: absolute;
     display: block;
@@ -14,7 +18,7 @@
 }
 .census-chart-embed {
     position: relative;
-    padding: .25em 0 0;
+    padding: 1em 0 0;
     margin: 0;
     background-color: #fff;
     line-height: 1.4;
@@ -24,18 +28,6 @@
 .census-chart-embed #census-chart {
     padding: 0 1em;
     position: relative;
-}
-.census-chart-embed .embed-overlay {
-    display: none;
-    position: absolute;
-    padding: .67em 2em .67em 1em;
-    right: 1.33em;
-    bottom: .1em;
-    background-color: #fff;
-    z-index: 100;
-    -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 1);
-    -moz-box-shadow:    0 0 0 1px rgba(255, 255, 255, 1);
-    box-shadow:         0 0 0 1px rgba(255, 255, 255, 1);
 }
 .census-chart-embed .chart-title {
     font-weight: normal;
@@ -195,8 +187,7 @@
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: .83em 1em;
 }
-.hovercard,
-.embed-overlay {
+.hovercard {
     border: solid 1px #777;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -218,7 +209,6 @@
     margin-bottom: .5em;
 }
 .hovercard h3,
-.embed-overlay h3,
 .hovercard h4,
 .hovercard ul,
 .hovercard .note {
@@ -232,7 +222,7 @@
 }
 .hovercard ul,
 .hovercard ol,
-#census-chart-about ul {
+.flippant-back ul {
     padding: 0;
     line-height: 1.3;
     font-size: .9em;
@@ -249,7 +239,7 @@
     margin-bottom: 0;
 }
 .hovercard li,
-#census-chart-about li {
+.flippant-back li {
     margin-bottom: .67em;
 }
 .hovercard .context {
@@ -292,13 +282,6 @@
     font-size: .75em;
     float: left;
     margin: 8px;
-}
-
-.embed-header {
-    margin: 0 1em .33em;
-}
-.embed-header h3 {
-    margin: .5em 0 0;
 }
 
 .embed-footer {
@@ -354,6 +337,10 @@
     padding: 6px 1em 0;
     margin-left: 1px;
 }
+.embed-footer li a:hover {
+    color: #fff;
+    background-color: #000606;
+}
 #about-trigger {
     -webkit-border-bottom-right-radius: 3px;
     -moz-border-radius-bottomright: 3px;
@@ -394,6 +381,65 @@
 .center-group .label-value {
     font-weight: bold;
     font-size: 2em;
+}
+
+.flippant {
+    transform: perspective(500px) rotateY(0deg);
+    -webkit-transform: perspective(500px) rotateY(0deg);
+    -moz-transform: perspective(500px) rotateY(0deg);
+    /*z-index: 200;*/
+}
+
+.flippant-back {
+    -moz-transform: perspective(500px) rotateY(-180deg);
+    -webkit-transform: perspective(500px) rotateY(-180deg);
+    transform: perspective(500px) rotateY(-180deg);
+    height: 0;
+    /*z-index: 200;*/
+}
+
+.flippant, .flippant-back {
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flippant, .flipper {
+    -o-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.flippant.flipped {
+    -moz-transform: perspective(500px) rotateY(180deg);
+    -webkit-transform: perspective(500px) rotateY(180deg);
+    transform: perspective(500px) rotateY(180deg);
+}
+
+.flippant-back.flipped  {
+    -moz-transform: perspective(500px) rotateY(0deg);
+    -webkit-transform: perspective(500px) rotateY(0deg);
+    transform: perspective(500px) rotateY(0deg);
+}
+
+.flippant-modal-light {
+    position: fixed;
+    margin: 0;
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+}
+.flippant-back h3 {
+    line-height: 1;
+    margin: 0 0 .5em;
 }
 
 @media only screen and (min-width: 481px) {
@@ -445,10 +491,6 @@
     .census-chart-embed .hovercard {
         left: -2% !important;
         width: 103% !important;
-    }
-    .census-chart-embed .embed-overlay {
-        right: 0;
-        width: 100%;
     }
 }
 
