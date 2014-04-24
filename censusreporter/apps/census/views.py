@@ -23,7 +23,7 @@ from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
      get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
      SUMLEV_CHOICES, ACS_RELEASES
-from .profile import geo_profile
+from .profile import geo_profile, enhance_api_data
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -45,42 +45,6 @@ def render_json_to_response(context):
     '''
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
-
-def find_key(dictionary, searchkey):
-    stack = [dictionary]
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            return d[searchkey]
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-def find_keys(dictionary, searchkey):
-    stack = [dictionary]
-    values_list = []
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            values_list.append(d[searchkey])
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-    return values_list
-
-def find_dicts_with_key(dictionary, searchkey):
-    stack = [dictionary]
-    dict_list = []
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            dict_list.append(d)
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-    return dict_list
 
 ### HEALTH CHECK ###
 
@@ -143,62 +107,6 @@ class GeographyDetailView(TemplateView):
             return geo_data
         return None
 
-    def enhance_api_data(self, api_data):
-        dict_list = find_dicts_with_key(api_data, 'values')
-
-        for d in dict_list:
-            raw = {}
-            enhanced = {}
-            geo_value = d['values']['this']
-            num_comparatives = 2
-
-            # create our containers for transformation
-            for obj in ['values', 'error', 'numerators', 'numerator_errors']:
-                raw[obj] = d[obj]
-                enhanced[obj] = OrderedDict()
-            enhanced['index'] = OrderedDict()
-            enhanced['error_ratio'] = OrderedDict()
-            comparative_sumlevs = []
-
-            # enhance
-            for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
-
-                # favor CBSA over county, but we don't want both
-                if sumlevel == 'county' and 'CBSA' in enhanced['values']:
-                    continue
-
-                # add the index value for comparatives
-                if sumlevel in raw['values']:
-                    enhanced['values'][sumlevel] = raw['values'][sumlevel]
-                    enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
-
-                    # add to our list of comparatives for the template to use
-                    if sumlevel != 'this':
-                        comparative_sumlevs.append(sumlevel)
-
-                # add the moe ratios
-                if (sumlevel in raw['values']) and (sumlevel in raw['error']):
-                    enhanced['error'][sumlevel] = raw['error'][sumlevel]
-                    enhanced['error_ratio'][sumlevel] = get_ratio(raw['error'][sumlevel], raw['values'][sumlevel], 3)
-
-                # add the numerators and numerator_errors
-                if sumlevel in raw['numerators']:
-                    enhanced['numerators'][sumlevel] = raw['numerators'][sumlevel]
-
-                if (sumlevel in raw['numerators']) and (sumlevel in raw['numerator_errors']):
-                    enhanced['numerator_errors'][sumlevel] = raw['numerator_errors'][sumlevel]
-
-                if len(enhanced['values']) >= (num_comparatives + 1):
-                    break
-
-            # replace data with enhanced version
-            for obj in ['values', 'index', 'error', 'error_ratio', 'numerators', 'numerator_errors']:
-                d[obj] = enhanced[obj]
-
-            api_data['geography']['comparatives'] = comparative_sumlevs
-
-        return api_data
-
     def write_profile_json(self, data):
         if AWS_KEY and AWS_SECRET:
             s3 = S3Connection(AWS_KEY, AWS_SECRET)
@@ -241,7 +149,7 @@ class GeographyDetailView(TemplateView):
         profile_data = geo_profile(geography_id)
 
         if profile_data:
-            profile_data = self.enhance_api_data(profile_data)
+            profile_data = enhance_api_data(profile_data)
             page_context.update(profile_data)
 
             profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
