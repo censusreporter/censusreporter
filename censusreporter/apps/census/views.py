@@ -20,9 +20,8 @@ from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_division,\
-     get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
-     SUMLEV_CHOICES, ACS_RELEASES
+from .utils import LazyEncoder, get_max_value, get_object_or_none,\
+     SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
 from .profile import geo_profile, enhance_api_data
 
 from boto.s3.connection import S3Connection
@@ -175,41 +174,6 @@ class GeographyDetailView(TemplateView):
 
             else:
                 raise Http404
-
-        # Put this down here to make sure geoid is valid before using it
-        sumlevel = page_context['geography']['this']['sumlevel']
-        page_context['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlevel]['name']
-        page_context['geography']['this']['short_geoid'] = geography_id.split('US')[1]
-        try:
-            release_bits = page_context['geography']['census_release'].split(' ')
-            page_context['geography']['census_release_year'] = release_bits[1][2:]
-            page_context['geography']['census_release_level'] = release_level = release_bits[2][:1]
-        except:
-            pass
-
-        # ProPublica Opportunity Gap app doesn't include smallest schools.
-        # Originally, this also enabled links to Census narrative profiles,
-        # but those disappeared.
-        if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
-            page_context['geography']['this']['show_extra_links'] = True
-
-        tiger_release = 'tiger2012'
-        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
-        r = requests.get(geo_endpoint)
-
-        if r.status_code == 200:
-            geo_metadata = simplejson.loads(r.text)['properties']
-            page_context['geo_metadata'] = geo_metadata
-
-            # add a few last things
-            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = get_division(geo_metadata['aland'], 2589988)
-            if square_miles < .1:
-                square_miles = get_division(geo_metadata['aland'], 2589988, 3)
-            total_pop = page_context['geography']['this']['total_population']
-            population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
-            page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = population_density
 
         return page_context
 

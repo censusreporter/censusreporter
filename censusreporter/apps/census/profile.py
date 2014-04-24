@@ -5,7 +5,7 @@ import requests
 
 from collections import OrderedDict
 from django.conf import settings
-from .utils import get_ratio
+from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 
 class ApiClient(object):
@@ -891,6 +891,22 @@ def geo_profile(geoid, acs='latest'):
         'B21001002 B21001001 / %')
     add_metadata(veterans_dict['percentage'], 'B21001', 'Civilian population 18 years and over', acs_name)
 
+    geo_metadata = api.get_geoid_data(geoid)
+
+    if geo_metadata:
+        geo_metadata = geo_metadata['properties']
+        doc['geo_metadata'] = geo_metadata
+
+        # add a few last things
+        # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
+        square_miles = get_division(geo_metadata['aland'], 2589988)
+        if square_miles < .1:
+            square_miles = get_division(geo_metadata['aland'], 2589988, 3)
+        total_pop = doc['geography']['this']['total_population']
+        population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
+        doc['geo_metadata']['square_miles'] = square_miles
+        doc['geo_metadata']['population_density'] = population_density
+
     return doc
 
 def find_dicts_with_key(dictionary, searchkey):
@@ -959,6 +975,23 @@ def enhance_api_data(api_data):
             d[obj] = enhanced[obj]
 
         api_data['geography']['comparatives'] = comparative_sumlevs
+
+    # Put this down here to make sure geoid is valid before using it
+    sumlevel = api_data['geography']['this']['sumlevel']
+    api_data['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlevel]['name']
+    api_data['geography']['this']['short_geoid'] = api_data['geography']['this']['geoid'].split('US')[1]
+    try:
+        release_bits = api_data['geography']['census_release'].split(' ')
+        api_data['geography']['census_release_year'] = release_bits[1][2:]
+        api_data['geography']['census_release_level'] = release_level = release_bits[2][:1]
+    except:
+        pass
+
+    # ProPublica Opportunity Gap app doesn't include smallest schools.
+    # Originally, this also enabled links to Census narrative profiles,
+    # but those disappeared.
+    if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
+        api_data['geography']['this']['show_extra_links'] = True
 
     return api_data
 
