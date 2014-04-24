@@ -724,7 +724,6 @@ function Chart(options) {
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
-        
         return chart;
     }
     
@@ -1009,7 +1008,9 @@ function Chart(options) {
     
     chart.mouseover = function(data) {
         // reset screen position to account for scrolling
-        chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
+        chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
+        chart.height = chart.screenPosition.bottom - chart.screenPosition.top;
+        chart.width = chart.screenPosition.right - chart.screenPosition.left;
 
         // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
@@ -1027,21 +1028,17 @@ function Chart(options) {
     chart.mousemove = function() {
         var mouseTop = d3.mouse(this)[1],
             mouseLeft = d3.mouse(this)[0],
-            bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height,
-            bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width);
-
-        chart.hovercard.position = {
-            top: (bufferTop < 10) ? mouseTop + 5 : mouseTop - chart.hovercard.dimensions.height - 5,
-            left: (bufferRight < 10) ? mouseLeft - chart.hovercard.dimensions.width - 5 : mouseLeft + 5
-        }
+            bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height - 10,
+            bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width) - 10;
+        
         chart.hovercard.position = {
             vertical: {
                 direction: (bufferTop < 10) ? 'top' : 'bottom',
-                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.settings.height - mouseTop + 5
+                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.height - mouseTop + 5
             },
             horizontal: {
                 direction: (bufferRight < 10) ? 'right' : 'left',
-                pixels: (bufferRight < 10) ? chart.settings.width - mouseLeft + 5 : mouseLeft + 5
+                pixels: (bufferRight < 10) ? chart.width - mouseLeft + 5 : mouseLeft + 5
             }
         }
 
