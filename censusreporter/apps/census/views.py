@@ -20,7 +20,7 @@ from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
+from .utils import LazyEncoder, get_max_value, get_division,\
      get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
      SUMLEV_CHOICES, ACS_RELEASES
 from .profile import geo_profile, enhance_api_data
@@ -34,6 +34,7 @@ except:
 
 
 import logging
+logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 
@@ -107,7 +108,10 @@ class GeographyDetailView(TemplateView):
             return geo_data
         return None
 
-    def write_profile_json(self, data):
+    def s3_keyname(self, geo_id):
+        return '/1.0/data/profiles/%s.json' % geo_id
+
+    def make_s3(self):
         if AWS_KEY and AWS_SECRET:
             s3 = S3Connection(AWS_KEY, AWS_SECRET)
         else:
@@ -115,51 +119,61 @@ class GeographyDetailView(TemplateView):
                 s3 = S3Connection()
             except:
                 s3 = None
+        return s3
 
+    def s3_profile_key(self, geo_id):
+        s3 = self.make_s3()
+
+        key = None
         if s3:
             bucket = s3.get_bucket('embed.censusreporter.org')
+            keyname = self.s3_keyname(geo_id)
+            key = Key(bucket, keyname)
 
-            # currently versioning embed data to 1.0
-            key = '/1.0/data/profiles/%s.json' % self.geo_id
+        return key
 
-            # see whether we've already stored json for this profile
-            s3key = bucket.get_key(key)
+    def write_profile_json(self, s3_key, data):
+        s3_key.metadata['Content-Type'] = 'application/json'
+        s3_key.metadata['Content-Encoding'] = 'gzip'
 
-            if not s3key:
-                upload = Key(bucket)
-                upload.key = key
-                upload.metadata['Content-Type'] = 'application/json'
-                upload.metadata['Content-Encoding'] = 'gzip'
+        # create gzipped version of json in memory
+        memfile = cStringIO.StringIO()
+        #memfile.write(data)
+        with gzip.GzipFile(filename=key, mode='wb', fileobj=memfile) as gzip_data:
+            gzip_data.write(data)
+        memfile.seek(0)
 
-                # create gzipped version of json in memory
-                memfile = cStringIO.StringIO()
-                #memfile.write(data)
-                with gzip.GzipFile(filename=key, mode='wb', fileobj=memfile) as gzip_data:
-                    gzip_data.write(data)
-                memfile.seek(0)
-
-                # store static version on S3
-                upload.set_contents_from_file(memfile)
+        # store static version on S3
+        s3_key.set_contents_from_file(memfile)
 
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
         page_context = {}
 
-        # hit our API
-        profile_data = geo_profile(geography_id)
+        s3_key = self.s3_profile_key(geography_id)
 
-        if profile_data:
-            profile_data = enhance_api_data(profile_data)
-            page_context.update(profile_data)
-
-            profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            #self.write_profile_json(profile_data_json)
-
-            page_context.update({
-                'profile_data_json': profile_data_json
-            })
+        if s3_key and s3_key.exists():
+            profile_data = simplejson.loads(s3_key.get_contents_as_string())
         else:
-            raise Http404
+            profile_data = geo_profile(geography_id)
+
+            if profile_data:
+                profile_data = enhance_api_data(profile_data)
+                page_context.update(profile_data)
+
+                profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+                page_context.update({
+                    'profile_data_json': profile_data_json
+                })
+
+                if s3_key is None:
+                    logger.warn("Could not save to S3 because there was no connection to S3.")
+                else:
+                    self.write_profile_json(s3_key, profile_data_json)
+
+            else:
+                raise Http404
 
         # Put this down here to make sure geoid is valid before using it
         sumlevel = page_context['geography']['this']['sumlevel']

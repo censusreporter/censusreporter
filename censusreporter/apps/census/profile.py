@@ -5,6 +5,7 @@ import requests
 
 from collections import OrderedDict
 from django.conf import settings
+from .utils import get_ratio
 
 
 class ApiClient(object):
