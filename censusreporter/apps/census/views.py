@@ -135,11 +135,12 @@ class GeographyDetailView(TemplateView):
     def write_profile_json(self, s3_key, data):
         s3_key.metadata['Content-Type'] = 'application/json'
         s3_key.metadata['Content-Encoding'] = 'gzip'
+        s3_key.storage_class = 'REDUCED_REDUNDANCY'
 
         # create gzipped version of json in memory
         memfile = cStringIO.StringIO()
         #memfile.write(data)
-        with gzip.GzipFile(filename=key, mode='wb', fileobj=memfile) as gzip_data:
+        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data)
         memfile.seek(0)
 
