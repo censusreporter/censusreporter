@@ -145,7 +145,7 @@
             var handleMessage = function(event) {
                 var messageData = JSON.parse(event.data);
                 embedData.parentOrigin = event.origin;
-                if (messageData.resize) {
+                if (messageData.resize && embedData.data.chartData) {
                     makeChart();
                 }
             }
