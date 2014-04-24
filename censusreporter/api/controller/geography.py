@@ -85,6 +85,34 @@ def get_locations(search_term, geo_level=None, year='2011'):
     return serialize_demarcations(objects[0:10])
 
 
+def get_locations_from_coords(longitude, latitude):
+    '''
+    Calls the Wards API to get a single ward containing the coordinates.
+    Returns the serialized ward, municipality and province.
+    '''
+    location = ward_search_api.search("%s,%s" % (latitude, longitude))
+    if len(location) == 0:
+        return []
+    # there should only be 1 ward since wards don't overlap
+    location = location[0]
+
+    try:
+        session = get_session()
+        ward = session.query(Ward).get(location.ward_code)
+        if ward is None:
+            return []
+
+        # this is the reverse order of a normal search - the
+        # narrowest location match comes first.
+        objects = [ward, ward.municipality, ward.province]
+        objects = filter(lambda o: bool(o), objects)  # remove None
+
+        return serialize_demarcations(objects)
+
+    finally:
+        session.close()
+
+
 def serialize_demarcations(objects):
     return [{
             'full_name': obj.long_name,

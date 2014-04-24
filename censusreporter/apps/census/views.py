@@ -20,7 +20,7 @@ from django.views.generic import View, TemplateView
 
 from api import LocationNotFound
 from api.controller import (get_census_profile, get_geography, get_locations,
-                            get_elections_profile)
+                            get_locations_from_coords, get_elections_profile)
 
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
@@ -1486,10 +1486,7 @@ class LocateView(TemplateView):
         lon = self.request.GET.get('lon', None)
 
         if lat and lon:
-            places = self.get_api_data(lat, lon)
-            for place in places:
-                place['sumlev_name'] = SUMMARY_LEVEL_DICT[place['sumlevel']]['name']
-
+            places = get_locations_from_coords(latitude=lat, longitude=lon)
             page_context.update({
                 'location': {
                     'lat': lat,

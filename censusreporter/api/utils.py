@@ -125,7 +125,8 @@ class WardSearchAPI(object):
         if resp.status_code != 200:
             raise WardSearchException('%s response code' % resp.status_code)
         # if the request is invalid it returns the landing page html
-        elif resp.headers['content-type'] != 'application/json':
+        elif resp.headers['content-type'] not in ('application/json',
+                                              'text/javascript'):
             raise WardSearchException('Invalid request')
 
         data = resp.json()
