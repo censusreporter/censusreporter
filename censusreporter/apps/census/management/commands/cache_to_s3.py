@@ -10,6 +10,10 @@ import gzip
 
 from ...profile import geo_profile, enhance_api_data
 
+import logging
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+
 s3 = S3Connection()
 
 def s3_keyname(geoid):
@@ -38,17 +42,17 @@ def write_profile_json(s3_key, data):
     s3_key.set_contents_from_file(memfile)
 
 def seed(geoid):
-    print "Working on {}".format(geoid)
+    logger.info("Working on {}".format(geoid))
     try:
         api_data = geo_profile(geoid)
         api_data = enhance_api_data(api_data)
 
         s3key = key(geoid)
         write_profile_json(s3key, json.dumps(api_data))
-        print "Wrote to key {}".format(s3key)
+        logger.info("Wrote to key {}".format(s3key))
     except Exception, e:
-        format_exc(e)
-    print "Done working on {}".format(geoid)
+        logger.exception(e)
+    logger.info("Done working on {}".format(geoid))
 
 
 class Command(BaseCommand):
