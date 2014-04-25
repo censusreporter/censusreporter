@@ -11,7 +11,7 @@ import gzip
 from ...profile import geo_profile, enhance_api_data
 
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 s3 = S3Connection()
