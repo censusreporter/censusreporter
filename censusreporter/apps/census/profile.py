@@ -979,7 +979,7 @@ def enhance_api_data(api_data):
     # Put this down here to make sure geoid is valid before using it
     sumlevel = api_data['geography']['this']['sumlevel']
     api_data['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlevel]['name']
-    api_data['geography']['this']['short_geoid'] = api_data['geography']['this']['geoid'].split('US')[1]
+    api_data['geography']['this']['short_geoid'] = api_data['geography']['this']['full_geoid'].split('US')[1]
     try:
         release_bits = api_data['geography']['census_release'].split(' ')
         api_data['geography']['census_release_year'] = release_bits[1][2:]
