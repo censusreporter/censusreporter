@@ -45,6 +45,7 @@ def seed(geoid):
 
         s3key = key(geoid)
         write_profile_json(s3key, json.dumps(api_data))
+        print "Wrote to key {}".format(s3key)
     except Exception, e:
         format_exc(e)
     print "Done working on {}".format(geoid)
