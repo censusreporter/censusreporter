@@ -1,6 +1,14 @@
 server {
+    listen %(server-port)s default_server;
+    server_name %(server-aliases)s;
+
+    return 301 http://%(server-name)s$request_uri;
+}
+
+server {
     listen %(server-port)s;
     server_name %(server-name)s;
+
     client_max_body_size 100m;
     gzip_types application/x-javascript text/css;
 

@@ -9,7 +9,7 @@ from api.fabfile import (provision_api, create_api_database, drop_api_database,
 
 VIRTUALENV_DIR = 'censusreporter_ve'
 CODE_DIR = 'censusreporter'
-PROD_HOSTS = ['5.9.108.98:2224']
+PROD_HOSTS = ['5.9.195.2']
 PACKAGES = (
     'git-core',
     'python-virtualenv',
@@ -20,7 +20,8 @@ PACKAGES = (
     'npm'  # Node is for yUglify
 )
 # Nginx & Upstart constants
-SERVER_NAMES = 'mmm-dashboard.code4sa.org ""'
+SERVER_NAMES = 'wazimap.co.za'
+SERVER_ALIASES = 'wazimap.com wazimap.org wazimap.net wazimap.info mma-dashboard.code4sa.org'
 PROXY_PORT = 5001
 PROXY_HOST = '127.0.0.1'
 LOG_DIR = 'censusreporter_logs'
@@ -122,6 +123,7 @@ def deploy_censusreporter():
 def get_nginx_template_context():
     return {
         'server-name': SERVER_NAMES,
+        'server-aliases': SERVER_ALIASES,
         'server-port': 80,
         'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
