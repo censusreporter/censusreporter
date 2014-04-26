@@ -483,6 +483,9 @@ aside .action-button {
     width: auto;
     margin: 0 1.5em;
 }
+.example {
+    max-width: 750px;
+}
 .full-width {
     clear: both;
     width: 100%;
@@ -1187,6 +1190,7 @@ h3.item-chosen-title {
     display: block;
 }
 .filter-list a {
+    cursor: pointer;
     text-decoration: none;
     font-weight: normal;
     -webkit-border-radius: 4px;
@@ -1211,6 +1215,11 @@ h3.item-chosen-title {
     padding: .1em .33em;
     margin-left: -.33em;
 }
+p.filter-list a {
+    margin: 0;
+    padding: .1em .5em;
+}
+
 .filter-list ul {
     list-style: none;
     padding-left: .5em;
@@ -1900,7 +1909,8 @@ section.chart-divider h2 {
     cursor: help;
 }
 #glossary header,
-.topic header {
+.topic header,
+.example header {
     margin: 1em 0 2em;
 }
 #glossary aside,
@@ -1945,8 +1955,12 @@ dl.glossary {
 .topics dd {
     margin: 0 0 2em 1em;
 }
-.topic h2 {
+.topic h2,
+.example h2 {
     font-size: 1.4em;
+}
+.example h2 {
+    margin-top: 1em;
 }
 .topic table {
     font-size: 1em;
@@ -2009,6 +2023,36 @@ dl.glossary {
     margin: 0 0 1em;
     padding: .5em;
     height: 7em;
+}
+
+code, pre {
+    font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
+    color: #222;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+code {
+    background-color: #f7f7f7;
+    border: solid 1px #ddd;
+    padding: 0 .25em;
+}
+
+pre {
+    -moz-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+    padding: 1.5em;
+    background: #303030;
+    color: #f2f2f2;
+    text-shadow: none;
+    overflow: auto;
+}
+pre code {
+    color: #f2f2f2;
+    background-color: #303030;
+    border: none;
+    padding: 0;
 }
 
 ul.compact * {

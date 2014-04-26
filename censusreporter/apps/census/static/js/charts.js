@@ -727,7 +727,7 @@ function Chart(options) {
         return chart;
     }
     
-    chart.showEmbedCode = function() {
+    chart.fillEmbedCode = function(textarea, align) {
         var embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720,
             embedKey = chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1),
@@ -742,13 +742,19 @@ function Chart(options) {
                 initialSort: (chart.chartInitialSort || ''),
                 statType: (chart.chartStatType || '')
             };
+            embedAlign = (align == 'left' || align == 'right') ? ' float: ' + align + ';' : '';
+        
         var querystring = $.param(embedParams);
         
         var embedCode = [
-            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;"></iframe>',
+            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
+        textarea.html(embedCode);
+    }
+
+    chart.showEmbedCode = function() {
         var lightboxWrapper = d3.select('body').append('div')
                 .attr('id', 'lightbox');
                 
@@ -771,33 +777,35 @@ function Chart(options) {
         lightbox.append('p')
                 .text('Copy the code below, then paste into your own CMS or HTML page. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE 9 and above.');
                 
-        lightbox.append('textarea')
-                .html(embedCode)
+        var textarea = lightbox.append('textarea')
                 .on('click', function() {
                     this.select();
-                })
+                });
+
+        lightbox.append('p')
+                .classed('filter-list display-type', true)
+                .html('<strong>Align this embedded chart in text:</strong> ')
+            .selectAll('a')
+                .data(['Normal', 'Left', 'Right'])
+            .enter().append('a')
+                .attr('id', function(d) { return 'embed-align-' + d.toLowerCase() })
+                .text(function(d) { return d })
+                .on('click', function() {
+                    d3.event.stopPropagation();
+                    d3.selectAll('.filter-list a').classed('option-selected', false);
+                    d3.select(this).classed('option-selected', true);
+                    chart.fillEmbedCode(textarea, this.text.toLowerCase())
+                });
+                
+        d3.select('#embed-align-normal')
+            .classed('option-selected', true);
 
         lightbox.append('p').append('a')
                 .classed('display-type', true)
-                .attr('href', '#')
-                .text('What am I copying?')
-                .on('click', function() {
-                    d3.event.preventDefault();
-                    d3.select('#lightbox-instructions')
-                        .classed('hidden', false);
-                });
+                .attr('href', '/examples/embed-charts/')
+                .html('More about Census Reporter&rsquo;s embedded charts');
                 
-        var instructions = [
-            'An iframe served from the Census Reporter site, which includes all the code required to draw a chart.',
-            'A short script that lets the frame on our site talk to the page where you embed it, so it can respond to changes in page width.'
-        ]
-        lightbox.append('ol')
-                .attr('id', 'lightbox-instructions')
-                .classed('hidden', true)
-            .selectAll('li')
-                .data(instructions)
-            .enter().append('li')
-                .text(function(d) { return d });
+        chart.fillEmbedCode(textarea);
     }
     
     // pass in data obj, get back formatted value label with MOE flag
