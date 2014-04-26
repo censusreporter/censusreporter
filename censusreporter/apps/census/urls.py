@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, Elasticsearch)
+    DataView, TopicView, ExampleView, Elasticsearch)
 
 admin.autodiscover()
 
@@ -65,6 +65,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
         kwargs  = {},
         name    = 'topic_detail',
+    ),
+
+    url(
+        regex   = '^examples/(?P<example_slug>[-\w]+)/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(ExampleView.as_view()),
+        kwargs  = {},
+        name    = 'example_detail',
     ),
 
     url(

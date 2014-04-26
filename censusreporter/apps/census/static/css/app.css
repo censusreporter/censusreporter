@@ -1216,8 +1216,9 @@ h3.item-chosen-title {
     margin-left: -.33em;
 }
 p.filter-list a {
-    margin: 0;
-    padding: .1em .5em;
+    margin: 0 0 0 .33em;
+    padding: .1em .4em;
+    font-size: .8em;
 }
 
 .filter-list ul {

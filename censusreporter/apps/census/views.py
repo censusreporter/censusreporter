@@ -14,6 +14,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template import loader, TemplateDoesNotExist
 from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
@@ -508,6 +509,23 @@ class TopicView(TemplateView):
             }
 
         return page_context
+
+
+### EXAMPLES ###
+
+class ExampleView(TemplateView):
+    '''
+    Simple router for flat example pages. A request to '/examples/slug-name/'
+    will attempt to find a corresponding template at `examples/slug_name.html`.
+    '''
+    def get_template_names(self):
+        template = 'examples/%s.html' % (self.kwargs['example_slug'].replace('-', '_'))
+        try:
+            loader.get_template(template)
+            return template
+        except TemplateDoesNotExist:
+            raise Http404
+
 
 ### COMPARISONS ###
 
