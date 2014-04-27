@@ -45,3 +45,10 @@
         font-size: 2.2em;
     }
 }
+
+@media only screen and (max-width: 480px) {
+    #landing-slippy-map {
+        display: none;
+        visibility: hidden;
+    }
+}

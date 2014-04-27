@@ -97,69 +97,71 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 
-// draw a map
+// draw a map, but only for big displays
 var allowMapDrag = (browserWidth > 480) ? true : false;
-var map = L.map('landing-slippy-map', {
-    scrollWheelZoom: false,
-    zoomControl: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    keyboard: false,
-    dragging: allowMapDrag,
-    touchZoom: allowMapDrag
-});
-
-map.setView({lat: -28.4796, lng: 24.698445}, 5);
-
 if (allowMapDrag) {
-    map.addControl(new L.Control.Zoom({
-        position: 'topright'
-    }));
-}
-
-// add imagery
-L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-	subdomains: 'abcd',
-	maxZoom: 13
-}).addTo(map);
-
-// add province boundaries
-d3.json("http://maps.code4sa.org/political/2011/province?quantization=1000", function(error, topo) {
-    if (!topo)
-        return;
-
-    var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
-        style: {
-            "clickable": true,
-            "color": "#00d",
-            "fillColor": "#ccc",
-            "weight": 1.0,
-            "opacity": 0.3,
-            "fillOpacity": 0.3,
-        },
-        onEachFeature: function(feature, layer) {
-            var name = feature.properties['province_name'];
-            var code = feature.properties['province'];
-
-            layer.bindLabel(name, {direction: 'auto'});
-            layer.on('mouseover', function() {
-                layer.setStyle({
-                    "fillOpacity": 0.5,
-                });
-            });
-            layer.on('mouseout', function() {
-                layer.setStyle({
-                    "fillOpacity": 0.3,
-                });
-            });
-            layer.on('click', function() {
-                window.location = '/profiles/province-' + code;
-            });
-        },
+    var map = L.map('landing-slippy-map', {
+        scrollWheelZoom: false,
+        zoomControl: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        dragging: allowMapDrag,
+        touchZoom: allowMapDrag
     });
-    map.addLayer(featureLayer);
-});
+
+    map.setView({lat: -28.4796, lng: 24.698445}, 5);
+
+    if (allowMapDrag) {
+        map.addControl(new L.Control.Zoom({
+            position: 'topright'
+        }));
+    }
+
+    // add imagery
+    L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+      subdomains: 'abcd',
+      maxZoom: 13
+    }).addTo(map);
+
+    // add province boundaries
+    d3.json("http://maps.code4sa.org/political/2011/province?quantization=1000", function(error, topo) {
+        if (!topo)
+            return;
+
+        var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+            style: {
+                "clickable": true,
+                "color": "#00d",
+                "fillColor": "#ccc",
+                "weight": 1.0,
+                "opacity": 0.3,
+                "fillOpacity": 0.3,
+            },
+            onEachFeature: function(feature, layer) {
+                var name = feature.properties['province_name'];
+                var code = feature.properties['province'];
+
+                layer.bindLabel(name, {direction: 'auto'});
+                layer.on('mouseover', function() {
+                    layer.setStyle({
+                        "fillOpacity": 0.5,
+                    });
+                });
+                layer.on('mouseout', function() {
+                    layer.setStyle({
+                        "fillOpacity": 0.3,
+                    });
+                });
+                layer.on('click', function() {
+                    window.location = '/profiles/province-' + code;
+                });
+            },
+        });
+        map.addLayer(featureLayer);
+    });
+}
 </script>
 <script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
