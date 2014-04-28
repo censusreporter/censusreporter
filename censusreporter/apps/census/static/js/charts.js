@@ -548,7 +548,7 @@ function Chart(options) {
         
         // give the chart its radius
         chart.updateSettings({
-            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.05),
+            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.1),
             pieCenter: chart.settings.pieWidth / 2
         });
 
@@ -803,6 +803,7 @@ function Chart(options) {
         lightbox.append('p').append('a')
                 .classed('display-type', true)
                 .attr('href', '/examples/embed-charts/')
+                .attr('target', '_blank')
                 .html('More about Census Reporter&rsquo;s embedded charts');
                 
         chart.fillEmbedCode(textarea);
