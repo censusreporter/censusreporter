@@ -2,11 +2,18 @@
 
 {% block head_title %}Embeddable Charts - {{ block.super }}{% endblock %}
 
+{% block head_css_extra %}
+<link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/solarized_dark.min.css">
+{% endblock %}
+
 {% block content_container %}
 <div class="content-container wrapper example clearfix">
     <article class="example">
+        <header>
             <h1>Embedding Census Reporter profile charts</h1>
-            <p>You can embed any of the charts from Census Reporter&rsquo;s profile pages onto your own website. Just like our profile pages, embedded charts are responsive, so they&rsquo;ll work at desktop widths as well as mobile. To embed a chart, you just need to copy and paste a couple lines of code into your HTML or content-management system. Here&rsquo;s what you need to know:</p>
+        </header>
+        <section>
+            <p>You can embed any of the charts from Census Reporter&rsquo;s profile pages onto your own website. Just like our profile pages, embedded charts are responsive, so they&rsquo;ll work at desktop widths as well as on mobile devices. To embed a chart, you just need to copy and paste a couple lines of code into your HTML or content-management system. Here&rsquo;s what you need to know:</p>
             
             <p>First, visit a profile page and find the chart that you&rsquo;d like to embed, then click the &ldquo;Embed chart&rdquo; link underneath. That will open a panel where you can copy two lines of code. They&rsquo;ll look something like this:</p>
             
@@ -35,8 +42,13 @@
 <pre><code>&lt;script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"&gt;</script></code></pre>
 
             <p>Happy charting!</p>
-            
-        <script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>
+        </section>
     </article>
 </div>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>
+<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

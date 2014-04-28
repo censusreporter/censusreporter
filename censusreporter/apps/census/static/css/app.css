@@ -1910,9 +1910,11 @@ section.chart-divider h2 {
     cursor: help;
 }
 #glossary header,
-.topic header,
-.example header {
+.topic header {
     margin: 1em 0 2em;
+}
+.example header {
+    margin: 1em 0;
 }
 #glossary aside,
 .topic aside {
@@ -2028,31 +2030,31 @@ dl.glossary {
 
 code, pre {
     font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
-    color: #222;
-    margin-bottom: 30px;
     font-size: 14px;
 }
-
 code {
     background-color: #f7f7f7;
     border: solid 1px #ddd;
     padding: 0 .25em;
 }
-
 pre {
     -moz-border-radius: .25em;
     -webkit-border-radius: .25em;
     border-radius: .25em;
-    padding: 1.5em;
-    background: #303030;
-    color: #f2f2f2;
     text-shadow: none;
     overflow: auto;
+    padding: 1.25em;
+    margin-bottom: 2em;
+    background-color: #002B36;
+    color: #839496;
 }
 pre code {
-    color: #f2f2f2;
-    background-color: #303030;
     border: none;
+    padding: 0;
+    background-color: #002B36;
+    color: #839496;
+}
+pre .hljs {
     padding: 0;
 }
 
