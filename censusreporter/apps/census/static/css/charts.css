@@ -186,9 +186,7 @@
     pointer-events: none;
     z-index: 999;
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-    padding: .83em 1em;
-}
-.hovercard {
+    padding: .67em .83em;
     border: solid 1px #777;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -196,6 +194,9 @@
 }
 .chart .hovercard {
     pointer-events: auto;
+}
+.census-chart-embed .hovercard {
+    padding: .5em .83em .83em;
 }
 .hovercard .label-title,
 .hovercard .name,
@@ -447,7 +448,9 @@
     .census-chart-embed .hovercard {
         /* an !important is better than recalculating
         every time the hover listener fires */
-        width: 235px !important;
+        width: 49% !important;
+        min-width: 235px;
+        max-width: 500px;
     }
 }
 @media only screen and (max-width: 640px) {

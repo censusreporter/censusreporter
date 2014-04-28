@@ -1009,7 +1009,7 @@ function Chart(options) {
         // if any MOEs get daggered, show the explanatory text
         maxMOE.sort(function(x, y) { return y - x });
         if (maxMOE[0] >= 10) {
-            card += "<div class='note'><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</div>"
+            card += "<div class='note'><sup>&dagger;</sup> Margin of error at least 10 percent of total value</div>"
         }
 
         return card
