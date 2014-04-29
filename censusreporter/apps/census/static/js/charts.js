@@ -31,8 +31,6 @@ function Chart(options) {
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
-        chart.rawGeographyData = options.geographyData;
-        chart.rawChartData = options.chartData;
 
         // add a bit of geodata for links and hovercards
         var geographyThis = options.geographyData['this'],

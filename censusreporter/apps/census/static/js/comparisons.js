@@ -87,7 +87,7 @@ function Comparison(options) {
             comparison.addPercentageDataValues();
         }
         comparison.columnKeys = _.keys(comparison.table.columns);
-        comparison.prefixColumnNames(comparison.table.columns, comparison.denominatorColumn);
+        comparison.prefixColumnNames(comparison.table.columns);
         
         // determine whether we have a primary geo to key off of
         if (!!comparison.primaryGeoID && !!comparison.data.geography[comparison.primaryGeoID]) {
@@ -1429,18 +1429,38 @@ function Comparison(options) {
         return data
     }
     
-    comparison.prefixColumnNames = function(columns, suppressDenominator) {
-        // some tables have a first non-total column with indent > 1,
-        // so we need to seed this with empty slots for later concatenation
-        var prefixPieces = {'1':'', '2':''},
-            indentAdd = (!!suppressDenominator) ? 0 : 1;
+    comparison.prefixColumnNames = function(columns) {
+        // A user may need to view a column name in isolation, with no context
+        // as to its level of indent. Prefixed column names allow this:
+        // 
+        // Female
+        //   Car, truck or van
+        //     Carpooled
+        //       In 2-person carpool
+        //
+        // to be represented as:
+        //
+        // Female: Car, truck or van: Carpooled: In 2-person carpool
+
+        // store prefixPieces as an object with keys/values, because not all
+        // tables apply indents in a standard, orderly or predictable fashion.
+        // because some tables have a first non-total column with indent > 1,
+        // we need to seed this with empty slots for later concatenation.
+        var prefixPieces = {'0':'', '1':'', '2':''},
+            prefixName,
+            indentAdd;
 
         _.each(columns, function(v) {
-            // update the dict of prefix names
-            var prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
-            prefixPieces[v.indent] = prefixName;
-            // compile to prefixed name
-            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+indentAdd).filter(function(n){return n}).join(': ');
+            // strip occasional end chars to prep names for concatenation
+            prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
+            prefixName = (prefixName.slice(-3) == ' --') ? prefixName.slice(0, -3) : prefixName;
+    
+            // add name piece to proper slot,
+            // allowing for weird subhead columns with null indents
+            prefixPieces[v.indent || 0] = prefixName;
+
+            // compile a prefixed name that makes sense regardless of context
+            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+1).filter(function(n){return n}).join(': ');
         });
     }
 
