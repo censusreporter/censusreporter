@@ -115,22 +115,21 @@ COLLAPSED_AGE_CATEGORIES = {
 
 # Income categories
 
-COLLAPSED_INCOME_CATEGORIES = {
-    "Not applicable": "N/A",
-    "Unspecified": "Unspec.",
-    "No income": "0k",
-    "R 1 - R 400": "0.8k",
-    "R 401 - R 800": "0.8k",
-    "R 801 - R 1 600": "1.6k",
-    "R 1 601 - R 3 200": "3.2k",
-    "R 3 201 - R 6 400": "6.4k",
-    "R 6 401 - R 12 800": "12.8k",
-    "R 12 801 - R 25 600": "51.2k",
-    "R 25 601 - R 51 200": "51.2k",
-    "R 51 201 - R 102 400": "102.4k",
-    "R 102 401 - R 204 800": "> 102.4k",
-    "R 204 801 or more": "> 102.4k",
-}
+COLLAPSED_INCOME_CATEGORIES = OrderedDict()
+COLLAPSED_INCOME_CATEGORIES["Not applicable"] = "N/A"
+COLLAPSED_INCOME_CATEGORIES["No income"] = "R0"
+COLLAPSED_INCOME_CATEGORIES["R 1 - R 400"] = "Under R400"
+COLLAPSED_INCOME_CATEGORIES["R 401 - R 800"] = "R400 - R800"
+COLLAPSED_INCOME_CATEGORIES["R 801 - R 1 600"] = "R800 - R2k"
+COLLAPSED_INCOME_CATEGORIES["R 1 601 - R 3 200"] = "R2k - R3k"
+COLLAPSED_INCOME_CATEGORIES["R 3 201 - R 6 400"] = "R3k - R6k"
+COLLAPSED_INCOME_CATEGORIES["R 6 401 - R 12 800"] = "R6k - R13k"
+COLLAPSED_INCOME_CATEGORIES["R 12 801 - R 25 600"] = "R13k - R26k"
+COLLAPSED_INCOME_CATEGORIES["R 25 601 - R 51 200"] = "R26k - R51k"
+COLLAPSED_INCOME_CATEGORIES["R 51 201 - R 102 400"] = "R51k - R102k"
+COLLAPSED_INCOME_CATEGORIES["R 102 401 - R 204 800"] = "Over R102k"
+COLLAPSED_INCOME_CATEGORIES["R 204 801 or more"] = "Over R102k"
+COLLAPSED_INCOME_CATEGORIES["Unspecified"] = "Unspecified"
 
 # Sanitation categories
 
@@ -321,12 +320,11 @@ def get_economics_profile(geo_code, geo_level, session):
             "name": income_group,
             "numerators": {"this": obj.total},
         }
+    key_order = COLLAPSED_INCOME_CATEGORIES.values()
+    key_order.remove('N/A')
     income_dist_data = collapse_categories(income_dist_data,
                                            COLLAPSED_INCOME_CATEGORIES,
-                                           key_order=('Unspec.', '0k',
-                                                      '0.8k', '1.6k', '3.2k',
-                                                      '6.4k', '12.8k', '51.2k',
-                                                      '102.4k', '> 102.4k'))
+                                           key_order=key_order)
 
     db_model_employ = get_model_from_fields(['official employment status'],
                                             geo_level)
@@ -530,6 +528,8 @@ def get_education_profile(geo_code, geo_level, session):
 
 
 def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
+    """ Get rows of statistics from the stats mode +db_model+ at a particular
+    geo_code and geo_level. """
     if geo_level == 'country':
         objects = session.query(db_model)
     else:
