@@ -664,16 +664,19 @@ function Comparison(options) {
     comparison.makeDistributionChartData = function() {
         comparison.charts = {};
         comparison.chartColumnData = {};
+        var filteredKeys = _.filter(_.keys(comparison.table.columns), function(k) { return k.indexOf('.') == -1 }),
+            filteredColumns = _.pick(comparison.table.columns, filteredKeys)
 
         // build chart data for each column in the table
-        _.each(comparison.table.columns, function(v, k) {
+        _.each(filteredColumns, function(v, k) {
             var valuesList = _.map(comparison.values, function(g) { return g[comparison.tableID][comparison.valueType][k] });
             
             comparison.chartColumnData[k] = {
                 column: k,
+                prefixed_name: v.prefixed_name,
                 geographies: {}
             };
-            
+
             comparison.chartColumnData[k].minValue = d3.min(valuesList);
             comparison.chartColumnData[k].maxValue = d3.max(valuesList);
             comparison.chartColumnData[k].valuesRange = comparison.chartColumnData[k].maxValue - comparison.chartColumnData[k].minValue;
@@ -706,7 +709,7 @@ function Comparison(options) {
     comparison.showDistributionCharts = function() {
         comparison.chartDisplayFmt = (!!comparison.denominatorColumn) ? 'percentage' : comparison.statType;
 
-        _.each(comparison.table.columns, function(v, k) {
+        _.each(comparison.chartColumnData, function(v, k) {
             comparison.charts[k] = comparison.dataContainer.append('section')
                     .attr('class', 'coal-chart-container')
                     .attr('id', 'coal-chart-'+k)
@@ -720,26 +723,26 @@ function Comparison(options) {
 
             chart.append('li')
                 .attr('class', 'tick-mark tick-mark-min')
-                .html('<span><b>Min:</b> '+valFmt(comparison.chartColumnData[k].minValue, comparison.chartDisplayFmt)+'</span>');
+                .html('<span><b>Min:</b> '+valFmt(v.minValue, comparison.chartDisplayFmt)+'</span>');
 
             chart.append('li')
                 .attr('class', 'tick-mark')
-                .attr('style', 'left:'+comparison.chartColumnData[k].medianPctOfRange+'%;')
+                .attr('style', 'left:'+v.medianPctOfRange+'%;')
                 .html(function() {
-                    var marginTop = (comparison.chartColumnData[k].medianPctOfRange < 12 || comparison.chartColumnData[k].medianPctOfRange > 88) ? 'margin-top:38px;' : '';
-                    return '<span style="'+marginTop+'"><b>Median:</b> '+valFmt(comparison.chartColumnData[k].medianValue, comparison.chartDisplayFmt)+'</span>';
+                    var marginTop = (v.medianPctOfRange < 12 || v.medianPctOfRange > 88) ? 'margin-top:38px;' : '';
+                    return '<span style="'+marginTop+'"><b>Median:</b> '+valFmt(v.medianValue, comparison.chartDisplayFmt)+'</span>';
                 });
 
             chart.append('li')
                 .attr('class', 'tick-mark tick-mark-max')
-                .html('<span><b>Max:</b> '+valFmt(comparison.chartColumnData[k].maxValue, comparison.chartDisplayFmt)+'</span>');
+                .html('<span><b>Max:</b> '+valFmt(v.maxValue, comparison.chartDisplayFmt)+'</span>');
 
             var chartPoints = chart.selectAll('.chart-point')
-                    .data(d3.values(comparison.chartColumnData[k].geographies))
+                    .data(d3.values(v.geographies))
                 .enter().append('li')
                     .classed('chart-point', true)
                     .style('left', function(d) {
-                        return roundNumber(comparison.chartColumnData[k].xScale(d[comparison.valueType]), 1)+'%';
+                        return roundNumber(v.xScale(d[comparison.valueType]), 1)+'%';
                     });
                     
             var chartPointCircles = chartPoints.append('a')
