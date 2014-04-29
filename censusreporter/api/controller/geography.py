@@ -37,52 +37,55 @@ def get_geography(geo_code, geo_level):
 def get_locations(search_term, geo_level=None, year='2011'):
     if geo_level is not None and geo_level not in geo_levels:
         raise ValueError('Invalid geo_level: %s' % geo_level)
+
     session = get_session()
-
-    if geo_level:
-        levels = [geo_level]
-    else:
-        levels = ['province', 'municipality', 'subplace']
-
-    objects = set()
-
-    # search at each level
-    for level in levels:
-        # already checked that geo_level is valid
-        model = {
-            'municipality': Municipality,
-            'province': Province,
-            'subplace': Subplace,
-        }[level]
-
-        if level == 'subplace':
-            # check mainplace and subplace names
-            objects.update(session
-                .query(Ward)
-                .join(model)
-                .filter(model.year == year)
-                .filter(or_(model.subplace_name.ilike(search_term + '%'),
-                            model.subplace_name.ilike('City of %s' % search_term + '%'),
-                            model.mainplace_name.ilike(search_term + '%'),
-                            model.code == search_term))
-                .limit(10)
-            )
-
+    try:
+        if geo_level:
+            levels = [geo_level]
         else:
-            objects.update(session
-                .query(model)
-                .filter(model.year == year)
-                .filter(or_(model.name.ilike(search_term + '%'),
-                            model.name.ilike('City of %s' % search_term + '%'),
-                            model.code == search_term.upper()))
-                .limit(10)
-            )
+            levels = ['province', 'municipality', 'subplace']
+
+        objects = set()
+
+        # search at each level
+        for level in levels:
+            # already checked that geo_level is valid
+            model = {
+                'municipality': Municipality,
+                'province': Province,
+                'subplace': Subplace,
+            }[level]
+
+            if level == 'subplace':
+                # check mainplace and subplace names
+                objects.update(session
+                    .query(Ward)
+                    .join(model)
+                    .filter(model.year == year)
+                    .filter(or_(model.subplace_name.ilike(search_term + '%'),
+                                model.subplace_name.ilike('City of %s' % search_term + '%'),
+                                model.mainplace_name.ilike(search_term + '%'),
+                                model.code == search_term))
+                    .limit(10)
+                )
+
+            else:
+                objects.update(session
+                    .query(model)
+                    .filter(model.year == year)
+                    .filter(or_(model.name.ilike(search_term + '%'),
+                                model.name.ilike('City of %s' % search_term + '%'),
+                                model.code == search_term.upper()))
+                    .limit(10)
+                )
 
 
-    order_map = {Ward: 3, Municipality: 2, Province: 1}
-    objects = sorted(objects, key=lambda o: [order_map[o.__class__], getattr(o, 'name', getattr(o, 'code'))])
+        order_map = {Ward: 3, Municipality: 2, Province: 1}
+        objects = sorted(objects, key=lambda o: [order_map[o.__class__], getattr(o, 'name', getattr(o, 'code'))])
 
-    return serialize_demarcations(objects[0:10])
+        return serialize_demarcations(objects[0:10])
+    finally:
+        session.close()
 
 
 def get_locations_from_coords(longitude, latitude):
@@ -96,8 +99,8 @@ def get_locations_from_coords(longitude, latitude):
     # there should only be 1 ward since wards don't overlap
     location = location[0]
 
+    session = get_session()
     try:
-        session = get_session()
         ward = session.query(Ward).get(location.ward_code)
         if ward is None:
             return []
