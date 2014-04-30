@@ -664,19 +664,19 @@ function Comparison(options) {
     comparison.makeDistributionChartData = function() {
         comparison.charts = {};
         comparison.chartColumnData = {};
-        var filteredKeys = _.filter(_.keys(comparison.table.columns), function(k) { return k.indexOf('.') == -1 }),
-            filteredColumns = _.pick(comparison.table.columns, filteredKeys)
 
         // build chart data for each column in the table
-        _.each(filteredColumns, function(v, k) {
-            var valuesList = _.map(comparison.values, function(g) { return g[comparison.tableID][comparison.valueType][k] });
+        _.each(comparison.table.columns, function(v, k) {
+            // ignore label columns
+            if (k.indexOf('.') != -1) { return; }
             
             comparison.chartColumnData[k] = {
                 column: k,
                 prefixed_name: v.prefixed_name,
                 geographies: {}
             };
-
+            
+            var valuesList = _.map(comparison.values, function(g) { return g[comparison.tableID][comparison.valueType][k] });
             comparison.chartColumnData[k].minValue = d3.min(valuesList);
             comparison.chartColumnData[k].maxValue = d3.max(valuesList);
             comparison.chartColumnData[k].valuesRange = comparison.chartColumnData[k].maxValue - comparison.chartColumnData[k].minValue;
@@ -1448,15 +1448,14 @@ function Comparison(options) {
         // store prefixPieces as an object with keys/values, because not all
         // tables apply indents in a standard, orderly or predictable fashion.
         // because some tables have a first non-total column with indent > 1,
+        // and some skip directly from 0 to 2, then come back to 1 later,
         // we need to seed this with empty slots for later concatenation.
         var prefixPieces = {'0':'', '1':'', '2':''},
-            prefixName,
-            indentAdd;
+            prefixName;
 
         _.each(columns, function(v) {
             // strip occasional end chars to prep names for concatenation
-            prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
-            prefixName = (prefixName.slice(-3) == ' --') ? prefixName.slice(0, -3) : prefixName;
+            prefixName = v.name.replace(/(:|--)*$/,'').replace(/\s*$/,'');
     
             // add name piece to proper slot,
             // allowing for weird subhead columns with null indents
