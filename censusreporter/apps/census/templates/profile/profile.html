@@ -19,11 +19,12 @@
                 <h1 class="title">{{ geo.short_name }}</h1>
                 <p class="caption">
                   {{ geo.level|capfirst }}
-                  in
-                  {% for g in geo.parents %}
-                    <a href="/profiles/{{ g.level }}-{{ g.code }}">{{ g.name }}</a>,
-                  {% endfor %}
-                  South Africa
+                  {% if geo.level != 'country' %}
+                      in
+                      {% for g in geo.parents %}
+                        <a href="/profiles/{{ g.level }}-{{ g.code }}">{{ g.name }}</a>{% if not forloop.last %},{%endif%}
+                      {% endfor %}
+                  {% endif %}
                 </p>
             </header>
             <div class="column-half">
@@ -261,36 +262,40 @@ L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // add demarcation boundaries
-d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
-  var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
-      style: {
-          "fillColor": "#66c2a5",
-          "color": "#777",
-          "weight": 2,
-          "clickable": false
-      }
-  });
-  map.addLayer(featureLayer);
-  var objBounds = featureLayer.getBounds();
-
-  if (browserWidth > 768) {
-      var z;
-      for(z = 16; z > 2; z--) {
-          var swPix = map.project(objBounds.getSouthWest(), z),
-              nePix = map.project(objBounds.getNorthEast(), z),
-              pixWidth = Math.abs(nePix.x - swPix.x),
-              pixHeight = Math.abs(nePix.y - swPix.y);
-          if (pixWidth <  500 && pixHeight < 400) {
-              break;
+if (geo_level == 'country') {
+    map.setView({lat: -28.4796, lng: 10.698445}, 5);
+} else {
+    d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
+      var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
+          style: {
+              "fillColor": "#66c2a5",
+              "color": "#777",
+              "weight": 2,
+              "clickable": false
           }
-      }
+      });
+      map.addLayer(featureLayer);
+      var objBounds = featureLayer.getBounds();
 
-      map.setView(featureLayer.getBounds().getCenter(), z);
-      map.panBy([-270, 0], {animate: false});
-  } else {
-      map.fitBounds(featureLayer.getBounds());
-  }
-});
+      if (browserWidth > 768) {
+          var z;
+          for(z = 16; z > 2; z--) {
+              var swPix = map.project(objBounds.getSouthWest(), z),
+                  nePix = map.project(objBounds.getNorthEast(), z),
+                  pixWidth = Math.abs(nePix.x - swPix.x),
+                  pixHeight = Math.abs(nePix.y - swPix.y);
+              if (pixWidth <  500 && pixHeight < 400) {
+                  break;
+              }
+          }
+
+          map.setView(featureLayer.getBounds().getCenter(), z);
+          map.panBy([-270, 0], {animate: false});
+      } else {
+          map.fitBounds(featureLayer.getBounds());
+      }
+    });
+}
 
 // load surrounding map shapes
 var levels = [[geo_level, geo_code]].concat(geo_parents);
@@ -306,7 +311,9 @@ for (var i = 0; i < levels.length; i++) {
     // parent level (eg. wards within a municipality).
 
     (function(level, code) {
-        if (level == 'province') {
+        if (level == 'country') {
+            return;
+        } else if (level == 'province') {
             var url = "province?";
         } else {
             var url = level + "?filter[" + levels[i+1][0] + "]=" + levels[i+1][1];

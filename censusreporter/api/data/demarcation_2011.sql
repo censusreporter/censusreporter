@@ -15,6 +15,19 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: country; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE country (
+    code character varying(8) NOT NULL,
+    name character varying(32) NOT NULL,
+    year character varying(4) NOT NULL
+);
+
+
+ALTER TABLE public.country OWNER TO census;
+
+--
 -- Name: district; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
@@ -72,6 +85,14 @@ CREATE TABLE ward (
 
 
 ALTER TABLE public.ward OWNER TO census;
+
+--
+-- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY country (code, name, year) FROM stdin;
+ZA	South Africa	2011
+\.
 
 --
 -- Data for Name: district; Type: TABLE DATA; Schema: public; Owner: census

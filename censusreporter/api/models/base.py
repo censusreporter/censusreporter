@@ -19,13 +19,6 @@ class Base(object):
 
     def as_dict_deep(self):
         parents = dict((p.level, p.as_dict()) for p in self.parents())
-        # TODO: fill in real data
-        parents['country'] = {
-            'full_geoid': 'country-ZA',
-            'full_name': 'FAKE COUNTRY',
-            'short_name': 'FAKE COUNTRY',
-            'geo_level': 'country',
-        }
 
         return {
             'this': self.as_dict(),
@@ -66,6 +59,10 @@ class GeoNameMixin(object):
             return self.parents()[0]
         return None
 
+    @property
+    def country(self):
+        return Country.ZA()
+
     def __unicode__(self):
         return self.long_name
 
@@ -92,7 +89,7 @@ class Ward(Base, GeoNameMixin):
     child_level = None
 
     def parents(self):
-        return [self.municipality, self.province]
+        return [self.municipality, self.province, self.country]
 
     @property
     def short_name(self):
@@ -119,7 +116,7 @@ class Municipality(Base, GeoNameMixin):
     child_level = 'ward'
 
     def parents(self):
-        return [self.province]
+        return [self.province, self.country]
 
 
 class District(Base, GeoNameMixin):
@@ -140,7 +137,7 @@ class District(Base, GeoNameMixin):
     child_level = 'municipality'
 
     def parents(self):
-        return [self.province]
+        return [self.province, self.country]
 
 
 class Province(Base, GeoNameMixin):
@@ -155,11 +152,40 @@ class Province(Base, GeoNameMixin):
 
     level = 'province'
     child_level = 'municipality'
-    census_release = 2011
 
     def parents(self):
-        # TODO: return nation
+        return [self.country]
+
+
+class Country(Base, GeoNameMixin):
+    # a 2 letter string
+    code = Column(String(3), primary_key=True)
+    name = Column(String(16), nullable=False, index=True)
+    # same as the year of the constituent wards
+    year = Column(String(4), index=True, nullable=False)
+
+    level = 'country'
+    child_level = 'province'
+
+    def parents(self):
         return []
+
+
+    countries = {}
+    @classmethod
+    def ZA(cls):
+        if not 'ZA' in cls.countries:
+            c = cls()
+            c.code = 'ZA'
+            c.name = 'South Africa'
+            c.year = '2011'
+            cls.countries['ZA'] = c
+
+        return cls.countries['ZA']
+
+        
+
+
 
 
 class Subplace(Base):

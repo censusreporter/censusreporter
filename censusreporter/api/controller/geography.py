@@ -2,7 +2,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import or_
 from sqlalchemy import func
 
-from api.models import Ward, District, Municipality, Province, Subplace
+from api.models import Ward, District, Municipality, Province, Subplace, Country
 from api.utils import (get_session, ward_search_api, geo_levels,
                        LocationNotFound)
 
@@ -21,6 +21,7 @@ def get_geography(geo_code, geo_level):
                 'district': District,
                 'municipality': Municipality,
                 'province': Province,
+                'country': Country,
             }[geo_level]
         except KeyError:
             raise LocationNotFound(geo_code)
