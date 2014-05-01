@@ -1016,7 +1016,7 @@ function Chart(options) {
     chart.mouseover = function(data) {
         // reset screen position to account for scrolling
         chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
-        chart.height = chart.screenPosition.bottom - chart.screenPosition.top;
+        chart.height = (chart.screenPosition.bottom - chart.screenPosition.top) || chart.chartHeight;
         chart.width = chart.screenPosition.right - chart.screenPosition.left;
 
         // ensure we have hovercard so other interactions can safely call this

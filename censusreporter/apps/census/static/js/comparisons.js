@@ -1456,11 +1456,11 @@ function Comparison(options) {
         _.each(columns, function(v) {
             // strip occasional end chars to prep names for concatenation
             prefixName = v.name.replace(/(:|--)*$/,'').replace(/\s*$/,'');
-    
+            
             // add name piece to proper slot,
             // allowing for weird subhead columns with null indents
             prefixPieces[v.indent || 0] = prefixName;
-
+            
             // compile a prefixed name that makes sense regardless of context
             v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+1).filter(function(n){return n}).join(': ');
         });

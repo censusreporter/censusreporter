@@ -314,6 +314,7 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     margin: 0 3px 0 0;
+    border: none;
     vertical-align: baseline;
     height: 13px;
 }
@@ -444,15 +445,6 @@
     margin: 0 0 .5em;
 }
 
-@media only screen and (min-width: 481px) {
-    .census-chart-embed .hovercard {
-        /* an !important is better than recalculating
-        every time the hover listener fires */
-        width: 49% !important;
-        min-width: 235px;
-        max-width: 500px;
-    }
-}
 @media only screen and (max-width: 640px) {
     .chart-qualifier,
     .chart-get-data {
@@ -471,13 +463,6 @@
     .pie-chart {
         padding-bottom: 3em;
     }
-    .census-chart-embed .column-chart,
-    .census-chart-embed .pie-chart {
-        padding-bottom: 0;
-    }
-    .census-chart-embed .bar-chart {
-        padding-bottom: .5em;
-    }
 }
 @media only screen and (max-width: 480px) {
     .chart .hovercard {
@@ -485,10 +470,6 @@
         every time the hover listener fires */
         left: -5% !important;
         width: 110% !important;
-    }
-    .census-chart-embed .hovercard {
-        left: -2% !important;
-        width: 103% !important;
     }
 }
 
