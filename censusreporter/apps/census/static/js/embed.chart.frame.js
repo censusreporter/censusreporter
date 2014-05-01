@@ -15,6 +15,12 @@ function makeEmbedFrame() {
             embedFrame.params[decode(match[1])] = decode(match[2]);
         }
 
+        if (typeof(ga) == 'function') {
+            ga('send', 'event', 'Embedded Charts', 'GeoID', embedFrame.params.geoID);
+            ga('send', 'event', 'Embedded Charts', 'DataID', embedFrame.params.chartDataID);
+            ga('send', 'event', 'Embedded Charts', 'Parent URL', document.referrer);
+        }
+
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
         embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
         embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.geoID+'.json';
