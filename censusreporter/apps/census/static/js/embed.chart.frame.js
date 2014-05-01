@@ -15,11 +15,9 @@ function makeEmbedFrame() {
             embedFrame.params[decode(match[1])] = decode(match[2]);
         }
 
-        if (typeof(ga) == 'function') {
-            ga('send', 'event', 'Embedded Charts', 'GeoID', embedFrame.params.geoID);
-            ga('send', 'event', 'Embedded Charts', 'DataID', embedFrame.params.chartDataID);
-            ga('send', 'event', 'Embedded Charts', 'Parent URL', document.referrer);
-        }
+        embedFrame.trackEvent('Embedded Charts', 'GeoID data', embedFrame.params.geoID);
+        embedFrame.trackEvent('Embedded Charts', 'DataID', embedFrame.params.chartDataID);
+        embedFrame.trackEvent('Embedded Charts', 'Parent URL', document.referrer);
 
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
         embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
@@ -125,6 +123,7 @@ function makeEmbedFrame() {
                 back.close();
                 embedFrame.flipped = false;
             }
+            embedFrame.trackEvent('Embedded Charts', 'About pane open', embedFrame.flipped.toString());
         });
     }
 
@@ -157,6 +156,13 @@ function makeEmbedFrame() {
     embedFrame.sendDataToParent = function(data) {
         // IE9 can only send strings via postmessage
         parent.postMessage(JSON.stringify(data), embedFrame.parentOrigin);
+    }
+    
+    embedFrame.trackEvent = function(category, action, label) {
+        // make sure we have Google Analytics function available
+        if (typeof(ga) == 'function') {
+            ga('send', 'event', category, action, label);
+        }
     }
 
     embedFrame.chartSetup();
