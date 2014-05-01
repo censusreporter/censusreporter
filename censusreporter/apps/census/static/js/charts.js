@@ -20,6 +20,7 @@ function Chart(options) {
             .append("div")
                 .style("position", "relative");
         
+        chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartDataKey = options.chartDataKey;
@@ -111,6 +112,10 @@ function Chart(options) {
 
         // time to make the chart
         chart.draw();
+        chart.dimensions = {
+        	height: chart.chartContainer.node().offsetHeight,
+        	width: chart.chartContainer.node().offsetWidth
+        }
         return chart;
     };
     
@@ -1016,8 +1021,6 @@ function Chart(options) {
     chart.mouseover = function(data) {
         // reset screen position to account for scrolling
         chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
-        chart.height = (chart.screenPosition.bottom - chart.screenPosition.top) || chart.chartHeight;
-        chart.width = chart.screenPosition.right - chart.screenPosition.left;
 
         // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
@@ -1026,8 +1029,8 @@ function Chart(options) {
                 .style("opacity", 1);
 
             chart.hovercard.dimensions = {
-                height: +chart.hovercard.style("height").replace("px",""),
-                width: +chart.hovercard.style("width").replace("px","")
+                height: chart.hovercard.node().offsetHeight,
+                width: chart.hovercard.node().offsetWidth
             }
         }
     }
@@ -1037,18 +1040,17 @@ function Chart(options) {
             mouseLeft = d3.mouse(this)[0],
             bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height - 10,
             bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width) - 10;
-        
+
         chart.hovercard.position = {
             vertical: {
                 direction: (bufferTop < 10) ? 'top' : 'bottom',
-                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.height - mouseTop + 5
+                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.dimensions.height - mouseTop + 5
             },
             horizontal: {
                 direction: (bufferRight < 10) ? 'right' : 'left',
-                pixels: (bufferRight < 10) ? chart.width - mouseLeft + 5 : mouseLeft + 5
+                pixels: (bufferRight < 10) ? chart.dimensions.width - mouseLeft + 5 : mouseLeft + 5
             }
         }
-
         // asking for chart.hovercard.style("height") and chart.hovercard.style("width")
         // gives inconsistent results because of IE box model. So we can't count on addition
         // using hovercard height and width. Instead, we reset top/bottom and left/right
