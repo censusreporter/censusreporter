@@ -16,6 +16,21 @@
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 }
+#page-header-title .title img {
+    margin: 0 3px 0 0;
+    vertical-align: bottom;
+    height: 25px;
+}
+#page-header-title .logo {
+    float: right;
+    margin: 0.3em 8px 0;
+}
+#page-header-title .logo img {
+    background-color: white;
+    padding: 2px;
+    vertical-align: baseline;
+    height: 21px;
+}
 
 #how-to .content-container {
     padding: 2.5em 0;

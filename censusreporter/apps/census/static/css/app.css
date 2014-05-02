@@ -211,14 +211,6 @@ img.screenshot {
     vertical-align: baseline;
     height: 21px;
 }
-#page-header-title .logo {
-    float: right;
-    margin: 0.3em 8px 0;
-}
-#page-header-title .logo img {
-    background-color: white;
-    padding: 2px;
-}
 .box-header {
     padding: .25em .5em;
     margin-bottom: .67em;
