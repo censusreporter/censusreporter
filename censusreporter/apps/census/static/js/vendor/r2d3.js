@@ -5202,7 +5202,9 @@ window.Raphael.vml && function(R) {
     res.span = R._g.doc.createElement("span");
     res.span.style.cssText = "position:absolute;left:-9999em;top:-9999em;padding:0;margin:0;line-height:1;";
     c.appendChild(res.span);
-    cs.cssText = R.format("top:0;left:0;width:{0};height:{1};display:inline-block;position:relative;clip:rect(0 {0} {1} 0);overflow:hidden", width, height);
+    // monkeypatching here in order to work with HTML label overlays for Census Reporter donut charts
+    //cs.cssText = R.format("top:0;left:0;display:inline-block;position:relative;overflow:hidden;width:{0};height:{1};clip:rect(0 {0} {1} 0);", width, height);
+    cs.cssText = R.format("top:0;left:0;display:inline-block;position:relative;float:left;overflow:hidden;width:{0};height:{1};clip:rect(0 {0} {1} 0);", width, height);
     if (container == 1) {
       R._g.doc.body.appendChild(c);
       cs.left = x + "px";
@@ -5210,7 +5212,8 @@ window.Raphael.vml && function(R) {
       cs.position = "absolute";
     } else {
       if (container.firstChild) {
-        container.insertBefore(c, container.firstChild);
+        //container.insertBefore(c, container.firstChild);
+        container.appendChild(c);
       } else {
         container.appendChild(c);
       }
