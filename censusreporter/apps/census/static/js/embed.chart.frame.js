@@ -95,12 +95,12 @@ function makeEmbedFrame() {
                     
         embedFrame.elements.footer.append('ul')
             .append('li')
-            .html('<a href="#" id="about-trigger">About</a>');
+            .html('<a href="#" id="about-trigger">About this chart</a>');
 
         embedFrame.elements.footer.append('a')
             .classed('title', true)
             .attr('href', 'http://censusreporter.org')
-            .html('<img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo-embed.png"> Census Reporter');
+            .html('<img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo12.png"> Census Reporter');
     }
 
     embedFrame.addChartListeners = function() {

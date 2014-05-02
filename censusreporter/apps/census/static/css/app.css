@@ -1946,16 +1946,14 @@ dl {
 dl.glossary {
     clear: none;
 }
-.glossary dt,
-.topics dt {
+dt {
     font-weight: bold;
     margin-bottom: .67em;
 }
 .topics dt {
     font-size: 1.5em;
 }
-.glossary dd,
-.topics dd {
+dd {
     margin: 0 0 2em 1em;
 }
 .topic h2,
