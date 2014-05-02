@@ -611,16 +611,14 @@ function Chart(options) {
         // center label
         chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
-            .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
+            .style("left", (chart.settings.pieCenter - ((chart.settings.radius / 1.5) * .95)) + "px")
             .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 10) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // center value
         chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
-            .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
+            .style("left", (chart.settings.pieCenter - ((chart.settings.radius / 1.5) * .95)) + "px")
             .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 7) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
