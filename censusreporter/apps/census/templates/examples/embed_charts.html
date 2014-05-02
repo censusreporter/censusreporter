@@ -43,6 +43,18 @@
 
             <p>Happy charting!</p>
         </section>
+        <header>
+            <h2>Frequently Asked Questions</h2>
+        </header>
+        <section>
+            <dl>
+                <dt>Can I embed these charts on my Wordpress site?</dt>
+                <dd><p>It depends. </p>
+                <p>If you use Wordpress.com, the answer is no. <a href="http://en.support.wordpress.com/code/">Wordpress.com does not support iframe tags</a> for security reasons. There are workarounds, but we don't have any specific recommendations about how to work around it.</p> 
+                <p>If you have your own Wordpress site, then it depends on your <em>role</em> and on the site's security configuration. Specifically, only users with the <em><a href="https://codex.wordpress.org/Roles_and_Capabilities#unfiltered_html">unfiltered_html</a></em> capability can embed Census Reporter charts. By default, users with the <em>administrator</em> and <em>editor</em> roles have this capability. Be aware that if an administrator or editor adds the embed code to a post, and then later a user without the capability edits the post, the embed code will be stripped.</p>
+                </dd>
+            </dl>
+        </section>
     </article>
 </div>
 {% endblock %}
