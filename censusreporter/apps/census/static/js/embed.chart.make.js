@@ -18,12 +18,13 @@ function makeCensusEmbeds() {
     }
     
     embed.addListeners = function() {
-        var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-        var eventListener = window[eventMethod];
-        var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
+        var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent',
+            eventListener = window[eventMethod],
+            messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message',
+            resizeEvent = (eventMethod == 'attachEvent') ? 'onresize' : 'resize';
         
         eventListener(messageEvent, embed.handleMessage, false);
-        eventListener('resize', embed.resize);
+        eventListener(resizeEvent, embed.resize);
     }
     
     embed.handleMessage = function(event) {

@@ -73,7 +73,7 @@ function makeEmbedFrame() {
     embedFrame.makeChartPlace = function() {
         d3.select('#census-chart').append('h3')
             .classed('chart-header', true)
-            .text(embedFrame.data.geographyData.this.full_name);
+            .text(embedFrame.data.geographyData['this'].full_name);
     }
 
     embedFrame.makeChartAbout = function() {
@@ -84,7 +84,7 @@ function makeEmbedFrame() {
             '<li><strong>Census release:</strong> ' + aboutData.acs_release + '</li>',
             '<li><strong>Census data table:</strong> <a href="http://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">' + aboutData.table_id.toUpperCase() + '</a></li>',
             '<li><strong>This chart counts:</strong> ' + aboutData.universe + '</li>',
-            '<li><a href="http://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData.this.full_name + '</a>',
+            '<li><a href="http://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
             '</ul>'
         ].join('');
     }
