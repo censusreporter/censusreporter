@@ -124,6 +124,8 @@ function makeEmbedFrame() {
                 back.close();
                 embedFrame.flipped = false;
             }
+            var flipText = (embedFrame.flipped) ? 'Back to chart' : 'About this chart';
+            $(this).text(flipText);
             embedFrame.trackEvent('Embedded Charts', 'About pane open', embedFrame.flipped.toString());
         });
     }
