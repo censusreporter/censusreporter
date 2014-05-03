@@ -78,12 +78,13 @@ function makeEmbedFrame() {
 
     embedFrame.makeChartAbout = function() {
         var aboutData = embedFrame.data.chartData.metadata;
+
         embedFrame.elements.chartAbout = [
-            '<h3>About this chart</h3>',
+            '<h3 class="chart-header">' + embedFrame.data.geographyData['this'].full_name + '</h3>',
+            '<h3 class="chart-title">' + embedFrame.params.chartTitle + '</h3>',
             '<ul>',
-            '<li><strong>Census release:</strong> ' + aboutData.acs_release + '</li>',
-            '<li><strong>Census data table:</strong> <a href="http://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">' + aboutData.table_id.toUpperCase() + '</a></li>',
             '<li><strong>This chart counts:</strong> ' + aboutData.universe + '</li>',
+            '<li>The data in this chart comes from <a href="http://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">Table ' + aboutData.table_id.toUpperCase() + '</a> in the U.S. Census Bureau&rsquo;s ' + aboutData.acs_release + ' release. The chart is from <a href="http://censusreporter.org">Census Reporter</a>, a project to make Census data easier to use and understand.</li>',
             '<li><a href="http://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
             '</ul>'
         ].join('');

@@ -292,7 +292,7 @@ uncomment for separate inclusion into embed iframes
 }
 
 .embed-footer {
-    line-height: 16px;
+    line-height: 15px;
     margin: 1em 1em 0;
 }
 .embed-footer a {
@@ -428,6 +428,9 @@ uncomment for separate inclusion into embed iframes
 .flippant-back h3 {
     line-height: 1;
     margin: 0 0 .5em;
+}
+.flippant-back a {
+    color: #014948;
 }
 
 @media only screen and (max-width: 640px) {
