@@ -410,6 +410,7 @@ uncomment for separate inclusion into embed iframes
 }
 
 .flippant-back.flipped  {
+    padding-right: 1.5em;
     -moz-transform: perspective(500px) rotateY(0deg);
     -webkit-transform: perspective(500px) rotateY(0deg);
     transform: perspective(500px) rotateY(0deg);

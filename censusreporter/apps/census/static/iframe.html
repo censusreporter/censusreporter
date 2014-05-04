@@ -16,8 +16,8 @@
         <style type="text/css">
         .census-chart-embed .column-chart,
         .census-chart-embed .pie-chart {
-            /* yep, more !important ... this time
-            for IE combat with multiple embeds on screen */
+            /* there are !importants here in order to defeat
+            IE in mortal combat with multiple embeds on screen */
             padding-bottom: 0 !important;
         }
         @media only screen and (min-width: 481px) {
@@ -46,6 +46,11 @@
             .census-chart-embed .hovercard {
                 left: -1% !important;
                 width: 100% !important;
+            }
+        }
+        @media only screen and (max-width: 291px) {
+            .census-chart-embed .pie-chart {
+                padding-bottom: 3em !important;
             }
         }
         </style>
