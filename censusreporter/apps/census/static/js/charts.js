@@ -666,7 +666,11 @@ function Chart(options) {
                     .style("top", "1em");
         } else {
             chart.legend = chart.chartContainer.append("ul")
-                .attr("class", "legend legend-full-width");
+                .attr("class", "legend legend-full-width clearfix");
+                
+            chart.updateSettings({
+                height: parseInt(chart.settings.height) + 50
+            });
         }
 
         // add legend items

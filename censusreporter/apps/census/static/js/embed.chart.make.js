@@ -61,7 +61,7 @@ function makeCensusEmbeds() {
                 thisEmbed = embed.embeds[embed.containers[i].id],
                 parentWidth = thisContainer.offsetWidth;
             thisContainer.width = (parentWidth <= thisEmbed.naturalWidth) ? parentWidth : thisEmbed.naturalWidth;
-            thisContainer.height = (thisEmbed.frameHeight >= thisEmbed.naturalHeight) ? +thisEmbed.frameHeight+80 : thisEmbed.naturalHeight;
+            thisContainer.height = ((thisEmbed.frameHeight + 80) >= thisEmbed.naturalHeight) ? +thisEmbed.frameHeight+80 : thisEmbed.naturalHeight;
         }
     }
     
