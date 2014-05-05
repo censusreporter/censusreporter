@@ -467,8 +467,18 @@ uncomment for separate inclusion into embed iframes
     .chart .hovercard {
         /* an !important is better than recalculating
         every time the hover listener fires */
-        left: -5% !important;
-        width: 110% !important;
+        left: -1% !important;
+        width: 100% !important;
+    }
+}
+@media only screen and (max-width: 291px) {
+    .census-chart-embed .pie-chart {
+        margin-bottom: 3em !important;
+    }
+}
+@media only screen and (max-width: 260px) {
+    .embed-footer ul {
+        display: none;
     }
 }
 
