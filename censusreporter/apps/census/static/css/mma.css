@@ -31,6 +31,9 @@
     vertical-align: baseline;
     height: 21px;
 }
+#page-footer ul.ul-icon-list {
+    margin-bottom: 30px;
+}
 
 #how-to .content-container {
     padding: 2.5em 0;
