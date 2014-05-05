@@ -1090,7 +1090,11 @@ function Chart(options) {
         if (!!chart.chartQualifier) {
             container.append("span")
                 .classed("chart-qualifier", true)
-                .text("* " + chart.chartQualifier)
+                .text("* " + chart.chartQualifier);
+
+            chart.updateSettings({
+                height: parseInt(chart.settings.height) + 20
+            });
         }
     }
     
