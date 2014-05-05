@@ -274,16 +274,11 @@ function Chart(options) {
             
         chart.chartContainer
             .on("mousemove", chart.mousemove);
-
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
         
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
 
         return chart;
     }
@@ -508,15 +503,10 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
-
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
 
         return chart;
     }
@@ -714,17 +704,34 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
 
         // add any explanatory lines
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
+
         return chart;
+    }
+    
+    chart.addActionLinks = function() {
+        chart.actionLinks = chart.chartContainer
+            .append("div")
+            .classed("action-links", true);
+            
+        chart.getData = chart.actionLinks
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show data")
+                .on("click", chart.toggleDataDrawer);
+            
+        chart.actionLinks.append("span").text("/");
+        
+        chart.showEmbed = chart.actionLinks
+            .append("a")
+                .classed("chart-show-embed", true)
+                .text("Embed")
+                .on("click", chart.showEmbedCode);
     }
     
     chart.fillEmbedCode = function(textarea, align) {
@@ -772,10 +779,10 @@ function Chart(options) {
                 });
                 
         lightbox.append('h2')
-                .html('Embed code for this chart <span class="tag">BETA</span>');
+                .html('Embed code for this chart');
 
         lightbox.append('p')
-                .text('Copy the code below, then paste into your own CMS or HTML page. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE8 and above.');
+                .text('Copy the code below, then paste into your own CMS or HTML. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE8 and above.');
                 
         var textarea = lightbox.append('textarea')
                 .on('click', function() {
@@ -804,7 +811,7 @@ function Chart(options) {
                 .classed('display-type', true)
                 .attr('href', '/examples/embed-charts/')
                 .attr('target', '_blank')
-                .html('More about Census Reporter&rsquo;s embedded charts');
+                .html('Learn more about Census Reporter&rsquo;s embedded charts');
                 
         chart.fillEmbedCode(textarea);
     }
@@ -878,8 +885,7 @@ function Chart(options) {
 
             chart.dataTableHeader = chart.dataTable.append("thead")
                 .append("tr")
-                .call(chart.fillDataDrawerHeader, rowValues[0])
-                .on("click", chart.showEmbedCode); // temporarily attached here for testing
+                .call(chart.fillDataDrawerHeader, rowValues[0]);
 
             chart.tableRows = chart.dataTable.append("tbody")
                 .call(chart.fillDataDrawerRows, rowValues);
