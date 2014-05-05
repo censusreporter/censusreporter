@@ -345,7 +345,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2012/{{ geography.this.full_
         }));
     }
 
-    if (L.TileLayer.GeoJSON) {
+    if (L.TileLayer.GeoJSON && thisSumlev !== "010") {
         var defaultStyle = {
                 "clickable": true,
                 "color": "#00d",
