@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content_container %}
-<div class="content-container wrapper example clearfix">
+<div class="content-container wrapper clearfix">
     <article class="example">
         <header>
             <h1>Embedding Census Reporter profile charts</h1>
@@ -24,7 +24,7 @@
 
             <p>The first line is the iframe container where the chart will be drawn onto your page. It contains all the information necessary to build the right kind of chart out of the right piece of data. The second line is a small piece of javascript that triggers that chart to be drawn, and then allows it to communicate with your page and respond to changes in size.</p>
             
-            <p>The example embed code you see above will make the column chart you see below, complete with hover information and contextual statistics. If you resize this page, the embedded chart will change dimensions (and convert to a bar chart if the page gets narrow enough).</p>
+            <p>The example embed code above will make the column chart you see below, complete with hover information and contextual statistics. If you resize this page, the embedded chart will change dimensions (and convert to a bar chart if the page gets narrow enough).</p>
             
             <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 720px;"></iframe>
             
@@ -45,12 +45,28 @@
         </section>
     </article>
     
-    <article>
+    <article class="example" id="faq">
         <header>
             <h2>Frequently Asked Questions</h2>
         </header>
         <section>
             <dl>
+                <dt>Can I edit the appearance of an embedded chart?</dt>
+                <dd>
+                    <p>If you&rsquo;re familiar with the way URLs can pass parameters via querystring, you might have already noticed that&rsquo;s how our embed code tells the iframe which chart to draw. There are a few things you wouldn&rsquo;t want to change, like the <code>geoID</code> or <code>chartDataID</code> values. But if you wanted to, say, adjust the header above the chart, you can tweak the <code>chartTitle</code>.</p>
+                    <p>The embed code sets defaults for height, width and style of the iframe, and you can adjust those as well. The chart will be as smart as it can in filling the space you give it, but it&rsquo;s always a good idea to take a look before you publish. Some charts don&rsquo;t work as well in extremely wide or narrow spaces.</p>
+                </dd>
+
+                <dt>Can I automate these embeds?</dt>
+                <dd>
+                    <p>Take another look at that embed code and you&rsquo;ll see a few key spots that represent the unique combination of data and place that each chart needs. If you adjust either one of those, you&rsquo;ll change what goes into the chart &hellip; but that might come in handy on templated site or app, where you have a single template that generates pages for a number of geographies.</p>
+                    <p>If your page has access to variables that can build <a href="http://mcdc.missouri.edu/allabout/sumlevs/">a Census-style geoID</a>, for example, you could dynamically adjust the iframe&rsquo;s <code>id</code> and the querystring&rsquo;s <code>geoID</code> to create individual charts for all the places you cover. You can learn more about <a href="/topics/geography/">Census geography terms on our topic page</a>, but in short, our geoIDs are built like this:</p>
+                    
+                    <blockquote><strong>Summary Level + Geographic Component + "US" + Place Code</strong></blockquote>
+                        
+                    <p>Our data only supports Geographic Component 00, so really there are only two variables you need to worry about here: Summary Level and Place Code. So in the example embed above, those refer to <code>160</code> (the summary level for a Census &ldquo;place,&rdquo; or city) and <code>5367000</code>, the place code for Spokane, WA. If you changed those values to <code>050</code> and <code>17031</code>, you&rsquo;d draw that chart for Cook County, Illinois.</p>
+                </dd>
+
                 <dt>Can I embed these charts on my Wordpress site?</dt>
                 <dd>
                     <p>It depends.</p>

@@ -40,7 +40,7 @@ uncomment for separate inclusion into embed iframes
     font-size: 14px;
     margin: 0 0 1em;
 }
-.census-chart-embed .chart-get-data {
+.census-chart-embed .action-links {
     display: none;
 }
 
@@ -259,9 +259,14 @@ uncomment for separate inclusion into embed iframes
     font-size: .9em;
 }
 
-.chart-get-data {
+.action-links {
     float: right;
+}
+.action-links a {
     cursor: pointer;
+}
+.action-links span {
+    margin: 0 .33em;
 }
 .chart.highlighted {
     margin: -.5em;
@@ -436,14 +441,15 @@ uncomment for separate inclusion into embed iframes
 
 @media only screen and (max-width: 640px) {
     .chart-qualifier,
-    .chart-get-data {
+    .action-links {
         float: left;
         margin: 1em 0 0;
         display: block;
         position: relative;
         clear: both;
     }
-    .chart-get-data {
+    .chart-get-data,
+    .action-links a {
         border-bottom: 1px dashed;
         display: inline-block;
     }
