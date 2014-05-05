@@ -123,7 +123,7 @@ def group_remainder(data, num_items=4, make_percentage=True,
     }
     cutoff = num_items - 2
 
-    for i, (key, values) in enumerate(data.iteritems()):
+    for i, (key, values) in enumerate(data.items()):
         for k, v in values[num_key].iteritems():
             total_all[k] += v
 
