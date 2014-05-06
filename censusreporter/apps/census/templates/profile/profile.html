@@ -207,15 +207,15 @@
             <h2><a class="permalink" href="#highest-educational-level" id="highest-educational-level">Educational level <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-half">
-                <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_get_or_higher stat_type='percentage' %}
-                </div>
-                <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_fet_or_higher stat_type='percentage' %}
-                </div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_get_or_higher stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level" data-qualifier="Universe: {{ education.educational_attainment_distribution.metadata.universe }}"></div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=education.educational_attainment.percent_fet_or_higher stat_type='percentage' %}
+            </div>
+        </section>
+        <section class="clearfix stat-row">
+            <div class="column-full" id="chart-histogram-education-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest educational level" data-qualifier="Universe: {{ education.educational_attainment_distribution.metadata.universe }}"></div>
         </section>
 
     </div>
