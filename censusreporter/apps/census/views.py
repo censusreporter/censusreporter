@@ -105,7 +105,6 @@ def raise_404_with_messages(request, error_data={}):
 
 
 ### DETAIL ###
-
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile.html'
 
@@ -198,41 +197,7 @@ class GeographyDetailView(TemplateView):
             api_data['geography']['comparatives'] = comparative_sumlevs
 
         return api_data
-
-    def write_profile_json(self, data):
-        if AWS_KEY and AWS_SECRET:
-            s3 = S3Connection(AWS_KEY, AWS_SECRET)
-        else:
-            try:
-                s3 = S3Connection()
-            except:
-                s3 = None
-
-        if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
-
-            # currently versioning embed data to 1.0
-            key = '/1.0/data/profiles/%s.json' % self.geo_id
-
-            # see whether we've already stored json for this profile
-            s3key = bucket.get_key(key)
-
-            if not s3key:
-                upload = Key(bucket)
-                upload.key = key
-                upload.metadata['Content-Type'] = 'application/json'
-                upload.metadata['Content-Encoding'] = 'gzip'
-
-                # create gzipped version of json in memory
-                memfile = cStringIO.StringIO()
-                #memfile.write(data)
-                with gzip.GzipFile(filename=key, mode='wb', fileobj=memfile) as gzip_data:
-                    gzip_data.write(data)
-                memfile.seek(0)
-                
-                # store static version on S3
-                upload.set_contents_from_file(memfile)
-            
+        
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
         page_context = {}
