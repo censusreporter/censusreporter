@@ -502,7 +502,8 @@ def get_education_profile(geo_code, geo_level, session):
                                         COLLAPSED_EDUCATION_CATEGORIES,
                                         key_order=('None', 'Other',
                                                    'Some primary', 'Primary',
-                                                   'Some secondary', 'Grade 9', 'Grade 12 (Matric)',
+                                                   'Grade 9', 'Some secondary',
+                                                   'Grade 12 (Matric)',
                                                    'Undergrad',
                                                    'Post-grad'))
     edu_split_data = {
