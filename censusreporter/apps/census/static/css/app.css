@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
     font-weight: 700;
 }
-h1, h2, h3 {
+h1, h2, h3, .topic h2, .topic h4 {
     margin-bottom: .25em;
 }
 h1.title {
@@ -483,7 +483,9 @@ aside .action-button {
     width: auto;
     margin: 0 1.5em;
 }
-.example {
+.example,
+.topic,
+.message {
     max-width: 750px;
 }
 .full-width {
@@ -1949,16 +1951,14 @@ dl {
 dl.glossary {
     clear: none;
 }
-.glossary dt,
-.topics dt {
+dt {
     font-weight: bold;
     margin-bottom: .67em;
 }
 .topics dt {
     font-size: 1.5em;
 }
-.glossary dd,
-.topics dd {
+dd {
     margin: 0 0 2em 1em;
 }
 .topic h2,
@@ -2101,6 +2101,8 @@ dl#racial-iteration dt {
   white-space: nowrap;
 }
 .dl-horizontal dd {
+    float: left;
+    margin-left: .67em;
   /*margin-left: 180px;*/
 }
 
@@ -2280,6 +2282,16 @@ aside .search .result-type {
     background-color: #fff;
     border: 1px solid #e0e4d4;
 }
+blockquote {
+    margin: 1em 0 2em;
+    padding: 1em;
+    background-color: #fff;
+    border: 1px solid #CAD0B5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
 
 /* HELPERS */
 .centered {
