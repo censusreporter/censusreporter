@@ -443,73 +443,11 @@ var lazyRedrawCharts = _.debounce(function() {
 }, 50);
 $(window).resize(lazyRedrawCharts);
 
-// Add note to rows with flagged MOE
-var flaggedMOE = $('.stat-row sup'),
-    daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
-
-flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
-
-// Enable the single-table topic picker
-var thisSumlev = '{{ geography.this.sumlevel }}',
-    thisGeoShortName = '{{ geography.this.short_name }}',
-    thisGeoID = '{{ geography.this.full_geoid }}',
-    placeGeoID = '{{ geography.parents.place.full_geoid }}',
-    CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
-    countyGeoID = '{{ geography.parents.county.full_geoid }}',
-    stateGeoID = '{{ geography.parents.state.full_geoid }}',
-    nationGeoID = '{{ geography.parents.nation.full_geoid }}';
-
-// Update the header's list of parent geographies
-var parentLinkContainer = $('#header-box .caption'),
-    parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
-    parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
-    tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
-
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
     $(this).find('.context').toggle();
-})
+});
 
-if (!!parentLinkContainer) {
-    // set up the listener for trigger to reveal hidden groups
-    $('#header-box').on('click', '.link-reveal', function() {
-        $(this).hide().next('.hidden').show();
-        return false;
-    });
-    
-    // hit the /parents API endpoint
-    $.getJSON(parentGeoAPI)
-        .done(function(results) {
-            var parents = results['parents'];
-            // list of unique parent sumlev types, maintaining order
-            var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));
-            // collect parents into individual sumlev groups
-            var parentGroups = _.groupBy(parents, function(d) {
-                return d.sumlevel;
-            });
-            // for each parent sumlev type ...
-            var parentLinkSets = _.map(parentRelations, function(r) {
-                // ... compile a set of links to individual profile pages
-                var parentLinkSet = _.map(parentGroups[r], function(v, k) {
-                    return '<a href="/profiles/' + v.geoid + '-' + slugify(v.display_name) + '/">' + v.display_name + '</a>';
-                });
-                var numParents = parentLinkSet.length;
-                // if more than one of a sumlev type, group behind reveal link
-                if (numParents > 1) {
-                    return '<a href="#" class="link-reveal">'+numParents+' '+ sumlevMap[r]['plural'] +'</a><span class="hidden">'+parentLinkSet.join(', ')+'</span>';
-                } else {
-                    // just one of this sumlev type, so add it to list
-                    return parentLinkSet;
-                }
-            })
-            // push the whole thing into the header box ... thingy
-            parentLinkContainer.html(parentLinksPrefix + parentLinkSets.join(', '));
-            $('body').trigger('glossaryUpdate', parentLinkContainer);
-        });
-}
-
-Glossary.init("{% url 'glossary' %}",".glossary-term");
 </script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.2.0/base64.min.js"></script>
 {% endblock %}
