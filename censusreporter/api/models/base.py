@@ -15,10 +15,13 @@ class Base(object):
             'full_name': self.long_name,
             'short_name': self.short_name,
             'geo_level': self.level,
+            'geo_code': self.code,
+            'child_level': self.child_level,
         }
 
     def as_dict_deep(self):
         parents = dict((p.level, p.as_dict()) for p in self.parents())
+        parents['ordering'] = [p.level for p in self.parents()]
 
         return {
             'this': self.as_dict(),

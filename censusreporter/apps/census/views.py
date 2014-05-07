@@ -266,8 +266,6 @@ class GeographyDetailView(TemplateView):
             raise Http404
         #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         profile_data = self.enhance_api_data(profile_data)
-        # TODO: use profile_data['geography'] instead
-        page_context['geo'] = geo
         page_context.update(profile_data)
 
         profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))

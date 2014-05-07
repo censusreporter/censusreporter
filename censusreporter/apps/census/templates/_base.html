@@ -31,6 +31,8 @@
         <!-- End Google Analytics -->
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
         <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" />
+        {% block head_facebook_tags %}{% endblock %}
+        {% block head_twitter_tags %}{% endblock %}
         <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
     </head>
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
