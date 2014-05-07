@@ -23,21 +23,12 @@ urlpatterns = patterns('',
         name    = 'homepage',
     ),
 
-    # e.g. /profiles/16000US5367000-spokane-wa/ (Spokane, WA)
+    # e.g. /profiles/province-GT/
     url(
-        regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)-(?P<slug>[-\w]+)/$',
+        regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
-    ),
-
-    # e.g. /profiles/16000US5367000/ (Spokane, WA)
-    # this should redirect to slugged version of the URL above
-    url(
-        regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
-        kwargs  = {},
-        name    = 'geography_detail_geoid',
     ),
 
     url(
@@ -131,13 +122,6 @@ urlpatterns = patterns('',
         view    = GeoSearch.as_view(),
         kwargs  = {},
         name    = 'geo_search',
-    ),
-
-    url(
-        regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
-        view    = GeographyDetailView.as_view(),
-        kwargs  = {},
-        name    = 'elasticsearch',
     ),
     ## END LOCAL DEV VERSION OF API ##
 )

@@ -113,7 +113,6 @@ class GeographyDetailView(TemplateView):
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get('geography_id', None)
-        self.slug = self.kwargs.get('slug', None)
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
         if not self.slug:
@@ -256,7 +255,7 @@ class GeographyDetailView(TemplateView):
 
         #if status_code == 200:
         try:
-            geo_level, geo_code = geography_id, self.slug
+            geo_level, geo_code = geography_id.split('-', 1)
             
             geo = get_geography(geo_code, geo_level)
             profile_data = get_census_profile(geo_code, geo_level)
