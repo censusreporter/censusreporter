@@ -116,6 +116,10 @@ def deploy_censusreporter():
     # make sure logging dir exists and update processes
     log_dir = os.path.join(env.deploy_dir, LOG_DIR)
     sudo('mkdir -p %s' % log_dir, user=env.deploy_user)
+
+    cache_dir = '/var/tmp/censusreporter_cache/'
+    sudo('mkdir -p %s' % cache_dir, user=env.deploy_user)
+
     sudo('initctl restart censusreporter')
     sudo('/etc/init.d/nginx reload')
 
