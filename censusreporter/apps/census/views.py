@@ -149,7 +149,6 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
-        page_context = {}
 
         s3_key = self.s3_profile_key(geography_id)
 
@@ -158,7 +157,13 @@ class GeographyDetailView(TemplateView):
             s3_key.get_file(memfile)
             memfile.seek(0)
             compressed = gzip.GzipFile(fileobj=memfile)
-            profile_data = simplejson.load(compressed)
+
+            # Read the decompressed JSON from S3
+            profile_data_json = compressed.read()
+            # Load it into a Python dict for the template
+            profile_data = simplejson.loads(profile_data_json)
+            # Also mark it as safe for the charts on the profile
+            profile_data_json = SafeString(profile_data_json)
         else:
             profile_data = geo_profile(geography_id)
 
@@ -166,10 +171,6 @@ class GeographyDetailView(TemplateView):
                 profile_data = enhance_api_data(profile_data)
 
                 profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-
-                page_context.update({
-                    'profile_data_json': profile_data_json
-                })
 
                 if s3_key is None:
                     logger.warn("Could not save to S3 because there was no connection to S3.")
@@ -179,6 +180,9 @@ class GeographyDetailView(TemplateView):
             else:
                 raise Http404
 
+        page_context = {
+            'profile_data_json': profile_data_json
+        }
         page_context.update(profile_data)
 
         return page_context
