@@ -277,6 +277,8 @@ var drawMaps = function() {
         map.setView({lat: -28.4796, lng: 10.698445}, 5);
     } else {
         d3.json("http://maps.code4sa.org/political/" + geo_level + "?quantization=5000&filter[" + geo_level + "]=" + geo_code, function(error, topo) {
+          if (error) return console.warn(error);
+
           var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
               style: {
                   "fillColor": "#66c2a5",
@@ -336,8 +338,7 @@ var drawMaps = function() {
             }
 
             d3.json("http://maps.code4sa.org/political/2011/" + url + '&quantization=5000', function(error, topo) {
-                if (!topo)
-                    return;
+                if (error) return console.warn(error);
 
                 var featureLayer = L.geoJson(topojson.feature(topo, topo.objects.demarcation), {
                     style: {
@@ -367,7 +368,7 @@ var drawMaps = function() {
                             });
                         });
                         layer.on('click', function() {
-                            window.location = '/profiles/' + level + '-' + feature.properties[level];
+                            window.location = '/profiles/' + level + '-' + feature.properties[level] + '/';
                         });
                     },
                 });
