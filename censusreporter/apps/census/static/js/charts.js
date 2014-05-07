@@ -837,14 +837,14 @@ function Chart(options) {
         
         // make sure we're in a pristine state
         chart.dataDrawer.remove();
-        clickTargets.text('Show the data').classed("opened", false);
+        clickTargets.text('Show data').classed("opened", false);
         
         // handle the toggling
         if (hide) {
             clicked.classed("opened", false);
         } else {
             clicked.classed("opened", true);
-            clicked.text('Hide the data');
+            clicked.text('Hide data');
             
             // tell Google Analytics about the event
             chart.trackEvent('Charts', 'Show data', tableID);
@@ -893,7 +893,7 @@ function Chart(options) {
             chart.dataDrawer
                 .append("a")
                     .classed("chart-get-data opened", true)
-                    .text("Hide the data")
+                    .text("Hide data")
                     .on("click", chart.toggleDataDrawer);
         }
     }
