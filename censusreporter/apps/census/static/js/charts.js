@@ -723,6 +723,7 @@ function Chart(options) {
                 .text("Show data")
                 .on("click", chart.toggleDataDrawer);
             
+        /*
         chart.actionLinks.append("span").text("/");
         
         chart.showEmbed = chart.actionLinks
@@ -730,6 +731,7 @@ function Chart(options) {
                 .classed("chart-show-embed", true)
                 .text("Embed")
                 .on("click", chart.showEmbedCode);
+        */
     }
     
     chart.fillEmbedCode = function(textarea, align) {
@@ -855,11 +857,11 @@ function Chart(options) {
                     .html(function() {
                         var titleText;
                         if (!!chart.chartChartTitle) {
-                            titleText = chart.chartChartTitle + " (Table " + tableID + ")";
+                            titleText = chart.chartChartTitle; // + " (Table " + tableID + ")";
                         } else {
                             titleText = "Table " + tableID;
                         }
-                        return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
+                        return titleText; // + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")
@@ -905,7 +907,7 @@ function Chart(options) {
 
         _.each(d.context.values, function(v, k) {
             headerData.push({
-                colspan: (d.context.numerators[k] !== null) ? 4 : 2,
+                colspan: 2, //(d.context.numerators[k] !== null) ? 4 : 2,
                 cellClass: 'name',
                 cellContents: chart.comparisonNames[k]
             });

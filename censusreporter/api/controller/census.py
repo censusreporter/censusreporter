@@ -6,7 +6,7 @@ from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
 
 from .utils import (collapse_categories, calculate_median, get_summary_geo_info,
-                    merge_dicts, group_remainder)
+                    merge_dicts, group_remainder, add_metadata)
 
 
 PROFILE_SECTIONS = (
@@ -233,6 +233,19 @@ def get_demographics_profile(geo_code, geo_level, session):
         query = query.filter(getattr(db_model_sex, geo_attr) == geo_code)
     total_male = query.one()[0]
 
+    sex_data = OrderedDict((  # census data refers to sex as gender
+            ('Female', {
+                "name": "Female",
+                "values": {"this": round((total_pop - total_male) / total_pop * 100, 2)},
+                "numerators": {"this": total_male},
+            }),
+            ('Male', {
+                "name": "Male",
+                "values": {"this": round(total_male / total_pop * 100, 2)},
+                "numerators": {"this": total_pop - total_male},
+            }),
+        ))
+
     # calculate percentages
     for data, total in zip((pop_dist_data, age_dist_data),
                            (total_pop, total_age)):
@@ -240,19 +253,14 @@ def get_demographics_profile(geo_code, geo_level, session):
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
+    add_metadata(pop_dist_data, db_model_pop)
+    add_metadata(age_dist_data, db_model_age)
+    add_metadata(sex_data, db_model_sex)
+
     final_data = {
         'population_group_distribution': pop_dist_data,
         'age_group_distribution': age_dist_data,
-        'sex_ratio': OrderedDict((  # census data refers to sex as gender
-            ('Female', {
-                "name": "Female",
-                "values": {"this": round((total_pop - total_male) / total_pop * 100, 2)}
-            }),
-            ('Male', {
-                "name": "Male",
-                "values": {"this": round(total_male / total_pop * 100, 2)}
-            }),
-        )),
+        'sex_ratio': sex_data,
         'total_population': {
             "name": "People",
             "values": {"this": total_pop}
@@ -284,7 +292,8 @@ def get_demographics_profile(geo_code, geo_level, session):
             over_or_65 += obj.total
         else:
             between_18_64 += obj.total
-    final_data['age_category_distribution'] = OrderedDict((
+
+    age_dist = OrderedDict((
         ("under_18", {
             "name": "Under 18",
             "values": {"this": round(under_18 / total * 100, 2)}
@@ -298,6 +307,10 @@ def get_demographics_profile(geo_code, geo_level, session):
             "values": {"this": round(over_or_65 / total * 100, 2)}
         })
     ))
+
+    add_metadata(age_dist, db_model_age)
+
+    final_data['age_category_distribution'] = age_dist
 
     return final_data
 
@@ -365,6 +378,10 @@ def get_economics_profile(geo_code, geo_level, session):
 
     income_dist_data['metadata'] = {'universe': 'Officially employed individuals'}
     employ_status['metadata'] = {'universe': 'Workers 15 and over'}
+
+    add_metadata(income_dist_data, db_model_income)
+    add_metadata(employ_status, db_model_employ)
+    add_metadata(sector_dist_data, db_model_sector)
 
     return {'individual_income_distribution': income_dist_data,
             'employment_status': employ_status,
@@ -454,6 +471,10 @@ def get_service_delivery_profile(geo_code, geo_level, session):
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
+    add_metadata(water_src_data, db_model_wsrc)
+    add_metadata(refuse_disp_data, db_model_ref)
+    add_metadata(elec_access_data, db_model_elec)
+
     return {'water_source_distribution': water_src_data,
             'percentage_water_from_service_provider': {
                 "name": "Are getting water from a regional or local service provider",
@@ -524,6 +545,8 @@ def get_education_profile(geo_code, geo_level, session):
 
     edu_dist_data['metadata'] = {'universe': 'Invididuals 25 and over'}
     edu_split_data['metadata'] = {'universe': 'Invididuals 25 and over'}
+
+    add_metadata(edu_dist_data, db_model)
 
     return {'educational_attainment_distribution': edu_dist_data,
             'educational_attainment': edu_split_data}

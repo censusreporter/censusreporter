@@ -124,6 +124,9 @@ def group_remainder(data, num_items=4, make_percentage=True,
     cutoff = num_items - 2
 
     for i, (key, values) in enumerate(data.items()):
+        if key == 'metadata':
+            continue
+
         for k, v in values[num_key].iteritems():
             total_all[k] += v
 
@@ -134,6 +137,13 @@ def group_remainder(data, num_items=4, make_percentage=True,
                 total_other[k] += v
 
     if make_percentage:
-        for values in data.values():
-            values['values'] = dict((k, round(v / total_all[k] * 100, 2))
-                                    for k, v in values['numerators'].iteritems())
+        for key, values in data.iteritems():
+            if key != 'metadata':
+                values['values'] = dict((k, round(v / total_all[k] * 100, 2))
+                                        for k, v in values['numerators'].iteritems())
+
+def add_metadata(data, model):
+    if not 'metadata' in data:
+        data['metadata'] = {}
+    
+    data['metadata']['table_id'] = model.__table__.name.split('_', 1)[0].upper()

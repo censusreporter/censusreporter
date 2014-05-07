@@ -1,8 +1,3 @@
-/* disable action links for charts */
-.action-links {
-    display: none;
-}
-
 #landing-slippy-map {
     width: 100%;
     height: 35em;

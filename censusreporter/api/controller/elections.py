@@ -5,7 +5,7 @@ from sqlalchemy import func, desc
 from api.models import VoteSummary
 from api.utils import get_session
 
-from .utils import get_summary_geo_info
+from .utils import get_summary_geo_info, add_metadata
 
 
 BALLOT_TYPE_DESCRIPTION = {
@@ -82,6 +82,7 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
         party_data['metadata'] = {
             'universe': '%s ballots only' % BALLOT_TYPE_DESCRIPTION[ballot_type]
         }
+        add_metadata(party_data, VoteSummary)
 
         data = {
             election.replace(' ', '_'): {
