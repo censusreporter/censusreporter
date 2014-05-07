@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, ExampleView, Elasticsearch)
+    DataView, TopicView, ExampleView, TableDetailView, Elasticsearch)
 
 admin.autodiscover()
 
@@ -36,6 +36,14 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail_geoid',
+    ),
+
+    # e.g. /table/B01001/
+    url(
+        regex   = '^tables/(?P<table>[a-zA-Z0-9]+)/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TableDetailView.as_view()),
+        kwargs  = {},
+        name    = 'table_detail',
     ),
 
     url(

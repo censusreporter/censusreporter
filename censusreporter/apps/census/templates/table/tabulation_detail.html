@@ -1,0 +1,87 @@
+{% extends 'table/_base_table.html' %}
+
+{% block head_title %}{{ tabulation.simple_table_title }} - {{ block.super }}{% endblock %}
+
+{% block head_facebook_tags %}
+        <meta property="og:title" content="Census tabulation detail: {{ tabulation.simple_table_title }}" />
+        <meta property="og:site_name" content="Census Reporter" />
+        <meta property="og:url" content="http://censusreporter.org{% url 'table_detail' tabulation.tabulation_code %}" />
+        <meta property="og:description" content="Description and table metadata for Census tabulation {{ tabulation.tabulation_code }}: {{ tabulation.table_title }}." />
+        <meta property="og:type" content="article" />
+        {#}<meta property="og:image" content="" />{#}
+{% endblock %}
+
+{% block head_twitter_tags %}
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@CensusReporter">
+        <meta name="twitter:creator" content="@CensusReporter">
+        <meta name="twitter:title" content="Census tabulation detail: {{ tabulation.simple_table_title }}">
+        <meta name="twitter:description" content="Description and table metadata for Census tabulation {{ tabulation.tabulation_code }}: {{ tabulation.table_title }}.">
+        {#}<meta name="twitter:image" content="">{#}
+{% endblock %}
+
+{% block body_id %}table{% endblock %}
+
+{% block content %}
+
+<h4>Tabulation {{ tabulation.tabulation_code }}</h4>
+<h1>{{ tabulation.simple_table_title }}</h1>
+<p><strong>Universe:</strong> {{ tabulation.universe }}</p>
+
+<article id="one-year-release" class="clearfix">
+    <header class="section-contents">
+        <h1>1-year Release</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix">
+            {#}<h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>{#}
+            <aside></aside>
+            <ul>{% for table in tabulation.tables_by_release.one_yr %}
+                <li>{{ table }}</li>{% endfor %}
+            </ul>
+        </section>
+
+    </div>
+</article>
+
+<article id="three-year-release" class="clearfix">
+    <header class="section-contents">
+        <h1>3-year Release</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix">
+            {#}<h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>{#}
+            <aside></aside>
+            <ul>{% for table in tabulation.tables_by_release.three_yr %}
+                <li>{{ table }}</li>{% endfor %}
+            </ul>
+        </section>
+
+    </div>
+</article>
+
+<article id="five-year-release" class="clearfix">
+    <header class="section-contents">
+        <h1>5-year Release</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix">
+            {#}<h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>{#}
+            <aside></aside>
+            <ul>{% for table in tabulation.tables_by_release.five_yr %}
+                <li>{{ table }}</li>{% endfor %}
+            </ul>
+        </section>
+
+    </div>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script type="text/javascript">
+    Glossary.init("{% url 'glossary' %}",".glossary-term");
+</script>
+{% endblock %}

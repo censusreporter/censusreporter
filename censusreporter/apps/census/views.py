@@ -105,6 +105,46 @@ def raise_404_with_messages(request, error_data={}):
 
 
 ### DETAIL ###
+class TableDetailView(TemplateView):
+    template_name = 'table/tabulation_detail.html'
+    
+    def get_tabulation_data(self, table_code):
+        endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
+        r = requests.get(endpoint)
+        status_code = r.status_code
+
+        if status_code == 200:
+            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        elif status_code == 404 or status_code == 400:
+            error_data = simplejson.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        else:
+            raise Http404
+
+    def get_table_data(self, table_code):
+        endpoint = settings.API_URL + '/1.0/table/%s' % table_code
+        r = requests.get(endpoint)
+        status_code = r.status_code
+
+        if status_code == 200:
+            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        elif status_code == 404 or status_code == 400:
+            error_data = simplejson.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        else:
+            raise Http404
+
+    def get_context_data(self, *args, **kwargs):
+        table_code = self.kwargs.get('table', None)
+        page_context = {}
+        
+        if len(table_code) == 5:
+            page_context['tabulation'] = self.get_tabulation_data(table_code)
+        else:
+            page_context['table'] = self.get_table_data(table_code)
+
+        return page_context
+    
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile.html'
 
@@ -214,7 +254,6 @@ class GeographyDetailView(TemplateView):
             page_context.update(profile_data)
             
             profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            #self.write_profile_json(profile_data_json)
             
             page_context.update({
                 'profile_data_json': profile_data_json
