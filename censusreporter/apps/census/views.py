@@ -21,19 +21,20 @@ from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
-     get_object_or_none, SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS,\
-     SUMLEV_CHOICES, ACS_RELEASES
-     
+from .utils import LazyEncoder, get_max_value, get_object_or_none,\
+     SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
+from .profile import geo_profile, enhance_api_data
+
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 try:
     from config.dev.local import AWS_KEY, AWS_SECRET
 except:
     AWS_KEY = AWS_SECRET = None
-    
+
 
 import logging
+logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 
@@ -45,42 +46,6 @@ def render_json_to_response(context):
     '''
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
-
-def find_key(dictionary, searchkey):
-    stack = [dictionary]
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            return d[searchkey]
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-def find_keys(dictionary, searchkey):
-    stack = [dictionary]
-    values_list = []
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            values_list.append(d[searchkey])
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-    return values_list
-
-def find_dicts_with_key(dictionary, searchkey):
-    stack = [dictionary]
-    dict_list = []
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            dict_list.append(d)
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-    return dict_list
 
 ### HEALTH CHECK ###
 
@@ -182,122 +147,82 @@ class GeographyDetailView(TemplateView):
             return geo_data
         return None
 
-    def enhance_api_data(self, api_data):
-        dict_list = find_dicts_with_key(api_data, 'values')
+    def s3_keyname(self, geo_id):
+        return '/1.0/data/profiles/%s.json' % geo_id
 
-        for d in dict_list:
-            raw = {}
-            enhanced = {}
-            geo_value = d['values']['this']
-            num_comparatives = 2
+    def make_s3(self):
+        if AWS_KEY and AWS_SECRET:
+            s3 = S3Connection(AWS_KEY, AWS_SECRET)
+        else:
+            try:
+                s3 = S3Connection()
+            except:
+                s3 = None
+        return s3
 
-            # create our containers for transformation
-            for obj in ['values', 'error', 'numerators', 'numerator_errors']:
-                raw[obj] = d[obj]
-                enhanced[obj] = OrderedDict()
-            enhanced['index'] = OrderedDict()
-            enhanced['error_ratio'] = OrderedDict()
-            comparative_sumlevs = []
+    def s3_profile_key(self, geo_id):
+        s3 = self.make_s3()
 
-            # enhance
-            for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
+        key = None
+        if s3:
+            bucket = s3.get_bucket('embed.censusreporter.org')
+            keyname = self.s3_keyname(geo_id)
+            key = Key(bucket, keyname)
 
-                # favor CBSA over county, but we don't want both
-                if sumlevel == 'county' and 'CBSA' in enhanced['values']:
-                    continue
+        return key
 
-                # add the index value for comparatives
-                if sumlevel in raw['values']:
-                    enhanced['values'][sumlevel] = raw['values'][sumlevel]
-                    enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
+    def write_profile_json(self, s3_key, data):
+        s3_key.metadata['Content-Type'] = 'application/json'
+        s3_key.metadata['Content-Encoding'] = 'gzip'
+        s3_key.storage_class = 'REDUCED_REDUNDANCY'
 
-                    # add to our list of comparatives for the template to use
-                    if sumlevel != 'this':
-                        comparative_sumlevs.append(sumlevel)
+        # create gzipped version of json in memory
+        memfile = cStringIO.StringIO()
+        #memfile.write(data)
+        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+            gzip_data.write(data)
+        memfile.seek(0)
 
-                # add the moe ratios
-                if (sumlevel in raw['values']) and (sumlevel in raw['error']):
-                    enhanced['error'][sumlevel] = raw['error'][sumlevel]
-                    enhanced['error_ratio'][sumlevel] = get_ratio(raw['error'][sumlevel], raw['values'][sumlevel], 3)
+        # store static version on S3
+        s3_key.set_contents_from_file(memfile)
 
-                # add the numerators and numerator_errors
-                if sumlevel in raw['numerators']:
-                    enhanced['numerators'][sumlevel] = raw['numerators'][sumlevel]
-
-                if (sumlevel in raw['numerators']) and (sumlevel in raw['numerator_errors']):
-                    enhanced['numerator_errors'][sumlevel] = raw['numerator_errors'][sumlevel]
-
-                if len(enhanced['values']) >= (num_comparatives + 1):
-                    break
-
-            # replace data with enhanced version
-            for obj in ['values', 'index', 'error', 'error_ratio', 'numerators', 'numerator_errors']:
-                d[obj] = enhanced[obj]
-
-            api_data['geography']['comparatives'] = comparative_sumlevs
-
-        return api_data
-        
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
-        page_context = {}
 
-        # hit our API
-        #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, geography_id)
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
-        r = requests.get(acs_endpoint)
-        status_code = r.status_code
+        s3_key = self.s3_profile_key(geography_id)
 
-        if status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            profile_data = self.enhance_api_data(profile_data)
-            page_context.update(profile_data)
-            
-            profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            
-            page_context.update({
-                'profile_data_json': profile_data_json
-            })
-        elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
-            raise_404_with_messages(self.request, error_data)
+        if s3_key and s3_key.exists():
+            memfile = cStringIO.StringIO()
+            s3_key.get_file(memfile)
+            memfile.seek(0)
+            compressed = gzip.GzipFile(fileobj=memfile)
+
+            # Read the decompressed JSON from S3
+            profile_data_json = compressed.read()
+            # Load it into a Python dict for the template
+            profile_data = simplejson.loads(profile_data_json)
+            # Also mark it as safe for the charts on the profile
+            profile_data_json = SafeString(profile_data_json)
         else:
-            raise Http404
+            profile_data = geo_profile(geography_id)
 
-        # Put this down here to make sure geoid is valid before using it
-        sumlevel = page_context['geography']['this']['sumlevel']
-        page_context['geography']['this']['sumlevel_name'] = SUMMARY_LEVEL_DICT[sumlevel]['name']
-        page_context['geography']['this']['short_geoid'] = geography_id.split('US')[1]
-        try:
-            release_bits = page_context['geography']['census_release'].split(' ')
-            page_context['geography']['census_release_year'] = release_bits[1][2:]
-            page_context['geography']['census_release_level'] = release_level = release_bits[2][:1]
-        except:
-            pass
+            if profile_data:
+                profile_data = enhance_api_data(profile_data)
 
-        # ProPublica Opportunity Gap app doesn't include smallest schools.
-        # Originally, this also enabled links to Census narrative profiles,
-        # but those disappeared.
-        if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
-            page_context['geography']['this']['show_extra_links'] = True
+                profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
 
-        tiger_release = 'tiger2012'
-        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
-        r = requests.get(geo_endpoint)
+                if s3_key is None:
+                    logger.warn("Could not save to S3 because there was no connection to S3.")
+                else:
+                    self.write_profile_json(s3_key, profile_data_json)
 
-        if r.status_code == 200:
-            geo_metadata = simplejson.loads(r.text)['properties']
-            page_context['geo_metadata'] = geo_metadata
+            else:
+                raise Http404
 
-            # add a few last things
-            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = get_division(geo_metadata['aland'], 2589988)
-            if square_miles < .1:
-                square_miles = get_division(geo_metadata['aland'], 2589988, 3)
-            total_pop = page_context['geography']['this']['total_population']
-            population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
-            page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = population_density
+        page_context = {
+            'profile_data_json': profile_data_json
+        }
+        page_context.update(profile_data)
 
         return page_context
 
