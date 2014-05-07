@@ -153,13 +153,16 @@ class GeographyDetailView(TemplateView):
         s3_key = self.s3_profile_key(geography_id)
 
         if s3_key and s3_key.exists():
-            profile_data = simplejson.loads(s3_key.get_contents_as_string())
+            memfile = cStringIO.StringIO()
+            s3_key.get_file(memfile)
+            memfile.seek(0)
+            compressed = gzip.GzipFile(fileobj=memfile)
+            profile_data = simplejson.load(compressed)
         else:
             profile_data = geo_profile(geography_id)
 
             if profile_data:
                 profile_data = enhance_api_data(profile_data)
-                page_context.update(profile_data)
 
                 profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
 
@@ -174,6 +177,8 @@ class GeographyDetailView(TemplateView):
 
             else:
                 raise Http404
+
+        page_context.update(profile_data)
 
         return page_context
 
