@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
     font-weight: 700;
 }
-h1, h2, h3 {
+h1, h2, h3, .topic h2, .topic h4 {
     margin-bottom: .25em;
 }
 h1.title {
@@ -482,6 +482,11 @@ aside .action-button {
 .wrapper {
     width: auto;
     margin: 0 1.5em;
+}
+.example,
+.topic,
+.message {
+    max-width: 750px;
 }
 .full-width {
     clear: both;
@@ -1187,6 +1192,7 @@ h3.item-chosen-title {
     display: block;
 }
 .filter-list a {
+    cursor: pointer;
     text-decoration: none;
     font-weight: normal;
     -webkit-border-radius: 4px;
@@ -1211,6 +1217,12 @@ h3.item-chosen-title {
     padding: .1em .33em;
     margin-left: -.33em;
 }
+p.filter-list a {
+    margin: 0 0 0 .33em;
+    padding: .1em .4em;
+    font-size: .8em;
+}
+
 .filter-list ul {
     list-style: none;
     padding-left: .5em;
@@ -1903,6 +1915,9 @@ section.chart-divider h2 {
 .topic header {
     margin: 1em 0 2em;
 }
+.example header {
+    margin: 1em 0;
+}
 #glossary aside,
 .topic aside {
     float: right;
@@ -1933,20 +1948,22 @@ dl {
 dl.glossary {
     clear: none;
 }
-.glossary dt,
-.topics dt {
+dt {
     font-weight: bold;
     margin-bottom: .67em;
 }
 .topics dt {
     font-size: 1.5em;
 }
-.glossary dd,
-.topics dd {
+dd {
     margin: 0 0 2em 1em;
 }
-.topic h2 {
+.topic h2,
+.example h2 {
     font-size: 1.4em;
+}
+.example h2 {
+    margin-top: 1em;
 }
 .topic table {
     font-size: 1em;
@@ -2011,6 +2028,36 @@ dl.glossary {
     height: 7em;
 }
 
+code, pre {
+    font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
+    font-size: 14px;
+}
+code {
+    background-color: #f7f7f7;
+    border: solid 1px #ddd;
+    padding: 0 .25em;
+}
+pre {
+    -moz-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+    text-shadow: none;
+    overflow: auto;
+    padding: 1.25em;
+    margin-bottom: 2em;
+    background-color: #002B36;
+    color: #839496;
+}
+pre code {
+    border: none;
+    padding: 0;
+    background-color: #002B36;
+    color: #839496;
+}
+pre .hljs {
+    padding: 0;
+}
+
 ul.compact * {
     margin: 0 inherit;
 }
@@ -2051,6 +2098,8 @@ dl#racial-iteration dt {
   white-space: nowrap;
 }
 .dl-horizontal dd {
+    float: left;
+    margin-left: .67em;
   /*margin-left: 180px;*/
 }
 
@@ -2230,6 +2279,16 @@ aside .search .result-type {
     background-color: #fff;
     border: 1px solid #e0e4d4;
 }
+blockquote {
+    margin: 1em 0 2em;
+    padding: 1em;
+    background-color: #fff;
+    border: 1px solid #CAD0B5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
 
 /* HELPERS */
 .centered {

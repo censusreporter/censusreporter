@@ -1,2 +1,3 @@
 *.pyc
 node_modules/
+censusreporter/config/dev/local.py

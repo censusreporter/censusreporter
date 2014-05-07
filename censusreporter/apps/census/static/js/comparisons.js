@@ -87,7 +87,7 @@ function Comparison(options) {
             comparison.addPercentageDataValues();
         }
         comparison.columnKeys = _.keys(comparison.table.columns);
-        comparison.prefixColumnNames(comparison.table.columns, comparison.denominatorColumn);
+        comparison.prefixColumnNames(comparison.table.columns);
         
         // determine whether we have a primary geo to key off of
         if (!!comparison.primaryGeoID && !!comparison.data.geography[comparison.primaryGeoID]) {
@@ -667,13 +667,16 @@ function Comparison(options) {
 
         // build chart data for each column in the table
         _.each(comparison.table.columns, function(v, k) {
-            var valuesList = _.map(comparison.values, function(g) { return g[comparison.tableID][comparison.valueType][k] });
+            // ignore label columns
+            if (k.indexOf('.') != -1) { return; }
             
             comparison.chartColumnData[k] = {
                 column: k,
+                prefixed_name: v.prefixed_name,
                 geographies: {}
             };
             
+            var valuesList = _.map(comparison.values, function(g) { return g[comparison.tableID][comparison.valueType][k] });
             comparison.chartColumnData[k].minValue = d3.min(valuesList);
             comparison.chartColumnData[k].maxValue = d3.max(valuesList);
             comparison.chartColumnData[k].valuesRange = comparison.chartColumnData[k].maxValue - comparison.chartColumnData[k].minValue;
@@ -706,7 +709,7 @@ function Comparison(options) {
     comparison.showDistributionCharts = function() {
         comparison.chartDisplayFmt = (!!comparison.denominatorColumn) ? 'percentage' : comparison.statType;
 
-        _.each(comparison.table.columns, function(v, k) {
+        _.each(comparison.chartColumnData, function(v, k) {
             comparison.charts[k] = comparison.dataContainer.append('section')
                     .attr('class', 'coal-chart-container')
                     .attr('id', 'coal-chart-'+k)
@@ -720,26 +723,26 @@ function Comparison(options) {
 
             chart.append('li')
                 .attr('class', 'tick-mark tick-mark-min')
-                .html('<span><b>Min:</b> '+valFmt(comparison.chartColumnData[k].minValue, comparison.chartDisplayFmt)+'</span>');
+                .html('<span><b>Min:</b> '+valFmt(v.minValue, comparison.chartDisplayFmt)+'</span>');
 
             chart.append('li')
                 .attr('class', 'tick-mark')
-                .attr('style', 'left:'+comparison.chartColumnData[k].medianPctOfRange+'%;')
+                .attr('style', 'left:'+v.medianPctOfRange+'%;')
                 .html(function() {
-                    var marginTop = (comparison.chartColumnData[k].medianPctOfRange < 12 || comparison.chartColumnData[k].medianPctOfRange > 88) ? 'margin-top:38px;' : '';
-                    return '<span style="'+marginTop+'"><b>Median:</b> '+valFmt(comparison.chartColumnData[k].medianValue, comparison.chartDisplayFmt)+'</span>';
+                    var marginTop = (v.medianPctOfRange < 12 || v.medianPctOfRange > 88) ? 'margin-top:38px;' : '';
+                    return '<span style="'+marginTop+'"><b>Median:</b> '+valFmt(v.medianValue, comparison.chartDisplayFmt)+'</span>';
                 });
 
             chart.append('li')
                 .attr('class', 'tick-mark tick-mark-max')
-                .html('<span><b>Max:</b> '+valFmt(comparison.chartColumnData[k].maxValue, comparison.chartDisplayFmt)+'</span>');
+                .html('<span><b>Max:</b> '+valFmt(v.maxValue, comparison.chartDisplayFmt)+'</span>');
 
             var chartPoints = chart.selectAll('.chart-point')
-                    .data(d3.values(comparison.chartColumnData[k].geographies))
+                    .data(d3.values(v.geographies))
                 .enter().append('li')
                     .classed('chart-point', true)
                     .style('left', function(d) {
-                        return roundNumber(comparison.chartColumnData[k].xScale(d[comparison.valueType]), 1)+'%';
+                        return roundNumber(v.xScale(d[comparison.valueType]), 1)+'%';
                     });
                     
             var chartPointCircles = chartPoints.append('a')
@@ -1429,18 +1432,37 @@ function Comparison(options) {
         return data
     }
     
-    comparison.prefixColumnNames = function(columns, suppressDenominator) {
-        // some tables have a first non-total column with indent > 1,
-        // so we need to seed this with empty slots for later concatenation
-        var prefixPieces = {'1':'', '2':''},
-            indentAdd = (!!suppressDenominator) ? 0 : 1;
+    comparison.prefixColumnNames = function(columns) {
+        // A user may need to view a column name in isolation, with no context
+        // as to its level of indent. Prefixed column names allow this:
+        // 
+        // Female
+        //   Car, truck or van
+        //     Carpooled
+        //       In 2-person carpool
+        //
+        // to be represented as:
+        //
+        // Female: Car, truck or van: Carpooled: In 2-person carpool
+
+        // store prefixPieces as an object with keys/values, because not all
+        // tables apply indents in a standard, orderly or predictable fashion.
+        // because some tables have a first non-total column with indent > 1,
+        // and some skip directly from 0 to 2, then come back to 1 later,
+        // we need to seed this with empty slots for later concatenation.
+        var prefixPieces = {'0':'', '1':'', '2':''},
+            prefixName;
 
         _.each(columns, function(v) {
-            // update the dict of prefix names
-            var prefixName = (v.name.slice(-1) == ':') ? v.name.slice(0, -1) : v.name;
-            prefixPieces[v.indent] = prefixName;
-            // compile to prefixed name
-            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+indentAdd).filter(function(n){return n}).join(': ');
+            // strip occasional end chars to prep names for concatenation
+            prefixName = v.name.replace(/(:|--)*$/,'').replace(/\s*$/,'');
+            
+            // add name piece to proper slot,
+            // allowing for weird subhead columns with null indents
+            prefixPieces[v.indent || 0] = prefixName;
+            
+            // compile a prefixed name that makes sense regardless of context
+            v.prefixed_name = _.values(prefixPieces).slice(0, v.indent+1).filter(function(n){return n}).join(': ');
         });
     }
 

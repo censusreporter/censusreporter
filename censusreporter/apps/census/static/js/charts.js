@@ -20,6 +20,7 @@ function Chart(options) {
             .append("div")
                 .style("position", "relative");
         
+        chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
         chart.chartDataKey = options.chartDataKey;
@@ -31,8 +32,6 @@ function Chart(options) {
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
-        chart.rawGeographyData = options.geographyData;
-        chart.rawChartData = options.chartData;
 
         // add a bit of geodata for links and hovercards
         var geographyThis = options.geographyData['this'],
@@ -72,9 +71,8 @@ function Chart(options) {
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
-        chart.initialValues = chart.chartDataValues;
         
-        chart.chartDataValues = d3.values(chart.chartDataValues).map(function(d) {
+        chart.chartDataValues = d3.values(chart.chartDataValues).filter(function(n){return typeof(n) != 'function'}).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
                 // data shaped for grouped-column or -bar presentation
                 dataObj = {
@@ -113,6 +111,10 @@ function Chart(options) {
 
         // time to make the chart
         chart.draw();
+        chart.dimensions = {
+        	height: chart.chartContainer.node().offsetHeight,
+        	width: chart.chartContainer.node().offsetWidth
+        }
         return chart;
     };
     
@@ -272,16 +274,11 @@ function Chart(options) {
             
         chart.chartContainer
             .on("mousemove", chart.mousemove);
-
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
         
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
 
         return chart;
     }
@@ -506,15 +503,10 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
-
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
 
         return chart;
     }
@@ -548,7 +540,7 @@ function Chart(options) {
         
         // give the chart its radius
         chart.updateSettings({
-            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.05),
+            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.1),
             pieCenter: chart.settings.pieWidth / 2
         });
 
@@ -609,16 +601,14 @@ function Chart(options) {
         // center label
         chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
-            .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
+            .style("left", (chart.settings.pieCenter - ((chart.settings.radius / 1.5) * .95)) + "px")
             .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 10) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // center value
         chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
-            .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
+            .style("left", (chart.settings.pieCenter - ((chart.settings.radius / 1.5) * .95)) + "px")
             .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 7) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
@@ -676,7 +666,11 @@ function Chart(options) {
                     .style("top", "1em");
         } else {
             chart.legend = chart.chartContainer.append("ul")
-                .attr("class", "legend legend-full-width");
+                .attr("class", "legend legend-full-width clearfix");
+                
+            chart.updateSettings({
+                height: parseInt(chart.settings.height) + 50
+            });
         }
 
         // add legend items
@@ -714,21 +708,37 @@ function Chart(options) {
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
 
         // add any explanatory lines
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
-        
+        chart.addActionLinks();
+
         return chart;
     }
     
-    chart.showEmbedCode = function() {
+    chart.addActionLinks = function() {
+        chart.actionLinks = chart.chartContainer
+            .append("div")
+            .classed("action-links", true);
+            
+        chart.getData = chart.actionLinks
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show data")
+                .on("click", chart.toggleDataDrawer);
+            
+        chart.actionLinks.append("span").text("/");
+        
+        chart.showEmbed = chart.actionLinks
+            .append("a")
+                .classed("chart-show-embed", true)
+                .text("Embed")
+                .on("click", chart.showEmbedCode);
+    }
+    
+    chart.fillEmbedCode = function(textarea, align) {
         var embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720,
             embedKey = chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1),
@@ -743,13 +753,19 @@ function Chart(options) {
                 initialSort: (chart.chartInitialSort || ''),
                 statType: (chart.chartStatType || '')
             };
+            embedAlign = (align == 'left' || align == 'right') ? ' float: ' + align + ';' : '';
+        
         var querystring = $.param(embedParams);
         
         var embedCode = [
-            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;"></iframe>',
+            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
+        textarea.html(embedCode);
+    }
+
+    chart.showEmbedCode = function() {
         var lightboxWrapper = d3.select('body').append('div')
                 .attr('id', 'lightbox');
                 
@@ -767,38 +783,41 @@ function Chart(options) {
                 });
                 
         lightbox.append('h2')
-                .html('Embed code for this chart <span class="tag">BETA</span>');
+                .html('Embed code for this chart');
 
         lightbox.append('p')
-                .text('Copy the code below, then paste into your own CMS or HTML page. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE 9 and above.');
+                .text('Copy the code below, then paste into your own CMS or HTML. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE8 and above.');
                 
-        lightbox.append('textarea')
-                .html(embedCode)
+        var textarea = lightbox.append('textarea')
                 .on('click', function() {
                     this.select();
-                })
+                });
+
+        lightbox.append('p')
+                .classed('filter-list display-type', true)
+                .html('<strong>Align this embedded chart in text:</strong> ')
+            .selectAll('a')
+                .data(['Normal', 'Left', 'Right'])
+            .enter().append('a')
+                .attr('id', function(d) { return 'embed-align-' + d.toLowerCase() })
+                .text(function(d) { return d })
+                .on('click', function() {
+                    d3.event.stopPropagation();
+                    d3.selectAll('.filter-list a').classed('option-selected', false);
+                    d3.select(this).classed('option-selected', true);
+                    chart.fillEmbedCode(textarea, this.text.toLowerCase())
+                });
+                
+        d3.select('#embed-align-normal')
+            .classed('option-selected', true);
 
         lightbox.append('p').append('a')
                 .classed('display-type', true)
-                .attr('href', '#')
-                .text('What am I copying?')
-                .on('click', function() {
-                    d3.event.preventDefault();
-                    d3.select('#lightbox-instructions')
-                        .classed('hidden', false);
-                });
+                .attr('href', '/examples/embed-charts/')
+                .attr('target', '_blank')
+                .html('Learn more about Census Reporter&rsquo;s embedded charts');
                 
-        var instructions = [
-            'An iframe served from the Census Reporter site, which includes all the code required to draw a chart.',
-            'A short script that lets the frame on our site talk to the page where you embed it, so it can respond to changes in page width.'
-        ]
-        lightbox.append('ol')
-                .attr('id', 'lightbox-instructions')
-                .classed('hidden', true)
-            .selectAll('li')
-                .data(instructions)
-            .enter().append('li')
-                .text(function(d) { return d });
+        chart.fillEmbedCode(textarea);
     }
     
     // pass in data obj, get back formatted value label with MOE flag
@@ -870,8 +889,7 @@ function Chart(options) {
 
             chart.dataTableHeader = chart.dataTable.append("thead")
                 .append("tr")
-                .call(chart.fillDataDrawerHeader, rowValues[0])
-                .on("click", chart.showEmbedCode); // temporarily attached here for testing
+                .call(chart.fillDataDrawerHeader, rowValues[0]);
 
             chart.tableRows = chart.dataTable.append("tbody")
                 .call(chart.fillDataDrawerRows, rowValues);
@@ -1001,7 +1019,7 @@ function Chart(options) {
         // if any MOEs get daggered, show the explanatory text
         maxMOE.sort(function(x, y) { return y - x });
         if (maxMOE[0] >= 10) {
-            card += "<div class='note'><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</div>"
+            card += "<div class='note'><sup>&dagger;</sup> Margin of error at least 10 percent of total value</div>"
         }
 
         return card
@@ -1009,7 +1027,7 @@ function Chart(options) {
     
     chart.mouseover = function(data) {
         // reset screen position to account for scrolling
-        chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
+        chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
 
         // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
@@ -1018,8 +1036,8 @@ function Chart(options) {
                 .style("opacity", 1);
 
             chart.hovercard.dimensions = {
-                height: +chart.hovercard.style("height").replace("px",""),
-                width: +chart.hovercard.style("width").replace("px","")
+                height: chart.hovercard.node().offsetHeight,
+                width: chart.hovercard.node().offsetWidth
             }
         }
     }
@@ -1027,24 +1045,19 @@ function Chart(options) {
     chart.mousemove = function() {
         var mouseTop = d3.mouse(this)[1],
             mouseLeft = d3.mouse(this)[0],
-            bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height,
-            bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width);
+            bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height - 10,
+            bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width) - 10;
 
-        chart.hovercard.position = {
-            top: (bufferTop < 10) ? mouseTop + 5 : mouseTop - chart.hovercard.dimensions.height - 5,
-            left: (bufferRight < 10) ? mouseLeft - chart.hovercard.dimensions.width - 5 : mouseLeft + 5
-        }
         chart.hovercard.position = {
             vertical: {
                 direction: (bufferTop < 10) ? 'top' : 'bottom',
-                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.settings.height - mouseTop + 5
+                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.dimensions.height - mouseTop + 5
             },
             horizontal: {
                 direction: (bufferRight < 10) ? 'right' : 'left',
-                pixels: (bufferRight < 10) ? chart.settings.width - mouseLeft + 5 : mouseLeft + 5
+                pixels: (bufferRight < 10) ? chart.dimensions.width - mouseLeft + 5 : mouseLeft + 5
             }
         }
-
         // asking for chart.hovercard.style("height") and chart.hovercard.style("width")
         // gives inconsistent results because of IE box model. So we can't count on addition
         // using hovercard height and width. Instead, we reset top/bottom and left/right
@@ -1077,7 +1090,11 @@ function Chart(options) {
         if (!!chart.chartQualifier) {
             container.append("span")
                 .classed("chart-qualifier", true)
-                .text("* " + chart.chartQualifier)
+                .text("* " + chart.chartQualifier);
+
+            chart.updateSettings({
+                height: parseInt(chart.settings.height) + 20
+            });
         }
     }
     

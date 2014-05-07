@@ -18,12 +18,13 @@ function makeCensusEmbeds() {
     }
     
     embed.addListeners = function() {
-        var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-        var eventListener = window[eventMethod];
-        var messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
+        var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent',
+            eventListener = window[eventMethod],
+            messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message',
+            resizeEvent = (eventMethod == 'attachEvent') ? 'onresize' : 'resize';
         
         eventListener(messageEvent, embed.handleMessage, false);
-        eventListener('resize', embed.resize);
+        eventListener(resizeEvent, embed.resize);
     }
     
     embed.handleMessage = function(event) {
@@ -52,15 +53,15 @@ function makeCensusEmbeds() {
     embed.resize = embed.debounce(function() {
         embed.setFrameSizes();
         embed.sendDataToFrames({ resize: 'resize' });
-    }, 200);
+    }, 100);
     
     embed.setFrameSizes = function() {
         for (var i = 0; i < embed.numContainers; i++) {
             var thisContainer = embed.containers[i],
                 thisEmbed = embed.embeds[embed.containers[i].id],
-                parentWidth = thisContainer.parentNode.offsetWidth;
+                parentWidth = thisContainer.offsetWidth;
             thisContainer.width = (parentWidth <= thisEmbed.naturalWidth) ? parentWidth : thisEmbed.naturalWidth;
-            thisContainer.height = (thisEmbed.frameHeight >= thisEmbed.naturalHeight) ? +thisEmbed.frameHeight+80 : thisEmbed.naturalHeight;
+            thisContainer.height = ((thisEmbed.frameHeight + 80) >= thisEmbed.naturalHeight) ? +thisEmbed.frameHeight+80 : thisEmbed.naturalHeight;
         }
     }
     
