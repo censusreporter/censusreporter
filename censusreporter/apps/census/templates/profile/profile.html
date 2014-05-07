@@ -2,6 +2,15 @@
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 
+{% block head_facebook_tags %}
+    <meta property="og:title" content="Wazi profile: {% firstof geography.this.full_name geography.this.short_name %}" />
+    <meta property="og:site_name" content="Wazi" />
+    <meta property="og:url" content="http://wazimap.co.za/profiles/{{ geography.this.full_geoid }}/" />
+    <meta property="og:description" content="Population data and election figures from {{ geography.this.short_name}}, broken down by category: Demographics, Service delivery, Economics and Education." />
+    <meta property="og:type" content="article" />
+    {#}<meta property="og:image" content="" />{#}
+{% endblock %}
+
 {% block head_css_extra %}
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
 <!--[if lte IE 8]>
