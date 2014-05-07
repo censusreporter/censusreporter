@@ -3,15 +3,17 @@ from django.contrib import admin
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
-from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, ExampleView, Elasticsearch)
+    DataView, TopicView, ExampleView, Elasticsearch, WardSearchProxy)
 
 admin.autodiscover()
 
 STANDARD_CACHE_TIME = 60*15 # 15-minute cache
 COMPARISON_FORMATS = 'map|table|distribution'
+
+geo_levels = 'ward|municipality|province|country'
+
 
 urlpatterns = patterns('',
     url(
@@ -21,21 +23,12 @@ urlpatterns = patterns('',
         name    = 'homepage',
     ),
 
-    # e.g. /profiles/16000US5367000-spokane-wa/ (Spokane, WA)
+    # e.g. /profiles/province-GT/
     url(
-        regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)-(?P<slug>[-\w]+)/$',
+        regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
-    ),
-
-    # e.g. /profiles/16000US5367000/ (Spokane, WA)
-    # this should redirect to slugged version of the URL above
-    url(
-        regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
-        kwargs  = {},
-        name    = 'geography_detail_geoid',
     ),
 
     url(
@@ -95,13 +88,21 @@ urlpatterns = patterns('',
         name    = 'healthcheck',
     ),
 
-    ## LOCAL DEV VERSION OF API ##
     url(
         regex   = '^place-search/json/$',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
     ),
+
+    url(
+        regex   = '^ward-search/json/$',
+        view    = WardSearchProxy.as_view(),
+        kwargs  = {},
+        name    = 'ward_search_json',
+    ),
+
+    ## LOCAL DEV VERSION OF API ##
 
     url(
         regex   = '^table-search/$',
@@ -121,13 +122,6 @@ urlpatterns = patterns('',
         view    = GeoSearch.as_view(),
         kwargs  = {},
         name    = 'geo_search',
-    ),
-
-    url(
-        regex   = '^elasticsearch/$',
-        view    = Elasticsearch.as_view(),
-        kwargs  = {},
-        name    = 'elasticsearch',
     ),
     ## END LOCAL DEV VERSION OF API ##
 )

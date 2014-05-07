@@ -1,0 +1,12 @@
+description "censusreporter"
+
+start on (filesystem)
+stop on runlevel [016]
+
+respawn
+console log
+setuid %(user)s
+setgid %(user)s
+chdir %(project-dir)s
+
+exec %(ve-dir)s/bin/gunicorn -w 4 -b %(host)s:%(port)s --error-logfile %(err-log)s --access-logfile %(log)s config.prod.wsgi:application

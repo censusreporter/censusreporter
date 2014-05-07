@@ -7,8 +7,13 @@
             {% if not location %}
             <h1 class="article-header">Finding your current location&hellip;</h1>
             {% else %}
-            <h1 class="article-header">Use your current location</h1>
-            <p class="explainer">Your browser says you&rsquo;re in&hellip;</p>
+                {% if places %}
+                <h1 class="article-header">Use your current location</h1>
+                <p class="explainer">Your browser says you&rsquo;re in&hellip;</p>
+                {% else %}
+                <h1 class="article-header">We can't find you in South Africa.</h1>
+                <p class="explainer">Are you located somewhere else? Try the search box instead.</p>
+                {% endif %}
             {% endif %}
         </header>
         {% if places %}
@@ -16,8 +21,8 @@
             <ul class="location-list">
             {% for place in places %}
                 <li>
-                    <a href="{% url 'geography_detail_geoid' place.full_geoid %}" class="card">
-                        <span class="identifier">{{ place.sumlev_name }}</span>
+                    <a href="{% url 'geography_detail' place.geo_level place.geo_code %}" class="card">
+                        <span class="identifier">{{ place.geo_level }}</span>
                         {{ place.full_name }}
                     </a>
                 </li>
@@ -29,6 +34,7 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
 <script>
 var lat = '{{ location.lat }}',
     lon = '{{ location.lon }}';

@@ -576,6 +576,9 @@ aside .action-button {
 }
 
 /* HOMEPAGE */
+#homepage #blurb {
+    margin-top: 3em;
+}
 #homepage .content-container,
 #comparison-builder .content-container {
     padding: 2.5em 0;

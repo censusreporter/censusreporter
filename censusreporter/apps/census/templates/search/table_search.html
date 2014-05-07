@@ -50,8 +50,8 @@ input, select {width: 200px; height: 2.2em;}
             {% for table in tables %}
             <tr class="{% cycle 'odd' 'even' %}">
                 <td class="nowrap">{{ table.release }} <a href="?table={{ table.table_id }}&release={{ table.release }}">{{ table.table_id }}</a></td>
-                <td>{{ table.table_title }}</td>
-                <td>{{ table.universe }}</td>
+                <td>{{ table.table_name }}</td>
+                <td>{{ table.table_universe }}</td>
             </tr>
             {% endfor %}
         </tbody>

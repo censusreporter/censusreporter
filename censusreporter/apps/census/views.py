@@ -12,13 +12,15 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.template import loader, TemplateDoesNotExist
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
+
+from api import LocationNotFound
+from api.controller import (get_census_profile, get_geography, get_locations,
+                            get_locations_from_coords, get_elections_profile)
 
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_ratio, get_division,\
@@ -111,7 +113,7 @@ class GeographyDetailView(TemplateView):
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get('geography_id', None)
-        self.slug = self.kwargs.get('slug', None)
+        return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
         if not self.slug:
             geo = self.get_geography(self.geo_id)
@@ -154,14 +156,22 @@ class GeographyDetailView(TemplateView):
 
             # create our containers for transformation
             for obj in ['values', 'error', 'numerators', 'numerator_errors']:
-                raw[obj] = d[obj]
+                if not obj in d:
+                    raw[obj] = {
+                        'this': 0,
+                        'province': 0,
+                        'country': 0,
+                    }
+                else:
+                    raw[obj] = d[obj]
+
                 enhanced[obj] = OrderedDict()
             enhanced['index'] = OrderedDict()
             enhanced['error_ratio'] = OrderedDict()
             comparative_sumlevs = []
 
             # enhance
-            for sumlevel in ['this', 'place', 'CBSA', 'county', 'state', 'nation']:
+            for sumlevel in ['this', 'province', 'country']:
 
                 # favor CBSA over county, but we don't want both
                 if sumlevel == 'county' and 'CBSA' in enhanced['values']:
@@ -239,26 +249,37 @@ class GeographyDetailView(TemplateView):
 
         # hit our API
         #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, geography_id)
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
-        r = requests.get(acs_endpoint)
-        status_code = r.status_code
+        #acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % geography_id
+        #r = requests.get(acs_endpoint)
+        #status_code = r.status_code
 
-        if status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            profile_data = self.enhance_api_data(profile_data)
-            page_context.update(profile_data)
+        #if status_code == 200:
+        try:
+            geo_level, geo_code = geography_id.split('-', 1)
             
-            profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            #self.write_profile_json(profile_data_json)
-            
-            page_context.update({
-                'profile_data_json': profile_data_json
-            })
-        elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
-            raise_404_with_messages(self.request, error_data)
-        else:
+            geo = get_geography(geo_code, geo_level)
+            profile_data = get_census_profile(geo_code, geo_level)
+            profile_data['elections'] = get_elections_profile(geo_code, geo_level)
+            profile_data['geography'] = geo.as_dict_deep()
+        except (ValueError, LocationNotFound):
             raise Http404
+        #profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        profile_data = self.enhance_api_data(profile_data)
+        page_context.update(profile_data)
+
+        profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+        #self.write_profile_json(profile_data_json)
+
+        page_context.update({
+            'profile_data_json': profile_data_json
+        })
+        #elif status_code == 404 or status_code == 400:
+        #    error_data = simplejson.loads(r.text)
+        #    raise_404_with_messages(self.request, error_data)
+        #else:
+        #    raise Http404
+
+        return page_context
 
         # Put this down here to make sure geoid is valid before using it
         sumlevel = page_context['geography']['this']['sumlevel']
@@ -277,23 +298,23 @@ class GeographyDetailView(TemplateView):
         if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
             page_context['geography']['this']['show_extra_links'] = True
 
-        tiger_release = 'tiger2012'
-        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
-        r = requests.get(geo_endpoint)
+        #tiger_release = 'tiger2012'
+        #geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, geography_id)
+        #r = requests.get(geo_endpoint)
 
-        if r.status_code == 200:
-            geo_metadata = simplejson.loads(r.text)['properties']
-            page_context['geo_metadata'] = geo_metadata
+        #if r.status_code == 200:
+        #    geo_metadata = simplejson.loads(r.text)['properties']
+        #    page_context['geo_metadata'] = geo_metadata
 
             # add a few last things
             # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = get_division(geo_metadata['aland'], 2589988)
-            if square_miles < .1:
-                square_miles = get_division(geo_metadata['aland'], 2589988, 3)
-            total_pop = page_context['geography']['this']['total_population']
-            population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
-            page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = population_density
+        #    square_miles = get_division(geo_metadata['aland'], 2589988)
+        #    if square_miles < .1:
+        #        square_miles = get_division(geo_metadata['aland'], 2589988, 3)
+        #    total_pop = page_context['geography']['this']['total_population']
+        #    population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
+        #    page_context['geo_metadata']['square_miles'] = square_miles
+        #    page_context['geo_metadata']['population_density'] = population_density
 
         return page_context
 
@@ -1214,32 +1235,43 @@ class ComparisonBuilder(TemplateView):
         return page_context
 
 
-## LOCAL DEV VERSION OF API ##
-
 class PlaceSearchJson(View):
     def get(self, request, *args, **kwargs):
-        geographies = Geography.objects.all()
+        if 'q' in request.GET:
+            search_term = request.GET['q']
+            geo_level = request.GET.get('geolevel', None)
+            return render_json_to_response(
+                {'results': get_locations(search_term, geo_level)}
+            )
 
-        if 'geoids' in self.request.GET:
-            geoid_list = self.request.GET['geoids'].split('|')
-            geographies = Geography.objects.filter(full_geoid__in=geoid_list)
+        return HttpResponseBadRequest('"q" parameter is required')
 
-        elif 'geoid' in self.request.GET:
-            geoid = self.request.GET['geoid']
-            geographies = Geography.objects.filter(full_geoid__exact=geoid)
 
-        elif 'q' in self.request.GET:
-            q = self.request.GET['q']
-            geographies = Geography.objects.filter(full_name__icontains=q)
+class WardSearchProxy(View):
 
-        if 'sumlevs' in self.request.GET:
-            allowed_sumlev_list = self.request.GET['sumlevs'].split(',')
-            geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
+    def get(self, request, *args, **kwargs):
+        try:
+            resp = requests.get('http://wards.code4sa.org',
+                                params={'address': request.GET['address'],
+                                        'database': 'wards_2011'})
+            if resp.status_code != 200:
+                return HttpResponseBadRequest()
+            elif resp.text.strip().startswith('{'):
+                return HttpResponse(self.pad_content(request, '[]'),
+                                    mimetype='application/javascript')
+            return HttpResponse(self.pad_content(request, resp.text),
+                                mimetype='application/javascript')
+        except (KeyError, AttributeError):
+            return HttpResponseBadRequest()
 
-        geographies = geographies.values()
-        geographies = geographies.only('full_name','full_geoid','sumlev')
+    def pad_content(self, request, content):
+        if 'callback' in request.GET:
+            return '%s(%s);' % (request.GET['callback'], content)
+        return content
 
-        return render_json_to_response(list(geographies))
+
+## LOCAL DEV VERSION OF API ##
+
 
 class TableSearchJson(View):
     def format_result(self, obj, obj_type):
@@ -1451,10 +1483,7 @@ class LocateView(TemplateView):
         lon = self.request.GET.get('lon', None)
 
         if lat and lon:
-            places = self.get_api_data(lat, lon)
-            for place in places:
-                place['sumlev_name'] = SUMMARY_LEVEL_DICT[place['sumlevel']]['name']
-
+            places = get_locations_from_coords(latitude=lat, longitude=lon)
             page_context.update({
                 'location': {
                     'lat': lat,

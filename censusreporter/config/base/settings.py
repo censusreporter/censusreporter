@@ -26,14 +26,16 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'census',
+    'pipeline',
 )
 
 ALLOWED_HOSTS = []
-TIME_ZONE = 'America/Chicago'
-LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'Africa/Johannesburg'
+LANGUAGE_CODE = 'en-za'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
+FORMAT_MODULE_PATH = 'formats'
 USE_TZ = True
 SECRET_KEY = '!%j-u4&(q8qu4@dq=ukth27+q!v-!h^jck14bf=spqht847$4q'
 
@@ -46,6 +48,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+STATICFILES_STORAGE = 'pipeline.storage.NonPackagingPipelineCachedStorage'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -101,9 +104,8 @@ LOGGING = {
 }
 
 ADMINS = (
-    ('Ian Dees', 'ian.dees@gmail.com'),
-    ('Joe Germuska', 'joegermuska@gmail.com'),
-    ('Ryan Pitts', 'ryan.a.pitts@gmail.com'),
+    ('Greg Kempe', 'greg@kempe.net'),
+    ('Rizmari Versfeld', 'rizziepit@gmail.com'),
 )
 MANAGERS = ADMINS
 

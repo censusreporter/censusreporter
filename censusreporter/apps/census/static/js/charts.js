@@ -39,19 +39,13 @@ function Chart(options) {
 
         chart.comparisonNames = {
             'this': (!!geographyThis) ? geographyThis.short_name : 'here',
-            'place': (!!geographyParents.place) ? geographyParents.place.short_name : 'place',
-            'CBSA': (!!geographyParents.CBSA) ? geographyParents.CBSA.full_name : 'CBSA',
-            'county': (!!geographyParents.county) ? geographyParents.county.short_name : 'county',
-            'state': (!!geographyParents.state) ? geographyParents.state.short_name : 'state',
-            'nation': (!!geographyParents.nation) ? geographyParents.nation.short_name : 'United States'
+            'province': (!!geographyParents.province) ? geographyParents.province.short_name : 'province',
+            'country': (!!geographyParents.country) ? geographyParents.country.short_name : 'South Africa'
         }
         chart.comparisonNamePhrases = {
             'this': (!!geographyThis) ? 'in ' + geographyThis.short_name : 'here',
-            'place': (!!geographyParents.place) ? 'in ' + geographyParents.place.short_name : 'placewide',
-            'CBSA': (!!geographyParents.CBSA) ? 'in the ' + geographyParents.CBSA.full_name : 'CBSA-wide',
-            'county': (!!geographyParents.county) ? 'in ' + geographyParents.county.short_name : 'countywide',
-            'state': (!!geographyParents.state) ? 'in ' + geographyParents.state.short_name : 'statewide',
-            'nation': (!!geographyParents.nation) ? 'in ' + geographyParents.nation.short_name : 'nationwide'
+            'province': (!!geographyParents.province) ? geographyParents.province.short_name : 'provincewide',
+            'country': (!!geographyParents.country) ? geographyParents.country.short_name : 'countrywide'
         }
         
         chart.primaryGeoID = geographyThis.full_geoid;
@@ -902,7 +896,7 @@ function Chart(options) {
         }
     }
     
-    chart.DataDrawerPlaces = ['this', 'place', 'CBSA', 'county', 'state', 'nation'];
+    chart.DataDrawerPlaces = ['this', 'province', 'country'];
     
     chart.fillDataDrawerHeader = function(selection, d) {
         var headerData = [
@@ -933,11 +927,11 @@ function Chart(options) {
             _.each(d.context.values, function(v, k) {
                 // add the primary value
                 rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
-                rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
+                // rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
                 // add the numerator value if it exists
                 if (d.context.numerators[k] !== null) {
                     rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
-                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
+                    //rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
                 }
             })
             
