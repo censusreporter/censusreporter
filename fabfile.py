@@ -40,7 +40,7 @@ def prod():
     env.deploy_type = 'prod'
     env.deploy_user = 'www-data'
     env.deploy_dir = '/var/www-data/'
-    env.branch = 'develop'
+    env.branch = 'master'
     env.hosts = PROD_HOSTS
 
 
