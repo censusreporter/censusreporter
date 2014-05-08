@@ -28,7 +28,7 @@
                 <h1 class="title">{{ geography.this.short_name }}</h1>
                 <p class="caption">
                   {{ geography.this.geo_level|capfirst }}
-                  {% if geography.this.level != 'country' %}
+                  {% if geography.this.geo_level != 'country' %}
                       in
                       {% for level in geography.parents.ordering %}
                         {% with g=geography.parents|get:level %}
