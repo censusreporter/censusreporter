@@ -528,7 +528,10 @@ if (!!parentLinkContainer) {
     // hit the /parents API endpoint
     $.getJSON(parentGeoAPI)
         .done(function(results) {
-            var parents = results['parents'];
+            // filter out 'this' from the parents
+            var parents = _.reject(results['parents'], function(p) {
+                return p.relation === 'this';
+            });
             // list of unique parent sumlev types, maintaining order
             var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));
             // collect parents into individual sumlev groups
