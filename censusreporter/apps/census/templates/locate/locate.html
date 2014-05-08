@@ -21,7 +21,7 @@
             <ul class="location-list">
             {% for place in places %}
                 <li>
-                    <a href="{% url 'geography_detail' place.geo_level place.geo_code %}" class="card">
+                    <a href="/profiles/{{ place.geo_level }}-{{ place.geo_code }}/" class="card">
                         <span class="identifier">{{ place.geo_level }}</span>
                         {{ place.full_name }}
                     </a>
