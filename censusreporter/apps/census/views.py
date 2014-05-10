@@ -1,12 +1,13 @@
 from __future__ import division
-import requests
-import unicodecsv
 from collections import OrderedDict, defaultdict
-import cStringIO
-import gzip
 from numpy import median
 from urllib import urlencode
 from urllib2 import unquote
+import cStringIO
+import gzip
+import re
+import requests
+import unicodecsv
 
 from django.conf import settings
 from django.contrib import messages
@@ -71,7 +72,7 @@ def raise_404_with_messages(request, error_data={}):
 
 ### DETAIL ###
 class TableDetailView(TemplateView):
-    template_name = 'table/tabulation_detail.html'
+    template_name = 'table/table_detail.html'
     release_translate_dict = {
         'one_yr': '1-Year',
         'three_yr': '3-Year',
@@ -156,15 +157,13 @@ class TableDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         table_code = self.kwargs.get('table', None)
-        page_context = {}
+        tabulation_code = re.sub("\D", "", table_code)
         
-        if len(table_code) == 5:
-            page_context['tabulation'] = self.get_tabulation_data(table_code)
-        else:
-            #TODO
-            #page_context['table'] = self.get_table_data(table_code)
-            raise Http404
-
+        page_context = {
+            'table': self.get_table_data(table_code),
+            'tabulation': self.get_tabulation_data(tabulation_code),
+        }
+        
         return page_context
     
 class GeographyDetailView(TemplateView):

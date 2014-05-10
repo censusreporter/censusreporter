@@ -1,0 +1,91 @@
+{% extends 'table/_base_table.html' %}
+
+{% block head_title %}{{ table.simple_table_title }} - {{ block.super }}{% endblock %}
+
+{% block head_facebook_tags %}
+        <meta property="og:title" content="Census tabulation detail: {{ table.simple_table_title }}" />
+        <meta property="og:site_name" content="Census Reporter" />
+        <meta property="og:url" content="http://censusreporter.org{% url 'table_detail' table.table_id %}" />
+        <meta property="og:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}." />
+        <meta property="og:type" content="article" />
+        {#}<meta property="og:image" content="" />{#}
+{% endblock %}
+
+{% block head_twitter_tags %}
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@CensusReporter">
+        <meta name="twitter:creator" content="@CensusReporter">
+        <meta name="twitter:title" content="Census tabulation detail: {{ table.simple_table_title }}">
+        <meta name="twitter:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}.">
+        {#}<meta name="twitter:image" content="">{#}
+{% endblock %}
+
+{% block body_id %}table{% endblock %}
+{% block body_class %}data-view{% endblock %}
+
+{% block header_content %}
+<div id="header-container" class="wrapper clearfix header-container">
+
+<h1>{{ table.simple_table_title }}</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<article id="one-year-release" class="clearfix">
+    <header class="section-contents">
+        <h1>Table {{ table.table_id }}</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix">
+            <h2 class="header-for-columns">Table universe: {{ table.universe }}</h2>
+            <aside></aside>
+            <div class="column-two-thirds">
+                <table class="full-width expanded-table">
+                    <thead>
+                        <tr>
+                            <th class="name" width="90">Column ID</th>
+                            <th class="name">Column Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>{% for column_id, column_data in table.columns.items %}
+                        <tr>
+                            <td class="name">{{ column_id }}</td>
+                            <td class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</td>
+                        </tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="column-third">
+                <table class="full-width tabulation-grid">
+                    <thead>
+                        <tr>
+                            <th class="name">Table variants</th>
+                            <th class="name" colspan="3">Releases available</th>
+                        </tr>
+                    </thead>
+                    <tbody>{% for letter_code, data in tabulation.tables.items %}
+                        {% for table, values in data.grid.items %}
+                        <tr>
+                            <td class="name" style="width: 34%;"><a href="{% url 'table_detail' table %}">{{ table }}</a></td>
+                            <td style="width: 22%;">{{ values.one_yr }}</td>
+                            <td style="width: 22%;">{{ values.three_yr }}</td>
+                            <td style="width: 22%;">{{ values.five_yr }}</td>
+                        </tr>{% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script type="text/javascript">
+var tableID = '{{ table.table_id }}';
+Glossary.init("{% url 'glossary' %}",".glossary-term");
+</script>
+<script src="{{ STATIC_URL }}js/table.geo.picker.js"></script>
+{% endblock %}

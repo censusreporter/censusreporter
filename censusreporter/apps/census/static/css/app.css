@@ -1088,11 +1088,12 @@ table .alt-number {
 .indent-5 {
     text-indent: 5em;
 }
-table.tabulation-grid {
-    margin-top: 5.67em;
-}
 .expanded-table {
     margin-bottom: 3em;
+}
+table.expanded-table,
+table.tabulation-grid {
+    font-size: .9em;
 }
 
 form {
