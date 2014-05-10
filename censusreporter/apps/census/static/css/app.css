@@ -1088,7 +1088,12 @@ table .alt-number {
 .indent-5 {
     text-indent: 5em;
 }
-
+table.tabulation-grid {
+    margin-top: 5.67em;
+}
+.expanded-table {
+    margin-bottom: 3em;
+}
 
 form {
     margin: 0 0 2em;

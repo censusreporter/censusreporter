@@ -24,58 +24,62 @@
 
 {% block content %}
 
-<h4>Tabulation {{ tabulation.tabulation_code }}</h4>
 <h1>{{ tabulation.simple_table_title }}</h1>
-<p><strong>Universe:</strong> {{ tabulation.universe }}</p>
 
 <article id="one-year-release" class="clearfix">
     <header class="section-contents">
-        <h1>1-year Release</h1>
+        <h1>Tabulation {{ tabulation.tabulation_code }}</h1>
     </header>
     <div class="section-container">
-
         <section class="clearfix">
-            {#}<h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>{#}
-            <aside></aside>
-            <ul>{% for table in tabulation.tables_by_release.one_yr %}
-                <li>{{ table }}</li>{% endfor %}
-            </ul>
+            <div class="column-two-thirds">
+                {% for letter_code, data in tabulation.tables.items %}
+                {% for table, values in data.expanded.items %}
+                <div class="expanded-table">
+                    <h2 class="header-for-columns">Table {{ values.table_metadata.table_id }}</h2>
+                    <p class="caption">
+                        <span class="caption-group" id="table-universe"><strong>Table universe:</strong> {{ values.table_metadata.universe }}</span>
+                    </p>
+                
+                    <table class="full-width">
+                        <thead>
+                            <tr>
+                                <th class="name" width="90">Column ID</th>
+                                <th class="name">Column Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>{% for column_id, column_data in values.table_metadata.columns.items %}
+                            <tr>
+                                <td class="name">{{ column_id }}</td>
+                                <td class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</td>
+                            </tr>{% endfor %}
+                        </tbody>
+                    </table>
+                </div>{% endfor %}
+                {% endfor %}
+            </div>
+            
+            <div class="column-third">
+                {% for letter_code, data in tabulation.tables.items %}
+                <table class="full-width tabulation-grid">
+                    <thead>
+                        <tr>
+                            <th class="name">Table variants</th>
+                            <th class="name" colspan="3">Releases available</th>
+                        </tr>
+                    </thead>
+                    <tbody>{% for table, values in data.grid.items %}
+                        <tr>
+                            <td class="name" style="width: 34%;">{{ table }}</td>
+                            <td style="width: 22%;">{{ values.one_yr }}</td>
+                            <td style="width: 22%;">{{ values.three_yr }}</td>
+                            <td style="width: 22%;">{{ values.five_yr }}</td>
+                        </tr>{% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            </div>
         </section>
-
-    </div>
-</article>
-
-<article id="three-year-release" class="clearfix">
-    <header class="section-contents">
-        <h1>3-year Release</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix">
-            {#}<h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>{#}
-            <aside></aside>
-            <ul>{% for table in tabulation.tables_by_release.three_yr %}
-                <li>{{ table }}</li>{% endfor %}
-            </ul>
-        </section>
-
-    </div>
-</article>
-
-<article id="five-year-release" class="clearfix">
-    <header class="section-contents">
-        <h1>5-year Release</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix">
-            {#}<h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>{#}
-            <aside></aside>
-            <ul>{% for table in tabulation.tables_by_release.five_yr %}
-                <li>{{ table }}</li>{% endfor %}
-            </ul>
-        </section>
-
     </div>
 </article>
 {% endblock %}

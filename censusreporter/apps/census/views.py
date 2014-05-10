@@ -1,7 +1,7 @@
 from __future__ import division
 import requests
 import unicodecsv
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 import cStringIO
 import gzip
 from numpy import median
@@ -72,19 +72,74 @@ def raise_404_with_messages(request, error_data={}):
 ### DETAIL ###
 class TableDetailView(TemplateView):
     template_name = 'table/tabulation_detail.html'
+    release_translate_dict = {
+        'one_yr': '1-Year',
+        'three_yr': '3-Year',
+        'five_yr': '5-Year',
+    }
     
     def get_tabulation_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
         r = requests.get(endpoint)
         status_code = r.status_code
 
+        # make sure we've requeste a legit tabulation code
         if status_code == 200:
-            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
             error_data = simplejson.loads(r.text)
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
+        
+        # factories for organizing metadata on arbitrary sets of tables
+        def table_dict_factory():
+            return {
+                'one_yr': '',
+                'three_yr': '',
+                'five_yr': '',
+            }
+
+        def table_ordereddict_factory():
+            return OrderedDict()
+
+        def table_expanded_factory():
+            return {
+                'table_metadata': self.get_table_data(table_code)
+            }
+
+        tables = OrderedDict()
+        table_grid = OrderedDict()
+        tables_expanded = OrderedDict()
+        default_table = defaultdict(table_dict_factory)
+        default_table_groups = defaultdict(table_ordereddict_factory)
+        default_table_list = defaultdict(table_ordereddict_factory)
+        default_expanded_list = defaultdict(table_ordereddict_factory)
+        default_expanded_table = defaultdict(table_expanded_factory)
+
+        # take API data and shape into dicts for:
+        # * a grid with each table variant and which releases it's available for
+        # * a list of each primary table, with its column metadata from the API
+        for release in tabulation_data['tables_by_release']:
+            for table_code in tabulation_data['tables_by_release'][release]:
+                # is this a B or C table?
+                letter_code = table_code.lower()[0]
+                tables[letter_code] = default_table_groups[letter_code]
+                
+                # keep the grids separate, track which releases a table is in
+                tables[letter_code]['grid'] = default_table_list[letter_code]
+                tables[letter_code]['grid'][table_code] = default_table[table_code]
+                tables[letter_code]['grid'][table_code][release] = self.release_translate_dict[release]
+                
+                # get the column metadata for primary tables, e.g. B01001
+                if len(table_code) == 6:
+                    tables[letter_code]['expanded'] = default_expanded_list[letter_code]
+                    tables[letter_code]['expanded'][table_code] = default_expanded_table[table_code]
+
+        tabulation_data['tables'] = tables
+        print tables
+        
+        return tabulation_data
 
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/table/%s' % table_code
@@ -106,7 +161,9 @@ class TableDetailView(TemplateView):
         if len(table_code) == 5:
             page_context['tabulation'] = self.get_tabulation_data(table_code)
         else:
-            page_context['table'] = self.get_table_data(table_code)
+            #TODO
+            #page_context['table'] = self.get_table_data(table_code)
+            raise Http404
 
         return page_context
     
