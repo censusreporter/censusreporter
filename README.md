@@ -33,7 +33,7 @@ Setup a local Postgres database:
 Populate the database with census data:
 
     >> cd <your cloned repo dir>
-    >> fab --set deploy_type=dev,deploy_dir=../ load_api_data
+    >> fab dev load_api_data
 
 Then fire it up:
 
