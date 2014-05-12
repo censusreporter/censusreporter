@@ -53,7 +53,6 @@ var sumlevMap = {
     "500": {"name": "congressional district", "plural": "congressional districts", "sumlev": "500"},
     "610": {"name": "state house (upper)", "plural": "state houses (upper)", "sumlev": "610"},
     "620": {"name": "state house (lower)", "plural": "state houses (lower)", "sumlev": "620"},
-    "700": {"name": "voting tabulation district", "plural": "voting tabulation districts", "sumlev": "700"},
     "860": {"name": "ZIP code", "plural": "ZIP codes", "sumlev": "860"},
     "950": {"name": "school district (elementary)", "plural": "school districts (elementary)", "sumlev": "950"},
     "960": {"name": "school district (secondary)", "plural": "school districts (secondary)", "sumlev": "960"},
