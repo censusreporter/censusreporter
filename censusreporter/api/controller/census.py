@@ -157,6 +157,19 @@ SHORT_REFUSE_DISPOSAL_CATEGORIES = {
     "Removed by local authority/private company at least once a week": "Service provider (regularly)",
 }
 
+SHORT_TOILET_CATEGORIES = {
+    "Flush toilet (connected to sewerage system)": "Flush toilet",
+    "Flush toilet (with septic tank)": "Flush toilet",
+    "Chemical toilet": "Chemical toilet",
+    "Pit toilet with ventilation (VIP)": "Pit toilet",
+    "Pit toilet without ventilation": "Pit toilet",
+    "Bucket toilet": "Bucket toilet",
+    "Other": "Other",
+    "None": "None",
+    "Unspecified": "Unspecified.",
+    "Not applicable": "N/A",
+}
+
 
 def get_census_profile(geo_code, geo_level):
     session = get_session()
@@ -180,6 +193,7 @@ def get_census_profile(geo_code, geo_level):
         # show 3 largest groups on their own and group the rest as 'Other'
         group_remainder(data['service_delivery']['water_source_distribution'])
         group_remainder(data['service_delivery']['refuse_disposal_distribution'])
+        group_remainder(data['service_delivery']['toilet_facilities_distribution'])
 
         return data
 
@@ -465,8 +479,27 @@ def get_service_delivery_profile(geo_code, geo_level, session):
         else:
             elec_access_data['total_no_elec']['numerators']['this'] += obj.total
 
-    for data, total in zip((water_src_data, refuse_disp_data, elec_access_data),
-                           (total_wsrc, total_ref, total_elec)):
+    # toilets
+    db_model_toilet = get_model_from_fields(['toilet facilities'], geo_level)
+    objects = get_objects_by_geo(db_model_toilet, geo_code, geo_level, session,
+                                 order_by='-total')
+    toilet_data = OrderedDict()
+    total_toilet = 0.0
+    total_flush_toilet = 0.0
+    for obj in objects:
+        attr = getattr(obj, 'toilet facilities')
+        toilet = SHORT_TOILET_CATEGORIES[attr]
+        toilet_data[toilet] = {
+            "name": toilet,
+            "numerators": {"this": obj.total},
+        }
+        total_toilet += obj.total
+        if attr.startswith('Flush') or attr.startswith('Chemical'):
+            total_flush_toilet += obj.total
+    total_no_toilet = toilet_data['None']['numerators']['this']
+
+    for data, total in zip((water_src_data, refuse_disp_data, elec_access_data, toilet_data),
+                           (total_wsrc, total_ref, total_elec, total_toilet)):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
@@ -474,6 +507,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     add_metadata(water_src_data, db_model_wsrc)
     add_metadata(refuse_disp_data, db_model_ref)
     add_metadata(elec_access_data, db_model_elec)
+    add_metadata(toilet_data, db_model_toilet)
 
     return {'water_source_distribution': water_src_data,
             'percentage_water_from_service_provider': {
@@ -493,6 +527,17 @@ def get_service_delivery_profile(geo_code, geo_level, session):
                 "values": {"this": round(total_some_elec / total_elec * 100, 2)}
             },
             'electricity_access_distribution': elec_access_data,
+            'percentage_flush_toilet_access': {
+                "name": "Have access to flush or chemical toilets",
+                "numerators": {"this": total_flush_toilet},
+                "values": {"this": round(total_flush_toilet / total_toilet * 100, 2)}
+            },
+            'percentage_no_toilet_access': {
+                "name": "Have no access to any toilets",
+                "numerators": {"this": total_no_toilet},
+                "values": {"this": round(total_no_toilet / total_toilet * 100, 2)}
+            },
+            'toilet_facilities_distribution': toilet_data,
     }
 
 
