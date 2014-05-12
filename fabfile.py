@@ -3,7 +3,7 @@ import pwd
 from fabric.api import cd, env, task, require, local, lcd, sudo, prefix, shell_env
 from fabric.contrib.files import exists, upload_template
 
-from censusreporter.api.fabfile import (provision_api, create_api_database, drop_api_database,
+from api.fabfile import (provision_api, create_api_database, drop_api_database,
                          load_api_data)
 
 
