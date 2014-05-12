@@ -37,5 +37,5 @@ Populate the database with census data:
 
 Then fire it up:
 
-    >> ./manage.py runserver
+    >> python manage.py runserver
 
