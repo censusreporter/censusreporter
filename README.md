@@ -10,6 +10,7 @@ Quick clone and setup. Assumes you have `virtualenvwrapper` installed.
     >> add2virtualenv ./censusreporter/apps
 
 Make sure your virtualenv knows the proper DJANGO_SETTINGS_MODULE:
+
     >> workon census
     >> cdvirtualenv bin
     >> touch postactivate
@@ -32,7 +33,7 @@ Setup a local Postgres database:
 Populate the database with census data:
 
     >> cd <your cloned repo dir>
-    >> fab --set --deploy_type=dev,deploy_dir=../ load_api_data
+    >> fab --set deploy_type=dev,deploy_dir=../ load_api_data
 
 Then fire it up:
 
