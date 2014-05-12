@@ -1,7 +1,7 @@
 import os
 from fabric.api import env, task, require, local, sudo
 
-from api.config import DB_USER, DB_NAME, DB_PASSWORD
+from config import DB_USER, DB_NAME, DB_PASSWORD
 
 
 DATA_DIR = 'censusreporter/censusreporter/api/data'
