@@ -157,7 +157,7 @@ SHORT_REFUSE_DISPOSAL_CATEGORIES = {
     "Removed by local authority/private company at least once a week": "Service provider (regularly)",
 }
 
-SHORT_TOILET_CATEGORIES = {
+COLLAPSED_TOILET_CATEGORIES = {
     "Flush toilet (connected to sewerage system)": "Flush toilet",
     "Flush toilet (with septic tank)": "Flush toilet",
     "Chemical toilet": "Chemical toilet",
@@ -166,7 +166,7 @@ SHORT_TOILET_CATEGORIES = {
     "Bucket toilet": "Bucket toilet",
     "Other": "Other",
     "None": "None",
-    "Unspecified": "Unspecified.",
+    "Unspecified": "Unspecified",
     "Not applicable": "N/A",
 }
 
@@ -193,8 +193,8 @@ def get_census_profile(geo_code, geo_level):
         # show 3 largest groups on their own and group the rest as 'Other'
         group_remainder(data['service_delivery']['water_source_distribution'])
         group_remainder(data['service_delivery']['refuse_disposal_distribution'])
-        group_remainder(data['service_delivery']['toilet_facilities_distribution'])
-
+        group_remainder(data['service_delivery']['toilet_facilities_distribution'], 5)
+        
         return data
 
     finally:
@@ -487,16 +487,22 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     total_toilet = 0.0
     total_flush_toilet = 0.0
     for obj in objects:
-        attr = getattr(obj, 'toilet facilities')
-        toilet = SHORT_TOILET_CATEGORIES[attr]
-        toilet_data[toilet] = {
-            "name": toilet,
+        name = getattr(obj, 'toilet facilities')
+        toilet_data[name] = {
+            "name": name,
             "numerators": {"this": obj.total},
         }
         total_toilet += obj.total
-        if attr.startswith('Flush') or attr.startswith('Chemical'):
+        if name.startswith('Flush') or name.startswith('Chemical'):
             total_flush_toilet += obj.total
+
     total_no_toilet = toilet_data['None']['numerators']['this']
+    toilet_data = collapse_categories(toilet_data,
+                                      COLLAPSED_TOILET_CATEGORIES,
+                                      key_order=(
+                                        'Flush toilet', 'Chemical toilet',
+                                        'Pit toilet', 'Bucket toilet',
+                                        'Other', 'None', 'Unspecified', 'N/A'))
 
     for data, total in zip((water_src_data, refuse_disp_data, elec_access_data, toilet_data),
                            (total_wsrc, total_ref, total_elec, total_toilet)):
