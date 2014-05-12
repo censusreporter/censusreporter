@@ -2,3 +2,5 @@
 *.csv
 node_modules/
 censusreporter/config/dev/local.py
+env/
+.idea/
