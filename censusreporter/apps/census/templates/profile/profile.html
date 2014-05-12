@@ -181,6 +181,19 @@
             <div class="column-third" id="chart-pie-service_delivery-electricity_access_distribution" data-stat-type="percentage" data-chart-title="Population by electricity usage"></div>
         </section>
 
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#toilets" id="toilets">Toilet facilities <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_flush_toilet_access stat_type='percentage' %}
+            </div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_no_toilet_access stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-service_delivery-toilet_facilities_distribution" data-stat-type="percentage" data-chart-title="Population by toilet facilities"></div>
+        </section>
+
     </div>
 </article>
 
