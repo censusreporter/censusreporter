@@ -1,0 +1,192 @@
+/*
+ Grid
+ MIT-style license. Copyright 2012 Matt V. Murphy
+*/
+.g_Base {
+    /* Base grid container */
+    position : relative;
+    padding : 0px;
+    width : 100%;
+    height : 100%;
+    line-height : 100%;
+    background-color : #fff;
+    white-space : nowrap;
+    overflow : hidden;
+    cursor : default;
+    direction : ltr;
+    -webkit-tap-highlight-color : transparent;
+}
+.g_BaseResize {
+    /* Used as control for resizing the grid */
+    position : absolute;
+    z-index : 5;
+    bottom : 0px;
+    right : 0px;
+    background-color : #eee;
+    cursor : nw-resize;
+    -webkit-user-select : none;
+}
+.g_BaseResize:hover {
+    background-color : #ccc;
+}
+.g_RS {
+    /* Used as control for resizing a grid column */
+    display : none;
+    width : 4px;
+    cursor : e-resize;
+    -webkit-user-select : none;
+}
+.g_ResizeDragger {
+    /* Displays as vertical ruler when resizing a column */
+    position : absolute;
+    z-index : 5;
+    top : 0px;
+    width : 3px;
+    background-color : #ccc;
+}
+.g_EmptySetMsg {
+    /* Displayed when no rows are rendered in the grid body */
+    padding : 10px;
+    font-style : italic;
+}
+.g_Head {
+    /* Base header container */
+    position : absolute;
+    z-index : 2;
+    top : 0px;
+    left : 0px;
+    overflow : hidden;
+}
+.g_Body {
+    /* Base body container */
+    width : 100%;
+    height : 100%;
+    overflow : auto;
+}
+.g_Foot {
+    /* Base footer container */
+    position : absolute;
+    z-index : 2;
+    left : 0px;
+    overflow : hidden;
+}
+.g_HeadFixed {
+    /* Base header fixed container if fixedCols > 0 */
+    position : absolute;
+    z-index : 3;
+    top : 0px;
+    left : 0px;
+    overflow : hidden;
+}
+.g_BodyFixed {
+    /* Base body fixed container if fixedCols > 0 */
+    position : absolute;
+    *position : static;
+    z-index : 1;
+    top : 0px;
+    left : 0px;
+    overflow : hidden;
+}
+.g_BodyFixed2 {
+    /* Inner base body fixed container if fixedCols > 0. Used for IE7 support */
+    *position : absolute;
+    *z-index : 1;
+    *top : 0px;
+    *left : 0px;
+    *overflow : hidden;
+}
+.g_FootFixed {
+    /* Base footer fixed container if fixedCols > 0 */
+    position : absolute;
+    z-index : 3;
+    bottom : 0px;
+    left : 0px;
+    overflow : hidden;
+}
+.g_Cl {
+    /* Grid column container */
+    display : inline-block;
+    *display : inline;
+    zoom : 1;
+    vertical-align : top;
+    overflow : hidden;
+}
+.g_HeadStatic .g_Cl {
+    border-left: 5px solid #fff;
+}
+
+.g_HR {
+    /* Grid header cell */
+    padding : .5em 1em !important;
+    border: none !important;
+    border-bottom: 1px solid #d9ddca !important;
+    zoom : 1;
+    background-color : #eff1e9;
+    background-position : 0px 0px;
+    background-repeat: repeat-x;
+    font-weight : bold;
+    color : #333 !important;
+    -webkit-user-select : none;
+    -moz-user-select : none;
+    -ms-user-select : none;
+    -o-user-select : none;
+    user-select : none;
+}
+.g_BR {
+    /* Grid body cell */
+    border : none !important;
+}
+.g_FR {
+    /* Grid footer cell */
+    border-width : 1px 1px 0px 0px;
+    border-color : #ccc !important;
+    background-color : #eee;
+    background-position : 0px -19px;
+    background-repeat: repeat-x;
+}
+.g_C {
+    /* Grid cell (all) */
+    padding : 0.5em .75em;
+    border-style : solid;
+    color : #333;
+    vertical-align : top;
+    white-space : nowrap;
+    visibility : hidden;
+    cursor : default;
+    overflow : hidden;
+}
+.g_SH {
+    /* Label container for checkbox / radio selection element */
+    display : inline-block;
+    *display : inline;
+    zoom : 1;
+    width : 15px;
+}
+.g_Cb, .g_Rd {
+    /* Checkbox and radio selection elements */
+    margin : -1px 0px 0px 0px;
+    padding : 0px;
+    width : 15px;
+    height : 15px;
+    max-height : 1.0em;
+    vertical-align : middle;
+    overflow : hidden;
+}
+.g_Rd {
+    margin-top : -2px;
+}
+@media print {
+    /* Print overrides */
+    .g_Base, .g_Head, .g_Body, .g_Foot { overflow : visible; }
+    .g_HeadStatic, .g_FootStatic { margin-left : 0px !important; }
+    .g_BodyFixed2 { margin-top : 0px !important; }
+}
+.g_HeadFixed i.fa {
+    float: right;
+    font-size: 1.3em;
+    margin-top: -.5em;
+    margin-right: -.75em;
+    line-height: 2em;
+    padding-right: .33em;
+    border-right: 3px solid #333;
+}

@@ -5,3 +5,4 @@ censusreporter/config/dev/local.py
 .idea/
 censusreporter/api/data/votes_municipal_2011.sql
 censusreporter/api/data/votesummary_municipal_2011.sql
+censusreporter/apps/census/static/embed/01/data/profiles

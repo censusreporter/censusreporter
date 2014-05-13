@@ -1,0 +1,521 @@
+/*
+uncomment for separate inclusion into embed iframes
+*/
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.chart-title {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 7px;
+}
+.chart-header {
+    line-height: 1;
+    margin: 0 0 .5em;
+}
+.chart-qualifier {
+    float: left;
+    display: block;
+    margin: 0 .5em;
+}
+.census-chart-embed {
+    position: relative;
+    display: block;
+    padding: 1em 0 0;
+    margin: 0;
+    overflow: hidden;
+    background-color: #fff;
+    line-height: 1.4;
+    font-size: 14px;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.census-chart-embed #census-chart {
+    padding: 0 1em;
+    position: relative;
+}
+.census-chart-embed .chart-title {
+    font-weight: normal;
+    font-size: 14px;
+    margin: 0 0 1em;
+}
+.census-chart-embed .action-links {
+    display: none;
+}
+
+.column-chart,
+.bar-chart,
+.pie-chart {
+    font-size: 0.75em;
+    position: relative;
+    font-weight: 500;
+}
+.column-set,
+.bar-set {
+    position: relative;
+}
+.grouped-column-chart .column-set {
+    margin-bottom: 2.5em;
+}
+.column {
+    position: absolute;
+    cursor: pointer;
+    bottom: 0;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
+}
+.column .area {
+    background-color: #014948;
+    -webkit-border-top-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
+    display: block;
+}
+.column:hover {
+    opacity: 1;
+}
+
+.bar-set {
+    clear: both;
+    width: 100%;
+    margin-bottom: .33em;
+}
+.bar {
+    display: block;
+    cursor: pointer;
+    height: 2.5em;
+    padding: .5em;
+    margin-top: .75em;
+}
+.bar .area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-right-radius: 2px;
+    -webkit-border-bottom-right-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    border-bottom-right-radius: 2px;
+}
+.bar .label {
+    position: absolute;
+    padding-left: .5em;
+}
+.bar-set h4.label {
+    margin: .25em 0;
+}
+.bar-group {
+    margin-bottom: 2em;
+}
+.bar-group .bar {
+    margin: .5em 0 0;
+}
+
+.column .label,
+.column-group .label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+.column .label,
+.column:hover .label,
+.bar .label,
+.bar:hover .label {
+    color: #111;
+}
+.column .axis.label,
+.column-group .axis.label {
+    font-weight: bold;
+    line-height: 1.1;
+}
+.column .axis.label.secondary,
+.column-group .axis.label.secondary,
+.bar-group .label.secondary {
+    font-weight: normal;
+}
+.pie-chart .legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.pie-chart .legend-full-width {
+    margin: 1em 0 .5em;
+    width: 100%;
+}
+.legend-item {
+    cursor: pointer;
+    color: #888;
+    fill: #888;
+    line-height: 1.1;
+    margin-bottom: .33em;
+    clear: both;
+    padding-left: 15px;
+}
+.legend-full-width .legend-item {
+    width: 45%;
+    margin-right: 5%;
+    float: left;
+    clear: none;
+}
+.legend-item .swatch {
+    opacity: .8;
+    float: left;
+    margin-left: -15px;
+    height: 10px;
+    width: 10px;
+}
+.legend-item .label {
+}
+.legend-item:hover,
+.legend-item.hovered {
+    opacity: 1;
+    color: #111;
+    fill: #111;
+}
+
+.hovercard {
+    position: absolute;
+    text-align: center;
+    font-size: 13px;
+    background: #fff;
+    pointer-events: none;
+    z-index: 999;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: .67em .83em;
+    border: solid 1px #777;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.chart .hovercard {
+    pointer-events: auto;
+}
+.census-chart-embed .hovercard {
+    padding: .5em .83em .83em;
+}
+.hovercard .label-title,
+.hovercard .name,
+.hovercard .value {
+    display: block;
+}
+.hovercard .label-title,
+.hovercard .name {
+    font-weight: bold;
+}
+.hovercard .label-title {
+    margin-bottom: .5em;
+}
+.hovercard h3,
+.hovercard h4,
+.hovercard ul,
+.hovercard .note {
+    text-align: left;
+    margin: 0 0 6px;
+}
+.hovercard .note {
+    line-height: 1.3;
+    font-size: .83em;
+    margin: .67em 0 0;
+}
+.hovercard ul,
+.hovercard ol,
+.flippant-back ul {
+    padding: 0;
+    line-height: 1.3;
+    font-size: .9em;
+    list-style: none;
+    margin-bottom: 1em;
+}
+.hovercard ol {
+    list-style: decimal;
+    padding-left: 1.5em;
+    line-height: 1.4;
+}
+.hovercard ul:last-child,
+.hovercard li:last-child {
+    margin-bottom: 0;
+}
+.hovercard li,
+.flippant-back li {
+    margin-bottom: .67em;
+}
+.hovercard .context {
+    margin-left: .5em;
+}
+.hovercard .inline-stat {
+    margin: 0 .5em;
+}
+.hovercard p {
+    font-size: .9em;
+}
+
+.chart.highlighted {
+    margin: -.5em;
+    padding: .5em;
+}
+
+.data-drawer {
+    padding: 1.5em 0 0;
+    overflow-x: auto;
+}
+.data-drawer th {
+    border-left: 5px solid #fff;
+}
+.data-drawer th:first-child {
+    border-left: none;
+}
+.data-drawer td.context {
+    vertical-align: bottom;
+}
+.data-drawer h3.chart-title {
+    padding-left: 8px;
+    margin-bottom: 6px;
+}
+.data-drawer .chart-get-data {
+    font-size: .75em;
+    float: left;
+    margin: 8px;
+}
+
+.embed-footer {
+    clear: both;
+    line-height: 15px;
+    margin: 0 1em;
+    padding-top: 1em;
+}
+.embed-footer a {
+    color: #68b3a3;
+    text-decoration: none;
+}
+.embed-footer a.title {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+}
+.embed-footer a:hover {
+    color: #014948;
+    border-color: #68b3a3;
+}
+.embed-footer img {
+    height: 12px;
+    margin-right: 3px;
+    border: none;
+    vertical-align: baseline;
+}
+.embed-footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: right;
+}
+.embed-footer li {
+    list-style: none;
+    float: left;
+}
+.embed-footer li a {
+    display: block;
+    font-size: 10px;
+    padding: 0 5px;
+    border: 1px solid #a1cfc6;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.action-links {
+    float: right;
+    color: #68b3a3;
+}
+.action-links a {
+    cursor: pointer;
+    color: #68b3a3;
+}
+.action-links a:hover {
+    color: #014948;
+}
+.action-links span {
+    margin: 0 .33em;
+}
+
+.box-header img {
+    height: 16px;
+}
+.box-header a {
+    font-size: 16px;
+}
+
+.arc,
+.arc-group path {
+    stroke: #fff;
+    cursor: pointer;
+}
+.arc,
+.legend-item .swatch {
+    opacity: .8;
+}
+.arc.hovered,
+.legend-item.hovered .swatch {
+    opacity: 1;
+}
+
+.center-group .label-name,
+.center-group .label-value {
+    display: block;
+    line-height: 1.1;
+    position: absolute;
+    text-align: center;
+}
+.center-group .label-name {
+    font-size: 1.1em;
+}
+.center-group .label-value {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.flippant {
+    transform: perspective(500px) rotateY(0deg);
+    -webkit-transform: perspective(500px) rotateY(0deg);
+    -moz-transform: perspective(500px) rotateY(0deg);
+    /*z-index: 200;*/
+}
+
+.flippant-back {
+    -moz-transform: perspective(500px) rotateY(-180deg);
+    -webkit-transform: perspective(500px) rotateY(-180deg);
+    transform: perspective(500px) rotateY(-180deg);
+    height: 0;
+    /*z-index: 200;*/
+}
+
+.flippant, .flippant-back {
+    -moz-transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flippant, .flipper {
+    -o-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.flippant.flipped {
+    -moz-transform: perspective(500px) rotateY(180deg);
+    -webkit-transform: perspective(500px) rotateY(180deg);
+    transform: perspective(500px) rotateY(180deg);
+}
+
+.flippant-back.flipped  {
+    padding-right: 1.5em;
+    -moz-transform: perspective(500px) rotateY(0deg);
+    -webkit-transform: perspective(500px) rotateY(0deg);
+    transform: perspective(500px) rotateY(0deg);
+}
+
+.flippant-modal-light {
+    position: fixed;
+    margin: 0;
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    background-color: #fff;
+}
+.flippant-back h3 {
+    line-height: 1;
+    margin: 0 0 .5em;
+}
+.flippant-back a {
+    color: #014948;
+}
+
+@media only screen and (max-width: 640px) {
+    .chart-qualifier,
+    .action-links {
+        float: left;
+        margin: 1em 0 0;
+        display: block;
+        position: relative;
+        clear: both;
+    }
+    .chart-get-data,
+    .action-links a {
+        display: inline-block;
+    }
+    .column-chart,
+    .bar-chart,
+    .pie-chart {
+        padding-bottom: 3em;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .chart .hovercard {
+        /* an !important is better than recalculating
+        every time the hover listener fires */
+        left: -1% !important;
+        width: 100% !important;
+    }
+}
+@media only screen and (max-width: 291px) {
+    .census-chart-embed .pie-chart {
+        margin-bottom: 3em !important;
+    }
+}
+@media only screen and (max-width: 260px) {
+    .embed-footer ul {
+        display: none;
+    }
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+svg text {
+    font-size: 1em;
+}
+.x.axis text, .axis {
+    shape-rendering: crispEdges;
+}
+.x.axis line,
+.x.axis path,
+.y.axis path {
+    display: none;
+}
+.y.axis text {
+    font-weight: bold;
+}
+.y.axis text {
+    fill: #c5c5c5;
+}
+.y.axis line {
+    stroke: #f5f5f5;
+}
