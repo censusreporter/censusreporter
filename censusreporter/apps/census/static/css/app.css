@@ -446,6 +446,14 @@ aside p,
 aside ul {
     font-size: .83em;
 }
+aside ul {
+    margin: .33em .67em .67em 1em;
+    padding: 0;
+}
+aside ul.sumlev-list {
+    margin: 0.33em 0 .67em .67em;
+    padding: 0;
+}
 aside ul.sumlev-list {
     list-style: none;
     margin: 0.33em 0 .67em .67em;
@@ -1088,12 +1096,52 @@ table .alt-number {
 .indent-5 {
     text-indent: 5em;
 }
+.indent-6 {
+    text-indent: 6em;
+}
+.indent-7 {
+    text-indent: 7em;
+}
+td.indent-0,
+td.indent-1,
+td.indent-2,
+td.indent-3,
+td.indent-4,
+td.indent-5,
+td.indent-6,
+td.indent-7 {
+    text-indent: 0;
+}
+td.indent-1 {
+    padding-left: 1.75em;
+}
+td.indent-2 {
+    padding-left: 2.75em;
+}
+td.indent-3 {
+    padding-left: 3.75em;
+}
+td.indent-4 {
+    padding-left: 4.75em;
+}
+td.indent-5 {
+    padding-left: 5.75em;
+}
+td.indent-6 {
+    padding-left: 6.75em;
+}
+td.indent-7 {
+    padding-left: 7.75em;
+}
 .expanded-table {
     margin-bottom: 3em;
 }
 table.expanded-table,
 table.tabulation-grid {
     font-size: .9em;
+}
+table.preview-table td {
+    font-size: .75em;
 }
 
 form {

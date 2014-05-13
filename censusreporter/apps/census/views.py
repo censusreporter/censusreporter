@@ -73,11 +73,33 @@ def raise_404_with_messages(request, error_data={}):
 ### DETAIL ###
 class TableDetailView(TemplateView):
     template_name = 'table/table_detail.html'
-    release_translate_dict = {
+    RELEASE_TRANSLATE_DICT = {
         'one_yr': '1-Year',
         'three_yr': '3-Year',
         'five_yr': '5-Year',
     }
+    VARIANT_TRANSLATE_DICT = {
+        'A': 'White Alone',
+        'B': 'Black or African American Alone',
+        'C': 'American Indian and Alaska Native Alone',
+        'D': 'Asian Alone',
+        'E': 'Native Hawaiian and Other Pacific Islander Alone',
+        'F': 'Some Other Race Alone',
+        'G': 'Two or More Races',
+        'H': 'White Alone, Not Hispanic or Latino',
+        'I': 'Hispanic or Latino',
+    }
+    TABLE_TYPE_TRANSLATE_DICT = {
+        'B': 'Base',
+        'C': 'Collapsed',
+    }
+    
+    def dispatch(self, *args, **kwargs):
+        self.table_code = self.kwargs.get('table', None)
+        self.table_group = self.table_code[0]
+        self.tabulation_code = re.sub("\D", "", self.table_code)
+
+        return super(TableDetailView, self).dispatch(*args, **kwargs)
     
     def get_tabulation_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
@@ -96,9 +118,12 @@ class TableDetailView(TemplateView):
         # factories for organizing metadata on arbitrary sets of tables
         def table_dict_factory():
             return {
-                'one_yr': '',
-                'three_yr': '',
-                'five_yr': '',
+                'version_name': 'Standard Table',
+                'releases': {
+                    'one_yr': '',
+                    'three_yr': '',
+                    'five_yr': '',
+                },
             }
 
         def table_ordereddict_factory():
@@ -124,21 +149,33 @@ class TableDetailView(TemplateView):
         for release in tabulation_data['tables_by_release']:
             for table_code in tabulation_data['tables_by_release'][release]:
                 # is this a B or C table?
-                letter_code = table_code.lower()[0]
+                letter_code = table_code.upper()[0]
                 tables[letter_code] = default_table_groups[letter_code]
                 
                 # keep the grids separate, track which releases a table is in
-                tables[letter_code]['grid'] = default_table_list[letter_code]
-                tables[letter_code]['grid'][table_code] = default_table[table_code]
-                tables[letter_code]['grid'][table_code][release] = self.release_translate_dict[release]
+                tables[letter_code] = default_table_list[letter_code]
+                tables[letter_code][table_code] = default_table[table_code]
+                tables[letter_code][table_code]['releases'][release] = self.RELEASE_TRANSLATE_DICT[release]
                 
-                # get the column metadata for primary tables, e.g. B01001
-                if len(table_code) == 6:
-                    tables[letter_code]['expanded'] = default_expanded_list[letter_code]
-                    tables[letter_code]['expanded'][table_code] = default_expanded_table[table_code]
+                # get the variant names
+                if len(table_code) == 7:
+                    tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[-1]]
+                
+                ## get the column metadata for primary tables, e.g. B01001
+                #if len(table_code) == 6:
+                #    tables[letter_code]['expanded'] = default_expanded_list[letter_code]
+                #    tables[letter_code]['expanded'][table_code] = default_expanded_table[table_code]
 
-        tabulation_data['tables'] = tables
-        print tables
+        tabulation_data['table_versions'] = tables.pop(self.table_group, None)
+        tabulation_data['related_tables'] = {
+            'grid': tables,
+            'preview': {},
+        }
+
+        for group, group_values in tables.iteritems():
+            preview_table = next(group_values.iteritems())[0]
+            tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
+            tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
         
         return tabulation_data
 
@@ -156,12 +193,9 @@ class TableDetailView(TemplateView):
             raise Http404
 
     def get_context_data(self, *args, **kwargs):
-        table_code = self.kwargs.get('table', None)
-        tabulation_code = re.sub("\D", "", table_code)
-        
         page_context = {
-            'table': self.get_table_data(table_code),
-            'tabulation': self.get_tabulation_data(tabulation_code),
+            'table': self.get_table_data(self.table_code),
+            'tabulation': self.get_tabulation_data(self.tabulation_code),
         }
         
         return page_context
