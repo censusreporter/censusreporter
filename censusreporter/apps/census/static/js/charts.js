@@ -805,11 +805,11 @@ function Chart(options) {
         d3.select('#embed-align-normal')
             .classed('option-selected', true);
 
-        lightbox.append('p').append('a')
-                .classed('display-type', true)
-                .attr('href', '/examples/embed-charts/')
-                .attr('target', '_blank')
-                .html('Learn more about Census Reporter&rsquo;s embedded charts');
+//        lightbox.append('p').append('a')
+//                .classed('display-type', true)
+//                .attr('href', '/examples/embed-charts/')
+//                .attr('target', '_blank')
+//                .html('Learn more about Wazi&rsquo;s embedded charts');
                 
         chart.fillEmbedCode(textarea);
     }

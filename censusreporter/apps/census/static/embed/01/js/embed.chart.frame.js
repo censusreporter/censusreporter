@@ -100,7 +100,7 @@ function makeEmbedFrame() {
 
         embedFrame.elements.footer.append('a')
             .classed('title', true)
-            .attr('href', 'http://censusreporter.org')
+            .attr('href', 'http://wazimap.co.za')
             .html('<img src="http://wazimap.co.za/static/embed/01/img/wazi-logo.png"> Wazimap');
     }
 
