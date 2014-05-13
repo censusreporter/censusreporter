@@ -44,6 +44,8 @@ MEDIA_URL = ''
 
 STATIC_ROOT = PROJECT_ROOT + '/static/'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [PROJECT_ROOT + '/embed',]
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -130,4 +132,4 @@ ADMINS = (
 MANAGERS = ADMINS
 
 API_URL = 'http://api.censusreporter.org'
-EMBED_DIR = PROJECT_ROOT + '/apps/census/static/embed/01'
+EMBED_DIR = PROJECT_ROOT + '/embed/01'
