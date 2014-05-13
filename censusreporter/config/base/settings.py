@@ -89,7 +89,7 @@ LOGGING = {
     },
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': '%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -99,7 +99,8 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose'
         },
         'console': {
             'level': 'DEBUG',
@@ -124,6 +125,7 @@ LOGGING = {
 ADMINS = (
     ('Greg Kempe', 'greg@kempe.net'),
     ('Rizmari Versfeld', 'rizziepit@gmail.com'),
+    ('Petrus Janse van Rensburg', 'petrus.jvrensburg@gmail.com'),
 )
 MANAGERS = ADMINS
 
