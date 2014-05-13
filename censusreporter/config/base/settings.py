@@ -111,7 +111,7 @@ LOGGING = {
     'loggers': {
         'censusreporter':{
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'propagate': True,
         },
         'django.request': {
