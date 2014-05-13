@@ -35,3 +35,18 @@ server {
     access_log  %(log)s;
     error_log   %(err-log)s;
 }
+
+server {
+    listen %(server-port)s;
+    server_name %(embed-url)s;
+
+    client_max_body_size 100m;
+    gzip_types application/x-javascript text/css;
+
+    location / {
+        alias   %(embed-path)s;
+    }
+
+    access_log  %(log)s;
+    error_log   %(err-log)s;
+}

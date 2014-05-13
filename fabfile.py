@@ -21,6 +21,7 @@ PACKAGES = (
 )
 # Nginx & Upstart constants
 SERVER_NAMES = 'wazimap.co.za'
+EMBED_URL = 'embed.wazimap.co.za'
 SERVER_ALIASES = 'wazimap.com wazimap.org wazimap.net wazimap.info mma-dashboard.code4sa.org'
 PROXY_PORT = 5001
 PROXY_HOST = '127.0.0.1'
@@ -127,9 +128,11 @@ def deploy_censusreporter():
 def get_nginx_template_context():
     return {
         'server-name': SERVER_NAMES,
+        'embed-url': EMBED_URL,
         'server-aliases': SERVER_ALIASES,
         'server-port': 80,
         'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
+        'embed-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed/'),
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
         'err-log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.err'),
         'proxy-host': PROXY_HOST,
