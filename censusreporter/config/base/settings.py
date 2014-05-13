@@ -44,7 +44,6 @@ MEDIA_URL = ''
 
 STATIC_ROOT = PROJECT_ROOT + '/static/'
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [PROJECT_ROOT + '/embed',]
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

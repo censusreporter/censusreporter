@@ -10,6 +10,8 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
+STATICFILES_DIRS = [PROJECT_ROOT + '/embed',]
+
 #API_URL = 'http://0.0.0.0:5000'
 
 CACHES = {
