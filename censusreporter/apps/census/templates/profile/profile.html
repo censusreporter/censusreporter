@@ -1,4 +1,4 @@
-{% extends 'profile/_base_profile.html' %}{% load humanize lookup %}
+{% extends 'profile/_base_profile.html' %}{% load humanize lookup staticfiles %}
 
 {% block head_title %}{{ geography.this.short_name }} - {{ block.super }}{% endblock %}
 
@@ -249,8 +249,8 @@
 {% block body_javascript_extra %}{{ block.super }}
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/topojson.v1.min.js"></script>
-<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
-<script src="{{ STATIC_URL }}js/charts.js"></script>
+<script src="{% static 'js/vendor/leaflet.label.js' %}"></script>
+<script src="{% static 'js/charts.js' %}"></script>
 <script type="text/javascript">
 
 var drawMaps = function() {
