@@ -100,8 +100,8 @@ function makeEmbedFrame() {
 
         embedFrame.elements.footer.append('a')
             .classed('title', true)
-            .attr('href', 'http://wazimap.co.za')
-            .html('<img src="http://wazimap.co.za/static/embed/01/img/wazi-logo.png"> Wazimap');
+            .attr('href', 'http://wazimap.co.za/profiles/' + embedFrame.params.geoID + '/')
+            .html('<img src="http://wazimap.co.za/static/embed/01/img/wazi-logo.png"> Wazi');
     }
 
     embedFrame.addChartListeners = function() {
