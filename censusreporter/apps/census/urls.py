@@ -1,7 +1,8 @@
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
 from django.views.decorators.cache import cache_page
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, RedirectView
+from django.core.urlresolvers import reverse_lazy
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
@@ -66,6 +67,12 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
         kwargs  = {},
         name    = 'topic_list',
+    ),
+
+    url(
+        regex   = '^topics/race-latino/?$',
+        view    = RedirectView.as_view(url = reverse_lazy('topic_detail',kwargs={'topic_slug': 'race-hispanic'})),
+        name    = 'topic_latino_redirect',
     ),
 
     url(
