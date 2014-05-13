@@ -68,7 +68,7 @@ function makeCensusEmbeds() {
     embed.sendDataToFrames = function(data) {
         // IE9 can only send strings
         for (var i = 0; i < embed.numContainers; i++) {
-            embed.containers[i].contentWindow.postMessage(JSON.stringify(data), 'http://localhost:8000');
+            embed.containers[i].contentWindow.postMessage(JSON.stringify(data), 'http://wazimap.co.za');
         }
     }
     

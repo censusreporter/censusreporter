@@ -21,7 +21,7 @@ function makeEmbedFrame() {
 
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
         embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
-        embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.geoID+'.json';
+        embedFrame.dataSource = 'http://wazimap.co.za/static/embed/01/data/profiles/'+embedFrame.params.geoID+'.json';
         // avoid css media-query caching issues with multiple embeds on same page
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
         embedFrame.makeChartFooter();
@@ -42,7 +42,7 @@ function makeEmbedFrame() {
                 embedFrame.data.chartData = data;
                 embedFrame.data.geographyData = results.geography;
                 embedFrame.makeChart();
-                embedFrame.makeChartAbout();
+//                embedFrame.makeChartAbout();
             });
     }
 
@@ -94,14 +94,14 @@ function makeEmbedFrame() {
         embedFrame.elements.footer = d3.select('.census-chart-embed').append('div')
             .classed('embed-footer', true);
                     
-        embedFrame.elements.footer.append('ul')
-            .append('li')
-            .html('<a href="#" id="about-trigger">About this chart</a>');
+//        embedFrame.elements.footer.append('ul')
+//            .append('li')
+//            .html('<a href="#" id="about-trigger">About this chart</a>');
 
         embedFrame.elements.footer.append('a')
             .classed('title', true)
             .attr('href', 'http://censusreporter.org')
-            .html('<img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo12.png"> Census Reporter');
+            .html('<img src="http://wazimap.co.za/static/embed/01/img/wazi-logo.png"> Wazimap');
     }
 
     embedFrame.addChartListeners = function() {

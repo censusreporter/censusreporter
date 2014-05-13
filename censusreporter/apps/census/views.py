@@ -7,6 +7,7 @@ import gzip
 from numpy import median
 from urllib import urlencode
 from urllib2 import unquote
+import os
 
 from django.conf import settings
 from django.contrib import messages
@@ -17,6 +18,7 @@ from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
+from django.template import TemplateDoesNotExist, loader
 
 from api import LocationNotFound
 from api.controller import (get_census_profile, get_geography, get_locations,
@@ -33,10 +35,9 @@ try:
     from config.dev.local import AWS_KEY, AWS_SECRET
 except:
     AWS_KEY = AWS_SECRET = None
-    
 
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('censusreporter')
 
 
 ### UTILS ###
@@ -210,38 +211,13 @@ class GeographyDetailView(TemplateView):
         return api_data
 
     def write_profile_json(self, data):
-        if AWS_KEY and AWS_SECRET:
-            s3 = S3Connection(AWS_KEY, AWS_SECRET)
-        else:
-            try:
-                s3 = S3Connection()
-            except:
-                s3 = None
-
-        if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
-
-            # currently versioning embed data to 1.0
-            key = '/1.0/data/profiles/%s.json' % self.geo_id
-
-            # see whether we've already stored json for this profile
-            s3key = bucket.get_key(key)
-
-            if not s3key:
-                upload = Key(bucket)
-                upload.key = key
-                upload.metadata['Content-Type'] = 'application/json'
-                upload.metadata['Content-Encoding'] = 'gzip'
-
-                # create gzipped version of json in memory
-                memfile = cStringIO.StringIO()
-                #memfile.write(data)
-                with gzip.GzipFile(filename=key, mode='wb', fileobj=memfile) as gzip_data:
-                    gzip_data.write(data)
-                memfile.seek(0)
-                
-                # store static version on S3
-                upload.set_contents_from_file(memfile)
+        # unversioned, un-zipped embed data
+        key = settings.EMBED_DIR + '/data/profiles/%s.json' % self.geo_id
+        logger.debug(key)
+        if not os.path.isfile(key):
+            # create file object
+            with open(key, 'w+') as f:
+                f.write(data)
             
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
@@ -268,7 +244,7 @@ class GeographyDetailView(TemplateView):
         page_context.update(profile_data)
 
         profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-        #self.write_profile_json(profile_data_json)
+        self.write_profile_json(profile_data_json)
 
         page_context.update({
             'profile_data_json': profile_data_json
