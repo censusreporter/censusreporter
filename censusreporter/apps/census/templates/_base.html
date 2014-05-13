@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -11,8 +12,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/mma.css">
+        <link rel="stylesheet" href="{% static 'css/app.css' %}">
+        <link rel="stylesheet" href="{% static 'css/mma.css' %}">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
         <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
@@ -48,7 +49,7 @@
                 <i id="menu-toggle" class="fa fa-bars"></i>
                 {% endif %}
                 <a class="title" href="{% url 'homepage' %}">
-                    <img src="{{ STATIC_URL }}img/wazi-logo.png"> Wazi
+                    <img src="{% static 'img/wazi-logo.png' %}"> Wazi
                 </a>
                 {% if not hide_nav_tools %}
                 <div id="menu" class="tool-set clearfix">
@@ -58,7 +59,7 @@
                 </div>
                 {% endif %}
                 <a class="logo" href="http://www.mediamonitoringafrica.org/" target="_blank">
-                    <img src="{{ STATIC_URL }}img/mma.png">
+                    <img src="{% static 'img/mma.png' %}">
                 </a>
             </div>
         </header>
@@ -119,9 +120,9 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
         <![endif]-->
         
-        <script src="{{ STATIC_URL }}js/app.js"></script>
-        <script src="{{ STATIC_URL }}js/glossary.js"></script>
-        <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
+        <script src="{% static 'js/app.js' %}"></script>
+        <script src="{% static 'js/glossary.js' %}"></script>
+        <script src="{% static 'js/widget.geo.select.js' %}"></script>
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
     </body>
 </html>
