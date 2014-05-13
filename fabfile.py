@@ -4,12 +4,12 @@ from fabric.api import cd, env, task, require, local, lcd, sudo, prefix, shell_e
 from fabric.contrib.files import exists, upload_template
 
 from api.fabfile import (provision_api, create_api_database, drop_api_database,
-                         load_api_data)
+    load_api_data)
 
 
 VIRTUALENV_DIR = 'censusreporter_ve'
 CODE_DIR = 'censusreporter'
-PROD_HOSTS = ['5.9.195.2']
+PROD_HOSTS = ['wazimap.co.za']
 PACKAGES = (
     'git-core',
     'python-virtualenv',
@@ -42,10 +42,11 @@ def prod():
     env.deploy_dir = '/var/www-data/'
     env.branch = 'master'
     env.hosts = PROD_HOSTS
+    env.user = 'mma'
 
 
 @task
-def provision_censusreporter():
+def provision():
     require('deploy_type', provided_by=[dev, prod])
 
     commands = (
@@ -70,7 +71,7 @@ def provision_censusreporter():
 
 
 @task
-def deploy_censusreporter():
+def deploy():
     require('deploy_type', 'deploy_user', 'deploy_dir', 'branch',
             provided_by=[dev, prod])
 

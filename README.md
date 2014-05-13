@@ -39,3 +39,10 @@ Then fire it up:
 
     >> ./manage.py runserver
 
+Deployment
+----------
+
+To deploy to an already provisioned machine, run:
+
+    >> fab prod deploy
+
