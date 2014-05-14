@@ -128,11 +128,10 @@ def deploy_censusreporter():
 def get_nginx_template_context():
     return {
         'server-name': SERVER_NAMES,
-        'embed-url': EMBED_URL,
         'server-aliases': SERVER_ALIASES,
         'server-port': 80,
         'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
-        'embed-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed/'),
+        'embed-data-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed_data/'),
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
         'err-log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.err'),
         'proxy-host': PROXY_HOST,
