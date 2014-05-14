@@ -10,11 +10,10 @@ Chart({
     chartData: chartData # an object that can be mapped, returning `name` and `value` properties
 })
 */
-tmp_charts = Array()
 
 function Chart(options) {
     var chart = {};
-
+    
     chart.init = function(options) {
         // establish our base vars
         chart.chartContainer = d3.select('#'+options.chartContainer)
@@ -712,7 +711,7 @@ function Chart(options) {
 
         return chart;
     }
-
+    
     chart.addActionLinks = function() {
         chart.actionLinks = chart.chartContainer
             .append("div")
@@ -724,14 +723,13 @@ function Chart(options) {
                 .text("Show data")
                 .on("click", chart.toggleDataDrawer);
 
-//        chart.actionLinks.append("span").text("/");
-//
-//        chart.showEmbed = chart.actionLinks
-//            .append("a")
-//                .classed("chart-show-embed", true)
-//                .text("Embed")
-//                .on("click", chart.showEmbedCode);
-        tmp_charts.push(chart)
+        chart.actionLinks.append("span").text("/");
+
+        chart.showEmbed = chart.actionLinks
+            .append("a")
+                .classed("chart-show-embed", true)
+                .text("Embed")
+                .on("click", chart.showEmbedCode);
     }
     
     chart.fillEmbedCode = function(textarea, align) {
