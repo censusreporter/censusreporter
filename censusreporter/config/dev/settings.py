@@ -10,8 +10,8 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-MEDIA_ROOT = PROJECT_ROOT + '/embed_data/'
-MEDIA_URL = '/embed_data/'
+EMBED_DATA_ROOT = PROJECT_ROOT + '/embed_data/'
+EMBED_DATA_URL = '/embed_data/'
 
 #API_URL = 'http://0.0.0.0:5000'
 
