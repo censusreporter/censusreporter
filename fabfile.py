@@ -121,6 +121,9 @@ def deploy_censusreporter():
     cache_dir = '/var/tmp/censusreporter_cache/'
     sudo('mkdir -p %s' % cache_dir, user=env.deploy_user)
 
+    embed_dir = os.path.join(env.deploy_dir, 'censusreporter/embed_data/profiles/')
+    sudo('mkdir -p %s' % embed_dir, user=env.deploy_user)
+
     sudo('initctl restart censusreporter')
     sudo('/etc/init.d/nginx reload')
 
