@@ -215,9 +215,13 @@ class GeographyDetailView(TemplateView):
         key = settings.EMBED_DIR + '/profiles/%s.json' % self.geo_id
         logger.debug(key)
         if not os.path.isfile(key):
-            # create file object
-            with open(key, 'w+') as f:
-                f.write(data)
+            try:
+                # create file object
+                with open(key, 'w+') as f:
+                    f.write(data)
+            except Exception:
+                logger.error('Cannot write json data file to disk.')
+                pass
             
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
