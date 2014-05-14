@@ -111,7 +111,7 @@ LOGGING = {
     },
     'loggers': {
         'censusreporter':{
-            'handlers': ['console'],
+            'handlers': ['console', 'mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },

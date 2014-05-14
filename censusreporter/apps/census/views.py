@@ -219,8 +219,8 @@ class GeographyDetailView(TemplateView):
                 # create file object
                 with open(key, 'w+') as f:
                     f.write(data)
-            except Exception:
-                logger.error('Cannot write json data file to disk.')
+            except Exception as e:
+                logger.error('Cannot write json data file to disk.', exc_info=e)
                 pass
             
     def get_context_data(self, *args, **kwargs):
