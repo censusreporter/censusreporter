@@ -131,4 +131,4 @@ ADMINS = (
 MANAGERS = ADMINS
 
 API_URL = 'http://api.censusreporter.org'
-EMBED_DIR = PROJECT_ROOT + '/embed/01'
+EMBED_DIR = PROJECT_ROOT + '/embed_data'

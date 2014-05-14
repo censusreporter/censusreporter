@@ -212,7 +212,7 @@ class GeographyDetailView(TemplateView):
 
     def write_profile_json(self, data):
         # unversioned, un-zipped embed data
-        key = settings.EMBED_DIR + '/data/profiles/%s.json' % self.geo_id
+        key = settings.EMBED_DIR + '/profiles/%s.json' % self.geo_id
         logger.debug(key)
         if not os.path.isfile(key):
             # create file object
