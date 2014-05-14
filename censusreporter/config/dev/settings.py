@@ -10,7 +10,8 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-STATICFILES_DIRS = [PROJECT_ROOT + '/embed',]
+MEDIA_ROOT = PROJECT_ROOT + '/embed_data/'
+MEDIA_URL = '/embed_data/'
 
 #API_URL = 'http://0.0.0.0:5000'
 
