@@ -17,20 +17,20 @@
             
             <p>First, visit a profile page and find the chart that you&rsquo;d like to embed, then click the &ldquo;Embed&rdquo; link underneath. That will open a panel where you can copy two lines of code. They&rsquo;ll look something like this:</p>
             
-<pre><code>&lt;iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 720px;"&gt;&lt;/iframe&gt;
+<pre><code>&lt;iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="http://wazimap.co.za/static/embed/01/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 720px;"&gt;&lt;/iframe&gt;
 
-&lt;script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"&gt;&lt;/script&gt;
+&lt;script src="http://wazimap.co.za/static/embed/01/js/embed.chart.make.js"&gt;&lt;/script&gt;
 </code></pre>
 
             <p>The first line is the iframe container where the chart will be drawn onto your page. It contains all the information necessary to build the right kind of chart out of the right piece of data. The second line is a small piece of javascript that triggers that chart to be drawn, and then allows it to communicate with your page and respond to changes in size.</p>
             
             <p>The example embed code above will make the column chart you see below, complete with hover information and contextual statistics. If you resize this page, the embedded chart will change dimensions (and convert to a bar chart if the page gets narrow enough).</p>
             
-            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 720px;"></iframe>
+            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="http://wazimap.co.za/static/embed/01/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 720px;"></iframe>
             
             <p>Census Reporter&rsquo;s embedded charts work on Firefox, Safari and Chrome, and on IE8 and above.</p>
              
-            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_category" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_category&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 300px; float: right;"></iframe>
+            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_category" class="census-reporter-embed" src="http://wazimap.co.za/static/embed/01/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_category&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 300px; float: right;"></iframe>
             
             <p>If you want to inset your chart into a block of text, you can choose left or right alignment before copying the embed code. By default, embedded charts will know how wide they ought to be, although you can always edit the <code>max-width</code> number in your embed code to manually make adjustments.</p>
             <p>This chart, for example, is set to align right.</p>
@@ -39,7 +39,7 @@
              
             <p style="clear: both;">As you can see, you can embed multiple charts onto the same page. If you do, you only need to include the chart-making script on your page once, below all of the iframes. That&rsquo;s this line of code:</p>
 
-<pre><code>&lt;script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"&gt;</script></code></pre>
+<pre><code>&lt;script src="http://wazimap.co.za/static/embed/01/js/embed.chart.make.js"&gt;</script></code></pre>
 
             <p>Happy charting!</p>
         </section>
@@ -80,7 +80,7 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>
+<script src="http://wazimap.co.za/static/embed/01/js/embed.chart.make.js"></script>
 <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

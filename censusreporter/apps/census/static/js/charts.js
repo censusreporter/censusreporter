@@ -10,10 +10,11 @@ Chart({
     chartData: chartData # an object that can be mapped, returning `name` and `value` properties
 })
 */
+tmp_charts = Array()
 
 function Chart(options) {
     var chart = {};
-    
+
     chart.init = function(options) {
         // establish our base vars
         chart.chartContainer = d3.select('#'+options.chartContainer)
@@ -711,7 +712,7 @@ function Chart(options) {
 
         return chart;
     }
-    
+
     chart.addActionLinks = function() {
         chart.actionLinks = chart.chartContainer
             .append("div")
@@ -722,16 +723,15 @@ function Chart(options) {
                 .classed("chart-get-data", true)
                 .text("Show data")
                 .on("click", chart.toggleDataDrawer);
-            
-        /*
-        chart.actionLinks.append("span").text("/");
-        
-        chart.showEmbed = chart.actionLinks
-            .append("a")
-                .classed("chart-show-embed", true)
-                .text("Embed")
-                .on("click", chart.showEmbedCode);
-        */
+
+//        chart.actionLinks.append("span").text("/");
+//
+//        chart.showEmbed = chart.actionLinks
+//            .append("a")
+//                .classed("chart-show-embed", true)
+//                .text("Embed")
+//                .on("click", chart.showEmbedCode);
+        tmp_charts.push(chart)
     }
     
     chart.fillEmbedCode = function(textarea, align) {
@@ -754,8 +754,8 @@ function Chart(options) {
         var querystring = $.param(embedParams);
         
         var embedCode = [
-            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
-            '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
+            '<iframe id="'+embedID+'" class="census-reporter-embed" src="http://embed.wazimap.co.za/static/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
+            '\n<script src="http://embed.wazimap.co.za/static/js/embed.chart.make.js"></script>'
         ].join('');
         
         textarea.html(embedCode);
@@ -807,11 +807,11 @@ function Chart(options) {
         d3.select('#embed-align-normal')
             .classed('option-selected', true);
 
-        lightbox.append('p').append('a')
-                .classed('display-type', true)
-                .attr('href', '/examples/embed-charts/')
-                .attr('target', '_blank')
-                .html('Learn more about Census Reporter&rsquo;s embedded charts');
+//        lightbox.append('p').append('a')
+//                .classed('display-type', true)
+//                .attr('href', '/examples/embed-charts/')
+//                .attr('target', '_blank')
+//                .html('Learn more about Wazi&rsquo;s embedded charts');
                 
         chart.fillEmbedCode(textarea);
     }

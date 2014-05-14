@@ -10,11 +10,16 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
+EMBED_DATA_ROOT = PROJECT_ROOT + '/embed_data/'
+EMBED_DATA_URL = '/embed_data/'
+
 #API_URL = 'http://0.0.0.0:5000'
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
-    }
+        }
 }
+
+LOGGING['loggers']['censusreporter']['level'] = 'DEBUG'

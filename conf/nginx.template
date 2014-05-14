@@ -7,7 +7,7 @@ server {
 
 server {
     listen %(server-port)s;
-    server_name %(server-name)s;
+    server_name %(server-name)s %(embed-server-name)s;
 
     client_max_body_size 100m;
     gzip_types application/x-javascript text/css;
@@ -15,6 +15,11 @@ server {
     location ^~ /static/ {
         alias   %(static-path)s;
         expires 31d;
+    }
+
+    location ^~ /embed_data/ {
+        alias   %(embed-data-path)s;
+        # expires 1d;
     }
 
     location / {

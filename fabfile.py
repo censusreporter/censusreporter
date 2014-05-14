@@ -21,6 +21,7 @@ PACKAGES = (
 )
 # Nginx & Upstart constants
 SERVER_NAMES = 'wazimap.co.za'
+EMBED_URL = 'embed.wazimap.co.za'
 SERVER_ALIASES = 'wazimap.com wazimap.org wazimap.net wazimap.info mma-dashboard.code4sa.org'
 PROXY_PORT = 5001
 PROXY_HOST = '127.0.0.1'
@@ -121,6 +122,9 @@ def deploy():
     cache_dir = '/var/tmp/censusreporter_cache/'
     sudo('mkdir -p %s' % cache_dir, user=env.deploy_user)
 
+    embed_dir = os.path.join(env.deploy_dir, 'censusreporter/embed_data/profiles/')
+    sudo('mkdir -p %s' % embed_dir, user=env.deploy_user)
+
     sudo('initctl restart censusreporter')
     sudo('/etc/init.d/nginx reload')
 
@@ -128,9 +132,11 @@ def deploy():
 def get_nginx_template_context():
     return {
         'server-name': SERVER_NAMES,
+        'embed-server-name': EMBED_URL,
         'server-aliases': SERVER_ALIASES,
         'server-port': 80,
         'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
+        'embed-data-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed_data/'),
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
         'err-log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.err'),
         'proxy-host': PROXY_HOST,

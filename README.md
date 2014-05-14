@@ -39,10 +39,21 @@ Then fire it up:
 
     >> ./manage.py runserver
 
+Embedded content
+----------------
+
+The charts on censusreporter are made available for embedding on 3rd party sites through the
+use of iframes. These embedded charts rely on static content and json data files that are hosted
+in an AWS S3 bucket.
+
+The S3 bucket contains many of the static files found in `apps/census/static`, so the same
+rendering logic is used for the site's graphs and the embedded graphs. The data files that are
+needed for rendering embedded graphs are automatically pushed to the S3 bucket each time a
+new profile is accessed on the censusreporter site.
+
 Deployment
 ----------
 
 To deploy to an already provisioned machine, run:
 
     >> fab prod deploy
-

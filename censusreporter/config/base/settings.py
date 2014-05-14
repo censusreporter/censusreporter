@@ -13,8 +13,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': '%s/census_app_db' % PROJECT_ROOT,
-    },
-}
+        },
+    }
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -44,6 +44,7 @@ MEDIA_URL = ''
 
 STATIC_ROOT = PROJECT_ROOT + '/static/'
 STATIC_URL = '/static/'
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -87,14 +88,33 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose'
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
     },
     'loggers': {
+        'censusreporter':{
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
@@ -106,7 +126,9 @@ LOGGING = {
 ADMINS = (
     ('Greg Kempe', 'greg@kempe.net'),
     ('Rizmari Versfeld', 'rizziepit@gmail.com'),
+    ('Petrus Janse van Rensburg', 'petrus.jvrensburg@gmail.com'),
 )
 MANAGERS = ADMINS
 
 API_URL = 'http://api.censusreporter.org'
+EMBED_DIR = PROJECT_ROOT + '/embed_data'
