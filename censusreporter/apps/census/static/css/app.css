@@ -32,18 +32,21 @@ select,
 textarea {
     color: #222;
 }
+menu,
+ol,
+ul {
+    padding: 0 0 0 2em;
+}
 input:focus {
     border: 1px solid #02aeab;
     -webkit-box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
     -moz-box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
     box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
 }
-
 ::-moz-selection {
     background: #02aeab;
     text-shadow: none;
 }
-
 ::selection {
     background: #02aeab;
     text-shadow: none;
@@ -404,6 +407,43 @@ article .section-container,
     font-size: .83em;
     padding: 0 1em;
 }
+.sidebar-block .explain {
+    padding: .5em 0;
+}
+.sidebar-block {
+    margin-bottom: 2em;
+}
+.sidebar-block ul {
+    font-size: .83em;
+    font-weight: bold;
+}
+.expanded-table ul {
+    list-style: none;
+    margin-top: 0;
+    padding: 0;
+    font-size: .9em;
+}
+.preview-table ul {
+    font-weight: normal;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+    font-size: .8em;
+}
+.expanded-table ul li,
+.preview-table ul li {
+    margin-bottom: .2em;
+}
+.expand-preview {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: .83em;
+    font-weight: bold;
+    padding: .33em 0;
+    border-top: 1px solid #E8EADF;
+}
+
 section {
     margin-bottom: 2em;
 }
@@ -1079,38 +1119,28 @@ table .alt-number {
     display: none;
 }
 .indent-0 {
-    text-indent: 0;
+    padding-left: 0;
 }
 .indent-1 {
-    text-indent: 1em;
+    padding-left: 1em;
 }
 .indent-2 {
-    text-indent: 2em;
+    padding-left: 2em;
 }
 .indent-3 {
-    text-indent: 3em;
+    padding-left: 3em;
 }
 .indent-4 {
-    text-indent: 4em;
+    padding-left: 4em;
 }
 .indent-5 {
-    text-indent: 5em;
+    padding-left: 5em;
 }
 .indent-6 {
-    text-indent: 6em;
+    padding-left: 6em;
 }
 .indent-7 {
-    text-indent: 7em;
-}
-td.indent-0,
-td.indent-1,
-td.indent-2,
-td.indent-3,
-td.indent-4,
-td.indent-5,
-td.indent-6,
-td.indent-7 {
-    text-indent: 0;
+    padding-left: 7em;
 }
 td.indent-1 {
     padding-left: 1.75em;
@@ -1133,16 +1163,7 @@ td.indent-6 {
 td.indent-7 {
     padding-left: 7.75em;
 }
-.expanded-table {
-    margin-bottom: 3em;
-}
-table.expanded-table,
-table.tabulation-grid {
-    font-size: .9em;
-}
-table.preview-table td {
-    font-size: .75em;
-}
+
 
 form {
     margin: 0 0 2em;

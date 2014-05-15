@@ -37,66 +37,43 @@
     <div class="section-container">
         <section class="clearfix">
             <h2 class="header-for-columns">{{ table.simple_table_title }}</h2>
-
             <aside>
+                {% if tabulation.table_versions|length > 1 %}
                 <h5>Other versions of this table</h5>
                 <ul>{% for code, option in tabulation.table_versions.items %}
                     {% if code != table.table_id %}<li><a href="{% url 'table_detail' code %}">{{ option.version_name }}</a></li>{% endif %}
                 {% endfor %}</ul>
+                {% endif %}
             </aside>
+            <p class="caption"><strong>Table universe:</strong> {{ table.universe }}</p>
 
-            <div class="column-golden-wide">
-                <p class="caption"><strong>Table universe:</strong> {{ table.universe }}</p>
-                <table class="full-width expanded-table">
-                    <thead>
-                        <tr>
-                            <th class="name">Columns in Table {{ table.table_id }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>{% for column_id, column_data in table.columns.items %}
-                        <tr>
-                            <td class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</td>
-                        </tr>{% endfor %}
-                    </tbody>
-                </table>
+            <div class="column-golden-wide expanded-table">
+                <ul>{% for column_id, column_data in table.columns.items %}
+                    <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>
+                {% endfor %}</ul>
             </div>
             
             <div class="column-golden-narrow">
-                {% for table, table_values in tabulation.related_tables.preview.items %}
-                <p class="caption">The Census also offers a {{ table_values.table_type|lower }} version of this table.</p>
+                {% if related_topic_pages %}
+                <div class="sidebar-block">
+                    <h4>Background on table topics</h4>
+                    <p class="explain"><a href="{% url 'topic_list' %}">Topic pages</a> describe concepts covered by the ACS. For background on the topics in Table {{ table.table_id }}, see:</p>
+                    <ul>{% for slug, title in related_topic_pages %}
+                        <li><a href="{% url 'topic_detail' slug %}">{{ title }}</a></li>
+                        {% endfor %}</ul>
+                </div>
+                {% endif %}
 
-                <table class="full-width expanded-table preview-table">
-                    <thead>
-                        <tr>
-                            <th class="name"><a href="{% url 'table_detail' table %}">Switch to Table {{ table }}</a></th>
-                        </tr>
-                    </thead>
-                    <tbody>{% for column_id, column_data in table_values.columns.items %}
-                        <tr>
-                            <td class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</td>
-                        </tr>{% endfor %}
-                    </tbody>
-                </table>{% endfor %}
-                {% comment %}
-                <table class="full-width tabulation-grid">
-                    <thead>
-                        <tr>
-                            <th class="name">Table variants</th>
-                            <th class="name" colspan="3">Releases available</th>
-                        </tr>
-                    </thead>
-                    <tbody>{% for letter_code, data in tabulation.related_tables.grid.items %}
-                        {% for table, values in data.items %}
-                        <tr>
-                            <td class="name" style="width: 34%;"><a href="{% url 'table_detail' table %}">{{ table }}</a></td>
-                            <td style="width: 22%;">{{ values.one_yr }}</td>
-                            <td style="width: 22%;">{{ values.three_yr }}</td>
-                            <td style="width: 22%;">{{ values.five_yr }}</td>
-                        </tr>{% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endcomment %}
+                {% for table, table_values in tabulation.related_tables.preview.items %}
+                <div class="sidebar-block preview-table">
+                    <h4>{{ table_values.table_type }} table</h4>
+                    <p class="explain">The Census offers a version of this table with {% if table_values.table_type == 'Collapsed' %}a simplified{% else %}an expanded{% endif %} set of columns.</p>
+                    
+                    <h5><a href="{% url 'table_detail' table %}">Switch to Table {{ table }}</a></h5>
+                    <ul>{% for column_id, column_data in table_values.columns.items %}
+                        <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>
+                    {% endfor %}</ul>
+                </div>{% endfor %}
             </div>
         </section>
     </div>
@@ -107,6 +84,44 @@
 <script type="text/javascript">
 var tableID = '{{ table.table_id }}';
 Glossary.init("{% url 'glossary' %}",".glossary-term");
+
+var previewTable = d3.select('.preview-table ul'),
+    previewCollapsedHeight = '160px',
+    previewExpandText = 'Show all preview columns &#x25BC;',
+    previewFullHeight = previewTable.node().offsetHeight + 'px';
+
+previewTable
+    .style('overflow', 'hidden')
+    .style('height', previewCollapsedHeight);
+    
+var previewTableToggleControl = d3.select('.preview-table')
+    .append('a')
+        .classed('expand-preview', true)
+        .attr('href', '#')
+        .html(previewExpandText)
+        .on('click', function() {
+            previewTableToggle();
+        })
+
+var previewTableToggle = function() {
+    d3.event.preventDefault();
+    if (previewTable.classed('open')) {
+        previewTableAnimate(false, previewCollapsedHeight);
+    } else {
+        previewTableAnimate(true, previewFullHeight);
+    }
+}
+
+var previewTableAnimate = function(toOpen, targetHeight) {
+    previewTable
+        .classed('open', toOpen)
+        .transition()
+        .duration(500)
+        .style('height', targetHeight);
+    
+    var toggleText = (toOpen) ? 'Collapse preview columns &#x25B2;' : previewExpandText;
+    previewTableToggleControl.html(toggleText);
+}
 </script>
 {#}<script src="{{ STATIC_URL }}js/table.geo.picker.js"></script>{#}
 {% endblock %}
