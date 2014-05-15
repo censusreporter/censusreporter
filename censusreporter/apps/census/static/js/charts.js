@@ -730,6 +730,16 @@ function Chart(options) {
                 .classed("chart-show-embed", true)
                 .text("Embed")
                 .on("click", chart.showEmbedCode);
+
+        chart.actionLinks.append("span").text("/");
+
+        chart.showEmbed = chart.actionLinks
+            .append("a")
+                .classed("chart-share addthis_button", true)
+                .attr("href", "http://www.addthis.com/bookmark.php?v=300&amp;pubid=ra-53744e46066d519d")
+                .style("text-decoration", "none")
+                .text("Share")
+                .on("click", chart.showEmbedCode);
     }
     
     chart.fillEmbedCode = function(textarea, align) {
