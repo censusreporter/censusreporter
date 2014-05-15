@@ -733,7 +733,7 @@ function Chart(options) {
 
         chart.actionLinks.append("span").text("/");
 
-        chart.showEmbed = chart.actionLinks
+        chart.actionLinks
             .append("a")
                 .classed("chart-share", true)
                 .text("Share")
