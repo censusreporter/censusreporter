@@ -430,6 +430,9 @@ article .section-container,
     margin-bottom: 0;
     font-size: .8em;
 }
+.preview-table ul.open {
+    margin-bottom: .5em;
+}
 .expanded-table ul li,
 .preview-table ul li {
     margin-bottom: .2em;

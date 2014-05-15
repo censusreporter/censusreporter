@@ -29,8 +29,9 @@
 {% endblock %}
 
 {% block content %}
+{% include 'data/_blocks/_topic_select_input.html' %}
 
-<article id="one-year-release" class="clearfix">
+<article id="table-display" class="clearfix">
     <header class="section-contents">
         <h1>Table {{ table.table_id }}</h1>
     </header>
@@ -81,47 +82,14 @@
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script src="{{ STATIC_URL }}js/table.detail.js"></script>
 <script type="text/javascript">
-var tableID = '{{ table.table_id }}';
-Glossary.init("{% url 'glossary' %}",".glossary-term");
-
-var previewTable = d3.select('.preview-table ul'),
-    previewCollapsedHeight = '160px',
-    previewExpandText = 'Show all preview columns &#x25BC;',
-    previewFullHeight = previewTable.node().offsetHeight + 'px';
-
-previewTable
-    .style('overflow', 'hidden')
-    .style('height', previewCollapsedHeight);
-    
-var previewTableToggleControl = d3.select('.preview-table')
-    .append('a')
-        .classed('expand-preview', true)
-        .attr('href', '#')
-        .html(previewExpandText)
-        .on('click', function() {
-            previewTableToggle();
-        })
-
-var previewTableToggle = function() {
-    d3.event.preventDefault();
-    if (previewTable.classed('open')) {
-        previewTableAnimate(false, previewCollapsedHeight);
-    } else {
-        previewTableAnimate(true, previewFullHeight);
-    }
-}
-
-var previewTableAnimate = function(toOpen, targetHeight) {
-    previewTable
-        .classed('open', toOpen)
-        .transition()
-        .duration(500)
-        .style('height', targetHeight);
-    
-    var toggleText = (toOpen) ? 'Collapse preview columns &#x25B2;' : previewExpandText;
-    previewTableToggleControl.html(toggleText);
-}
+var table = new Table({
+    tableID: '{{ table.table_id }}',
+    topicSelect: '#topic-select',
+    topicSelectContainer: '#query-topic-picker',
+    displayHeader: '#header-container',
+    displayWrapper: '#table-display',
+});
 </script>
-{#}<script src="{{ STATIC_URL }}js/table.geo.picker.js"></script>{#}
 {% endblock %}
