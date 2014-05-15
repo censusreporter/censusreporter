@@ -2482,6 +2482,9 @@ blockquote {
         padding: 1em 0 0;
         clear: both;
     }
+    #share-this-page {
+        display: none;
+    }
 } /* END: @media only screen and (max-width: 768px) */
 @media only screen and (max-width: 640px) {
     .tool-set {
