@@ -36,6 +36,7 @@ function Comparison(options) {
         comparison.$topicSelectContainer = $(options.topicSelectContainer);
         comparison.$displayHeader = $(options.displayHeader);
         comparison.$displayWrapper = $(options.displayWrapper);
+        comparison.$pageWrapper = $(options.pageWrapper) || $('.data-view');
         // D3 things
         comparison.headerContainer = d3.select(options.displayHeader);
         comparison.dataContainer = d3.select(options.dataContainer);
@@ -530,7 +531,7 @@ function Comparison(options) {
         var gridHeaderBits = ['<i class="fa fa-long-arrow-right"></i>Column'];
         comparison.sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
-                geoName = comparison.data.geography[geoID].name;
+                geoName = (comparison.data.geography[geoID]) ? comparison.data.geography[geoID].name : 'N/A';
             gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '">' + geoName + '</a>');
         })
 
@@ -961,7 +962,7 @@ function Comparison(options) {
         });
 
         // standard listeners
-        comparison.$displayWrapper.on('click', '#change-table', function(e) {
+        comparison.$pageWrapper.on('click', '#change-table, #cancel-search', function(e) {
             e.preventDefault();
             comparison.toggleTableSearch();
             comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle table search', '');
@@ -1385,9 +1386,10 @@ function Comparison(options) {
 
     comparison.getSortedPlaces = function(field) {
         var sortedPlaces = _.map(comparison.data.data, function(v, k) {
+            var placeName = (comparison.data.geography[k]) ? comparison.data.geography[k]['name'] : 'N/A'
             return {
                 geoID: k,
-                name: comparison.data.geography[k]['name']
+                name: placeName
             }
         }).sort(comparison.sortDataBy(field));
 

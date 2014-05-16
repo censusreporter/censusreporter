@@ -410,6 +410,10 @@ article .section-container,
 .sidebar-block .explain {
     padding: .5em 0;
 }
+.typeahead-container .explain {
+    clear: both;
+    margin-top: .5em;
+}
 .sidebar-block {
     margin-bottom: 2em;
 }
@@ -642,6 +646,7 @@ h1.article-header {
     margin-bottom: .25em;
 }
 .data-builder h1.article-header,
+.data-view h1.article-header,
 #query-topic-picker h1 {
     font-size: 2.5em;
 }

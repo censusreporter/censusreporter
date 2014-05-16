@@ -12,12 +12,22 @@ function Table(options) {
         table.$topicSelectContainer = $(options.topicSelectContainer);
         table.$displayHeader = $(options.displayHeader);
         table.$displayWrapper = $(options.displayWrapper);
+        table.$pageWrapper = $('#table');
+        table.$geoSelectContainer = $('#explore');
+        table.$placeSelect = $('#topic-place-select');
+        table.$placeSelectContainer = $('#explore-topic-place-picker');
+        table.$parentSelect = $('#topic-place-select-parent');
+        table.$parentSelectContainer = $('#explore-topic-place-picker-parent');
         
         // make the side preview expand and collapse
         table.makePreviewExpander();
     
         // add the "change table" widget and listener
         table.makeTopicSelectWidget();
+
+        table.$parentSelectContainer.hide();
+        table.makePlaceSelectWidget();
+        table.$placeSelect.focus();
     
         return table;
     }
@@ -130,9 +140,9 @@ function Table(options) {
             table.tableID = datum['table_id'];
             window.location = '/tables/'+table.tableID;
         });
-
+        
         // standard listeners
-        table.$displayWrapper.on('click', '#change-table', function(e) {
+        table.$pageWrapper.on('click', '#change-table, #cancel-search', function(e) {
             e.preventDefault();
             table.toggleTableSearch();
         });
@@ -143,12 +153,12 @@ function Table(options) {
     table.toggleTableSearch = function() {
         table.$displayHeader.toggle();
         table.$displayWrapper.toggle();
-
+        table.$geoSelectContainer.toggle();
         table.$topicSelectContainer.toggle();
         table.$topicSelect.focus();
     }
     
-    table.geoSelectEngine = new Bloodhound({
+    table.placeSelectEngine = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
@@ -162,7 +172,6 @@ function Table(options) {
                 results.map(function(item) {
                     item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
                 });
-                console.log(results)
                 return results;
             }
         }
@@ -190,27 +199,11 @@ function Table(options) {
         ]
     });
 
-    table.makeGeoSelectWidget = function() {
-        table.geoSelectEngine.initialize();
+    table.makePlaceSelectWidget = function() {
+        table.placeSelectEngine.initialize();
         table.sumlevSelectEngine.initialize();
 
-        table.geoSelectContainer = table.aside.append('div')
-            .attr('class', 'search')
-            .attr('id', 'comparison-add');
-
-        table.geoSelectContainer.append('p')
-            .attr('class', 'bottom display-type strong')
-            .attr('id', 'comparison-add-header')
-            .text('Show this data for places');
-
-        table.geoSelectContainer.append('input')
-            .attr('name', 'geography_add')
-            .attr('id', 'geography-add')
-            .attr('type', 'text')
-            .attr('placeholder', 'Find a place')
-            .attr('autocomplete', 'off');
-
-        var element = $('#geography-add');
+        var element = table.$placeSelect;
         element.typeahead({
             autoselect: true,
             highlight: false,
@@ -229,7 +222,7 @@ function Table(options) {
         }, {
             name: 'geographies',
             displayKey: 'full_name',
-            source: table.geoSelectEngine.ttAdapter(),
+            source: table.placeSelectEngine.ttAdapter(),
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
@@ -249,13 +242,16 @@ function Table(options) {
                 table.chosenSumlevAncestorOptions = datum['ancestor_options'];
 
                 table.makeParentSelectWidget();
-                $('#geography-add-parent-container').slideDown();
-                $('#geography-add-parent').focus();
+                if (table.chosenSumlev == '040') {
+                    table.$parentSelect.typeahead('val', 'United States');
+                }
+                table.$parentSelectContainer.slideDown();
+                table.$parentSelect.focus();
             } else {
                 // we have a geoID, so add it
                 table.geoIDs.push(datum['full_geoid']);
 
-                var url = table.buildComparisonURL(
+                var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs
                 );
                 window.location = url;
@@ -265,26 +261,7 @@ function Table(options) {
     }
 
     table.makeParentSelectWidget = function() {
-        var parentContainer = table.geoSelectContainer.append('div')
-                .attr('id', 'geography-add-parent-container')
-                .classed('hidden', true);
-
-        parentContainer.append('p')
-                .attr('class', 'bottom display-type strong')
-                .html('&hellip; in &hellip;');
-    
-        parentContainer.append('input')
-                .attr('name', 'geography_add_parent')
-                .attr('id', 'geography-add-parent')
-                .attr('type', 'text')
-                .attr('placeholder', 'Find a place')
-                .attr('autocomplete', 'off');
-            
-        parentContainer.append('p')
-                .attr('class', 'display-type')
-                .text(table.capitalize(table.chosenSumlevPluralName) + ' can be compared within ' + table.chosenSumlevAncestorOptions + '.');
-
-        var element = $('#geography-add-parent');
+        var element = table.$parentSelect;
         element.typeahead({
             autoselect: true,
             highlight: false,
@@ -293,7 +270,7 @@ function Table(options) {
         }, {
             name: 'geographies',
             displayKey: 'full_name',
-            source: table.geoSelectEngine.ttAdapter(),
+            source: table.placeSelectEngine.ttAdapter(),
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
@@ -312,7 +289,7 @@ function Table(options) {
             table.geoIDs.push(geoGroup);
             table.primaryGeoID = datum['full_geoid'];
 
-            var url = table.buildComparisonURL(
+            var url = table.buildDataURL(
                 'table', table.tableID, table.geoIDs, table.primaryGeoID
             );
             window.location = url;
@@ -324,7 +301,7 @@ function Table(options) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    table.buildTableURL = function(dataFormat, tableID, geoIDs, primaryGeoID) {
+    table.buildDataURL = function(dataFormat, tableID, geoIDs, primaryGeoID) {
         // pass in vars rather than use them from table object
         // so they can be created to arbitrary destinations
 

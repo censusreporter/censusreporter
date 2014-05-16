@@ -24,7 +24,21 @@
 {% block body_class %}data-view{% endblock %}
 
 {% block header_content %}
-<div id="header-container" class="wrapper clearfix header-container">
+<div id="explore" class="wrapper clearfix header-container">
+    <section id="explore-topic-place-picker" class="column-full clearfix homepage-action">
+        <h1 class="article-header">Show data from this table</h1>
+        <div id="topic-place-select-wrapper" class="input-wrapper">
+            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Choose a place or geographic summary level..." autocomplete="off">
+            <p class="help-text">Find a place to explore data, or choose a geographic summary level to build a comparison.</p>
+        </div>
+    </section>
+    <section id="explore-topic-place-picker-parent" class="column-full clearfix homepage-action">
+        <h1 class="article-header article-header-right">in</h1>
+        <div id="topic-place-select-wrapper-parent" class="input-wrapper">
+            <input name="topic_place_select_parent" id="topic-place-select-parent" type="text" placeholder="Start typing to pick a place to explore..." autocomplete="off">
+            <p class="help-text"></p>
+        </div>
+    </section>
 </div>
 {% endblock %}
 
