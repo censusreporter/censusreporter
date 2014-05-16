@@ -87,6 +87,18 @@
 </section>
 {% endcomment %}
 
+<div id="share-this-page" style="text-align: right;">
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style " style="margin:2px 0 10px 5px;float:right;width:175px;">
+        <a class="addthis_button_facebook"></a>
+        <a class="addthis_button_twitter"></a>
+        <a class="addthis_button_gmail"></a>
+        <a class="addthis_counter addthis_bubble_style" style="margin-left: 5px;"></a>
+    </div>
+    <!-- AddThis Button END -->
+    Share this page:
+</div>
+
 <p class="explain">Interact with charts and statistics for additional information.</p>
 
 <article id="elections" class="clearfix">
@@ -247,6 +259,7 @@
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53744e46066d519d"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/topojson.v1.min.js"></script>
 <script src="{% static 'js/vendor/leaflet.label.js' %}"></script>

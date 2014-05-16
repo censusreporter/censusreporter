@@ -730,6 +730,14 @@ function Chart(options) {
                 .classed("chart-show-embed", true)
                 .text("Embed")
                 .on("click", chart.showEmbedCode);
+
+        chart.actionLinks.append("span").text("/");
+
+        chart.actionLinks
+            .append("a")
+                .classed("chart-share", true)
+                .text("Share")
+                .on("click", chart.showShare);
     }
     
     chart.fillEmbedCode = function(textarea, align) {
@@ -812,6 +820,70 @@ function Chart(options) {
 //                .html('Learn more about Wazi&rsquo;s embedded charts');
                 
         chart.fillEmbedCode(textarea);
+    }
+
+    chart.showShare = function() {
+        var row = d3.select(chart.findAncestor(this, "section"))
+        var base_url = window.location.origin + window.location.pathname
+        var chart_url = base_url + row.select(".permalink").attr("href")
+        var page_heading = d3.select("#header-box .title").text()
+        var new_title = page_heading + " - " + chart.chartChartTitle;
+
+        var lightboxWrapper = d3.select('body').append('div')
+                .attr('id', 'lightbox');
+
+        var lightbox = lightboxWrapper.append('div')
+                .classed('hovercard-wrapper', true)
+            .append('div')
+                .classed('hovercard', true);
+
+        lightbox.append('small')
+                .classed('close clearfix', true)
+                .html('<i class="fa fa-times-circle"></i> Close')
+                .on('click', function() {
+                    d3.event.stopPropagation();
+                    d3.select('#lightbox').remove();
+                    addthis.update('share', 'url', base_url);
+                    addthis.update('share', 'title', document.title);
+                    addthis.url = base_url;
+                    addthis.title = document.title;
+                    addthis.toolbox('.addthis_toolbox');
+                });
+
+        lightbox.append('h2')
+                .html('Share this chart');
+
+        lightbox.append('h3')
+            .html(new_title);
+
+        lightbox.append('p')
+            .html("Share by clicking one of the buttons below.");
+
+        lightbox.append('div')
+                .classed('share-this-chart', true)
+                .style('text-align', 'center')
+                .append('div')
+                    .classed('addthis_toolbox addthis_default_style addthis_32x32_style', true)
+                    .style('width', '120px')
+                    .style('margin', '0 auto')
+                    .each(function(d) {
+                        d3.select(this).append('a')
+                            .classed('addthis_button_facebook', true)
+                        d3.select(this).append('a')
+                            .classed('addthis_button_twitter', true)
+                        d3.select(this).append('a')
+                            .classed('addthis_button_gmail', true);
+                    });
+
+        // re-run the addThis script to enable the newly created sharing buttons
+        addthis.update('share', 'url', chart_url);
+        addthis.update('share', 'title', new_title);
+        addthis.url = chart_url;
+        addthis.title = new_title;
+        addthis.toolbox('.addthis_toolbox');
+        // add the plain URL as fallback
+        lightbox.append('p')
+            .html("Or copy this URL:<br>&nbsp&nbsp&nbsp&nbsp" + chart_url);
     }
     
     // pass in data obj, get back formatted value label with MOE flag
