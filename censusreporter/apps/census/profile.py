@@ -149,7 +149,8 @@ def build_item(name, data, parents, rpn_string):
         # provide 2 decimals of precision, let client decide how much to use
         if value is not None:
             value = round(value, 2)
-            error = round(error, 2)
+            # if error is 'None' should it be 0?
+            error = round(error, 2) if error else 0
 
         if numerator is not None:
             numerator = round(numerator, 2)
