@@ -21,7 +21,7 @@ class Votes(Base):
     electoral_event = Column(String(32), primary_key=True)
     party = Column(String(64), primary_key=True)
     # one of PR (proportional representative), WARD or DC 40%
-    ballot_type = Column(String(8), primary_key=True)
+    ballot_type = Column(String(8), nullable=True, primary_key=True)
     # registered voters in whole voting district
     registered_voters = Column(Integer)
     # total votes in whole voting district per ballot type
@@ -33,6 +33,10 @@ class Votes(Base):
     spoilt_votes = Column(Integer)
     # mec7 votes in whole voting district - only valid for PR ballots
     mec7_votes = Column(Integer)
+    # votes cast outside of the voter's registered voting district
+    section_24a_votes = Column(Integer)
+    # international votes, etc.
+    special_votes = Column(Integer)
     # percentage in whole voting district
     # max(total_votes) + max(mec7_votes) / registered_voters
     voter_turnout = Column(Numeric(precision=5, scale=2, asdecimal=False))
@@ -49,17 +53,21 @@ class VoteSummary(Base):
     geo_code = Column(String(8), primary_key=True)
     electoral_event = Column(String(32), primary_key=True)
     party = Column(String(64), primary_key=True)
-    ballot_type = Column(String(8), primary_key=True)
+    ballot_type = Column(String(8), nullable=True, primary_key=True)
 
     # registered voters in geo
     registered_voters = Column(Integer)
     # total votes in geo per ballot type
     total_votes = Column(Integer)
     # mec7 votes in geo - only valid for PR ballots
-    mec7_votes = Column(Integer)
+    mec7_votes = Column(Integer, nullable=True)
     # valid votes in geo for the particular party per ballot type
     valid_votes = Column(Integer)
     # spoilt votes in geo per ballot type
     spoilt_votes = Column(Integer)
+    # votes cast outside of the voter's registered voting district
+    section_24a_votes = Column(Integer, nullable=True)
+    # international votes, etc.
+    special_votes = Column(Integer, nullable=True)
     # average percentage in geo
     average_voter_turnout = Column(Numeric(precision=5, scale=2, asdecimal=False))
