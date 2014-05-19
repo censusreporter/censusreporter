@@ -21,7 +21,7 @@ class Votes(Base):
     electoral_event = Column(String(32), primary_key=True)
     party = Column(String(64), primary_key=True)
     # one of PR (proportional representative), WARD or DC 40%
-    ballot_type = Column(String(8), nullable=True, primary_key=True)
+    ballot_type = Column(String(8), nullable=True)
     # registered voters in whole voting district
     registered_voters = Column(Integer)
     # total votes in whole voting district per ballot type
