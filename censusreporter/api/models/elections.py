@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Numeric
+from sqlalchemy import Column, ForeignKey, Integer, String, Numeric, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from .base import Base
@@ -9,6 +9,8 @@ Elections models
 '''
 
 class Votes(Base):
+    vote_id = Column(Integer, primary_key=True, autoincrement=True)
+
     ward_code = Column(String(8), ForeignKey('ward.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
     municipality_code = Column(String(8), ForeignKey('municipality.code'))
@@ -16,10 +18,10 @@ class Votes(Base):
 
     # an 8-digit code
     # Note: a voting district is at sub-ward level
-    voting_district_code = Column(String(8), primary_key=True)
+    voting_district_code = Column(String(8))
     # current only 'municipal 2011'
-    electoral_event = Column(String(32), primary_key=True)
-    party = Column(String(64), primary_key=True)
+    electoral_event = Column(String(32), index=True)
+    party = Column(String(64))
     # one of PR (proportional representative), WARD or DC 40%
     ballot_type = Column(String(8), nullable=True)
     # registered voters in whole voting district
@@ -47,8 +49,15 @@ class Votes(Base):
     province      = relationship('Province', lazy=True)
     district  = relationship('District', lazy=True)
 
+    # unique constraints
+    __table_args__ = (
+        UniqueConstraint('voting_district_code', 'electoral_event', 'party', 'ballot_type', name='one_man_one_vote'),
+    )
+
 
 class VoteSummary(Base):
+    vote_summary_id = Column(Integer, primary_key=True, autoincrement=True)
+
     geo_level = Column(String(16), nullable=False, primary_key=True)
     geo_code = Column(String(8), primary_key=True)
     electoral_event = Column(String(32), primary_key=True)
@@ -71,3 +80,8 @@ class VoteSummary(Base):
     special_votes = Column(Integer, nullable=True)
     # average percentage in geo
     average_voter_turnout = Column(Numeric(precision=5, scale=2, asdecimal=False))
+
+    # unique constraints
+    __table_args__ = (
+        UniqueConstraint('geo_level', 'geo_code', 'electoral_event', 'party', 'ballot_type', name='one_man_one_vote_summary'),
+    )
