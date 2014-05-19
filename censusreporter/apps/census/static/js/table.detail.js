@@ -34,7 +34,7 @@ function Table(options) {
 
     table.makePreviewExpander = function() {
         var previewTable = d3.select('.preview-table ul');
-        if (!previewTable) { return; }
+        if (previewTable.empty()) { return; }
 
         var previewCollapsedHeight = '135px',
             previewExpandText = 'Show all preview columns &#x25BC;',
