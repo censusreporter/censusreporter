@@ -58,11 +58,11 @@ class Votes(Base):
 class VoteSummary(Base):
     vote_summary_id = Column(Integer, primary_key=True, autoincrement=True)
 
-    geo_level = Column(String(16), nullable=False, primary_key=True)
-    geo_code = Column(String(8), primary_key=True)
-    electoral_event = Column(String(32), primary_key=True)
-    party = Column(String(64), primary_key=True)
-    ballot_type = Column(String(8), nullable=True, primary_key=True)
+    geo_level = Column(String(16), nullable=False)
+    geo_code = Column(String(8), index=True)
+    electoral_event = Column(String(32), index=True)
+    party = Column(String(64))
+    ballot_type = Column(String(8), nullable=True)
 
     # registered voters in geo
     registered_voters = Column(Integer)
