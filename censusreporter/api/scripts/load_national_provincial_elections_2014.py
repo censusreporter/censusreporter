@@ -5,10 +5,12 @@ import unicodecsv as csv
 
 from api.models import Municipality, Province, Votes, Base
 from api.utils import get_session, _engine
+from sqlalchemy import or_
 
 
 def parse_integer(val):
     return int(val.replace(',', ''))
+
 
 def get_province(val):
     provinces = {
@@ -20,20 +22,34 @@ def get_province(val):
         'NORTHERN CAPE': 'NC',
         'LIMPOPO': 'LIM',
         'NORTH WEST': 'NW',
-        'WESTERN CAPE': 'WC'
+        'WESTERN CAPE': 'WC',
     }
-    return provinces[val]
+    out = None
+    if provinces.get(val):
+        out = provinces[val]
+    return out
 
 
-def get_municipality(val, s):
-    return s.query(Municipality).get().code
+def get_municipality(val):
+    out = None
+    tmp = val.split('-', 1)[0].strip()
+    if tmp:
+        out = tmp
+    return out
+
+
+def get_ward(val):
+    out = None
+    if val:
+        out = val
+    return out
 
 
 field_mapper = {
     "ELECTORAL EVENT": ('electoral_event', None),
     "PROVINCE": ('province_code', get_province),
-    "MUNICIPALITY": ('municipality_code', lambda val: val.split('-', 1)[0].strip()),
-    "WARD": ('ward_code', None),
+    "MUNICIPALITY": ('municipality_code', get_municipality),
+    "WARD": ('ward_code', get_ward),
     "VOTING DISTRICT": ('voting_district_code', None),
     "PARTY NAME": ('party', None),
     "REGISTERED VOTERS": ('registered_voters', parse_integer),
@@ -61,7 +77,7 @@ if __name__ == '__main__':
     session = get_session()
 
     with open(filepath) as f:
-        reader = csv.DictReader(f, encoding='utf-8')
+        reader = csv.DictReader(f, encoding='CP949')
 
         total = 1064463
         i = 0
@@ -87,6 +103,10 @@ if __name__ == '__main__':
     # update district_code values
     municipalities = session.query(Municipality).all()
     for municipality in municipalities:
-        session.query(Votes).filter(Votes.municipality_code==municipality.code).update({"district_code": municipality.district_code})
-
+        session.query(Votes) \
+            .filter(
+            or_(Votes.electoral_event=="2014 NATIONAL ELECTION", Votes.electoral_event=="2014 PROVINCIAL ELECTION")) \
+            .filter(Votes.municipality_code==municipality.code) \
+            .update({"district_code": municipality.district_code})
+    session.commit()
     session.close()
