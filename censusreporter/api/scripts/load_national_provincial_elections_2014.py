@@ -13,7 +13,7 @@ field_mapper = {
     "ELECTORAL EVENT": ('electoral_event', None),
     "PROVINCE": (
         'province_code',
-        lambda val, s: s.query(Province).filter(Province.name == val.title()).one().code
+        lambda val, s: s.query(Province).filter(Province.name.lower() == val.lower()).one().code
     ),
     "MUNICIPALITY": (
         'municipality_code',
