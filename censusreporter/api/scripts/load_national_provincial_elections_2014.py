@@ -61,7 +61,7 @@ if __name__ == '__main__':
     session = get_session()
 
     with open(filepath) as f:
-        reader = csv.DictReader(f)
+        reader = csv.DictReader(f, encoding='utf-8')
 
         total = 1064463
         i = 0
@@ -71,13 +71,6 @@ if __name__ == '__main__':
                                   if field_mapper[k][1] is not None else val)
                                  for k, val in values.iteritems())
             district_code = None
-            try:
-                district_code = session.query(Municipality) \
-                    .get(mapped_values['municipality_code']) \
-                    .district_code
-            except Exception:
-                print "could not set district code for municipality: " + mapped_values['municipality_code']
-                pass
             mapped_values['district_code'] = district_code
             mapped_values['mec7_votes'] = None
             mapped_values['ballot_type'] = None
@@ -90,4 +83,10 @@ if __name__ == '__main__':
 
     print '\nDone'
     session.commit()
+
+    # update district_code values
+    municipalities = session.query(Municipality).all()
+    for municipality in municipalities:
+        session.query(Votes).filter(Votes.municipality_code==municipality.code).update({"district_code": municipality.district_code})
+
     session.close()
