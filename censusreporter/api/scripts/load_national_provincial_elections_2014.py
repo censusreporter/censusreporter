@@ -7,18 +7,32 @@ from api.models import Municipality, Province, Votes, Base
 from api.utils import get_session, _engine
 
 
-def parse_integer(val, s):
+def parse_integer(val):
     return int(val.replace(',', ''))
+
+def get_province(val):
+    provinces = {
+        'KWAZULU-NATAL': 'KZN',
+        'FREE STATE': 'FS',
+        'EASTERN CAPE': 'EC',
+        'GAUTENG': 'GT',
+        'MPUMALANGA': 'MP',
+        'NORTHERN CAPE': 'NC',
+        'LIMPOPO': 'LIM',
+        'NORTH WEST': 'NW',
+        'WESTERN CAPE': 'WC'
+    }
+    return provinces[val]
+
+
+def get_municipality(val, s):
+    return s.query(Municipality).get().code
+
+
 field_mapper = {
     "ELECTORAL EVENT": ('electoral_event', None),
-    "PROVINCE": (
-        'province_code',
-        lambda val, s: s.query(Province).filter(Province.name.lower() == val.lower()).one().code
-    ),
-    "MUNICIPALITY": (
-        'municipality_code',
-        lambda val, s: s.query(Municipality).get(val.split('-', 1)[0].strip()).code
-    ),
+    "PROVINCE": ('province_code', get_province),
+    "MUNICIPALITY": ('municipality_code', lambda val: val.split('-', 1)[0].strip()),
     "WARD": ('ward_code', None),
     "VOTING DISTRICT": ('voting_district_code', None),
     "PARTY NAME": ('party', None),
@@ -30,25 +44,9 @@ field_mapper = {
     "SPOILT VOTES": ('spoilt_votes', parse_integer),
     "% VOTER TURNOUT": (
         'voter_turnout',
-        lambda val, s: float(val.rstrip('%'))
+        lambda val: float(val.rstrip('%'))
     ),
-}
-
-
-def open_elections_csv(filepath):
-    f = open(filepath)
-    reader = csv.DictReader(f)
-    session = get_session()
-
-    for values in reader:
-        mapped_values = dict((field_mapper[k][0],
-                              field_mapper[k][1](v, session)
-                              if field_mapper[k][1] is not None else v)
-                              for k, v in values.iteritems())
-        yield mapped_values
-
-    session.close()
-    f.close()
+    }
 
 
 if __name__ == '__main__':
@@ -62,18 +60,33 @@ if __name__ == '__main__':
     Base.metadata.create_all(_engine, tables=[Votes.__table__])
     session = get_session()
 
-    total = 1064463
-    for i, values in enumerate(open_elections_csv(filepath)):
-        values['district_code'] = session.query(Municipality) \
-                                         .get(values['municipality_code']) \
-                                         .district_code
-        values['mec7_votes'] = None
-        values['ballot_type'] = None
-        session.add(Votes(**values))
-        if i % 1000 == 0:
-            session.flush()
-            sys.stdout.write('\r%s of %s' % (i + 1, total))
-            sys.stdout.flush()
+    with open(filepath) as f:
+        reader = csv.DictReader(f)
+
+        total = 1064463
+        i = 0
+        for values in reader:
+            mapped_values = dict((field_mapper[k][0],
+                                  field_mapper[k][1](val)
+                                  if field_mapper[k][1] is not None else val)
+                                 for k, val in values.iteritems())
+            district_code = None
+            try:
+                district_code = session.query(Municipality) \
+                    .get(mapped_values['municipality_code']) \
+                    .district_code
+            except Exception:
+                print "could not set district code for municipality: " + mapped_values['municipality_code']
+                pass
+            mapped_values['district_code'] = district_code
+            mapped_values['mec7_votes'] = None
+            mapped_values['ballot_type'] = None
+            session.add(Votes(**mapped_values))
+            if i % 1000 == 0:
+                session.flush()
+                sys.stdout.write('\r%s of %s' % (i + 1, total))
+                sys.stdout.flush()
+            i += 1
 
     print '\nDone'
     session.commit()
