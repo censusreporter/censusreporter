@@ -13,6 +13,9 @@ In This Guide
 * [Setting up for local development](#setting-up-for-local-development)
 * [Getting data from our API (the basics)](#getting-data-from-our-api-the-basics)
     * [Show data](#show-data)
+    * [Get geo metadata](#get-geo-metadata)
+    * [Geo search](#geo-search)
+    * [Table search](#table-search)
 
 Setting up for local development
 ================================
@@ -167,4 +170,123 @@ The entire response for the "all counties in Washington" example above <a href="
         }
     }
 
-Note that Washington state's data is also included in this API response. When you ask for a set of geographies&mdash;in this case, 050|04000US53&mdash;the API will automatically include the parent geography's data as well, so you can perform comparisons.
+Note that Washington state's data is also included in this API response. When you ask for a set of geographies&mdash;in this case, 050|04000US53&mdash;the API will automatically include the parent geography's data so you can perform comparisons.
+
+###Get geo metadata
+
+This endpoint provides basic information about a specific geography, including name, summary level, land area, and population. A common call to this endpoint might look like:
+
+    http://api.censusreporter.org/1.0/geo/tiger2012/16000US5367000
+
+This request uses the geoID for Spokane, WA, and returns this JSON:
+
+    {
+        "geometry": null,
+        "type": "Feature",
+        "properties": {
+            "awater": 1991595,
+            "display_name": "Spokane, WA",
+            "simple_name": "Spokane",
+            "sumlevel": "160",
+            "population": 208040,
+            "full_geoid": "16000US5367000",
+            "aland": 178021482
+        }
+    }
+
+If you append a querystring paramater `geom=true` to your request, the API response's `geometry` <a href="https://gist.github.com/ryanpitts/750aacecc167233c5547">will include geographical coordinates</a> suitable for mapping.
+
+This endpoint returns Tiger 2012 data for all but one class of geography: congressional districts. Redistricting after the 2010 Decennial Census changed these boundaries, and some states gained or lost entire districts. If you request metadata for a congressional district, the API will return Tiger 2013 data in order to accurately represent redistricting.
+
+### Geo search
+
+This endpoint returns metadata for geographies with names that match a text string. A common call to this endpoint might look like:
+
+    http://api.censusreporter.org/1.0/geo/search?q=spo
+
+... which returns results that include each matching geography's summary level, geoID and name:
+
+    {
+      "results": [
+        {
+          "sumlevel": "160",
+          "full_geoid": "16000US5367000",
+          "full_name": "Spokane, WA"
+        },
+        {
+          "sumlevel": "160",
+          "full_geoid": "16000US5367167",
+          "full_name": "Spokane Valley, WA"
+        },
+        {
+          "sumlevel": "160",
+          "full_geoid": "16000US3469810",
+          "full_name": "Spotswood, NJ"
+        },
+        ...
+        {
+          "sumlevel": "795",
+          "full_geoid": "79500US5310504",
+          "full_name": "Spokane County (Outer)--Cheney City PUMA, WA"
+        }
+      ]
+    }
+
+You can limit the search to a particular set of summary levels by passing an optional, comma-separated list in a `sumlevs` argument. The Census Reporter website does this in most cases:
+
+    http://api.censusreporter.org/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
+
+### Table search
+
+This endpoint returns metadata for tables with titles or column names that match a text string. A common call to this endpoint might look like:
+
+    http://api.censusreporter.org/1.0/table/search?q=heat
+
+... which would return metadata for matches that includes table name, table code, table universe and table topics. Column metadata is also included where they matched type is a column:
+
+    [
+        {
+            "unique_key": "B25040",
+            "universe": "Occupied Housing Units",
+            "simple_table_name": "House Heating Fuel",
+            "id": "B25040",
+            "table_id": "B25040",
+            "table_name": "House Heating Fuel",
+            "type": "table",
+            "topics": [
+                "housing",
+                "physical characteristics"
+            ]
+        },
+        {
+            "unique_key": "B25117",
+            "universe": "Occupied Housing Units",
+            "simple_table_name": "Tenure by House Heating Fuel",
+            "id": "B25117",
+            "table_id": "B25117",
+            "table_name": "Tenure by House Heating Fuel",
+            "type": "table",
+            "topics": [
+                "housing",
+                "physical characteristics",
+                "tenure"
+            ]
+        },
+        ...
+        {
+            "unique_key": "B24126|B24126441",
+            "universe": "Full-time, Year-round Civilian Employed Female Population 16 Years and Over",
+            "simple_table_name": "Detailed Occupation for the Full-time, Year-round Civilian Employed Female Population",
+            "column_id": "B24126441",
+            "table_id": "B24126",
+            "id": "B24126441",
+            "table_name": "Detailed Occupation for the Full-time, Year-round Civilian Employed Female Population 16 Years and Over",
+            "type": "column",
+            "topics": [
+                "employment"
+            ],
+            "column_name": "Heat treating equipment setters, operators, and tenders, metal and plastic"
+        }
+    ]
+
+Matches against table names will appear first in the response, followed by matches against column names within tables. The `unique_key` value is a combination of table code and column code (if necessary), and is useful as a key for autocomplete libraries like <a href="http://twitter.github.io/typeahead.js/">Typeahead</a>.
