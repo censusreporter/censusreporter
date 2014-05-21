@@ -92,7 +92,10 @@ if __name__ == '__main__':
                                func.sum(sq.c.max_section_24a_votes),
                                func.sum(sq.c.max_special_votes)) \
                         .one()
-                voter_turnout = round(float(total_votes + mec7_votes)
+                tmp = total_votes
+                if mec7_votes:
+                    tmp += mec7_votes
+                voter_turnout = round(float(tmp)
                                       / registered_voters * 100, 2)
 
                 ballot_types = (None,)
