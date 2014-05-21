@@ -104,11 +104,11 @@ def get_elections_profile(geo_code, geo_level):
                 'universe': universe
             }
             add_metadata(party_data, VoteSummary)
-            tmp_key = election['name'].lower().replace(' ', '-')
+            tmp_key = election['name'].lower().replace(' ', '_')
 
             data_election = {
                 'name': election['name'],
-                # 'key': tmp_key,
+                'key': tmp_key,
                 'party_distribution': party_data,
                 'registered_voters': {
                     "name": "Number of registered voters",
@@ -124,7 +124,7 @@ def get_elections_profile(geo_code, geo_level):
 
             add_summary_data(data_election, geo_code, geo_level, election['electoral_event'], tmp_ballot_type, session)
 
-            data[election['name'].lower().replace(' ', '_')] = data_election
+            data[tmp_key] = data_election
         return data
 
     except KeyError:
