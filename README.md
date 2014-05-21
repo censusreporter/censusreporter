@@ -13,9 +13,11 @@ In This Guide
 * [Setting up for local development](#setting-up-for-local-development)
 * [Getting data from our API (the basics)](#getting-data-from-our-api-the-basics)
     * [Show data](#show-data)
-    * [Get geo metadata](#get-geo-metadata)
-    * [Geo search](#geo-search)
+    * [Get geography metadata](#get-geography-metadata)
+    * [Get geography parents](#get-geography-parents)
+    * [Geography search](#geography-search)
     * [Table search](#table-search)
+* [Profile pages](#profile-pages)
 
 Setting up for local development
 ================================
@@ -172,7 +174,7 @@ The entire response for the "all counties in Washington" example above <a href="
 
 Note that Washington state's data is also included in this API response. When you ask for a set of geographies&mdash;in this case, 050|04000US53&mdash;the API will automatically include the parent geography's data so you can perform comparisons.
 
-###Get geo metadata
+###Get geography metadata
 
 This endpoint provides basic information about a specific geography, including name, summary level, land area, and population. A common call to this endpoint might look like:
 
@@ -196,9 +198,57 @@ This request uses the geoID for Spokane, WA, and returns this JSON:
 
 If you append a querystring paramater `geom=true` to your request, the API response's `geometry` <a href="https://gist.github.com/ryanpitts/750aacecc167233c5547">will include geographical coordinates</a> suitable for mapping.
 
-This endpoint returns Tiger 2012 data for all but one class of geography: congressional districts. Redistricting after the 2010 Decennial Census changed these boundaries, and some states gained or lost entire districts. If you request metadata for a congressional district, the API will return Tiger 2013 data in order to accurately represent redistricting.
+This endpoint returns Tiger 2012 data for all but one class of geography: congressional districts. Redistricting after the 2010 Decennial Census changed these boundaries, and some states gained or lost entire districts. If you request metadata for a congressional district, the API will return Tiger 2013 data <a href="http://www.census.gov/geo/maps-data/data/pdfs/tiger/How_do_I_choose_TIGER_vintage.pdf">in order to accurately represent redistricting</a>.
 
-### Geo search
+###Get geography parents
+
+This endpoint takes a specific geography and provides metadata for it, along with a list of parent geographies that contain it. A common call to this endpoint might look like:
+
+    http://api.censusreporter.org/1.0/geo/tiger2012/16000US5367000/parents
+
+... which returns results that include name, geoID, summary level, geography class, and percentage of coverage:
+
+    {
+        "parents": [
+            {
+                "sumlevel": "160",
+                "relation": "this",
+                "coverage": 100,
+                "display_name": "Spokane, WA",
+                "geoid": "16000US5367000"
+            },
+            {
+                "sumlevel": "050",
+                "relation": "county",
+                "coverage": 100,
+                "display_name": "Spokane County, WA",
+                "geoid": "05000US53063"
+            },
+            {
+                "sumlevel": "310",
+                "relation": "CBSA",
+                "coverage": 100,
+                "display_name": "Spokane, WA Metro Area",
+                "geoid": "31000US44060"
+            },
+            {
+                "sumlevel": "040",
+                "relation": "state",
+                "coverage": 100,
+                "display_name": "Washington",
+                "geoid": "04000US53"
+            },
+            {
+                "sumlevel": "010",
+                "relation": "nation",
+                "coverage": 100,
+                "display_name": "United States",
+                "geoid": "01000US"
+            }
+        ]
+    }
+
+###Geography search
 
 This endpoint returns metadata for geographies with names that match a text string. A common call to this endpoint might look like:
 
@@ -236,7 +286,7 @@ You can limit the search to a particular set of summary levels by passing an opt
 
     http://api.censusreporter.org/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
 
-### Table search
+###Table search
 
 This endpoint returns metadata for tables with titles or column names that match a text string. A common call to this endpoint might look like:
 
@@ -290,3 +340,16 @@ This endpoint returns metadata for tables with titles or column names that match
     ]
 
 Matches against table names will appear first in the response, followed by matches against column names within tables. The `unique_key` value is a combination of table code and column code (if necessary), and is useful as a key for autocomplete libraries like <a href="http://twitter.github.io/typeahead.js/">Typeahead</a>.
+
+Profile pages
+=============
+
+Geographical profile pages provide an overview of important Census data indicators for a particular place. We've divided these data points into five categories: Demographics, Economics, Families, Housing and Social. Each category includes a mix of figures and charts that help you understand what life is like in a community. Profiles also include comparative data, so you can consider statistics from a city, for example, in the context of the metro area and state they're in.
+
+The Census Reporter website generates profile pages for geographies at the <a href="http://censusreporter.org/profiles/01000US-united-states/">national</a> and <a href="http://censusreporter.org/profiles/04000US17-illinois/">state</a> levels all the way down to <a href="http://censusreporter.org/profiles/14000US17031808702-census-tract-808702-cook-il/">census tracts</a>. If your browser supports geolocation, you can <a href="http://censusreporter.org/locate/">use your current location</a> to easily profile any of the geographies that you're currently in.
+
+###The profile page back end
+
+Each profile page requires queries against a few dozen Census tables. To lighten the database load, everything has been pre-computed and stored as JSON in an Amazon S3 bucket, so most of these pages should never touch the API. When the Census Reporter app sees a profile request, the `GeographyDetail` view <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/views.py#L285">checks for flat JSON data</a> first, and falls back to <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/profile.py">a profile generator</a> if necessary.
+
+The profile generator at `profile.py` does a lot of work: 
