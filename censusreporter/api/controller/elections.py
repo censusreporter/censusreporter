@@ -104,7 +104,7 @@ def get_elections_profile(geo_code, geo_level):
             if election.get('ballot_type'):
                 universe = '%s ballots only' % BALLOT_TYPE_DESCRIPTION[election['ballot_type']]
             else:
-                universe = 'tmp'
+                universe = None
             party_data['metadata'] = {
                 'universe': universe
             }
