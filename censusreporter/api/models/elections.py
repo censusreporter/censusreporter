@@ -56,7 +56,7 @@ class Votes(Base):
 
 
 class VoteSummary(Base):
-    vote_summary_id = Column(Integer, primary_key=True, autoincrement=True)
+    votesummary_id = Column(Integer, primary_key=True, autoincrement=True)
 
     geo_level = Column(String(16), nullable=False)
     geo_code = Column(String(8), index=True)

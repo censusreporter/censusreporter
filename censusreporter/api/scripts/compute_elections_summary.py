@@ -38,6 +38,12 @@ def apply_geo_filters(query, geo_code, geo_level):
         raise ValueError('Invalid geo_level: %s' % geo_level)
 
 
+def clean_str(var):
+    out = '\N'
+    if var:
+        out = str(var)
+    return out
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         raise ValueError("Requires 'electoral event' argument")
@@ -53,7 +59,7 @@ if __name__ == '__main__':
         counter = 0.0
 
         sys.stdout.write('COPY votesummary (geo_level, geo_code, electoral_event, party, '
-                         'ballot_type, registered_voters, total_votes, mec7_votes, section_24a_votes, special_votes'
+                         'ballot_type, registered_voters, total_votes, mec7_votes, section_24a_votes, special_votes, '
                          'valid_votes, spoilt_votes, average_voter_turnout) FROM stdin;\n')
 
         for geo_model in (None, Province, District, Municipality, Ward):
@@ -112,7 +118,7 @@ if __name__ == '__main__':
 
                     for party, votes in vbp:
                         sys.stdout.write('%s\n' % '\t'.join(map(
-                            str,
+                            clean_str,
                             [level, code, election, party, ballot, registered_voters,
                              total_votes, mec7, section_24a_votes, special_votes, votes, spoilt_votes, voter_turnout]
                         )))
