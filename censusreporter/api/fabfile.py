@@ -71,3 +71,5 @@ def load_api_data():
         local('; '.join(commands))
         return
     sudo('; '.join(commands))
+    sudo('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
+    sudo('%s -f %s/votes/votesummary.sql; done' % (PSQL_STRING, data_dir_abs))
