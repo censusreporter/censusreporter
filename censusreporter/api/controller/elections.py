@@ -39,7 +39,12 @@ def make_party_acronym(name):
         "AFRICAN CHRISTIAN ALLIANCE-AFRIKANER CHRISTEN ALLIANSIE": "ACA",
         "DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE": "DA",
         "CAPE PARTY/ KAAPSE PARTY": "CP",
-        "KOUGA 2000": "K2000"
+        "KOUGA 2000": "K2000",
+        "CONGRESS  OF THE PEOPLE": "COPE",
+        "AGANG SOUTH AFRICA": "AGANG",
+        "VRYHEIDSFRONT PLUS": "VF+",
+        "PAN AFRICANIST CONGRESS OF AZANIA": "PAC",
+        "FRONT NASIONAAL/FRONT NATIONAL": "FN",
     }
     try:
         return exceptions[name]
