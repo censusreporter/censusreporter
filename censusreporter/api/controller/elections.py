@@ -122,8 +122,7 @@ def get_elections_profile(geo_code, geo_level):
                 'average_turnout': {
                     "name": "Of registered voters cast their vote",
                     "values": {"this": first_party.average_voter_turnout},
-                    "numerators": {"this": (first_party.total_votes +
-                                            first_party.mec7_votes)},
+                    "numerators": {"this": first_party.total_votes},
                     }
             }
 
@@ -181,5 +180,4 @@ def add_summary_data(data_election, geo_code, geo_level, election, ballot_type, 
 
         registered_voters['values'][level] = first_party.registered_voters
         average_turnout['values'][level] = first_party.average_voter_turnout
-        average_turnout['numerators'][level] = (first_party.total_votes +
-                                                first_party.mec7_votes)
+        average_turnout['numerators'][level] = first_party.total_votes
