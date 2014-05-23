@@ -14,6 +14,21 @@ BALLOT_TYPE_DESCRIPTION = {
     'DC 40%': 'District council (DC) 40%'
 }
 
+AVAILABLE_ELECTIONS = [
+    {
+        'electoral_event': 'municipal 2011',
+        'name': 'Municipal 2011',
+        'ballot_type': 'PR',
+    },
+    {
+        'electoral_event': '2014 PROVINCIAL ELECTION',
+        'name': 'Provincial 2014',
+    },
+    {
+        'electoral_event': '2014 NATIONAL ELECTION',
+        'name': 'National 2014',
+    },
+]
 
 def make_party_acronym(name):
     '''
@@ -24,84 +39,96 @@ def make_party_acronym(name):
         "AFRICAN CHRISTIAN ALLIANCE-AFRIKANER CHRISTEN ALLIANSIE": "ACA",
         "DEMOCRATIC ALLIANCE/DEMOKRATIESE ALLIANSIE": "DA",
         "CAPE PARTY/ KAAPSE PARTY": "CP",
-        "KOUGA 2000": "K2000"
+        "KOUGA 2000": "K2000",
+        "CONGRESS  OF THE PEOPLE": "COPE",
+        "AGANG SOUTH AFRICA": "AGANG",
+        "VRYHEIDSFRONT PLUS": "VF+",
+        "PAN AFRICANIST CONGRESS OF AZANIA": "PAC",
+        "FRONT NASIONAAL/FRONT NATIONAL": "FN",
     }
     try:
         return exceptions[name]
-    except KeyError: 
+    except KeyError:
         ignore = set(('AND', 'BY', 'FOR', 'IN', 'OF', 'TO'))
         acronym = ''.join([w.lstrip()[0] for w in name.split(' ')
                            if w.strip() and w.upper() not in ignore])
         return acronym
 
 
-def get_elections_profile(geo_code, geo_level, election="municipal 2011",
-                          ballot_type='PR'):
+def get_elections_profile(geo_code, geo_level):
+    data = {}
     session = get_session()
-
     try:
-        parties = session \
+        for election in AVAILABLE_ELECTIONS:
+            tmp_ballot_type = None
+            if election.get('ballot_type'):
+                tmp_ballot_type = election['ballot_type']
+            parties = session \
                 .query(VoteSummary) \
                 .filter(VoteSummary.geo_level == geo_level) \
                 .filter(VoteSummary.geo_code == geo_code) \
-                .filter(VoteSummary.electoral_event == election) \
-                .filter(VoteSummary.ballot_type == ballot_type) \
+                .filter(VoteSummary.electoral_event == election['electoral_event']) \
+                .filter(VoteSummary.ballot_type == tmp_ballot_type) \
                 .order_by(VoteSummary.valid_votes.desc()) \
                 .all()
-        first_party = parties[0]
-        total_valid_votes = float(first_party.total_votes -
-                                  first_party.spoilt_votes)
+            first_party = parties[0]
+            total_valid_votes = float(first_party.total_votes -
+                                      first_party.spoilt_votes)
+            party_data = OrderedDict()
+            # show 8 largest parties and group the rest as 'Other'
+            for i, obj in enumerate(parties):
+                if i < 8:
+                    party_short = make_party_acronym(obj.party)
+                    party_data[party_short] = {
+                        "name": party_short,
+                        "name_long": obj.party,
+                        "numerators": {"this": obj.valid_votes},
+                        "values": {"this": round(obj.valid_votes /
+                                                 total_valid_votes * 100, 2)}
+                    }
+                else:
+                    party_data.setdefault('Other', {
+                        "name": "Other",
+                        "name_long": "Other",
+                        "numerators": {"this": 0.0},
+                        })
+                    party_data['Other']['numerators']['this'] += obj.valid_votes
+            # calculate percentage for 'Other'
+            if 'Other' in party_data:
+                party_data['Other']['values'] = {'this': round(
+                    party_data['Other']['numerators']['this']
+                    / total_valid_votes * 100,
+                    2
+                )}
 
-        party_data = OrderedDict()
-        # show 8 largest parties and group the rest as 'Other'
-        for i, obj in enumerate(parties):
-            if i < 8:
-                party_short = make_party_acronym(obj.party)
-                party_data[party_short] = {
-                    "name": party_short,
-                    "name_long": obj.party,
-                    "numerators": {"this": obj.valid_votes},
-                    "values": {"this": round(obj.valid_votes /
-                                             total_valid_votes * 100, 2)}
-                }
+            if election.get('ballot_type'):
+                universe = '%s ballots only' % BALLOT_TYPE_DESCRIPTION[election['ballot_type']]
             else:
-                party_data.setdefault('Other', {
-                    "name": "Other",
-                    "name_long": "Other",
-                    "numerators": {"this": 0.0},
-                })
-                party_data['Other']['numerators']['this'] += obj.valid_votes
-        # calculate percentage for 'Other'
-        if 'Other' in party_data:
-            party_data['Other']['values'] = {'this': round(
-                party_data['Other']['numerators']['this']
-                / total_valid_votes * 100,
-                2
-            )}
+                universe = None
+            party_data['metadata'] = {
+                'universe': universe
+            }
+            add_metadata(party_data, VoteSummary)
+            tmp_key = election['name'].lower().replace(' ', '_')
 
-        party_data['metadata'] = {
-            'universe': '%s ballots only' % BALLOT_TYPE_DESCRIPTION[ballot_type]
-        }
-        add_metadata(party_data, VoteSummary)
-
-        data = {
-            election.replace(' ', '_'): {
-                'name': election, 
+            data_election = {
+                'name': election['name'],
+                'key': tmp_key,
                 'party_distribution': party_data,
                 'registered_voters': {
                     "name": "Number of registered voters",
                     "values": {"this": first_party.registered_voters},
-                },
+                    },
                 'average_turnout': {
                     "name": "Of registered voters cast their vote",
                     "values": {"this": first_party.average_voter_turnout},
-                    "numerators": {"this": (first_party.total_votes +
-                                            first_party.mec7_votes)},
-                }
+                    "numerators": {"this": first_party.total_votes},
+                    }
             }
-        }
-        add_summary_data(data, geo_code, geo_level, election, ballot_type,
-                         session)
+
+            add_summary_data(data_election, geo_code, geo_level, election['electoral_event'], tmp_ballot_type, session)
+
+            data[tmp_key] = data_election
         return data
 
     except KeyError:
@@ -110,13 +137,13 @@ def get_elections_profile(geo_code, geo_level, election="municipal 2011",
         session.close()
 
 
-def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
+def add_summary_data(data_election, geo_code, geo_level, election, ballot_type, session):
     '''
     Augments data with country and province-level election stats. It
     adds vote percentages for each party provided in party_distribution.
     It also adds datapoints for registered_voters and average_turnout.
     '''
-    data = data.values()[0]
+    data = data_election
     party_dist_data = data['party_distribution']
     registered_voters = data['registered_voters']
     average_turnout = data['average_turnout']
@@ -130,13 +157,13 @@ def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
 
         # this is a composite primary key lookup
         parties = session \
-                .query(VoteSummary) \
-                .filter(VoteSummary.geo_level == level) \
-                .filter(VoteSummary.geo_code == code) \
-                .filter(VoteSummary.electoral_event == election) \
-                .filter(VoteSummary.ballot_type == ballot_type) \
-                .filter(VoteSummary.party.in_(party_names)) \
-                .all()
+            .query(VoteSummary) \
+            .filter(VoteSummary.geo_level == level) \
+            .filter(VoteSummary.geo_code == code) \
+            .filter(VoteSummary.electoral_event == election) \
+            .filter(VoteSummary.ballot_type == ballot_type) \
+            .filter(VoteSummary.party.in_(party_names)) \
+            .all()
 
         party_by_name = dict((obj.party, obj) for obj in parties)
         first_party = parties[0]
@@ -153,5 +180,4 @@ def add_summary_data(data, geo_code, geo_level, election, ballot_type, session):
 
         registered_voters['values'][level] = first_party.registered_voters
         average_turnout['values'][level] = first_party.average_voter_turnout
-        average_turnout['numerators'][level] = (first_party.total_votes +
-                                                first_party.mec7_votes)
+        average_turnout['numerators'][level] = first_party.total_votes

@@ -240,6 +240,7 @@ class GeographyDetailView(TemplateView):
             geo = get_geography(geo_code, geo_level)
             profile_data = get_census_profile(geo_code, geo_level)
             profile_data['elections'] = get_elections_profile(geo_code, geo_level)
+            profile_data['election_list'] = ["national_2014", "provincial_2014", "municipal_2011"]
             profile_data['geography'] = geo.as_dict_deep()
         except (ValueError, LocationNotFound):
             raise Http404

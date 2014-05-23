@@ -107,7 +107,8 @@
     </header>
     <div class="section-container">
 
-        {% for key, election_data in elections.items %}
+        {% for key in election_list %}
+        {% with elections|get:key as election_data %}
         <section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#{{ election_data.name }}" id="{{ election_data.name }}">{{ election_data.name.capitalize }} <i class="fa fa-link"></i></a></h2>
             <aside>
@@ -118,8 +119,9 @@
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=election_data.average_turnout stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-histogram-elections-{{ key }}-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party" data-qualifier="Universe: {{ election_data.party_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-histogram-elections-{{ election_data.key }}-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party" {% if election_data.party_distribution.metadata.universe %} data-qualifier="Universe: {{ election_data.party_distribution.metadata.universe }}"{% endif %}></div>
         </section>
+        {% endwith %}
         {% endfor %}
 
     </div>

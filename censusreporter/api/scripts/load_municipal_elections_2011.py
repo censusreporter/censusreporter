@@ -72,8 +72,10 @@ if __name__ == '__main__':
         values['district_code'] = session.query(Municipality) \
                                          .get(values['municipality_code']) \
                                          .district_code
+        values['section_24a_votes'] = None
+        values['special_votes'] = None
         session.add(Votes(**values))
-        if i % 10000 == 0:
+        if i % 1000 == 0:
             session.flush()
             sys.stdout.write('\r%s of %s' % (i + 1, total))
             sys.stdout.flush()

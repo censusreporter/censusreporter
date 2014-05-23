@@ -38,6 +38,12 @@ def apply_geo_filters(query, geo_code, geo_level):
         raise ValueError('Invalid geo_level: %s' % geo_level)
 
 
+def clean_str(var):
+    out = '\N'
+    if var:
+        out = str(var)
+    return out
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         raise ValueError("Requires 'electoral event' argument")
@@ -53,7 +59,7 @@ if __name__ == '__main__':
         counter = 0.0
 
         sys.stdout.write('COPY votesummary (geo_level, geo_code, electoral_event, party, '
-                         'ballot_type, registered_voters, total_votes, mec7_votes, '
+                         'ballot_type, registered_voters, total_votes, mec7_votes, section_24a_votes, special_votes, '
                          'valid_votes, spoilt_votes, average_voter_turnout) FROM stdin;\n')
 
         for geo_model in (None, Province, District, Municipality, Ward):
@@ -79,19 +85,29 @@ if __name__ == '__main__':
                 sq = session \
                         .query(func.max(Votes.registered_voters).label('max_rv'),
                                func.max(Votes.total_votes).label('max_tv'),
-                               func.max(Votes.mec7_votes).label('max_mv')) \
+                               func.max(Votes.mec7_votes).label('max_mv'),
+                               func.max(Votes.section_24a_votes).label('max_section_24a_votes'),
+                               func.max(Votes.special_votes).label('max_special_votes')) \
                         .group_by(Votes.voting_district_code) \
                         .filter(Votes.electoral_event == election)
                 sq = apply_geo_filters(sq, code, level).subquery()
-                registered_voters, total_votes, mec7_votes = session \
+                registered_voters, total_votes, mec7_votes, section_24a_votes, special_votes = session \
                         .query(func.sum(sq.c.max_rv),
                                func.sum(sq.c.max_tv),
-                               func.sum(sq.c.max_mv)) \
+                               func.sum(sq.c.max_mv),
+                               func.sum(sq.c.max_section_24a_votes),
+                               func.sum(sq.c.max_special_votes)) \
                         .one()
-                voter_turnout = round(float(total_votes + mec7_votes)
+                tmp = total_votes
+                if mec7_votes:
+                    tmp += mec7_votes
+                voter_turnout = round(float(tmp)
                                       / registered_voters * 100, 2)
 
-                for ballot in ('WARD', 'PR', 'DC 40%'):
+                ballot_types = (None,)
+                if election == "municipal 2011":
+                    ballot_types = ('WARD', 'PR', 'DC 40%')
+                for ballot in ballot_types:
                     vbp = apply_votes_filters(votes_by_party_geo, election, ballot)
                     sq = apply_votes_filters(subquery_geo, election, ballot).subquery()
                     total_votes, spoilt_votes = \
@@ -102,9 +118,9 @@ if __name__ == '__main__':
 
                     for party, votes in vbp:
                         sys.stdout.write('%s\n' % '\t'.join(map(
-                            str,
+                            clean_str,
                             [level, code, election, party, ballot, registered_voters,
-                             total_votes, mec7, votes, spoilt_votes, voter_turnout]
+                             total_votes, mec7, section_24a_votes, special_votes, votes, spoilt_votes, voter_turnout]
                         )))
                     counter += 1
                     sys.stderr.write('\r%d / %d' % (counter, total))
