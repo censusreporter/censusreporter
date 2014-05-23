@@ -73,7 +73,7 @@ Hurray! Your local copy of Census Reporter will be hitting our production data s
 Getting data from our API (the basics)
 ======================================
 
-As part of the Census Reporter project, we've loaded ACS data into a Postgres database to make queries significantly easier. The Census Reporter website gets information from this database using the API at api.censusreporter.org. We'll provide extensive API documentation separately, but here are the basic endpoints you're likely to use:
+As part of the Census Reporter project, we've loaded ACS data into a Postgres database to make queries significantly easier. The Census Reporter website gets information from this database using the API at api.censusreporter.org. For more extensive API documentation, <a href="https://github.com/censusreporter/census-api/blob/master/README.md">see the census-api repository and README</a>. Here is a basic introduction to the endpoints you're likely to use:
 
 ###Show data
 This endpoint does the heavy lifting for Census Reporter's profile and comparison pages. Given a release code, a table code, and a geography, it will return American Community Survey data. A common call to this endpoint might look like:
