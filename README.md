@@ -20,6 +20,9 @@ In This Guide
 * [Profile pages](#profile-pages)
     * [The profile page back end](#the-profile-page-back-end)
     * [The profile page front end](#the-profile-page-front-end)
+        * [Profile map](#profile-map)
+        * [Profile charts](#profile-charts)
+        * [Responsive design](#responsive-design)
 
 Setting up for local development
 ================================
@@ -359,25 +362,25 @@ The profile generator at `profile.py` does a number of things:
 * establishes a connection to the Census Reporter API
 * takes the geoID from the URL and uses the ["geography parents" API endpoint](#get-geography-parents) to determine which geographies should be shown as comparative data
 * uses the ["geography metadata" endpoint](#get-geography-metadata) to get basic information about each parent as well as the requested geography
-* uses the ["show data" endpoint](#show-data) to query each table necessary to build the set of data points displayed on the page
-    * When requesting the profiled geography's total population, a default ACS release is also stored so that any data point that comes from a different release can be flagged. There are cases where a place has enough people to exist in the 1-year release, for example, but certain tables have smaller universes that force us to dip into the 3-year or 5-year release to find data.
-    * In many cases, columns are added together here for display purposes. For example, creating the "10-19" category in the profile page's age distribution chart requires adding together six columns from Table B01001: "10 to 14 years," "15 to 17 years," and "18 and 19 years," for males and for females.
-    * In many cases, a denominator column is used for division, to arrive at a percentage figure.
-    * In some cases, data from more than one table is required for the figure shown on the profile page. For example, determining "Mean travel time to work" requires the total number of workers found in Table B08006 as well as the aggregate minutes spent commuting, found in Table B08013.
+* uses the ["show data" endpoint](#show-data) to query each table necessary for the charts and figures on the page
+    * When requesting the profiled geography's total population, a default ACS release is also stored. This lets us flag any data point that comes from a different release; there are cases where a place has a high enough population for the 1-year release, for example, but specific tables have smaller universes that force us to dip into 3-year or 5-year releases to find data.
+    * In many cases, columns are added together for display purposes. For example, creating the "10-19" category in the profile page's age distribution chart requires adding together six columns from Table B01001: the male and female versions of "10 to 14 years," "15 to 17 years," and "18 and 19 years."
+    * In many cases, a denominator column is used for division so we can display a percentage.
+    * In some cases, data from more than one table is required. For example, determining a place's "Mean travel time to work" requires the total number of workers, found in Table B08006, as well as the aggregate minutes spent commuting, found in Table B08013.
 
-If the profile generator is invoked, it returns a Python dict with this processed data from the API. The `GeographyDetail` passes this dict into an `enhance_api_data` method to do a couple more things:
+If the profile generator is invoked, it returns a Python dictionary with this processed data from the API. The `GeographyDetail` view passes this into an `enhance_api_data` method to do a couple more things:
 
-* limits the data dictionary to the profile geography plus at most two parent geographies
-* calculates index values, figures from the profile geography expressed as percentages of the values from parent geographies. (These are ultimately used Madlib-style, for phrases like "a little less than the figure in Washington")
+* removes extraneous comparisons, limiting data to the profile geography plus at most two parent geographies
+* calculates index values, which are figures from the profile geography expressed as percentages of a parent geography's value. (These are ultimately used Madlib-style, for phrases like "a little less than the figure in Washington")
 * calculates margin of error ratios to determine which data points should be flagged as requiring extra care
 
-And then `GeographyDetail` writes all this data as flat JSON to an S3 bucket, so this process never has to be repeated. Regardless of whether the data came straight from JSON or had to be generated, the `GeographyDetail` view's final job is to use `SafeString()` to hand everything to the template in a format suitable for javascript use.
+Once this is done, `GeographyDetail` writes everything as flat JSON to an S3 bucket so this process never has to be repeated. Regardless of whether the data came straight from JSON or had to be generated, the `GeographyDetail` view's final job is to use `SafeString()` to hand everything to the template in a format suitable for use as Javascript variables.
 
-This pattern&mdash;using a generator script to collect and shape data from multiple tables, then storing the results as flat JSON&mdash;is something that could be repeated for new Census Reporter features. We'd like to add deeper category profiles for each of the Demographics, Economics, Families, Housing and Social sections, for example.
+This pattern&mdash;using a generator script to collect and shape data from multiple tables, then storing the results as flat JSON&mdash;is something that could be repeated for new Census Reporter features. We'd like to add deeper category profiles for each of the Demographics, Economics, Families, Housing and Social sections, for example, which could be done by copying and modifying the <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/profile.py#L173">`geo_profile` method</a> in `profile.py`.
 
 ###The profile page front end
 
-The skeleton of the profile page you see on the Census Reporter website is created by <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html">a Django template</a>, then the map is filled in by one Javascript library: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/TileLayer.GeoJSON.js">`TileLayer.GeoJSON.js`</a>, and the charts filled in by another: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/charts.js">`charts.js`</a>.
+The skeleton of the profile page you see on the Census Reporter website is created by <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html">a Django template</a>. The map is filled in by one Javascript library: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/TileLayer.GeoJSON.js">`TileLayer.GeoJSON.js`</a>, and the charts filled in by another: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/charts.js">`charts.js`</a>.
 
 ####Profile map
 
@@ -389,7 +392,7 @@ The Django template for the profile page creates empty slots for each chart, whi
 
     <div class="column-half" id="chart-histogram-demographics-age-distribution_by_decade-total" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
 
-The `column-*` class isn't really important here; that's just a structural setting that gives the block an appropriate amount of width. What we really care about are the `id` and `data-*` attribute values. Those `data` attributes provide a place to pass some extra data into the chart constructor, and the `id` value tells the constructor what type of chart to draw and which data to use.
+The `column-*` class isn't really important here; that's just a structural setting that gives the block an appropriate amount of width that can be governed with media queries. What we really care about are the `id` and `data-*` attribute values. The `data` attributes provide a place to pass optional information into the chart constructor, and the `id` value tells the constructor what type of chart to draw and which data to use.
 
 At the bottom of the profile page, we trigger all the charts at once. Profile data is assigned to a Javascript variable:
 
@@ -399,7 +402,7 @@ And we grab all the chart placeholders with:
 
     chartContainers = $('[id^=chart-]')
 
-The `makeCharts()` function then loops through those containers, empties each one of any contents, and builds the variables required for a chart:
+The <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html#L437">`makeCharts()` function</a> then loops through those containers, empties each one of any contents, and builds the variables required for a chart:
 
     chartDataKey = chartID.replace('chart-','').replace('alt-','')
     chartDataID = chartDataKey.split('-') #temporary variable
@@ -407,7 +410,9 @@ The `makeCharts()` function then loops through those containers, empties each on
     chartData = profileData[chartDataID[1]]
     geographyData = profileData['geography']
 
-`chartDataKey`: This tells us everything we need to know to recreate this particular chart from a given set of profile data, and we'll use it to populate embed code if a user asks for it. In the example above, this would be `histogram-demographics-age-distribution_by_decade-total`.
+#####Required variables
+
+`chartDataKey`: This tells us everything we need to know to recreate this particular chart from a given set of profile data, and we'll use it to populate embed code if a user asks for it. In the example above, this value would be `histogram-demographics-age-distribution_by_decade-total`.
 
 `chartType`: The first bit of our `chartDataKey`, in this case `histogram`, represents the type of chart we want. The `charts.js` library currently supports:
 
@@ -420,24 +425,63 @@ The `makeCharts()` function then loops through those containers, empties each on
 
 You'll note that we actually pass this value through a function called `gracefulType`, which allows us to change chart types based on screen width. More on that in a moment.
 
-`chartData`: The rest of our `chartDataKey` provides the path to proper data for this chart. We start by filling this variable with a top-level item from `profileData`, in this case `demographics`. Then we use a loop to drill down based on the rest of our keys: `demographics` > `age` > `distribution_by_decade` > `total`. That's where we'll find The data there will be passed into the chart constructor as `chartData`.
+`chartData`: The rest of our `chartDataKey` provides the path to the data that should fill this chart. We start by assigning this variable a top-level item from `profileData`, in this case `demographics`. Then we use a loop to drill down based on the rest of our keys: `demographics` > `age` > `distribution_by_decade` > `total`. That's where we'll find the data to pass into the chart constructor.
 
 `geographyData`: We also reach into `profileData` for names and summary levels of the chosen place and its parent geographies.
 
-These four variables are required for `charts.js` to make a chart. Placeholder containers can also use data attributes to pass in optional values:
+#####Optional variables
 
-`data-chart-title`: A title to place above the chart elements, passed to the chart constructor as `chartChartTitle`. Defaults to `null`.
+Placeholder containers can also use data attributes to pass optional information to the chart constructor. Our example container uses `data-stat-type` and `data-chart-title`:
+
+    <div class="column-half" id="chart-histogram-demographics-age-distribution_by_decade-total" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
+
+The `makeCharts()` function will recognize:
+
+`data-chart-title`: A title to place above the chart elements, passed to the chart constructor as `chartChartTitle`. Defaults to `null`, although most charts on Census Reporter's profile pages do assign a value here.
 
 `data-initial-sort`: Used only by pie charts. Determines which category to highlight when the chart is initialized. A placeholder container with `data-initial-sort="-value"` will display the highest data value in the chart on load. Otherwise the first value in the chart will serve as the default state.
 
 `data-stat-type`: Provides formatting hints for the chart's language and display. Standard chart behavior may be overriden with these values:
 
-* "percentage": Adds a "%" character after figures in the chart. Sets chart domain to 0-100. Uses "rate" in comparison sentences.
-* "scaled-percentage": Does the same things as "percentage," but also scales the chart so that the highest category value takes up the full vertical space available.
-* "dollar": Adds a "$" character before figures in the chart. Uses "amount" in comparison sentences.
+* **percentage**: Adds a "%" character after figures in the chart. Sets chart domain to 0-100. Uses "rate" in comparison sentences.
+* **scaled-percentage**: Does the same things as "percentage," but also scales the chart so that the highest category value takes up the full vertical space available.
+* **dollar**: Adds a "$" character before figures in the chart. Uses "amount" in comparison sentences.
 
-`data-qualifier`: Adds a trailing line below the chart, prepended with an "*" character. This is useful when charts require a little extra context. For example, the profile page's "Race & Ethnicity" column chart adds this explanation: "Hispanic includes respondents of any race. Other categories are non-Hispanic."
+`data-qualifier`: Adds a trailing line below the chart, prepended with an "*" character. This is useful when charts require a little extra context. For example, the profile page's <a href="http://censusreporter.org/profiles/16000US5367000-spokane-wa/#race">"Race & Ethnicity" column chart</a> adds this explanation: "Hispanic includes respondents of any race. Other categories are non-Hispanic."
 
+####Responsive design
 
+The charts on Census Reporter's profile pages are responsive to browser width. They use a combination of CSS media queries and Javascript to accommodate various screen sizes. Media queries take care of changes like column widths and legend placements, and they help arrange the interactive hovercards that provide extra data when a user mouses over or taps a chart element.
 
+Javascript comes into play so we can completely change chart types that won't read well at certain widths. There are a couple functions <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html#L425">at the bottom of the profile template</a> that make this happen:
+
+`lazyRedrawCharts`: This function updates `window.browserWidth` and `window.browserHeight` variables whenever a page is resized, then triggers `makeCharts()` to redraw any charts on the page according to their new available widths. (This is why `makeCharts()` empties out the contents of each container first. So they can be filled again, maybe even with a different chart format.) Realistically, this most likely gets triggered by a user turning a phone or tablet from portrait to landscape orientation, but just in case, the redraw is debounced to avoid a crazy number of events firing off.
+
+    var lazyRedrawCharts = _.debounce(function() {
+        window.browserWidth = document.documentElement.clientWidth;
+        window.browserHeight = document.documentElement.clientHeight;
+        makeCharts();
+    }, 50);
+    $(window).resize(lazyRedrawCharts);
+    
+
+`gracefulType`: This function checks `window.browserWidth`, and if it's too narrow to reasonably display a column chart, flips it to a bar chart. This is called by each chart inside the `makeCharts()` function, which is triggered on page load as well as resize thanks to `lazyRedrawCharts`.
+
+    var gracefulType = function(chartType) {
+        if (browserWidth <= 640) {
+            if (chartType == 'column' || chartType == 'histogram') {
+                return 'bar'
+            } else if (chartType == 'grouped_column') {
+                return 'grouped_bar'
+            }
+        }
+        return chartType
+    }
+
+Between media queries and this Javascript, charts should be useful on phones as much as desktops.
+
+Data comparison pages
+=====================
+
+Tabular view, map view, distribution view. Docs soon.
 
