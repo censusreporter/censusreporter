@@ -18,6 +18,8 @@ In This Guide
     * [Geography search](#geography-search)
     * [Table search](#table-search)
 * [Profile pages](#profile-pages)
+    * [The profile page back end](#the-profile-page-back-end)
+    * [The profile page front end](#the-profile-page-front-end)
 
 Setting up for local development
 ================================
@@ -350,6 +352,92 @@ The Census Reporter website generates profile pages for geographies at the <a hr
 
 ###The profile page back end
 
-Each profile page requires queries against a few dozen Census tables. To lighten the database load, everything has been pre-computed and stored as JSON in an Amazon S3 bucket, so most of these pages should never touch the API. When the Census Reporter app sees a profile request, the `GeographyDetail` view <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/views.py#L285">checks for flat JSON data</a> first, and falls back to <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/profile.py">a profile generator</a> if necessary.
+Each profile page requires queries against a few dozen Census tables. To lighten the database load, profile data has been pre-computed and stored as JSON in an Amazon S3 bucket, so most of these pages should never touch the API. When the Census Reporter app sees a profile request, the <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/views.py">`GeographyDetail`</a> view <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/views.py#L285">checks for flat JSON data</a> first, and falls back to <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/profile.py">a profile generator</a> if necessary.
 
-The profile generator at `profile.py` does a lot of work: 
+The profile generator at `profile.py` does a number of things:
+
+* establishes a connection to the Census Reporter API
+* takes the geoID from the URL and uses the ["geography parents" API endpoint](#get-geography-parents) to determine which geographies should be shown as comparative data
+* uses the ["geography metadata" endpoint](#get-geography-metadata) to get basic information about each parent as well as the requested geography
+* uses the ["show data" endpoint](#show-data) to query each table necessary to build the set of data points displayed on the page
+    * When requesting the profiled geography's total population, a default ACS release is also stored so that any data point that comes from a different release can be flagged. There are cases where a place has enough people to exist in the 1-year release, for example, but certain tables have smaller universes that force us to dip into the 3-year or 5-year release to find data.
+    * In many cases, columns are added together here for display purposes. For example, creating the "10-19" category in the profile page's age distribution chart requires adding together six columns from Table B01001: "10 to 14 years," "15 to 17 years," and "18 and 19 years," for males and for females.
+    * In many cases, a denominator column is used for division, to arrive at a percentage figure.
+    * In some cases, data from more than one table is required for the figure shown on the profile page. For example, determining "Mean travel time to work" requires the total number of workers found in Table B08006 as well as the aggregate minutes spent commuting, found in Table B08013.
+
+If the profile generator is invoked, it returns a Python dict with this processed data from the API. The `GeographyDetail` passes this dict into an `enhance_api_data` method to do a couple more things:
+
+* limits the data dictionary to the profile geography plus at most two parent geographies
+* calculates index values, figures from the profile geography expressed as percentages of the values from parent geographies. (These are ultimately used Madlib-style, for phrases like "a little less than the figure in Washington")
+* calculates margin of error ratios to determine which data points should be flagged as requiring extra care
+
+And then `GeographyDetail` writes all this data as flat JSON to an S3 bucket, so this process never has to be repeated. Regardless of whether the data came straight from JSON or had to be generated, the `GeographyDetail` view's final job is to use `SafeString()` to hand everything to the template in a format suitable for javascript use.
+
+This pattern&mdash;using a generator script to collect and shape data from multiple tables, then storing the results as flat JSON&mdash;is something that could be repeated for new Census Reporter features. We'd like to add deeper category profiles for each of the Demographics, Economics, Families, Housing and Social sections, for example.
+
+###The profile page front end
+
+The skeleton of the profile page you see on the Census Reporter website is created by <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html">a Django template</a>, then the map is filled in by one Javascript library: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/TileLayer.GeoJSON.js">`TileLayer.GeoJSON.js`</a>, and the charts filled in by another: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/charts.js">`charts.js`</a>.
+
+####Profile map
+
+The profile page uses Javascript to call the ["geography metadata" endpoint](#get-geography-metadata), using the `geom=true` argument to get boundary coordinates for the chosen place. A tile layer then adds shapes of nearby geographies at the same summary level, which can be used to navigate to their corresponding profile pages. The map will also do some smart centering to account for the box full of place metadata in that part of the page.
+
+####Profile charts
+
+The Django template for the profile page creates empty slots for each chart, which are filled on load by `charts.js`. These placeholders look something like:
+
+    <div class="column-half" id="chart-histogram-demographics-age-distribution_by_decade-total" data-stat-type="scaled-percentage" data-chart-title="Population by age range"></div>
+
+The `column-*` class isn't really important here; that's just a structural setting that gives the block an appropriate amount of width. What we really care about are the `id` and `data-*` attribute values. Those `data` attributes provide a place to pass some extra data into the chart constructor, and the `id` value tells the constructor what type of chart to draw and which data to use.
+
+At the bottom of the profile page, we trigger all the charts at once. Profile data is assigned to a Javascript variable:
+
+    profileData = {{ profile_data_json }};
+    
+And we grab all the chart placeholders with:
+
+    chartContainers = $('[id^=chart-]')
+
+The `makeCharts()` function then loops through those containers, empties each one of any contents, and builds the variables required for a chart:
+
+    chartDataKey = chartID.replace('chart-','').replace('alt-','')
+    chartDataID = chartDataKey.split('-') #temporary variable
+    chartType = gracefulType(chartDataID[0])
+    chartData = profileData[chartDataID[1]]
+    geographyData = profileData['geography']
+
+`chartDataKey`: This tells us everything we need to know to recreate this particular chart from a given set of profile data, and we'll use it to populate embed code if a user asks for it. In the example above, this would be `histogram-demographics-age-distribution_by_decade-total`.
+
+`chartType`: The first bit of our `chartDataKey`, in this case `histogram`, represents the type of chart we want. The `charts.js` library currently supports:
+
+* pie
+* column
+* grouped_column
+* histogram
+* bar
+* grouped_bar
+
+You'll note that we actually pass this value through a function called `gracefulType`, which allows us to change chart types based on screen width. More on that in a moment.
+
+`chartData`: The rest of our `chartDataKey` provides the path to proper data for this chart. We start by filling this variable with a top-level item from `profileData`, in this case `demographics`. Then we use a loop to drill down based on the rest of our keys: `demographics` > `age` > `distribution_by_decade` > `total`. That's where we'll find The data there will be passed into the chart constructor as `chartData`.
+
+`geographyData`: We also reach into `profileData` for names and summary levels of the chosen place and its parent geographies.
+
+These four variables are required for `charts.js` to make a chart. Placeholder containers can also use data attributes to pass in optional values:
+
+`data-chart-title`: A title to place above the chart elements, passed to the chart constructor as `chartChartTitle`. Defaults to `null`.
+
+`data-initial-sort`: Used only by pie charts. Determines which category to highlight when the chart is initialized. A placeholder container with `data-initial-sort="-value"` will display the highest data value in the chart on load. Otherwise the first value in the chart will serve as the default state.
+
+`data-stat-type`: Provides formatting hints for the chart's language and display. Standard chart behavior may be overriden with these values:
+
+* "percentage": Adds a "%" character after figures in the chart. Sets chart domain to 0-100. Uses "rate" in comparison sentences.
+* "scaled-percentage": Does the same things as "percentage," but also scales the chart so that the highest category value takes up the full vertical space available.
+* "dollar": Adds a "$" character before figures in the chart. Uses "amount" in comparison sentences.
+
+`data-qualifier`: Adds a trailing line below the chart, prepended with an "*" character. This is useful when charts require a little extra context. For example, the profile page's "Race & Ethnicity" column chart adds this explanation: "Hispanic includes respondents of any race. Other categories are non-Hispanic."
+
+
+
+
