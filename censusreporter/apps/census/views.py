@@ -803,7 +803,7 @@ class Elasticsearch(TemplateView):
         }
         tables = None
         columns = None
-        geo_select = self.request.GET.get('geo_select')
+        geo_select = self.request.GET.get('g')
         table_select = self.request.GET.get('table_select')
 
         if geo_select:
@@ -814,10 +814,11 @@ class Elasticsearch(TemplateView):
             r = requests.get(api_endpoint, params=api_params)
             status_code = r.status_code
 
-            print r.url
+            #print r.url
             if status_code == 200:
                 data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
                 page_context['geos'] = data['results']
+                page_context['g'] = geo_select
             elif status_code == 404 or status_code == 400:
                 error_data = simplejson.loads(r.text)
                 raise_404_with_messages(self.request, error_data)

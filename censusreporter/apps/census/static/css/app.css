@@ -260,7 +260,8 @@ img.screenshot {
     line-height: 2em;
 }
 #menu a.button,
-a.action-button {
+a.action-button,
+.big-action .with-submit input[type="submit"] {
     color: #fff;
     display: block;
     margin-top: 0;
@@ -271,6 +272,7 @@ a.action-button {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    border: none;
 }
 #menu a.button i {
     position: absolute;
@@ -652,8 +654,7 @@ h1.article-header-right {
     text-align: right;
     padding-right: .1em;
 }
-#homepage #profile h1,
-#homepage #explore h1 {
+#homepage .big-action h1 {
     float: left;
     width: 150px;
 }
@@ -673,13 +674,24 @@ h1.article-header-right {
     text-align: right;
     padding-top: .5em;
 }
-#homepage #geography-select,
-#explore input,
+.big-action input,
 #query-topic-picker input {
     font-size: 1.6em;
     padding: .25em .5em 0;
     width: 100%;
 }
+.big-action .with-submit input[type="text"] {
+    width: 88%;
+}
+.big-action .with-submit input[type="submit"] {
+    width: 10%;
+    margin-left: 1%;
+    display: inline-block;
+    height: 2.6em;
+    font-size: 1.3em;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 #profile #query-topic-picker input,
 #map-controls #query-topic-picker input {
     font-size: 1em;
@@ -717,11 +729,11 @@ h1.article-header-right {
 #homepage #query-builder-bar {
     margin: 1.5em 0;
 }
-.homepage-action {
+.big-action {
     clear: both;
     margin: 0 0 1em;
 }
-.homepage-action .help-text {
+.big-action .help-text {
     margin: .67em 1.2em;
     font-style: italic;
     font-size: 1em;
