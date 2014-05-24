@@ -1,8 +1,8 @@
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
+from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
-from django.core.urlresolvers import reverse_lazy
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
@@ -48,10 +48,17 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^data/$',
+        regex   = '^tables/$',
         view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="data/data_builder.html")),
         kwargs  = {},
-        name    = 'data_builder',
+        name    = 'table_search',
+    ),
+
+    url(
+        regex   = '^data/$',
+        view    = RedirectView.as_view(url=reverse_lazy('table_search')),
+        kwargs  = {},
+        name    = 'table_search_redirect',
     ),
 
     # e.g. /table/B01001/
@@ -71,7 +78,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^topics/race-latino/?$',
-        view    = RedirectView.as_view(url = reverse_lazy('topic_detail',kwargs={'topic_slug': 'race-hispanic'})),
+        view    = RedirectView.as_view(url=reverse_lazy('topic_detail', kwargs={'topic_slug': 'race-hispanic'})),
         name    = 'topic_latino_redirect',
     ),
 
@@ -116,19 +123,6 @@ urlpatterns = patterns('',
         view    = PlaceSearchJson.as_view(),
         kwargs  = {},
         name    = 'place_search_json',
-    ),
-
-    url(
-        regex   = '^table-search/$',
-        view    = TableSearch.as_view(),
-        kwargs  = {},
-        name    = 'table_search',
-    ),
-    url(
-        regex   = '^table-search/json/$',
-        view    = TableSearchJson.as_view(),
-        kwargs  = {},
-        name    = 'table_search_json',
     ),
 
     url(

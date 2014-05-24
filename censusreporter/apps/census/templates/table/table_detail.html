@@ -25,11 +25,11 @@
 
 {% block header_content %}
 <div id="explore" class="wrapper clearfix header-container">
-    <section id="explore-topic-place-picker" class="column-full clearfix homepage-action">
-        <h1 class="article-header">Show data from this table</h1>
+    <section id="explore-topic-place-picker" class="clearfix homepage-action">
+        <h1 class="article-header">Table {{ table.table_id }}: {{ table.simple_table_title }}</h1>
         <div id="topic-place-select-wrapper" class="input-wrapper">
-            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Choose a place or geographic summary level..." autocomplete="off">
-            <p class="help-text">Find a place to explore data, or choose a geographic summary level to build a comparison.</p>
+            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Show data from this table..." autocomplete="off">
+            <p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>
         </div>
     </section>
     <section id="explore-topic-place-picker-parent" class="column-full clearfix homepage-action">
@@ -51,7 +51,7 @@
     </header>
     <div class="section-container">
         <section class="clearfix">
-            <h2 class="header-for-columns">{{ table.simple_table_title }}</h2>
+            <h2 class="header-for-columns">Table universe: <span class="normal">{{ table.universe }}</span></h2>
             <aside>
                 {% if tabulation.table_versions|length > 1 %}
                 <h5>Other versions of this table</h5>
@@ -60,9 +60,9 @@
                 {% endfor %}</ul>
                 {% endif %}
             </aside>
-            <p class="caption"><strong>Table universe:</strong> {{ table.universe }}</p>
 
             <div class="column-golden-wide expanded-table">
+                <h4>Columns in this table</h4>
                 <ul>{% for column_id, column_data in table.columns.items %}
                     <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>
                 {% endfor %}</ul>

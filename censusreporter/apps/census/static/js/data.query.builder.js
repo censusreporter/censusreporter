@@ -119,10 +119,12 @@ function makeTopicSelectWidget(element) {
 
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
-        makePlaceSelectWidget(placeSelect);
-        placeSelectContainer.slideDown();
-        placeSelect.focus();
-        $('#explore-callouts').hide();
+        window.location.href = '/tables/' + chosenTableID + '/'
+        
+        //makePlaceSelectWidget(placeSelect);
+        //placeSelectContainer.slideDown();
+        //placeSelect.focus();
+        //$('#explore-callouts').hide();
         //topicFilters.prop('checked', false);
     });
 }
