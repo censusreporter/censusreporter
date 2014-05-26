@@ -123,7 +123,13 @@ class TableDetailView(TemplateView):
     }
     
     def dispatch(self, *args, **kwargs):
-        self.table_code = self.kwargs.get('table', None)
+        table_argument = self.kwargs.get('table', None)
+        # canonicalize
+        if table_argument and not table_argument == table_argument.upper():
+            return HttpResponseRedirect(
+                        reverse('table_detail', args=(table_argument.upper(),))
+                    )
+        self.table_code = table_argument
         self.table_group = self.table_code[0]
         self.tabulation_code = re.sub("\D", "", self.table_code)
 
