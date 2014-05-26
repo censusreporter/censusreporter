@@ -70,7 +70,7 @@ def raise_404_with_messages(request, error_data={}):
     raise Http404
 
 
-### DETAIL ###
+### TABLES ###
 class TableDetailView(TemplateView):
     template_name = 'table/table_detail.html'
     RELEASE_TRANSLATE_DICT = {
@@ -205,9 +205,40 @@ class TableDetailView(TemplateView):
         page_context['related_topic_pages'] = self.get_topic_pages(page_context['table']['topics'])
         
         return page_context
-    
+
+
+### PROFILES ###
+class GeographySearchView(TemplateView):
+    template_name = 'profile/profile_search.html'
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {}
+        q = self.request.GET.get('q')
+
+        if q:
+            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
+            api_params = {
+                'q': q,
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
+
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+
+                page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+                page_context['geos'] = data['results']
+                page_context['q'] = q
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
+
+        return page_context
+
 class GeographyDetailView(TemplateView):
-    template_name = 'profile/profile.html'
+    template_name = 'profile/profile_detail.html'
 
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get('geography_id', None)

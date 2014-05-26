@@ -789,6 +789,14 @@ h1.article-header-right {
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
+
+.search-result-item {
+    margin: 0 0 2em;
+}
+.search-result-item p {
+    margin: .5em 0;
+}
+
 /* STATS */
 .stat {
     width: 100%;

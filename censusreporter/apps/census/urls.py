@@ -5,9 +5,10 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
-    TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, ExampleView, TableDetailView, Elasticsearch)
+from .views import (HomepageView, GeographyDetailView, GeographySearchView,
+    PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView,
+    HealthcheckView, DataView, TopicView, ExampleView, TableDetailView,
+    Elasticsearch)
 
 admin.autodiscover()
 
@@ -37,6 +38,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail_geoid',
+    ),
+
+    url(
+        regex   = '^profiles/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(GeographySearchView.as_view()),
+        kwargs  = {},
+        name    = 'geography_search',
     ),
 
     # e.g. /table/B01001/

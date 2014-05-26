@@ -1,0 +1,105 @@
+{% extends '_base.html' %}
+
+{% block head_title %}Geography Search - {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="clearfix big-action" id="query-geo-picker">
+    <h1 class="article-header">Find a place</h1>
+    <div class="typeahead-container input-wrapper with-submit">
+        <form>
+            <input name="q" id="geography-select" type="text" value="{{ q }}" placeholder="Search by place name..." autocomplete="off">
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+</section>
+
+<article id="geography-results"></article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+{% verbatim %}
+<script id="geography-result-item" type="text/x-handlebars-template">
+    <div class="search-result-item">
+        <h2><a href="/profiles/{{full_geoid}}-{{{getSlug display_name}}}/">{{display_name}}</a></h2>
+        <p class="display-type">
+            <span class="caption-group"><strong>2013 population estimate:</strong> {{getCommaFmt population}}</span>
+        </p>
+        <p class="display-type">
+            <span class="caption-group"><strong>Summary level:</strong> {{sumlev}}</span>
+            <span class="caption-group"><strong>Type:</strong> {{getSumlevName sumlev}}</span>
+        </p>
+    </div>
+</script>
+{% endverbatim %}
+
+<script type="text/javascript">
+Handlebars.registerHelper('getSlug', function(str) {
+    return new Handlebars.SafeString(slugify(str));
+});
+Handlebars.registerHelper('getSumlevName', function(str) {
+    var sumlevName = (sumlevMap[str]) ? sumlevMap[str]['name'] : '';
+    return new Handlebars.SafeString(capitalize(sumlevName));
+});
+Handlebars.registerHelper('getCommaFmt', function(str) {
+    return new Handlebars.SafeString(commaFmt(str));
+});
+
+var results = {{ results }},
+    resultItemTemplate = Handlebars.compile($('#geography-result-item').html());
+
+var showResults = function(results) {
+    var resultsContainer = $('#geography-results');
+    
+    $.each(results, function(i, v){
+        resultsContainer.append(resultItemTemplate(v));
+    });
+}
+showResults(results);
+
+var geoSelectEngine = new Bloodhound({
+    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    limit: 1500,
+    remote: {
+        url: "http://api.censusreporter.org/1.0/geo/suggest",
+        replace: function (url, query) {
+            return url + '?q=' + query;
+        },
+        filter: function(response) {
+            var data = response.results;
+            var resultNumber = data.length;
+            if (resultNumber === 0) {
+                data.push({
+                    table_name: 'Sorry, no matches found. Try changing your search.'
+                });
+            }
+            return data;
+        }
+    }
+});
+geoSelectEngine.initialize();
+
+function makeElasticSearchGeoSelectWidget(element) {
+    element.typeahead('destroy');
+    element.typeahead({
+        autoselect: true,
+        highlight: false,
+        hint: false,
+        minLength: 2
+    }, {
+        name: 'geo',
+        displayKey: 'geoid',
+        source: geoSelectEngine.ttAdapter(),
+        templates: {
+            suggestion: Handlebars.compile(
+                [
+                    {% verbatim %}
+                    '<p class="result-name">{{name}}</p>',
+                    {% endverbatim %}
+                ].join('')
+            )
+        }
+    });
+}
+</script>
+{% endblock %}
