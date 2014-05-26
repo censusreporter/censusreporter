@@ -6,9 +6,8 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    PlaceSearchJson, TableSearch, TableSearchJson, GeoSearch, LocateView,
-    HealthcheckView, DataView, TopicView, ExampleView, TableDetailView,
-    Elasticsearch)
+    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch, LocateView,
+    HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
 admin.autodiscover()
 
@@ -57,7 +56,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^tables/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="data/data_builder.html")),
+        view    = cache_page(STANDARD_CACHE_TIME)(TableSearchView.as_view()),
         kwargs  = {},
         name    = 'table_search',
     ),

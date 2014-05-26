@@ -45,61 +45,15 @@ Handlebars.registerHelper('getCommaFmt', function(str) {
 });
 
 var results = {{ results }},
-    resultItemTemplate = Handlebars.compile($('#geography-result-item').html());
+    geoItemTemplate = Handlebars.compile($('#geography-result-item').html());
 
 var showResults = function(results) {
     var resultsContainer = $('#geography-results');
     
     $.each(results, function(i, v){
-        resultsContainer.append(resultItemTemplate(v));
+        resultsContainer.append(geoItemTemplate(v));
     });
 }
 showResults(results);
-
-var geoSelectEngine = new Bloodhound({
-    datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    limit: 1500,
-    remote: {
-        url: "http://api.censusreporter.org/1.0/geo/suggest",
-        replace: function (url, query) {
-            return url + '?q=' + query;
-        },
-        filter: function(response) {
-            var data = response.results;
-            var resultNumber = data.length;
-            if (resultNumber === 0) {
-                data.push({
-                    table_name: 'Sorry, no matches found. Try changing your search.'
-                });
-            }
-            return data;
-        }
-    }
-});
-geoSelectEngine.initialize();
-
-function makeElasticSearchGeoSelectWidget(element) {
-    element.typeahead('destroy');
-    element.typeahead({
-        autoselect: true,
-        highlight: false,
-        hint: false,
-        minLength: 2
-    }, {
-        name: 'geo',
-        displayKey: 'geoid',
-        source: geoSelectEngine.ttAdapter(),
-        templates: {
-            suggestion: Handlebars.compile(
-                [
-                    {% verbatim %}
-                    '<p class="result-name">{{name}}</p>',
-                    {% endverbatim %}
-                ].join('')
-            )
-        }
-    });
-}
 </script>
 {% endblock %}

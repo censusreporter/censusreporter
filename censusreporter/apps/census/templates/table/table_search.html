@@ -1,0 +1,59 @@
+{% extends '_base.html' %}
+
+{% block head_title %}Table Search - {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="clearfix big-action" id="query-table-picker">
+    <h1 class="article-header">Explore ACS data</h1>
+    <div class="typeahead-container input-wrapper with-submit">
+        <form>
+            <input name="q" id="table-select" type="text" value="{{ q }}" placeholder="Search by table or column name..." autocomplete="off">
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+</section>
+
+<article id="table-results"></article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+{% verbatim %}
+<script id="table-result-item" type="text/x-handlebars-template">
+    <div class="search-result-item">
+        <h2><a href="/tables/{{table_id}}/">{{table_title}}</a></h2>
+        <p class="display-type">
+            <span class="caption-group"><strong>Table {{table_id}}</strong></span>
+            <span class="caption-group"><strong>Universe:</strong> {{universe}}</span>
+        </p>
+        {{#if topics}}
+        <p class="display-type">
+            <span class="caption-group"><strong>Table topics:</strong> {{getCommaList topics}}</span>
+        </p>
+        {{/if}}
+        {{#if column_id}}
+        <p class="display-type">
+            <span class="caption-group"><strong>Column name:</strong> {{column_title}}</span>
+        </p>
+        {{/if}}
+    </div>
+</script>
+{% endverbatim %}
+
+<script type="text/javascript">
+Handlebars.registerHelper('getCommaList', function(list) {
+    return new Handlebars.SafeString(list.join(', '));
+});
+
+var results = {{ results }},
+    tableItemTemplate = Handlebars.compile($('#table-result-item').html());
+
+var showResults = function(results) {
+    var resultsContainer = $('#table-results');
+    
+    $.each(results, function(i, v){
+        resultsContainer.append(tableItemTemplate(v));
+    });
+}
+showResults(results);
+</script>
+{% endblock %}
