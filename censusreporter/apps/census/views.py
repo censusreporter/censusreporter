@@ -261,6 +261,7 @@ class GeographySearchView(TemplateView):
                 data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
 
                 page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+                page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
                 page_context['q'] = q
             elif status_code == 404 or status_code == 400:
                 error_data = simplejson.loads(r.text)

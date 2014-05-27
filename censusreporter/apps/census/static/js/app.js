@@ -51,6 +51,7 @@ var sumlevMap = {
     "250": {"name": "native area", "plural": "native areas", "sumlev": "250"},
     "310": {"name": "metro area", "plural": "metro areas", "sumlev": "310"},
     "330": {"name": "combined statistical area", "plural": "combined statistical areas", "sumlev": "330"},
+    "400": {"name": "urban area", "plural": "urban areas", "sumlev": "400"},
     "500": {"name": "congressional district", "plural": "congressional districts", "sumlev": "500"},
     "610": {"name": "state house (upper)", "plural": "state houses (upper)", "sumlev": "610"},
     "620": {"name": "state house (lower)", "plural": "state houses (lower)", "sumlev": "620"},

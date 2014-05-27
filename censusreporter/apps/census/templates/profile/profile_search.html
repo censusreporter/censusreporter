@@ -3,6 +3,8 @@
 {% block head_title %}Geography Search - {{ block.super }}{% endblock %}
 
 {% block content %}
+    <p id="help-feedback-solicitation" class="message message-help display-type">Census Reporter is trying to make this search engine the best it can be. Please <a href="http://censusreporter.uservoice.com/" data-uv-trigger>let us know</a> if this page returns results or orders things in a way you weren&rsquo;t expecting.</p>
+
 <section class="clearfix big-action" id="query-geo-picker">
     <h1 class="article-header">Find a place</h1>
     <div class="typeahead-container input-wrapper with-submit">
@@ -13,16 +15,23 @@
     </div>
 </section>
 
-<article id="geography-results"></article>
+<article id="geography-results">
+    <div id="search-results"></div>
+</article>
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
 {% verbatim %}
 <script id="geography-result-item" type="text/x-handlebars-template">
-    <div class="search-result-item">
+    <div class="search-result-item result-sumlev-{{sumlev}}">
         <h2><a href="/profiles/{{full_geoid}}-{{{getSlug display_name}}}/">{{display_name}}</a></h2>
         <p class="display-type">{{getSumlevName sumlev}}</p>
     </div>
+</script>
+<script id="facet-sumlev-item" type="text/x-handlebars-template">
+    <li>
+        <a id="facet-sumlev-{{term}}" href="#">{{getSumlevNamePlural term}} ({{count}})</a>
+    </li>
 </script>
 {% endverbatim %}
 
@@ -34,20 +43,57 @@ Handlebars.registerHelper('getSumlevName', function(str) {
     var sumlevName = (sumlevMap[str]) ? sumlevMap[str]['name'] : '';
     return new Handlebars.SafeString(capitalize(sumlevName));
 });
-Handlebars.registerHelper('getCommaFmt', function(str) {
-    return new Handlebars.SafeString(commaFmt(str));
+Handlebars.registerHelper('getSumlevNamePlural', function(str) {
+    var sumlevName = (sumlevMap[str]) ? sumlevMap[str]['plural'] : '';
+    return new Handlebars.SafeString(capitalize(sumlevName));
 });
 
 var results = {{ results }},
-    geoItemTemplate = Handlebars.compile($('#geography-result-item').html());
+    facets = {{ facets }},
+    geoItemTemplate = Handlebars.compile($('#geography-result-item').html()),
+    facetItemTemplate = Handlebars.compile($('#facet-sumlev-item').html());
 
 var showResults = function(results) {
-    var resultsContainer = $('#geography-results');
+    var $resultsContainer = $('#search-results');
     
     $.each(results, function(i, v){
-        resultsContainer.append(geoItemTemplate(v));
+        $resultsContainer.append(geoItemTemplate(v));
     });
+    
+    if (facets.sumlev.terms.length) {
+        $resultsContainer.addClass('with-facets');
+        showFacets(facets.sumlev.terms, facets.sumlev.total);
+    }
 }
+
+var showFacets = function(facets, total) {
+    var $facetContainer = $('#facets').length ? $('#facets') : $('<aside id="facets"></aside>').prependTo('#geography-results');
+    
+    $facetContainer.append('<h4>Filter by</h4>');
+    
+    var $facetList = $('<ul>').appendTo($facetContainer);
+    
+    if (total) {
+        $facetList.append('<li><a id="facet-sumlev-all" href="#">All results ('+total+')</a></li>');
+    }
+
+    $.each(facets, function(i, v){
+        $facetList.append(facetItemTemplate(v));
+    });
+
+    $('#facets').on('click', 'a', function(e) {
+        e.preventDefault();
+        var filterClass = $(this).attr('id').replace('facet-','.result-'),
+            $resultSet = $('.search-result-item');
+        
+        $resultSet.show();
+        if (filterClass.slice(-3) != 'all') {
+            $resultSet.not(filterClass).hide();
+        }
+    })
+}
+
+
 showResults(results);
 </script>
 {% endblock %}

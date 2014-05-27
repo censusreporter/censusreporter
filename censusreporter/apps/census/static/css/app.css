@@ -539,6 +539,12 @@ aside .action-button {
     display: block;
     margin-bottom: 1em;
 }
+aside#facets {
+    margin-left: 0;
+}
+.with-facets {
+    padding-left: 14.4em;
+}
 .wrapper {
     width: auto;
     margin: 0 1.5em;
@@ -794,7 +800,8 @@ h1.article-header-right {
     margin: 0 0 2.5em;
 }
 .search-result-item p {
-    margin: .5em 0;
+    margin: 0 0 .5em 0;
+    font-size: 1.1em;
 }
 
 /* STATS */
