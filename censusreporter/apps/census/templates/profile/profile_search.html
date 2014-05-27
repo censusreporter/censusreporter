@@ -21,13 +21,7 @@
 <script id="geography-result-item" type="text/x-handlebars-template">
     <div class="search-result-item">
         <h2><a href="/profiles/{{full_geoid}}-{{{getSlug display_name}}}/">{{display_name}}</a></h2>
-        <p class="display-type">
-            <span class="caption-group"><strong>2013 population estimate:</strong> {{getCommaFmt population}}</span>
-        </p>
-        <p class="display-type">
-            <span class="caption-group"><strong>Summary level:</strong> {{sumlev}}</span>
-            <span class="caption-group"><strong>Type:</strong> {{getSumlevName sumlev}}</span>
-        </p>
+        <p class="display-type">{{getSumlevName sumlev}}</p>
     </div>
 </script>
 {% endverbatim %}
