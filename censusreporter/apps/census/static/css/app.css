@@ -2434,6 +2434,10 @@ blockquote {
     display: none !important;
     visibility: hidden;
 }
+.inactive,
+.inactive a {
+    color: #aaa;
+}
 .clear {
     clear: both;
 }
@@ -2442,11 +2446,9 @@ blockquote {
     content: " ";
     display: table;
 }
-
 .clearfix:after {
     clear: both;
 }
-
 .clearfix {
     *zoom: 1;
 }

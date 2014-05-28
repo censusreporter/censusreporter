@@ -344,6 +344,7 @@ function Comparison(options) {
             var chosenGroup = $(this).closest('.item-chosen');
             chosenGroup.toggleClass('open');
             comparison.changeMapControls();
+            comparison.makeChosenGeoList();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
         });
@@ -1253,6 +1254,9 @@ function Comparison(options) {
                 .data(geoOptions)
             .enter().append('li')
                 .attr('data-geoid', function(d) { return d.geoID })
+                .classed('inactive', function(d) {
+                    return (comparison.chosenSumlev && comparison.chosenSumlev != d.sumlev) ? true : false
+                })
                 .text(function(d) { return d.name });
                 
         if (geoOptions.length > 1) {
@@ -1481,7 +1485,7 @@ function Comparison(options) {
             } else {
                 thisName = comparison.data.geography[i]['name'];
             }
-            sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i})
+            sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i, 'sumlev': thisSumlev})
         });
         _.each(_.keys(comparison.data.data), function(i) {
             var thisSumlev = i.slice(0, 3);
