@@ -1170,11 +1170,15 @@ function Comparison(options) {
                     parentOptionsContainer.append('p')
                         .attr('class', 'bottom display-type strong')
                         .html('Add all ' + sumlevMap[comparison.thisSumlev]['plural'] + ' in&nbsp;&hellip;');
+                        
+                    var parents = _.reject(results['parents'], function(i) {
+                        return i.relation == 'this'
+                    })
 
                     parentOptionsContainer.append('ul')
                             .attr('class', 'sumlev-list')
                         .selectAll('li')
-                            .data(results['parents'])
+                            .data(parents)
                         .enter().append('li').append('a')
                             .attr('href', function(d) {
                                 var newGeoIDs = comparison.geoIDs.slice(0);
