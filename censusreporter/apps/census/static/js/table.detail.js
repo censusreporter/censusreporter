@@ -252,7 +252,7 @@ function Table(options) {
                 table.geoIDs.push(datum['full_geoid']);
 
                 var url = table.buildDataURL(
-                    'table', table.tableID, table.geoIDs
+                    'table', table.tableID, table.geoIDs, datum['full_geoid']
                 );
                 window.location = url;
             }
