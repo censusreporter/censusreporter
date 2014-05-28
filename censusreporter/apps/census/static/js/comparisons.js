@@ -29,7 +29,7 @@ function Comparison(options) {
         comparison.tableID = options.tableID;
         comparison.dataFormat = options.dataFormat;
         comparison.geoIDs = options.geoIDs;
-        comparison.primaryGeoID = options.primaryGeoID || null;
+        comparison.primaryGeoID = options.primaryGeoID || (comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null;
         comparison.chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
         // jQuery things
         comparison.$topicSelect = $(options.topicSelect);
