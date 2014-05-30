@@ -502,20 +502,23 @@ aside ul {
     margin: .33em .67em .67em 1em;
     padding: 0;
 }
-aside ul.sumlev-list {
-    margin: 0.33em 0 .67em .67em;
-    padding: 0;
-}
-aside ul.sumlev-list {
+aside ul.sumlev-list,
+aside ul.search-filter-list {
     list-style: none;
     margin: 0.33em 0 .67em .67em;
     padding: 0;
 }
-aside ul.sumlev-list .remove {
+aside ul.sumlev-list .remove,
+aside ul.search-filter-list .remove {
     margin-left: .5em;
 }
 aside li {
     margin-bottom: .25em;
+}
+aside ul.sumlev-list li,
+aside ul.search-filter-list li {
+    line-height: 1.2;
+    margin-bottom: .5em;
 }
 aside sup {
     font-size: 1.25em;
