@@ -1,11 +1,11 @@
-{% extends '_base.html' %}
+{% extends '_base.html' %}{% load sumlevs humanize %}
 
 {% block head_title %}Geography Search - {{ block.super }}{% endblock %}
 
 {% block content %}
 
 <section class="clearfix big-action" id="query-geo-picker">
-    <h1 class="article-header">Find a place</h1>
+    <h1 class="article-header">Find a geography</h1>
     <div class="typeahead-container input-wrapper with-submit">
         <form>
             <input name="q" id="geography-select" type="text" value="{{ q }}" placeholder="Search by place name..." autocomplete="off">
@@ -15,12 +15,41 @@
     </div>
 </section>
 
-<article id="geography-results">
-    <div id="search-results"></div>
+<article id="geography-results" class="search-results">
+    {% if facets.sumlev.terms %}
+    <aside id="facets">
+        {% if filters %}
+            <a class="remove-filters action-button" href="{% url 'geography_search' %}?q={{ q }}"><i class="fa fa-times-circle"></i> Remove filters</a>
+        {% endif %}
+        <h4>Filter{% if filters %}ed{% endif %} by</h4>
+        <ul>{% for sumlev in facets.sumlev.terms %}
+            <li><a id="facet-sumlev-{{ sumlev.term }}" href="{% url 'geography_search' %}?q={{ q }}&sumlevs={{ sumlev.term }}">{{ sumlev.term|sumlev_name_plural|capfirst }} ({{ sumlev.count|intcomma }})</a></li>
+        {% endfor %}</ul>
+    </aside>
+    {% endif %}
+    <div id="search-results"{% if facets.sumlev.terms %} class="with-facets"{% endif %}>
+        <h4 class="list-header">{% if results_page %}Page {{ results_page }} of {% endif %}{{ num_results|intcomma }} result{{ num_results|pluralize }}</h4>
+        {% for result in results %}
+        <div class="search-result-item result-sumlev-{{ result.sumlev }}">
+            <h2><a href="/profiles/{{ result.full_geoid }}-{{ result.display_name|slugify }}/">{{ result.display_name }}</a></h2>
+            <p class="display-type">{{ result.sumlev|sumlev_name }}</p>
+        </div>
+        {% endfor %}
+        
+        <div class="pagination">
+            {% if previous_offset %}
+                <a class="action-button" href="{% url 'geography_search' %}?q={{ q }}{% if filters %}&sumlevs={{ filters }}{% endif %}&start={{ previous_offset }}"><i class="fa fa-chevron-circle-left"></i> Previous page</a>
+            {% endif %}
+            {% if next_offset %}
+                <a class="action-button" href="{% url 'geography_search' %}?q={{ q }}{% if filters %}&sumlevs={{ filters }}{% endif %}&start={{ next_offset }}">Next page <i class="fa fa-chevron-circle-right"></i></a>
+            {% endif %}
+        </div>
+    </div>
 </article>
 {% endblock %}
 
-{% block body_javascript_extra %}{{ block.super }}
+{% block body_javascript_extra %}{{ block.super }}{% comment %}
+{# just in case we go back and make this javascript-powered ... #}
 {% verbatim %}
 <script id="geography-result-item" type="text/x-handlebars-template">
     <div class="search-result-item result-sumlev-{{sumlev}}">
@@ -92,8 +121,6 @@ var showFacets = function(facets, total) {
         }
     })
 }
-
-
 showResults(results);
-</script>
+</script>{% endcomment %}
 {% endblock %}

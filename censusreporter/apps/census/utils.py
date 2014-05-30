@@ -452,8 +452,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "250": {
-        "name": "American Indian Area/Alaska Native Area/Hawaiian Home Land",
-        "plural": "",
+        "name": "Native Area",
+        "plural": "native areas",
     },
     "252": {
         "name": "American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)",
@@ -1057,7 +1057,7 @@ SUMMARY_LEVEL_DICT = {
     },
     "795": {
         "name": "State-Public Use Microdata Sample Area (PUMA)",
-        "plural": "",
+        "plural": "PUMAs",
     },
     "850": {
         "name": "3-digit ZIP Code Tabulation Area",
@@ -1108,15 +1108,15 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "950": {
-        "name": "Elementary School District",
-        "plural": "elementary school districts",
+        "name": "School District (Elementary)",
+        "plural": "school districts (elementary)",
     },
     "960": {
-        "name": "Secondary School District",
-        "plural": "secondary school districts",
+        "name": "School District (Secondary)",
+        "plural": "school districts (secondary)",
     },
     "970": {
-        "name": "Unified School District",
-        "plural": "unified school districts",
+        "name": "School District (Unified)",
+        "plural": "school districts (unified)",
     },
 }

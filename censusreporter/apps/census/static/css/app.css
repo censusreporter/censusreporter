@@ -149,7 +149,7 @@ h2.subhead {
 #table-display h4 {
     font-size: .9em;
 }
-.select-header {
+.list-header {
     margin-bottom: .5em;
 }
 .ul-icon-list {
@@ -539,6 +539,13 @@ aside .action-button {
     display: block;
     margin-bottom: 1em;
 }
+.search-results aside {
+    padding-top: 0;
+}
+.search-results aside .remove-filters {
+    text-align: left;
+    margin-top: -.33em;
+}
 aside#facets {
     margin-left: 0;
 }
@@ -802,6 +809,14 @@ h1.article-header-right {
 .search-result-item p {
     margin: 0 0 .5em 0;
     font-size: 1.1em;
+}
+.pagination .action-button {
+    width: 10em;
+    margin-right: 1em;
+    display: inline-block;
+}
+.pagination .action-button i {
+    margin: 0 .33em;
 }
 
 /* STATS */

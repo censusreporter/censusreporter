@@ -209,7 +209,7 @@ function Comparison(options) {
                 .attr('id', 'column-select');
 
         dataSelector.append('h2')
-                .classed('select-header', true)
+                .classed('list-header', true)
                 .text('Show column');
         
         var chosen = dataSelector.append('div')
@@ -293,7 +293,7 @@ function Comparison(options) {
                 .attr('id', 'sumlev-select');
 
         sumlevSelector.append('h2')
-                .classed('select-header', true)
+                .classed('list-header', true)
                 .text('Show summary level');
         
         var chosen = sumlevSelector.append('div')
