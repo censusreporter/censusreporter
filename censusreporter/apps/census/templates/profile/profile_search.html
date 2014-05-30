@@ -28,7 +28,8 @@
     </aside>
     {% endif %}
     <div id="search-results"{% if facets.sumlev.terms %} class="with-facets"{% endif %}>
-        <h4 class="list-header">{% if results_page %}Page {{ results_page }} of {% endif %}{{ num_results|intcomma }} result{{ num_results|pluralize }}</h4>
+        {% if results %}
+        <h4 class="list-header">{% if results_count_set %}{{ results_count_set }} of {% endif %}{{ num_results|intcomma }} result{{ num_results|pluralize }}</h4>
         {% for result in results %}
         <div class="search-result-item result-sumlev-{{ result.sumlev }}">
             <h2><a href="/profiles/{{ result.full_geoid }}-{{ result.display_name|slugify }}/">{{ result.display_name }}</a></h2>
@@ -44,6 +45,7 @@
                 <a class="action-button" href="{% url 'geography_search' %}?q={{ q }}{% if filters %}&sumlevs={{ filters }}{% endif %}&start={{ next_offset }}">Next page <i class="fa fa-chevron-circle-right"></i></a>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 </article>
 {% endblock %}

@@ -272,8 +272,10 @@ class GeographySearchView(TemplateView):
                 page_context['num_results'] = data['facets']['sumlev']['total']
 
                 # pagination things
-                if start and int(start) % 25 == 0 or start == 0:
-                    page_context['results_page'] = int(int(start) / 25)+1
+                start = int(start)
+                results_page_length = len(data['results'])
+                if page_context['num_results'] > results_page_length:
+                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
                 if 'next_page' in data['links']:
                     page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
                 if 'previous_page' in data['links']:
