@@ -25,7 +25,7 @@
             {% endfor %}</ul>
         {% else %}
             <h4>Filter by</h4>
-            <ul class="filter-list">{% for sumlev in facets.sumlev.terms %}
+            <ul class="search-filter-list">{% for sumlev in facets.sumlev.terms %}
                 <li><a id="facet-sumlev-{{ sumlev.term }}" href="{% url 'geography_search' %}?q={{ q }}&sumlevs={{ sumlev.term }}">{{ sumlev.term|sumlev_name_plural|capfirst }} ({{ sumlev.count|intcomma }})</a></li>
             {% endfor %}</ul>
         {% endif %}

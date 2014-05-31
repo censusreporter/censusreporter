@@ -76,12 +76,16 @@ class TableSearchView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {}
-        q = self.request.GET.get('q')
+        q = self.request.GET.get('q', None)
+        topics = self.request.GET.get('topics', None)
+        start = self.request.GET.get('start', 0)
 
         if q:
             api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
             api_params = {
                 'q': q,
+                'topics': topics,
+                'start': start
             }
             r = requests.get(api_endpoint, params=api_params)
             status_code = r.status_code
@@ -89,7 +93,27 @@ class TableSearchView(TemplateView):
             if status_code == 200:
                 data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
 
-                page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+                # if we end up powering results list with javascript ...
+                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+
+                page_context = data
+                page_context['q'] = q
+                page_context['topics'] = topics
+                page_context['num_results'] = data['facets']['topics']['total']
+                if topics:
+                    page_context['filters'] = topics.split(',')
+
+                # pagination things
+                start = int(start)
+                results_page_length = len(data['results'])
+                if page_context['num_results'] > results_page_length:
+                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
+                if 'next_page' in data['links']:
+                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
+                if 'previous_page' in data['links']:
+                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
+
+
                 page_context['q'] = q
             elif status_code == 404 or status_code == 400:
                 error_data = simplejson.loads(r.text)
@@ -263,9 +287,11 @@ class GeographySearchView(TemplateView):
 
             if status_code == 200:
                 data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+
                 # if we end up powering results list with javascript ...
                 #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
                 #page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
+
                 page_context = data
                 page_context['q'] = q
                 page_context['filters'] = sumlevs

@@ -508,6 +508,9 @@ aside ul.search-filter-list {
     margin: 0.33em 0 .67em .67em;
     padding: 0;
 }
+aside ul.search-filter-list{
+    margin-top: .67em;
+}
 aside ul.sumlev-list .remove,
 aside ul.search-filter-list .remove {
     margin-left: .5em;
@@ -527,6 +530,9 @@ aside sup {
 aside .aside-block {
     margin: 1em 0 1.5em;
     clear: both;
+}
+.search-results aside .aside-block {
+    margin: 0 0 2em;
 }
 aside .search input {
     font-size: .83em;
