@@ -393,7 +393,10 @@ class GeographyDetailView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
 
-        s3_key = self.s3_profile_key(geography_id)
+        try:
+            s3_key = self.s3_profile_key(geography_id)
+        except:
+            s3_key = None
 
         if s3_key and s3_key.exists():
             memfile = cStringIO.StringIO()
