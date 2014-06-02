@@ -1211,7 +1211,7 @@ function Comparison(options) {
             childOptionsContainer.append('ul')
                     .attr('class', 'sumlev-list')
                 .selectAll('li')
-                    .data(sumlevChildren[comparison.thisSumlev])
+                    .data(sumlevMap[comparison.thisSumlev]['children'])
                 .enter().append('li').append('a')
                     .attr('href', function(d) {
                         var newGeoIDs = comparison.geoIDs.slice(0);
