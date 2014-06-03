@@ -82,8 +82,6 @@ textarea {
     padding: 0.2em 0;
 }
 
-
-
 /* BASIC ELEMENTS */
 a {
     color: #014948;
@@ -1731,10 +1729,6 @@ section.chart-divider h2 {
     border: 1px solid #777;
 }
 
-.wide-picker {
-    width: 99%;
-}
-
 .comparison-builder {
     margin-bottom: 2em;
 }
@@ -1743,18 +1737,6 @@ section.chart-divider h2 {
     display: none;
     clear: both;
     padding-top: 1em;
-}
-
-.chosen,
-.step-explainer .explainer,
-.step-explainer .boxed {
-    padding: 1em 10em 1em 1.2em;
-    position: relative;
-    background-color: #fff;
-    border: 1px solid #cad0b5;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
 }
 
 .change-button,
@@ -1785,45 +1767,6 @@ section.chart-divider h2 {
 .action-button:hover {
     background-color: #f55b2c;
     color: #fff;
-}
-.chosen p {
-    margin: 0;
-    padding-right: 5em;
-}
-.step-explainer .chosen p {
-    margin: 0;
-}
-
-.step-explainer {
-    margin: 1em 0;
-}
-.step-explainer p,
-.step-explainer div,
-.step-explainer .picker-header {
-    margin: 0 0 0 45px;
-}
-.step-explainer p {
-    padding-right: 11em;
-}
-.step-explainer .picker-header {
-    font-size: 3em;
-    font-weight: 400;
-    line-height: 1;
-    padding-top: 3px;
-    margin-bottom: .33em;
-}
-.step-explainer .leader {
-    line-height: 1;
-}
-.step-explainer .step-number {
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    float: left;
-    width: 30px;
-    padding-top: 3px;
-    text-align: center;
-    line-height: 1;
-    font-size: 3em;
-    color: #111;
 }
 
 #topic-picker [class^="column-"],
@@ -2681,9 +2624,6 @@ blockquote {
     #page-footer ul.ul-icon-list {
         text-align: left;
     }
-    .wide-picker {
-        width: 100%;
-    }
     #page-footer li {
         margin-bottom: .5em;
     }
@@ -2728,17 +2668,6 @@ blockquote {
     }
     #query-builder-bar .leader {
         text-indent: .5em;
-    }
-    .step-explainer .change-button {
-        position: relative;
-        display: block;
-        right: 0;
-        top: 0;
-        margin: .75em 0 .5em;
-    }
-    .step-explainer .explainer,
-    .step-explainer .boxed {
-        padding-right: .83em;
     }
     .topic aside img {
         width: 250px;
