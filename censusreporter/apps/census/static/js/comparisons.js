@@ -167,11 +167,14 @@ function Comparison(options) {
         })
         
         comparison.addGeographyCompareTools();
-        comparison.addMapNumberRedraw();
+        if (!!comparison.denominatorColumn) {
+            comparison.addMapNumberToggle(comparison.showChoropleth);
+        }
+        
         return comparison;
     }
 
-    comparison.addMapNumberRedraw = function() {
+    comparison.addMapNumberToggle = function(redrawFunc) {
         var controlsList = d3.select('#header-container .metadata'),
             toggle = controlsList.append('li')
                     .classed('tool-group', true)
@@ -667,7 +670,6 @@ function Comparison(options) {
         comparison.addContainerMetadata();
         
         comparison.addDistributionControls();
-        comparison.makeDistributionChartData();
         comparison.showDistributionCharts();
         
         comparison.addGeographyCompareTools();
@@ -722,7 +724,10 @@ function Comparison(options) {
     }
 
     comparison.showDistributionCharts = function() {
-        comparison.chartDisplayFmt = (!!comparison.denominatorColumn) ? 'percentage' : comparison.statType;
+        comparison.dataContainer.selectAll('section').remove();
+        comparison.makeDistributionChartData();
+
+        comparison.chartDisplayFmt = (comparison.valueType == 'percentage') ? 'percentage' : comparison.statType;
 
         _.each(comparison.chartColumnData, function(v, k) {
             comparison.charts[k] = comparison.dataContainer.append('section')
@@ -813,10 +818,10 @@ function Comparison(options) {
 
     comparison.addDistributionControls = function() {
         var notes = d3.select('#tool-notes');
-        notes.append('div')
-            .classed('tool-group', true)
-            .text('Click a point to lock display');
-
+        if (!!comparison.denominatorColumn) {
+            comparison.addNumberToggles(comparison.showDistributionCharts);
+        }
+        
         var placeSelect = notes.append('div')
                 .classed('tool-group', true)
                 .text('Find ')
@@ -1331,7 +1336,7 @@ function Comparison(options) {
         }
     }
     
-    comparison.addNumberToggles = function() {
+    comparison.addNumberToggles = function(redrawFunction) {
         $('.number').hide();
 
         var notes = d3.select('#tool-notes'),
@@ -1342,19 +1347,7 @@ function Comparison(options) {
                     .attr('id', 'show-number')
                     .text('Switch to totals');
 
-        var toggleControl = $('.toggle-control');
-        toggleControl.on('click', function() {
-            var clicked = $(this),
-                showClass = clicked.attr('id').replace('show-','.'),
-                hideClass = (showClass == '.number') ? '.percentage' : '.number',
-                toggleID = (showClass == '.number') ? 'show-percentage' : 'show-number',
-                toggleText = (showClass == '.number') ? 'Switch to percentages' : 'Switch to totals';
-
-            toggleControl.attr('id', toggleID).text(toggleText);
-            $(hideClass).css('display', 'none');
-            $(showClass).css('display', 'inline-block');
-            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle percent/number display', showClass);
-        })
+        comparison.addNumberToggleListener(redrawFunction);
         return comparison;
     }
     
@@ -1371,9 +1364,13 @@ function Comparison(options) {
             comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle percent/number display', showClass);
             
             comparison.valueType = (comparison.valueType == 'estimate') ? 'percentage' : 'estimate';
-            redrawFunction();
+            if (!!redrawFunction) {
+                redrawFunction();
+            } else {
+                $(hideClass).css('display', 'none');
+                $(showClass).css('display', 'inline-block');
+            }
         })
-        return comparison;
     }
     
     
