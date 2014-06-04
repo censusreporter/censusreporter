@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
 
@@ -13,6 +15,7 @@ admin.autodiscover()
 
 STANDARD_CACHE_TIME = 60*15 # 15-minute cache
 COMPARISON_FORMATS = 'map|table|distribution'
+BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
 urlpatterns = patterns('',
     url(
@@ -122,6 +125,14 @@ urlpatterns = patterns('',
         view    = HealthcheckView.as_view(),
         kwargs  = {},
         name    = 'healthcheck',
+    ),
+    
+    url(
+        regex = '^robots.txt$',
+        view = lambda r: HttpResponse(
+            "User-agent: *\n%s: /" % ('Disallow' if BLOCK_ROBOTS else 'Allow') ,
+            mimetype="text/plain"
+        )
     ),
 
     ## LOCAL DEV VERSION OF API ##
