@@ -12,8 +12,7 @@
         Allow from all
     </Directory>
 
-    Alias /robots.txt %(django_static_path)s/robots.txt
-    Alias /favicon.ico %(django_static_path)s/favicon.ico
+    Alias /favicon.ico %(django_static_path)s/img/icons/favicon.ico
     Alias /static %(django_static_path)s
 
     ErrorLog /var/log/apache2/%(domainname)s.error.log
