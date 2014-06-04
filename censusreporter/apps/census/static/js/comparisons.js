@@ -167,9 +167,22 @@ function Comparison(options) {
         })
         
         comparison.addGeographyCompareTools();
+        comparison.addMapNumberRedraw();
         return comparison;
     }
-    
+
+    comparison.addMapNumberRedraw = function() {
+        var controlsList = d3.select('#header-container .metadata'),
+            toggle = controlsList.append('li')
+                    .classed('tool-group', true)
+                .append('a')
+                    .classed('toggle-control', true)
+                    .attr('id', 'show-number')
+                    .text('Switch to totals');
+
+        comparison.addNumberToggleListener(comparison.showChoropleth);
+    }
+
     comparison.addMapMetadata = function() {
         // add the metadata to the header box
         var headerMetadataContainer = comparison.headerContainer.append('ul')
@@ -441,11 +454,11 @@ function Comparison(options) {
             .data(labelData)
             .text(function(d){
                 if (typeof(d) != 'undefined') {
-                    if (!!comparison.denominatorColumn) {
-                        return roundNumber(d, 1) + '%'
+                    if (comparison.valueType == 'percentage') {
+                        return roundNumber(d, 1) + '%';
                     } else {
                         var prefix = (comparison.statType == 'dollar') ? '$' : '';
-                        return prefix + numberWithCommas(d)
+                        return prefix + numberWithCommas(d);
                     }
                 }
             });
@@ -1344,6 +1357,26 @@ function Comparison(options) {
         })
         return comparison;
     }
+    
+    comparison.addNumberToggleListener = function(redrawFunction) {
+        var toggleControl = $('.toggle-control');
+        toggleControl.on('click', function() {
+            var clicked = $(this),
+                showClass = clicked.attr('id').replace('show-','.'),
+                hideClass = (showClass == '.number') ? '.percentage' : '.number',
+                toggleID = (showClass == '.number') ? 'show-percentage' : 'show-number',
+                toggleText = (showClass == '.number') ? 'Switch to percentages' : 'Switch to totals';
+
+            toggleControl.attr('id', toggleID).text(toggleText);
+            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle percent/number display', showClass);
+            
+            comparison.valueType = (comparison.valueType == 'estimate') ? 'percentage' : 'estimate';
+            redrawFunction();
+        })
+        return comparison;
+    }
+    
+    
     
     
     // UTILITIES

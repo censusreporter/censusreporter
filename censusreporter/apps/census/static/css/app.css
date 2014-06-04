@@ -1022,11 +1022,15 @@ h1.article-header-right {
 #map-controls ul.metadata li {
     display: inline;
     font-size: .83em;
+    margin-right: 1.5em;
+}
+#map-controls ul.metadata li.tool-group {
+    margin-right: 0;
 }
 #map-controls ul.metadata li.bigger {
-    margin-right: 1.5em;
     font-weight: 700;
-    font-size: 1em;
+    font-size: .9em;
+    margin-right: 1.2em;
 }
 #map-controls #map-legend,
 #map-controls #column-select,
