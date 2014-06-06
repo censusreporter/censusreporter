@@ -778,28 +778,7 @@ function Comparison(options) {
                         return 'geography-'+d.geoID;
                     });
                     
-            var chartPointLabels = chartPointCircles.append('span')
-                    .classed('hovercard', true);
-                    
-            chartPointLabels.append('span')
-                    .classed('label-title', true)
-                    .text(function(d) { return d.name });
-
-            if (!!comparison.denominatorColumn) {
-                chartPointLabels.append('span')
-                        .classed('value', true)
-                        .text(function(d) { return valFmt(d.percentage, 'percentage') })
-                    .append('span')
-                        .classed('context', true)
-                        .html(function(d) { return '&plusmn;' + valFmt(d.percentage_moe, 'percentage') });
-            }
-
-            chartPointLabels.append('span')
-                    .classed('value', true)
-                    .text(function(d) { return valFmt(d.estimate, comparison.statType) })
-                .append('span')
-                    .classed('context', true)
-                    .html(function(d) { return '&plusmn;' + valFmt(d.estimate_moe, comparison.statType) });
+            comparison.makeDistributionLabels(chartPointCircles);
         })
 
         // set up the chart point listeners
@@ -822,6 +801,42 @@ function Comparison(options) {
             comparison.toggleSelectedDistributionPoints($(this).data('index'));
             comparison.trackEvent('Distribution View', 'Click to toggle point highlight', '');
         })
+    }
+    
+    comparison.makeDistributionLabels = function(points) {
+        var chartPointLabels = points.append('span')
+                .classed('hovercard', true);
+                
+        chartPointLabels.append('span')
+                .classed('label-title', true)
+                .text(function(d) { return d.name });
+
+        var addPct = function() {
+            if (!!comparison.denominatorColumn) {
+                chartPointLabels.append('span')
+                        .classed('value', true)
+                        .text(function(d) { return valFmt(d.percentage, 'percentage') })
+                    .append('span')
+                        .classed('context', true)
+                        .html(function(d) { return '&plusmn;' + valFmt(d.percentage_moe, 'percentage') });
+            }
+        }
+        var addEst = function() {
+            chartPointLabels.append('span')
+                    .classed('value', true)
+                    .text(function(d) { return valFmt(d.estimate, comparison.statType) })
+                .append('span')
+                    .classed('context', true)
+                    .html(function(d) { return '&plusmn;' + valFmt(d.estimate_moe, comparison.statType) });
+        }
+        
+        if (comparison.valueType == 'percentage') {
+            addPct();
+            addEst();
+        } else {
+            addEst();
+            addPct();
+        }
     }
 
     comparison.addDistributionControls = function() {
