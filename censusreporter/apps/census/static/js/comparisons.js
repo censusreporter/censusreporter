@@ -378,25 +378,33 @@ function Comparison(options) {
         if (!!feature.properties.data) {
             var thisValue = feature.properties.data.estimate[column],
                 thisValueMOE = feature.properties.data.error[column],
+                thisIsValue = !!thisValue && comparison.valueType == 'estimate',
                 thisPct = (!!comparison.denominatorColumn) ? feature.properties.data.percentage[column] : null,
                 thisPctMOE = (!!comparison.denominatorColumn) ? feature.properties.data.percentage_error[column] : null,
-                label = '<span class="label-title">' + feature.properties.name + '</span>';
+                thisIsPct = !!thisPct && comparison.valueType == 'percentage',
+                label = '<span class="label-title">' + feature.properties.name + '</span>',
+                pctLabel,
+                valLabel,
+                strLabelNumbers;
                 
-            label += '<span class="name">' + comparison.table.columns[column]['prefixed_name'] + '</span>';
-            label += '<span class="value">';
             if (!!thisPct) {
-                label += '<span class="inline-stat">' + valFmt(thisPct, 'percentage');
-                label += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>'
-                label += "</span>";
+                var openParen = (thisIsValue) ? '(' : '',
+                    closeParen = (thisIsValue) ? ')' : '';
+                pctLabel = '<span class="inline-stat">' + openParen + valFmt(thisPct, 'percentage');
+                pctLabel += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
+                pctLabel += closeParen + '</span>';
             }
             if (!!thisValue) {
-                var openParen = (!!thisPct) ? '(' : '',
-                    closeParen = (!!thisPct) ? ')' : '';
-                label += '<span class="inline-stat">' + openParen + valFmt(thisValue, comparison.statType);
-                label += '<span class="context">&plusmn;' + valFmt(thisValueMOE, comparison.statType) + '</span>';
-                label += closeParen + '</span>';
+                var openParen = (thisIsPct) ? '(' : '',
+                    closeParen = (thisIsPct) ? ')' : '';
+                valLabel = '<span class="inline-stat">' + openParen + valFmt(thisValue, comparison.statType);
+                valLabel += '<span class="context">&plusmn;' + valFmt(thisValueMOE, comparison.statType) + '</span>';
+                valLabel += closeParen + '</span>';
             }
-            label += '</span>';
+
+            strLabelNumbers = (thisIsPct) ? pctLabel + valLabel : valLabel + pctLabel;
+            label += '<span class="name">' + comparison.table.columns[column]['prefixed_name'] + '</span>';
+            label += '<span class="value">' + strLabelNumbers + '</span>';
         }
         return label;
     }
@@ -474,7 +482,7 @@ function Comparison(options) {
                 weight: 1.0,
                 opacity: 1.0,
                 color: '#fff',
-                fillOpacity: 1.0
+                fillOpacity: .90
             };
         }
         
