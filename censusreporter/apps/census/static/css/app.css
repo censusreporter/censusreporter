@@ -584,7 +584,6 @@ aside#facets {
 
 #cover-profile {
     position: relative;
-    z-index: 499;
 }
 #cover-profile article {
     margin-top: 3em;
