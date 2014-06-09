@@ -753,9 +753,11 @@ h1.article-header-right {
     margin: 0 0 1em;
 }
 .big-action .help-text {
-    margin: .67em 1.2em;
-    font-style: italic;
+    margin: .67em 1em;
     font-size: 1em;
+}
+.big-action p.help-text {
+    font-style: italic;
 }
 .or {
     font-family: "Merriweather", Georgia, serif;
