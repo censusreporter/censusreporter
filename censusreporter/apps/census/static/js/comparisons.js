@@ -539,11 +539,10 @@ function Comparison(options) {
         comparison.showStandardMetadata();
         comparison.addContainerMetadata();
         
+        comparison.addGridControls();
         comparison.makeGridHeader();
         comparison.makeGridRows();
-        comparison.showGrid();
         
-        comparison.addGridControls();
         comparison.addGeographyCompareTools();
         comparison.lockVisibleGeoControls();
         
@@ -576,25 +575,16 @@ function Comparison(options) {
 
             comparison.sortedPlaces.forEach(function(g) {
                 var geoID = g.geoID,
-                    thisValue = comparison.values[geoID][comparison.tableID].estimate[k],
-                    thisValueMOE = comparison.values[geoID][comparison.tableID].error[k],
+                    thisRow = comparison.values[geoID][comparison.tableID],
+                    thisValue = (comparison.valueType == 'estimate') ? thisRow.estimate[k] : thisRow.percentage[k],
+                    thisValueMOE = (comparison.valueType == 'estimate') ? thisRow.error[k] : thisRow.percentage_error[k],
+                    thisFmt = (comparison.valueType == 'percentage') ? 'percentage' : comparison.statType,
                     gridRowCol = '';
-
-                // provide percentages first, to match chart style
-                if (!!comparison.denominatorColumn) {
-                    var thisPct = comparison.values[geoID][comparison.tableID].percentage[k],
-                        thisPctMOE = comparison.values[geoID][comparison.tableID].percentage_error[k];
-
-                    if (thisValue >= 0) {
-                        gridRowCol += '<span class="value percentage">' + valFmt(thisPct, 'percentage') + '</span>';
-                        gridRowCol += '<span class="context percentage">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
-                    }
-                }
 
                 // add raw numbers
                 if (thisValue >= 0) {
-                    gridRowCol += '<span class="value number">' + valFmt(thisValue, comparison.statType) + '</span>';
-                    gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, comparison.statType) + '</span>';
+                    gridRowCol += '<span class="value number">' + valFmt(thisValue, thisFmt) + '</span>';
+                    gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, thisFmt) + '</span>';
                 }
                 gridRowBits.push(gridRowCol);
             })
@@ -602,10 +592,12 @@ function Comparison(options) {
         })
         
         comparison.gridData.Body = gridRows;
+        comparison.showGrid();
     }
     
     comparison.showGrid = function() {
         comparison.resultsContainerID = 'data-results';
+        comparison.dataContainer.selectAll('#'+comparison.resultsContainerID).remove();
 
         // add empty container for the grid
         comparison.dataContainer.append('div')
@@ -660,7 +652,7 @@ function Comparison(options) {
     
     comparison.addGridControls = function() {
         if (!!comparison.denominatorColumn) {
-            comparison.addNumberToggles();
+            comparison.addNumberToggles(comparison.makeGridRows);
         }
 
         d3.select('#tool-notes').append('div')
@@ -1360,8 +1352,6 @@ function Comparison(options) {
     }
     
     comparison.addNumberToggles = function(redrawFunction) {
-        $('.number').hide();
-
         var notes = d3.select('#tool-notes'),
             toggle = notes.append('div')
                     .classed('tool-group', true)
@@ -1379,7 +1369,6 @@ function Comparison(options) {
         toggleControl.on('click', function() {
             var clicked = $(this),
                 showClass = clicked.attr('id').replace('show-','.'),
-                hideClass = (showClass == '.number') ? '.percentage' : '.number',
                 toggleID = (showClass == '.number') ? 'show-percentage' : 'show-number',
                 toggleText = (showClass == '.number') ? 'Switch to percentages' : 'Switch to totals';
 
@@ -1389,9 +1378,6 @@ function Comparison(options) {
             comparison.valueType = (comparison.valueType == 'estimate') ? 'percentage' : 'estimate';
             if (!!redrawFunction) {
                 redrawFunction();
-            } else {
-                $(hideClass).css('display', 'none');
-                $(showClass).css('display', 'inline-block');
             }
         })
     }
