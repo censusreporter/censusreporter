@@ -337,7 +337,7 @@ SUMMARY_LEVEL_DICT = {
     },
     "140": {
         "name": "Census Tract",
-        "plural": "Census tracts",
+        "plural": "census tracts",
     },
     "144": {
         "name": "Census Tract-American Indian Area/Alaska Native Area/Hawaiian Home Land",
@@ -448,19 +448,19 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "230": {
-        "name": "State-Alaska Native Regional Corporation",
-        "plural": "",
+        "name": "Alaska native regional corporation",
+        "plural": "Alaska native regional corporations",
     },
     "250": {
         "name": "Native Area",
         "plural": "native areas",
     },
+    "251": {
+        "name": "Tribal Subdivision",
+        "plural": "tribal subdivisions",
+    },
     "252": {
         "name": "American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)",
-        "plural": "",
-    },
-    "251": {
-        "name": "American Indian Area/Alaska Native Area/Hawaiian Home Land-Tribal Subdivision/Remainder",
         "plural": "",
     },
     "253": {
@@ -476,8 +476,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "256": {
-        "name": "Specified American Indian Area-Tribal Census Tract",
-        "plural": "",
+        "name": "Tribal Census Tract",
+        "plural": "tribal census tracts",
     },
     "257": {
         "name": "Specified American Indian Area-Tribal Subdivision/Remainder-Tribal Census Tract",
@@ -652,8 +652,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "314": {
-        "name": "Metropolitan Statistical Area (MSA)/Metropolitan Division",
-        "plural": "",
+        "name": "Metropolitan Division",
+        "plural": "metropolitan divisions",
     },
     "315": {
         "name": "Metropolitan Statistical Area (MSA)/Metropolitan Division-State",
@@ -708,8 +708,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "335": {
-        "name": "Combined New England City and Town Area",
-        "plural": "",
+        "name": "Combined NECTA",
+        "plural": "combined NECTAs",
     },
     "336": {
         "name": "Combined New England City and Town Area-State",
@@ -740,7 +740,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "350": {
-        "name": "New England City and Town Area",
+        "name": "NECTA",
         "plural": "NECTAs",
     },
     "351": {
@@ -792,8 +792,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "364": {
-        "name": "State-New England City and Town Area (NECTA)-NECTA Division",
-        "plural": "",
+        "name": "NECTA division",
+        "plural": "NECTA divisions",
     },
     "365": {
         "name": "State-New England City and Town Area (NECTA)-NECTA Division-County",
@@ -1056,7 +1056,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "Census blocks (pl94 files)",
     },
     "795": {
-        "name": "State-Public Use Microdata Sample Area (PUMA)",
+        "name": "PUMA",
         "plural": "PUMAs",
     },
     "850": {
