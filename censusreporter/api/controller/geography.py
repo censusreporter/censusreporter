@@ -44,7 +44,7 @@ def get_locations(search_term, geo_level=None, year='2011'):
         if geo_level:
             levels = [geo_level]
         else:
-            levels = ['province', 'municipality', 'subplace']
+            levels = ['country', 'province', 'municipality', 'subplace']
 
         objects = set()
 
@@ -55,6 +55,7 @@ def get_locations(search_term, geo_level=None, year='2011'):
                 'municipality': Municipality,
                 'province': Province,
                 'subplace': Subplace,
+                'country': Country,
             }[level]
 
             if level == 'subplace':
@@ -81,7 +82,7 @@ def get_locations(search_term, geo_level=None, year='2011'):
                 )
 
 
-        order_map = {Ward: 3, Municipality: 2, Province: 1}
+        order_map = {Country: 4, Ward: 3, Municipality: 2, Province: 1}
         objects = sorted(objects, key=lambda o: [order_map[o.__class__], getattr(o, 'name', getattr(o, 'code'))])
 
         return serialize_demarcations(objects[0:10])
@@ -108,7 +109,7 @@ def get_locations_from_coords(longitude, latitude):
 
         # this is the reverse order of a normal search - the
         # narrowest location match comes first.
-        objects = [ward, ward.municipality, ward.province]
+        objects = [ward, ward.municipality, ward.province, ward.country]
         objects = filter(lambda o: bool(o), objects)  # remove None
 
         return serialize_demarcations(objects)
