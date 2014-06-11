@@ -3,9 +3,11 @@ from django.contrib import admin
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
-from .views import (HomepageView, GeographyDetailView, PlaceSearchJson,
+from .views import (HomepageView, GeographyDetailView,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, ExampleView, Elasticsearch, WardSearchProxy)
+    DataView, TopicView, ExampleView, Elasticsearch)
+
+from .wazi_views import SouthAfricaGeographyDetailView, WardSearchProxy, PlaceSearchJson, SouthAfricaLocateView
 
 admin.autodiscover()
 
@@ -26,7 +28,7 @@ urlpatterns = patterns('',
     # e.g. /profiles/province-GT/
     url(
         regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
-        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
+        view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
     ),
@@ -76,7 +78,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^locate/$',
-        view    = LocateView.as_view(),
+        view    = SouthAfricaLocateView.as_view(),
         kwargs  = {},
         name    = 'locate',
     ),
