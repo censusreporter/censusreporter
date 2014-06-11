@@ -180,8 +180,10 @@ function Comparison(options) {
     }
 
     comparison.addMapNumberToggle = function(redrawFunc) {
+        d3.select('#number-toggles').remove();
         var controlsList = d3.select('#header-container .metadata'),
             toggle = controlsList.append('li')
+                    .attr('id', 'number-toggles')
                     .classed('tool-group', true)
                 .append('a')
                     .classed('toggle-control', true)
@@ -1378,8 +1380,10 @@ function Comparison(options) {
     }
     
     comparison.addNumberToggles = function(redrawFunction) {
+        d3.select('#number-toggles').remove();
         var notes = d3.select('#tool-notes'),
             toggle = notes.append('div')
+                    .attr('id', 'number-toggles')
                     .classed('tool-group', true)
                 .append('a')
                     .classed('toggle-control', true)
