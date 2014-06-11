@@ -705,8 +705,6 @@ class DataView(TemplateView):
         else:
             raise Http404
 
-        #TODO: implement formats for map
-
         return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):

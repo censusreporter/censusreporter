@@ -1,9 +1,9 @@
 <div class="tool-set header-tool-set clearfix">
     <div class="tool-group">
-        <ul class="toggle-set">
-            <li><a class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
-            <li><a class="{% if data_format == 'map' %}active{% endif %}" href="{% url 'data_detail' 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
-            <li><a class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
+        <ul id="data-view-toggles" class="toggle-set">
+            <li><a data-format="table" class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
+            <li><a data-format="map" class="{% if data_format == 'map' %}active{% endif %}" href="{% url 'data_detail' 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
+            <li><a data-format="distribution" class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
         </ul>
     </div>
     <div class="tool-group toggle-sub-group">
