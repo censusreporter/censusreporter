@@ -15,11 +15,11 @@ BALLOT_TYPE_DESCRIPTION = {
 }
 
 AVAILABLE_ELECTIONS = [
-    {
-        'electoral_event': 'municipal 2011',
-        'name': 'Municipal 2011',
-        'ballot_type': 'PR',
-    },
+    #{
+    #    'electoral_event': 'municipal 2011',
+    #    'name': 'Municipal 2011',
+    #    'ballot_type': 'PR',
+    #},
     {
         'electoral_event': '2014 PROVINCIAL ELECTION',
         'name': 'Provincial 2014',
