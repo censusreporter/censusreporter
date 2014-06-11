@@ -138,7 +138,9 @@ function Table(options) {
 
         element.on('typeahead:selected', function(obj, datum) {
             table.tableID = datum['table_id'];
-            window.location = '/tables/'+table.tableID;
+            if (!!table.tableID) {
+                window.location = '/tables/'+table.tableID;
+            }
         });
         
         // standard listeners
@@ -234,7 +236,7 @@ function Table(options) {
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
 
-            if (!datum['full_geoid']) {
+            if (!datum['full_geoid'] && !!datum['sumlev']) {
                 // we have a sumlev choice, so provide a parent input
                 table.chosenSumlev = datum['sumlev'];
                 table.chosenSumlevPluralName = datum['plural_name'];
@@ -247,7 +249,7 @@ function Table(options) {
                 }
                 table.$parentSelectContainer.slideDown();
                 table.$parentSelect.focus();
-            } else {
+            } else if (!!datum['full_geoid']) {
                 // we have a geoID, so add it
                 table.geoIDs.push(datum['full_geoid']);
 
@@ -256,7 +258,6 @@ function Table(options) {
                 );
                 window.location = url;
             }
-            // TODO: pushState to maintain history without page reload
         });
     }
 
@@ -285,15 +286,16 @@ function Table(options) {
 
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
-            var geoGroup = table.chosenSumlev + '|' + datum['full_geoid']
-            table.geoIDs.push(geoGroup);
-            table.primaryGeoID = datum['full_geoid'];
+            if (!!datum['full_geoid']) {
+                var geoGroup = table.chosenSumlev + '|' + datum['full_geoid']
+                table.geoIDs.push(geoGroup);
+                table.primaryGeoID = datum['full_geoid'];
 
-            var url = table.buildDataURL(
-                'table', table.tableID, table.geoIDs, table.primaryGeoID
-            );
-            window.location = url;
-            // TODO: pushState to maintain history without page reload
+                var url = table.buildDataURL(
+                    'table', table.tableID, table.geoIDs, table.primaryGeoID
+                );
+                window.location = url;
+            }
         });
     }
 

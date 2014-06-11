@@ -986,13 +986,14 @@ function Comparison(options) {
 
         element.on('typeahead:selected', function(obj, datum) {
             comparison.tableID = datum['table_id'];
-            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
+            if (!!comparison.tableID) {
+                comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
 
-            var url = comparison.buildComparisonURL(
-                comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
-            );
-            window.location = url;
-            // TODO: pushState to maintain history without page reload
+                var url = comparison.buildComparisonURL(
+                    comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
+                );
+                window.location = url;
+            }
         });
 
         // standard listeners
@@ -1107,7 +1108,7 @@ function Comparison(options) {
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
 
-            if (!datum['full_geoid']) {
+            if (!datum['full_geoid'] && !!datum['sumlev']) {
                 // we have a sumlev choice, so provide a parent input
                 comparison.chosenSumlev = datum['sumlev'];
                 comparison.chosenSumlevPluralName = datum['plural_name'];
@@ -1117,7 +1118,7 @@ function Comparison(options) {
                 comparison.makeParentSelectWidget();
                 $('#geography-add-parent-container').slideDown();
                 $('#geography-add-parent').focus();
-            } else {
+            } else if (!!datum['full_geoid']) {
                 // we have a geoID, so add it
                 comparison.geoIDs.push(datum['full_geoid']);
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
@@ -1175,16 +1176,17 @@ function Comparison(options) {
 
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
-            var geoGroup = comparison.chosenSumlev + '|' + datum['full_geoid']
-            comparison.geoIDs.push(geoGroup);
-            comparison.primaryGeoID = datum['full_geoid'];
-            comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
+            if (!!datum['full_geoid']) {
+                var geoGroup = comparison.chosenSumlev + '|' + datum['full_geoid']
+                comparison.geoIDs.push(geoGroup);
+                comparison.primaryGeoID = datum['full_geoid'];
+                comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
 
-            var url = comparison.buildComparisonURL(
-                comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
-            );
-            window.location = url;
-            // TODO: pushState to maintain history without page reload
+                var url = comparison.buildComparisonURL(
+                    comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
+                );
+                window.location = url;
+            }
         });
     }
     

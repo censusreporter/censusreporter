@@ -178,7 +178,7 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         closeTabs();
         chosenTableID = datum['table_id'];
-        if (!!chosenRelease) {
+        if (!!chosenRelease && !!chosenTableID) {
             getReleaseCounts();
         }
         populateTopicChosen();
@@ -222,7 +222,7 @@ function makeParentSelectWidget(element) {
         chosenParentGeoID = datum['full_geoid'];
         chosenParentName = datum['full_name'];
         chosenSumlevName = selectedSumlev().data('plural-name');
-        if (!!chosenRelease) {
+        if (!!chosenRelease && !!datum['full_geoid']) {
             getReleaseCounts();
         }
         populateGeographiesChosen();

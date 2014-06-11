@@ -41,7 +41,9 @@ function makeGeoSelectWidget(element) {
 
     element.on('typeahead:selected', function(event, datum) {
         event.stopPropagation();
-        window.location = '/profiles/' + datum['full_geoid'] + '-' + slugify(datum['full_name']);
+        if (!!datum['full_geoid']) {
+            window.location = '/profiles/' + datum['full_geoid'] + '-' + slugify(datum['full_name']);
+        }
     });
 }
 

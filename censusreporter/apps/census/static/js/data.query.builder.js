@@ -119,8 +119,11 @@ function makeTopicSelectWidget(element) {
 
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
-        window.location.href = '/tables/' + chosenTableID + '/'
+        if (!!chosenTableID) {
+            window.location.href = '/tables/' + chosenTableID + '/'
+        }
         
+        // ORGINAL 1-2-3 version of this widget
         //makePlaceSelectWidget(placeSelect);
         //placeSelectContainer.slideDown();
         //placeSelect.focus();
@@ -159,7 +162,7 @@ function makePlaceSelectWidget(element) {
     });
 
     element.on('typeahead:selected', function(obj, datum) {
-        if (!datum['full_geoid']) {
+        if (!datum['full_geoid'] && !!datum['sumlev']) {
             chosenSumlev = datum['sumlev'];
             chosenSumlevPluralName = datum['plural_name'];
             chosenSumlevAncestorList = datum['ancestor_sumlev_list'],
@@ -173,7 +176,7 @@ function makePlaceSelectWidget(element) {
             }
             parentSelectContainer.slideDown();
             parentSelect.focus();
-        } else {
+        } else if (!!datum['full_geoid']) {
             chosenGeoID = datum['full_geoid'];
             sendToDataView(chosenTableID, chosenGeoID);
         }
@@ -200,7 +203,9 @@ function makeParentSelectWidget(element) {
 
     element.on('typeahead:selected', function(obj, datum) {
         chosenGeoID = datum['full_geoid'];
-        sendToDataView(chosenTableID, chosenGeoID, chosenSumlev);
+        if (!!chosenGeoID) {
+            sendToDataView(chosenTableID, chosenGeoID, chosenSumlev);
+        }
     });
 }
 
