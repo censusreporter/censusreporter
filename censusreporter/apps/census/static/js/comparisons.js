@@ -71,6 +71,9 @@ function Comparison(options) {
     }
     
     comparison.addStandardMetadata = function() {
+        // get any params from the hash
+        comparison.makeHashObj();
+        
         comparison.table = comparison.data.tables[comparison.tableID];
         comparison.release = comparison.data.release;
         comparison.values = comparison.data.data;
@@ -80,6 +83,7 @@ function Comparison(options) {
 
         comparison.denominatorColumn = (!!comparison.table.denominator_column_id) ? jQuery.extend({id: comparison.table.denominator_column_id}, comparison.table.columns[comparison.table.denominator_column_id]) : null;
         comparison.valueType = (!!comparison.denominatorColumn) ? 'percentage' : 'estimate';
+        comparison.valueType = comparison.hash.valueType || comparison.valueType;
 
         // prep the column keys and names
         if (!!comparison.denominatorColumn) {
@@ -181,14 +185,16 @@ function Comparison(options) {
 
     comparison.addMapNumberToggle = function(redrawFunc) {
         d3.select('#number-toggles').remove();
-        var controlsList = d3.select('#header-container .metadata'),
+        var toggleText = (comparison.valueType == 'estimate') ? 'Switch to percentages' : 'Switch to totals',
+            toggleID = (comparison.valueType == 'estimate') ? 'show-percentage' : 'show-number',
+            controlsList = d3.select('#header-container .metadata'),
             toggle = controlsList.append('li')
                     .attr('id', 'number-toggles')
                     .classed('tool-group', true)
                 .append('a')
                     .classed('toggle-control', true)
-                    .attr('id', 'show-number')
-                    .text('Switch to totals');
+                    .attr('id', toggleID)
+                    .text(toggleText);
 
         comparison.addNumberToggleListener(comparison.showChoropleth);
     }
@@ -1010,10 +1016,7 @@ function Comparison(options) {
             if (!!comparison.tableID) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
 
-                var url = comparison.buildComparisonURL(
-                    comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
-                );
-                window.location = url;
+                window.location = comparison.buildComparisonURL();
             }
         });
 
@@ -1145,10 +1148,7 @@ function Comparison(options) {
                 comparison.geoIDs.push(datum['full_geoid']);
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
 
-                var url = comparison.buildComparisonURL(
-                    comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
-                );
-                window.location = url;
+                window.location = comparison.buildComparisonURL();
             }
             // TODO: pushState to maintain history without page reload
         });
@@ -1205,10 +1205,7 @@ function Comparison(options) {
                 comparison.primaryGeoID = datum['full_geoid'];
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
 
-                var url = comparison.buildComparisonURL(
-                    comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
-                );
-                window.location = url;
+                window.location = comparison.buildComparisonURL();
             }
         });
     }
@@ -1381,14 +1378,16 @@ function Comparison(options) {
     
     comparison.addNumberToggles = function(redrawFunction) {
         d3.select('#number-toggles').remove();
-        var notes = d3.select('#tool-notes'),
+        var toggleText = (comparison.valueType == 'estimate') ? 'Switch to percentages' : 'Switch to totals',
+            toggleID = (comparison.valueType == 'estimate') ? 'show-percentage' : 'show-number',
+            notes = d3.select('#tool-notes'),
             toggle = notes.append('div')
                     .attr('id', 'number-toggles')
                     .classed('tool-group', true)
                 .append('a')
                     .classed('toggle-control', true)
-                    .attr('id', 'show-number')
-                    .text('Switch to totals');
+                    .attr('id', toggleID)
+                    .text(toggleText);
 
         comparison.addNumberToggleListener(redrawFunction);
         return comparison;
@@ -1405,7 +1404,9 @@ function Comparison(options) {
             toggleControl.attr('id', toggleID).text(toggleText);
             comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Toggle percent/number display', showClass);
             
+            // update the URL and redraw the page
             comparison.valueType = (comparison.valueType == 'estimate') ? 'percentage' : 'estimate';
+            comparison.updateHashObj('valueType', comparison.valueType);
             if (!!redrawFunction) {
                 redrawFunction();
             }
@@ -1428,18 +1429,58 @@ function Comparison(options) {
     // UTILITIES
     
     comparison.buildComparisonURL = function(dataFormat, tableID, geoIDs, primaryGeoID) {
-        // pass in vars rather than use them from comparison object
-        // so they can be created to arbitrary destinations
-
+        // pass in vars to create arbitrary destinations
+        if (!!tableID) {
+            // if we're changing tables, need to get rid of hash params
+            // that might not be valid in the next table
+            comparison.hash = {};
+        }
+        
+        var dataFormat = dataFormat || comparison.dataFormat,
+            tableID = tableID || comparison.tableID,
+            geoIDs = geoIDs || comparison.geoIDs,
+            primaryGeoID = primaryGeoID || comparison.primaryGeoID;
+        
         var url = '/data/'+dataFormat+'/?table='+tableID;
         if (!!geoIDs) {
-            url += "&geo_ids=" + geoIDs.join(',')
+            url += '&geo_ids=' + geoIDs.join(',')
         }
         if (!!primaryGeoID) {
-            url += "&primary_geo_id=" + primaryGeoID
+            url += '&primary_geo_id=' + primaryGeoID
+        }
+        if (!!comparison.hash) {
+            var hashArray = [];
+            _.each(comparison.hash, function(v, k) {
+                hashArray.push(k+'|'+v)
+            });
+            
+            if (hashArray.length) {
+                url += '#' + hashArray.join(',');
+            }
         }
         
         return url
+    }
+    
+    comparison.makeHashObj = function() {
+        comparison.hash = comparison.hash || {};
+
+        if (window.location.hash) {
+            var hash = window.location.hash.substring(1),
+                hashBits = hash.split(',');
+            
+            _.each(hashBits, function(bit) {
+                params = bit.split('|');
+                comparison.hash[params[0]] = params[1];
+            });
+        }
+    }
+    
+    comparison.updateHashObj = function(key, value) {
+        if (key && value) {
+            comparison.hash[key] = value;
+        }
+        window.history.replaceState({}, "", comparison.buildComparisonURL());
     }
     
     comparison.removeGeoID = function(geoID, clickedElement) {
@@ -1449,13 +1490,8 @@ function Comparison(options) {
         // get that geoID out of here
         comparison.geoIDs.splice(comparison.geoIDs.indexOf(geoID), 1);
         if (comparison.primaryGeoID == geoID) {
-            comparison.primaryGeoID = (comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null;
+            comparison.primaryGeoID = (comparison.geoIDs.length == 1 && comparison.geoIDs[0].indexOf('|') == -1) ? comparison.geoIDs[0] : null;
         }
-
-        // make the url for pushState
-        var url = comparison.buildComparisonURL(
-            comparison.dataFormat, comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
-        );
 
         if (geoID.indexOf('|') !== -1) {
             var groupBits = geoID.split('|'),
@@ -1472,7 +1508,8 @@ function Comparison(options) {
             delete comparison.data.data[geoID];
         }
 
-        window.history.pushState({}, "", url);
+        // change the window URL and redraw the page
+        window.history.pushState({}, "", comparison.buildComparisonURL());
         comparison.addStandardMetadata();
         comparison.makeDataDisplay();
     }
