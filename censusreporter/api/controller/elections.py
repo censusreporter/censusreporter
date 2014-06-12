@@ -205,9 +205,8 @@ def add_elections_media_coverage(data):
         ]
 
     gender_coverage = [
-        ('Female', 18.3),
-        ('Male', 64.78),
-        ('Unknown', 16.92),
+        ('Female', 22.02),
+        ('Male', 77.98),
     ]
 
     # fold them in
