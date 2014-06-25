@@ -594,8 +594,8 @@ def get_education_profile(geo_code, geo_level, session):
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
-    edu_dist_data['metadata'] = {'universe': 'Invididuals 25 and over'}
-    edu_split_data['metadata'] = {'universe': 'Invididuals 25 and over'}
+    edu_dist_data['metadata'] = {'universe': 'Invididuals aged 5 and older'}
+    edu_split_data['metadata'] = {'universe': 'Invididuals aged 5 and older'}
 
     add_metadata(edu_dist_data, db_model)
 
