@@ -14,6 +14,7 @@ PROFILE_SECTIONS = (
     'economics',  # individual monthly income, type of sector, official employment status
     'service_delivery',  # source of water, refuse disposal
     'education',  # highest educational level
+    'households',  # household heads, etc.
 )
 
 # Education categories
@@ -327,6 +328,53 @@ def get_demographics_profile(geo_code, geo_level, session):
     final_data['age_category_distribution'] = age_dist
 
     return final_data
+
+
+def get_households_profile(geo_code, geo_level, session):
+    # head of household
+    # gender
+    db_model_gender = get_model_from_fields(['gender of head of household'],
+                                            geo_level)
+    objects = get_objects_by_geo(db_model_gender, geo_code, geo_level, session)
+    total_households = 0.0
+    female_heads = 0.0
+    for obj in objects:
+        total_households += obj.total
+
+        gender = getattr(obj, 'gender of head of household')
+        if gender == 'Unspecified':
+            continue
+        if gender == 'Female':
+            female_heads += obj.total
+
+    # age
+    db_model_age = get_model_from_fields(['age of household head'],
+                                            geo_level)
+    objects = get_objects_by_geo(db_model_age, geo_code, geo_level, session)
+    head_age_data = {}
+    total_under_20 = 0.0
+    for obj in objects:
+        age = getattr(obj, 'age of household head')
+        if age in ['10 - 14', '15 - 19']:
+            total_under_20 += obj.total
+
+    return {'total_households': {
+                'name': 'Households',
+                'values': {'this': total_households},
+                },
+            'head_of_household': {
+                'female': {
+                    'name': 'have women as their head',
+                    'values': {'this': round(female_heads / total_households * 100, 2)},
+                    'numerators': {'this': female_heads},
+                    },
+                'percentage_under_20': {
+                    'name': 'have heads under 20 years old',
+                    'values': {'this': round(total_under_20 / total_households * 100, 2)},
+                    'numerators': {'this': total_under_20},
+                    }
+                },
+           }
 
 
 def get_economics_profile(geo_code, geo_level, session):

@@ -169,6 +169,27 @@
 
 <article id="service_delivery" class="clearfix">
     <header class="section-contents">
+        <h1>Households</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#households" id="households">Households <i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.total_households stat_type='number' %}
+            </div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.female stat_type='percentage' %}
+            </div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.percentage_under_20 stat_type='percentage' %}
+            </div>
+        </section>
+    </div>
+</article>
+
+<article id="service_delivery" class="clearfix">
+    <header class="section-contents">
         <h1>Service delivery</h1>
     </header>
     <div class="section-container">
