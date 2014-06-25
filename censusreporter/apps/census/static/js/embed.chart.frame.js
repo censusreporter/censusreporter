@@ -24,6 +24,12 @@ function makeEmbedFrame() {
         embedFrame.dataSource = 'http://embed.wazimap.co.za/embed_data/profiles/'+embedFrame.params.geoID+'.json';
         // avoid css media-query caching issues with multiple embeds on same page
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
+
+        // allow embedders to inject their own stylesheet
+        if (embedFrame.params['stylesheet']) {
+            $('<link rel="stylesheet">').attr('href', embedFrame.params.stylesheet).appendTo($('head'));
+        }
+
         embedFrame.makeChartFooter();
     }
 
