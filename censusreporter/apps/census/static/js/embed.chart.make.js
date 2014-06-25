@@ -73,8 +73,10 @@ function makeCensusEmbeds() {
     }
     
     embed.init();
+
+    return embed;
 }
 
 window.onload = function() { 
-    makeCensusEmbeds();
+    window.CensusReporterEmbeds = makeCensusEmbeds();
 };
