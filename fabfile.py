@@ -4,7 +4,7 @@ from fabric.api import cd, env, task, require, local, lcd, sudo, prefix, shell_e
 from fabric.contrib.files import exists, upload_template
 
 from api.fabfile import (provision_api, create_api_database, drop_api_database,
-    load_api_data)
+    load_api_data, reload_api_data)
 
 
 VIRTUALENV_DIR = 'censusreporter_ve'

@@ -54,6 +54,13 @@ new profile is accessed on the censusreporter site.
 Deployment
 ----------
 
+Deployments are done from the code on GitHub, NOT the code on your local machine.
+So be sure to run `git push` before deploying.
+
 To deploy to an already provisioned machine, run:
 
     >> fab prod deploy
+
+To reload all stats data, run:
+
+    >> fab prod deploy reload_api_data

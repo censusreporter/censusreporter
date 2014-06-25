@@ -1,5 +1,5 @@
 import os
-from fabric.api import env, task, require, local, sudo
+from fabric.api import env, task, require, local, sudo, execute
 
 from api.config import DB_USER, DB_NAME, DB_PASSWORD
 
@@ -78,3 +78,15 @@ def load_api_data():
     sudo('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
     sudo('rm -r %s/votes' % data_dir_abs)
     return
+
+@task
+def reload_api_data():
+    require('deploy_type', 'deploy_dir')
+
+    sudo('initctl stop censusreporter')
+
+    execute(drop_api_database)
+    execute(create_api_database)
+    execute(load_api_data)
+
+    sudo('initctl start censusreporter')
