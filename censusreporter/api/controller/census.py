@@ -549,7 +549,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
 
 def get_education_profile(geo_code, geo_level, session):
     db_model = get_model_from_fields(['highest educational level'], geo_level,
-                                     'highesteducationallevel_%s'
+                                     'highesteducationallevel_20andolder_%s'
                                      % geo_level)
     objects = get_objects_by_geo(db_model, geo_code, geo_level, session)
 
@@ -594,8 +594,8 @@ def get_education_profile(geo_code, geo_level, session):
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
-    edu_dist_data['metadata'] = {'universe': 'Invididuals aged 5 and older'}
-    edu_split_data['metadata'] = {'universe': 'Invididuals aged 5 and older'}
+    edu_dist_data['metadata'] = {'universe': 'Invididuals aged 20 and older'}
+    edu_split_data['metadata'] = {'universe': 'Invididuals aged 20 and older'}
 
     add_metadata(edu_dist_data, db_model)
 

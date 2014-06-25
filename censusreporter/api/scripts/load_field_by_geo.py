@@ -209,7 +209,12 @@ class SuperImporter(object):
             if geo_level in models:
                 db_model = models[geo_level]
             else:
-                models[geo_level] = db_model = get_model_from_fields(self.fields, geo_level, self.table_name)
+                if self.table_name:
+                    table_name = self.table_name + '_' + geo_level
+                else:
+                    table_name = None
+
+                models[geo_level] = db_model = get_model_from_fields(self.fields, geo_level, table_name)
                 Base.metadata.create_all(_engine, tables=[db_model.__table__])
 
             for category, value in zip(self.categories, values):
@@ -257,5 +262,7 @@ if __name__ == '__main__':
     if not os.path.isabs(filepath):
         filepath = os.path.join(os.getcwd(), filepath)
 
-    SuperImporter(filepath).run()
+    importer = SuperImporter(filepath)
+    importer.table_name = table_name
+    importer.run()
 
