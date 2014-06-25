@@ -175,15 +175,26 @@
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#households" id="households">Households <i class="fa fa-link"></i></a></h2>
-            <div class="column-third">
+            <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.total_households stat_type='number' %}
             </div>
-            <div class="column-third">
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.informal stat_type='percentage' %}
+            </div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.female stat_type='percentage' %}
             </div>
-            <div class="column-third">
+            <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.percentage_under_20 stat_type='percentage' %}
             </div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.owned stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-pie-households-tenure_distribution" data-stat-type="percentage" data-chart-title="Households by tenure"></div>
         </section>
     </div>
 </article>

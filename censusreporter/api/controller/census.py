@@ -351,17 +351,56 @@ def get_households_profile(geo_code, geo_level, session):
     db_model_age = get_model_from_fields(['age of household head'],
                                             geo_level)
     objects = get_objects_by_geo(db_model_age, geo_code, geo_level, session)
-    head_age_data = {}
     total_under_20 = 0.0
     for obj in objects:
         age = getattr(obj, 'age of household head')
         if age in ['10 - 14', '15 - 19']:
             total_under_20 += obj.total
 
+    # tenure
+    db_model_tenure = get_model_from_fields(['tenure status'],
+                                            geo_level)
+    objects = get_objects_by_geo(db_model_tenure, geo_code, geo_level, session)
+    tenure_data = {}
+    owned = 0.0
+    for obj in objects:
+        tenure = getattr(obj, 'tenure status')
+        if tenure.startswith('Owned'):
+            owned += obj.total
+        tenure_data[tenure] = {
+            "name": tenure,
+            "values": {"this": round(obj.total / total_households * 100, 2)},
+            "numerators": {"this": obj.total},
+        }
+
+    add_metadata(tenure_data, db_model_tenure)
+
+    # type of main dwelling
+    db_model_dwelling = get_model_from_fields(['type of main dwelling'],
+                                            geo_level)
+    objects = get_objects_by_geo(db_model_dwelling, geo_code, geo_level, session)
+    informal = 0.0
+    for obj in objects:
+        dwelling = getattr(obj, 'type of main dwelling')
+        if dwelling.startswith('Informal'):
+            informal += obj.total
+
+
     return {'total_households': {
                 'name': 'Households',
                 'values': {'this': total_households},
                 },
+            'owned': {
+                'name': 'households are fully owned or being paid off',
+                'values': {'this': round(owned / total_households * 100, 2)},
+                'numerators': {'this': owned},
+                },
+            'informal': {
+                'name': 'are informal dwellings (shacks)',
+                'values': {'this': round(informal / total_households * 100, 2)},
+                'numerators': {'this': informal},
+                },
+            'tenure_distribution': tenure_data,
             'head_of_household': {
                 'female': {
                     'name': 'have women as their head',
