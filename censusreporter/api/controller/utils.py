@@ -16,14 +16,21 @@ def collapse_categories(data, categories, key_order=None):
     # level 1: iterate over categories in data
     for fields in data.values():
         new_category_name = categories[fields['name']]
+
+        # ignore items with a None category
+        if new_category_name is None:
+            continue
+
         collapsed.setdefault(new_category_name, {'name': new_category_name})
         new_fields = collapsed[new_category_name]
+
         # level 2: iterate over measurement objects in category
         for measurement_key, measurement_objects in fields.iteritems():
             if measurement_key == 'name':
                 continue
             new_fields.setdefault(measurement_key, {})
             new_measurement_objects = new_fields[measurement_key]
+
             # level 3: iterate over data points in measurement objects
             for datapoint_key, datapoint_value in measurement_objects.iteritems():
                 try:

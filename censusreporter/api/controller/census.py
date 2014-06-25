@@ -27,16 +27,16 @@ COLLAPSED_EDUCATION_CATEGORIES = {
     'Grade 5 / Std 3/ABET 2': 'Some primary',
     'Grade 6 / Std 4': 'Some primary',
     'Grade 7 / Std 5/ ABET 3': 'Primary',
-    'Grade 8 / Std 6 / Form 1': 'Primary',
-    'Grade 9 / Std 7 / Form 2/ ABET 4': 'Grade 9',
+    'Grade 8 / Std 6 / Form 1': 'Some secondary',
+    'Grade 9 / Std 7 / Form 2/ ABET 4': 'Some secondary',
     'Grade 10 / Std 8 / Form 3': 'Some secondary',
     'Grade 11 / Std 9 / Form 4': 'Some secondary',
     'Grade 12 / Std 10 / Form 5': 'Grade 12 (Matric)',
-    'NTC I / N1/ NIC/ V Level 2': 'Grade 9',
+    'NTC I / N1/ NIC/ V Level 2': 'Some secondary',
     'NTC II / N2/ NIC/ V Level 3': 'Some secondary',
-    'NTC III /N3/ NIC/ V Level 4': 'Some secondary',
-    'N4 / NTC 4': 'Grade 12 (Matric)',
-    'N5 /NTC 5': 'Undergrad',
+    'NTC III /N3/ NIC/ V Level 4': 'Grade 12 (Matric)',
+    'N4 / NTC 4': None,
+    'N5 /NTC 5': None,
     'N6 / NTC 6': 'Undergrad',
     'Certificate with less than Grade 12 / Std 10': 'Some secondary',
     'Diploma with less than Grade 12 / Std 10': 'Some secondary',
@@ -50,8 +50,8 @@ COLLAPSED_EDUCATION_CATEGORIES = {
     'Higher Degree Masters / PhD': 'Post-grad',
     'Other': 'Other',
     'No schooling': 'None',
-    'Unspecified': 'Other',
-    'Not applicable': 'Other',
+    'Unspecified': None,
+    'Not applicable': None,
 }
 EDUCATION_GET_OR_HIGHER = set([
     'Grade 9 / Std 7 / Form 2/ ABET 4',
@@ -549,7 +549,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
 
 def get_education_profile(geo_code, geo_level, session):
     db_model = get_model_from_fields(['highest educational level'], geo_level,
-                                     'highesteducationallevel_%s_25andover'
+                                     'highesteducationallevel_%s'
                                      % geo_level)
     objects = get_objects_by_geo(db_model, geo_code, geo_level, session)
 
@@ -574,7 +574,7 @@ def get_education_profile(geo_code, geo_level, session):
                                         COLLAPSED_EDUCATION_CATEGORIES,
                                         key_order=('None', 'Other',
                                                    'Some primary', 'Primary',
-                                                   'Grade 9', 'Some secondary',
+                                                   'Some secondary',
                                                    'Grade 12 (Matric)',
                                                    'Undergrad',
                                                    'Post-grad'))
