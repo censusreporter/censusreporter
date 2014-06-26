@@ -396,67 +396,33 @@ def get_households_profile(geo_code, geo_level, session):
 
 def get_economics_profile(geo_code, geo_level, session):
     # income
-    db_model_income = get_model_from_fields(['individual monthly income'],
-                                            geo_level,
-                                            'individualmonthlyincome_%s_employedonly'
-                                            % geo_level)
-    objects = get_objects_by_geo(db_model_income, geo_code, geo_level, session)
-    income_dist_data = {}
-    total_income = 0.0
-    for obj in objects:
-        income_group = getattr(obj, 'individual monthly income')
-        if income_group == 'Not applicable':
-            continue
-        total_income += obj.total
-        income_dist_data[income_group] = {
-            "name": income_group,
-            "numerators": {"this": obj.total},
-        }
+    income_dist_data, total_income = get_stat_data(
+            ['individual monthly income'], geo_level, geo_code, session, percent=True,
+            table_name='individualmonthlyincome_%s_employedonly' % geo_level,
+            exclude=['Not applicable'])
     key_order = COLLAPSED_INCOME_CATEGORIES.values()
     key_order.remove('N/A')
     income_dist_data = collapse_categories(income_dist_data,
                                            COLLAPSED_INCOME_CATEGORIES,
                                            key_order=key_order)
+    income_dist_data['metadata']['universe'] = 'Officially employed individuals'
 
     # employment status
     employ_status, total_workers = get_stat_data(
             ['official employment status'], geo_level, geo_code, session, percent=True,
             exclude=['Age less than 15 years', 'Not applicable'])
-
-    # sector
-    db_model_sector = get_model_from_fields(['type of sector'], geo_level)
-    objects = get_objects_by_geo(db_model_sector, geo_code, geo_level,
-                                 session, order_by='type of sector')
-    sector_dist_data = OrderedDict()
-    total_sector = 0.0
-    for obj in objects:
-        sector = getattr(obj, 'type of sector')
-        if sector == 'Not applicable' or obj.total == 0:
-            continue
-        total_sector += obj.total
-        sector_dist_data[sector] = {
-            "name": sector,
-            "numerators": {"this": obj.total},
-        }
-
-    for data, total in zip((income_dist_data, sector_dist_data),
-                           (total_income, total_sector)):
-        for fields in data.values():
-            fields["values"] = {"this": round(fields["numerators"]["this"]
-                                              / total * 100, 2)}
-
-    income_dist_data['metadata'] = {'universe': 'Officially employed individuals'}
     employ_status['metadata']['universe'] = 'Workers 15 and over'
 
-    add_metadata(income_dist_data, db_model_income)
-    add_metadata(sector_dist_data, db_model_sector)
+    # sector
+    sector_dist_data, _ = get_stat_data(
+            ['type of sector'], geo_level, geo_code, session, percent=True,
+            exclude=['Not applicable'], exclude_zero=True)
 
     # access to internet
     internet_access_dist, total_with_access = get_stat_data(
             ['access to internet'], geo_level, geo_code, session, percent=True, exclude=['No access to internet'])
     _, total_without_access = get_stat_data(
             ['access to internet'], geo_level, geo_code, session, percent=True, only=['No access to internet'])
-    print _
     total_households = total_with_access + total_without_access
 
     return {'individual_income_distribution': income_dist_data,
@@ -695,7 +661,7 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
 
 
 def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=False,
-                  only=None, exclude=None):
+                  table_name=None, only=None, exclude=None, exclude_zero=False):
     if order_by is None:
         order_by = fields[0]
 
@@ -704,7 +670,7 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=F
     if exclude is not None:
         exclude = set(exclude)
 
-    model = get_model_from_fields(fields, geo_level)
+    model = get_model_from_fields(fields, geo_level, table_name)
     objects = get_objects_by_geo(model, geo_code, geo_level, session, order_by=order_by)
 
     data = OrderedDict()
@@ -718,6 +684,9 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=F
             continue
 
         if exclude and key in exclude:
+            continue
+
+        if obj.total == 0 and exclude_zero:
             continue
 
         total += obj.total
