@@ -1,4 +1,5 @@
 import requests
+import re
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -25,6 +26,7 @@ census_fields = set([
     'gender',
     'gender of head of household',
     'highest educational level',
+    'household goods',
     'individual monthly income',
     'language',
     'official employment status',
@@ -60,6 +62,8 @@ def get_session():
     return _Session()
 
 
+table_bad_chars = re.compile('[ /-]')
+
 def get_table_name(fields, geo_level):
     if geo_level not in geo_levels:
         raise ValueError('Invalid geo_level: %s' % geo_level)
@@ -68,12 +72,9 @@ def get_table_name(fields, geo_level):
             raise ValueError('Invalid field: %s' % field)
 
     sorted_fields = sorted(fields)
-    table_name = ''.join(sorted_fields[0].lower().split(' '))
-    for field in sorted_fields[1:]:
-        table_name = '%s_%s' % (table_name,
-                                ''.join(field.lower().split(' ')))
-
+    table_name = table_bad_chars.sub('', '_'.join(sorted_fields))
     table_name_length = len(table_name) + len(geo_level) + 1
+
     if table_name_length > MAX_TABLE_NAME_LENGTH:
         if table_name_length - len(sorted_fields[-1]) + 1 > MAX_TABLE_NAME_LENGTH:
             raise RuntimeError("Table name exceeds %s characters"
