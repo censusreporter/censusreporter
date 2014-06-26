@@ -418,20 +418,10 @@ def get_economics_profile(geo_code, geo_level, session):
                                            COLLAPSED_INCOME_CATEGORIES,
                                            key_order=key_order)
 
-    db_model_employ = get_model_from_fields(['official employment status'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_employ, geo_code, geo_level, session)
-    employ_status = {}
-    total_workers = 0.0
-    for obj in objects:
-        employ_st = getattr(obj, 'official employment status')
-        if employ_st in ('Age less than 15 years', 'Not applicable'):
-            continue
-        total_workers += obj.total
-        employ_status[employ_st] = {
-            "name": employ_st,
-            "numerators": {"this": obj.total},
-        }
+    # employment status
+    employ_status, total_workers = get_stat_data(
+            ['official employment status'], geo_level, geo_code, session, percent=True,
+            exclude=['Age less than 15 years', 'Not applicable'])
 
     # sector
     db_model_sector = get_model_from_fields(['type of sector'], geo_level)
@@ -449,17 +439,16 @@ def get_economics_profile(geo_code, geo_level, session):
             "numerators": {"this": obj.total},
         }
 
-    for data, total in zip((income_dist_data, sector_dist_data, employ_status),
-                           (total_income, total_sector, total_workers)):
+    for data, total in zip((income_dist_data, sector_dist_data),
+                           (total_income, total_sector)):
         for fields in data.values():
             fields["values"] = {"this": round(fields["numerators"]["this"]
                                               / total * 100, 2)}
 
     income_dist_data['metadata'] = {'universe': 'Officially employed individuals'}
-    employ_status['metadata'] = {'universe': 'Workers 15 and over'}
+    employ_status['metadata']['universe'] = 'Workers 15 and over'
 
     add_metadata(income_dist_data, db_model_income)
-    add_metadata(employ_status, db_model_employ)
     add_metadata(sector_dist_data, db_model_sector)
 
     # access to internet
