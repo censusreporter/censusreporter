@@ -171,6 +171,20 @@ COLLAPSED_TOILET_CATEGORIES = {
     "Not applicable": "N/A",
 }
 
+HOUSEHOLD_GOODS_RECODE = {
+    'cell phone': 'Cellphone',
+    'dvd player': 'DVD player',
+    'electric/gas stove': 'Stove',
+    'landline/telephone': 'Telephone',
+    'motor-car': 'Car',
+    'radio': 'Radio',
+    'refrigerator': 'Fridge',
+    'satellite television': 'Satellite TV',
+    'television': 'TV',
+    'vacuum cleaner': 'Vacuum cleaner',
+    'washing machine': 'Washing machine',
+}
+
 
 def get_census_profile(geo_code, geo_level):
     session = get_session()
@@ -364,6 +378,13 @@ def get_households_profile(geo_code, geo_level, session):
             informal += obj.total
 
 
+    # household goods
+    household_goods, _ = get_stat_data(
+            ['household goods'], geo_level, geo_code, session, percent=True,
+            total=total_households)
+    household_goods = collapse_categories(household_goods, HOUSEHOLD_GOODS_RECODE)
+
+
     return {'total_households': {
                 'name': 'Households',
                 'values': {'this': total_households},
@@ -379,6 +400,7 @@ def get_households_profile(geo_code, geo_level, session):
                 'numerators': {'this': informal},
                 },
             'tenure_distribution': tenure_data,
+            'household_goods': household_goods,
             'head_of_household': {
                 'female': {
                     'name': 'have women as their head',
@@ -660,8 +682,28 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
     return objects
 
 
-def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=False,
+def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
+                  percent=False, total=None,
                   table_name=None, only=None, exclude=None, exclude_zero=False):
+    """
+    Helper routine for fetching rows for stats and generating a JSON-suitable result
+    set.
+
+    :param list fields: the census fields in `api.utils.census_fields`, e.g. ['highest educational level', 'type of sector']
+    :param str geo_level: the geographical level
+    :param str geo_code: the geographical code
+    :param dbsession session: sqlalchemy session
+    :param str order_by: field to order by or None for default, eg. '-total'
+    :param bool percent: should we calculate percentages?
+    :param int total: the total value to use for percentages, or None to total columns automatically
+    :param str table_name: override the table name, otherwise it's calculated from the fields and geo_level
+    :param list only: only include these field values
+    :param list exclude: ignore these field values
+    :param bool exclude_zero: ignore fields that have a zero total
+
+    :return: (data-dictionary, total)
+    """
+
     if order_by is None:
         order_by = fields[0]
 
@@ -674,7 +716,7 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=F
     objects = get_objects_by_geo(model, geo_code, geo_level, session, order_by=order_by)
 
     data = OrderedDict()
-    total = 0.0
+    our_total = 0.0
     key_field = fields[0]
 
     for obj in objects:
@@ -689,7 +731,7 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=F
         if obj.total == 0 and exclude_zero:
             continue
 
-        total += obj.total
+        our_total += obj.total
         data[key] = {
             "name": key,
             "numerators": {"this": obj.total},
@@ -697,6 +739,9 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=F
 
     # add in percentages
     if percent:
+        if total is None:
+            total = our_total
+
         for fields in data.itervalues():
             fields["values"] = {"this": round(fields["numerators"]["this"] / total * 100, 2)}
 
