@@ -407,10 +407,9 @@ def get_households_profile(geo_code, geo_level, session):
                     'values': {'this': round(female_heads / total_households * 100, 2)},
                     'numerators': {'this': female_heads},
                     },
-                'percentage_under_20': {
+                'under_20': {
                     'name': 'have heads under 20 years old',
-                    'values': {'this': round(total_under_20 / total_households * 100, 2)},
-                    'numerators': {'this': total_under_20},
+                    'values': {'this': total_under_20},
                     }
                 },
            }
