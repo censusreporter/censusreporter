@@ -15,6 +15,7 @@ MAX_TABLE_NAME_LENGTH = 63
 
 
 census_fields = set([
+    'access to internet',
     'age groups in 5 years',
     'age in completed years',
     'age of household head',

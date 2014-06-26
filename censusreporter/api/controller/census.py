@@ -462,9 +462,24 @@ def get_economics_profile(geo_code, geo_level, session):
     add_metadata(employ_status, db_model_employ)
     add_metadata(sector_dist_data, db_model_sector)
 
+    # access to internet
+    internet_access_dist, total_with_access = get_stat_data(
+            ['access to internet'], geo_level, geo_code, session, percent=True, exclude=['No access to internet'])
+    _, total_without_access = get_stat_data(
+            ['access to internet'], geo_level, geo_code, session, percent=True, only=['No access to internet'])
+    print _
+    total_households = total_with_access + total_without_access
+
     return {'individual_income_distribution': income_dist_data,
             'employment_status': employ_status,
-            'sector_type_distribution': sector_dist_data}
+            'sector_type_distribution': sector_dist_data,
+            'internet_access_distribution': internet_access_dist,
+            'internet_access': {
+                'name': 'of households have internet access',
+                'values': {'this': round(total_with_access / total_households * 100, 2)},
+                'numerators': {'this': total_with_access},
+                }
+            }
 
 
 def get_service_delivery_profile(geo_code, geo_level, session):
@@ -690,9 +705,15 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
     return objects
 
 
-def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=False):
+def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=False,
+                  only=None, exclude=None):
     if order_by is None:
         order_by = fields[0]
+
+    if only is not None:
+        only = set(only)
+    if exclude is not None:
+        exclude = set(exclude)
 
     model = get_model_from_fields(fields, geo_level)
     objects = get_objects_by_geo(model, geo_code, geo_level, session, order_by=order_by)
@@ -700,8 +721,16 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=F
     data = OrderedDict()
     total = 0.0
     key_field = fields[0]
+
     for obj in objects:
         key = getattr(obj, key_field)
+
+        if only and key not in only:
+            continue
+
+        if exclude and key in exclude:
+            continue
+
         total += obj.total
         data[key] = {
             "name": key,
