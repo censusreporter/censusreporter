@@ -382,7 +382,7 @@ def get_households_profile(geo_code, geo_level, session):
     household_goods, _ = get_stat_data(
             ['household goods'], geo_level, geo_code, session, percent=True,
             total=total_households)
-    household_goods = collapse_categories(household_goods, HOUSEHOLD_GOODS_RECODE)
+    household_goods = collapse_categories(household_goods, HOUSEHOLD_GOODS_RECODE, key_order=sorted(HOUSEHOLD_GOODS_RECODE.values()))
 
 
     return {'total_households': {

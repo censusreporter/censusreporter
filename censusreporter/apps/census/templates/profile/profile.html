@@ -227,16 +227,6 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#refuse" id="refuse">Refuse disposal <i class="fa fa-link"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_ref_disp_from_service_provider stat_type='percentage' %}
-            </div>
-            <div class="column-third" id="chart-pie-service_delivery-refuse_disposal_distribution" data-chart-title="Population by refuse disposal" data-stat-type="percentage"></div>
-        </section>
-
-        <section class="clearfix stat-row">
             <h2><a class="permalink" href="#electricity" id="electricity">Electricity <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
@@ -257,6 +247,16 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_no_toilet_access stat_type='percentage' %}
             </div>
             <div class="column-third" id="chart-pie-service_delivery-toilet_facilities_distribution" data-stat-type="percentage" data-chart-title="Population by toilet facilities"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#refuse" id="refuse">Refuse disposal <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=service_delivery.percentage_ref_disp_from_service_provider stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-service_delivery-refuse_disposal_distribution" data-chart-title="Population by refuse disposal" data-stat-type="percentage"></div>
         </section>
 
     </div>
