@@ -13,6 +13,11 @@ def collapse_categories(data, categories, key_order=None):
     else:
         collapsed = {}
 
+    metadata = None
+    if 'metadata' in data:
+        metadata = data['metadata']
+        del data['metadata']
+
     # level 1: iterate over categories in data
     for fields in data.values():
         new_category_name = categories[fields['name']]
@@ -38,6 +43,9 @@ def collapse_categories(data, categories, key_order=None):
                     new_measurement_objects[datapoint_key] += float(datapoint_value)
                 except (ValueError, TypeError):
                     new_measurement_objects[datapoint_key] = datapoint_value
+
+    if metadata is not None:
+        collapsed['metadata'] = metadata
 
     return collapsed
 

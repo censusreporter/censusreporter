@@ -195,6 +195,7 @@ def get_census_profile(geo_code, geo_level):
         group_remainder(data['service_delivery']['water_source_distribution'])
         group_remainder(data['service_delivery']['refuse_disposal_distribution'])
         group_remainder(data['service_delivery']['toilet_facilities_distribution'], 5)
+        group_remainder(data['demographics']['language_distribution'], 7)
         
         return data
 
@@ -204,33 +205,17 @@ def get_census_profile(geo_code, geo_level):
 
 def get_demographics_profile(geo_code, geo_level, session):
     # population group
-    db_model_pop = get_model_from_fields(['population group'], geo_level)
-    objects = get_objects_by_geo(db_model_pop, geo_code, geo_level,
-                                 session, order_by='population group')
+    pop_dist_data, total_pop = get_stat_data(
+            ['population group'], geo_level, geo_code, session, percent=True)
 
-    pop_dist_data = OrderedDict()
-    total_pop = 0.0
-    for obj in objects:
-        pop_group = getattr(obj, 'population group')
-        total_pop += obj.total
-        pop_dist_data[pop_group] = {
-            "name": pop_group,
-            "numerators": {"this": obj.total},
-        }
+    # language
+    language_data, _ = get_stat_data(
+            ['language'], geo_level, geo_code, session, order_by='-total', percent=True)
+    language_most_spoken = language_data[language_data.keys()[0]]
 
     # age groups
-    db_model_age = get_model_from_fields(['age groups in 5 years'], geo_level)
-    objects = get_objects_by_geo(db_model_age, geo_code, geo_level, session)
-
-    age_dist_data = {}
-    total_age = 0.0
-    for obj in objects:
-        age_group = getattr(obj, 'age groups in 5 years')
-        total_age += obj.total
-        age_dist_data[age_group] = {
-            "name": age_group,
-            "numerators": {"this": obj.total},
-        }
+    age_dist_data, total_age = get_stat_data(
+            ['age groups in 5 years'], geo_level, geo_code, session, percent=True)
     age_dist_data = collapse_categories(age_dist_data,
                                         COLLAPSED_AGE_CATEGORIES,
                                         key_order=('0-9', '10-19',
@@ -261,18 +246,11 @@ def get_demographics_profile(geo_code, geo_level, session):
             }),
         ))
 
-    # calculate percentages
-    for data, total in zip((pop_dist_data, age_dist_data),
-                           (total_pop, total_age)):
-        for fields in data.values():
-            fields["values"] = {"this": round(fields["numerators"]["this"]
-                                              / total * 100, 2)}
-
-    add_metadata(pop_dist_data, db_model_pop)
-    add_metadata(age_dist_data, db_model_age)
     add_metadata(sex_data, db_model_sex)
 
     final_data = {
+        'language_distribution': language_data,
+        'language_most_spoken': language_most_spoken,
         'population_group_distribution': pop_dist_data,
         'age_group_distribution': age_dist_data,
         'sex_ratio': sex_data,
@@ -710,3 +688,31 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
         raise LocationNotFound("%s.%s with code '%s' not found"
                                % (db_model.__tablename__, geo_attr, geo_code))
     return objects
+
+
+def get_stat_data(fields, geo_level, geo_code, session, order_by=None, percent=False):
+    if order_by is None:
+        order_by = fields[0]
+
+    model = get_model_from_fields(fields, geo_level)
+    objects = get_objects_by_geo(model, geo_code, geo_level, session, order_by=order_by)
+
+    data = OrderedDict()
+    total = 0.0
+    key_field = fields[0]
+    for obj in objects:
+        key = getattr(obj, key_field)
+        total += obj.total
+        data[key] = {
+            "name": key,
+            "numerators": {"this": obj.total},
+        }
+
+    # add in percentages
+    if percent:
+        for fields in data.itervalues():
+            fields["values"] = {"this": round(fields["numerators"]["this"] / total * 100, 2)}
+
+    add_metadata(data, model)
+
+    return data, total

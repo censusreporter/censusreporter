@@ -25,6 +25,7 @@ census_fields = set([
     'gender of head of household',
     'highest educational level',
     'individual monthly income',
+    'language',
     'official employment status',
     'population group',
     'refuse disposal',

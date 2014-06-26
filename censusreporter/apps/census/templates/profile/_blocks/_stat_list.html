@@ -5,7 +5,11 @@
             {% if not stat.values.this %}
                 N/A
             {% else %}
-                {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
+                {% if stat_type == 'name' %}
+                    {{ stat.name }}
+                {% else %}
+                    {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
+                {% endif %}
                 {% if stat.error.this_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
             {% endif %}
 
@@ -19,7 +23,7 @@
                 {% endif %}
             {% endif %}
         </span>
-        <span class="name">{{ stat.name }}</span>
+        <span class="name">{% if stat_type == 'name' %}{{ stat_name }}{% else %}{{ stat.name }}{% endif %}</span>
         
         {% if stat_class == 'secondary' %}
             <span class="context">

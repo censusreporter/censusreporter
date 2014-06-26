@@ -143,7 +143,6 @@
 
         <section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#age" id="age">Age <i class="fa fa-link"></i></a></h2>
-            <aside></aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.median_age stat_type='number' %}
             </div>
@@ -151,9 +150,8 @@
             <div class="column-quarter" id="chart-pie-demographics-age_category_distribution" data-stat-type="percentage" data-chart-title="Population by age category"></div>
         </section>
         <section class="clearfix stat-row">
-            <aside></aside>
+            <h2 class="header-for-columns"><a class="permalink" href="#pop_count" id="pop_count">Population <i class="fa fa-link"></i></a></h2>
             <div class="column-quarter">
-                <h2 class="header-for-columns"><a class="permalink" href="#pop_count" id="pop_count">Population <i class="fa fa-link"></i></a></h2>
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.total_population stat_type='number' %}
             </div>
             <div class="column-half">
@@ -161,6 +159,15 @@
             </div>
             <div class="column-quarter">
                 <div id="chart-pie-demographics-sex_ratio" data-stat-type="percentage" data-chart-title="Sex"></div>
+            </div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#language" id="language">Language <i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.language_most_spoken stat_type='name' stat_name='is the language most spoken at home' %}
+            </div>
+            <div class="column-three-quarters">
+                <div id="chart-histogram-demographics-language_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by language most spoken at home"></div>
             </div>
         </section>
 
