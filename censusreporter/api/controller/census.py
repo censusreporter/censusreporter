@@ -390,12 +390,12 @@ def get_households_profile(geo_code, geo_level, session):
                 'values': {'this': total_households},
                 },
             'owned': {
-                'name': 'households are fully owned or being paid off',
+                'name': 'Households fully owned or being paid off',
                 'values': {'this': round(owned / total_households * 100, 2)},
                 'numerators': {'this': owned},
                 },
             'informal': {
-                'name': 'are informal dwellings (shacks)',
+                'name': 'Households that are informal dwellings (shacks)',
                 'values': {'this': round(informal / total_households * 100, 2)},
                 'numerators': {'this': informal},
                 },
@@ -403,12 +403,12 @@ def get_households_profile(geo_code, geo_level, session):
             'household_goods': household_goods,
             'head_of_household': {
                 'female': {
-                    'name': 'have women as their head',
+                    'name': 'Households with women as their head',
                     'values': {'this': round(female_heads / total_households * 100, 2)},
                     'numerators': {'this': female_heads},
                     },
                 'under_20': {
-                    'name': 'have heads under 20 years old',
+                    'name': 'Households with heads under 20 years old',
                     'values': {'this': total_under_20},
                     }
                 },
@@ -451,7 +451,7 @@ def get_economics_profile(geo_code, geo_level, session):
             'sector_type_distribution': sector_dist_data,
             'internet_access_distribution': internet_access_dist,
             'internet_access': {
-                'name': 'of households have internet access',
+                'name': 'Households with internet access',
                 'values': {'this': round(total_with_access / total_households * 100, 2)},
                 'numerators': {'this': total_with_access},
                 }
