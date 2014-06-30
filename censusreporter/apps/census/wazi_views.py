@@ -64,6 +64,13 @@ class SouthAfricaGeographyDetailView(GeographyDetailView):
                 pass
 
 
+class SouthAfricaGeographyJsonView(SouthAfricaGeographyDetailView):
+    """ Return geo profile data as json. """
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return HttpResponse(context['profile_data_json'], mimetype='application/javascript')
+
+
 class PlaceSearchJson(View):
     def get(self, request, *args, **kwargs):
         if 'q' in request.GET:

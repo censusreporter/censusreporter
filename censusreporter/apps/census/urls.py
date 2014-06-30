@@ -7,7 +7,7 @@ from .views import (HomepageView, GeographyDetailView,
     TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
     DataView, TopicView, ExampleView, Elasticsearch)
 
-from .wazi_views import SouthAfricaGeographyDetailView, WardSearchProxy, PlaceSearchJson, SouthAfricaLocateView
+from .wazi_views import SouthAfricaGeographyDetailView, SouthAfricaGeographyJsonView, WardSearchProxy, PlaceSearchJson, SouthAfricaLocateView
 
 admin.autodiscover()
 
@@ -31,6 +31,14 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
+    ),
+
+    # e.g. /profiles/province-GT/
+    url(
+        regex   = '^(embed_data/)?profiles/(?P<geography_id>(%s)-[\w]+)\.json$' % geo_levels,
+        view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyJsonView.as_view()),
+        kwargs  = {},
+        name    = 'geography_json',
     ),
 
     url(

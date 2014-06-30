@@ -21,7 +21,7 @@ function makeEmbedFrame() {
 
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
         embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
-        embedFrame.dataSource = 'http://embed.wazimap.co.za/embed_data/profiles/'+embedFrame.params.geoID+'.json';
+        embedFrame.dataSource = 'http://embed.wazimap.co.za/profiles/'+embedFrame.params.geoID+'.json';
         // avoid css media-query caching issues with multiple embeds on same page
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
 
