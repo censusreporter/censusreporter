@@ -367,13 +367,13 @@ def get_households_profile(geo_code, geo_level, session):
 
     add_metadata(tenure_data, db_model_tenure)
 
-    # type of main dwelling
-    db_model_dwelling = get_model_from_fields(['type of main dwelling'],
+    # type of dwelling
+    db_model_dwelling = get_model_from_fields(['type of dwelling'],
                                             geo_level)
     objects = get_objects_by_geo(db_model_dwelling, geo_code, geo_level, session)
     informal = 0.0
     for obj in objects:
-        dwelling = getattr(obj, 'type of main dwelling')
+        dwelling = getattr(obj, 'type of dwelling')
         if dwelling.startswith('Informal'):
             informal += obj.total
 

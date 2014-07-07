@@ -35,7 +35,7 @@ census_fields = set([
     'source of water',
     'tenure status',
     'toilet facilities',
-    'type of main dwelling',
+    'type of dwelling',
     'type of sector',
 ])
 geo_levels = (
