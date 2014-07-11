@@ -402,8 +402,8 @@ function Comparison(options) {
                 thisPctMOE = (!!comparison.denominatorColumn) ? feature.properties.data.percentage_error[column] : null,
                 thisIsPct = !!thisPct && comparison.valueType == 'percentage',
                 label = '<span class="label-title">' + feature.properties.name + '</span>',
-                pctLabel,
-                valLabel,
+                pctLabel = '',
+                valLabel = '',
                 strLabelNumbers;
                 
             if (!!thisPct) {
