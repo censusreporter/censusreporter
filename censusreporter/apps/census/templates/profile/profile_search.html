@@ -3,6 +3,7 @@
 {% block head_title %}Geography Search - {{ block.super }}{% endblock %}
 
 {% block content %}
+<p class="message message-help display-type">Census Reporter is trying to make this search engine the best it can be. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if this page returns results in a way you weren&rsquo;t expecting.</p>
 
 <section class="clearfix big-action" id="query-geo-picker">
     <h1 class="article-header">Find a geography</h1>
@@ -10,7 +11,6 @@
         <form>
             <input name="q" id="geography-select" type="text" value="{{ q }}" placeholder="Search by place name..." autocomplete="off">
             <input type="submit" value="Search"/>
-            <p class="help-text">Census Reporter is trying to make this search engine the best it can be. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if this page returns results in a way you weren&rsquo;t expecting.</p>
         </form>
     </div>
 </section>
