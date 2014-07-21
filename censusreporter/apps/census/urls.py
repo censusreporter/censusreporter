@@ -1,11 +1,14 @@
+from django.conf import settings
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, RedirectView
 
-from .views import (HomepageView, GeographyDetailView,
-    TableSearch, TableSearchJson, GeoSearch, LocateView, HealthcheckView,
-    DataView, TopicView, ExampleView, Elasticsearch)
+from .views import (HomepageView, GeographyDetailView, GeographySearchView,
+    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch, LocateView,
+    HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
 from .wazi_views import SouthAfricaGeographyDetailView, SouthAfricaGeographyJsonView, WardSearchProxy, PlaceSearchJson, SouthAfricaLocateView
 
@@ -13,6 +16,7 @@ admin.autodiscover()
 
 STANDARD_CACHE_TIME = 60*15 # 15-minute cache
 COMPARISON_FORMATS = 'map|table|distribution'
+BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
 geo_levels = 'ward|municipality|province|country'
 
@@ -33,7 +37,7 @@ urlpatterns = patterns('',
         name    = 'geography_detail',
     ),
 
-    # e.g. /profiles/province-GT/
+    # e.g. /profiles/province-GT.json
     url(
         regex   = '^(embed_data/)?profiles/(?P<geography_id>(%s)-[\w]+)\.json$' % geo_levels,
         view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyJsonView.as_view()),
@@ -41,11 +45,34 @@ urlpatterns = patterns('',
         name    = 'geography_json',
     ),
 
+    # TODO enable this see: https://github.com/Code4SA/censusreporter/issues/31
+    #url(
+    #    regex   = '^profiles/$',
+    #    view    = cache_page(STANDARD_CACHE_TIME)(GeographySearchView.as_view()),
+    #    kwargs  = {},
+    #    name    = 'geography_search',
+    #),
+
+    # e.g. /table/B01001/
+    url(
+        regex   = '^tables/(?P<table>[a-zA-Z0-9]+)/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TableDetailView.as_view()),
+        kwargs  = {},
+        name    = 'table_detail',
+    ),
+
+    url(
+        regex   = '^tables/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TableSearchView.as_view()),
+        kwargs  = {},
+        name    = 'table_search',
+    ),
+
     url(
         regex   = '^data/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="data/data_builder.html")),
+        view    = RedirectView.as_view(url=reverse_lazy('table_search')),
         kwargs  = {},
-        name    = 'data_builder',
+        name    = 'table_search_redirect',
     ),
 
     # e.g. /table/B01001/
@@ -61,6 +88,12 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
         kwargs  = {},
         name    = 'topic_list',
+    ),
+
+    url(
+        regex   = '^topics/race-latino/?$',
+        view    = RedirectView.as_view(url=reverse_lazy('topic_detail', kwargs={'topic_slug': 'race-hispanic'})),
+        name    = 'topic_latino_redirect',
     ),
 
     url(
@@ -97,6 +130,14 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'healthcheck',
     ),
+    
+    url(
+        regex = '^robots.txt$',
+        view = lambda r: HttpResponse(
+            "User-agent: *\n%s: /" % ('Disallow' if BLOCK_ROBOTS else 'Allow') ,
+            mimetype="text/plain"
+        )
+    ),
 
     url(
         regex   = '^place-search/json/$',
@@ -115,23 +156,17 @@ urlpatterns = patterns('',
     ## LOCAL DEV VERSION OF API ##
 
     url(
-        regex   = '^table-search/$',
-        view    = TableSearch.as_view(),
-        kwargs  = {},
-        name    = 'table_search',
-    ),
-    url(
-        regex   = '^table-search/json/$',
-        view    = TableSearchJson.as_view(),
-        kwargs  = {},
-        name    = 'table_search_json',
-    ),
-
-    url(
         regex   = '^geo-search/$',
         view    = GeoSearch.as_view(),
         kwargs  = {},
         name    = 'geo_search',
+    ),
+
+    url(
+        regex   = '^elasticsearch/$',
+        view    = Elasticsearch.as_view(),
+        kwargs  = {},
+        name    = 'elasticsearch',
     ),
     ## END LOCAL DEV VERSION OF API ##
 )

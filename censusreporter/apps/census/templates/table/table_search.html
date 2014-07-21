@@ -1,0 +1,108 @@
+{% extends '_base.html' %}{% load sumlevs humanize %}
+
+{% block head_title %}Table Search - {{ block.super }}{% endblock %}
+
+{% block content %}
+<p class="message message-help display-type">Census Reporter is trying to make this search engine the best it can be. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if this page returns results in a way you weren&rsquo;t expecting.</p>
+<section class="clearfix big-action" id="query-table-picker">
+    <h1 class="article-header">Explore ACS data</h1>
+    <div class="typeahead-container input-wrapper with-submit">
+        <form>
+            <input name="q" id="table-select" type="text" value="{{ q }}" placeholder="Search by table or column name..." autocomplete="off">
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+</section>
+
+<article id="table-results" class="search-results">
+    {% if facets.topics.terms %}
+    <aside id="facets">
+        {% if filters %}
+        <div class="aside-block">
+            <h4>Filtered by</h4>
+            <ul class="search-filter-list">{% for filter_term in filters %}
+                <li>{{ filter_term|capfirst }}<a class="remove" href="{% url 'table_search' %}?q={{ q }}{% if filters|length > 1 %}&topics={{ filters|list_cut:filter_term|join:"," }}{% endif %}"><small>Remove</small></a></li>
+            {% endfor %}</ul>
+        </div>
+        {% endif %}
+        {% if facets.topics.terms|length > 1 %}
+            <h4>Filter by</h4>
+            <ul class="search-filter-list">{% for topic in facets.topics.terms %}
+                {% if topic.term not in filters or not filters %}<li><a id="facet-sumlev-{{ topic.term }}" href="{% url 'table_search' %}?q={{ q }}&topics={% if filters %}{{ filters|join:","}},{% endif %}{{ topic.term }}">{{ topic.term|capfirst }} ({{ topic.count|intcomma }})</a></li>{% endif %}
+            {% endfor %}</ul>
+        {% endif %}
+    </aside>
+    {% endif %}
+    <div id="search-results"{% if facets.topics.terms %} class="with-facets"{% endif %}>
+        {% if results %}
+        <h4 class="list-header">{% if results_count_set %}{{ results_count_set }} of {% endif %}{{ num_results|intcomma }} result{{ num_results|pluralize }}</h4>
+        {% for result in results %}
+        <div class="search-result-item">
+            <h2><a href="/tables/{{ result.table_id }}/">{{ result.table_title }}</a></h2>
+            <p class="display-type">
+                <span class="caption-group"><strong>Table {{ result.table_id }}</strong></span>
+                <span class="caption-group"><strong>Universe:</strong> {{ result.universe }}</span>
+            </p>
+            {% if result.column_id %}
+            <p class="display-type">
+                <span class="caption-group"><strong>Column name:</strong> {{ result.column_title }}</span>
+            </p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="pagination">
+            {% if previous_offset %}
+                <a class="action-button" href="{% url 'table_search' %}?q={{ q }}{% if topics %}&topics={{ topics }}{% endif %}&start={{ previous_offset }}"><i class="fa fa-chevron-circle-left"></i> Previous page</a>
+            {% endif %}
+            {% if next_offset %}{{ q }}, {{ topics }}, {{ next_offset }}
+                <a class="action-button" href="{% url 'table_search' %}?q={{ q }}{% if topics %}&topics={{ topics }}{% endif %}&start={{ next_offset }}">Next page <i class="fa fa-chevron-circle-right"></i></a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}{% comment %}
+{# just in case we go back and make this javascript-powered ... #}
+{% verbatim %}
+<script id="table-result-item" type="text/x-handlebars-template">
+    <div class="search-result-item">
+        <h2><a href="/tables/{{table_id}}/">{{table_title}}</a></h2>
+        <p class="display-type">
+            <span class="caption-group"><strong>Table {{table_id}}</strong></span>
+            <span class="caption-group"><strong>Universe:</strong> {{universe}}</span>
+        </p>
+        {{#if topics}}
+        <p class="display-type">
+            <span class="caption-group"><strong>Table topics:</strong> {{getCommaList topics}}</span>
+        </p>
+        {{/if}}
+        {{#if column_id}}
+        <p class="display-type">
+            <span class="caption-group"><strong>Column name:</strong> {{column_title}}</span>
+        </p>
+        {{/if}}
+    </div>
+</script>
+{% endverbatim %}
+
+<script type="text/javascript">
+Handlebars.registerHelper('getCommaList', function(list) {
+    return new Handlebars.SafeString(list.join(', '));
+});
+
+var results = {{ results }},
+    tableItemTemplate = Handlebars.compile($('#table-result-item').html());
+
+var showResults = function(results) {
+    var resultsContainer = $('#table-results');
+    
+    $.each(results, function(i, v){
+        resultsContainer.append(tableItemTemplate(v));
+    });
+}
+showResults(results);
+</script>{% endcomment %}
+{% endblock %}

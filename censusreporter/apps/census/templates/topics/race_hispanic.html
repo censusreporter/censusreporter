@@ -1,0 +1,296 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}
+<h2>Overview</h2>
+<p>As with <a href="{% url 'topic_detail' 'age-sex' %}">age and sex</a>, Census data of all types is reported by race. However, there are a small number of tables which specifically tabulate answers to the Census question on race.</p>
+
+<p>The primary tabulation of responses to the race question is the table <strong><a href="{% url 'table_detail' 'B02001' %}">B02001</a></strong>. However, <strong>be warned</strong>: Census data about race is complicated. While casual language and even much reporting proceeds as if each person had exactly one race, the Census Bureau allows each person to select as many as six race options, one of which is simply "some other race." Furthermore, "hispanic/latino" is not a race, but a characteristic tracked independently. Note that hispanic respondents disproportionately choose "some other race alone": nationwide, more than 25% of hispanics make that choice, compared to a fraction of a percent of non-hispanics.</p>
+
+<p>In many cases, reporters wish to treat “hispanic” as a race-like category. In that case, use the <strong><a href="{% url 'table_detail' 'B03002' %}">B03002</a></strong> table. If your geography is included in the ACS 1-year and 3-year release, you may prefer to use the <strong><a href="{% url 'table_detail' 'C03002' %}">C03002</a></strong> table, which has the same data, but omits the columns detailing the race of hispanics. (This table is not included in the ACS 5-year release.) If you simply want the total of people who are Hispanic/Latino in a given geography, you can simplify further using the <strong><a href="{% url 'table_detail' 'B03003' %}">B03003</a></strong> table, which has three columns: total population, hispanic, and not-hispanic.</p>
+
+<p>If you do not want or need to distinguish “hispanic/latino” as a race-like category, you can use the <strong><a href="{% url 'table_detail' 'B02001' %}">B02001</a></strong> table, which provides counts of people who selected only one race for each of the six choices, as well as a count of people who selected two or more races. In 2012, about 97% of the population were estimated to be of one race alone, and less than 0.2% were estimated to be of more than two races.</p>
+
+<p>There are six tables summarizing the number of people claiming each of the six race choices. Each table has exactly one column.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B02008' %}">B02008</a></td>
+                <td>White Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B02009' %}">B02009</a></td>
+                <td>Black or African American Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B02010' %}">B02010</a></td>
+                <td>American Indian and Alaska Native Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B02011' %}">B02011</a></td>
+                <td>Asian Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B02012' %}">B02012</a></td>
+                <td>Native Hawaiian and Other Pacific Islander Alone or in Combination With One or More Other Races</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B02013' %}">B02013</a></td>
+                <td>Some Other Race Alone or in Combination With One or More Other Races</td>
+            </tr>
+        </tbody>
+    </table>
+
+<ul>
+</ul><p>Of course, a single person may be counted in more than one of these tables, so the sum of these for a given geography will almost certainly be more than the total estimated population for that geography. Do not make the mistake of adding them.</p>
+
+<h2>
+<a name="wiki-details" class="anchor" href="#wiki-details"><span class="octicon octicon-link"></span></a>Details</h2>
+
+<p>Finally, there are a number of "detailed" tables which can be used to find estimates of specialized populations and subgroups. However, because of sample size and privacy concerns, many of the detailed tables are only provided at the state and national level.</p>
+
+<h3><a href="{% url 'table_detail' 'B02003' %}">B02003</a>: Detailed Race</h3>
+
+<p>This table provides estimates for all possible combinations of the six race choices. It is only available at the national level.</p>
+
+<h3>Subgroups: Choctaw, Chinese and more</h3>
+
+<p>When considering race, the Census Bureau treat "Black" and "White" as simple "yes/no" questions. However, for the other race options, respondents can be much more specific. The ACS question on race has specific checkboxes for "Chinese," "Japanese," "Guamian," "Samoan," and others, as well as a blank where respondents can enter a race which is not already listed when checking "Other Asian" or "Other Pacific Islander."</p>
+
+<p>In the 2011 American Community Survey, <a href="http://www.census.gov/acs/www/data_documentation/2011_data_product_changes/">the Census Bureau changed the way these responses were reported</a>. Previously, there had been tables for each of "American Indian and Alaska Native," (AIAN) "Asian," and "Native Hawaiian and other Pacific Islander" (NHPI). The tables estimated the population for people of one of these races alone in many subgroupings. With the 2011 1-year data release, those tables were discontinued, replaced by three tables with the same name but different codes, and three more tables tabulating estimates for all people specifying that race, alone or in any combination. </p>
+
+<table>
+<thead><tr>
+<th></th>
+<th>race alone, or hispanic origin</th>
+<th>alone or in any combo</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>AIAN</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B02014' %}">B02014</a></strong> (55 columns), <strong><a href="{% url 'table_detail' 'C02014' %}">C02014</a></strong> (9 columns)</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B02017' %}">B02017</a></strong> (54 columns)</td>
+</tr>
+<tr>
+<td>Asian</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B02015' %}">B02015</a></strong> (25 columns), <strong><a href="{% url 'table_detail' 'C02014' %}">C02014</a></strong> (8 columns)</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B02018' %}">B02018</a></strong> (24 columns)</td>
+</tr>
+<tr>
+<td>NHPI</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B02016' %}">B02016</a></strong> (12 columns), <strong><a href="{% url 'table_detail' 'C02016' %}">C02016</a></strong> (5 columns)</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B02019' %}">B02019</a></strong> (11 columns)</td>
+</tr>
+<tr>
+<td>Hispanic</td>
+<td>
+<strong><a href="{% url 'table_detail' 'B03001' %}">B03001</a></strong> (31 columns), <strong><a href="{% url 'table_detail' 'C03001' %}">C03001</a></strong> (10 columns)</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+
+Here is the complete listing of tables which the Census Bureau classifies as directly concerning race or Hispanic/Latino origin:
+
+<table>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        	<td><strong><a href="{% url 'table_detail' 'B02001' %}">B02001</a></strong></td>
+            <td>Race</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02003' %}">B02003</a><sup>‡</sup></strong></td>
+            <td>Detailed Race</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02005' %}">B02005</a><sup>‡</sup></strong></td>
+            <td>American Indian and Alaska Native Alone for Selected Tribal Groupings</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02006' %}">B02006</a><sup>‡</sup></strong></td>
+            <td>Asian Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02007' %}">B02007</a><sup>‡</sup></strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02008' %}">B02008</a></strong></td>
+            <td>White Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02009' %}">B02009</a></strong></td>
+            <td>Black or African American Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02010' %}">B02010</a></strong></td>
+            <td>American Indian and Alaska Native Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02011' %}">B02011</a></strong></td>
+            <td>Asian Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02012' %}">B02012</a></strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02013' %}">B02013</a></strong></td>
+            <td>Some Other Race Alone or in Combination With One or More Other Races</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02014' %}">B02014</a><sup>‡</sup></strong></td>
+            <td>American Indian and Alaska Native Alone for Selected Tribal Groupings</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02015' %}">B02015</a><sup>‡</sup></strong></td>
+            <td>Asian Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02016' %}">B02016</a><sup>‡</sup></strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02017' %}">B02017</a></strong></td>
+            <td>American Indian and Alaska Native (AIAN) Alone or in Any Combination by Selected Tribal Groupings</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02018' %}">B02018</a></strong></td>
+            <td>Asian Alone or in Any Combination by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B02019' %}">B02019</a></strong></td>
+            <td>Native Hawaiian and Other Pacific Islander Alone or in Any Combination by Selected Groups</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B03001' %}">B03001</a><sup>‡</sup></strong></td>
+            <td>Hispanic or Latino Origin by Specific Origin</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B03002' %}">B03002</a><sup>‡</sup></strong></td>
+            <td>Hispanic or Latino Origin by Race</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B03003' %}">B03003</a></strong></td>
+            <td>Hispanic or Latino Origin</td>
+        </tr>
+
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B25006' %}">B25006</a></strong></td>
+            <td>Race of <span class="glossary-term" data-keyword="householder">Householder</span></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</section>
+
+<section id="topic-elsewhere">
+<h3>Detailed information by race or latino origin</h3>
+In addition to the tables specifically about race and Latino origin, many other Census tables are provided in multiple racial tabulations. Each of the tables listed below is offered in nine variations. (Or 18, if there is a C table, or 36 if there are B and C tables for the US and for Puerto Rico.) To identify the iterated table, add one of the following letters after the table code. (For Puerto Rico tables, the racial iteration code goes after the numbers but before "PR").
+
+                <dl id="racial-iteration" class="dl-horizontal">
+                    <dt>A</dt><dd>White alone</dd>
+                    <dt>B</dt><dd>Black or African American Alone</dd>
+                    <dt>C</dt><dd>American Indian and Alaska Native Alone</dd>
+                    <dt>D</dt><dd>Asian Alone</dd>
+                    <dt>E</dt><dd>Native Hawaiian and Other Pacific Islander Alone</dd>
+                    <dt>F</dt><dd>Some Other Race Alone</dd>
+                    <dt>G</dt><dd>Two or More Races</dd>
+                    <dt>H</dt><dd>White Alone, Not Hispanic or Latino</dd>
+                    <dt>I</dt><dd>Hispanic or Latino</dd>
+                </dl>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td><strong><a href="{% url 'table_detail' 'B01001' %}">B01001</a><sup>‡</sup></strong></td><td>Sex by Age</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B01002' %}">B01002</a></strong></td><td>Median Age by Sex</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B05003' %}">B05003</a><sup>‡</sup></strong></td><td>Sex by Age by Nativity and Citizenship Status</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B06004' %}">B06004</a><sup>§ª</sup></strong></td><td>Place of Birth</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B07004' %}">B07004</a><sup>§ª</sup></strong></td><td>Geographical Mobility in the Past Year for Current Residence</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B07404' %}">B07404</a><sup>§ª</sup></strong></td><td>Geographical Mobility in the Past Year for Residence 1 Year Ago</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B08105' %}">B08105</a><sup>‡ª</sup></strong></td><td>Means of Transportation to Work</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B08505' %}">B08505</a><sup>‡ª</sup></strong></td><td>Means of Transportation to Work for Workplace Geography</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B10051' %}">B10051</a></strong></td><td>Grandparents Living With Own Grandchildren Under 18 Years by Responsibility for Own Grandchildren by Presence of Parent of Grandchildren and Age of Grandparent</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B11001' %}">B11001</a><sup>‡</sup></strong></td><td>Household Type (Including Living Alone)</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B11002' %}">B11002</a><sup>‡</sup></strong></td><td>Household Type by Relatives and Nonrelatives for Population in Households</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B12002' %}">B12002</a><sup>‡</sup></strong></td><td>Sex by Marital Status by Age for the Population 15 Years and Over</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B12007' %}">B12007</a></strong></td><td>Median Age at First Marriage</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B13002' %}">B13002</a></strong></td><td>Women 15 to 50 Years Who Had a Birth by Marital Status and Age</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B14007' %}">B14007</a><sup>‡</sup></strong></td><td>School Enrollment by Detailed Level of School for the Population 3 Years and Over</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B15002' %}">B15002</a><sup>‡</sup></strong></td><td>Sex by Educational Attainment for the Population 25 Years and Over</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B16005' %}">B16005</a></strong></td><td>Nativity by Language Spoken at Home by Ability to Speak English for the Population 5 Years and Over</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B16006' %}">B16006</a><sup>‡</sup></strong></td><td>Language Spoken at Home by Ability to Speak English for the Population 5 Years and Over (Hispanic or Latino)</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B17001' %}">B17001</a><sup>‡</sup></strong></td><td>Poverty Status by Sex by Age</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B17010' %}">B17010</a><sup>‡</sup></strong></td><td>Poverty Status of Families by Family Type by Presence of Related Children Under 18 Years by Age of Related Children</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B17020' %}">B17020</a><sup>‡ª</sup></strong></td><td>Poverty Status by Age</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B18101' %}">B18101</a></strong></td><td>Sex by Age by Disability Status</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19001' %}">B19001</a><sup>‡</sup></strong></td><td>Household Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19013' %}">B19013</a></strong></td><td>Median Household Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19025' %}">B19025</a></strong></td><td>Aggregate Household Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19037' %}">B19037</a><sup>‡</sup></strong></td><td>Age of Householder by Household Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19101' %}">B19101</a><sup>‡</sup></strong></td><td>Family Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19113' %}">B19113</a></strong></td><td>Median Family Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19202' %}">B19202</a></strong></td><td>Median Nonfamily Household Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19301' %}">B19301</a></strong></td><td>Per Capita Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B19313' %}">B19313</a></strong></td><td>Aggregate Income</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B20005' %}">B20005</a><sup>‡</sup></strong></td><td>Sex by Work Experience by Earnings</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B20017' %}">B20017</a></strong></td><td>Median Earnings by Sex by Work Experience With Earnings</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B21001' %}">B21001</a><sup>‡</sup></strong></td><td>Sex by Age by Veteran Status for the Civilian Population 18 Years and Over</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B22005' %}">B22005</a><sup>ª</sup></strong></td><td>Receipt of Food Stamps/SNAP by Race of Householder</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B23002' %}">B23002</a><sup>‡ª</sup></strong></td><td>Sex by Age by Employment Status</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a><sup>‡</sup></strong></td><td>Sex by Occupation for the Civilian Employed Population 16 Years and Over</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B25003' %}">B25003</a></strong></td><td>Tenure</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B25014' %}">B25014</a></strong></td><td>Tenure by Occupants Per Room</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B25032' %}">B25032</a><sup>‡</sup></strong></td><td>Tenure by Units in Structure</td></tr>
+        <tr><td><strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a><sup>‡</sup></strong></td><td>Health Insurance Coverage Status by Sex by Age</td></tr>
+    </tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+
+                <sup>ª</sup>No basic 'B' table is offered.<br>
+
+                <sup>§</sup>Tabulated for Puerto Rico. Add 'PR' to the table code. Column names may vary slightly from non-PR version.<br>
+
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+</section>
+{% endblock %}

@@ -12,6 +12,7 @@ from django.views.generic import View
 
 from .views import GeographyDetailView, LocateView, render_json_to_response
 from .utils import LazyEncoder
+from .profile import enhance_api_data
 
 from api import LocationNotFound
 from api.controller import (get_census_profile, get_geography, get_locations,
@@ -38,7 +39,7 @@ class SouthAfricaGeographyDetailView(GeographyDetailView):
         except (ValueError, LocationNotFound):
             raise Http404
 
-        profile_data = self.enhance_api_data(profile_data)
+        profile_data = enhance_api_data(profile_data)
         page_context.update(profile_data)
 
         profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))

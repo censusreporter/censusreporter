@@ -56,6 +56,17 @@
                     <div class="tool-group">
                         <input name="geography_select" id="geography-select" type="text" placeholder="Start typing a place name or address..." autocomplete="off">
                     </div>
+                    {% if not hide_nav_compare %}
+                    {% comment %}
+                    <span class="separator">or</span>
+                    <div class="tool-group">
+                        <a class="button" href="{% url 'table_search' %}">
+                            <i class="fa fa-chevron-circle-right"></i>
+                            Search for data
+                        </a>
+                    </div>
+                    {% endcomment %}
+                    {% endif %}
                 </div>
                 {% endif %}
                 <a class="logo" href="http://www.mediamonitoringafrica.org/" target="_blank">

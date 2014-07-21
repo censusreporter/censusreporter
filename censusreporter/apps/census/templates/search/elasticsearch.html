@@ -1,25 +1,7 @@
 {% extends '_base.html' %}
 
-{% block head_css_extra %}
-<style>
-.nowrap {white-space: nowrap;}
-input, select {width: 200px; height: 2.2em;}
-
-@media only screen and (max-width: 768px) {
-    td a {
-        display: block;
-    }
-}
-@media only screen and (max-width: 620px) {
-    form.inline-form input, form.inline-form select {
-        display: block;
-        margin: .25em 0 .75em 0;
-    }
-}
-</style>
-{% endblock %}
-
 {% block content %}
+{% comment %}
 <section class="clearfix" id="query-table-picker">
     <h2>Find table</h2>
     <div class="typeahead-container">
@@ -29,12 +11,12 @@ input, select {width: 200px; height: 2.2em;}
         </form>
     </div>
 </section>
-
-<section class="clearfix" id="query-geo-picker">
-    <h2>Find geo</h2>
-    <div class="typeahead-container">
+{% endcomment %}
+<section class="clearfix big-action" id="query-geo-picker">
+    <h1 class="article-header">Find a place</h1>
+    <div class="typeahead-container input-wrapper with-submit">
         <form>
-            <input name="geo_select" id="geo-select" type="text" placeholder="Search by place name..." autocomplete="off"/>
+            <input name="g" id="geography-select" type="text" value="{{ g }}" placeholder="Search by place name..." autocomplete="off">
             <input type="submit" value="Search"/>
         </form>
     </div>

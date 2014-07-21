@@ -106,8 +106,8 @@ function Chart(options) {
         // time to make the chart
         chart.draw();
         chart.dimensions = {
-        	height: chart.chartContainer.node().offsetHeight,
-        	width: chart.chartContainer.node().offsetWidth
+            height: chart.chartContainer.node().offsetHeight,
+            width: chart.chartContainer.node().offsetWidth
         }
         return chart;
     };

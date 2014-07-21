@@ -15,11 +15,16 @@ EMBED_DATA_URL = '/embed_data/'
 
 #API_URL = 'http://0.0.0.0:5000'
 
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#        'LOCATION': 'unique-snowflake',
+#    }
+#}
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        }
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
 }
 
 LOGGING['loggers']['censusreporter']['level'] = 'DEBUG'

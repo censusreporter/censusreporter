@@ -1,0 +1,132 @@
+{% extends '_base.html' %}{% load sumlevs humanize %}
+
+{% block head_title %}Geography Search - {{ block.super }}{% endblock %}
+
+{% block content %}
+<p class="message message-help display-type">Census Reporter is trying to make this search engine the best it can be. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if this page returns results in a way you weren&rsquo;t expecting.</p>
+
+<section class="clearfix big-action" id="query-geo-picker">
+    <h1 class="article-header">Find a geography</h1>
+    <div class="typeahead-container input-wrapper with-submit">
+        <form>
+            <input name="q" id="geography-select" type="text" value="{{ q }}" placeholder="Search by place name..." autocomplete="off">
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+</section>
+
+<article id="geography-results" class="search-results">
+    {% if facets.sumlev.terms %}
+    <aside id="facets">
+        {% if filters %}
+            <h4>Filtered by</h4>
+            <ul class="search-filter-list">{% for sumlev in facets.sumlev.terms %}
+                <li>{{ sumlev.term|sumlev_name_plural|capfirst }}<a class="remove" href="{% url 'geography_search' %}?q={{ q }}"><small>Remove</small></a></li>
+            {% endfor %}</ul>
+        {% else %}
+            <h4>Filter by</h4>
+            <ul class="search-filter-list">{% for sumlev in facets.sumlev.terms %}
+                <li><a id="facet-sumlev-{{ sumlev.term }}" href="{% url 'geography_search' %}?q={{ q }}&sumlevs={{ sumlev.term }}">{{ sumlev.term|sumlev_name_plural|capfirst }} ({{ sumlev.count|intcomma }})</a></li>
+            {% endfor %}</ul>
+        {% endif %}
+    </aside>
+    {% endif %}
+    <div id="search-results"{% if facets.sumlev.terms %} class="with-facets"{% endif %}>
+        {% if results %}
+        <h4 class="list-header">{% if results_count_set %}{{ results_count_set }} of {% endif %}{{ num_results|intcomma }} result{{ num_results|pluralize }}</h4>
+        {% for result in results %}
+        <div class="search-result-item result-sumlev-{{ result.sumlev }}">
+            <h2><a href="/profiles/{{ result.full_geoid }}-{{ result.display_name|slugify }}/">{{ result.display_name }}</a></h2>
+            <p class="display-type">{{ result.sumlev|sumlev_name }}</p>
+        </div>
+        {% endfor %}
+        
+        <div class="pagination">
+            {% if previous_offset %}
+                <a class="action-button" href="{% url 'geography_search' %}?q={{ q }}{% if filters %}&sumlevs={{ filters }}{% endif %}&start={{ previous_offset }}"><i class="fa fa-chevron-circle-left"></i> Previous page</a>
+            {% endif %}
+            {% if next_offset %}
+                <a class="action-button" href="{% url 'geography_search' %}?q={{ q }}{% if filters %}&sumlevs={{ filters }}{% endif %}&start={{ next_offset }}">Next page <i class="fa fa-chevron-circle-right"></i></a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}{% comment %}
+{# just in case we go back and make this javascript-powered ... #}
+{% verbatim %}
+<script id="geography-result-item" type="text/x-handlebars-template">
+    <div class="search-result-item result-sumlev-{{sumlev}}">
+        <h2><a href="/profiles/{{full_geoid}}-{{{getSlug display_name}}}/">{{display_name}}</a></h2>
+        <p class="display-type">{{getSumlevName sumlev}}</p>
+    </div>
+</script>
+<script id="facet-sumlev-item" type="text/x-handlebars-template">
+    <li>
+        <a id="facet-sumlev-{{term}}" href="#">{{getSumlevNamePlural term}} ({{count}})</a>
+    </li>
+</script>
+{% endverbatim %}
+
+<script type="text/javascript">
+Handlebars.registerHelper('getSlug', function(str) {
+    return new Handlebars.SafeString(slugify(str));
+});
+Handlebars.registerHelper('getSumlevName', function(str) {
+    var sumlevName = (sumlevMap[str]) ? sumlevMap[str]['name'] : '';
+    return new Handlebars.SafeString(capitalize(sumlevName));
+});
+Handlebars.registerHelper('getSumlevNamePlural', function(str) {
+    var sumlevName = (sumlevMap[str]) ? sumlevMap[str]['plural'] : '';
+    return new Handlebars.SafeString(capitalize(sumlevName));
+});
+
+var results = {{ results }},
+    facets = {{ facets }},
+    geoItemTemplate = Handlebars.compile($('#geography-result-item').html()),
+    facetItemTemplate = Handlebars.compile($('#facet-sumlev-item').html());
+
+var showResults = function(results) {
+    var $resultsContainer = $('#search-results');
+    
+    $.each(results, function(i, v){
+        $resultsContainer.append(geoItemTemplate(v));
+    });
+    
+    if (facets.sumlev.terms.length) {
+        $resultsContainer.addClass('with-facets');
+        showFacets(facets.sumlev.terms, facets.sumlev.total);
+    }
+}
+
+var showFacets = function(facets, total) {
+    var $facetContainer = $('#facets').length ? $('#facets') : $('<aside id="facets"></aside>').prependTo('#geography-results');
+    
+    $facetContainer.append('<h4>Filter by</h4>');
+    
+    var $facetList = $('<ul>').appendTo($facetContainer);
+    
+    if (total) {
+        $facetList.append('<li><a id="facet-sumlev-all" href="#">All results ('+total+')</a></li>');
+    }
+
+    $.each(facets, function(i, v){
+        $facetList.append(facetItemTemplate(v));
+    });
+
+    $('#facets').on('click', 'a', function(e) {
+        e.preventDefault();
+        var filterClass = $(this).attr('id').replace('facet-','.result-'),
+            $resultSet = $('.search-result-item');
+        
+        $resultSet.show();
+        if (filterClass.slice(-3) != 'all') {
+            $resultSet.not(filterClass).hide();
+        }
+    })
+}
+showResults(results);
+</script>{% endcomment %}
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'table/_base_table.html' %}
+
+{% block head_title %}Table {{ table.table_id }}: {{ table.simple_table_title }} - {{ block.super }}{% endblock %}
+
+{% block head_facebook_tags %}
+        <meta property="og:title" content="Census tabulation detail: {{ table.simple_table_title }}" />
+        <meta property="og:site_name" content="Census Reporter" />
+        <meta property="og:url" content="http://censusreporter.org{% url 'table_detail' table.table_id %}" />
+        <meta property="og:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}." />
+        <meta property="og:type" content="article" />
+        {#}<meta property="og:image" content="" />{#}
+{% endblock %}
+
+{% block head_twitter_tags %}
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@CensusReporter">
+        <meta name="twitter:creator" content="@CensusReporter">
+        <meta name="twitter:title" content="Census tabulation detail: {{ table.simple_table_title }}">
+        <meta name="twitter:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}.">
+        {#}<meta name="twitter:image" content="">{#}
+{% endblock %}
+
+{% block body_id %}table{% endblock %}
+{% block body_class %}data-view{% endblock %}
+
+{% block header_content %}
+<div id="explore" class="wrapper clearfix header-container">
+    <section id="explore-topic-place-picker" class="clearfix big-action">
+        <h1 class="article-header">Table {{ table.table_id }}: {{ table.simple_table_title }}</h1>
+        <h2 class="help-text">Show data from this table: Choose a place or summary level</h2>
+        <div id="topic-place-select-wrapper" class="input-wrapper">
+            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
+            {#}<p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>{#}
+        </div>
+    </section>
+    <section id="explore-topic-place-picker-parent" class="column-full clearfix big-action">
+        <h1 class="article-header">in</h1>
+        <div id="topic-place-select-wrapper-parent" class="input-wrapper">
+            <input name="topic_place_select_parent" id="topic-place-select-parent" type="text" placeholder="Start typing to pick a place to explore..." autocomplete="off">
+            <p class="help-text"></p>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block content %}
+{% include 'data/_blocks/_topic_select_input.html' %}
+
+<article id="table-display" class="clearfix">
+    <header class="section-contents">
+        <h1>Table {{ table.table_id }}</h1>
+    </header>
+    <div class="section-container">
+        <section class="clearfix">
+            <h2 class="header-for-columns">Table universe: <span class="normal">{{ table.universe }}</span></h2>
+            <aside>
+                {% if tabulation.table_versions|length > 1 %}
+                <h5>Other versions of this table</h5>
+                <ul>{% for code, option in tabulation.table_versions.items %}
+                    {% if code != table.table_id %}<li><a href="{% url 'table_detail' code %}">{{ option.version_name }}</a></li>{% endif %}
+                {% endfor %}</ul>
+                {% endif %}
+            </aside>
+
+            <div class="column-golden-wide expanded-table">
+                <h4>Columns in this table</h4>
+                <ul>{% for column_id, column_data in table.columns.items %}
+                    <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>
+                {% endfor %}</ul>
+            </div>
+            
+            <div class="column-golden-narrow">
+                {% if related_topic_pages %}
+                <div class="sidebar-block">
+                    <h4>Background on table topics</h4>
+                    <p class="explain"><a href="{% url 'topic_list' %}">Topic pages</a> describe concepts covered by the ACS. For background on the topics in Table {{ table.table_id }}, see:</p>
+                    <ul>{% for slug, title in related_topic_pages %}
+                        <li><a href="{% url 'topic_detail' slug %}">{{ title }}</a></li>
+                        {% endfor %}</ul>
+                </div>
+                {% endif %}
+
+                {% for table, table_values in tabulation.related_tables.preview.items %}
+                <div class="sidebar-block preview-table">
+                    <h4>{{ table_values.table_type }} table</h4>
+                    <p class="explain">The Census offers a version of this table with {% if table_values.table_type == 'Collapsed' %}a simplified{% else %}an expanded{% endif %} set of columns.</p>
+                    
+                    <h5><a href="{% url 'table_detail' table %}">Switch to Table {{ table }}</a></h5>
+                    <ul>{% for column_id, column_data in table_values.columns.items %}
+                        <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>
+                    {% endfor %}</ul>
+                </div>{% endfor %}
+            </div>
+        </section>
+    </div>
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script src="{{ STATIC_URL }}js/table.detail.js"></script>
+<script type="text/javascript">
+var table = new Table({
+    tableID: '{{ table.table_id }}',
+    topicSelect: '#topic-select',
+    topicSelectContainer: '#query-topic-picker',
+    displayHeader: '#header-container',
+    displayWrapper: '#table-display',
+});
+</script>
+{% endblock %}

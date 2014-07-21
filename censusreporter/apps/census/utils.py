@@ -59,12 +59,12 @@ TOPIC_FILTERS = {
 }
 
 SUMLEV_CHILDREN = {
-    '010': ['020','030','040','050','060','140','150','160','250','310','500','610','620','700','860','950','960','970'],
-    '020': ['030','040','050','060','140','150','160','250','310','500','610','620','700','860','950','960','970'],
-    '030': ['040','050','060','140','150','160','250','310','500','610','620','700','860','950','960','970'],
-    '040': ['050','060','140','150','160','250','310','500','610','620','700','860','950','960','970'],
-    '050': ['060','140','150','160','500','610','620','700','860','950','960','970'],
-    '060': ['140','150','160','250','310','500','610','620','700','860','950','960','970'],
+    '010': ['020','030','040','050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '020': ['030','040','050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '030': ['040','050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '040': ['050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '050': ['060','140','150','160','500','610','620','860','950','960','970'],
+    '060': ['140','150','160','250','310','500','610','620','860','950','960','970'],
     '140': ['150'],
     '150': [],
     '160': ['140','150','860'],
@@ -73,7 +73,6 @@ SUMLEV_CHILDREN = {
     '500': ['050','060','140','150','160','860'],
     '610': ['050','060','140','150','160','860'],
     '620': ['050','060','140','150','160','860'],
-    '700': ['050','060','140','150','160','860'],
     '860': ['140','150'],
     '950': ['060','140','150','160','860'],
     '960': ['060','140','150','160','860'],
@@ -95,7 +94,6 @@ SUMLEV_PARENTS = {
     '500': ['010','020','030','040'],
     '610': ['010','020','030','040'],
     '620': ['010','020','030','040'],
-    '700': ['010','020','030','040','050'],
     '860': ['010','020','030','040','050','160'],
     '950': ['010','020','030','040','050'],
     '960': ['010','020','030','040','050'],
@@ -118,7 +116,6 @@ SUMLEV_CHOICES['Legislative'] = [
     {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
     {'name': 'state senate district', 'plural_name': 'state senate districts', 'summary_level': '610', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
     {'name': 'state house district', 'plural_name': 'state house districts', 'summary_level': '620', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
-    {'name': 'voting tabulation district', 'plural_name': 'voting tabulation districts', 'summary_level': '700', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
 ]
 SUMLEV_CHOICES['Schools'] = [
     {'name': 'elementary school district', 'plural_name': 'elementary school districts', 'summary_level': '950', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
@@ -340,7 +337,7 @@ SUMMARY_LEVEL_DICT = {
     },
     "140": {
         "name": "Census Tract",
-        "plural": "Census tracts",
+        "plural": "census tracts",
     },
     "144": {
         "name": "Census Tract-American Indian Area/Alaska Native Area/Hawaiian Home Land",
@@ -451,19 +448,19 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "230": {
-        "name": "State-Alaska Native Regional Corporation",
-        "plural": "",
+        "name": "Alaska native regional corporation",
+        "plural": "Alaska native regional corporations",
     },
     "250": {
-        "name": "American Indian Area/Alaska Native Area/Hawaiian Home Land",
-        "plural": "",
+        "name": "Native Area",
+        "plural": "native areas",
+    },
+    "251": {
+        "name": "Tribal Subdivision",
+        "plural": "tribal subdivisions",
     },
     "252": {
         "name": "American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)",
-        "plural": "",
-    },
-    "251": {
-        "name": "American Indian Area/Alaska Native Area/Hawaiian Home Land-Tribal Subdivision/Remainder",
         "plural": "",
     },
     "253": {
@@ -479,8 +476,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "256": {
-        "name": "Specified American Indian Area-Tribal Census Tract",
-        "plural": "",
+        "name": "Tribal Census Tract",
+        "plural": "tribal census tracts",
     },
     "257": {
         "name": "Specified American Indian Area-Tribal Subdivision/Remainder-Tribal Census Tract",
@@ -655,8 +652,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "314": {
-        "name": "Metropolitan Statistical Area (MSA)/Metropolitan Division",
-        "plural": "",
+        "name": "Metropolitan Division",
+        "plural": "metropolitan divisions",
     },
     "315": {
         "name": "Metropolitan Statistical Area (MSA)/Metropolitan Division-State",
@@ -711,8 +708,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "335": {
-        "name": "Combined New England City and Town Area",
-        "plural": "",
+        "name": "Combined NECTA",
+        "plural": "combined NECTAs",
     },
     "336": {
         "name": "Combined New England City and Town Area-State",
@@ -743,7 +740,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "350": {
-        "name": "New England City and Town Area",
+        "name": "NECTA",
         "plural": "NECTAs",
     },
     "351": {
@@ -795,8 +792,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "364": {
-        "name": "State-New England City and Town Area (NECTA)-NECTA Division",
-        "plural": "",
+        "name": "NECTA division",
+        "plural": "NECTA divisions",
     },
     "365": {
         "name": "State-New England City and Town Area (NECTA)-NECTA Division-County",
@@ -1059,8 +1056,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "Census blocks (pl94 files)",
     },
     "795": {
-        "name": "State-Public Use Microdata Sample Area (PUMA)",
-        "plural": "",
+        "name": "PUMA",
+        "plural": "PUMAs",
     },
     "850": {
         "name": "3-digit ZIP Code Tabulation Area",
@@ -1111,15 +1108,15 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "950": {
-        "name": "Elementary School District",
-        "plural": "elementary school districts",
+        "name": "School District (Elementary)",
+        "plural": "school districts (elementary)",
     },
     "960": {
-        "name": "Secondary School District",
-        "plural": "secondary school districts",
+        "name": "School District (Secondary)",
+        "plural": "school districts (secondary)",
     },
     "970": {
-        "name": "Unified School District",
-        "plural": "unified school districts",
+        "name": "School District (Unified)",
+        "plural": "school districts (unified)",
     },
 }

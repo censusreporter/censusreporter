@@ -22,6 +22,7 @@
 
 {% block header_content %}
 <div id="cover-map" class="clearfix">
+    <div id="slippy-map"></div>
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
@@ -65,15 +66,11 @@
                 {% include "profile/_blocks/_header_extra_links.html" %}
             {% endif %}
             
-            {% comment %}
             <div class="column-full">
-                <p class="caption"><strong>Census data:</strong> 2011 unless noted</p>
+                <p class="caption"><strong>Census data:</strong> 2011</p>
             </div>
-            {% endcomment %}
         </article>
     </div>
-
-    <div id="slippy-map"></div>
 </div>
 {% endblock %}
 
@@ -544,6 +541,46 @@ $('.stat-row').on('click', '.stat', function() {
     $(this).find('.context').toggle();
 });
 
+if (!!parentLinkContainer) {
+    // set up the listener for trigger to reveal hidden groups
+    $('#header-box').on('click', '.link-reveal', function() {
+        $(this).hide().next('.hidden').show();
+        return false;
+    });
+    
+    // hit the /parents API endpoint
+    $.getJSON(parentGeoAPI)
+        .done(function(results) {
+            // filter out 'this' from the parents
+            var parents = _.reject(results['parents'], function(p) {
+                return p.relation === 'this';
+            });
+            // list of unique parent sumlev types, maintaining order
+            var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));
+            // collect parents into individual sumlev groups
+            var parentGroups = _.groupBy(parents, function(d) {
+                return d.sumlevel;
+            });
+            // for each parent sumlev type ...
+            var parentLinkSets = _.map(parentRelations, function(r) {
+                // ... compile a set of links to individual profile pages
+                var parentLinkSet = _.map(parentGroups[r], function(v, k) {
+                    return '<a href="/profiles/' + v.geoid + '-' + slugify(v.display_name) + '/">' + v.display_name + '</a>';
+                });
+                var numParents = parentLinkSet.length;
+                // if more than one of a sumlev type, group behind reveal link
+                if (numParents > 1) {
+                    return '<a href="#" class="link-reveal">'+numParents+' '+ sumlevMap[r]['plural'] +'</a><span class="hidden">'+parentLinkSet.join(', ')+'</span>';
+                } else {
+                    // just one of this sumlev type, so add it to list
+                    return parentLinkSet;
+                }
+            })
+            // push the whole thing into the header box ... thingy
+            parentLinkContainer.html(parentLinksPrefix + parentLinkSets.join(', '));
+            $('body').trigger('glossaryUpdate', parentLinkContainer);
+        });
+}
+
 </script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/Base64/0.2.0/base64.min.js"></script>
 {% endblock %}
