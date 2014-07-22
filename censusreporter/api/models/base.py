@@ -202,3 +202,18 @@ class Subplace(Base):
     province_code = Column(String(3), ForeignKey('province.code'), nullable=False)
     # same as the year of the constituent wards
     year = Column(String(4), index=True, nullable=False)
+
+
+geo_models = {
+    'subplace': Subplace,
+    'ward': Ward,
+    'municipality': Municipality,
+    'district': District,
+    'province': Province,
+    'country': Country,
+}
+geo_levels = geo_models.keys()
+
+
+def get_geo_model(geo_level):
+    return geo_models[geo_level]

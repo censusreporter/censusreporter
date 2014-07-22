@@ -2,9 +2,8 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.expression import or_
 from sqlalchemy import func
 
-from api.models import Ward, District, Municipality, Province, Subplace, Country
-from api.utils import (get_session, ward_search_api, geo_levels,
-                       LocationNotFound)
+from api.models import Ward, District, Municipality, Province, Subplace, Country, geo_levels, get_geo_model
+from api.utils import get_session, ward_search_api, LocationNotFound
 
 
 def get_geography(geo_code, geo_level):
@@ -16,13 +15,7 @@ def get_geography(geo_code, geo_level):
 
     try:
         try:
-            model = {
-                'ward': Ward,
-                'district': District,
-                'municipality': Municipality,
-                'province': Province,
-                'country': Country,
-            }[geo_level]
+            model = get_geo_model(geo_level)
         except KeyError:
             raise LocationNotFound(geo_code)
 
@@ -51,12 +44,7 @@ def get_locations(search_term, geo_level=None, year='2011'):
         # search at each level
         for level in levels:
             # already checked that geo_level is valid
-            model = {
-                'municipality': Municipality,
-                'province': Province,
-                'subplace': Subplace,
-                'country': Country,
-            }[level]
+            model = get_geo_model(level)
 
             if level == 'subplace':
                 # check mainplace and subplace names
