@@ -64,7 +64,7 @@ def get_model_from_fields(fields, geo_level, table_name=None):
     # foreign keys
     field_columns.append(Column('%s_code' % geo_level, String(8),
                                 ForeignKey('%s.code' % geo_level),
-                                primary_key=True))
+                                primary_key=True, index=True))
 
     class Model(Base):
         __table__ = Table(table_name, Base.metadata,
