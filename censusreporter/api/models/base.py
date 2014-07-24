@@ -8,7 +8,20 @@ class Base(object):
     def __tablename__(cls):
         return cls.__name__.lower()
 
+    def __repr__(self):
+        return '%s(%s)' % (self.__class__.__name__,
+                           ', '.join(['%s="%s"' % (c.name, getattr(self, c.name))
+                                      for c in self.__table__.columns]))
 
+
+Base = declarative_base(cls=Base)
+
+
+'''
+Geographic models
+'''
+
+class GeoMixin(object):
     def as_dict(self):
         return {
             'full_geoid': '%s-%s' % (self.level, self.code),
@@ -27,21 +40,6 @@ class Base(object):
             'this': self.as_dict(),
             'parents': parents,
         }
-
-    def __repr__(self):
-        return '%s(%s)' % (self.__class__.__name__,
-                           ', '.join(['%s="%s"' % (c.name, getattr(self, c.name))
-                                      for c in self.__table__.columns]))
-
-
-Base = declarative_base(cls=Base)
-
-
-'''
-Geographic models
-'''
-
-class GeoNameMixin(object):
 
     @property
     def short_name(self):
@@ -70,7 +68,7 @@ class GeoNameMixin(object):
         return self.long_name
 
 
-class Ward(Base, GeoNameMixin):
+class Ward(Base, GeoMixin):
     # an 8-digit number where the last 2 digits refer
     # to the ward number, e.g. 21001001 where ward_no = 1
     code = Column(String(8), primary_key=True)
@@ -99,7 +97,7 @@ class Ward(Base, GeoNameMixin):
         return 'Ward %d (%s)' % (self.ward_no, self.code)
 
 
-class Municipality(Base, GeoNameMixin):
+class Municipality(Base, GeoMixin):
     # a 5-character string where the first 2 characters is the
     # province code and the last 3 are digits, e.g. MP322
     # Note: a few municipalities exist for large city areas with
@@ -122,7 +120,7 @@ class Municipality(Base, GeoNameMixin):
         return [self.province, self.country]
 
 
-class District(Base, GeoNameMixin):
+class District(Base, GeoMixin):
     # a 4-character string starting with 'DC' and followed by
     # 1 or 2 digits, e.g. DC10
     # Note: a few districts exist for large city areas with
@@ -143,7 +141,7 @@ class District(Base, GeoNameMixin):
         return [self.province, self.country]
 
 
-class Province(Base, GeoNameMixin):
+class Province(Base, GeoMixin):
     # a 2 or 3-letter string
     code = Column(String(3), primary_key=True)
     name = Column(String(16), nullable=False, index=True)
@@ -160,7 +158,7 @@ class Province(Base, GeoNameMixin):
         return [self.country]
 
 
-class Country(Base, GeoNameMixin):
+class Country(Base, GeoMixin):
     # a 2 letter string
     code = Column(String(3), primary_key=True)
     name = Column(String(16), nullable=False, index=True)
@@ -185,10 +183,6 @@ class Country(Base, GeoNameMixin):
             cls.countries['ZA'] = c
 
         return cls.countries['ZA']
-
-        
-
-
 
 
 class Subplace(Base):
