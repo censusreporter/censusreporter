@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from sqlalchemy import func
+from sqlalchemy.orm import class_mapper
 
 from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
@@ -220,23 +221,22 @@ def get_census_profile(geo_code, geo_level):
 def get_demographics_profile(geo_code, geo_level, session):
     # population group
     pop_dist_data, total_pop = get_stat_data(
-            ['population group'], geo_level, geo_code, session, percent=True)
+            ['population group'], geo_level, geo_code, session)
 
     # language
     language_data, _ = get_stat_data(
-            ['language'], geo_level, geo_code, session, order_by='-total', percent=True)
+            ['language'], geo_level, geo_code, session, order_by='-total')
     language_most_spoken = language_data[language_data.keys()[0]]
 
     # age groups
     age_dist_data, total_age = get_stat_data(
-            ['age groups in 5 years'], geo_level, geo_code, session, percent=True)
-    age_dist_data = collapse_categories(age_dist_data,
-                                        COLLAPSED_AGE_CATEGORIES,
-                                        key_order=('0-9', '10-19',
-                                                   '20-29', '30-39',
-                                                   '40-49', '50-59',
-                                                   '60-69', '70-79',
-                                                   '80+'))
+            ['age groups in 5 years'], geo_level, geo_code, session,
+            recode=COLLAPSED_AGE_CATEGORIES,
+            key_order=('0-9', '10-19',
+                       '20-29', '30-39',
+                       '40-49', '50-59',
+                       '60-69', '70-79',
+                       '80+'))
 
     # sex
     db_model_sex = get_model_from_fields(['gender'], geo_level)
@@ -380,9 +380,9 @@ def get_households_profile(geo_code, geo_level, session):
     # household goods
     household_goods, _ = get_stat_data(
             ['household goods'], geo_level, geo_code, session, percent=True,
-            total=total_households)
-    household_goods = collapse_categories(household_goods, HOUSEHOLD_GOODS_RECODE, key_order=sorted(HOUSEHOLD_GOODS_RECODE.values()))
-
+            total=total_households,
+            recode=HOUSEHOLD_GOODS_RECODE,
+            key_order=sorted(HOUSEHOLD_GOODS_RECODE.values()))
 
     return {'total_households': {
                 'name': 'Households',
@@ -416,15 +416,15 @@ def get_households_profile(geo_code, geo_level, session):
 
 def get_economics_profile(geo_code, geo_level, session):
     # income
+    key_order = COLLAPSED_INCOME_CATEGORIES.values()
+    key_order.remove('N/A')
+
     income_dist_data, total_income = get_stat_data(
             ['individual monthly income'], geo_level, geo_code, session, percent=True,
             table_name='individualmonthlyincome_%s_employedonly' % geo_level,
-            exclude=['Not applicable'])
-    key_order = COLLAPSED_INCOME_CATEGORIES.values()
-    key_order.remove('N/A')
-    income_dist_data = collapse_categories(income_dist_data,
-                                           COLLAPSED_INCOME_CATEGORIES,
-                                           key_order=key_order)
+            exclude=['Not applicable'],
+            recode=COLLAPSED_INCOME_CATEGORIES,
+            key_order=key_order)
     income_dist_data['metadata']['universe'] = 'Officially employed individuals'
 
     # employment status
@@ -658,17 +658,41 @@ def get_education_profile(geo_code, geo_level, session):
             'educational_attainment': edu_split_data}
 
 
-def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
+def get_objects_by_geo(db_model, geo_code, geo_level, session, fields=None, order_by=None):
     """ Get rows of statistics from the stats mode +db_model+ at a particular
-    geo_code and geo_level. """
+    geo_code and geo_level, summing over the 'total' field and grouping by
+    +fields+.
+    """
     geo_attr = '%s_code' % geo_level
-    objects = session.query(db_model).filter(getattr(db_model, geo_attr) == geo_code)
+
+    if fields is None:
+        fields = [c.key for c in class_mapper(db_model).attrs if c.key not in [geo_attr, 'total']]
+
+    fields = [getattr(db_model, f) for f in fields]
+
+    objects = session\
+            .query(func.sum(db_model.total).label('total'),
+                   *fields)\
+            .group_by(*fields)\
+            .filter(getattr(db_model, geo_attr) == geo_code)
 
     if order_by is not None:
+        attr = order_by
+        is_desc = False
         if order_by[0] == '-':
-            objects = objects.order_by(getattr(db_model, order_by[1:]).desc())
+            is_desc = True
+            attr = attr[1:]
+
+        if attr == 'total':
+            if is_desc:
+                attr = attr + ' DESC'
         else:
-            objects = objects.order_by(getattr(db_model, order_by))
+            attr = getattr(db_model, attr)
+            if is_desc:
+                attr = attr.desc()
+
+        objects = objects.order_by(attr)
+
     objects = objects.all()
     if len(objects) == 0:
         raise LocationNotFound("%s.%s with code '%s' not found"
@@ -677,68 +701,172 @@ def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
 
 
 def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
-                  percent=False, total=None,
-                  table_name=None, only=None, exclude=None, exclude_zero=False):
+                  percent=True, total=None, table_fields=None,
+                  table_name=None, only=None, exclude=None, exclude_zero=False,
+                  recode=None, key_order=None):
     """
-    Helper routine for fetching rows for stats and generating a JSON-suitable result
-    set.
+    This is our primary helper routine for building a dictionary suitable for
+    a place's profile page, based on a statistic.
 
-    :param list fields: the census fields in `api.utils.census_fields`, e.g. ['highest educational level', 'type of sector']
+    It sums over the data for +fields+ in the database for the place identified by
+    +geo_level+ and +geo_code+ and calculates numerators and values. If multiple
+    fields are given, it creates nested result dictionaries.
+
+    Control the rows that are included or ignored using +only+, +exclude+ and +exclude_zero+.
+
+    The field values can be recoded using +recode+ and and re-ordered using +key_order+.
+
+    :param str or list fields: the census field to build stats for. Specify a list of fields to build
+                               nested statistics. If multiple fields are specified, then the values 
+                               of parameters such as +only+, +exclude+ and +recode+ will change. 
+                               These must be fields in `api.models.census.census_fields`, e.g. 'highest educational level'
     :param str geo_level: the geographical level
     :param str geo_code: the geographical code
     :param dbsession session: sqlalchemy session
-    :param str order_by: field to order by or None for default, eg. '-total'
-    :param bool percent: should we calculate percentages?
+    :param str order_by: field to order by, or None for default, eg. '-total'
+    :param bool percent: should we calculate percentages, or just sum raw values?
+    :param list table_fields: list of fields to use to find the table, defaults to `fields`
     :param int total: the total value to use for percentages, or None to total columns automatically
     :param str table_name: override the table name, otherwise it's calculated from the fields and geo_level
-    :param list only: only include these field values
-    :param list exclude: ignore these field values
+    :param dict or list only: only include these field values. If +fields+ has many items, this must be a dict
+                              mapping field names to a list of strings.
+    :param doct or list exclude: ignore these field values. If +fields+ has many items, this must be a dict
+                                 mapping field names to a list of strings. Field names are checked
+                                 before any recoding.
     :param bool exclude_zero: ignore fields that have a zero total
+    :param dict or lambda: function or dict to recode values of +key_field+. If +fields+ is a singleton,
+                           then the keys of this dict must be the values to recode from, otherwise
+                           they must be the field names and then the values. If this is a lambda,
+                           it is called with the field name and its value as arguments.
+    :param dict or list key_order: ordering for keys in result dictionary. If +fields+ has many items,
+                                   this must be a dict from field names to orderings.
+                                   The default ordering is determined by +order+.
 
     :return: (data-dictionary, total)
     """
+
+    if not isinstance(fields, list):
+        fields = [fields]
+
+    n_fields = len(fields)
+    many_fields = n_fields > 1
 
     if order_by is None:
         order_by = fields[0]
 
     if only is not None:
-        only = set(only)
+        if not isinstance(only, dict):
+            if many_fields:
+                raise ValueError("If many fields are given, then only must be a dict. I got %s instead" % only)
+            else:
+                only = {fields[0]: set(only)}
+
     if exclude is not None:
-        exclude = set(exclude)
+        if not isinstance(exclude, dict):
+            if many_fields:
+                raise ValueError("If many fields are given, then exclude must be a dict. I got %s instead" % exclude)
+            else:
+                exclude = {fields[0]: set(exclude)}
 
-    model = get_model_from_fields(fields, geo_level, table_name)
-    objects = get_objects_by_geo(model, geo_code, geo_level, session, order_by=order_by)
+    if key_order:
+        if not isinstance(key_order, dict):
+            if many_fields:
+                raise ValueError("If many fields are given, then key_order must be a dict. I got %s instead" % key_order)
+            else:
+                key_order = {fields[0]: key_order}
+    else:
+        key_order = {}
 
-    data = OrderedDict()
-    our_total = 0.0
-    key_field = fields[0]
 
+    if recode:
+        if not isinstance(recode, dict) or not many_fields:
+            recode = dict((f, recode) for f in fields)
+
+
+    model = get_model_from_fields(table_fields or fields, geo_level, table_name)
+    objects = get_objects_by_geo(model, geo_code, geo_level, session, fields=fields, order_by=order_by)
+
+    root_data = OrderedDict()
+    our_total = {}
+
+    def get_data_object(obj):
+        """ Recurse down the list of fields and return the
+        final resting place for data for this stat. """
+        data = root_data
+
+        for i, field in enumerate(fields):
+            key = getattr(obj, field)
+
+            if only and key not in only.get(field, {}):
+                return key, None
+
+            if exclude and key in exclude.get(field, {}):
+                return key, None
+
+            if recode and field in recode:
+                recoder = recode[field]
+                if isinstance(recoder, dict):
+                    key = recoder.get(key, key)
+                else:
+                    key = recoder(field, key)
+            else:
+                key = key.capitalize()
+
+            # enforce key ordering
+            if not data and field in key_order:
+                for fld in key_order[field]:
+                    data[fld] = OrderedDict()
+
+            # ensure it's there
+            if key not in data:
+                data[key] = OrderedDict()
+
+            data = data[key]
+
+            # default values for intermediate fields
+            if data and i < n_fields-1:
+                data['metadata'] = {'name': key}
+
+        # data is now the dict where the end value is going to go
+        if not data:
+            data['name'] = key
+            data['numerators'] = {'this': 0.0}
+
+        return key, data
+
+
+    # run the stats for the objects
     for obj in objects:
-        key = getattr(obj, key_field)
-
-        if only and key not in only:
-            continue
-
-        if exclude and key in exclude:
-            continue
-
         if obj.total == 0 and exclude_zero:
             continue
 
-        our_total += obj.total
-        data[key] = {
-            "name": key,
-            "numerators": {"this": obj.total},
-        }
+        # get the data dict where these values must go
+        key, data = get_data_object(obj)
+        if not data:
+            continue
+
+        our_total[key] = our_total.get(key, 0.0) + obj.total
+        data['numerators']['this'] += obj.total
+
+    # if we had one field, we want one total
+    grand_total = sum(our_total.values())
 
     # add in percentages
     if percent:
         if total is None:
             total = our_total
 
-        for fields in data.itervalues():
-            fields["values"] = {"this": round(fields["numerators"]["this"] / total * 100, 2)}
+        def calc_percent(data):
+            for key, data in data.iteritems():
+                if not key == 'metadata':
+                    if 'numerators' in data:
+                        tot = total[key] if many_fields else grand_total
+                        data['values'] = {'this': round(data['numerators']['this'] / tot * 100, 2)}
+                    else:
+                        calc_percent(data)
 
-    add_metadata(data, model)
+        calc_percent(root_data)
 
-    return data, total
+    add_metadata(root_data, model)
+
+    return root_data, grand_total
