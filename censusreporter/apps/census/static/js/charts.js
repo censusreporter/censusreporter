@@ -927,11 +927,11 @@ function Chart(options) {
                     .html(function() {
                         var titleText;
                         if (!!chart.chartChartTitle) {
-                            titleText = chart.chartChartTitle; // + " (Table " + tableID + ")";
+                            titleText = chart.chartChartTitle + " (Table " + tableID + ")";
                         } else {
                             titleText = "Table " + tableID;
                         }
-                        return titleText; // + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
+                        return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")

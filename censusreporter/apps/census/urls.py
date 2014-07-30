@@ -6,11 +6,12 @@ from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
 
-from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch, LocateView,
+from .views import (HomepageView, GeographySearchView,
+    TableDetailView, TableSearchView, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
-from .wazi_views import SouthAfricaGeographyDetailView, SouthAfricaGeographyJsonView, WardSearchProxy, PlaceSearchJson, SouthAfricaLocateView
+from .wazi import (GeographyDetailView, GeographyJsonView, WardSearchProxy, PlaceSearchJson,
+        LocateView, DataAPIView)
 
 admin.autodiscover()
 
@@ -32,7 +33,7 @@ urlpatterns = patterns('',
     # e.g. /profiles/province-GT/
     url(
         regex   = '^profiles/(?P<geography_id>(%s)-[\w]+)/$' % geo_levels,
-        view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyDetailView.as_view()),
+        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
     ),
@@ -40,9 +41,17 @@ urlpatterns = patterns('',
     # e.g. /profiles/province-GT.json
     url(
         regex   = '^(embed_data/)?profiles/(?P<geography_id>(%s)-[\w]+)\.json$' % geo_levels,
-        view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyJsonView.as_view()),
+        view    = cache_page(STANDARD_CACHE_TIME)(GeographyJsonView.as_view()),
         kwargs  = {},
         name    = 'geography_json',
+    ),
+
+    # Custom data api
+    url(
+        regex   = '^api/1.0/data/show/latest$',
+        view    = cache_page(STANDARD_CACHE_TIME)(DataAPIView.as_view()),
+        kwargs  = {},
+        name    = 'api_show_data',
     ),
 
     # TODO enable this see: https://github.com/Code4SA/censusreporter/issues/31
@@ -119,7 +128,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^locate/$',
-        view    = SouthAfricaLocateView.as_view(),
+        view    = LocateView.as_view(),
         kwargs  = {},
         name    = 'locate',
     ),

@@ -19,9 +19,9 @@ This expects to have Underscore, D3 and jQuery.
 function Comparison(options) {
     var comparison = {
         tableSearchAPI: 'http://api.censusreporter.org/1.0/table/search',
-        geoSearchAPI: 'http://api.censusreporter.org/1.0/geo/search',
+        geoSearchAPI: '/place-search/json/',
         rootGeoAPI: 'http://api.censusreporter.org/1.0/geo/tiger2012/',
-        dataAPI: 'http://api.censusreporter.org/1.0/data/show/latest'
+        dataAPI: '/api/1.0/data/show/latest'
     };
     
     comparison.init = function(options) {
@@ -77,7 +77,7 @@ function Comparison(options) {
         comparison.table = comparison.data.tables[comparison.tableID];
         comparison.release = comparison.data.release;
         comparison.values = comparison.data.data;
-        comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.substr(0,3) : null;
+        comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.split('-')[0] : null;
         comparison.statType = comparison.getStatType(),
         comparison.sortedPlaces = comparison.getSortedPlaces('name');
 
@@ -512,7 +512,7 @@ function Comparison(options) {
                 layer.bindLabel(label, {className: 'hovercard', direction: 'auto'});
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
-                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                    window.location.href = '/profiles/' + feature.properties.geoid;
                 });
             }
         });
@@ -575,7 +575,7 @@ function Comparison(options) {
         comparison.sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = (comparison.data.geography[geoID]) ? comparison.data.geography[geoID].name : 'N/A';
-            gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '">' + geoName + '</a>');
+            gridHeaderBits.push('<a href="/profiles/' + geoID + '">' + geoName + '</a>');
         })
 
         comparison.gridData.Head = [gridHeaderBits];
@@ -931,9 +931,9 @@ function Comparison(options) {
 
     comparison.addContainerMetadata = function() {
         // tableID and change table link
-        comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
-            .append('<a href="#" id="change-table">Change</a>');
-        comparison.$displayWrapper.find('h2').text(comparison.release.name);
+        //comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
+        //    .append('<a href="#" id="change-table">Change</a>');
+        comparison.$displayWrapper.find('h2.header-for-columns').text(comparison.release.name);
     }
 
     comparison.addPercentageDataValues = function() {
@@ -1035,14 +1035,14 @@ function Comparison(options) {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
         remote: {
-            url: geoSearchAPI,
+            url: comparison.geoSearchAPI,
             replace: function (url, query) {
                 return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
             },
             filter: function(response) {
                 var results = response.results;
                 results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                    item['geo_level'] = sumlevMap[item['geo_level']]['name'];
                 });
                 return results;
             }
@@ -1211,6 +1211,9 @@ function Comparison(options) {
     }
     
     comparison.makeParentOptions = function() {
+        // XXX: not supported
+        return;
+
         // no tribbles!
         d3.selectAll('#comparison-parents').remove();
         
@@ -1254,7 +1257,7 @@ function Comparison(options) {
         // no tribbles!
         d3.selectAll('#comparison-children').remove();
 
-        if (!!comparison.primaryGeoID && comparison.thisSumlev != '150') {
+        if (!!comparison.primaryGeoID && sumlevMap[comparison.thisSumlev]['children'].length > 0) {
             var childOptionsContainer = comparison.aside.append('div')
                     .attr('class', 'aside-block hidden')
                     .attr('id', 'comparison-children');
@@ -1613,8 +1616,13 @@ function Comparison(options) {
     comparison.makeSumlevMap = function() {
         var sumlevSets = {};
         _.each(comparison.geoIDs, function(i) {
-            var thisSumlev = i.slice(0, 3),
+            var thisSumlev = i.split('-')[0],
+                barPosn = thisSumlev.indexOf('|'),
                 thisName;
+            if (barPosn > -1) {
+                thisSumlev = thisSumlev.substring(0, barPosn);
+            }
+
             sumlevSets[thisSumlev] = sumlevSets[thisSumlev] || {};
             sumlevSets[thisSumlev]['selections'] = sumlevSets[thisSumlev]['selections'] || [];
             
@@ -1627,7 +1635,7 @@ function Comparison(options) {
             sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i, 'sumlev': thisSumlev})
         });
         _.each(_.keys(comparison.data.data), function(i) {
-            var thisSumlev = i.slice(0, 3);
+            var thisSumlev = i.split('-')[0];
             sumlevSets[thisSumlev]['count'] = sumlevSets[thisSumlev]['count'] || 0;
             sumlevSets[thisSumlev]['count'] += 1;
         });

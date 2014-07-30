@@ -16,10 +16,10 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: electricityavailability_country; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_country; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE electricityavailability_country (
+CREATE TABLE electricityforcooking_electricityforheating_electr_country (
     total integer NOT NULL,
     "electricity for cooking" character varying(128) NOT NULL,
     "electricity for heating" character varying(128) NOT NULL,
@@ -28,13 +28,13 @@ CREATE TABLE electricityavailability_country (
 );
 
 
-ALTER TABLE public.electricityavailability_country OWNER TO census;
+ALTER TABLE public.electricityforcooking_electricityforheating_electr_country OWNER TO census;
 
 --
--- Name: electricityavailability_district; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_district; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE electricityavailability_district (
+CREATE TABLE electricityforcooking_electricityforheating_electr_district (
     total integer NOT NULL,
     "electricity for cooking" character varying(128) NOT NULL,
     "electricity for heating" character varying(128) NOT NULL,
@@ -43,13 +43,13 @@ CREATE TABLE electricityavailability_district (
 );
 
 
-ALTER TABLE public.electricityavailability_district OWNER TO census;
+ALTER TABLE public.electricityforcooking_electricityforheating_electr_district OWNER TO census;
 
 --
--- Name: electricityavailability_municipality; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_municipality; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE electricityavailability_municipality (
+CREATE TABLE electricityforcooking_electricityforheating_electr_municipality (
     total integer NOT NULL,
     "electricity for cooking" character varying(128) NOT NULL,
     "electricity for heating" character varying(128) NOT NULL,
@@ -58,13 +58,13 @@ CREATE TABLE electricityavailability_municipality (
 );
 
 
-ALTER TABLE public.electricityavailability_municipality OWNER TO census;
+ALTER TABLE public.electricityforcooking_electricityforheating_electr_municipality OWNER TO census;
 
 --
--- Name: electricityavailability_province; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_province; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE electricityavailability_province (
+CREATE TABLE electricityforcooking_electricityforheating_electr_province (
     total integer NOT NULL,
     "electricity for cooking" character varying(128) NOT NULL,
     "electricity for heating" character varying(128) NOT NULL,
@@ -73,13 +73,13 @@ CREATE TABLE electricityavailability_province (
 );
 
 
-ALTER TABLE public.electricityavailability_province OWNER TO census;
+ALTER TABLE public.electricityforcooking_electricityforheating_electr_province OWNER TO census;
 
 --
--- Name: electricityavailability_ward; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_ward; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE electricityavailability_ward (
+CREATE TABLE electricityforcooking_electricityforheating_electr_ward (
     total integer NOT NULL,
     "electricity for cooking" character varying(128) NOT NULL,
     "electricity for heating" character varying(128) NOT NULL,
@@ -88,13 +88,13 @@ CREATE TABLE electricityavailability_ward (
 );
 
 
-ALTER TABLE public.electricityavailability_ward OWNER TO census;
+ALTER TABLE public.electricityforcooking_electricityforheating_electr_ward OWNER TO census;
 
 --
--- Data for Name: electricityavailability_country; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: electricityforcooking_electricityforheating_electr_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY electricityavailability_country (total, "electricity for cooking", "electricity for heating", "electricity for lighting", country_code) FROM stdin;
+COPY electricityforcooking_electricityforheating_electr_country (total, "electricity for cooking", "electricity for heating", "electricity for lighting", country_code) FROM stdin;
 2120974	No	No	No	ZA
 1258904	No	No	Yes	ZA
 23142	No	Yes	No	ZA
@@ -107,10 +107,10 @@ COPY electricityavailability_country (total, "electricity for cooking", "electri
 
 
 --
--- Data for Name: electricityavailability_district; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: electricityforcooking_electricityforheating_electr_district; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY electricityavailability_district (total, "electricity for cooking", "electricity for heating", "electricity for lighting", district_code) FROM stdin;
+COPY electricityforcooking_electricityforheating_electr_district (total, "electricity for cooking", "electricity for heating", "electricity for lighting", district_code) FROM stdin;
 15197	No	No	No	DC10
 6468	No	No	Yes	DC10
 161	No	Yes	No	DC10
@@ -531,10 +531,10 @@ COPY electricityavailability_district (total, "electricity for cooking", "electr
 
 
 --
--- Data for Name: electricityavailability_municipality; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: electricityforcooking_electricityforheating_electr_municipality; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY electricityavailability_municipality (total, "electricity for cooking", "electricity for heating", "electricity for lighting", municipality_code) FROM stdin;
+COPY electricityforcooking_electricityforheating_electr_municipality (total, "electricity for cooking", "electricity for heating", "electricity for lighting", municipality_code) FROM stdin;
 669	No	No	No	EC101
 731	No	No	Yes	EC101
 9	No	Yes	No	EC101
@@ -2411,10 +2411,10 @@ COPY electricityavailability_municipality (total, "electricity for cooking", "el
 
 
 --
--- Data for Name: electricityavailability_province; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: electricityforcooking_electricityforheating_electr_province; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY electricityavailability_province (total, "electricity for cooking", "electricity for heating", "electricity for lighting", province_code) FROM stdin;
+COPY electricityforcooking_electricityforheating_electr_province (total, "electricity for cooking", "electricity for heating", "electricity for lighting", province_code) FROM stdin;
 410580	No	No	No	EC
 203094	No	No	Yes	EC
 2092	No	Yes	No	EC
@@ -2491,10 +2491,10 @@ COPY electricityavailability_province (total, "electricity for cooking", "electr
 
 
 --
--- Data for Name: electricityavailability_ward; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: electricityforcooking_electricityforheating_electr_ward; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY electricityavailability_ward (total, "electricity for cooking", "electricity for heating", "electricity for lighting", ward_code) FROM stdin;
+COPY electricityforcooking_electricityforheating_electr_ward (total, "electricity for cooking", "electricity for heating", "electricity for lighting", ward_code) FROM stdin;
 188	No	No	No	21001001
 229	No	No	Yes	21001001
 1	No	Yes	No	21001001
@@ -36715,83 +36715,83 @@ COPY electricityavailability_ward (total, "electricity for cooking", "electricit
 
 
 --
--- Name: electricityavailability_country_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_country_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY electricityavailability_country
-    ADD CONSTRAINT electricityavailability_country_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting");
-
-
---
--- Name: electricityavailability_district_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
---
-
-ALTER TABLE ONLY electricityavailability_district
-    ADD CONSTRAINT electricityavailability_district_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", district_code);
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_country
+    ADD CONSTRAINT elec_country_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting");
 
 
 --
--- Name: electricityavailability_municipality_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_district_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY electricityavailability_municipality
-    ADD CONSTRAINT electricityavailability_municipality_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", municipality_code);
-
-
---
--- Name: electricityavailability_province_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
---
-
-ALTER TABLE ONLY electricityavailability_province
-    ADD CONSTRAINT electricityavailability_province_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", province_code);
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_district
+    ADD CONSTRAINT elec_district_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", district_code);
 
 
 --
--- Name: electricityavailability_ward_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: electricityforcooking_electricityforheating_electr_municipality_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY electricityavailability_ward
-    ADD CONSTRAINT electricityavailability_ward_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", ward_code);
-
-
---
--- Name: electricityavailability_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
---
-
-ALTER TABLE ONLY electricityavailability_country
-    ADD CONSTRAINT electricityavailability_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_municipality
+    ADD CONSTRAINT elec_municipality_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", municipality_code);
 
 
 --
--- Name: electricityavailability_district_district_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+-- Name: electricityforcooking_electricityforheating_electr_province_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY electricityavailability_district
-    ADD CONSTRAINT electricityavailability_district_district_code_fkey FOREIGN KEY (district_code) REFERENCES district(code);
-
-
---
--- Name: electricityavailability_municipality_municipality_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
---
-
-ALTER TABLE ONLY electricityavailability_municipality
-    ADD CONSTRAINT electricityavailability_municipality_municipality_code_fkey FOREIGN KEY (municipality_code) REFERENCES municipality(code);
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_province
+    ADD CONSTRAINT elec_province_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", province_code);
 
 
 --
--- Name: electricityavailability_province_province_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+-- Name: electricityforcooking_electricityforheating_electr_ward_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY electricityavailability_province
-    ADD CONSTRAINT electricityavailability_province_province_code_fkey FOREIGN KEY (province_code) REFERENCES province(code);
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_ward
+    ADD CONSTRAINT elec_ward_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", ward_code);
 
 
 --
--- Name: electricityavailability_ward_ward_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+-- Name: electricityforcooking_electricityforheating_electr_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
-ALTER TABLE ONLY electricityavailability_ward
-    ADD CONSTRAINT electricityavailability_ward_ward_code_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_country
+    ADD CONSTRAINT elec_country_fkey FOREIGN KEY (country_code) REFERENCES country(code);
+
+
+--
+-- Name: electricityforcooking_electricityforheating_electr_district_district_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_district
+    ADD CONSTRAINT elec_district_fkey FOREIGN KEY (district_code) REFERENCES district(code);
+
+
+--
+-- Name: electricityforcooking_electricityforheating_electr_municipality_municipality_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_municipality
+    ADD CONSTRAINT elec_municipality_fkey FOREIGN KEY (municipality_code) REFERENCES municipality(code);
+
+
+--
+-- Name: electricityforcooking_electricityforheating_electr_province_province_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_province
+    ADD CONSTRAINT elec_province_fkey FOREIGN KEY (province_code) REFERENCES province(code);
+
+
+--
+-- Name: electricityforcooking_electricityforheating_electr_ward_ward_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY electricityforcooking_electricityforheating_electr_ward
+    ADD CONSTRAINT elec_ward_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
 
 
 --

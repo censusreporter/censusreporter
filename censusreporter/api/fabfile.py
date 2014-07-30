@@ -1,10 +1,10 @@
 import os
-from fabric.api import env, task, require, local, sudo, execute
+from fabric.api import env, task, require, local, sudo, execute, run
 
 from api.config import DB_USER, DB_NAME, DB_PASSWORD
 
 
-DATA_DIR = 'censusreporter/censusreporter/api/data'
+DATA_DIR = 'censusreporter/api/data'
 PSQL_STRING = 'PGPASSWORD=%s psql -d %s -U %s -h localhost' \
               % (DB_PASSWORD, DB_NAME, DB_USER)
 PACKAGES = (
@@ -25,8 +25,11 @@ def provision_api():
 
     if env.deploy_type == 'dev':
         local('; '.join('sudo %s' % cmd for cmd in commands))
-        return
-    sudo('; '.join(commands))
+    else:
+        sudo('; '.join(commands))
+
+    create_api_database()
+    load_api_data()
 
 
 @task
@@ -37,11 +40,11 @@ def create_api_database():
     create_db = "CREATE DATABASE %s WITH OWNER %s ENCODING 'UTF8' TEMPLATE template0" % (DB_NAME, DB_USER)
 
     if env.deploy_type == 'dev':
-        local('echo "%s" | sudo -u postgres psql' % create_user)
-        local('echo "%s" | sudo -u postgres psql' % create_db)
-        return
-    sudo('echo "%s" | psql' % create_user, user='postgres')
-    sudo('echo "%s" | psql' % create_db, user='postgres')
+        local('echo "%s" | psql' % create_user)
+        local('echo "%s" | psql' % create_db)
+    else:
+        sudo('echo "%s" | psql' % create_user, user='postgres')
+        sudo('echo "%s" | psql' % create_db, user='postgres')
 
 
 @task
@@ -49,16 +52,16 @@ def drop_api_database():
     require('deploy_type')
 
     if env.deploy_type == 'dev':
-        local('echo "DROP DATABASE %s" | sudo -u postgres psql' % DB_NAME)
-        return
-    sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user='postgres')
+        local('echo "DROP DATABASE %s" | psql' % DB_NAME)
+    else:
+        sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user='postgres')
 
 
 @task
 def load_api_data():
-    require('deploy_type', 'deploy_dir')
+    require('deploy_type', 'repo_dir')
 
-    data_dir_abs = os.path.join(env.deploy_dir, DATA_DIR)
+    data_dir_abs = os.path.join(env.repo_dir, DATA_DIR)
     commands = (
         '%s -f %s/demarcation_2011.sql' % (PSQL_STRING, data_dir_abs),
         'for fp in `ls %s/*.tar.gz | xargs`; do tar -xvzf ${fp} -C %s/; done'
@@ -72,16 +75,15 @@ def load_api_data():
         local('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
         local('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
         local('rm -r %s/votes' % data_dir_abs)
-        return
-    sudo('; '.join(commands))
-    sudo('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
-    sudo('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
-    sudo('rm -r %s/votes' % data_dir_abs)
-    return
+    else:
+        run('; '.join(commands))
+        run('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
+        run('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
+        run('rm -r %s/votes' % data_dir_abs)
 
 @task
 def reload_api_data():
-    require('deploy_type', 'deploy_dir')
+    require('deploy_type')
 
     sudo('initctl stop censusreporter')
 

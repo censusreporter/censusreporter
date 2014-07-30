@@ -1,32 +1,16 @@
+from itertools import chain
+
 from sqlalchemy import Column, ForeignKey, SmallInteger, String
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship
+
+from api.utils import get_session
 
 
 class Base(object):
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
-
-
-    def as_dict(self):
-        return {
-            'full_geoid': '%s-%s' % (self.level, self.code),
-            'full_name': self.long_name,
-            'short_name': self.short_name,
-            'geo_level': self.level,
-            'geo_code': self.code,
-            'child_level': self.child_level,
-        }
-
-    def as_dict_deep(self):
-        parents = dict((p.level, p.as_dict()) for p in self.parents())
-        parents['ordering'] = [p.level for p in self.parents()]
-
-        return {
-            'this': self.as_dict(),
-            'parents': parents,
-        }
 
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__,
@@ -41,7 +25,52 @@ Base = declarative_base(cls=Base)
 Geographic models
 '''
 
-class GeoNameMixin(object):
+class GeoMixin(object):
+    def as_dict(self):
+        return {
+            'full_geoid': self.full_geoid,
+            'full_name': self.long_name,
+            'short_name': self.short_name,
+            'name': self.short_name,
+            'geo_level': self.level,
+            'geo_code': self.code,
+            'child_level': self.child_level,
+        }
+
+    def as_dict_deep(self):
+        parents = dict((p.level, p.as_dict()) for p in self.parents())
+        parents_ordering = [p.level for p in self.parents()]
+
+        return {
+            'this': self.as_dict(),
+            'parents': parents,
+            'parents_ordering': parents_ordering,
+        }
+
+    def children(self):
+        if not self.child_level:
+            return []
+
+        session = get_session()
+        try:
+            model = get_geo_model(self.child_level)
+            return session.query(model).filter(getattr(model, '%s_code' % self.level) == self.code).all()
+        finally:
+            session.close()
+
+    def split_into(self, level):
+        if not level in geo_levels:
+            raise ValueError(level)
+
+        kids = self.children()
+        if level == self.child_level:
+            return kids
+        else:
+            splits = []
+            for k in kids:
+                splits.extend(k.split_into(level))
+            return splits
+        
 
     @property
     def short_name(self):
@@ -66,11 +95,15 @@ class GeoNameMixin(object):
     def country(self):
         return Country.ZA()
 
+    @property
+    def full_geoid(self):
+        return '%s-%s' % (self.level, self.code)
+
     def __unicode__(self):
         return self.long_name
 
 
-class Ward(Base, GeoNameMixin):
+class Ward(Base, GeoMixin):
     # an 8-digit number where the last 2 digits refer
     # to the ward number, e.g. 21001001 where ward_no = 1
     code = Column(String(8), primary_key=True)
@@ -79,7 +112,7 @@ class Ward(Base, GeoNameMixin):
     # municipalities/districts were introduced
     # governed by the Municipal Demarcation Board (http://www.demarcation.org.za/)
     year = Column(String(4), index=True, nullable=False)
-    muni_code = Column(String(8), ForeignKey('municipality.code'))
+    municipality_code = Column(String(8), ForeignKey('municipality.code'))
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
@@ -99,7 +132,7 @@ class Ward(Base, GeoNameMixin):
         return 'Ward %d (%s)' % (self.ward_no, self.code)
 
 
-class Municipality(Base, GeoNameMixin):
+class Municipality(Base, GeoMixin):
     # a 5-character string where the first 2 characters is the
     # province code and the last 3 are digits, e.g. MP322
     # Note: a few municipalities exist for large city areas with
@@ -122,7 +155,7 @@ class Municipality(Base, GeoNameMixin):
         return [self.province, self.country]
 
 
-class District(Base, GeoNameMixin):
+class District(Base, GeoMixin):
     # a 4-character string starting with 'DC' and followed by
     # 1 or 2 digits, e.g. DC10
     # Note: a few districts exist for large city areas with
@@ -143,7 +176,7 @@ class District(Base, GeoNameMixin):
         return [self.province, self.country]
 
 
-class Province(Base, GeoNameMixin):
+class Province(Base, GeoMixin):
     # a 2 or 3-letter string
     code = Column(String(3), primary_key=True)
     name = Column(String(16), nullable=False, index=True)
@@ -160,7 +193,7 @@ class Province(Base, GeoNameMixin):
         return [self.country]
 
 
-class Country(Base, GeoNameMixin):
+class Country(Base, GeoMixin):
     # a 2 letter string
     code = Column(String(3), primary_key=True)
     name = Column(String(16), nullable=False, index=True)
@@ -186,10 +219,6 @@ class Country(Base, GeoNameMixin):
 
         return cls.countries['ZA']
 
-        
-
-
-
 
 class Subplace(Base):
     code = Column(String(9), primary_key=True)
@@ -197,7 +226,7 @@ class Subplace(Base):
     mainplace_name = Column(String(50), index=True, nullable=False)
     mainplace_code = Column(String(8), nullable=False)
     ward_code = Column(String(8), ForeignKey('ward.code'), nullable=False)
-    muni_code = Column(String(8), ForeignKey('municipality.code'), nullable=False)
+    municipality_code = Column(String(8), ForeignKey('municipality.code'), nullable=False)
     district_code = Column(String(8), ForeignKey('district.code'), nullable=False)
     province_code = Column(String(3), ForeignKey('province.code'), nullable=False)
     # same as the year of the constituent wards

@@ -34,6 +34,7 @@ def dev():
     env.deploy_user = pwd.getpwuid(os.getuid())[0]
     env.deploy_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../')
     env.branch = None  # deploy whichever branch we are currently on
+    env.repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
 
 
 @task
@@ -44,6 +45,8 @@ def prod():
     env.branch = 'master'
     env.hosts = PROD_HOSTS
     env.user = 'mma'
+    env.repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
+    env.embed_dir = os.path.join(env.deploy_dir, 'embed_data/profiles/')
 
 
 @task
@@ -51,7 +54,7 @@ def provision():
     require('deploy_type', provided_by=[dev, prod])
 
     commands = (
-        'apt-get install %s --no-upgrade' % ' '.join(PACKAGES),
+        'apt-get install --yes --no-upgrade %s' % ' '.join(PACKAGES),
     )
     if env.deploy_type == 'prod':
         commands += (
@@ -65,10 +68,16 @@ def provision():
         local('sudo npm config set registry http://registry.npmjs.org/')
         local('sudo npm -g install yuglify')
         return
+
     sudo('; '.join(commands))
     sudo('apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
     sudo('npm config set registry http://registry.npmjs.org/')
     sudo('npm -g install yuglify')
+    sudo('mv -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available')
+
+    provision_api()
+
+    git_checkout()
 
 
 @task
@@ -76,11 +85,10 @@ def deploy():
     require('deploy_type', 'deploy_user', 'deploy_dir', 'branch',
             provided_by=[dev, prod])
 
-    repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
     ve_dir = os.path.join(env.deploy_dir, VIRTUALENV_DIR)
 
     if env.deploy_type == 'dev':
-        with lcd(repo_dir):
+        with lcd(env.repo_dir):
             local('git pull')
             local('. ~/.virtualenvs/%s/bin/activate && pip install -r requirements.txt'
                   % CODE_DIR)
@@ -89,21 +97,14 @@ def deploy():
     if not exists(ve_dir):
         sudo('virtualenv -p python2.7 %s' % ve_dir, user=env.deploy_user)
 
-    if not exists(repo_dir):
-        with cd(env.deploy_dir):
-            sudo('git clone -b %s https://github.com/Code4SA/censusreporter.git'
-                 % env.branch, user=env.deploy_user)
-    else:
-        with cd(repo_dir):
-            sudo('git checkout -B %s' % env.branch, user=env.deploy_user)
-            sudo('git pull origin %s' % env.branch, user=env.deploy_user)
+    git_checkout()
 
     # upload pth file to manage python path
     upload_template(os.path.join(os.path.dirname(__file__), 'conf/pythonpath.template'),
                     '%s/lib/python2.7/site-packages/censusreporter.pth' % ve_dir,
-                    {'project-dir': repo_dir}, use_sudo=True, backup=False)
+                    {'project-dir': env.repo_dir}, use_sudo=True, backup=False)
 
-    with cd(repo_dir), prefix('. ../%s/bin/activate' % VIRTUALENV_DIR):
+    with cd(env.repo_dir), prefix('. ../%s/bin/activate' % VIRTUALENV_DIR):
         sudo('pip install -r requirements.txt', user=env.deploy_user)
         sudo('python manage.py collectstatic --settings=config.prod.settings '
              '--noinput', user=env.deploy_user)
@@ -118,14 +119,19 @@ def deploy():
     # make sure logging dir exists and update processes
     log_dir = os.path.join(env.deploy_dir, LOG_DIR)
     sudo('mkdir -p %s' % log_dir, user=env.deploy_user)
+    sudo('chown -R %s:%s %s' % (env.deploy_user, env.deploy_user, env.deploy_dir))
 
     cache_dir = '/var/tmp/censusreporter_cache/'
     sudo('mkdir -p %s' % cache_dir, user=env.deploy_user)
+    sudo('mkdir -p %s' % env.embed_dir, user=env.deploy_user)
 
-    embed_dir = os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed_data/profiles/')
-    sudo('mkdir -p %s' % embed_dir, user=env.deploy_user)
+    sudo('initctl reload-configuration')
 
-    sudo('initctl restart censusreporter')
+    # on first install, a simple restart will fail. so always force a stop (which can fail)
+    # and then start
+    sudo('initctl stop censusreporter', quiet=True)
+    sudo('initctl start censusreporter')
+
     sudo('/etc/init.d/nginx reload')
 
 
@@ -135,8 +141,8 @@ def get_nginx_template_context():
         'embed-server-name': EMBED_URL,
         'server-aliases': SERVER_ALIASES,
         'server-port': 80,
-        'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
-        'embed-data-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed_data/'),
+        'static-path': os.path.join(env.repo_dir, 'censusreporter/static/'),
+        'embed-data-path': env.embed_dir,
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
         'err-log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.err'),
         'proxy-host': PROXY_HOST,
@@ -154,3 +160,13 @@ def get_upstart_template_context():
         'host': PROXY_HOST,
         'port': PROXY_PORT,
     }
+
+def git_checkout():
+    if not exists(env.repo_dir):
+        with cd(env.deploy_dir):
+            sudo('git clone -b %s https://github.com/Code4SA/censusreporter.git'
+                 % env.branch, user=env.deploy_user)
+    else:
+        with cd(env.repo_dir):
+            sudo('git checkout -B %s' % env.branch, user=env.deploy_user)
+            sudo('git pull origin %s' % env.branch, user=env.deploy_user)

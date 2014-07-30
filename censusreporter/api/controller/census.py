@@ -6,7 +6,7 @@ from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
 
 from .utils import (collapse_categories, calculate_median, get_summary_geo_info,
-                    merge_dicts, group_remainder, add_metadata)
+                    merge_dicts, group_remainder, add_metadata, get_stat_data, get_objects_by_geo)
 
 
 PROFILE_SECTIONS = (
@@ -117,7 +117,6 @@ COLLAPSED_AGE_CATEGORIES = {
 # Income categories
 
 COLLAPSED_INCOME_CATEGORIES = OrderedDict()
-COLLAPSED_INCOME_CATEGORIES["Not applicable"] = "N/A"
 COLLAPSED_INCOME_CATEGORIES["No income"] = "R0"
 COLLAPSED_INCOME_CATEGORIES["R 1 - R 400"] = "Under R400"
 COLLAPSED_INCOME_CATEGORIES["R 401 - R 800"] = "R400 - R800"
@@ -220,23 +219,22 @@ def get_census_profile(geo_code, geo_level):
 def get_demographics_profile(geo_code, geo_level, session):
     # population group
     pop_dist_data, total_pop = get_stat_data(
-            ['population group'], geo_level, geo_code, session, percent=True)
+            ['population group'], geo_level, geo_code, session)
 
     # language
     language_data, _ = get_stat_data(
-            ['language'], geo_level, geo_code, session, order_by='-total', percent=True)
+            ['language'], geo_level, geo_code, session, order_by='-total')
     language_most_spoken = language_data[language_data.keys()[0]]
 
     # age groups
     age_dist_data, total_age = get_stat_data(
-            ['age groups in 5 years'], geo_level, geo_code, session, percent=True)
-    age_dist_data = collapse_categories(age_dist_data,
-                                        COLLAPSED_AGE_CATEGORIES,
-                                        key_order=('0-9', '10-19',
-                                                   '20-29', '30-39',
-                                                   '40-49', '50-59',
-                                                   '60-69', '70-79',
-                                                   '80+'))
+            ['age groups in 5 years'], geo_level, geo_code, session,
+            recode=COLLAPSED_AGE_CATEGORIES,
+            key_order=('0-9', '10-19',
+                       '20-29', '30-39',
+                       '40-49', '50-59',
+                       '60-69', '70-79',
+                       '80+'))
 
     # sex
     db_model_sex = get_model_from_fields(['gender'], geo_level)
@@ -380,9 +378,9 @@ def get_households_profile(geo_code, geo_level, session):
     # household goods
     household_goods, _ = get_stat_data(
             ['household goods'], geo_level, geo_code, session, percent=True,
-            total=total_households)
-    household_goods = collapse_categories(household_goods, HOUSEHOLD_GOODS_RECODE, key_order=sorted(HOUSEHOLD_GOODS_RECODE.values()))
-
+            total=total_households,
+            recode=HOUSEHOLD_GOODS_RECODE,
+            key_order=sorted(HOUSEHOLD_GOODS_RECODE.values()))
 
     return {'total_households': {
                 'name': 'Households',
@@ -417,21 +415,15 @@ def get_households_profile(geo_code, geo_level, session):
 def get_economics_profile(geo_code, geo_level, session):
     # income
     income_dist_data, total_income = get_stat_data(
-            ['individual monthly income'], geo_level, geo_code, session, percent=True,
-            table_name='individualmonthlyincome_%s_employedonly' % geo_level,
-            exclude=['Not applicable'])
-    key_order = COLLAPSED_INCOME_CATEGORIES.values()
-    key_order.remove('N/A')
-    income_dist_data = collapse_categories(income_dist_data,
-                                           COLLAPSED_INCOME_CATEGORIES,
-                                           key_order=key_order)
-    income_dist_data['metadata']['universe'] = 'Officially employed individuals'
+            ['employed individual monthly income'], geo_level, geo_code, session,
+            exclude=['Not applicable'],
+            recode=COLLAPSED_INCOME_CATEGORIES,
+            key_order=COLLAPSED_INCOME_CATEGORIES.values())
 
     # employment status
     employ_status, total_workers = get_stat_data(
             ['official employment status'], geo_level, geo_code, session, percent=True,
             exclude=['Age less than 15 years', 'Not applicable'])
-    employ_status['metadata']['universe'] = 'Workers 15 and over'
 
     # sector
     sector_dist_data, _ = get_stat_data(
@@ -498,8 +490,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     elec_attrs = ['electricity for cooking',
                   'electricity for heating',
                   'electricity for lighting']
-    db_model_elec = get_model_from_fields(elec_attrs, geo_level,
-                                          'electricityavailability_%s' % geo_level)
+    db_model_elec = get_model_from_fields(elec_attrs, geo_level)
     objects = get_objects_by_geo(db_model_elec, geo_code, geo_level, session)
     total_elec = 0.0
     total_some_elec = 0.0
@@ -603,9 +594,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
 
 
 def get_education_profile(geo_code, geo_level, session):
-    db_model = get_model_from_fields(['highest educational level'], geo_level,
-                                     'highesteducationallevel_20andolder_%s'
-                                     % geo_level)
+    db_model = get_model_from_fields(['highest educational level 20 and older'], geo_level)
     objects = get_objects_by_geo(db_model, geo_code, geo_level, session)
 
     edu_dist_data = {}
@@ -613,7 +602,7 @@ def get_education_profile(geo_code, geo_level, session):
     fet_or_higher = 0.0
     total = 0.0
     for i, obj in enumerate(objects):
-        category_val = getattr(obj, 'highest educational level')
+        category_val = getattr(obj, 'highest educational level 20 and older')
         # increment counters
         total += obj.total
         if category_val in EDUCATION_GET_OR_HIGHER:
@@ -656,89 +645,3 @@ def get_education_profile(geo_code, geo_level, session):
 
     return {'educational_attainment_distribution': edu_dist_data,
             'educational_attainment': edu_split_data}
-
-
-def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
-    """ Get rows of statistics from the stats mode +db_model+ at a particular
-    geo_code and geo_level. """
-    geo_attr = '%s_code' % geo_level
-    objects = session.query(db_model).filter(getattr(db_model, geo_attr) == geo_code)
-
-    if order_by is not None:
-        if order_by[0] == '-':
-            objects = objects.order_by(getattr(db_model, order_by[1:]).desc())
-        else:
-            objects = objects.order_by(getattr(db_model, order_by))
-    objects = objects.all()
-    if len(objects) == 0:
-        raise LocationNotFound("%s.%s with code '%s' not found"
-                               % (db_model.__tablename__, geo_attr, geo_code))
-    return objects
-
-
-def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
-                  percent=False, total=None,
-                  table_name=None, only=None, exclude=None, exclude_zero=False):
-    """
-    Helper routine for fetching rows for stats and generating a JSON-suitable result
-    set.
-
-    :param list fields: the census fields in `api.utils.census_fields`, e.g. ['highest educational level', 'type of sector']
-    :param str geo_level: the geographical level
-    :param str geo_code: the geographical code
-    :param dbsession session: sqlalchemy session
-    :param str order_by: field to order by or None for default, eg. '-total'
-    :param bool percent: should we calculate percentages?
-    :param int total: the total value to use for percentages, or None to total columns automatically
-    :param str table_name: override the table name, otherwise it's calculated from the fields and geo_level
-    :param list only: only include these field values
-    :param list exclude: ignore these field values
-    :param bool exclude_zero: ignore fields that have a zero total
-
-    :return: (data-dictionary, total)
-    """
-
-    if order_by is None:
-        order_by = fields[0]
-
-    if only is not None:
-        only = set(only)
-    if exclude is not None:
-        exclude = set(exclude)
-
-    model = get_model_from_fields(fields, geo_level, table_name)
-    objects = get_objects_by_geo(model, geo_code, geo_level, session, order_by=order_by)
-
-    data = OrderedDict()
-    our_total = 0.0
-    key_field = fields[0]
-
-    for obj in objects:
-        key = getattr(obj, key_field)
-
-        if only and key not in only:
-            continue
-
-        if exclude and key in exclude:
-            continue
-
-        if obj.total == 0 and exclude_zero:
-            continue
-
-        our_total += obj.total
-        data[key] = {
-            "name": key,
-            "numerators": {"this": obj.total},
-        }
-
-    # add in percentages
-    if percent:
-        if total is None:
-            total = our_total
-
-        for fields in data.itervalues():
-            fields["values"] = {"this": round(fields["numerators"]["this"] / total * 100, 2)}
-
-    add_metadata(data, model)
-
-    return data, total
