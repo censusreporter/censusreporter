@@ -927,7 +927,7 @@ function Chart(options) {
                     .html(function() {
                         var titleText;
                         if (!!chart.chartChartTitle) {
-                            titleText = chart.chartChartTitle; // + " (Table " + tableID + ")";
+                            titleText = chart.chartChartTitle + " (Table " + tableID + ")";
                         } else {
                             titleText = "Table " + tableID;
                         }

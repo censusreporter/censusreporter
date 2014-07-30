@@ -53,7 +53,7 @@ class CensusTable(object):
     def __init__(self, fields, year='2009', id=None, universe=None, description=None):
         self.fields = fields
         self.year = year
-        self.id = id or '_'.join(get_table_name(fields, 'country').split('_')[:-1]).upper()
+        self.id = id or table_name_to_id(get_table_name(fields, 'country'))
         self.universe = universe or 'Population'
         self.description = description or (self.universe + ' by ' + ', '.join(self.fields))
         CENSUS_TABLES[self.id] = self
@@ -267,6 +267,12 @@ def get_table_name(fields, geo_level):
     table_name = TABLE_BAD_CHARS.sub('', '_'.join(sorted_fields))
 
     return '%s_%s' % (table_name[:MAX_TABLE_NAME_LENGTH], geo_level)
+
+
+def table_name_to_id(name):
+    # remove geo level at end, and change _ to - so that when showing really
+    # long table names, words wrap nicely
+    return '-'.join(name.split('_')[:-1]).upper()
 
 
 # Define our tables so the data API can discover them.

@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from api.models import Ward, Municipality, District, Province
+from api.models.census import table_name_to_id
 
 
 # dictionaries that merge_dicts will merge
@@ -160,5 +161,4 @@ def group_remainder(data, num_items=4, make_percentage=True,
 def add_metadata(data, model):
     if not 'metadata' in data:
         data['metadata'] = {}
-    
-    data['metadata']['table_id'] = model.__table__.name.split('_', 1)[0].upper()
+    data['metadata']['table_id'] = table_name_to_id(model.__table__.name)

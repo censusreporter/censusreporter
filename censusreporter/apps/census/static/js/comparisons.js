@@ -931,9 +931,9 @@ function Comparison(options) {
 
     comparison.addContainerMetadata = function() {
         // tableID and change table link
-        comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
-            .append('<a href="#" id="change-table">Change</a>');
-        comparison.$displayWrapper.find('h2').text(comparison.release.name);
+        //comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
+        //    .append('<a href="#" id="change-table">Change</a>');
+        comparison.$displayWrapper.find('h2.header-for-columns').text(comparison.release.name);
     }
 
     comparison.addPercentageDataValues = function() {
