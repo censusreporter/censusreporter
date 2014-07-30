@@ -19,7 +19,7 @@ This expects to have Underscore, D3 and jQuery.
 function Comparison(options) {
     var comparison = {
         tableSearchAPI: 'http://api.censusreporter.org/1.0/table/search',
-        geoSearchAPI: 'http://api.censusreporter.org/1.0/geo/search',
+        geoSearchAPI: '/place-search/json/',
         rootGeoAPI: 'http://api.censusreporter.org/1.0/geo/tiger2012/',
         dataAPI: '/api/1.0/data/show/latest'
     };
@@ -1042,7 +1042,7 @@ function Comparison(options) {
             filter: function(response) {
                 var results = response.results;
                 results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                    item['geo_level'] = sumlevMap[item['geo_level']]['name'];
                 });
                 return results;
             }
@@ -1211,6 +1211,9 @@ function Comparison(options) {
     }
     
     comparison.makeParentOptions = function() {
+        // XXX: not supported
+        return;
+
         // no tribbles!
         d3.selectAll('#comparison-parents').remove();
         
@@ -1254,7 +1257,7 @@ function Comparison(options) {
         // no tribbles!
         d3.selectAll('#comparison-children').remove();
 
-        if (!!comparison.primaryGeoID && comparison.thisSumlev != '150') {
+        if (!!comparison.primaryGeoID && sumlevMap[comparison.thisSumlev]['children'].length > 0) {
             var childOptionsContainer = comparison.aside.append('div')
                     .attr('class', 'aside-block hidden')
                     .attr('id', 'comparison-children');
