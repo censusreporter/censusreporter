@@ -10,7 +10,7 @@ from django.utils import simplejson
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.views.generic import View
 
-from .views import GeographyDetailView, LocateView, render_json_to_response
+from .views import GeographyDetailView as BaseGeographyDetailView, LocateView as BaseLocateView, render_json_to_response
 from .utils import LazyEncoder
 from .profile import enhance_api_data
 
@@ -29,7 +29,7 @@ def render_json_error(message, status_code=400):
     return response
 
 
-class SouthAfricaGeographyDetailView(GeographyDetailView):
+class GeographyDetailView(BaseGeographyDetailView):
     def dispatch(self, *args, **kwargs):
         self.geo_id = self.kwargs.get('geography_id', None)
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
@@ -76,7 +76,7 @@ class SouthAfricaGeographyDetailView(GeographyDetailView):
                 pass
 
 
-class SouthAfricaGeographyJsonView(SouthAfricaGeographyDetailView):
+class GeographyJsonView(GeographyDetailView):
     """ Return geo profile data as json. """
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
@@ -118,7 +118,7 @@ class WardSearchProxy(View):
         return content
 
 
-class SouthAfricaLocateView(LocateView):
+class LocateView(BaseLocateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {}
         lat = self.request.GET.get('lat', None)
