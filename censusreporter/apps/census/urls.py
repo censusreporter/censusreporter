@@ -10,7 +10,7 @@ from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch, LocateView,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
-from .wazi_views import (SouthAfricaGeographyDetailView,
+from .wazi import (SouthAfricaGeographyDetailView,
         SouthAfricaGeographyJsonView, WardSearchProxy, PlaceSearchJson,
         SouthAfricaLocateView, DataAPIView)
 
