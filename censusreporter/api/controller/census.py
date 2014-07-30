@@ -118,7 +118,6 @@ COLLAPSED_AGE_CATEGORIES = {
 # Income categories
 
 COLLAPSED_INCOME_CATEGORIES = OrderedDict()
-COLLAPSED_INCOME_CATEGORIES["Not applicable"] = "N/A"
 COLLAPSED_INCOME_CATEGORIES["No income"] = "R0"
 COLLAPSED_INCOME_CATEGORIES["R 1 - R 400"] = "Under R400"
 COLLAPSED_INCOME_CATEGORIES["R 401 - R 800"] = "R400 - R800"
@@ -416,22 +415,16 @@ def get_households_profile(geo_code, geo_level, session):
 
 def get_economics_profile(geo_code, geo_level, session):
     # income
-    key_order = COLLAPSED_INCOME_CATEGORIES.values()
-    key_order.remove('N/A')
-
     income_dist_data, total_income = get_stat_data(
-            ['individual monthly income'], geo_level, geo_code, session, percent=True,
-            table_name='individualmonthlyincome_%s_employedonly' % geo_level,
+            ['employed individual monthly income'], geo_level, geo_code, session,
             exclude=['Not applicable'],
             recode=COLLAPSED_INCOME_CATEGORIES,
-            key_order=key_order)
-    income_dist_data['metadata']['universe'] = 'Officially employed individuals'
+            key_order=COLLAPSED_INCOME_CATEGORIES.values())
 
     # employment status
     employ_status, total_workers = get_stat_data(
             ['official employment status'], geo_level, geo_code, session, percent=True,
             exclude=['Age less than 15 years', 'Not applicable'])
-    employ_status['metadata']['universe'] = 'Workers 15 and over'
 
     # sector
     sector_dist_data, _ = get_stat_data(
@@ -602,9 +595,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
 
 
 def get_education_profile(geo_code, geo_level, session):
-    db_model = get_model_from_fields(['highest educational level'], geo_level,
-                                     'highesteducationallevel_20andolder_%s'
-                                     % geo_level)
+    db_model = get_model_from_fields(['highest educational level 20 and older'], geo_level)
     objects = get_objects_by_geo(db_model, geo_code, geo_level, session)
 
     edu_dist_data = {}
@@ -612,7 +603,7 @@ def get_education_profile(geo_code, geo_level, session):
     fet_or_higher = 0.0
     total = 0.0
     for i, obj in enumerate(objects):
-        category_val = getattr(obj, 'highest educational level')
+        category_val = getattr(obj, 'highest educational level 20 and older')
         # increment counters
         total += obj.total
         if category_val in EDUCATION_GET_OR_HIGHER:

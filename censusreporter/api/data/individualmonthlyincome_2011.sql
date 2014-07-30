@@ -29,17 +29,17 @@ CREATE TABLE individualmonthlyincome_country (
 ALTER TABLE public.individualmonthlyincome_country OWNER TO census;
 
 --
--- Name: individualmonthlyincome_country_employedonly; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_country; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE individualmonthlyincome_country_employedonly (
+CREATE TABLE employedindividualmonthlyincome_country (
     total integer NOT NULL,
-    "individual monthly income" character varying(128) NOT NULL,
+    "employed individual monthly income" character varying(128) NOT NULL,
     country_code character varying(8) NOT NULL
 );
 
 
-ALTER TABLE public.individualmonthlyincome_country_employedonly OWNER TO census;
+ALTER TABLE public.employedindividualmonthlyincome_country OWNER TO census;
 
 --
 -- Name: individualmonthlyincome_district; Type: TABLE; Schema: public; Owner: census; Tablespace: 
@@ -55,17 +55,17 @@ CREATE TABLE individualmonthlyincome_district (
 ALTER TABLE public.individualmonthlyincome_district OWNER TO census;
 
 --
--- Name: individualmonthlyincome_district_employedonly; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_district; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE individualmonthlyincome_district_employedonly (
+CREATE TABLE employedindividualmonthlyincome_district (
     total integer NOT NULL,
-    "individual monthly income" character varying(128) NOT NULL,
+    "employed individual monthly income" character varying(128) NOT NULL,
     district_code character varying(8) NOT NULL
 );
 
 
-ALTER TABLE public.individualmonthlyincome_district_employedonly OWNER TO census;
+ALTER TABLE public.employedindividualmonthlyincome_district OWNER TO census;
 
 --
 -- Name: individualmonthlyincome_municipality; Type: TABLE; Schema: public; Owner: census; Tablespace: 
@@ -81,17 +81,17 @@ CREATE TABLE individualmonthlyincome_municipality (
 ALTER TABLE public.individualmonthlyincome_municipality OWNER TO census;
 
 --
--- Name: individualmonthlyincome_municipality_employedonly; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_municipality; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE individualmonthlyincome_municipality_employedonly (
+CREATE TABLE employedindividualmonthlyincome_municipality (
     total integer NOT NULL,
-    "individual monthly income" character varying(128) NOT NULL,
+    "employed individual monthly income" character varying(128) NOT NULL,
     municipality_code character varying(8) NOT NULL
 );
 
 
-ALTER TABLE public.individualmonthlyincome_municipality_employedonly OWNER TO census;
+ALTER TABLE public.employedindividualmonthlyincome_municipality OWNER TO census;
 
 --
 -- Name: individualmonthlyincome_province; Type: TABLE; Schema: public; Owner: census; Tablespace: 
@@ -107,17 +107,17 @@ CREATE TABLE individualmonthlyincome_province (
 ALTER TABLE public.individualmonthlyincome_province OWNER TO census;
 
 --
--- Name: individualmonthlyincome_province_employedonly; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: individualmonthlyincome_province; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE individualmonthlyincome_province_employedonly (
+CREATE TABLE employedindividualmonthlyincome_province (
     total integer NOT NULL,
-    "individual monthly income" character varying(128) NOT NULL,
+    "employed individual monthly income" character varying(128) NOT NULL,
     province_code character varying(8) NOT NULL
 );
 
 
-ALTER TABLE public.individualmonthlyincome_province_employedonly OWNER TO census;
+ALTER TABLE public.employedindividualmonthlyincome_province OWNER TO census;
 
 --
 -- Name: individualmonthlyincome_ward; Type: TABLE; Schema: public; Owner: census; Tablespace: 
@@ -133,17 +133,17 @@ CREATE TABLE individualmonthlyincome_ward (
 ALTER TABLE public.individualmonthlyincome_ward OWNER TO census;
 
 --
--- Name: individualmonthlyincome_ward_employedonly; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_ward; Type: TABLE; Schema: public; Owner: census; Tablespace: 
 --
 
-CREATE TABLE individualmonthlyincome_ward_employedonly (
+CREATE TABLE employedindividualmonthlyincome_ward (
     total integer NOT NULL,
-    "individual monthly income" character varying(128) NOT NULL,
+    "employed individual monthly income" character varying(128) NOT NULL,
     ward_code character varying(8) NOT NULL
 );
 
 
-ALTER TABLE public.individualmonthlyincome_ward_employedonly OWNER TO census;
+ALTER TABLE public.employedindividualmonthlyincome_ward OWNER TO census;
 
 --
 -- Data for Name: individualmonthlyincome_country; Type: TABLE DATA; Schema: public; Owner: census
@@ -168,10 +168,10 @@ COPY individualmonthlyincome_country (total, "individual monthly income", countr
 
 
 --
--- Data for Name: individualmonthlyincome_country_employedonly; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: employedindividualmonthlyincome_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY individualmonthlyincome_country_employedonly (total, "individual monthly income", country_code) FROM stdin;
+COPY employedindividualmonthlyincome_country (total, "employed individual monthly income", country_code) FROM stdin;
 1132167	No income	ZA
 419334	R 1 - R 400	ZA
 796136	R 401 - R 800	ZA
@@ -926,10 +926,10 @@ COPY individualmonthlyincome_district (total, "individual monthly income", distr
 
 
 --
--- Data for Name: individualmonthlyincome_district_employedonly; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: employedindividualmonthlyincome_district; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY individualmonthlyincome_district_employedonly (total, "individual monthly income", district_code) FROM stdin;
+COPY employedindividualmonthlyincome_district (total, "employed individual monthly income", district_code) FROM stdin;
 9585	No income	DC10
 5171	R 1 - R 400	DC10
 11956	R 401 - R 800	DC10
@@ -4946,10 +4946,10 @@ COPY individualmonthlyincome_municipality (total, "individual monthly income", m
 
 
 --
--- Data for Name: individualmonthlyincome_municipality_employedonly; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: employedindividualmonthlyincome_municipality; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY individualmonthlyincome_municipality_employedonly (total, "individual monthly income", municipality_code) FROM stdin;
+COPY employedindividualmonthlyincome_municipality (total, "employed individual monthly income", municipality_code) FROM stdin;
 696	No income	EC101
 583	R 1 - R 400	EC101
 1212	R 401 - R 800	EC101
@@ -8364,10 +8364,10 @@ COPY individualmonthlyincome_province (total, "individual monthly income", provi
 
 
 --
--- Data for Name: individualmonthlyincome_province_employedonly; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: employedindividualmonthlyincome_province; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY individualmonthlyincome_province_employedonly (total, "individual monthly income", province_code) FROM stdin;
+COPY employedindividualmonthlyincome_province (total, "employed individual monthly income", province_code) FROM stdin;
 123544	No income	EC
 47580	R 1 - R 400	EC
 93058	R 401 - R 800	EC
@@ -68384,10 +68384,10 @@ COPY individualmonthlyincome_ward (total, "individual monthly income", ward_code
 
 
 --
--- Data for Name: individualmonthlyincome_ward_employedonly; Type: TABLE DATA; Schema: public; Owner: census
+-- Data for Name: employedindividualmonthlyincome_ward; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY individualmonthlyincome_ward_employedonly (total, "individual monthly income", ward_code) FROM stdin;
+COPY employedindividualmonthlyincome_ward (total, "employed individual monthly income", ward_code) FROM stdin;
 110	No income	21001001
 93	R 1 - R 400	21001001
 191	R 401 - R 800	21001001
@@ -128270,11 +128270,11 @@ COPY individualmonthlyincome_ward_employedonly (total, "individual monthly incom
 
 
 --
--- Name: individualmonthlyincome_country_employedonly_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_country_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY individualmonthlyincome_country_employedonly
-    ADD CONSTRAINT individualmonthlyincome_country_employedonly_pkey PRIMARY KEY ("individual monthly income");
+ALTER TABLE ONLY employedindividualmonthlyincome_country
+    ADD CONSTRAINT employedindividualmonthlyincome_country_pkey PRIMARY KEY ("employed individual monthly income");
 
 
 --
@@ -128286,11 +128286,11 @@ ALTER TABLE ONLY individualmonthlyincome_country
 
 
 --
--- Name: individualmonthlyincome_district_employedonly_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_district_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY individualmonthlyincome_district_employedonly
-    ADD CONSTRAINT individualmonthlyincome_district_employedonly_pkey PRIMARY KEY ("individual monthly income", district_code);
+ALTER TABLE ONLY employedindividualmonthlyincome_district
+    ADD CONSTRAINT employedindividualmonthlyincome_district_pkey PRIMARY KEY ("employed individual monthly income", district_code);
 
 
 --
@@ -128302,11 +128302,11 @@ ALTER TABLE ONLY individualmonthlyincome_district
 
 
 --
--- Name: individualmonthlyincome_municipality_employedonly_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_municipality_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY individualmonthlyincome_municipality_employedonly
-    ADD CONSTRAINT individualmonthlyincome_municipality_employedonly_pkey PRIMARY KEY ("individual monthly income", municipality_code);
+ALTER TABLE ONLY employedindividualmonthlyincome_municipality
+    ADD CONSTRAINT employedindividualmonthlyincome_municipality_pkey PRIMARY KEY ("employed individual monthly income", municipality_code);
 
 
 --
@@ -128318,11 +128318,11 @@ ALTER TABLE ONLY individualmonthlyincome_municipality
 
 
 --
--- Name: individualmonthlyincome_province_employedonly_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_province_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY individualmonthlyincome_province_employedonly
-    ADD CONSTRAINT individualmonthlyincome_province_employedonly_pkey PRIMARY KEY ("individual monthly income", province_code);
+ALTER TABLE ONLY employedindividualmonthlyincome_province
+    ADD CONSTRAINT employedindividualmonthlyincome_province_pkey PRIMARY KEY ("employed individual monthly income", province_code);
 
 
 --
@@ -128334,11 +128334,11 @@ ALTER TABLE ONLY individualmonthlyincome_province
 
 
 --
--- Name: individualmonthlyincome_ward_employedonly_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+-- Name: employedindividualmonthlyincome_ward_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
 --
 
-ALTER TABLE ONLY individualmonthlyincome_ward_employedonly
-    ADD CONSTRAINT individualmonthlyincome_ward_employedonly_pkey PRIMARY KEY ("individual monthly income", ward_code);
+ALTER TABLE ONLY employedindividualmonthlyincome_ward
+    ADD CONSTRAINT employedindividualmonthlyincome_ward_pkey PRIMARY KEY ("employed individual monthly income", ward_code);
 
 
 --
@@ -128358,18 +128358,18 @@ ALTER TABLE ONLY individualmonthlyincome_country
 
 
 --
--- Name: individualmonthlyincome_country_employedonly_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+-- Name: employedindividualmonthlyincome_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
-ALTER TABLE ONLY individualmonthlyincome_country_employedonly
-    ADD CONSTRAINT individualmonthlyincome_country_employedonly_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
+ALTER TABLE ONLY employedindividualmonthlyincome_country
+    ADD CONSTRAINT employedindividualmonthlyincome_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --
 -- Name: individualmonthlyincome_district_EMPLOYEDONL_district_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
-ALTER TABLE ONLY individualmonthlyincome_district_employedonly
+ALTER TABLE ONLY employedindividualmonthlyincome_district
     ADD CONSTRAINT "individualmonthlyincome_district_EMPLOYEDONL_district_code_fkey" FOREIGN KEY (district_code) REFERENCES district(code);
 
 
@@ -128385,7 +128385,7 @@ ALTER TABLE ONLY individualmonthlyincome_district
 -- Name: individualmonthlyincome_municipality_EMP_municipality_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
-ALTER TABLE ONLY individualmonthlyincome_municipality_employedonly
+ALTER TABLE ONLY employedindividualmonthlyincome_municipality
     ADD CONSTRAINT "individualmonthlyincome_municipality_EMP_municipality_code_fkey" FOREIGN KEY (municipality_code) REFERENCES municipality(code);
 
 
@@ -128401,7 +128401,7 @@ ALTER TABLE ONLY individualmonthlyincome_municipality
 -- Name: individualmonthlyincome_province_EMPLOYEDONL_province_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
-ALTER TABLE ONLY individualmonthlyincome_province_employedonly
+ALTER TABLE ONLY employedindividualmonthlyincome_province
     ADD CONSTRAINT "individualmonthlyincome_province_EMPLOYEDONL_province_code_fkey" FOREIGN KEY (province_code) REFERENCES province(code);
 
 
@@ -128414,11 +128414,11 @@ ALTER TABLE ONLY individualmonthlyincome_province
 
 
 --
--- Name: individualmonthlyincome_ward_employedonly_ward_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+-- Name: employedindividualmonthlyincome_ward_ward_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
-ALTER TABLE ONLY individualmonthlyincome_ward_employedonly
-    ADD CONSTRAINT individualmonthlyincome_ward_employedonly_ward_code_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
+ALTER TABLE ONLY employedindividualmonthlyincome_ward
+    ADD CONSTRAINT employedindividualmonthlyincome_ward_ward_code_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
 
 
 --

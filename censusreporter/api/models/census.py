@@ -26,7 +26,9 @@ census_fields = set([
     'gender',
     'gender of head of household',
     'highest educational level',
+    'highest educational level 20 and older',
     'household goods',
+    'employed individual monthly income',
     'individual monthly income',
     'language',
     'marital status',
@@ -54,8 +56,8 @@ class CensusTable(object):
         self.fields = fields
         self.year = year
         self.id = id or table_name_to_id(get_table_name(fields, 'country'))
-        self.universe = universe or 'Population'
-        self.description = description or (self.universe + ' by ' + ', '.join(self.fields))
+        self.universe = universe
+        self.description = description or ((universe or 'Population') + ' by ' + ', '.join(self.fields))
         CENSUS_TABLES[self.id] = self
 
         self.setup_columns()
@@ -211,7 +213,7 @@ class CensusTable(object):
     def as_dict(self):
         return {
             'title': self.description,
-            'universe': self.universe,
+            'universe': self.universe or 'Population',
             'denominator_column_id': self.total_id,
             'columns': self.columns,
         }
@@ -289,10 +291,11 @@ CensusTable(['gender', 'marital status'])
 CensusTable(['gender', 'population group'])
 CensusTable(['gender of head of household'], universe='Households')
 CensusTable(['highest educational level'])
+CensusTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
 CensusTable(['household goods'], universe='Households')
-CensusTable(['individual monthly income'])
+CensusTable(['employed individual monthly income'], universe='Employed individuals')
 CensusTable(['language'])
-CensusTable(['official employment status'])
+CensusTable(['official employment status'], universe='Workers 15 and over')
 CensusTable(['population group'])
 CensusTable(['refuse disposal'])
 CensusTable(['source of water'])
