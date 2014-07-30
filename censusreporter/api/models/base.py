@@ -24,9 +24,10 @@ Geographic models
 class GeoMixin(object):
     def as_dict(self):
         return {
-            'full_geoid': '%s-%s' % (self.level, self.code),
+            'full_geoid': self.full_geoid,
             'full_name': self.long_name,
             'short_name': self.short_name,
+            'name': self.short_name,
             'geo_level': self.level,
             'geo_code': self.code,
             'child_level': self.child_level,
@@ -34,11 +35,12 @@ class GeoMixin(object):
 
     def as_dict_deep(self):
         parents = dict((p.level, p.as_dict()) for p in self.parents())
-        parents['ordering'] = [p.level for p in self.parents()]
+        parents_ordering = [p.level for p in self.parents()]
 
         return {
             'this': self.as_dict(),
             'parents': parents,
+            'parents_ordering': parents_ordering,
         }
 
     @property
@@ -63,6 +65,10 @@ class GeoMixin(object):
     @property
     def country(self):
         return Country.ZA()
+
+    @property
+    def full_geoid(self):
+        return '%s-%s' % (self.level, self.code)
 
     def __unicode__(self):
         return self.long_name

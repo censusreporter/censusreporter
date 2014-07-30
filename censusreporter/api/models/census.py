@@ -1,8 +1,11 @@
 import re
+from itertools import groupby
+from collections import OrderedDict
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, ForeignKey, Integer, String, Table, distinct, func
 
 from .base import Base, geo_levels
+from api.utils import get_session
 
 
 '''
@@ -14,6 +17,9 @@ census_fields = set([
     'age groups in 5 years',
     'age in completed years',
     'age of household head',
+    'electricity for cooking',
+    'electricity for heating',
+    'electricity for lighting',
     'energy or fuel for cooking',
     'energy or fuel for heating',
     'energy or fuel for lighting',
@@ -23,6 +29,7 @@ census_fields = set([
     'household goods',
     'individual monthly income',
     'language',
+    'marital status',
     'official employment status',
     'population group',
     'refuse disposal',
@@ -33,14 +40,186 @@ census_fields = set([
     'type of sector',
 ])
 
-# Postgres has a max name length of 63 by default
-MAX_TABLE_NAME_LENGTH = 63
+# Postgres has a max name length of 63 by default, reserving up to
+# 13 chars for the _municipality ending
+MAX_TABLE_NAME_LENGTH = 63-13
 
-table_bad_chars = re.compile('[ /-]')
+# Characters we strip from table names
+TABLE_BAD_CHARS = re.compile('[ /-]')
+
+CENSUS_TABLES = {}
+
+class CensusTable(object):
+    def __init__(self, fields, year='2009', id=None, universe=None, description=None):
+        self.fields = fields
+        self.year = year
+        self.id = id or '_'.join(get_table_name(fields, 'country').split('_')[:-1]).upper()
+        self.universe = universe or 'Population'
+        self.description = description or (self.universe + ' by ' + ', '.join(self.fields))
+        CENSUS_TABLES[self.id] = self
+
+        self.setup_columns()
+
+    def get_model(self, geo_level):
+        return get_model_from_fields(self.fields, geo_level)
+
+    def setup_columns(self):
+        """
+        Prepare our columns for use by +as_dict+ and the data API.
+
+        Each 'column' is actually a unique value for each of this table's +fields+.
+        """
+        model = self.get_model('country')
+
+        # Each "column" is a unique permutation of the values
+        # of this table's fields, including rollups. The ordering of the
+        # columns is important since columns heirarchical, but are returned
+        # "flat".
+        #
+        # Here's an example. Suppose our table has the following values:
+        #
+        #     5 years, male, 129
+        #     5 years, female, 131
+        #     10 years, male, 221
+        #     10 years, female, 334
+        #
+        # This would produce the following columns (indented to show nesting)
+        #
+        # 5 years
+        #   male
+        # 5 years
+        #   female
+        # 10 years
+        #   male
+        # 10 years
+        #   female
+
+        # map from column id to column info.
+        self.total_id = self.column_id(['total'])
+        self.columns = OrderedDict()
+        self.columns[self.total_id] = {'name': 'Total', 'indent': 0}
+
+        session = get_session()
+        try:
+            fields = [getattr(model, f) for f in self.fields]
+
+            # get distinct permutations for all fields
+            rows = session\
+                    .query(*fields)\
+                    .order_by(*fields)\
+                    .distinct()\
+                    .all()
+
+            def permute(indent, field_values, rows):
+                field = self.fields[indent-1]
+
+                for val, rows in groupby(rows, lambda r: getattr(r, field)):
+                    # this is used to calculate the column id
+                    new_values = field_values + [val]
+                    col_id = self.column_id(new_values)
+
+                    self.columns[col_id] = {
+                            'name': val.capitalize(),
+                            'indent': indent,
+                            }
+
+                    if indent < len(self.fields):
+                        permute(indent+1, new_values, rows)
+
+            permute(1, [], rows)
+        finally:
+            session.close()
+
+
+    def column_id(self, field_values):
+        return '-'.join([self.id] + field_values)
+
+
+
+    def raw_data_for_geos(self, geos):
+        """
+        Pull raw data for a list of geo models.
+
+        Returns a dict mapping the geo ids to table data.
+        """
+        data = {}
+
+        # group by geo level
+        geos = sorted(geos, key=lambda g: g.level)
+        for geo_level, geos in groupby(geos, lambda g: g.level):
+            model = self.get_model(geo_level)
+            geo_codes = [g.code for g in geos]
+            code = '%s_code' % geo_level
+            code_attr = getattr(model, code)
+
+            # initial values
+            for geo_code in geo_codes:
+                data['%s-%s' % (geo_level, geo_code)] = {
+                    'estimate': {},
+                    'error': {}}
+
+            session = get_session()
+            try:
+                geo_values = None
+                fields = [getattr(model, f) for f in self.fields]
+                rows = session\
+                        .query(code_attr,
+                               func.sum(model.total).label('total'),
+                               *fields)\
+                        .group_by(code_attr, *fields)\
+                        .order_by(code_attr, *fields)\
+                        .filter(code_attr.in_(geo_codes)).all()
+
+                def permute(level, field_values, rows):
+                    field = self.fields[level]
+                    total = 0
+
+                    for val, rows in groupby(rows, lambda r: getattr(r, field)):
+                        new_values = field_values + [val]
+                        col_id = self.column_id(new_values)
+
+                        if level+1 < len(self.fields):
+                            count = permute(level+1, new_values, rows)
+                        else:
+                            # we've bottomed out
+                            count = sum(row.total for row in rows)
+
+                        total += count
+                        geo_values['estimate'][col_id] = count
+                        geo_values['error'][col_id] = 0
+
+                    return total
+
+
+                # rows for each geo
+                for geo_code, geo_rows in groupby(rows, lambda r: getattr(r, code)):
+                    geo_values = data['%s-%s' % (geo_level, geo_code)]
+                    total = permute(0, [], geo_rows)
+
+                    # total
+                    geo_values['estimate'][self.total_id] = total
+                    geo_values['error'][self.total_id] = 0
+
+            finally:
+                session.close()
+
+        return data
+
+
+    def as_dict(self):
+        return {
+            'title': self.description,
+            'universe': self.universe,
+            'denominator_column_id': self.total_id,
+            'columns': self.columns,
+        }
+
+    @classmethod
+    def get(cls, id):
+        return CENSUS_TABLES[id.upper()]
 
 
 _census_table_models = {}
-
 
 def get_model_from_fields(fields, geo_level, table_name=None):
     '''
@@ -83,13 +262,33 @@ def get_table_name(fields, geo_level):
             raise ValueError('Invalid field: %s' % field)
 
     sorted_fields = sorted(fields)
-    table_name = table_bad_chars.sub('', '_'.join(sorted_fields))
-    table_name_length = len(table_name) + len(geo_level) + 1
+    table_name = TABLE_BAD_CHARS.sub('', '_'.join(sorted_fields))
 
-    if table_name_length > MAX_TABLE_NAME_LENGTH:
-        if table_name_length - len(sorted_fields[-1]) + 1 > MAX_TABLE_NAME_LENGTH:
-            raise RuntimeError("Table name exceeds %s characters"
-                               % MAX_TABLE_NAME_LENGTH)
-        table_name = table_name[:MAX_TABLE_NAME_LENGTH - table_name_length]
+    return '%s_%s' % (table_name[:MAX_TABLE_NAME_LENGTH], geo_level)
 
-    return '%s_%s' % (table_name, geo_level)
+
+# Define our tables so the data API can discover them.
+CensusTable(['access to internet'])
+CensusTable(['age groups in 5 years'])
+CensusTable(['age in completed years'])
+CensusTable(['age of household head'], universe='Households')
+CensusTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
+CensusTable(['energy or fuel for cooking'])
+CensusTable(['energy or fuel for heating'])
+CensusTable(['energy or fuel for lighting'])
+CensusTable(['gender'])
+CensusTable(['gender', 'marital status'])
+CensusTable(['gender', 'population group'])
+CensusTable(['gender of head of household'], universe='Households')
+CensusTable(['highest educational level'])
+CensusTable(['household goods'], universe='Households')
+CensusTable(['individual monthly income'])
+CensusTable(['language'])
+CensusTable(['official employment status'])
+CensusTable(['population group'])
+CensusTable(['refuse disposal'])
+CensusTable(['source of water'])
+CensusTable(['tenure status'], universe='Households')
+CensusTable(['toilet facilities'])
+CensusTable(['type of dwelling'], universe='Households')
+CensusTable(['type of sector'])

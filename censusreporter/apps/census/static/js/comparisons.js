@@ -21,7 +21,7 @@ function Comparison(options) {
         tableSearchAPI: 'http://api.censusreporter.org/1.0/table/search',
         geoSearchAPI: 'http://api.censusreporter.org/1.0/geo/search',
         rootGeoAPI: 'http://api.censusreporter.org/1.0/geo/tiger2012/',
-        dataAPI: 'http://api.censusreporter.org/1.0/data/show/latest'
+        dataAPI: '/api/1.0/data/show/latest'
     };
     
     comparison.init = function(options) {
@@ -512,7 +512,7 @@ function Comparison(options) {
                 layer.bindLabel(label, {className: 'hovercard', direction: 'auto'});
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
-                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                    window.location.href = '/profiles/' + feature.properties.geoid;
                 });
             }
         });
@@ -575,7 +575,7 @@ function Comparison(options) {
         comparison.sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = (comparison.data.geography[geoID]) ? comparison.data.geography[geoID].name : 'N/A';
-            gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '">' + geoName + '</a>');
+            gridHeaderBits.push('<a href="/profiles/' + geoID + '">' + geoName + '</a>');
         })
 
         comparison.gridData.Head = [gridHeaderBits];
@@ -1035,7 +1035,7 @@ function Comparison(options) {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
         remote: {
-            url: geoSearchAPI,
+            url: comparison.geoSearchAPI,
             replace: function (url, query) {
                 return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
             },

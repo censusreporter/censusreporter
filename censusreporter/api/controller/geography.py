@@ -17,11 +17,11 @@ def get_geography(geo_code, geo_level):
         try:
             model = get_geo_model(geo_level)
         except KeyError:
-            raise LocationNotFound(geo_code)
+            raise LocationNotFound('Invalid level: %s' % geo_level)
 
         geo = session.query(model).get(geo_code)
         if not geo:
-            raise LocationNotFound(geo_code)
+            raise LocationNotFound('Invalid level and code: %s-%s' % (geo_level, geo_code))
 
         return geo
     finally:

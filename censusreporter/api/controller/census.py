@@ -498,8 +498,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     elec_attrs = ['electricity for cooking',
                   'electricity for heating',
                   'electricity for lighting']
-    db_model_elec = get_model_from_fields(elec_attrs, geo_level,
-                                          'electricityavailability_%s' % geo_level)
+    db_model_elec = get_model_from_fields(elec_attrs, geo_level)
     objects = get_objects_by_geo(db_model_elec, geo_code, geo_level, session)
     total_elec = 0.0
     total_some_elec = 0.0

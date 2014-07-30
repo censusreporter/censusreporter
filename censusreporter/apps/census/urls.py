@@ -10,7 +10,9 @@ from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch, LocateView,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
-from .wazi_views import SouthAfricaGeographyDetailView, SouthAfricaGeographyJsonView, WardSearchProxy, PlaceSearchJson, SouthAfricaLocateView
+from .wazi_views import (SouthAfricaGeographyDetailView,
+        SouthAfricaGeographyJsonView, WardSearchProxy, PlaceSearchJson,
+        SouthAfricaLocateView, DataAPIView)
 
 admin.autodiscover()
 
@@ -43,6 +45,14 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(SouthAfricaGeographyJsonView.as_view()),
         kwargs  = {},
         name    = 'geography_json',
+    ),
+
+    # Custom data api
+    url(
+        regex   = '^api/1.0/data/show/latest$',
+        view    = cache_page(STANDARD_CACHE_TIME)(DataAPIView.as_view()),
+        kwargs  = {},
+        name    = 'api_show_data',
     ),
 
     # TODO enable this see: https://github.com/Code4SA/censusreporter/issues/31

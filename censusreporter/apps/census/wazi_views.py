@@ -14,9 +14,20 @@ from .views import GeographyDetailView, LocateView, render_json_to_response
 from .utils import LazyEncoder
 from .profile import enhance_api_data
 
-from api import LocationNotFound
-from api.controller import (get_census_profile, get_geography, get_locations,
-                            get_locations_from_coords, get_elections_profile)
+from api.models.census import CensusTable
+from api.controller import get_census_profile, get_geography, get_locations, get_locations_from_coords, get_elections_profile
+from api.utils import LocationNotFound
+
+
+def render_json_error(message, status_code=400):
+    '''
+    Utility method for rendering a view's data to JSON response.
+    '''
+    result = simplejson.dumps({'error': message}, indent=4)
+    response = HttpResponse(result, mimetype='application/javascript')
+    response.status_code = status_code
+    return response
+
 
 class SouthAfricaGeographyDetailView(GeographyDetailView):
     def dispatch(self, *args, **kwargs):
@@ -124,3 +135,63 @@ class SouthAfricaLocateView(LocateView):
             })
 
         return page_context
+
+
+class DataAPIView(View):
+    """ 
+    View that provides an API for census table information, mimicking that
+    of the Censusreporter API described at https://github.com/censusreporter/census-api#get-10datashowacs
+
+    An example call:
+
+    http://api.censusreporter.org/1.0/data/show/latest?table_ids=B17001&geo_ids=04000US36%2C01000US
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            geo_ids = request.GET.get('geo_ids', 'country-ZA').split(',')
+            geos = self.get_geos(geo_ids)
+        except LocationNotFound as e:
+            return render_json_error(e.message, 404)
+
+        try:
+            table_ids = request.GET.get('table_ids', '').split(',')
+            tables = [CensusTable.get(t) for t in table_ids]
+        except KeyError as e:
+            return render_json_error('Unknown table: %s' % e.message, 404)
+
+        data = self.get_data(geos, tables)
+
+        return render_json_to_response({
+            'release': {
+                'id': 'census_2009',
+                'name': 'Census 2009',
+                'years': '2009',
+            },
+            'tables': dict((t.id, t.as_dict()) for t in tables),
+            'data': data,
+            'geography': dict((g.full_geoid, g.as_dict()) for g in geos),
+            })
+
+    def get_geos(self, geo_ids):
+        geos = []
+        for geo_id in geo_ids:
+            if not '-' in geo_id:
+                raise LocationNotFound('Invalid geo id: %s' % geo_id)
+
+            level, code = geo_id.split('-', 1)
+            geos.append(get_geography(code, level))
+
+        return geos
+
+    
+    def get_data(self, geos, tables):
+        data = {}
+
+        for table in tables:
+            for geo_id, table_data in table.raw_data_for_geos(geos).iteritems():
+                data.setdefault(geo_id, {})[table.id] = table_data
+
+        return data
+
+

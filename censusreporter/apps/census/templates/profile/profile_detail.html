@@ -31,7 +31,7 @@
                   {{ geography.this.geo_level|capfirst }}
                   {% if geography.this.geo_level != 'country' %}
                       in
-                      {% for level in geography.parents.ordering %}
+                      {% for level in geography.parents_ordering %}
                         {% with g=geography.parents|get:level %}
                           <a href="/profiles/{{ g.full_geoid }}/">{{ g.short_name }}</a>{% if not forloop.last %},{%endif%}
                         {% endwith %}
