@@ -25,8 +25,8 @@ def provision_api():
 
     if env.deploy_type == 'dev':
         local('; '.join('sudo %s' % cmd for cmd in commands))
-        return
-    sudo('; '.join(commands))
+    else:
+        sudo('; '.join(commands))
 
     create_api_database()
     load_api_data()
@@ -40,11 +40,11 @@ def create_api_database():
     create_db = "CREATE DATABASE %s WITH OWNER %s ENCODING 'UTF8' TEMPLATE template0" % (DB_NAME, DB_USER)
 
     if env.deploy_type == 'dev':
-        local('echo "%s" | sudo -u postgres psql' % create_user)
-        local('echo "%s" | sudo -u postgres psql' % create_db)
-        return
-    sudo('echo "%s" | psql' % create_user, user='postgres')
-    sudo('echo "%s" | psql' % create_db, user='postgres')
+        local('echo "%s" | psql' % create_user)
+        local('echo "%s" | psql' % create_db)
+    else:
+        sudo('echo "%s" | psql' % create_user, user='postgres')
+        sudo('echo "%s" | psql' % create_db, user='postgres')
 
 
 @task
@@ -52,9 +52,9 @@ def drop_api_database():
     require('deploy_type')
 
     if env.deploy_type == 'dev':
-        local('echo "DROP DATABASE %s" | sudo -u postgres psql' % DB_NAME)
-        return
-    sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user='postgres')
+        local('echo "DROP DATABASE %s" | psql' % DB_NAME)
+    else:
+        sudo('echo "DROP DATABASE %s" | psql' % DB_NAME, user='postgres')
 
 
 @task

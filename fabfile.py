@@ -46,6 +46,7 @@ def prod():
     env.hosts = PROD_HOSTS
     env.user = 'mma'
     env.repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
+    env.embed_dir = os.path.join(env.deploy_dir, 'embed_data/profiles/')
 
 
 @task
@@ -72,6 +73,7 @@ def provision():
     sudo('apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
     sudo('npm config set registry http://registry.npmjs.org/')
     sudo('npm -g install yuglify')
+    sudo('mv -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available')
 
     provision_api()
 
@@ -117,15 +119,19 @@ def deploy():
     # make sure logging dir exists and update processes
     log_dir = os.path.join(env.deploy_dir, LOG_DIR)
     sudo('mkdir -p %s' % log_dir, user=env.deploy_user)
+    sudo('chown -R %s:%s %s' % (env.deploy_user, env.deploy_user, env.deploy_dir))
 
     cache_dir = '/var/tmp/censusreporter_cache/'
     sudo('mkdir -p %s' % cache_dir, user=env.deploy_user)
+    sudo('mkdir -p %s' % env.embed_dir, user=env.deploy_user)
 
-    embed_dir = os.path.join(env.deploy_dir, '/embed_data/profiles/')
-    sudo('mkdir -p %s' % embed_dir, user=env.deploy_user)
+    sudo('initctl reload-configuration')
 
-    sudo('initctl reload')
-    sudo('initctl restart censusreporter')
+    # on first install, a simple restart will fail. so always force a stop (which can fail)
+    # and then start
+    sudo('initctl stop censusreporter', quiet=True)
+    sudo('initctl start censusreporter')
+
     sudo('/etc/init.d/nginx reload')
 
 
@@ -135,8 +141,8 @@ def get_nginx_template_context():
         'embed-server-name': EMBED_URL,
         'server-aliases': SERVER_ALIASES,
         'server-port': 80,
-        'static-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/static/'),
-        'embed-data-path': os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed_data/'),
+        'static-path': os.path.join(env.repo_dir, 'censusreporter/static/'),
+        'embed-data-path': env.embed_dir,
         'log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.log'),
         'err-log': os.path.join(env.deploy_dir, LOG_DIR, 'nginx.err'),
         'proxy-host': PROXY_HOST,
