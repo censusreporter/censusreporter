@@ -6,7 +6,7 @@
             <li><a data-format="distribution" class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
         </ul>
     </div>
-    <div class="tool-group toggle-sub-group">
+    <div class="tool-group toggle-sub-group" style="display: none">
         <a href="#">
             Download data
         </a>
