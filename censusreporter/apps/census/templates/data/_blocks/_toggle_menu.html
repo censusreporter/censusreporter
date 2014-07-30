@@ -2,7 +2,9 @@
     <div class="tool-group">
         <ul id="data-view-toggles" class="toggle-set">
             <li><a data-format="table" class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
+            {% comment %}
             <li><a data-format="map" class="{% if data_format == 'map' %}active{% endif %}" href="{% url 'data_detail' 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
+            {% endcomment %}
             <li><a data-format="distribution" class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
         </ul>
     </div>
