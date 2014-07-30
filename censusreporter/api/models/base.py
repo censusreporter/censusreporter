@@ -1,6 +1,10 @@
+from itertools import chain
+
 from sqlalchemy import Column, ForeignKey, SmallInteger, String
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship
+
+from api.utils import get_session
 
 
 class Base(object):
@@ -43,6 +47,31 @@ class GeoMixin(object):
             'parents_ordering': parents_ordering,
         }
 
+    def children(self):
+        if not self.child_level:
+            return []
+
+        session = get_session()
+        try:
+            model = get_geo_model(self.child_level)
+            return session.query(model).filter(getattr(model, '%s_code' % self.level) == self.code).all()
+        finally:
+            session.close()
+
+    def split_into(self, level):
+        if not level in geo_levels:
+            raise ValueError(level)
+
+        kids = self.children()
+        if level == self.child_level:
+            return kids
+        else:
+            splits = []
+            for k in kids:
+                splits.extend(k.split_into(level))
+            return splits
+        
+
     @property
     def short_name(self):
         return getattr(self, 'name', '')
@@ -83,7 +112,7 @@ class Ward(Base, GeoMixin):
     # municipalities/districts were introduced
     # governed by the Municipal Demarcation Board (http://www.demarcation.org.za/)
     year = Column(String(4), index=True, nullable=False)
-    muni_code = Column(String(8), ForeignKey('municipality.code'))
+    municipality_code = Column(String(8), ForeignKey('municipality.code'))
     district_code = Column(String(8), ForeignKey('district.code'))
     province_code = Column(String(3), ForeignKey('province.code'))
 
@@ -197,7 +226,7 @@ class Subplace(Base):
     mainplace_name = Column(String(50), index=True, nullable=False)
     mainplace_code = Column(String(8), nullable=False)
     ward_code = Column(String(8), ForeignKey('ward.code'), nullable=False)
-    muni_code = Column(String(8), ForeignKey('municipality.code'), nullable=False)
+    municipality_code = Column(String(8), ForeignKey('municipality.code'), nullable=False)
     district_code = Column(String(8), ForeignKey('district.code'), nullable=False)
     province_code = Column(String(3), ForeignKey('province.code'), nullable=False)
     # same as the year of the constituent wards

@@ -77,7 +77,7 @@ function Comparison(options) {
         comparison.table = comparison.data.tables[comparison.tableID];
         comparison.release = comparison.data.release;
         comparison.values = comparison.data.data;
-        comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.substr(0,3) : null;
+        comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.split('-')[0] : null;
         comparison.statType = comparison.getStatType(),
         comparison.sortedPlaces = comparison.getSortedPlaces('name');
 
@@ -1613,8 +1613,13 @@ function Comparison(options) {
     comparison.makeSumlevMap = function() {
         var sumlevSets = {};
         _.each(comparison.geoIDs, function(i) {
-            var thisSumlev = i.slice(0, 3),
+            var thisSumlev = i.split('-')[0],
+                barPosn = thisSumlev.indexOf('|'),
                 thisName;
+            if (barPosn > -1) {
+                thisSumlev = thisSumlev.substring(0, barPosn);
+            }
+
             sumlevSets[thisSumlev] = sumlevSets[thisSumlev] || {};
             sumlevSets[thisSumlev]['selections'] = sumlevSets[thisSumlev]['selections'] || [];
             
@@ -1627,7 +1632,7 @@ function Comparison(options) {
             sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i, 'sumlev': thisSumlev})
         });
         _.each(_.keys(comparison.data.data), function(i) {
-            var thisSumlev = i.slice(0, 3);
+            var thisSumlev = i.split('-')[0];
             sumlevSets[thisSumlev]['count'] = sumlevSets[thisSumlev]['count'] || 0;
             sumlevSets[thisSumlev]['count'] += 1;
         });

@@ -77,7 +77,7 @@ ALTER TABLE public.province OWNER TO census;
 CREATE TABLE ward (
     code character varying(8) NOT NULL,
     ward_no smallint NOT NULL,
-    muni_code character varying(8),
+    municipality_code character varying(8),
     district_code character varying(8),
     province_code character varying(3),
     year character varying(4) NOT NULL
@@ -417,7 +417,7 @@ WC	Western Cape	SF11	2011
 -- Data for Name: ward; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY ward (code, ward_no, muni_code, district_code, province_code, year) FROM stdin;
+COPY ward (code, ward_no, municipality_code, district_code, province_code, year) FROM stdin;
 10101001	1	WC011	DC1	WC	2011
 10101002	2	WC011	DC1	WC	2011
 10101003	3	WC011	DC1	WC	2011
@@ -4824,11 +4824,11 @@ ALTER TABLE ONLY ward
 
 
 --
--- Name: ward_muni_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+-- Name: ward_municipality_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
 ALTER TABLE ONLY ward
-    ADD CONSTRAINT ward_muni_code_fkey FOREIGN KEY (muni_code) REFERENCES municipality(code);
+    ADD CONSTRAINT ward_municipality_code_fkey FOREIGN KEY (municipality_code) REFERENCES municipality(code);
 
 
 --

@@ -176,11 +176,27 @@ class DataAPIView(View):
     def get_geos(self, geo_ids):
         geos = []
         for geo_id in geo_ids:
+            # either country-KE or level|country-KE, which indicates
+            # we must break country-KE into +levels+
             if not '-' in geo_id:
                 raise LocationNotFound('Invalid geo id: %s' % geo_id)
 
             level, code = geo_id.split('-', 1)
-            geos.append(get_geography(code, level))
+
+            split_level = None
+            if '|' in level:
+                split_level, level = level.split('|', 1)
+
+            geo = get_geography(code, level)
+
+            if split_level:
+                # break geo down further
+                try:
+                    geos.extend(geo.split_into(split_level))
+                except ValueError as e:
+                    raise LocationNotFound('Invalid geo level: %s' % split_level)
+            else:
+                geos.append(geo)
 
         return geos
 
