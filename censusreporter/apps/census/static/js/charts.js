@@ -931,7 +931,7 @@ function Chart(options) {
                         } else {
                             titleText = "Table " + tableID;
                         }
-                        return titleText; // + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
+                        return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")
