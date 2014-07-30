@@ -85,13 +85,13 @@ class CensusTable(object):
         #
         # This would produce the following columns (indented to show nesting)
         #
-        # 5 years
+        # 5 years:
         #   male
-        # 5 years
+        # 5 years:
         #   female
-        # 10 years
+        # 10 years:
         #   male
-        # 10 years
+        # 10 years:
         #   female
 
         # map from column id to column info.
@@ -112,6 +112,7 @@ class CensusTable(object):
 
             def permute(indent, field_values, rows):
                 field = self.fields[indent-1]
+                last = indent == len(self.fields)
 
                 for val, rows in groupby(rows, lambda r: getattr(r, field)):
                     # this is used to calculate the column id
@@ -119,12 +120,13 @@ class CensusTable(object):
                     col_id = self.column_id(new_values)
 
                     self.columns[col_id] = {
-                            'name': val.capitalize(),
+                            'name': val.capitalize() + ('' if last else ':'),
                             'indent': indent,
                             }
 
-                    if indent < len(self.fields):
+                    if not last:
                         permute(indent+1, new_values, rows)
+
 
             permute(1, [], rows)
         finally:
