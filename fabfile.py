@@ -34,6 +34,7 @@ def dev():
     env.deploy_user = pwd.getpwuid(os.getuid())[0]
     env.deploy_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../')
     env.branch = None  # deploy whichever branch we are currently on
+    env.repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
 
 
 @task
@@ -44,6 +45,7 @@ def prod():
     env.branch = 'master'
     env.hosts = PROD_HOSTS
     env.user = 'mma'
+    env.repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
 
 
 @task
@@ -51,7 +53,7 @@ def provision():
     require('deploy_type', provided_by=[dev, prod])
 
     commands = (
-        'apt-get install %s --no-upgrade' % ' '.join(PACKAGES),
+        'apt-get install --yes --no-upgrade %s' % ' '.join(PACKAGES),
     )
     if env.deploy_type == 'prod':
         commands += (
@@ -65,10 +67,15 @@ def provision():
         local('sudo npm config set registry http://registry.npmjs.org/')
         local('sudo npm -g install yuglify')
         return
+
     sudo('; '.join(commands))
     sudo('apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
     sudo('npm config set registry http://registry.npmjs.org/')
     sudo('npm -g install yuglify')
+
+    provision_api()
+
+    git_checkout()
 
 
 @task
@@ -76,11 +83,10 @@ def deploy():
     require('deploy_type', 'deploy_user', 'deploy_dir', 'branch',
             provided_by=[dev, prod])
 
-    repo_dir = os.path.join(env.deploy_dir, CODE_DIR)
     ve_dir = os.path.join(env.deploy_dir, VIRTUALENV_DIR)
 
     if env.deploy_type == 'dev':
-        with lcd(repo_dir):
+        with lcd(env.repo_dir):
             local('git pull')
             local('. ~/.virtualenvs/%s/bin/activate && pip install -r requirements.txt'
                   % CODE_DIR)
@@ -89,21 +95,14 @@ def deploy():
     if not exists(ve_dir):
         sudo('virtualenv -p python2.7 %s' % ve_dir, user=env.deploy_user)
 
-    if not exists(repo_dir):
-        with cd(env.deploy_dir):
-            sudo('git clone -b %s https://github.com/Code4SA/censusreporter.git'
-                 % env.branch, user=env.deploy_user)
-    else:
-        with cd(repo_dir):
-            sudo('git checkout -B %s' % env.branch, user=env.deploy_user)
-            sudo('git pull origin %s' % env.branch, user=env.deploy_user)
+    git_checkout()
 
     # upload pth file to manage python path
     upload_template(os.path.join(os.path.dirname(__file__), 'conf/pythonpath.template'),
                     '%s/lib/python2.7/site-packages/censusreporter.pth' % ve_dir,
-                    {'project-dir': repo_dir}, use_sudo=True, backup=False)
+                    {'project-dir': env.repo_dir}, use_sudo=True, backup=False)
 
-    with cd(repo_dir), prefix('. ../%s/bin/activate' % VIRTUALENV_DIR):
+    with cd(env.repo_dir), prefix('. ../%s/bin/activate' % VIRTUALENV_DIR):
         sudo('pip install -r requirements.txt', user=env.deploy_user)
         sudo('python manage.py collectstatic --settings=config.prod.settings '
              '--noinput', user=env.deploy_user)
@@ -122,9 +121,10 @@ def deploy():
     cache_dir = '/var/tmp/censusreporter_cache/'
     sudo('mkdir -p %s' % cache_dir, user=env.deploy_user)
 
-    embed_dir = os.path.join(env.deploy_dir, 'censusreporter/censusreporter/embed_data/profiles/')
+    embed_dir = os.path.join(env.deploy_dir, '/embed_data/profiles/')
     sudo('mkdir -p %s' % embed_dir, user=env.deploy_user)
 
+    sudo('initctl reload')
     sudo('initctl restart censusreporter')
     sudo('/etc/init.d/nginx reload')
 
@@ -154,3 +154,13 @@ def get_upstart_template_context():
         'host': PROXY_HOST,
         'port': PROXY_PORT,
     }
+
+def git_checkout():
+    if not exists(env.repo_dir):
+        with cd(env.deploy_dir):
+            sudo('git clone -b %s https://github.com/Code4SA/censusreporter.git'
+                 % env.branch, user=env.deploy_user)
+    else:
+        with cd(env.repo_dir):
+            sudo('git checkout -B %s' % env.branch, user=env.deploy_user)
+            sudo('git pull origin %s' % env.branch, user=env.deploy_user)

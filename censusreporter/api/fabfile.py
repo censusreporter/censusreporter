@@ -1,10 +1,10 @@
 import os
-from fabric.api import env, task, require, local, sudo, execute
+from fabric.api import env, task, require, local, sudo, execute, run
 
 from api.config import DB_USER, DB_NAME, DB_PASSWORD
 
 
-DATA_DIR = 'censusreporter/censusreporter/api/data'
+DATA_DIR = 'censusreporter/api/data'
 PSQL_STRING = 'PGPASSWORD=%s psql -d %s -U %s -h localhost' \
               % (DB_PASSWORD, DB_NAME, DB_USER)
 PACKAGES = (
@@ -27,6 +27,9 @@ def provision_api():
         local('; '.join('sudo %s' % cmd for cmd in commands))
         return
     sudo('; '.join(commands))
+
+    create_api_database()
+    load_api_data()
 
 
 @task
@@ -56,9 +59,9 @@ def drop_api_database():
 
 @task
 def load_api_data():
-    require('deploy_type', 'deploy_dir')
+    require('deploy_type', 'repo_dir')
 
-    data_dir_abs = os.path.join(env.deploy_dir, DATA_DIR)
+    data_dir_abs = os.path.join(env.repo_dir, DATA_DIR)
     commands = (
         '%s -f %s/demarcation_2011.sql' % (PSQL_STRING, data_dir_abs),
         'for fp in `ls %s/*.tar.gz | xargs`; do tar -xvzf ${fp} -C %s/; done'
@@ -72,16 +75,15 @@ def load_api_data():
         local('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
         local('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
         local('rm -r %s/votes' % data_dir_abs)
-        return
-    sudo('; '.join(commands))
-    sudo('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
-    sudo('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
-    sudo('rm -r %s/votes' % data_dir_abs)
-    return
+    else:
+        run('; '.join(commands))
+        run('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
+        run('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
+        run('rm -r %s/votes' % data_dir_abs)
 
 @task
 def reload_api_data():
-    require('deploy_type', 'deploy_dir')
+    require('deploy_type')
 
     sudo('initctl stop censusreporter')
 

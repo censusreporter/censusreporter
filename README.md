@@ -222,9 +222,9 @@ needed for rendering embedded graphs are automatically pushed to the S3 bucket e
 new profile is accessed on the censusreporter site.
 
 Deployment
-----------
+==========
 
-Deployments are done from the code on GitHub, NOT the code on your local machine.
+Once installed, deployments are done from the code on GitHub, NOT the code on your local machine.
 So be sure to run `git push` before deploying.
 
 To deploy to an already provisioned machine, run:
@@ -234,3 +234,21 @@ To deploy to an already provisioned machine, run:
 To reload all stats data, run:
 
     >> fab prod deploy reload_api_data
+
+Provisioning a new server
+-------------------------
+
+To setup a new installation, you'll need an Ubuntu server.
+
+First create a user with passwordless sudo permissions called `mma` and ensure you can login to it using your ssh key.
+Configure options in `fabfile.py`, in particular set the `PROD_HOSTS` correctly.
+
+Install dependencies and the database by running:
+
+    >> fab prod provision
+
+Do an initial deployment.
+
+    >> fab prod deploy
+
+And the website should be up!
