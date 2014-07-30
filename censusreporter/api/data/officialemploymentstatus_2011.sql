@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE officialemploymentstatus_country (
     total integer NOT NULL,
-    "official employment status" character varying(128) NOT NULL
+    "official employment status" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,13 +84,13 @@ ALTER TABLE public.officialemploymentstatus_ward OWNER TO census;
 -- Data for Name: officialemploymentstatus_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY officialemploymentstatus_country (total, "official employment status") FROM stdin;
-13180077	Employed
-5594055	Unemployed
-1835092	Discouraged work-seeker
-13295256	Other not economically active
-0	Age less than 15 years
-17866080	Not applicable
+COPY officialemploymentstatus_country (total, "official employment status", country_code) FROM stdin;
+13180077	Employed	ZA
+5594055	Unemployed	ZA
+1835092	Discouraged work-seeker	ZA
+13295256	Other not economically active	ZA
+0	Age less than 15 years	ZA
+17866080	Not applicable	ZA
 \.
 
 
@@ -27594,6 +27596,14 @@ ALTER TABLE ONLY officialemploymentstatus_province
 
 ALTER TABLE ONLY officialemploymentstatus_ward
     ADD CONSTRAINT officialemploymentstatus_ward_pkey PRIMARY KEY ("official employment status", ward_code);
+
+
+--
+-- Name: officialemploymentstatus_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY officialemploymentstatus_country
+    ADD CONSTRAINT officialemploymentstatus_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

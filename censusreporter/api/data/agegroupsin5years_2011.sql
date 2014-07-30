@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE agegroupsin5years_country (
     total integer NOT NULL,
-    "age groups in 5 years" character varying(128) NOT NULL
+    "age groups in 5 years" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,25 +84,25 @@ ALTER TABLE public.agegroupsin5years_ward OWNER TO census;
 -- Data for Name: agegroupsin5years_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY agegroupsin5years_country (total, "age groups in 5 years") FROM stdin;
-5685452	00 - 04
-4819751	05 - 09
-4594886	10 - 14
-5003477	15 - 19
-5374542	20 - 24
-5059317	25 - 29
-4029010	30 - 34
-3467767	35 - 39
-2948618	40 - 44
-2620283	45 - 49
-2218289	50 - 54
-1797408	55 - 59
-1385768	60 - 64
-957805	65 - 69
-748331	70 - 74
-481267	75 - 79
-322916	80 - 84
-255673	85+
+COPY agegroupsin5years_country (total, "age groups in 5 years", country_code) FROM stdin;
+5685452	00 - 04	ZA
+4819751	05 - 09	ZA
+4594886	10 - 14	ZA
+5003477	15 - 19	ZA
+5374542	20 - 24	ZA
+5059317	25 - 29	ZA
+4029010	30 - 34	ZA
+3467767	35 - 39	ZA
+2948618	40 - 44	ZA
+2620283	45 - 49	ZA
+2218289	50 - 54	ZA
+1797408	55 - 59	ZA
+1385768	60 - 64	ZA
+957805	65 - 69	ZA
+748331	70 - 74	ZA
+481267	75 - 79	ZA
+322916	80 - 84	ZA
+255673	85+	ZA
 \.
 
 
@@ -82470,6 +82472,14 @@ ALTER TABLE ONLY agegroupsin5years_province
 
 ALTER TABLE ONLY agegroupsin5years_ward
     ADD CONSTRAINT agegroupsin5years_ward_pkey PRIMARY KEY ("age groups in 5 years", ward_code);
+
+
+--
+-- Name: agegroupsin5years_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY agegroupsin5years_country
+    ADD CONSTRAINT agegroupsin5years_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

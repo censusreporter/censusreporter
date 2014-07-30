@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE sourceofwater_country (
     total integer NOT NULL,
-    "source of water" character varying(128) NOT NULL
+    "source of water" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,17 +84,17 @@ ALTER TABLE public.sourceofwater_ward OWNER TO census;
 -- Data for Name: sourceofwater_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY sourceofwater_country (total, "source of water") FROM stdin;
-39807757	Regional/local water scheme (operated by municipality or other water services provider)
-3229413	Borehole
-787121	Spring
-548953	Rain water tank
-911333	Dam/pool/stagnant water
-3077297	River/stream
-668149	Water vendor
-1382835	Water tanker
-1298645	Other
-59057	Not applicable
+COPY sourceofwater_country (total, "source of water", country_code) FROM stdin;
+39807757	Regional/local water scheme (operated by municipality or other water services provider)	ZA
+3229413	Borehole	ZA
+787121	Spring	ZA
+548953	Rain water tank	ZA
+911333	Dam/pool/stagnant water	ZA
+3077297	River/stream	ZA
+668149	Water vendor	ZA
+1382835	Water tanker	ZA
+1298645	Other	ZA
+59057	Not applicable	ZA
 \.
 
 
@@ -45886,6 +45888,14 @@ ALTER TABLE ONLY sourceofwater_province
 
 ALTER TABLE ONLY sourceofwater_ward
     ADD CONSTRAINT sourceofwater_ward_pkey PRIMARY KEY ("source of water", ward_code);
+
+
+--
+-- Name: sourceofwater_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY sourceofwater_country
+    ADD CONSTRAINT sourceofwater_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

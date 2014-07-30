@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -22,7 +23,8 @@ CREATE TABLE electricityavailability_country (
     total integer NOT NULL,
     "electricity for cooking" character varying(128) NOT NULL,
     "electricity for heating" character varying(128) NOT NULL,
-    "electricity for lighting" character varying(128) NOT NULL
+    "electricity for lighting" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -92,15 +94,15 @@ ALTER TABLE public.electricityavailability_ward OWNER TO census;
 -- Data for Name: electricityavailability_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY electricityavailability_country (total, "electricity for cooking", "electricity for heating", "electricity for lighting") FROM stdin;
-2120974	No	No	No
-1258904	No	No	Yes
-23142	No	Yes	No
-372047	No	Yes	Yes
-38863	Yes	No	No
-2528311	Yes	No	Yes
-24780	Yes	Yes	No
-8083139	Yes	Yes	Yes
+COPY electricityavailability_country (total, "electricity for cooking", "electricity for heating", "electricity for lighting", country_code) FROM stdin;
+2120974	No	No	No	ZA
+1258904	No	No	Yes	ZA
+23142	No	Yes	No	ZA
+372047	No	Yes	Yes	ZA
+38863	Yes	No	No	ZA
+2528311	Yes	No	Yes	ZA
+24780	Yes	Yes	No	ZA
+8083139	Yes	Yes	Yes	ZA
 \.
 
 
@@ -36750,6 +36752,14 @@ ALTER TABLE ONLY electricityavailability_province
 
 ALTER TABLE ONLY electricityavailability_ward
     ADD CONSTRAINT electricityavailability_ward_pkey PRIMARY KEY ("electricity for cooking", "electricity for heating", "electricity for lighting", ward_code);
+
+
+--
+-- Name: electricityavailability_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY electricityavailability_country
+    ADD CONSTRAINT electricityavailability_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

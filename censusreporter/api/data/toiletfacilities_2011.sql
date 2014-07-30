@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE toiletfacilities_country (
     total integer NOT NULL,
-    "toilet facilities" character varying(128) NOT NULL
+    "toilet facilities" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,17 +84,17 @@ ALTER TABLE public.toiletfacilities_ward OWNER TO census;
 -- Data for Name: toiletfacilities_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY toiletfacilities_country (total, "toilet facilities") FROM stdin;
-2763667	None
-27845443	Flush toilet (connected to sewerage system)
-1412046	Flush toilet (with septic tank)
-1441139	Chemical toilet
-5181835	Pit toilet with ventilation (VIP)
-10726632	Pit toilet without ventilation
-960337	Bucket toilet
-1151236	Other
-229169	Unspecified
-59057	Not applicable
+COPY toiletfacilities_country (total, "toilet facilities", country_code) FROM stdin;
+2763667	None	ZA
+27845443	Flush toilet (connected to sewerage system)	ZA
+1412046	Flush toilet (with septic tank)	ZA
+1441139	Chemical toilet	ZA
+5181835	Pit toilet with ventilation (VIP)	ZA
+10726632	Pit toilet without ventilation	ZA
+960337	Bucket toilet	ZA
+1151236	Other	ZA
+229169	Unspecified	ZA
+59057	Not applicable	ZA
 \.
 
 
@@ -45886,6 +45888,14 @@ ALTER TABLE ONLY toiletfacilities_province
 
 ALTER TABLE ONLY toiletfacilities_ward
     ADD CONSTRAINT toiletfacilities_ward_pkey PRIMARY KEY ("toilet facilities", ward_code);
+
+
+--
+-- Name: toiletfacilities_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY toiletfacilities_country
+    ADD CONSTRAINT toiletfacilities_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

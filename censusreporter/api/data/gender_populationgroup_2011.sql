@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -21,7 +22,8 @@ SET default_with_oids = false;
 CREATE TABLE gender_populationgroup_country (
     total integer NOT NULL,
     "population group" character varying(128) NOT NULL,
-    gender character varying(128) NOT NULL
+    gender character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -87,17 +89,17 @@ ALTER TABLE public.gender_populationgroup_ward OWNER TO census;
 -- Data for Name: gender_populationgroup_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY gender_populationgroup_country (total, "population group", gender) FROM stdin;
-19912717	Black African	Male
-21088220	Black African	Female
-2228108	Coloured	Male
-2387293	Coloured	Female
-645463	Indian or Asian	Male
-641467	Indian or Asian	Female
-2231682	White	Male
-2355156	White	Female
-170821	Other	Male
-109633	Other	Female
+COPY gender_populationgroup_country (total, "population group", gender, country_code) FROM stdin;
+19912717	Black African	Male	ZA
+21088220	Black African	Female	ZA
+2228108	Coloured	Male	ZA
+2387293	Coloured	Female	ZA
+645463	Indian or Asian	Male	ZA
+641467	Indian or Asian	Female	ZA
+2231682	White	Male	ZA
+2355156	White	Female	ZA
+170821	Other	Male	ZA
+109633	Other	Female	ZA
 \.
 
 
@@ -45891,6 +45893,14 @@ ALTER TABLE ONLY gender_populationgroup_province
 
 ALTER TABLE ONLY gender_populationgroup_ward
     ADD CONSTRAINT gender_populationgroup_ward_pkey PRIMARY KEY ("population group", gender, ward_code);
+
+
+--
+-- Name: gender_populationgroup_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY gender_populationgroup_country
+    ADD CONSTRAINT gender_populationgroup_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

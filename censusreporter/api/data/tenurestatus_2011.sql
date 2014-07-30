@@ -21,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE tenurestatus_country (
     total integer NOT NULL,
-    "tenure status" character varying(128) NOT NULL
+    "tenure status" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -70,12 +71,12 @@ ALTER TABLE public.tenurestatus_ward OWNER TO census;
 -- Data for Name: tenurestatus_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY tenurestatus_country (total, "tenure status") FROM stdin;
-3610222	Rented
-1701467	Owned but not yet paid off
-2682392	Occupied rent-free
-5970872	Owned and fully paid off
-485208	Other
+COPY tenurestatus_country (total, "tenure status", country_code) FROM stdin;
+3610222	Rented	ZA
+1701467	Owned but not yet paid off	ZA
+2682392	Occupied rent-free	ZA
+5970872	Owned and fully paid off	ZA
+485208	Other	ZA
 \.
 
 
@@ -22733,6 +22734,14 @@ ALTER TABLE ONLY tenurestatus_province
 
 ALTER TABLE ONLY tenurestatus_ward
     ADD CONSTRAINT tenurestatus_ward_pkey PRIMARY KEY ("tenure status", ward_code);
+
+
+--
+-- Name: tenurestatus_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY tenurestatus_country
+    ADD CONSTRAINT tenurestatus_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

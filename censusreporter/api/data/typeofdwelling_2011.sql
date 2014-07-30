@@ -21,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE typeofdwelling_country (
     total integer NOT NULL,
-    "type of dwelling" character varying(128) NOT NULL
+    "type of dwelling" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -70,21 +71,21 @@ ALTER TABLE public.typeofdwelling_ward OWNER TO census;
 -- Data for Name: typeofdwelling_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY typeofdwelling_country (total, "type of dwelling") FROM stdin;
-9384030	House or brick/concrete block structure on a separate stand or yard or on a farm
-1139916	Traditional dwelling/hut/structure made of traditional materials
-720327	Flat or apartment in a block of flats
-146391	Cluster house in complex
-213105	Townhouse (semi-detached house in a complex)
-213561	Semi-detached house
-422850	House/flat/room in backyard
-712956	Informal dwelling (shack; in backyard)
-1249776	Informal dwelling (shack; not in backyard; e.g. in an informal/squatter settlement or on a farm)
-118983	Room/flatlet on a property or larger dwelling/servants quarters/granny flat
-14439	Caravan/tent
-113826	Other
-0	Unspecified
-0	Not applicable
+COPY typeofdwelling_country (total, "type of dwelling", country_code) FROM stdin;
+9384030	House or brick/concrete block structure on a separate stand or yard or on a farm	ZA
+1139916	Traditional dwelling/hut/structure made of traditional materials	ZA
+720327	Flat or apartment in a block of flats	ZA
+146391	Cluster house in complex	ZA
+213105	Townhouse (semi-detached house in a complex)	ZA
+213561	Semi-detached house	ZA
+422850	House/flat/room in backyard	ZA
+712956	Informal dwelling (shack; in backyard)	ZA
+1249776	Informal dwelling (shack; not in backyard; e.g. in an informal/squatter settlement or on a farm)	ZA
+118983	Room/flatlet on a property or larger dwelling/servants quarters/granny flat	ZA
+14439	Caravan/tent	ZA
+113826	Other	ZA
+0	Unspecified	ZA
+0	Not applicable	ZA
 \.
 
 
@@ -63422,6 +63423,14 @@ ALTER TABLE ONLY typeofdwelling_province
 
 ALTER TABLE ONLY typeofdwelling_ward
     ADD CONSTRAINT typeofdwelling_ward_pkey PRIMARY KEY ("type of dwelling", ward_code);
+
+
+--
+-- Name: typeofdwelling_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY typeofdwelling_country
+    ADD CONSTRAINT typeofdwelling_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

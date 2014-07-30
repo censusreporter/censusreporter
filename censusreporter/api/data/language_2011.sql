@@ -21,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE language_country (
     total integer NOT NULL,
-    language character varying(128) NOT NULL
+    language character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -70,22 +71,22 @@ ALTER TABLE public.language_ward OWNER TO census;
 -- Data for Name: language_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY language_country (total, language) FROM stdin;
-6855081	Afrikaans
-4892622	English
-1090221	IsiNdebele
-8154258	IsiXhosa
-11587374	IsiZulu
-4618575	Sepedi
-3849561	Sesotho
-4067250	Setswana
-234654	Sign language
-1297047	SiSwati
-1209390	Tshivenda
-2277147	Xitsonga
-828258	Other
-0	Unspecified
-809118	Not applicable
+COPY language_country (total, language, country_code) FROM stdin;
+6855081	Afrikaans	ZA
+4892622	English	ZA
+1090221	IsiNdebele	ZA
+8154258	IsiXhosa	ZA
+11587374	IsiZulu	ZA
+4618575	Sepedi	ZA
+3849561	Sesotho	ZA
+4067250	Setswana	ZA
+234654	Sign language	ZA
+1297047	SiSwati	ZA
+1209390	Tshivenda	ZA
+2277147	Xitsonga	ZA
+828258	Other	ZA
+0	Unspecified	ZA
+809118	Not applicable	ZA
 \.
 
 
@@ -67943,6 +67944,14 @@ ALTER TABLE ONLY language_province
 
 ALTER TABLE ONLY language_ward
     ADD CONSTRAINT language_ward_pkey PRIMARY KEY (language, ward_code);
+
+
+--
+-- Name: language_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY language_country
+    ADD CONSTRAINT language_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

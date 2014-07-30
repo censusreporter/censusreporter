@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE refusedisposal_country (
     total integer NOT NULL,
-    "refuse disposal" character varying(128) NOT NULL
+    "refuse disposal" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,15 +84,15 @@ ALTER TABLE public.refusedisposal_ward OWNER TO census;
 -- Data for Name: refusedisposal_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY refusedisposal_country (total, "refuse disposal") FROM stdin;
-30013366	Removed by local authority/private company at least once a week
-739359	Removed by local authority/private company less often
-894542	Communal refuse dump
-16247036	Own refuse dump
-3090002	No rubbish disposal
-498031	Other
-229169	Unspecified
-59057	Not applicable
+COPY refusedisposal_country (total, "refuse disposal", country_code) FROM stdin;
+30013366	Removed by local authority/private company at least once a week	ZA
+739359	Removed by local authority/private company less often	ZA
+894542	Communal refuse dump	ZA
+16247036	Own refuse dump	ZA
+3090002	No rubbish disposal	ZA
+498031	Other	ZA
+229169	Unspecified	ZA
+59057	Not applicable	ZA
 \.
 
 
@@ -36740,6 +36742,14 @@ ALTER TABLE ONLY refusedisposal_province
 
 ALTER TABLE ONLY refusedisposal_ward
     ADD CONSTRAINT refusedisposal_ward_pkey PRIMARY KEY ("refuse disposal", ward_code);
+
+
+--
+-- Name: refusedisposal_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY refusedisposal_country
+    ADD CONSTRAINT refusedisposal_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

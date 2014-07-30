@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE energyorfuelforcooking_country (
     total integer NOT NULL,
-    "energy or fuel for cooking" character varying(128) NOT NULL
+    "energy or fuel for cooking" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -84,7 +86,8 @@ ALTER TABLE public.energyorfuelforcooking_ward OWNER TO census;
 
 CREATE TABLE energyorfuelforheating_country (
     total integer NOT NULL,
-    "energy or fuel for heating" character varying(128) NOT NULL
+    "energy or fuel for heating" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -148,7 +151,8 @@ ALTER TABLE public.energyorfuelforheating_ward OWNER TO census;
 
 CREATE TABLE energyorfuelforlighting_country (
     total integer NOT NULL,
-    "energy or fuel for lighting" character varying(128) NOT NULL
+    "energy or fuel for lighting" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -210,18 +214,18 @@ ALTER TABLE public.energyorfuelforlighting_ward OWNER TO census;
 -- Data for Name: energyorfuelforcooking_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY energyorfuelforcooking_country (total, "energy or fuel for cooking") FROM stdin;
-37053943	Electricity
-1771711	Gas
-3295875	Paraffin
-8426747	Wood
-492148	Coal
-213063	Animal dung
-78462	Solar
-80383	Other
-70003	None
-229169	Unspecified
-59057	Not applicable
+COPY energyorfuelforcooking_country (total, "energy or fuel for cooking", country_code) FROM stdin;
+37053943	Electricity	ZA
+1771711	Gas	ZA
+3295875	Paraffin	ZA
+8426747	Wood	ZA
+492148	Coal	ZA
+213063	Animal dung	ZA
+78462	Solar	ZA
+80383	Other	ZA
+70003	None	ZA
+229169	Unspecified	ZA
+59057	Not applicable	ZA
 \.
 
 
@@ -50553,18 +50557,18 @@ COPY energyorfuelforcooking_ward (total, "energy or fuel for cooking", ward_code
 -- Data for Name: energyorfuelforheating_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY energyorfuelforheating_country (total, "energy or fuel for heating") FROM stdin;
-29384005	Electricity
-1289190	Gas
-3971868	Paraffin
-9637833	Wood
-1210149	Coal
-215665	Animal dung
-134764	Solar
-8960	Other
-5629901	None
-229169	Unspecified
-59057	Not applicable
+COPY energyorfuelforheating_country (total, "energy or fuel for heating", country_code) FROM stdin;
+29384005	Electricity	ZA
+1289190	Gas	ZA
+3971868	Paraffin	ZA
+9637833	Wood	ZA
+1210149	Coal	ZA
+215665	Animal dung	ZA
+134764	Solar	ZA
+8960	Other	ZA
+5629901	None	ZA
+229169	Unspecified	ZA
+59057	Not applicable	ZA
 \.
 
 
@@ -100896,15 +100900,15 @@ COPY energyorfuelforheating_ward (total, "energy or fuel for heating", ward_code
 -- Data for Name: energyorfuelforlighting_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY energyorfuelforlighting_country (total, "energy or fuel for lighting") FROM stdin;
-43893586	Electricity
-120485	Gas
-1233751	Paraffin
-5870998	Candles (not a valid option)
-203687	Solar
-159828	None
-229169	Unspecified
-59057	Not applicable
+COPY energyorfuelforlighting_country (total, "energy or fuel for lighting", country_code) FROM stdin;
+43893586	Electricity	ZA
+120485	Gas	ZA
+1233751	Paraffin	ZA
+5870998	Candles (not a valid option)	ZA
+203687	Solar	ZA
+159828	None	ZA
+229169	Unspecified	ZA
+59057	Not applicable	ZA
 \.
 
 
@@ -137637,6 +137641,14 @@ ALTER TABLE ONLY energyorfuelforlighting_ward
 
 
 --
+-- Name: energyorfuelforcooking_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY energyorfuelforcooking_country
+    ADD CONSTRAINT energyorfuelforcooking_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
+
+
+--
 -- Name: energyorfuelforcooking_district_district_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
@@ -137669,6 +137681,14 @@ ALTER TABLE ONLY energyorfuelforcooking_ward
 
 
 --
+-- Name: energyorfuelforheating_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY energyorfuelforheating_country
+    ADD CONSTRAINT energyorfuelforheating_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
+
+
+--
 -- Name: energyorfuelforheating_district_district_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
 --
 
@@ -137698,6 +137718,14 @@ ALTER TABLE ONLY energyorfuelforheating_province
 
 ALTER TABLE ONLY energyorfuelforheating_ward
     ADD CONSTRAINT energyorfuelforheating_ward_ward_code_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
+
+
+--
+-- Name: energyorfuelforlighting_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY energyorfuelforlighting_country
+    ADD CONSTRAINT energyorfuelforlighting_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

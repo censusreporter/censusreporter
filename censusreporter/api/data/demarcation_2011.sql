@@ -4697,6 +4697,12 @@ COPY ward (code, ward_no, muni_code, district_code, province_code, year) FROM st
 94705031	31	LIM475	DC47	LIM	2011
 \.
 
+--
+-- Name: country_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY country
+    ADD CONSTRAINT country_pkey PRIMARY KEY (code);
 
 --
 -- Name: district_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 

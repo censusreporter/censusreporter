@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE populationgroup_country (
     total integer NOT NULL,
-    "population group" character varying(128) NOT NULL
+    "population group" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,12 +84,12 @@ ALTER TABLE public.populationgroup_ward OWNER TO census;
 -- Data for Name: populationgroup_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY populationgroup_country (total, "population group") FROM stdin;
-41000938	Black African
-4615401	Coloured
-1286930	Indian or Asian
-4586838	White
-280454	Other
+COPY populationgroup_country (total, "population group", country_code) FROM stdin;
+41000938	Black African	ZA
+4615401	Coloured	ZA
+1286930	Indian or Asian	ZA
+4586838	White	ZA
+280454	Other	ZA
 \.
 
 
@@ -23021,6 +23023,14 @@ ALTER TABLE ONLY populationgroup_province
 
 ALTER TABLE ONLY populationgroup_ward
     ADD CONSTRAINT populationgroup_ward_pkey PRIMARY KEY ("population group", ward_code);
+
+
+--
+-- Name: populationgroup_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY populationgroup_country
+    ADD CONSTRAINT populationgroup_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

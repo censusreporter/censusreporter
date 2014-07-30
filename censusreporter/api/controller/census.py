@@ -242,9 +242,8 @@ def get_demographics_profile(geo_code, geo_level, session):
     db_model_sex = get_model_from_fields(['gender'], geo_level)
     query = session.query(func.sum(db_model_sex.total)) \
                    .filter(db_model_sex.gender == 'Male')
-    if geo_level != 'country':
-        geo_attr = '%s_code' % geo_level
-        query = query.filter(getattr(db_model_sex, geo_attr) == geo_code)
+    geo_attr = '%s_code' % geo_level
+    query = query.filter(getattr(db_model_sex, geo_attr) == geo_code)
     total_male = query.one()[0]
 
     sex_data = OrderedDict((  # census data refers to sex as gender
@@ -662,12 +661,8 @@ def get_education_profile(geo_code, geo_level, session):
 def get_objects_by_geo(db_model, geo_code, geo_level, session, order_by=None):
     """ Get rows of statistics from the stats mode +db_model+ at a particular
     geo_code and geo_level. """
-    if geo_level == 'country':
-        objects = session.query(db_model)
-    else:
-        geo_attr = '%s_code' % geo_level
-        objects = session.query(db_model).filter(getattr(db_model, geo_attr)
-                                                 == geo_code)
+    geo_attr = '%s_code' % geo_level
+    objects = session.query(db_model).filter(getattr(db_model, geo_attr) == geo_code)
 
     if order_by is not None:
         if order_by[0] == '-':

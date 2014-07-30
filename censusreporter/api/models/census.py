@@ -60,11 +60,12 @@ def get_model_from_fields(fields, geo_level, table_name=None):
 
     field_columns = [Column(field, String(128), primary_key=True)
                      for field in fields]
-    # no foreign key for country - we assume there is only 1 country's data
-    if geo_level != 'country':
-        field_columns.append(Column('%s_code' % geo_level, String(8),
-                                    ForeignKey('%s.code' % geo_level),
-                                    primary_key=True))
+
+    # foreign keys
+    field_columns.append(Column('%s_code' % geo_level, String(8),
+                                ForeignKey('%s.code' % geo_level),
+                                primary_key=True))
+
     class Model(Base):
         __table__ = Table(table_name, Base.metadata,
             Column('total', Integer, nullable=False),

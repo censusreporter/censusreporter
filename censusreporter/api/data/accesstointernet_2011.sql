@@ -21,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE accesstointernet_country (
     total integer NOT NULL,
-    "access to internet" character varying(128) NOT NULL
+    "access to internet" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -70,12 +71,12 @@ ALTER TABLE public.accesstointernet_ward OWNER TO census;
 -- Data for Name: accesstointernet_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY accesstointernet_country (total, "access to internet") FROM stdin;
-1239186	From home
-2356920	From cell phone
-678243	From work
-811296	From elsewhere
-9364518	No access to internet
+COPY accesstointernet_country (total, "access to internet", country_code) FROM stdin;
+1239186	From home	ZA
+2356920	From cell phone	ZA
+678243	From work	ZA
+811296	From elsewhere	ZA
+9364518	No access to internet	ZA
 \.
 
 
@@ -22733,6 +22734,14 @@ ALTER TABLE ONLY accesstointernet_province
 
 ALTER TABLE ONLY accesstointernet_ward
     ADD CONSTRAINT accesstointernet_ward_pkey PRIMARY KEY ("access to internet", ward_code);
+
+
+--
+-- Name: accesstointernet_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY accesstointernet_country
+    ADD CONSTRAINT accesstointernet_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

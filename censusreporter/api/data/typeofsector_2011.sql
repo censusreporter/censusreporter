@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -20,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE typeofsector_country (
     total integer NOT NULL,
-    "type of sector" character varying(128) NOT NULL
+    "type of sector" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -82,13 +84,13 @@ ALTER TABLE public.typeofsector_ward OWNER TO census;
 -- Data for Name: typeofsector_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY typeofsector_country (total, "type of sector") FROM stdin;
-9956436	In the formal sector
-1640901	In the informal sector
-1534843	Private household
-318446	Do not know
-0	Unspecified
-38319935	Not applicable
+COPY typeofsector_country (total, "type of sector", country_code) FROM stdin;
+9956436	In the formal sector	ZA
+1640901	In the informal sector	ZA
+1534843	Private household	ZA
+318446	Do not know	ZA
+0	Unspecified	ZA
+38319935	Not applicable	ZA
 \.
 
 
@@ -27594,6 +27596,14 @@ ALTER TABLE ONLY typeofsector_province
 
 ALTER TABLE ONLY typeofsector_ward
     ADD CONSTRAINT typeofsector_ward_pkey PRIMARY KEY ("type of sector", ward_code);
+
+
+--
+-- Name: typeofsector_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY typeofsector_country
+    ADD CONSTRAINT typeofsector_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

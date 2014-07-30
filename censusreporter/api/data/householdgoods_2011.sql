@@ -21,7 +21,8 @@ SET default_with_oids = false;
 
 CREATE TABLE householdgoods_country (
     total integer NOT NULL,
-    "household goods" character varying(128) NOT NULL
+    "household goods" character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
 );
 
 
@@ -70,18 +71,18 @@ ALTER TABLE public.householdgoods_ward OWNER TO census;
 -- Data for Name: householdgoods_country; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY householdgoods_country (total, "household goods") FROM stdin;
-10761948	television
-9749898	radio
-4556457	washing machine
-11129856	electric/gas stove
-2521248	vacuum cleaner
-3721065	satellite television
-12850875	cell phone
-8575221	dvd player
-9886239	refrigerator
-4266081	motor-car
-2088147	landline/telephone
+COPY householdgoods_country (total, "household goods", country_code) FROM stdin;
+10761948	television	ZA
+9749898	radio	ZA
+4556457	washing machine	ZA
+11129856	electric/gas stove	ZA
+2521248	vacuum cleaner	ZA
+3721065	satellite television	ZA
+12850875	cell phone	ZA
+8575221	dvd player	ZA
+9886239	refrigerator	ZA
+4266081	motor-car	ZA
+2088147	landline/telephone	ZA
 \.
 
 
@@ -49827,6 +49828,14 @@ COPY householdgoods_ward (total, "household goods", ward_code) FROM stdin;
 2988	landline/telephone	19100110
 2055	landline/telephone	19100111
 \.
+
+
+--
+-- Name: householdgoods_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY householdgoods_country
+    ADD CONSTRAINT householdgoods_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --

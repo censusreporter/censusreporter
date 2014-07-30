@@ -200,10 +200,10 @@ class SuperImporter(object):
             if geo_level == 'province':
                 code = province_codes[geo_name]
             elif geo_name == 'country':
-                code = None
+                code = 'ZA'
             else:
                 code = geo_name.split(':')[0]
-            base_kwargs = {'%s_code' % geo_level: code} if code else {}
+            base_kwargs = {'%s_code' % geo_level: code}
 
             # get db model and create table if necessary
             if geo_level in models:
