@@ -9,10 +9,10 @@ from api.utils import get_session
 
 
 '''
-Census data models
+Models for handling census and other data tables.
 '''
 
-census_fields = set([
+table_fields = set([
     'access to internet',
     'age groups in 5 years',
     'age in completed years',
@@ -49,16 +49,16 @@ MAX_TABLE_NAME_LENGTH = 63-13
 # Characters we strip from table names
 TABLE_BAD_CHARS = re.compile('[ /-]')
 
-CENSUS_TABLES = {}
+DATA_TABLES = {}
 
-class CensusTable(object):
+class DataTable(object):
     def __init__(self, fields, year='2009', id=None, universe=None, description=None):
         self.fields = fields
         self.year = year
         self.id = id or table_name_to_id(get_table_name(fields, 'country'))
         self.universe = universe
         self.description = description or ((universe or 'Population') + ' by ' + ', '.join(self.fields))
-        CENSUS_TABLES[self.id] = self
+        DATA_TABLES[self.id] = self
 
         self.setup_columns()
 
@@ -220,7 +220,7 @@ class CensusTable(object):
 
     @classmethod
     def get(cls, id):
-        return CENSUS_TABLES[id.upper()]
+        return DATA_TABLES[id.upper()]
 
 
 _census_table_models = {}
@@ -229,7 +229,7 @@ def get_model_from_fields(fields, geo_level, table_name=None):
     '''
     Generates an ORM model for arbitrary census fields by geography.
 
-    :param list fields: the census fields in `api.utils.census_fields`, e.g. ['highest educational level', 'type of sector']
+    :param list fields: the census fields in `api.models.tables.table_fields`, e.g. ['highest educational level', 'type of sector']
     :param str geo_level: one of the geographics levels defined in `api.base.geo_levels`, e.g. 'province'
     :param str table_name: the name of the database table, if different from the default table
     :return: ORM model class containing the given fields with type String(128), a 'total' field
@@ -262,7 +262,7 @@ def get_table_name(fields, geo_level):
     if geo_level not in geo_levels:
         raise ValueError('Invalid geo_level: %s' % geo_level)
     for field in fields:
-        if field not in census_fields:
+        if field not in table_fields:
             raise ValueError('Invalid field: %s' % field)
 
     sorted_fields = sorted(fields)
@@ -278,28 +278,28 @@ def table_name_to_id(name):
 
 
 # Define our tables so the data API can discover them.
-CensusTable(['access to internet'])
-CensusTable(['age groups in 5 years'])
-CensusTable(['age in completed years'])
-CensusTable(['age of household head'], universe='Households')
-CensusTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
-CensusTable(['energy or fuel for cooking'])
-CensusTable(['energy or fuel for heating'])
-CensusTable(['energy or fuel for lighting'])
-CensusTable(['gender'])
-CensusTable(['gender', 'marital status'])
-CensusTable(['gender', 'population group'])
-CensusTable(['gender of head of household'], universe='Households')
-CensusTable(['highest educational level'])
-CensusTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
-CensusTable(['household goods'], universe='Households')
-CensusTable(['employed individual monthly income'], universe='Employed individuals')
-CensusTable(['language'])
-CensusTable(['official employment status'], universe='Workers 15 and over')
-CensusTable(['population group'])
-CensusTable(['refuse disposal'])
-CensusTable(['source of water'])
-CensusTable(['tenure status'], universe='Households')
-CensusTable(['toilet facilities'])
-CensusTable(['type of dwelling'], universe='Households')
-CensusTable(['type of sector'])
+DataTable(['access to internet'])
+DataTable(['age groups in 5 years'])
+DataTable(['age in completed years'])
+DataTable(['age of household head'], universe='Households')
+DataTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
+DataTable(['energy or fuel for cooking'])
+DataTable(['energy or fuel for heating'])
+DataTable(['energy or fuel for lighting'])
+DataTable(['gender'])
+DataTable(['gender', 'marital status'])
+DataTable(['gender', 'population group'])
+DataTable(['gender of head of household'], universe='Households')
+DataTable(['highest educational level'])
+DataTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
+DataTable(['household goods'], universe='Households')
+DataTable(['employed individual monthly income'], universe='Employed individuals')
+DataTable(['language'])
+DataTable(['official employment status'], universe='Workers 15 and over')
+DataTable(['population group'])
+DataTable(['refuse disposal'])
+DataTable(['source of water'])
+DataTable(['tenure status'], universe='Households')
+DataTable(['toilet facilities'])
+DataTable(['type of dwelling'], universe='Households')
+DataTable(['type of sector'])

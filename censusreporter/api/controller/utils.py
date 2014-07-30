@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from api.models import Ward, Municipality, District, Province
-from api.models.census import table_name_to_id, CensusTable
+from api.models.tables import table_name_to_id, DataTable
 
 
 # dictionaries that merge_dicts will merge
@@ -167,7 +167,7 @@ def add_metadata(data, model):
 
     census_table = None
     try:
-        census_table = CensusTable.get(table_id)
+        census_table = DataTable.get(table_id)
     except KeyError:
         pass
 
