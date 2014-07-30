@@ -185,6 +185,7 @@ class Province(Base, GeoMixin):
     # as defined here:
     # http://en.wikipedia.org/wiki/List_of_FIPS_region_codes_(S%E2%80%93U)#SF:_South_Africa
     fips_code = Column(String(4), index=True, unique=True, nullable=False)
+    country_code = Column(String(3), ForeignKey('country.code'))
 
     level = 'province'
     child_level = 'municipality'

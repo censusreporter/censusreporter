@@ -64,6 +64,7 @@ CREATE TABLE province (
     code character varying(3) NOT NULL,
     name character varying(16) NOT NULL,
     fips_code character varying(4) NOT NULL,
+    country_code character varying(3),
     year character varying(4) NOT NULL
 );
 
@@ -400,16 +401,16 @@ BUF	Buffalo City	BUF	EC	2011
 -- Data for Name: province; Type: TABLE DATA; Schema: public; Owner: census
 --
 
-COPY province (code, name, fips_code, year) FROM stdin;
-KZN	KwaZulu-Natal	SF02	2011
-FS	Free State	SF03	2011
-EC	Eastern Cape	SF05	2011
-GT	Gauteng	SF06	2011
-MP	Mpumalanga	SF07	2011
-NC	Northern Cape	SF08	2011
-LIM	Limpopo	SF09	2011
-NW	North West	SF10	2011
-WC	Western Cape	SF11	2011
+COPY province (code, name, fips_code, country_code, year) FROM stdin;
+KZN	KwaZulu-Natal	SF02	ZA	2011
+FS	Free State	SF03	ZA	2011
+EC	Eastern Cape	SF05	ZA	2011
+GT	Gauteng	SF06	ZA	2011
+MP	Mpumalanga	SF07	ZA	2011
+NC	Northern Cape	SF08	ZA	2011
+LIM	Limpopo	SF09	ZA	2011
+NW	North West	SF10	ZA	2011
+WC	Western Cape	SF11	ZA	2011
 \.
 
 
@@ -4789,6 +4790,14 @@ CREATE INDEX province_name_idx ON province USING btree (name);
 --
 
 CREATE INDEX ward_year_idx ON ward USING btree (year);
+
+
+--
+-- Name: province_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY province
+    ADD CONSTRAINT province_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
 
 
 --
