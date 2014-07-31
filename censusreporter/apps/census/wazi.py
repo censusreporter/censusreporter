@@ -1,5 +1,6 @@
 import requests
 import os
+from itertools import chain
 
 import logging
 logger = logging.getLogger('censusreporter')
@@ -150,7 +151,7 @@ class DataAPIView(View):
     def get(self, request, *args, **kwargs):
         try:
             geo_ids = request.GET.get('geo_ids', 'country-ZA').split(',')
-            geos = self.get_geos(geo_ids)
+            data_geos, info_geos = self.get_geos(geo_ids)
         except LocationNotFound as e:
             return render_json_error(e.message, 404)
 
@@ -160,7 +161,7 @@ class DataAPIView(View):
         except KeyError as e:
             return render_json_error('Unknown table: %s' % e.message, 404)
 
-        data = self.get_data(geos, tables)
+        data = self.get_data(data_geos, tables)
 
         return render_json_to_response({
             'release': {
@@ -170,11 +171,18 @@ class DataAPIView(View):
             },
             'tables': dict((t.id, t.as_dict()) for t in tables),
             'data': data,
-            'geography': dict((g.full_geoid, g.as_dict()) for g in geos),
+            'geography': dict((g.full_geoid, g.as_dict()) for g in chain(data_geos, info_geos)),
             })
 
     def get_geos(self, geo_ids):
-        geos = []
+        """
+        Return a tuple (data_geos, info_geos) of geo objects,
+        where data_geos or geos we should get data for, and info_geos
+        are geos that we only need to return geo info/metadata for.
+        """
+        data_geos = []
+        info_geos = []
+
         for geo_id in geo_ids:
             # either country-KE or level|country-KE, which indicates
             # we must break country-KE into +levels+
@@ -183,22 +191,21 @@ class DataAPIView(View):
 
             level, code = geo_id.split('-', 1)
 
-            split_level = None
             if '|' in level:
-                split_level, level = level.split('|', 1)
-
-            geo = get_geography(code, level)
-
-            if split_level:
                 # break geo down further
+                split_level, level = level.split('|', 1)
+                geo = get_geography(code, level)
+                info_geos.append(geo)
                 try:
-                    geos.extend(geo.split_into(split_level))
+                    data_geos.extend(geo.split_into(split_level))
                 except ValueError as e:
                     raise LocationNotFound('Invalid geo level: %s' % split_level)
-            else:
-                geos.append(geo)
 
-        return geos
+            else:
+                # normal geo
+                data_geos.append(get_geography(code, level))
+
+        return data_geos, info_geos
 
     
     def get_data(self, geos, tables):

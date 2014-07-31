@@ -35,6 +35,7 @@ class GeoMixin(object):
             'geo_level': self.level,
             'geo_code': self.code,
             'child_level': self.child_level,
+            'parent_geoid': self.parent.full_geoid if self.parent else None,
         }
 
     def as_dict_deep(self):

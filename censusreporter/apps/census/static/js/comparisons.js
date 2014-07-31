@@ -1502,7 +1502,7 @@ function Comparison(options) {
                 parentGeoID = groupBits[1];
             
             _.each(comparison.data.geography, function(v, k) {
-                var thisSumlev = k.slice(0, 3);
+                var thisSumlev = k.split('-')[0];
                 if (v.parent_geoid == parentGeoID && thisSumlev == childSumlev) {
                     delete comparison.data.data[k];
                 }
