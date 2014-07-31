@@ -396,7 +396,7 @@ var drawMaps = function() {
     // load surrounding map shapes
 
     // [level, code] pairs
-    var levels = _.map(geo.parents.ordering, function(level) {
+    var levels = _.map(geo.parents_ordering, function(level) {
         return [level, geo.parents[level].geo_code];
     });
     levels.unshift([geo_level, geo_code]);
