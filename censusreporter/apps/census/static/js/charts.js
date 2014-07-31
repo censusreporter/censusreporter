@@ -40,12 +40,12 @@ function Chart(options) {
         chart.comparisonNames = {
             'this': (!!geographyThis) ? geographyThis.short_name : 'here',
             'province': (!!geographyParents.province) ? geographyParents.province.short_name : 'province',
-            'country': (!!geographyParents.country) ? geographyParents.country.short_name : 'South Africa'
+            'country': (!!geographyParents.country) ? geographyParents.country.short_name : 'country'
         }
         chart.comparisonNamePhrases = {
             'this': (!!geographyThis) ? 'in ' + geographyThis.short_name : 'here',
-            'province': (!!geographyParents.province) ? geographyParents.province.short_name : 'provincewide',
-            'country': (!!geographyParents.country) ? geographyParents.country.short_name : 'countrywide'
+            'province': (!!geographyParents.province) ? 'in ' + geographyParents.province.short_name : 'province-wide',
+            'country': (!!geographyParents.country) ? 'in ' + geographyParents.country.short_name : 'country-wide'
         }
         
         chart.primaryGeoID = geographyThis.full_geoid;
