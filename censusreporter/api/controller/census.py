@@ -513,7 +513,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
         has_some = False
         has_all = True
         for attr in elec_attrs:
-            val = True if getattr(obj, attr) == 'Yes' else False
+            val = not getattr(obj, attr).startswith('no ')
             has_all = has_all and val
             has_some = has_some or val
         if has_some:
