@@ -689,7 +689,7 @@ class DataView(TemplateView):
     def dispatch(self, *args, **kwargs):
         self.table = self.request.GET.get('table', None)
         self.primary_geo_id = self.request.GET.get('primary_geo_id', None)
-        self.geo_ids = self.request.GET.get('geo_ids', '01000US')
+        self.geo_ids = self.request.GET.get('geo_ids', 'country-SA')
         self.release_slug = self.request.GET.get('release', None)
         self.release = ACS_RELEASES.get(self.release_slug, None)
 
