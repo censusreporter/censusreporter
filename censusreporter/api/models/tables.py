@@ -3,6 +3,7 @@ from itertools import groupby
 from collections import OrderedDict
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Table, distinct, func
+from sqlalchemy.orm import class_mapper
 
 from .base import Base, geo_levels
 from api.utils import get_session
@@ -51,16 +52,129 @@ TABLE_BAD_CHARS = re.compile('[ /-]')
 
 DATA_TABLES = {}
 
-class DataTable(object):
-    def __init__(self, fields, year='2009', id=None, universe=None, description=None):
-        self.fields = fields
-        self.year = year
-        self.id = id or table_name_to_id(get_table_name(fields, 'country'))
+class SimpleTable(object):
+    """ A Simple data table follows a normal spreadsheet format. Each row
+    has one or more numeric values, one for each column. Each geography
+    has only one row.
+
+    There is no way to have field combinations, such as 'Female, Age 18+'. For that,
+    use a `FieldTable` below.
+    """
+
+    def __init__(self, id, model, universe, description, total_column='total', columns=None):
+        self.id = id
+        self.model = model
         self.universe = universe
-        self.description = description or ((universe or 'Population') + ' by ' + ', '.join(self.fields))
+        self.description = description
+        self.total_column = total_column
+        if columns:
+            self.columns = columns
+        else:
+            self.setup_columns()
+
+        if not self.columns:
+            raise ValueError("No columns were given and I couldn't work them out from them model.")
+
+        if not self.total_column or self.total_column not in self.columns:
+            raise ValueError("No total column given or it's not in the column list. Given '%s', column list: %s" % (self.total_column, self.columns.keys()))
+
         DATA_TABLES[self.id] = self
 
-        self.setup_columns()
+
+    def setup_columns(self):
+        """
+        Work out our columns by finding those that aren't geo columns.
+        """
+        cols = [c.key for c in class_mapper(self.model).attrs if c.key not in ['geo_code', 'geo_level']]
+        self.columns = OrderedDict((c.key, c.key) for c in cols)
+
+
+    def raw_data_for_geos(self, geos):
+        data = {}
+
+        # group by geo level
+        geos = sorted(geos, key=lambda g: g.level)
+        for geo_level, geos in groupby(geos, lambda g: g.level):
+            geo_codes = [g.code for g in geos]
+
+            # initial values
+            for geo_code in geo_codes:
+                data['%s-%s' % (geo_level, geo_code)] = {
+                    'estimate': {},
+                    'error': {}}
+
+            session = get_session()
+            try:
+                geo_values = None
+                rows = session\
+                        .query(model)\
+                        .filter(model.geo_level == geo_level)\
+                        .filter(model.geo_code.in_(geo_codes))\
+                        .all()
+
+                for row in rows:
+                    geo_values = data['%s-%s' % (geo_level, row.geo_code)]
+                    for col in self.columns.iterkeys():
+                        geo_values['estimate'][col] = getattr(row, col)
+                        geo_values['error'][col] = 0
+
+            finally:
+                session.close()
+
+        return data
+
+
+    def as_dict(self):
+        return {
+            'title': self.description,
+            'universe': self.universe,
+            'denominator_column_id': self.total_column,
+            'columns': self.columns,
+        }
+
+    @classmethod
+    def get(cls, id):
+        return DATA_TABLES[id.upper()]
+
+
+class FieldTable(SimpleTable):
+    """
+    A field table is an 'inverted' simple table that has only one numeric figure
+    per row, but allows multiple combinations of classifying fields for each row.
+
+    It shares functionality with a `SimpleTable` but handles the more complex
+    column definitions and raw data extraction.
+
+    For example:
+
+        geo_code  gender  age group   total
+        ZA        female  < 18        100
+        ZA        female  > 18        200
+        ZA        male    < 18        80
+        ZA        male    > 18        20
+
+    What are called +columns+ here are actually an abstraction used by the 
+    data API. They are nested combinations of field values, such as:
+
+        col0: total
+        col1: female
+        col2: female, < 18
+        col3: female, > 18
+        col4: male
+        col5: male < 18
+        col6: male > 18
+
+    """
+    def __init__(self, fields, year='2009', id=None, universe=None, description=None):
+        super(FieldTable, this).__init__(
+                id=id or table_name_to_id(get_table_name(fields, 'country')),
+                model=None,
+                universe=universe or 'Population',
+                description=description or (universe + ' by ' + ', '.join(fields))
+                )
+        self.fields = fields
+        self.year = year
+
 
     def get_model(self, geo_level):
         return get_model_from_fields(self.fields, geo_level)
@@ -97,9 +211,9 @@ class DataTable(object):
         #   female
 
         # map from column id to column info.
-        self.total_id = self.column_id(['total'])
+        self.total_column = self.column_id(['total'])
         self.columns = OrderedDict()
-        self.columns[self.total_id] = {'name': 'Total', 'indent': 0}
+        self.columns[self.total_column] = {'name': 'Total', 'indent': 0}
 
         session = get_session()
         try:
@@ -201,26 +315,13 @@ class DataTable(object):
                     total = permute(0, [], geo_rows)
 
                     # total
-                    geo_values['estimate'][self.total_id] = total
-                    geo_values['error'][self.total_id] = 0
+                    geo_values['estimate'][self.total_column] = total
+                    geo_values['error'][self.total_column] = 0
 
             finally:
                 session.close()
 
         return data
-
-
-    def as_dict(self):
-        return {
-            'title': self.description,
-            'universe': self.universe or 'Population',
-            'denominator_column_id': self.total_id,
-            'columns': self.columns,
-        }
-
-    @classmethod
-    def get(cls, id):
-        return DATA_TABLES[id.upper()]
 
 
 _census_table_models = {}
