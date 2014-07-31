@@ -31,7 +31,7 @@ class GeoMixin(object):
             'full_geoid': self.full_geoid,
             'full_name': self.long_name,
             'short_name': self.short_name,
-            'name': self.short_name,
+            'name': self.context_name,
             'geo_level': self.level,
             'geo_code': self.code,
             'child_level': self.child_level,
@@ -82,6 +82,12 @@ class GeoMixin(object):
     @property
     def short_name(self):
         return getattr(self, 'name', '')
+
+    @property
+    def context_name(self):
+        if hasattr(self, 'province'):
+            return '%s, %s' % (self.short_name, self.province.code)
+        return self.short_name
 
     @property
     def long_name(self):
