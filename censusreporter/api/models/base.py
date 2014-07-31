@@ -70,6 +70,12 @@ class GeoMixin(object):
             splits = []
             for k in kids:
                 splits.extend(k.split_into(level))
+            # when splitting into a lower level, ensure
+            # that we update the children's parent to be us,
+            # which allows the UI to handle that case
+            # correctly
+            for k in splits:
+                k.parent = self
             return splits
         
 
@@ -88,9 +94,17 @@ class GeoMixin(object):
 
     @property
     def parent(self):
-        if self.parents():
-            return self.parents()[0]
-        return None
+        # allow parent to be overriden
+        if not hasattr(self, '_parent'):
+            p = self.parents()
+            p = p[0] if p else None
+            self._parent = p
+
+        return self._parent
+
+    @parent.setter
+    def parent(self, value):
+        self._parent = value
 
     @property
     def country(self):
