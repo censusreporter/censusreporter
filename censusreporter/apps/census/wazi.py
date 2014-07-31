@@ -15,7 +15,7 @@ from .views import GeographyDetailView as BaseGeographyDetailView, LocateView as
 from .utils import LazyEncoder
 from .profile import enhance_api_data
 
-from api.models.tables import DataTable
+from api.models.tables import get_datatable
 from api.controller import get_census_profile, get_geography, get_locations, get_locations_from_coords, get_elections_profile
 from api.utils import LocationNotFound
 
@@ -157,7 +157,7 @@ class DataAPIView(View):
 
         try:
             table_ids = request.GET.get('table_ids', '').split(',')
-            tables = [DataTable.get(t) for t in table_ids]
+            tables = [get_datatable(t) for t in table_ids]
         except KeyError as e:
             return render_json_error('Unknown table: %s' % e.message, 404)
 

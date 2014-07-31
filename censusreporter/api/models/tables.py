@@ -3,10 +3,9 @@ from itertools import groupby
 from collections import OrderedDict
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Table, distinct, func
-from sqlalchemy.orm import class_mapper
 
 from .base import Base, geo_levels
-from api.utils import get_session
+from api.utils import get_session, get_table_model
 
 
 '''
@@ -50,7 +49,12 @@ MAX_TABLE_NAME_LENGTH = 63-13
 # Characters we strip from table names
 TABLE_BAD_CHARS = re.compile('[ /-]')
 
+# All SimpleTable and FieldTable instances by id
 DATA_TABLES = {}
+
+def get_datatable(id):
+    return DATA_TABLES[id.upper()]
+
 
 class SimpleTable(object):
     """ A Simple data table follows a normal spreadsheet format. Each row
@@ -61,19 +65,20 @@ class SimpleTable(object):
     use a `FieldTable` below.
     """
 
-    def __init__(self, id, model, universe, description, total_column='total', columns=None):
-        self.id = id
-        self.model = model
+    def __init__(self, id, universe, description, table='auto', total_column='total'):
+        self.id = id.upper()
+
+        if table == 'auto':
+            table = get_table_model(id)
+
+        self.table = table
         self.universe = universe
         self.description = description
         self.total_column = total_column
-        if columns:
-            self.columns = columns
-        else:
-            self.setup_columns()
+        self.setup_columns()
 
         if not self.columns:
-            raise ValueError("No columns were given and I couldn't work them out from them model.")
+            raise ValueError("I couldn't work out the columns from them model.")
 
         if not self.total_column or self.total_column not in self.columns:
             raise ValueError("No total column given or it's not in the column list. Given '%s', column list: %s" % (self.total_column, self.columns.keys()))
@@ -85,8 +90,14 @@ class SimpleTable(object):
         """
         Work out our columns by finding those that aren't geo columns.
         """
-        cols = [c.key for c in class_mapper(self.model).attrs if c.key not in ['geo_code', 'geo_level']]
-        self.columns = OrderedDict((c.key, c.key) for c in cols)
+        self.columns = OrderedDict()
+        self.columns['Total'] = {'name': 'Total', 'indent': 0}
+
+        for col in (c.name for c in self.table.columns if c.name not in ['geo_code', 'geo_level']):
+            self.columns[col] = {
+                'name': col.replace('_', ' ').capitalize(),
+                'indent': 1
+                }
 
 
     def raw_data_for_geos(self, geos):
@@ -107,15 +118,21 @@ class SimpleTable(object):
             try:
                 geo_values = None
                 rows = session\
-                        .query(model)\
-                        .filter(model.geo_level == geo_level)\
-                        .filter(model.geo_code.in_(geo_codes))\
+                        .query(self.table)\
+                        .filter(self.table.c.geo_level == geo_level)\
+                        .filter(self.table.c.geo_code.in_(geo_codes))\
                         .all()
 
                 for row in rows:
                     geo_values = data['%s-%s' % (geo_level, row.geo_code)]
                     for col in self.columns.iterkeys():
-                        geo_values['estimate'][col] = getattr(row, col)
+                        # duplicate the total column into Total
+                        if col == 'Total':
+                            value = getattr(row, self.total_column)
+                        else:
+                            value = getattr(row, col)
+
+                        geo_values['estimate'][col] = value
                         geo_values['error'][col] = 0
 
             finally:
@@ -128,13 +145,9 @@ class SimpleTable(object):
         return {
             'title': self.description,
             'universe': self.universe,
-            'denominator_column_id': self.total_column,
+            'denominator_column_id': 'Total',
             'columns': self.columns,
         }
-
-    @classmethod
-    def get(cls, id):
-        return DATA_TABLES[id.upper()]
 
 
 class FieldTable(SimpleTable):
@@ -166,14 +179,14 @@ class FieldTable(SimpleTable):
 
     """
     def __init__(self, fields, year='2009', id=None, universe=None, description=None):
-        super(FieldTable, this).__init__(
-                id=id or table_name_to_id(get_table_name(fields, 'country')),
-                model=None,
-                universe=universe or 'Population',
-                description=description or (universe + ' by ' + ', '.join(fields))
-                )
+        universe = universe or 'Population'
+        description = description or (universe + ' by ' + ', '.join(fields))
+        id = id or table_name_to_id(get_table_name(fields, 'country'))
+
         self.fields = fields
         self.year = year
+
+        super(FieldTable, self).__init__(id=id, table=None, universe=universe, description=description)
 
 
     def get_model(self, geo_level):
@@ -379,28 +392,54 @@ def table_name_to_id(name):
 
 
 # Define our tables so the data API can discover them.
-DataTable(['access to internet'])
-DataTable(['age groups in 5 years'])
-DataTable(['age in completed years'])
-DataTable(['age of household head'], universe='Households')
-DataTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
-DataTable(['energy or fuel for cooking'])
-DataTable(['energy or fuel for heating'])
-DataTable(['energy or fuel for lighting'])
-DataTable(['gender'])
-DataTable(['gender', 'marital status'])
-DataTable(['gender', 'population group'])
-DataTable(['gender of head of household'], universe='Households')
-DataTable(['highest educational level'])
-DataTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
-DataTable(['household goods'], universe='Households')
-DataTable(['language'])
-DataTable(['employed individual monthly income'], universe='Employed individuals')
-DataTable(['official employment status'], universe='Workers 15 and over')
-DataTable(['type of sector'], universe='Workers 15 and over')
-DataTable(['population group'])
-DataTable(['refuse disposal'])
-DataTable(['source of water'])
-DataTable(['tenure status'], universe='Households')
-DataTable(['toilet facilities'])
-DataTable(['type of dwelling'], universe='Households')
+FieldTable(['access to internet'])
+FieldTable(['age groups in 5 years'])
+FieldTable(['age in completed years'])
+FieldTable(['age of household head'], universe='Households')
+FieldTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
+FieldTable(['energy or fuel for cooking'])
+FieldTable(['energy or fuel for heating'])
+FieldTable(['energy or fuel for lighting'])
+FieldTable(['gender'])
+FieldTable(['gender', 'marital status'])
+FieldTable(['gender', 'population group'])
+FieldTable(['gender of head of household'], universe='Households')
+FieldTable(['highest educational level'])
+FieldTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
+FieldTable(['household goods'], universe='Households')
+FieldTable(['language'])
+FieldTable(['employed individual monthly income'], universe='Employed individuals')
+FieldTable(['official employment status'], universe='Workers 15 and over')
+FieldTable(['type of sector'], universe='Workers 15 and over')
+FieldTable(['population group'])
+FieldTable(['refuse disposal'])
+FieldTable(['source of water'])
+FieldTable(['tenure status'], universe='Households')
+FieldTable(['toilet facilities'])
+FieldTable(['type of dwelling'], universe='Households')
+
+# Simple Tables
+SimpleTable(
+        id='voter_turnout_national_2014',
+        universe='Registered voters',
+        description='2014 National Election voter turnout',
+        total_column='registered_voters',
+        )
+SimpleTable(
+        id='voter_turnout_provincial_2014',
+        universe='Registered voters',
+        description='2014 Provincial Election voter turnout',
+        total_column='registered_voters',
+        )
+SimpleTable(
+        id='votes_provincial_2014',
+        universe='Votes',
+        description='2014 Provincial Election votes',
+        total_column='total_votes',
+        )
+SimpleTable(
+        id='votes_national_2014',
+        universe='Votes',
+        description='2014 National Election votes',
+        total_column='total_votes',
+        )
