@@ -67,9 +67,6 @@ def get_elections_profile(geo_code, geo_level):
             add_elections_media_coverage(data)
 
         return data
-
-    except KeyError:
-        raise ValueError('Invalid geo_level: %s' % geo_level)
     finally:
         session.close()
 

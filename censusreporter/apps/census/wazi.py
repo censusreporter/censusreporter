@@ -44,12 +44,13 @@ class GeographyDetailView(BaseGeographyDetailView):
             geo_level, geo_code = geography_id.split('-', 1)
             
             geo = get_geography(geo_code, geo_level)
-            profile_data = get_census_profile(geo_code, geo_level)
-            profile_data['elections'] = get_elections_profile(geo_code, geo_level)
-            profile_data['election_list'] = ["national_2014", "provincial_2014"]
-            profile_data['geography'] = geo.as_dict_deep()
         except (ValueError, LocationNotFound):
             raise Http404
+
+        profile_data = get_census_profile(geo_code, geo_level)
+        profile_data['elections'] = get_elections_profile(geo_code, geo_level)
+        profile_data['election_list'] = ["national_2014", "provincial_2014"]
+        profile_data['geography'] = geo.as_dict_deep()
 
         profile_data = enhance_api_data(profile_data)
         page_context.update(profile_data)
