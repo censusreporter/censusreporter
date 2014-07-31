@@ -377,7 +377,7 @@ def get_households_profile(geo_code, geo_level, session):
 
     # household goods
     household_goods, _ = get_stat_data(
-            ['household goods'], geo_level, geo_code, session, percent=True,
+            ['household goods'], geo_level, geo_code, session,
             total=total_households,
             recode=HOUSEHOLD_GOODS_RECODE,
             key_order=sorted(HOUSEHOLD_GOODS_RECODE.values()))
@@ -422,19 +422,19 @@ def get_economics_profile(geo_code, geo_level, session):
 
     # employment status
     employ_status, total_workers = get_stat_data(
-            ['official employment status'], geo_level, geo_code, session, percent=True,
+            ['official employment status'], geo_level, geo_code, session,
             exclude=['Age less than 15 years', 'Not applicable'])
 
     # sector
     sector_dist_data, _ = get_stat_data(
-            ['type of sector'], geo_level, geo_code, session, percent=True,
+            ['type of sector'], geo_level, geo_code, session,
             exclude=['Not applicable'], exclude_zero=True)
 
     # access to internet
     internet_access_dist, total_with_access = get_stat_data(
-            ['access to internet'], geo_level, geo_code, session, percent=True, exclude=['No access to internet'])
+            ['access to internet'], geo_level, geo_code, session, exclude=['No access to internet'])
     _, total_without_access = get_stat_data(
-            ['access to internet'], geo_level, geo_code, session, percent=True, only=['No access to internet'])
+            ['access to internet'], geo_level, geo_code, session, only=['No access to internet'])
     total_households = total_with_access + total_without_access
 
     return {'individual_income_distribution': income_dist_data,
