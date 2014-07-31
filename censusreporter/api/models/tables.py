@@ -10,37 +10,29 @@ from api.utils import get_session, get_table_model
 
 '''
 Models for handling census and other data tables.
+
+`SimpleTable` and `DataTable` instances describe an underlying Postgres table
+and have extra metadata associated with them, such as the universe they cover.
+All tables have an `id` which identifies them internally to the user when
+exploring datasets.
+
+A `SimpleTable` is like a spreadsheet, with one row per geography. It has
+no concept of fields and the table is is set manually. Simple tables are
+not split by geography, for no particular reason. Hence, simple table ids
+are the same as the underlying Postgres table name.
+
+A `DataTable` is for census data and may have multiple rows per geography.
+The id for a table is derived from the table's fields. The underlying
+database has one table (and hence model) per geography, and the name of those
+tables is derived from the id and the geography level. Each model is created
+dynamically and linked back to its data table.
+
+A `DataTable` can be looked up based on a required set of fields. This
+means that the census controller doesn't care about table names, only
+about what fields it requires. If more than one DataTable could serve
+for a set of fields, the one with the fewest extraneous fields is chosen.
 '''
 
-table_fields = set([
-    'access to internet',
-    'age groups in 5 years',
-    'age in completed years',
-    'age of household head',
-    'electricity for cooking',
-    'electricity for heating',
-    'electricity for lighting',
-    'energy or fuel for cooking',
-    'energy or fuel for heating',
-    'energy or fuel for lighting',
-    'gender',
-    'gender of head of household',
-    'highest educational level',
-    'highest educational level 20 and older',
-    'household goods',
-    'employed individual monthly income',
-    'individual monthly income',
-    'language',
-    'marital status',
-    'official employment status',
-    'population group',
-    'refuse disposal',
-    'source of water',
-    'tenure status',
-    'toilet facilities',
-    'type of dwelling',
-    'type of sector',
-])
 
 # Postgres has a max name length of 63 by default, reserving up to
 # 13 chars for the _municipality ending
@@ -53,7 +45,7 @@ TABLE_BAD_CHARS = re.compile('[ /-]')
 DATA_TABLES = {}
 
 def get_datatable(id):
-    return DATA_TABLES[id.upper()]
+    return DATA_TABLES[id.lower()]
 
 
 class SimpleTable(object):
@@ -66,7 +58,7 @@ class SimpleTable(object):
     """
 
     def __init__(self, id, universe, description, table='auto', total_column='total'):
-        self.id = id.upper()
+        self.id = id
 
         if table == 'auto':
             table = get_table_model(id)
@@ -91,7 +83,7 @@ class SimpleTable(object):
         Work out our columns by finding those that aren't geo columns.
         """
         self.columns = OrderedDict()
-        self.columns['Total'] = {'name': 'Total', 'indent': 0}
+        self.columns['total'] = {'name': 'Total', 'indent': 0}
 
         for col in (c.name for c in self.table.columns if c.name not in ['geo_code', 'geo_level']):
             self.columns[col] = {
@@ -145,10 +137,13 @@ class SimpleTable(object):
         return {
             'title': self.description,
             'universe': self.universe,
-            'denominator_column_id': 'Total',
+            'denominator_column_id': self.total_column,
             'columns': self.columns,
         }
 
+
+FIELD_TABLE_FIELDS = set()
+FIELD_TABLES = {}
 
 class FieldTable(SimpleTable):
     """
@@ -181,16 +176,34 @@ class FieldTable(SimpleTable):
     def __init__(self, fields, year='2009', id=None, universe=None, description=None):
         universe = universe or 'Population'
         description = description or (universe + ' by ' + ', '.join(fields))
-        id = id or table_name_to_id(get_table_name(fields, 'country'))
+        id = id or get_table_id(fields)
 
         self.fields = fields
+        self.field_set = set(fields)
         self.year = year
 
         super(FieldTable, self).__init__(id=id, table=None, universe=universe, description=description)
 
+        FIELD_TABLE_FIELDS.update(self.fields)
+        FIELD_TABLES[self.id] = self
+
+
+    def build_models(self):
+        """
+        Build models that correspond to the tables underlying this data table.
+        """
+        self.models = {}
+        for level in geo_levels:
+            model = build_model_from_fields(
+                    self.fields, level,
+                    table_name=get_table_name(id=self.id, geo_level=level))
+            model.field_table = self
+            self.models[level] = model
+
 
     def get_model(self, geo_level):
-        return get_model_from_fields(self.fields, geo_level)
+        return self.models[geo_level]
+
 
     def setup_columns(self):
         """
@@ -198,7 +211,7 @@ class FieldTable(SimpleTable):
 
         Each 'column' is actually a unique value for each of this table's +fields+.
         """
-        model = self.get_model('country')
+        self.build_models()
 
         # Each "column" is a unique permutation of the values
         # of this table's fields, including rollups. The ordering of the
@@ -230,6 +243,7 @@ class FieldTable(SimpleTable):
 
         session = get_session()
         try:
+            model = self.get_model('country')
             fields = [getattr(model, f) for f in self.fields]
 
             # get distinct permutations for all fields
@@ -263,7 +277,7 @@ class FieldTable(SimpleTable):
 
 
     def column_id(self, field_values):
-        return '-'.join([self.id] + field_values)
+        return '-'.join(field_values)
 
 
 
@@ -339,11 +353,40 @@ class FieldTable(SimpleTable):
 
 _census_table_models = {}
 
+def get_model_by_name(name):
+    return _census_table_models[name]
+
+
 def get_model_from_fields(fields, geo_level, table_name=None):
+    """
+    Find a model that can provide us these fields, at this level.
+    """
+    if table_name:
+        return get_model_by_name(table_name)
+
+    for field in fields:
+        if field not in FIELD_TABLE_FIELDS:
+            raise ValueError('Invalid field: %s' % field)
+
+    # try find it based on fields
+    field_set = set(fields)
+
+    possibilities = [(t, len(t.field_set - field_set))
+        for t in FIELD_TABLES.itervalues() if len(t.field_set) >= len(field_set)]
+    table, _ = min(possibilities, key=lambda p: p[1])
+
+    if not table:
+        ValueError("Couldn't find a table that covers these fields: %s" % fields)
+
+    return table.get_model(geo_level)
+
+
+
+def build_model_from_fields(fields, geo_level, table_name=None):
     '''
     Generates an ORM model for arbitrary census fields by geography.
 
-    :param list fields: the census fields in `api.models.tables.table_fields`, e.g. ['highest educational level', 'type of sector']
+    :param list fields: the census fields in `api.models.tables.FIELD_TABLE_FIELDS`, e.g. ['highest educational level', 'type of sector']
     :param str geo_level: one of the geographics levels defined in `api.base.geo_levels`, e.g. 'province'
     :param str table_name: the name of the database table, if different from the default table
     :return: ORM model class containing the given fields with type String(128), a 'total' field
@@ -369,26 +412,25 @@ def get_model_from_fields(fields, geo_level, table_name=None):
             *field_columns
         )
     _census_table_models[table_name] = Model
+
     return Model
 
 
-def get_table_name(fields, geo_level):
+def get_table_id(fields):
+    sorted_fields = sorted(fields)
+    table_id = TABLE_BAD_CHARS.sub('', '_'.join(sorted_fields))
+
+    return table_id[:MAX_TABLE_NAME_LENGTH]
+
+
+def get_table_name(fields=None, geo_level=None, id=None):
     if geo_level not in geo_levels:
         raise ValueError('Invalid geo_level: %s' % geo_level)
-    for field in fields:
-        if field not in table_fields:
-            raise ValueError('Invalid field: %s' % field)
 
-    sorted_fields = sorted(fields)
-    table_name = TABLE_BAD_CHARS.sub('', '_'.join(sorted_fields))
+    if not id:
+        id = get_table_id(fields)
 
-    return '%s_%s' % (table_name[:MAX_TABLE_NAME_LENGTH], geo_level)
-
-
-def table_name_to_id(name):
-    # remove geo level at end, and change _ to - so that when showing really
-    # long table names, words wrap nicely
-    return '-'.join(name.split('_')[:-1]).upper()
+    return '%s_%s' % (id, geo_level)
 
 
 # Define our tables so the data API can discover them.
@@ -417,6 +459,8 @@ FieldTable(['source of water'])
 FieldTable(['tenure status'], universe='Households')
 FieldTable(['toilet facilities'])
 FieldTable(['type of dwelling'], universe='Households')
+FieldTable(['party'], universe='Votes', id='party_votes_national_2014', description='2014 National Election results')
+FieldTable(['party'], universe='Votes', id='party_votes_provincial_2014', description='2014 Provincial Election results')
 
 # Simple Tables
 SimpleTable(

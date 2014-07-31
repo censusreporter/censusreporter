@@ -169,7 +169,7 @@ class DataAPIView(View):
                 'name': 'Census 2009',
                 'years': '2009',
             },
-            'tables': dict((t.id, t.as_dict()) for t in tables),
+            'tables': dict((t.id.upper(), t.as_dict()) for t in tables),
             'data': data,
             'geography': dict((g.full_geoid, g.as_dict()) for g in chain(data_geos, info_geos)),
             })
@@ -213,7 +213,7 @@ class DataAPIView(View):
 
         for table in tables:
             for geo_id, table_data in table.raw_data_for_geos(geos).iteritems():
-                data.setdefault(geo_id, {})[table.id] = table_data
+                data.setdefault(geo_id, {})[table.id.upper()] = table_data
 
         return data
 
