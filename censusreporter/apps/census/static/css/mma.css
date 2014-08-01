@@ -31,6 +31,9 @@
     vertical-align: baseline;
     height: 21px;
 }
+.box-header img {
+    vertical-align: middle;
+}
 #page-footer ul.ul-icon-list {
     margin-bottom: 30px;
 }
