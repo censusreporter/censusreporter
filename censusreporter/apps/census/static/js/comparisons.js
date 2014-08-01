@@ -138,13 +138,10 @@ function Comparison(options) {
         comparison.makeMapLegendContainer();
         comparison.makeMapSumlevSelector();
         
-        var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2012?geo_ids=" + comparison.geoIDs.join(','),
-            allowMapDrag = (browserWidth > 480) ? true : false;
-        
-        d3.json(geoAPI, function(error, json) {
-            if (error) return console.warn(error);
+        var allowMapDrag = (browserWidth > 480) ? true : false;
 
-            comparison.geoFeatures = json.features;
+        var mapDataLoaded = function(features) {
+            comparison.geoFeatures = features;
             comparison.mergeMapData();
 
             // draw the base map
@@ -173,7 +170,9 @@ function Comparison(options) {
             comparison.sumlevSelector.fadeIn();
             comparison.mapLegend.fadeIn();
             comparison.dataSelector.fadeIn();
-        })
+        };
+
+        comparison.loadMapData(mapDataLoaded);
         
         comparison.addGeographyCompareTools();
         if (!!comparison.denominatorColumn) {
@@ -442,7 +441,7 @@ function Comparison(options) {
         }
         
         var viewGeoData = _.filter(comparison.geoFeatures, function(g) {
-            var thisSumlev = g.properties.geoid.slice(0, 3);
+            var thisSumlev = g.properties.geoid.split('-')[0];
             return thisSumlev == comparison.chosenSumlev;
         })
 
@@ -1680,6 +1679,58 @@ function Comparison(options) {
         if (typeof(ga) == 'function') {
             ga('send', 'event', category, action, label);
         }
+    }
+    
+    comparison.addNumbertoggles = function(redrawFunction) {
+        d3.select('#number-toggles').remove();
+        var toggleText = (comparison.valueType == 'estimate') ? 'Switch to percentages' : 'Switch to totals',
+            toggleID = (comparison.valueType == 'estimate') ? 'show-percentage' : 'show-number',
+            notes = d3.select('#tool-notes'),
+            toggle = notes.append('div')
+                    .attr('id', 'number-toggles')
+                    .classed('tool-group', true)
+                .append('a')
+                    .classed('toggle-control', true)
+                    .attr('id', toggleID)
+                    .text(toggleText);
+
+        comparison.addNumberToggleListener(redrawFunction);
+        return comparison;
+    }
+
+    comparison.loadMapData = function(cb) {
+        // load all country, province, municipality and ward geo data
+        var levels = ['province', 'municipality', 'ward'];
+        var counter = levels.length;
+        var featureMap = {};
+
+        _.each(levels, function(level) {
+            d3.json('http://maps.code4sa.org/political/2011/' + level, function(error, topo) {
+                if (error) return console.warn(error);
+
+                var features = topojson.feature(topo, topo.objects.demarcation).features;
+
+                // index by geoid
+                _.each(features, function(feature) {
+                    var geoid = level + '-' + feature.id;
+                    featureMap[geoid] = feature;
+                });
+
+                if (--counter == 0) {
+                    // collect those we're interested in
+                    var usefulFeatures = {};
+
+                    _.each(comparison.dataGeoIDs, function(geoid) {
+                        var feature = featureMap[geoid];
+                        feature.properties.geoid = geoid;
+                        feature.properties.name = comparison.data.geography[geoid].name;
+                        usefulFeatures[geoid] = feature;
+                    });
+
+                    cb(usefulFeatures);
+                }
+            });
+        });
     }
 
     // ready, set, go
