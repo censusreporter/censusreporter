@@ -166,9 +166,9 @@ class DataAPIView(View):
 
         return render_json_to_response({
             'release': {
-                'id': 'census_2009',
-                'name': 'Census 2009',
-                'years': '2009',
+                'id': 'census_2011',
+                'name': 'Census 2011',
+                'years': '2011',
             },
             'tables': dict((t.id.upper(), t.as_dict()) for t in tables),
             'data': data,
