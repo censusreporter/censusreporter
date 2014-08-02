@@ -8,6 +8,7 @@ from api.controller.geography import LocationNotFound
 from api.models import Ward, Municipality, District, Province
 from api.models import get_model_from_fields
 from api.models.tables import get_datatable
+from api.utils import capitalize
 
 
 # dictionaries that merge_dicts will merge
@@ -329,7 +330,7 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
                 else:
                     key = recoder(field, key)
             else:
-                key = key.capitalize()
+                key = capitalize(key)
 
             # enforce key ordering
             if not data and field in key_order:

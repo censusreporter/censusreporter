@@ -108,3 +108,15 @@ class WardSearchAPI(object):
 
 
 ward_search_api = WardSearchAPI(WARD_SEARCH_ENDPOINT)
+
+def capitalize(s):
+    """
+    Capitalize the first char of a string, without
+    affecting the rest of the string.
+    This differs from `str.capitalize` since the latter
+    also lowercases the rest of the string.
+    """
+    if not s:
+        return s
+
+    return ''.join([s[0].upper(), s[1:]])

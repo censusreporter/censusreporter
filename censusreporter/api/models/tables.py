@@ -5,7 +5,7 @@ from collections import OrderedDict
 from sqlalchemy import Column, ForeignKey, Integer, String, Table, distinct, func
 
 from .base import Base, geo_levels
-from api.utils import get_session, get_table_model
+from api.utils import get_session, get_table_model, capitalize
 
 
 '''
@@ -87,7 +87,7 @@ class SimpleTable(object):
 
         for col in (c.name for c in self.table.columns if c.name not in ['geo_code', 'geo_level']):
             self.columns[col] = {
-                'name': col.replace('_', ' ').capitalize(),
+                'name': capitalize(col.replace('_', ' ')),
                 'indent': 1
                 }
 
@@ -277,7 +277,7 @@ class FieldTable(SimpleTable):
                     col_id = self.column_id(new_values)
 
                     self.columns[col_id] = {
-                            'name': val.capitalize() + ('' if last else ':'),
+                            'name': capitalize(val) + ('' if last else ':'),
                             'indent': indent,
                             }
 
