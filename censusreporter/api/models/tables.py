@@ -173,14 +173,28 @@ class FieldTable(SimpleTable):
         col6: male > 18
 
     """
-    def __init__(self, fields, year='2009', id=None, universe=None, description=None):
-        universe = universe or 'Population'
+    def __init__(self, fields, id=None, universe='Population', description=None, denominator_key=None):
+        """
+        Describe a new field table.
+
+        :param list fields: list of field names, in nesting order
+        :param str id: table id, or None (default) to determine it based on `fields`
+        :param str universe: a description of the universe this table covers (default: "Population")
+        :param str description: a description of this table. If None, this is derived from
+                                `universe` and the `fields`.
+        :param str denominator_key: the key value of the rightmost field that should be 
+                                    used as the "total" column, instead of summing over
+                                    the values for each row. This is necessary when the
+                                    table doesn't describe a true partitioning of the
+                                    dataset (ie. the row values sum to more than the
+                                    total population).
+        """
         description = description or (universe + ' by ' + ', '.join(fields))
         id = id or get_table_id(fields)
 
         self.fields = fields
         self.field_set = set(fields)
-        self.year = year
+        self.denominator_key = denominator_key
 
         super(FieldTable, self).__init__(id=id, table=None, universe=universe, description=description)
 
@@ -237,7 +251,7 @@ class FieldTable(SimpleTable):
         #   female
 
         # map from column id to column info.
-        self.total_column = self.column_id(['total'])
+        self.total_column = self.column_id([self.denominator_key or 'total'])
         self.columns = OrderedDict()
         self.columns[self.total_column] = {'name': 'Total', 'indent': 0}
 
@@ -315,23 +329,33 @@ class FieldTable(SimpleTable):
                         .order_by(code_attr, *fields)\
                         .filter(code_attr.in_(geo_codes)).all()
 
-                def permute(level, field_values, rows):
+                def permute(level, field_keys, rows):
                     field = self.fields[level]
                     total = 0
+                    denominator = 0
 
-                    for val, rows in groupby(rows, lambda r: getattr(r, field)):
-                        new_values = field_values + [val]
-                        col_id = self.column_id(new_values)
+                    for key, rows in groupby(rows, lambda r: getattr(r, field)):
+                        new_keys = field_keys + [key]
+                        col_id = self.column_id(new_keys)
 
                         if level+1 < len(self.fields):
-                            count = permute(level+1, new_values, rows)
+                            count = permute(level+1, new_keys, rows)
                         else:
                             # we've bottomed out
                             count = sum(row.total for row in rows)
 
+                            if self.denominator_key and self.denominator_key == key:
+                                # this row must be used as the denominator total,
+                                # rather than as an entry in the table
+                                denominator = count
+                                continue
+
                         total += count
                         geo_values['estimate'][col_id] = count
                         geo_values['error'][col_id] = 0
+
+                    if self.denominator_key:
+                        total = denominator
 
                     return total
 
@@ -448,7 +472,7 @@ FieldTable(['gender', 'population group'])
 FieldTable(['gender of head of household'], universe='Households')
 FieldTable(['highest educational level'])
 FieldTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
-FieldTable(['household goods'], universe='Households')
+FieldTable(['household goods'], universe='Households', denominator_key='total households')
 FieldTable(['language'])
 FieldTable(['employed individual monthly income'], universe='Employed individuals')
 FieldTable(['official employment status'], universe='Workers 15 and over')

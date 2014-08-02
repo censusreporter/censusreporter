@@ -294,6 +294,8 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
     else:
         key_order = {}
 
+    if total is not None and many_fields:
+        raise ValueError("Cannot specify a total if many fields are given")
 
     if recode:
         if not isinstance(recode, dict) or not many_fields:
@@ -365,19 +367,18 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
         our_total[key] = our_total.get(key, 0.0) + obj.total
         data['numerators']['this'] += obj.total
 
-    # if we had one field, we want one total
-    grand_total = sum(our_total.values())
+    if total is not None:
+        grand_total = total
+    else:
+        grand_total = sum(our_total.values())
 
     # add in percentages
     if percent:
-        if total is None:
-            total = our_total
-
         def calc_percent(data):
             for key, data in data.iteritems():
                 if not key == 'metadata':
                     if 'numerators' in data:
-                        tot = total[key] if many_fields else grand_total
+                        tot = our_total[key] if many_fields else grand_total
                         data['values'] = {'this': round(data['numerators']['this'] / tot * 100, 2)}
                     else:
                         calc_percent(data)
