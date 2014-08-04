@@ -15,7 +15,7 @@ from .views import GeographyDetailView as BaseGeographyDetailView, LocateView as
 from .utils import LazyEncoder
 from .profile import enhance_api_data
 
-from api.models.tables import DataTable
+from api.models.tables import get_datatable
 from api.controller import get_census_profile, get_geography, get_locations, get_locations_from_coords, get_elections_profile
 from api.utils import LocationNotFound
 
@@ -44,12 +44,13 @@ class GeographyDetailView(BaseGeographyDetailView):
             geo_level, geo_code = geography_id.split('-', 1)
             
             geo = get_geography(geo_code, geo_level)
-            profile_data = get_census_profile(geo_code, geo_level)
-            profile_data['elections'] = get_elections_profile(geo_code, geo_level)
-            profile_data['election_list'] = ["national_2014", "provincial_2014"]
-            profile_data['geography'] = geo.as_dict_deep()
         except (ValueError, LocationNotFound):
             raise Http404
+
+        profile_data = get_census_profile(geo_code, geo_level)
+        profile_data['elections'] = get_elections_profile(geo_code, geo_level)
+        profile_data['election_list'] = ["national_2014", "provincial_2014"]
+        profile_data['geography'] = geo.as_dict_deep()
 
         profile_data = enhance_api_data(profile_data)
         page_context.update(profile_data)
@@ -157,19 +158,21 @@ class DataAPIView(View):
 
         try:
             table_ids = request.GET.get('table_ids', '').split(',')
-            tables = [DataTable.get(t) for t in table_ids]
+            tables = [get_datatable(t) for t in table_ids]
         except KeyError as e:
             return render_json_error('Unknown table: %s' % e.message, 404)
+
+        dataset = ', '.join(sorted(list(set(t.dataset_name for t in tables))))
+        years = ', '.join(sorted(list(set(t.year for t in tables))))
 
         data = self.get_data(data_geos, tables)
 
         return render_json_to_response({
             'release': {
-                'id': 'census_2009',
-                'name': 'Census 2009',
-                'years': '2009',
+                'name': dataset,
+                'years': years,
             },
-            'tables': dict((t.id, t.as_dict()) for t in tables),
+            'tables': dict((t.id.upper(), t.as_dict()) for t in tables),
             'data': data,
             'geography': dict((g.full_geoid, g.as_dict()) for g in chain(data_geos, info_geos)),
             })
@@ -213,7 +216,7 @@ class DataAPIView(View):
 
         for table in tables:
             for geo_id, table_data in table.raw_data_for_geos(geos).iteritems():
-                data.setdefault(geo_id, {})[table.id] = table_data
+                data.setdefault(geo_id, {})[table.id.upper()] = table_data
 
         return data
 

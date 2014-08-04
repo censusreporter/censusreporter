@@ -116,7 +116,7 @@
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=election_data.average_turnout stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-histogram-elections-{{ election_data.key }}-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party" {% if election_data.party_distribution.metadata.universe %} data-qualifier="Universe: {{ election_data.party_distribution.metadata.universe }}"{% endif %}></div>
+            <div class="column-half" id="chart-histogram-elections-{{ key }}-party_distribution" data-stat-type="scaled-percentage" data-chart-title="Voters by party"></div>
         </section>
         {% endwith %}
         {% endfor %}

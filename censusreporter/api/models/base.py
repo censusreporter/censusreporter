@@ -31,7 +31,7 @@ class GeoMixin(object):
             'full_geoid': self.full_geoid,
             'full_name': self.long_name,
             'short_name': self.short_name,
-            'name': self.short_name,
+            'name': self.context_name,
             'geo_level': self.level,
             'geo_code': self.code,
             'child_level': self.child_level,
@@ -70,12 +70,24 @@ class GeoMixin(object):
             splits = []
             for k in kids:
                 splits.extend(k.split_into(level))
+            # when splitting into a lower level, ensure
+            # that we update the children's parent to be us,
+            # which allows the UI to handle that case
+            # correctly
+            for k in splits:
+                k.parent = self
             return splits
         
 
     @property
     def short_name(self):
         return getattr(self, 'name', '')
+
+    @property
+    def context_name(self):
+        if hasattr(self, 'province'):
+            return '%s, %s' % (self.short_name, self.province.code)
+        return self.short_name
 
     @property
     def long_name(self):
@@ -88,9 +100,17 @@ class GeoMixin(object):
 
     @property
     def parent(self):
-        if self.parents():
-            return self.parents()[0]
-        return None
+        # allow parent to be overriden
+        if not hasattr(self, '_parent'):
+            p = self.parents()
+            p = p[0] if p else None
+            self._parent = p
+
+        return self._parent
+
+    @parent.setter
+    def parent(self, value):
+        self._parent = value
 
     @property
     def country(self):

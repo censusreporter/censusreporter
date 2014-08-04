@@ -72,14 +72,8 @@ def load_api_data():
 
     if env.deploy_type == 'dev':
         local('; '.join(commands))
-        local('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
-        local('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
-        local('rm -r %s/votes' % data_dir_abs)
     else:
         run('; '.join(commands))
-        run('%s -f %s/votes/votes.sql' % (PSQL_STRING, data_dir_abs))
-        run('%s -f %s/votes/votesummary.sql' % (PSQL_STRING, data_dir_abs))
-        run('rm -r %s/votes' % data_dir_abs)
 
 @task
 def reload_api_data():

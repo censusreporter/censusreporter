@@ -7,7 +7,8 @@ from sqlalchemy.orm import class_mapper
 from api.controller.geography import LocationNotFound
 from api.models import Ward, Municipality, District, Province
 from api.models import get_model_from_fields
-from api.models.tables import table_name_to_id, DataTable
+from api.models.tables import get_datatable
+from api.utils import capitalize
 
 
 # dictionaries that merge_dicts will merge
@@ -168,17 +169,11 @@ def add_metadata(data, model):
     if not 'metadata' in data:
         data['metadata'] = {}
 
-    table_id = table_name_to_id(model.__table__.name)
-    data['metadata']['table_id'] = table_id
-
-    census_table = None
-    try:
-        census_table = DataTable.get(table_id)
-    except KeyError:
-        pass
-
-    if census_table and census_table.universe:
-        data['metadata']['universe'] = census_table.universe
+    if hasattr(model, 'field_table'):
+        data_table = model.field_table
+        data['metadata']['table_id'] = data_table.id.upper()
+        if data_table.universe:
+            data['metadata']['universe'] = data_table.universe
 
 
 def get_objects_by_geo(db_model, geo_code, geo_level, session, fields=None, order_by=None):
@@ -300,6 +295,8 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
     else:
         key_order = {}
 
+    if total is not None and many_fields:
+        raise ValueError("Cannot specify a total if many fields are given")
 
     if recode:
         if not isinstance(recode, dict) or not many_fields:
@@ -333,7 +330,7 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
                 else:
                     key = recoder(field, key)
             else:
-                key = key.capitalize()
+                key = capitalize(key)
 
             # enforce key ordering
             if not data and field in key_order:
@@ -371,19 +368,18 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
         our_total[key] = our_total.get(key, 0.0) + obj.total
         data['numerators']['this'] += obj.total
 
-    # if we had one field, we want one total
-    grand_total = sum(our_total.values())
+    if total is not None:
+        grand_total = total
+    else:
+        grand_total = sum(our_total.values())
 
     # add in percentages
     if percent:
-        if total is None:
-            total = our_total
-
         def calc_percent(data):
             for key, data in data.iteritems():
                 if not key == 'metadata':
                     if 'numerators' in data:
-                        tot = total[key] if many_fields else grand_total
+                        tot = our_total[key] if many_fields else grand_total
                         data['values'] = {'this': round(data['numerators']['this'] / tot * 100, 2)}
                     else:
                         calc_percent(data)
