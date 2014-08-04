@@ -47,6 +47,10 @@
     margin-bottom: .25em;
 }
 
+.chart .action-links a {
+    text-decoration: none;
+}
+
 @media only screen and (max-width: 768px) {
     #share-this-page {
         display: none;
