@@ -149,7 +149,7 @@ function Comparison(options) {
                 // in case we're redrawing without refresh
                 comparison.map.remove();
             }
-            comparison.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+            comparison.map = L.map('slippy-map', {
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: allowMapDrag,
@@ -160,6 +160,14 @@ function Comparison(options) {
                     position: 'topright'
                 }));
             }
+
+            // add imagery
+            L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+              attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+              subdomains: 'abcd',
+              maxZoom: 17
+            }).addTo(comparison.map);
+                
 
             // initial page load, make map with first column
             // and sumlev with the most geographies
