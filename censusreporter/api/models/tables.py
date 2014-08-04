@@ -57,7 +57,8 @@ class SimpleTable(object):
     use a `FieldTable` below.
     """
 
-    def __init__(self, id, universe, description, table='auto', total_column='total'):
+    def __init__(self, id, universe, description, table='auto', total_column='total',
+            year='2011', dataset='Census 2011'):
         self.id = id
 
         if table == 'auto':
@@ -66,6 +67,8 @@ class SimpleTable(object):
         self.table = table
         self.universe = universe
         self.description = description
+        self.year = year
+        self.dataset_name = dataset
         self.total_column = total_column
         self.setup_columns()
 
@@ -173,7 +176,8 @@ class FieldTable(SimpleTable):
         col6: male > 18
 
     """
-    def __init__(self, fields, id=None, universe='Population', description=None, denominator_key=None):
+    def __init__(self, fields, id=None, universe='Population', description=None, denominator_key=None,
+            **kwargs):
         """
         Describe a new field table.
 
@@ -196,7 +200,7 @@ class FieldTable(SimpleTable):
         self.field_set = set(fields)
         self.denominator_key = denominator_key
 
-        super(FieldTable, self).__init__(id=id, table=None, universe=universe, description=description)
+        super(FieldTable, self).__init__(id=id, table=None, universe=universe, description=description, **kwargs)
 
         FIELD_TABLE_FIELDS.update(self.fields)
         FIELD_TABLES[self.id] = self
@@ -483,31 +487,41 @@ FieldTable(['source of water'])
 FieldTable(['tenure status'], universe='Households')
 FieldTable(['toilet facilities'])
 FieldTable(['type of dwelling'], universe='Households')
-FieldTable(['party'], universe='Votes', id='party_votes_national_2014', description='2014 National Election results')
-FieldTable(['party'], universe='Votes', id='party_votes_provincial_2014', description='2014 Provincial Election results')
+FieldTable(['party'], universe='Votes', id='party_votes_national_2014', description='2014 National Election results',
+        dataset='2014 National Elections', year='2014')
+FieldTable(['party'], universe='Votes', id='party_votes_provincial_2014', description='2014 Provincial Election results',
+        dataset='2014 Provincial Elections', year='2014')
 
 # Simple Tables
 SimpleTable(
         id='voter_turnout_national_2014',
         universe='Registered voters',
-        description='2014 National Election voter turnout',
         total_column='registered_voters',
+        description='2014 National Election voter turnout',
+        dataset='2014 National Elections',
+        year='2014'
         )
 SimpleTable(
         id='voter_turnout_provincial_2014',
         universe='Registered voters',
-        description='2014 Provincial Election voter turnout',
         total_column='registered_voters',
+        description='2014 Provincial Election voter turnout',
+        dataset='2014 Provincial Elections',
+        year='2014'
         )
 SimpleTable(
         id='votes_provincial_2014',
         universe='Valid votes',
-        description='2014 Provincial Election votes',
         total_column='total_votes',
+        description='2014 Provincial Election votes',
+        dataset='2014 Provincial Elections',
+        year='2014'
         )
 SimpleTable(
         id='votes_national_2014',
         universe='Valid votes',
-        description='2014 National Election votes',
         total_column='total_votes',
+        description='2014 National Election votes',
+        dataset='2014 National Elections',
+        year='2014'
         )

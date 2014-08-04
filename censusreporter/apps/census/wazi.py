@@ -162,13 +162,15 @@ class DataAPIView(View):
         except KeyError as e:
             return render_json_error('Unknown table: %s' % e.message, 404)
 
+        dataset = ', '.join(sorted(list(set(t.dataset_name for t in tables))))
+        years = ', '.join(sorted(list(set(t.year for t in tables))))
+
         data = self.get_data(data_geos, tables)
 
         return render_json_to_response({
             'release': {
-                'id': 'census_2011',
-                'name': 'Census 2011',
-                'years': '2011',
+                'name': dataset,
+                'years': years,
             },
             'tables': dict((t.id.upper(), t.as_dict()) for t in tables),
             'data': data,
