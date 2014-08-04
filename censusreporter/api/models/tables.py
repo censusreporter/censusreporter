@@ -501,13 +501,13 @@ SimpleTable(
         )
 SimpleTable(
         id='votes_provincial_2014',
-        universe='Votes',
+        universe='Valid votes',
         description='2014 Provincial Election votes',
         total_column='total_votes',
         )
 SimpleTable(
         id='votes_national_2014',
-        universe='Votes',
+        universe='Valid votes',
         description='2014 National Election votes',
         total_column='total_votes',
         )
