@@ -18,6 +18,7 @@ from .profile import enhance_api_data
 from api.models.tables import get_datatable, DATA_TABLES
 from api.controller import get_census_profile, get_geography, get_locations, get_locations_from_coords, get_elections_profile
 from api.utils import LocationNotFound
+from api.download import generate_download_bundle, supported_formats
 
 
 def render_json_error(message, status_code=400):
@@ -151,31 +152,53 @@ class DataAPIView(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            geo_ids = request.GET.get('geo_ids', 'country-ZA').split(',')
-            data_geos, info_geos = self.get_geos(geo_ids)
+            self.geo_ids = request.GET.get('geo_ids', 'country-ZA').split(',')
+            self.data_geos, self.info_geos = self.get_geos(self.geo_ids)
         except LocationNotFound as e:
             return render_json_error(e.message, 404)
 
         try:
-            table_ids = request.GET.get('table_ids', '').split(',')
-            tables = [get_datatable(t) for t in table_ids]
+            self.table_ids = request.GET.get('table_ids', '').split(',')
+            self.tables = [get_datatable(t) for t in self.table_ids]
         except KeyError as e:
             return render_json_error('Unknown table: %s' % e.message, 404)
 
-        dataset = ', '.join(sorted(list(set(t.dataset_name for t in tables))))
-        years = ', '.join(sorted(list(set(t.year for t in tables))))
+        if kwargs.get('action') == 'show':
+            return self.show(request)
+        if kwargs.get('action') == 'download':
+            return self.download(request)
 
-        data = self.get_data(data_geos, tables)
+    def show(self, request):
+        dataset = ', '.join(sorted(list(set(t.dataset_name for t in self.tables))))
+        years = ', '.join(sorted(list(set(t.year for t in self.tables))))
+
+        data = self.get_data(self.data_geos, self.tables)
 
         return render_json_to_response({
             'release': {
                 'name': dataset,
                 'years': years,
             },
-            'tables': dict((t.id.upper(), t.as_dict()) for t in tables),
+            'tables': dict((t.id.upper(), t.as_dict()) for t in self.tables),
             'data': data,
-            'geography': dict((g.full_geoid, g.as_dict()) for g in chain(data_geos, info_geos)),
+            'geography': dict((g.full_geoid, g.as_dict()) for g in chain(self.data_geos, self.info_geos)),
             })
+
+    def download(self, request):
+        fmt = request.GET.get('format', 'csv')
+        if not fmt in supported_formats:
+            response = HttpResponse('Unspported format %s. Supported formats: %s' %(fmt, ', '.join(supported_formats.keys())))
+            response.status_code = 400
+            return response
+
+        data = self.get_data(self.data_geos, self.tables)
+
+        content, fname, mime_type = generate_download_bundle(self.tables, self.data_geos, data, fmt)
+
+        response = HttpResponse(content, content_type=mime_type)
+        response['Content-Disposition'] = 'attachment; filename="%s"' % fname
+
+        return response
 
     def get_geos(self, geo_ids):
         """
@@ -219,6 +242,7 @@ class DataAPIView(View):
                 data.setdefault(geo_id, {})[table.id.upper()] = table_data
 
         return data
+
 
 
 class TableAPIView(View):
