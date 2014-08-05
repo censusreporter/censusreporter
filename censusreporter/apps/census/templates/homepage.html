@@ -149,11 +149,13 @@ if (allowMapDrag) {
                 layer.bindLabel(name, {direction: 'auto'});
                 layer.on('mouseover', function() {
                     layer.setStyle({
-                        "fillOpacity": 0.5,
+                        "fillColor": "#66c2a5",
+                        "fillOpacity": 0.7,
                     });
                 });
                 layer.on('mouseout', function() {
                     layer.setStyle({
+                        "fillColor": "#ccc",
                         "fillOpacity": 0.3,
                     });
                 });

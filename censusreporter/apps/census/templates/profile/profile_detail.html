@@ -366,7 +366,7 @@ var drawMaps = function() {
                   "color": "#777",
                   "weight": 2,
                   "opacity": 0.3,
-                  "fillOpacity": 0.4,
+                  "fillOpacity": 0.5,
                   "clickable": false
               }
           });
@@ -442,11 +442,13 @@ var drawMaps = function() {
 
                         layer.on('mouseover', function() {
                             layer.setStyle({
-                                "fillOpacity": 0.5,
+                                "fillColor": "#66c2a5",
+                                "fillOpacity": 0.7,
                             });
                         });
                         layer.on('mouseout', function() {
                             layer.setStyle({
+                                "fillColor": "#ccc",
                                 "fillOpacity": 0.3,
                             });
                         });
