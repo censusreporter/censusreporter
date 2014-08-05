@@ -15,7 +15,7 @@ from .views import GeographyDetailView as BaseGeographyDetailView, LocateView as
 from .utils import LazyEncoder
 from .profile import enhance_api_data
 
-from api.models.tables import get_datatable
+from api.models.tables import get_datatable, DATA_TABLES
 from api.controller import get_census_profile, get_geography, get_locations, get_locations_from_coords, get_elections_profile
 from api.utils import LocationNotFound
 
@@ -221,3 +221,10 @@ class DataAPIView(View):
         return data
 
 
+class TableAPIView(View):
+    """ 
+    View that lists data tables.
+    """
+
+    def get(self, request, *args, **kwargs):
+        return render_json_to_response([t.as_dict(columns=False) for t in DATA_TABLES.itervalues()])

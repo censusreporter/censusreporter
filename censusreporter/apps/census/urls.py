@@ -11,7 +11,7 @@ from .views import (HomepageView, GeographySearchView,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
 from .wazi import (GeographyDetailView, GeographyJsonView, WardSearchProxy, PlaceSearchJson,
-        LocateView, DataAPIView)
+        LocateView, DataAPIView, TableAPIView)
 
 admin.autodiscover()
 
@@ -52,6 +52,14 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(DataAPIView.as_view()),
         kwargs  = {},
         name    = 'api_show_data',
+    ),
+
+    # table search API
+    url(
+        regex   = '^api/1.0/table$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TableAPIView.as_view()),
+        kwargs  = {},
+        name    = 'api_list_tables',
     ),
 
     # TODO enable this see: https://github.com/Code4SA/censusreporter/issues/31

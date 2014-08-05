@@ -44,6 +44,10 @@
     margin-bottom: .25em;
 }
 
+header.section-contents.table-explorer h1 a {
+    float: none;
+}
+
 @media only screen and (max-width: 768px) {
     #share-this-page {
         display: none;
