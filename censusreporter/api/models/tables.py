@@ -120,9 +120,9 @@ class SimpleTable(object):
 
                 for row in rows:
                     geo_values = data['%s-%s' % (geo_level, row.geo_code)]
+
                     for col in self.columns.iterkeys():
-                        # duplicate the total column into Total
-                        if col == 'Total':
+                        if col == 'total':
                             value = getattr(row, self.total_column)
                         else:
                             value = getattr(row, col)
@@ -136,12 +136,13 @@ class SimpleTable(object):
         return data
 
 
-    def as_dict(self):
+    def as_dict(self, columns=True):
         return {
             'title': self.description,
             'universe': self.universe,
-            'denominator_column_id': self.total_column,
+            'denominator_column_id': 'total',
             'columns': self.columns,
+            'table_id': self.id.upper(),
         }
 
 
