@@ -1,15 +1,13 @@
-import zipfile
 import shutil
 import tempfile
 import os
-import json
 
 supported_formats = {
     #'shp':      {"driver": "ESRI Shapefile"},
     #'kml':      {"driver": "KML"},
     #'geojson':  {"driver": "GeoJSON"},
-    'xlsx':     {"driver": "XLSX"},
-    'csv':      {"driver": "CSV"},
+    'xlsx':     {"driver": "XLSX", 'mime': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'},
+    'csv':      {"driver": "CSV", 'mime': 'text/csv'},
 }
 
 def generate_download_bundle(tables, geos, data, fmt):
@@ -20,16 +18,15 @@ def generate_download_bundle(tables, geos, data, fmt):
     temp_path = tempfile.mkdtemp()
     try:
         file_ident = "%s_%s" % (tables[0].id.upper(), geos[0].short_name)
-        inner_path = os.path.join(temp_path, file_ident)
-        os.mkdir(inner_path)
-        out_filename = os.path.join(inner_path, '%s.%s' % (file_ident, fmt))
+        out_filename = '%s.%s' % (file_ident, fmt)
+        out_filepath = os.path.join(temp_path, out_filename)
 
         ogr.UseExceptions()
 
         out_driver = ogr.GetDriverByName(supported_formats[fmt]['driver'])
         out_srs = osr.SpatialReference()
         out_srs.ImportFromEPSG(4326)
-        out_data = out_driver.CreateDataSource(out_filename)
+        out_data = out_driver.CreateDataSource(out_filepath)
         try:
             # See http://gis.stackexchange.com/questions/53920/ogr-createlayer-returns-typeerror
             # excel limits worksheet names to 31 chars
@@ -61,28 +58,16 @@ def generate_download_bundle(tables, geos, data, fmt):
                         if column_id in table_estimates:
                             # GDAL generates invalid excel spreadsheets for
                             # zero values in real columns
-                            if table_estimates[column_id] != 0:
-                                out_feat.SetField(str(column_id), table_estimates[column_id])
+                            if fmt == 'xlsx' and table_estimates[column_id] == 0:
+                                continue
+                            out_feat.SetField(str(column_id), table_estimates[column_id])
 
                 out_layer.CreateFeature(out_feat)
         finally:
             out_data.Destroy()
 
-        metadata_dict = {
-            'tables': dict((t.id.upper(), t.as_dict()) for t in tables),
-        }
-        json.dump(metadata_dict, open(os.path.join(inner_path, 'metadata.json'), 'w'), indent=4)
-
-        zfile_path = os.path.join(temp_path, file_ident + '.zip')
-        zfile = zipfile.ZipFile(zfile_path, 'w', zipfile.ZIP_DEFLATED)
-        for root, dirs, files in os.walk(inner_path):
-            for f in files:
-                zfile.write(os.path.join(root, f), os.path.join(file_ident, f))
-        zfile.close()
-
-        # read in the content completely and return it
-        with open(zfile_path) as f:
+        with open(out_filepath) as f:
             content = f.read()
-            return content, file_ident + '.zip', 'application/zip'
+            return content, out_filename, supported_formats[fmt]['mime']
     finally:
         shutil.rmtree(temp_path)
