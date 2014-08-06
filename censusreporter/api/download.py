@@ -19,7 +19,7 @@ def generate_download_bundle(tables, geos, data, fmt):
     # where we're going to put the data temporarily
     temp_path = tempfile.mkdtemp()
     try:
-        file_ident = "%s_%s" % (tables[0].id.upper(), geos[0])
+        file_ident = "%s_%s" % (tables[0].id.upper(), geos[0].short_name)
         inner_path = os.path.join(temp_path, file_ident)
         os.mkdir(inner_path)
         out_filename = os.path.join(inner_path, '%s.%s' % (file_ident, fmt))
@@ -59,7 +59,10 @@ def generate_download_bundle(tables, geos, data, fmt):
 
                     for column_id, column_info in table.columns.iteritems():
                         if column_id in table_estimates:
-                            out_feat.SetField(str(column_id), table_estimates[column_id])
+                            # GDAL generates invalid excel spreadsheets for
+                            # zero values in real columns
+                            if table_estimates[column_id] != 0:
+                                out_feat.SetField(str(column_id), table_estimates[column_id])
 
                 out_layer.CreateFeature(out_feat)
         finally:

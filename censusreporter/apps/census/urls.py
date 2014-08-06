@@ -57,7 +57,7 @@ urlpatterns = patterns('',
     # download API
     url(
         regex   = '^api/1.0/data/download/latest$',
-        view    = cache_page(STANDARD_CACHE_TIME)(DataAPIView.as_view()),
+        view    = DataAPIView.as_view(),
         kwargs  = {'action': 'download'},
         name    = 'api_download_data',
     ),
