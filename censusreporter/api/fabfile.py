@@ -10,6 +10,7 @@ PSQL_STRING = 'PGPASSWORD=%s psql -d %s -U %s -h localhost' \
 PACKAGES = (
     'postgresql-9.1',
     'memcached',
+    'python-software-properties',
 )
 
 
@@ -17,16 +18,14 @@ PACKAGES = (
 def provision_api():
     require('deploy_type')
 
-    commands = (
-        'apt-get install %s --no-upgrade' % ' '.join(PACKAGES),
-        'sed -i "s/local   all             all                                     peer/local   all             all                                     trust/" /etc/postgresql/9.1/main/pg_hba.conf',
-        '/etc/init.d/postgresql restart',
-    )
+    sudo('apt-get install %s --no-upgrade' % ' '.join(PACKAGES))
+    sudo('sed -i "s/local   all             all                                     peer/local   all             all                                     trust/" /etc/postgresql/9.1/main/pg_hba.conf')
+    sudo('/etc/init.d/postgresql restart')
 
-    if env.deploy_type == 'dev':
-        local('; '.join('sudo %s' % cmd for cmd in commands))
-    else:
-        sudo('; '.join(commands))
+    # install libgdal
+    sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
+    sudo('apt-get -q update')
+    sudo('apt-get -q -y install libgdal1-dev')
 
     create_api_database()
     load_api_data()
