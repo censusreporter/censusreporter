@@ -199,6 +199,25 @@ HOUSEHOLD_GOODS_RECODE = {
 }
 
 
+# Type of dwelling
+
+TYPE_OF_DWELLING_RECODE = {
+    'House or brick/concrete block structure on a separate stand or yard or on a farm': 'House',
+    'Traditional dwelling/hut/structure made of traditional materials': 'Traditional',
+    'Flat or apartment in a block of flats': 'Apartment',
+    'Cluster house in complex': 'Cluster house',
+    'Townhouse (semi-detached house in a complex)': 'Townhouse',
+    'Semi-detached house': 'Semi-detached house',
+    'House/flat/room in backyard': 'Backyard in flat',
+    'Informal dwelling (shack; in backyard)': 'Shack',
+    'Informal dwelling (shack; not in backyard; e.g. in an informal/squatter settlement or on a farm)': 'Shack',
+    'Room/flatlet on a property or larger dwelling/servants quarters/granny flat': 'Room or flatlet',
+    'Caravan/tent': 'Caravan/tent',
+    'Other': 'Other',
+    'Unspecified': 'Unspecified',
+    'Not applicable': 'N/A',
+}
+
 def get_census_profile(geo_code, geo_level):
     session = get_session()
 
@@ -223,6 +242,7 @@ def get_census_profile(geo_code, geo_level):
         group_remainder(data['service_delivery']['refuse_disposal_distribution'])
         group_remainder(data['service_delivery']['toilet_facilities_distribution'], 5)
         group_remainder(data['demographics']['language_distribution'], 7)
+        group_remainder(data['households']['type_of_dwelling_distribution'], 5)
         
         return data
 
@@ -379,15 +399,11 @@ def get_households_profile(geo_code, geo_level, session):
     add_metadata(tenure_data, db_model_tenure)
 
     # type of dwelling
-    db_model_dwelling = get_model_from_fields(['type of dwelling'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_dwelling, geo_code, geo_level, session)
-    informal = 0.0
-    for obj in objects:
-        dwelling = getattr(obj, 'type of dwelling')
-        if dwelling.startswith('Informal'):
-            informal += obj.total
-
+    type_of_dwelling_dist, _ = get_stat_data(
+            ['type of dwelling'], geo_level, geo_code, session,
+            recode=TYPE_OF_DWELLING_RECODE,
+            order_by='-total')
+    informal = type_of_dwelling_dist['Shack']['numerators']['this']
 
     # household goods
     household_goods, _ = get_stat_data(
@@ -406,6 +422,7 @@ def get_households_profile(geo_code, geo_level, session):
                 'values': {'this': round(owned / total_households * 100, 2)},
                 'numerators': {'this': owned},
                 },
+            'type_of_dwelling_distribution': type_of_dwelling_dist,
             'informal': {
                 'name': 'Households that are informal dwellings (shacks)',
                 'values': {'this': round(informal / total_households * 100, 2)},

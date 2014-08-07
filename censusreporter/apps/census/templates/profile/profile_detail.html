@@ -179,12 +179,13 @@
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#households" id="households">Households <i class="fa fa-link"></i></a></h2>
-            <div class="column-half">
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.total_households stat_type='number' %}
             </div>
-            <div class="column-half">
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.informal stat_type='percentage' %}
             </div>
+            <div class="column-third" id="chart-pie-households-type_of_dwelling_distribution" data-stat-type="percentage" data-chart-title="Households by type of dwelling"></div>
         </section>
         <section class="clearfix stat-row grouped-row">
             <div class="column-half">
