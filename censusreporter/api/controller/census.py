@@ -131,6 +131,20 @@ COLLAPSED_INCOME_CATEGORIES["R 102 401 - R 204 800"] = "Over R102k"
 COLLAPSED_INCOME_CATEGORIES["R 204 801 or more"] = "Over R102k"
 COLLAPSED_INCOME_CATEGORIES["Unspecified"] = "Unspecified"
 
+ESTIMATED_INCOME_CATEGORIES = {}
+ESTIMATED_INCOME_CATEGORIES["R0"] = 0
+ESTIMATED_INCOME_CATEGORIES["Under R400"] = 200
+ESTIMATED_INCOME_CATEGORIES["R400 - R800"] = 600
+ESTIMATED_INCOME_CATEGORIES["R800 - R2k"] = 1200
+ESTIMATED_INCOME_CATEGORIES["R2k - R3k"] = 2400
+ESTIMATED_INCOME_CATEGORIES["R3k - R6k"] = 4800
+ESTIMATED_INCOME_CATEGORIES["R6k - R13k"] = 9600
+ESTIMATED_INCOME_CATEGORIES["R13k - R26k"] = 19200
+ESTIMATED_INCOME_CATEGORIES["R26k - R51k"] = 38400
+ESTIMATED_INCOME_CATEGORIES["R51k - R102k"] = 76800
+ESTIMATED_INCOME_CATEGORIES["Over R102k"] = 204800
+ESTIMATED_INCOME_CATEGORIES["Unspecified"] = None
+
 # Sanitation categories
 
 SHORT_WATER_SOURCE_CATEGORIES = {
@@ -415,11 +429,20 @@ def get_households_profile(geo_code, geo_level, session):
 
 def get_economics_profile(geo_code, geo_level, session):
     # income
-    income_dist_data, total_income = get_stat_data(
+    income_dist_data, total_workers = get_stat_data(
             ['employed individual monthly income'], geo_level, geo_code, session,
             exclude=['Not applicable'],
             recode=COLLAPSED_INCOME_CATEGORIES,
             key_order=COLLAPSED_INCOME_CATEGORIES.values())
+
+    # average income
+    total_income = 0
+    for key, cat in income_dist_data.iteritems():
+        if key != 'metadata':
+            income = ESTIMATED_INCOME_CATEGORIES[key]
+            if income is not None:
+                total_income += income * cat['numerators']['this']
+
 
     # employment status
     employ_status, total_workers = get_stat_data(
@@ -439,6 +462,10 @@ def get_economics_profile(geo_code, geo_level, session):
     total_households = total_with_access + total_without_access
 
     return {'individual_income_distribution': income_dist_data,
+            'mean_individual_income': {
+                'name': 'Average monthly income',
+                'values': {'this': round(total_income / total_workers, 0)},
+                },
             'employment_status': employ_status,
             'sector_type_distribution': sector_dist_data,
             'internet_access_distribution': internet_access_dist,
