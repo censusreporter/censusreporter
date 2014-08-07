@@ -442,6 +442,12 @@ def build_model_from_fields(fields, geo_level, table_name=None):
         )
     _census_table_models[table_name] = Model
 
+    session = get_session()
+    try:
+        Model.__table__.create(session.get_bind(), checkfirst=True)
+    finally:
+        session.close()
+
     return Model
 
 

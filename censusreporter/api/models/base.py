@@ -259,7 +259,6 @@ geo_models = {
     'subplace': Subplace,
     'ward': Ward,
     'municipality': Municipality,
-    'district': District,
     'province': Province,
     'country': Country,
 }
