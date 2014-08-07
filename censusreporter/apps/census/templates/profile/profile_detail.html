@@ -188,18 +188,20 @@
             <div class="column-third" id="chart-pie-households-type_of_dwelling_distribution" data-stat-type="percentage" data-chart-title="Households by type of dwelling"></div>
         </section>
         <section class="clearfix stat-row grouped-row">
+            <h2><a class="permalink" href="#tenure" id="tenure">Household ownership <i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.owned stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-households-tenure_distribution" data-stat-type="percentage" data-chart-title="Households by ownership"></div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <h2><a class="permalink" href="#household-head" id="household-head">Head of household <i class="fa fa-link"></i></a></h2>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.female stat_type='percentage' %}
             </div>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.under_20 stat_type='number' %}
             </div>
-        </section>
-        <section class="clearfix stat-row grouped-row">
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=households.owned stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-pie-households-tenure_distribution" data-stat-type="percentage" data-chart-title="Households by tenure"></div>
         </section>
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#household_goods" id="household_goods">Household goods <i class="fa fa-link"></i></a></h2>

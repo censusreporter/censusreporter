@@ -381,22 +381,14 @@ def get_households_profile(geo_code, geo_level, session):
             total_under_20 += obj.total
 
     # tenure
-    db_model_tenure = get_model_from_fields(['tenure status'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_tenure, geo_code, geo_level, session)
-    tenure_data = {}
-    owned = 0.0
-    for obj in objects:
-        tenure = getattr(obj, 'tenure status')
-        if tenure.startswith('Owned'):
-            owned += obj.total
-        tenure_data[tenure] = {
-            "name": tenure,
-            "values": {"this": round(obj.total / total_households * 100, 2)},
-            "numerators": {"this": obj.total},
-        }
+    tenure_data, _ = get_stat_data(
+            ['tenure status'], geo_level, geo_code, session,
+            order_by='-total')
 
-    add_metadata(tenure_data, db_model_tenure)
+    owned = 0
+    for key, data in tenure_data.iteritems():
+        if key.startswith('Owned'):
+            owned += data['numerators']['this']
 
     # type of dwelling
     type_of_dwelling_dist, _ = get_stat_data(
