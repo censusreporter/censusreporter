@@ -65,6 +65,10 @@ class GeographyDetailView(BaseGeographyDetailView):
 
         return page_context
 
+    def get_geography(self, geo_id):
+        # stub this out to prevent the subclass for calling out to CR
+        pass
+
     def write_profile_json(self, data):
         # unversioned, un-zipped embed data
         key = settings.EMBED_DIR + '/profiles/%s.json' % self.geo_id
