@@ -356,19 +356,10 @@ def get_demographics_profile(geo_code, geo_level, session):
 def get_households_profile(geo_code, geo_level, session):
     # head of household
     # gender
-    db_model_gender = get_model_from_fields(['gender of head of household'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_gender, geo_code, geo_level, session)
-    total_households = 0.0
-    female_heads = 0.0
-    for obj in objects:
-        total_households += obj.total
-
-        gender = getattr(obj, 'gender of head of household')
-        if gender == 'Unspecified':
-            continue
-        if gender == 'Female':
-            female_heads += obj.total
+    head_gender_dist, total_households = get_stat_data(
+            ['gender of household head'], geo_level, geo_code, session,
+            order_by='-total')
+    female_heads = head_gender_dist['Female']['numerators']['this']
 
     # age
     db_model_age = get_model_from_fields(['age of household head'],
@@ -377,11 +368,11 @@ def get_households_profile(geo_code, geo_level, session):
     total_under_20 = 0.0
     for obj in objects:
         age = getattr(obj, 'age of household head')
-        if age in ['10 - 14', '15 - 19']:
+        if age in ['10 - 14', '15 - 17', '18 - 19']:
             total_under_20 += obj.total
 
     # tenure
-    tenure_data, _ = get_stat_data(
+    tenure_data, total_households = get_stat_data(
             ['tenure status'], geo_level, geo_code, session,
             order_by='-total')
 
@@ -423,6 +414,7 @@ def get_households_profile(geo_code, geo_level, session):
             'tenure_distribution': tenure_data,
             'household_goods': household_goods,
             'head_of_household': {
+                'gender_distribution': head_gender_dist,
                 'female': {
                     'name': 'Households with women as their head',
                     'values': {'this': round(female_heads / total_households * 100, 2)},

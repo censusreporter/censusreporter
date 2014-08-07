@@ -196,10 +196,11 @@
         </section>
         <section class="clearfix stat-row grouped-row">
             <h2><a class="permalink" href="#household-head" id="household-head">Head of household <i class="fa fa-link"></i></a></h2>
-            <div class="column-half">
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.female stat_type='percentage' %}
             </div>
-            <div class="column-half">
+            <div class="column-third" id="chart-pie-households-head_of_household-gender_distribution" data-stat-type="percentage" data-chart-title="Head of household by gender"></div>
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.under_20 stat_type='number' %}
             </div>
         </section>

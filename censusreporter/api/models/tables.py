@@ -401,7 +401,7 @@ def get_model_from_fields(fields, geo_level, table_name=None):
     field_set = set(fields)
 
     possibilities = [(t, len(t.field_set - field_set))
-        for t in FIELD_TABLES.itervalues() if len(t.field_set) >= len(field_set)]
+        for t in FIELD_TABLES.itervalues() if len(t.field_set) >= len(field_set) and len(field_set - t.field_set) == 0]
     table, _ = min(possibilities, key=lambda p: p[1])
 
     if not table:
@@ -472,7 +472,7 @@ def get_table_name(fields=None, geo_level=None, id=None):
 FieldTable(['access to internet'])
 FieldTable(['age groups in 5 years'])
 FieldTable(['age in completed years'])
-FieldTable(['age of household head'], universe='Households')
+FieldTable(['gender of household head', 'age of household head'], universe='Households')
 FieldTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
 FieldTable(['energy or fuel for cooking'])
 FieldTable(['energy or fuel for heating'])
@@ -480,7 +480,6 @@ FieldTable(['energy or fuel for lighting'])
 FieldTable(['gender'])
 FieldTable(['gender', 'marital status'])
 FieldTable(['gender', 'population group'])
-FieldTable(['gender of head of household'], universe='Households')
 FieldTable(['highest educational level'])
 FieldTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
 FieldTable(['household goods'], universe='Households', denominator_key='total households')
