@@ -1035,7 +1035,7 @@ function Comparison(options) {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
         remote: {
-            url: geoSearchAPI,
+            url: comparison.geoSearchAPI,
             replace: function (url, query) {
                 return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
             },
