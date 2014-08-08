@@ -446,6 +446,112 @@ uncomment for separate inclusion into embed iframes
     color: #014948;
 }
 
+section.coal-chart-container {
+    padding: 2em 0 4em;
+    margin-bottom: 0;
+}
+section.chart-divider {
+    margin: 1em 0 0;
+    padding: 0.6em 0.75em;
+    background-color: #f7f8f3;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border-top: 1px solid #e8eadf;
+    border-bottom: 1px solid #cad0b5;
+}
+section.chart-divider h2 {
+    margin: 0;
+    line-height: 1;
+}
+.coal-chart-container h2 {}
+.coal-chart {
+    list-style: none;
+    position: relative;
+    height: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0 1.5em;
+}
+.coal-chart li {
+    display: inline;
+    position: absolute;
+    bottom: -6px;
+    margin-left: -5px;
+}
+.coal-chart li a {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    height: 11px;
+    width: 11px;
+    color: #222;
+    background-color: #eff1e9;
+    border: 1px solid #acb58c;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+.coal-chart li a:hover,
+.coal-chart li a.hovered {
+    background-color: #42472e;
+    border-color: #42472e;
+    z-index: 3;
+}
+.coal-chart li a.selected {
+    background-color: #027b7a;
+    border-color: #027b7a;
+    z-index: 2;
+}
+.coal-chart li a.selected.hovered {
+    z-index: 4;
+}
+.coal-chart li a .hovercard {
+    position: absolute;
+    width: 15em;
+    bottom: 1.5em;
+    right: -7.5em;
+    font-size: .83em;
+    line-height: 1.3;
+    text-align: center;
+    display: none;
+    padding: .5em;
+    border: 1px solid #e0e0e0;
+}
+.coal-chart li a:hover .hovercard,
+.coal-chart li a.hovered .hovercard,
+.coal-chart li a.selected .hovercard {
+    display: block;
+    background-color: #fff;
+}
+.coal-chart li.tick-mark {
+    height: 26px;
+    bottom: -13px;
+    margin-left: 0;
+    border-left: 1px solid #d5d5d5;
+}
+.coal-chart li.tick-mark.tick-mark-min {
+    left: 0;
+}
+.coal-chart li.tick-mark.tick-mark-max {
+    left: 100%;
+}
+.coal-chart li.tick-mark span {
+    position: relative;
+    font-size: .75em;
+    display: block;
+    color: #606060;
+    padding: 0;
+    margin-top: 26px;
+    margin-left: -50%;
+    white-space: nowrap;
+}
+.coal-chart li.tick-mark-min span {
+    margin-left: -1px;
+}
+.coal-chart li.tick-mark-max span {
+    margin-left: -99%;
+}
+
 @media only screen and (max-width: 640px) {
     .chart-qualifier,
     .action-links {
