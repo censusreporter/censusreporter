@@ -145,6 +145,38 @@ ESTIMATED_INCOME_CATEGORIES["R51k - R102k"] = 76800
 ESTIMATED_INCOME_CATEGORIES["Over R102k"] = 204800
 ESTIMATED_INCOME_CATEGORIES["Unspecified"] = None
 
+# Household income
+HOUSEHOLD_INCOME_RECODE = OrderedDict()
+HOUSEHOLD_INCOME_RECODE['No income'] = 'R0'
+HOUSEHOLD_INCOME_RECODE['R 1 - R 4800'] = 'Under R4800'
+HOUSEHOLD_INCOME_RECODE['R 4801 - R 9600'] = 'R5k - R10k'
+HOUSEHOLD_INCOME_RECODE['R 9601 - R 19 600'] = 'R10k - R20k'
+HOUSEHOLD_INCOME_RECODE['R 19 601 - R 38 200'] = 'R20k - R40k'
+HOUSEHOLD_INCOME_RECODE['R 38 201 - R 76 400'] = 'R40k - R75k'
+HOUSEHOLD_INCOME_RECODE['R 76 401 - R 153 800'] = 'R75k - R150k'
+HOUSEHOLD_INCOME_RECODE['R 153 801 - R 307 600'] = 'R150k - R300k'
+HOUSEHOLD_INCOME_RECODE['R 307 601 - R 614 400'] = 'R300k - R600k'
+HOUSEHOLD_INCOME_RECODE['R 614 001 - R 1 228 800'] = 'R600k - R1.2M'
+HOUSEHOLD_INCOME_RECODE['R 1 228 801 - R 2 457 600'] = 'R1.2M - R2.5M'
+HOUSEHOLD_INCOME_RECODE['R 2 457 601 or more'] = 'Over R2.5M'
+
+HOUSEHOLD_INCOME_ESTIMATE = {}
+HOUSEHOLD_INCOME_ESTIMATE['R0'] = 0
+HOUSEHOLD_INCOME_ESTIMATE['Under R4800'] = 2400
+HOUSEHOLD_INCOME_ESTIMATE['R5k - R10k'] = 7200
+HOUSEHOLD_INCOME_ESTIMATE['R10k - R20k'] = 14600
+HOUSEHOLD_INCOME_ESTIMATE['R20k - R40k'] = 29400
+HOUSEHOLD_INCOME_ESTIMATE['R40k - R75k'] = 57300
+HOUSEHOLD_INCOME_ESTIMATE['R75k - R150k'] = 115100
+HOUSEHOLD_INCOME_ESTIMATE['R150k - R300k'] = 230700
+HOUSEHOLD_INCOME_ESTIMATE['R300k - R600k'] = 461000
+HOUSEHOLD_INCOME_ESTIMATE['R600k - R1.2M'] = 921400
+HOUSEHOLD_INCOME_ESTIMATE['R1.2M - R2.5M'] = 1843200
+HOUSEHOLD_INCOME_ESTIMATE['Over R2.5M'] = 2500000
+HOUSEHOLD_INCOME_ESTIMATE['Unspecified'] = None
+
+
+
 # Sanitation categories
 
 SHORT_WATER_SOURCE_CATEGORIES = {
@@ -375,11 +407,26 @@ def get_households_profile(geo_code, geo_level, session):
     tenure_data, total_households = get_stat_data(
             ['tenure status'], geo_level, geo_code, session,
             order_by='-total')
-
     owned = 0
     for key, data in tenure_data.iteritems():
         if key.startswith('Owned'):
             owned += data['numerators']['this']
+
+    # annual household income
+    income_dist_data, _ = get_stat_data(
+            ['annual household income'], geo_level, geo_code, session,
+            exclude=['Unspecified'],
+            recode=HOUSEHOLD_INCOME_RECODE,
+            key_order=HOUSEHOLD_INCOME_RECODE.values())
+
+    # average income
+    total_income = 0
+    for key, cat in income_dist_data.iteritems():
+        if key != 'metadata':
+            income = HOUSEHOLD_INCOME_ESTIMATE[key]
+            if income is not None:
+                total_income += income * cat['numerators']['this']
+
 
     # type of dwelling
     type_of_dwelling_dist, _ = get_stat_data(
@@ -413,6 +460,11 @@ def get_households_profile(geo_code, geo_level, session):
                 },
             'tenure_distribution': tenure_data,
             'household_goods': household_goods,
+            'annual_income_distribution': income_dist_data,
+            'mean_annual_income': {
+                'name': 'Average annual household income',
+                'values': {'this': round(total_income / total_households, 0)},
+                },
             'head_of_household': {
                 'gender_distribution': head_gender_dist,
                 'female': {
