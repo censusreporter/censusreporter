@@ -164,9 +164,20 @@ function Comparison(options) {
                 }));
             }
 
-            // initial page load, make map with first column
-            // and sumlev with the most geographies
-            comparison.chosenColumn = comparison.columnKeys[0];
+            // initial page load, make map with currently selected
+            // column (first column by default), and sumlev with the most
+            // geographies
+            if (document.location.hash.slice(0, 5) == '#col-') {
+                var col = document.location.hash.slice(5);
+                if (comparison.table.columns[col]) {
+                    comparison.chosenColumn = col;
+                }
+            }
+
+            if (!comparison.chosenColumn) {
+                comparison.chosenColumn = comparison.columnKeys[0];
+            }
+
             comparison.changeMapControls();
             comparison.showChoropleth();
 
@@ -313,6 +324,9 @@ function Comparison(options) {
             comparison.changeMapControls();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
+
+            // update the URL
+            document.location = '#col-' + comparison.chosenColumn;
         });
     }
 
