@@ -1709,12 +1709,29 @@ function Comparison(options) {
 
     comparison.loadMapData = function(cb) {
         // load all country, province, municipality and ward geo data
-        var levels = ['province', 'municipality', 'ward'];
-        var counter = levels.length;
+        var counter = comparison.geoIDs.length;
         var featureMap = {};
 
-        _.each(levels, function(level) {
-            d3.json('http://maps.code4sa.org/political/2011/' + level, function(error, topo) {
+        _.each(comparison.geoIDs, function(geoid) {
+            var parts = geoid.split('-'),
+                level = parts[0],
+                filter_code = parts[1],
+                filter_level = level;
+
+            if (level.indexOf('|') > -1) {
+                // compound level
+                parts = level.split('|');
+                level = parts[0];
+                filter_level = parts[1];
+            }
+
+            var url = 'http://maps.code4sa.org/political/2011/' + level;
+            if (filter_level != 'country') {
+                url = url + '?filter[' + filter_level + ']=' + filter_code;
+            }
+
+            d3.json(url, function(error, topo) {
+                --counter;
                 if (error) return console.warn(error);
 
                 var features = topojson.feature(topo, topo.objects.demarcation).features;
@@ -1725,7 +1742,7 @@ function Comparison(options) {
                     featureMap[geoid] = feature;
                 });
 
-                if (--counter == 0) {
+                if (counter == 0) {
                     // collect those we're interested in
                     var usefulFeatures = {};
 
