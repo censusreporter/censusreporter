@@ -94,9 +94,9 @@ class PlaceSearchJson(View):
     def get(self, request, *args, **kwargs):
         if 'q' in request.GET:
             search_term = request.GET['q']
-            geo_level = request.GET.get('geolevel', None)
+            geo_levels = request.GET.get('geolevels', None)
             return render_json_to_response(
-                {'results': get_locations(search_term, geo_level)}
+                {'results': get_locations(search_term, geo_levels)}
             )
 
         return HttpResponseBadRequest('"q" parameter is required')

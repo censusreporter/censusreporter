@@ -28,17 +28,17 @@ def get_geography(geo_code, geo_level):
         session.close()
 
 
-def get_locations(search_term, geo_level=None, year='2011'):
-    if geo_level is not None and geo_level not in geo_levels:
-        raise ValueError('Invalid geo_level: %s' % geo_level)
+def get_locations(search_term, levels=None, year='2011'):
+    if levels:
+        levels = levels.split(',')
+        for level in levels:
+            if not level in geo_levels:
+                raise ValueError('Invalid geolevel: %s' % level)
+    else:
+        levels = ['country', 'province', 'municipality', 'subplace']
 
     session = get_session()
     try:
-        if geo_level:
-            levels = [geo_level]
-        else:
-            levels = ['country', 'province', 'municipality', 'subplace']
-
         objects = set()
 
         # search at each level
