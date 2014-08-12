@@ -6,7 +6,7 @@ from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
 
 from .utils import (collapse_categories, calculate_median, get_summary_geo_info,
-                    merge_dicts, group_remainder, add_metadata, get_stat_data, get_objects_by_geo)
+                    merge_dicts, group_remainder, add_metadata, get_stat_data, get_objects_by_geo, percent)
 
 
 PROFILE_SECTIONS = (
@@ -404,7 +404,7 @@ def get_households_profile(geo_code, geo_level, session):
             total_under_20 += obj.total
 
     # tenure
-    tenure_data, total_households = get_stat_data(
+    tenure_data, _ = get_stat_data(
             ['tenure status'], geo_level, geo_code, session,
             order_by='-total')
     owned = 0
@@ -449,13 +449,13 @@ def get_households_profile(geo_code, geo_level, session):
                 },
             'owned': {
                 'name': 'Households fully owned or being paid off',
-                'values': {'this': round(owned / total_households * 100, 2)},
+                'values': {'this': percent(owned, total_households)},
                 'numerators': {'this': owned},
                 },
             'type_of_dwelling_distribution': type_of_dwelling_dist,
             'informal': {
                 'name': 'Households that are informal dwellings (shacks)',
-                'values': {'this': round(informal / total_households * 100, 2)},
+                'values': {'this': percent(informal, total_households)},
                 'numerators': {'this': informal},
                 },
             'tenure_distribution': tenure_data,
@@ -463,13 +463,13 @@ def get_households_profile(geo_code, geo_level, session):
             'annual_income_distribution': income_dist_data,
             'mean_annual_income': {
                 'name': 'Average annual household income',
-                'values': {'this': round(total_income / total_households, 0)},
+                'values': {'this': 0 if total_households == 0 else round(total_income / total_households, 0)},
                 },
             'head_of_household': {
                 'gender_distribution': head_gender_dist,
                 'female': {
                     'name': 'Households with women as their head',
-                    'values': {'this': round(female_heads / total_households * 100, 2)},
+                    'values': {'this': percent(female_heads, total_households)},
                     'numerators': {'this': female_heads},
                     },
                 'under_20': {
@@ -524,7 +524,7 @@ def get_economics_profile(geo_code, geo_level, session):
             'internet_access_distribution': internet_access_dist,
             'internet_access': {
                 'name': 'Households with internet access',
-                'values': {'this': round(total_with_access / total_households * 100, 2)},
+                'values': {'this': percent(total_with_access, total_households)},
                 'numerators': {'this': total_with_access},
                 }
             }
@@ -634,8 +634,7 @@ def get_service_delivery_profile(geo_code, geo_level, session):
     for data, total in zip((water_src_data, refuse_disp_data, elec_access_data, toilet_data),
                            (total_wsrc, total_ref, total_elec, total_toilet)):
         for fields in data.values():
-            fields["values"] = {"this": round(fields["numerators"]["this"]
-                                              / total * 100, 2)}
+            fields["values"] = {"this": percent(fields["numerators"]["this"], total)}
 
     add_metadata(water_src_data, db_model_wsrc)
     add_metadata(refuse_disp_data, db_model_ref)
@@ -646,29 +645,29 @@ def get_service_delivery_profile(geo_code, geo_level, session):
             'percentage_water_from_service_provider': {
                 "name": "Are getting water from a regional or local service provider",
                 "numerators": {"this": total_water_sp},
-                "values": {"this": round(total_water_sp / total_wsrc * 100, 2)},
+                "values": {"this": percent(total_water_sp, total_wsrc)},
             },
             'refuse_disposal_distribution': refuse_disp_data,
             'percentage_ref_disp_from_service_provider': {
                 "name": "Are getting refuse disposal from a local authority or private company",
                 "numerators": {"this": total_ref_sp},
-                "values": {"this": round(total_ref_sp / total_ref * 100, 2)},
+                "values": {"this": percent(total_ref_sp, total_ref)},
             },
             'percentage_electricity_access': {
                 "name": "Have electricity for at least one of cooking, heating or lighting",
                 "numerators": {"this": total_some_elec},
-                "values": {"this": round(total_some_elec / total_elec * 100, 2)}
+                "values": {"this": percent(total_some_elec, total_elec)},
             },
             'electricity_access_distribution': elec_access_data,
             'percentage_flush_toilet_access': {
                 "name": "Have access to flush or chemical toilets",
                 "numerators": {"this": total_flush_toilet},
-                "values": {"this": round(total_flush_toilet / total_toilet * 100, 2)}
+                "values": {"this": percent(total_flush_toilet, total_toilet)},
             },
             'percentage_no_toilet_access': {
                 "name": "Have no access to any toilets",
                 "numerators": {"this": total_no_toilet},
-                "values": {"this": round(total_no_toilet / total_toilet * 100, 2)}
+                "values": {"this": percent(total_no_toilet, total_toilet)},
             },
             'toilet_facilities_distribution': toilet_data,
     }

@@ -162,7 +162,7 @@ def group_remainder(data, num_items=4, make_percentage=True,
     if make_percentage:
         for key, values in data.iteritems():
             if key != 'metadata':
-                values['values'] = dict((k, round(v / total_all[k] * 100, 2))
+                values['values'] = dict((k, percent(v, total_all[k]))
                                         for k, v in values['numerators'].iteritems())
 
 def add_metadata(data, model):
@@ -380,7 +380,8 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
                 if not key == 'metadata':
                     if 'numerators' in data:
                         tot = our_total[key] if many_fields else grand_total
-                        data['values'] = {'this': round(data['numerators']['this'] / tot * 100, 2)}
+                        perc = 0 if tot == 0 else (data['numerators']['this'] / tot * 100)
+                        data['values'] = {'this': round(perc, 2)}
                     else:
                         calc_percent(data)
 
@@ -389,3 +390,9 @@ def get_stat_data(fields, geo_level, geo_code, session, order_by=None,
     add_metadata(root_data, model)
 
     return root_data, grand_total
+
+def percent(num, denom, places=2):
+    if denom == 0:
+      return 0
+    else:
+      return round(num / denom * 100, places)
