@@ -490,6 +490,10 @@ FieldTable(['refuse disposal'])
 FieldTable(['source of water'])
 FieldTable(['toilet facilities'])
 
+FieldTable(['citizenship'])
+FieldTable(['province of birth'])
+FieldTable(['region of birth'])
+
 FieldTable(['gender of household head', 'age of household head'], universe='Households')
 FieldTable(['annual household income', 'gender of household head'], universe='Households')
 FieldTable(['household goods'], universe='Households', denominator_key='total households')

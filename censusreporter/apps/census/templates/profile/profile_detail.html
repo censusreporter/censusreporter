@@ -167,6 +167,21 @@
                 <div id="chart-histogram-demographics-language_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by language most spoken at home"></div>
             </div>
         </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#migration" id="migration">Migration <i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.born_in_south_africa stat_type='percentage' stat_name='Born in South Africa' %}
+            </div>
+            <div class="column-half" id="chart-column-demographics-province_of_birth_distribution" data-stat-type="scaled-percentage" data-chart-title="Province of birth"></div>
+            <div class="column-quarter" id="chart-pie-demographics-region_of_birth_distribution" data-stat-type="scaled-percentage" data-chart-title="Region of birth"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#citizenship" id="citizenship">Citizenship <i class="fa fa-link"></i></a></h2>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.citizenship_south_african stat_type='percentage' stat_name='South African citizens' %}
+            </div>
+            <div class="column-quarter" id="chart-pie-demographics-citizenship_distribution" data-stat-type="percentage" data-chart-title="South African citizenship"></div>
+        </section>
 
     </div>
 </article>

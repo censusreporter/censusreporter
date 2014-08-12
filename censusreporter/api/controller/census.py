@@ -274,6 +274,8 @@ def get_census_profile(geo_code, geo_level):
         group_remainder(data['service_delivery']['refuse_disposal_distribution'])
         group_remainder(data['service_delivery']['toilet_facilities_distribution'], 5)
         group_remainder(data['demographics']['language_distribution'], 7)
+        group_remainder(data['demographics']['province_of_birth_distribution'], 7)
+        group_remainder(data['demographics']['region_of_birth_distribution'], 5)
         group_remainder(data['households']['type_of_dwelling_distribution'], 5)
         
         return data
@@ -381,6 +383,47 @@ def get_demographics_profile(geo_code, geo_level, session):
     add_metadata(age_dist, db_model_age)
 
     final_data['age_category_distribution'] = age_dist
+
+    # citizenship
+    citizenship_dist, _ = get_stat_data(
+            ['citizenship'], geo_level, geo_code, session,
+            order_by='-total')
+
+    sa_citizen = citizenship_dist['Yes']['numerators']['this']
+
+    final_data['citizenship_distribution'] = citizenship_dist
+    final_data['citizenship_south_african'] = {
+            'name': 'South African citizens',
+            'values': {'this': percent(sa_citizen, total_pop)},
+            'numerators': {'this': sa_citizen},
+            }
+
+    # migration
+    province_of_birth_dist, _ = get_stat_data(
+            ['province of birth'], geo_level, geo_code, session,
+            exclude_zero=True, order_by='-total')
+
+    final_data['province_of_birth_distribution'] = province_of_birth_dist
+
+    def region_recode(field, key):
+        if key == 'Born in South Africa':
+            return 'South Africa'
+        else:
+            return key
+
+    region_of_birth_dist, _ = get_stat_data(
+            ['region of birth'], geo_level, geo_code, session,
+            exclude_zero=True, order_by='-total',
+            recode=region_recode)
+
+    born_in_sa = region_of_birth_dist['South Africa']['numerators']['this']
+
+    final_data['region_of_birth_distribution'] = region_of_birth_dist
+    final_data['born_in_south_africa'] = {
+            'name': 'Born in South Africa',
+            'values': {'this': percent(born_in_sa, total_pop)},
+            'numerators': {'this': born_in_sa},
+            }
 
     return final_data
 

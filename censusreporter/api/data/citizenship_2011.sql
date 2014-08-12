@@ -1,0 +1,18325 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: citizenship_country; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE citizenship_country (
+    total integer NOT NULL,
+    citizenship character varying(128) NOT NULL,
+    country_code character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.citizenship_country OWNER TO census;
+
+--
+-- Name: citizenship_municipality; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE citizenship_municipality (
+    total integer NOT NULL,
+    citizenship character varying(128) NOT NULL,
+    municipality_code character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.citizenship_municipality OWNER TO census;
+
+--
+-- Name: citizenship_province; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE citizenship_province (
+    total integer NOT NULL,
+    citizenship character varying(128) NOT NULL,
+    province_code character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.citizenship_province OWNER TO census;
+
+--
+-- Name: citizenship_subplace; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE citizenship_subplace (
+    total integer NOT NULL,
+    citizenship character varying(128) NOT NULL,
+    subplace_code character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.citizenship_subplace OWNER TO census;
+
+--
+-- Name: citizenship_ward; Type: TABLE; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE TABLE citizenship_ward (
+    total integer NOT NULL,
+    citizenship character varying(128) NOT NULL,
+    ward_code character varying(8) NOT NULL
+);
+
+
+ALTER TABLE public.citizenship_ward OWNER TO census;
+
+--
+-- Data for Name: citizenship_country; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY citizenship_country (total, citizenship, country_code) FROM stdin;
+48949338	Yes	ZA
+1692242	No	ZA
+378920	Unspecified	ZA
+750060	Not applicable	ZA
+\.
+
+
+--
+-- Data for Name: citizenship_municipality; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY citizenship_municipality (total, citizenship, municipality_code) FROM stdin;
+48308	Yes	EC101
+275	No	EC101
+220	Unspecified	EC101
+2190	Not applicable	EC101
+34773	Yes	EC102
+199	No	EC102
+255	Unspecified	EC102
+775	Not applicable	EC102
+10359	Yes	EC103
+72	No	EC103
+66	Unspecified	EC103
+41	Not applicable	EC103
+73331	Yes	EC104
+1125	No	EC104
+403	Unspecified	EC104
+5531	Not applicable	EC104
+58531	Yes	EC105
+1061	No	EC105
+556	Unspecified	EC105
+1028	Not applicable	EC105
+51530	Yes	EC106
+1187	No	EC106
+175	Unspecified	EC106
+1612	Not applicable	EC106
+17330	Yes	EC107
+84	No	EC107
+32	Unspecified	EC107
+316	Not applicable	EC107
+95437	Yes	EC108
+1535	No	EC108
+520	Unspecified	EC108
+1066	Not applicable	EC108
+39674	Yes	EC109
+725	No	EC109
+188	Unspecified	EC109
+76	Not applicable	EC109
+248393	Yes	EC121
+823	No	EC121
+1429	Unspecified	EC121
+4264	Not applicable	EC121
+245218	Yes	EC122
+934	No	EC122
+1431	Unspecified	EC122
+4807	Not applicable	EC122
+37941	Yes	EC123
+175	No	EC123
+334	Unspecified	EC123
+541	Not applicable	EC123
+120356	Yes	EC124
+489	No	EC124
+410	Unspecified	EC124
+1523	Not applicable	EC124
+71129	Yes	EC126
+243	No	EC126
+454	Unspecified	EC126
+365	Not applicable	EC126
+118527	Yes	EC127
+938	No	EC127
+712	Unspecified	EC127
+6938	Not applicable	EC127
+23289	Yes	EC128
+246	No	EC128
+123	Unspecified	EC128
+606	Not applicable	EC128
+63391	Yes	EC131
+500	No	EC131
+237	Unspecified	EC131
+1432	Not applicable	EC131
+32446	Yes	EC132
+370	No	EC132
+328	Unspecified	EC132
+136	Not applicable	EC132
+21116	Yes	EC133
+272	No	EC133
+184	Unspecified	EC133
+398	Not applicable	EC133
+184667	Yes	EC134
+2393	No	EC134
+850	Unspecified	EC134
+2813	Not applicable	EC134
+141823	Yes	EC135
+929	No	EC135
+996	Unspecified	EC135
+1624	Not applicable	EC135
+116103	Yes	EC136
+815	No	EC136
+763	Unspecified	EC136
+1778	Not applicable	EC136
+151133	Yes	EC137
+682	No	EC137
+2453	Unspecified	EC137
+1244	Not applicable	EC137
+61601	Yes	EC138
+549	No	EC138
+812	Unspecified	EC138
+620	Not applicable	EC138
+135021	Yes	EC141
+1264	No	EC141
+1065	Unspecified	EC141
+791	Not applicable	EC141
+128364	Yes	EC142
+3637	No	EC142
+1146	Unspecified	EC142
+1004	Not applicable	EC142
+42515	Yes	EC143
+520	No	EC143
+178	Unspecified	EC143
+587	Not applicable	EC143
+32738	Yes	EC144
+284	No	EC144
+120	Unspecified	EC144
+534	Not applicable	EC144
+273837	Yes	EC153
+1082	No	EC153
+2141	Unspecified	EC153
+1421	Not applicable	EC153
+154085	Yes	EC154
+270	No	EC154
+1234	Unspecified	EC154
+548	Not applicable	EC154
+285968	Yes	EC155
+893	No	EC155
+1965	Unspecified	EC155
+1564	Not applicable	EC155
+184899	Yes	EC156
+600	No	EC156
+1663	Unspecified	EC156
+1063	Not applicable	EC156
+433031	Yes	EC157
+3875	No	EC157
+3434	Unspecified	EC157
+11371	Not applicable	EC157
+197209	Yes	EC441
+2760	No	EC441
+2160	Unspecified	EC441
+1713	Not applicable	EC441
+186454	Yes	EC442
+825	No	EC442
+2290	Unspecified	EC442
+2051	Not applicable	EC442
+278035	Yes	EC443
+614	No	EC443
+2315	Unspecified	EC443
+941	Not applicable	EC443
+122703	Yes	EC444
+382	No	EC444
+792	Unspecified	EC444
+99	Not applicable	EC444
+724776	Yes	BUF
+7853	No	BUF
+4977	Unspecified	BUF
+17594	Not applicable	BUF
+1113851	Yes	NMA
+17004	No	NMA
+6608	Unspecified	NMA
+14653	Not applicable	NMA
+36479	Yes	FS161
+275	No	FS161
+96	Unspecified	FS161
+1779	Not applicable	FS161
+47157	Yes	FS162
+518	No	FS162
+118	Unspecified	FS162
+1377	Not applicable	FS162
+32988	Yes	FS163
+503	No	FS163
+101	Unspecified	FS163
+555	Not applicable	FS163
+23746	Yes	FS164
+492	No	FS164
+63	Unspecified	FS164
+13	Not applicable	FS164
+58074	Yes	FS181
+898	No	FS181
+343	Unspecified	FS181
+4019	Not applicable	FS181
+27683	Yes	FS182
+249	No	FS182
+78	Unspecified	FS182
+976	Not applicable	FS182
+46588	Yes	FS183
+397	No	FS183
+129	Unspecified	FS183
+511	Not applicable	FS183
+377745	Yes	FS184
+15869	No	FS184
+1729	Unspecified	FS184
+11117	Not applicable	FS184
+79735	Yes	FS185
+677	No	FS185
+372	Unspecified	FS185
+436	Not applicable	FS185
+108860	Yes	FS191
+2121	No	FS191
+281	Unspecified	FS191
+1335	Not applicable	FS191
+123756	Yes	FS192
+1610	No	FS192
+276	Unspecified	FS192
+3062	Not applicable	FS192
+59014	Yes	FS193
+528	No	FS193
+172	Unspecified	FS193
+610	Not applicable	FS193
+328958	Yes	FS194
+2530	No	FS194
+1039	Unspecified	FS194
+3257	Not applicable	FS194
+46613	Yes	FS195
+543	No	FS195
+78	Unspecified	FS195
+538	Not applicable	FS195
+48776	Yes	FS196
+1462	No	FS196
+132	Unspecified	FS196
+686	Not applicable	FS196
+147514	Yes	FS201
+1605	No	FS201
+414	Unspecified	FS201
+10999	Not applicable	FS201
+117484	Yes	FS203
+1447	No	FS203
+397	Unspecified	FS203
+1192	Not applicable	FS203
+140967	Yes	FS204
+2806	No	FS204
+713	Unspecified	FS204
+4623	Not applicable	FS204
+56653	Yes	FS205
+454	No	FS205
+258	Unspecified	FS205
+511	Not applicable	FS205
+708504	Yes	MAN
+17569	No	MAN
+3069	Unspecified	MAN
+18289	Not applicable	MAN
+688249	Yes	GT421
+21597	No	GT421
+4656	Unspecified	GT421
+7160	Not applicable	GT421
+85690	Yes	GT422
+6621	No	GT422
+1015	Unspecified	GT422
+1975	Not applicable	GT422
+92743	Yes	GT423
+3379	No	GT423
+618	Unspecified	GT423
+2780	Not applicable	GT423
+329520	Yes	GT481
+22499	No	GT481
+2854	Unspecified	GT481
+7549	Not applicable	GT481
+140313	Yes	GT482
+6050	No	GT482
+864	Unspecified	GT482
+2058	Not applicable	GT482
+93225	Yes	GT483
+17085	No	GT483
+981	Unspecified	GT483
+476	Not applicable	GT483
+168969	Yes	GT484
+17707	No	GT484
+1614	Unspecified	GT484
+9231	Not applicable	GT484
+2935957	Yes	EKU
+190246	No	EKU
+28289	Unspecified	EKU
+23978	Not applicable	EKU
+3872981	Yes	JHB
+445973	No	JHB
+54480	Unspecified	JHB
+61392	Not applicable	JHB
+2680837	Yes	TSH
+152490	No	TSH
+23045	Unspecified	TSH
+65115	Not applicable	TSH
+158862	Yes	KZN213
+263	No	KZN213
+816	Unspecified	KZN213
+1034	Not applicable	KZN213
+95592	Yes	KZN214
+285	No	KZN214
+544	Unspecified	KZN214
+135	Not applicable	KZN214
+51672	Yes	KZN215
+108	No	KZN215
+160	Unspecified	KZN215
+600	Not applicable	KZN215
+246673	Yes	KZN216
+2660	No	KZN216
+2020	Unspecified	KZN216
+4782	Not applicable	KZN216
+76128	Yes	KZN211
+91	No	KZN211
+634	Unspecified	KZN211
+549	Not applicable	KZN211
+74707	Yes	KZN212
+693	No	KZN212
+507	Unspecified	KZN212
+2968	Not applicable	KZN212
+103954	Yes	KZN221
+1006	No	KZN221
+690	Unspecified	KZN221
+723	Not applicable	KZN221
+84726	Yes	KZN222
+3806	No	KZN222
+834	Unspecified	KZN222
+3344	Not applicable	KZN222
+36427	Yes	KZN223
+572	No	KZN223
+354	Unspecified	KZN223
+750	Not applicable	KZN223
+32750	Yes	KZN224
+119	No	KZN224
+232	Unspecified	KZN224
+4	Not applicable	KZN224
+592959	Yes	KZN225
+9252	No	KZN225
+4599	Unspecified	KZN225
+11726	Not applicable	KZN225
+61443	Yes	KZN226
+674	No	KZN226
+287	Unspecified	KZN226
+738	Not applicable	KZN226
+62939	Yes	KZN227
+898	No	KZN227
+328	Unspecified	KZN227
+1628	Not applicable	KZN227
+231239	Yes	KZN232
+2281	No	KZN232
+1652	Unspecified	KZN232
+2265	Not applicable	KZN232
+102318	Yes	KZN233
+124	No	KZN233
+574	Unspecified	KZN233
+100	Not applicable	KZN233
+81224	Yes	KZN234
+648	No	KZN234
+493	Unspecified	KZN234
+789	Not applicable	KZN234
+128830	Yes	KZN235
+862	No	KZN235
+627	Unspecified	KZN235
+1748	Not applicable	KZN235
+111958	Yes	KZN236
+230	No	KZN236
+624	Unspecified	KZN236
+262	Not applicable	KZN236
+154014	Yes	KZN271
+890	No	KZN271
+1162	Unspecified	KZN271
+670	Not applicable	KZN271
+183406	Yes	KZN272
+1097	No	KZN272
+1480	Unspecified	KZN272
+519	Not applicable	KZN272
+33585	Yes	KZN273
+511	No	KZN273
+633	Unspecified	KZN273
+529	Not applicable	KZN273
+70641	Yes	KZN274
+143	No	KZN274
+691	Unspecified	KZN274
+450	Not applicable	KZN274
+171342	Yes	KZN275
+1271	No	KZN275
+1904	Unspecified	KZN275
+908	Not applicable	KZN275
+318160	Yes	KZN282
+3353	No	KZN282
+2517	Unspecified	KZN282
+10429	Not applicable	KZN282
+112141	Yes	KZN286
+230	No	KZN286
+975	Unspecified	KZN286
+1070	Not applicable	KZN286
+120563	Yes	KZN281
+615	No	KZN281
+1587	Unspecified	KZN281
+124	Not applicable	KZN281
+73184	Yes	KZN283
+170	No	KZN283
+790	Unspecified	KZN283
+192	Not applicable	KZN283
+209554	Yes	KZN284
+1285	No	KZN284
+2391	Unspecified	KZN284
+371	Not applicable	KZN284
+47269	Yes	KZN285
+314	No	KZN285
+235	Unspecified	KZN285
+0	Not applicable	KZN285
+99321	Yes	KZN431
+351	No	KZN431
+701	Unspecified	KZN431
+175	Not applicable	KZN431
+12202	Yes	KZN432
+241	No	KZN432
+53	Unspecified	KZN432
+402	Not applicable	KZN432
+63941	Yes	KZN433
+666	No	KZN433
+432	Unspecified	KZN433
+942	Not applicable	KZN433
+99990	Yes	KZN434
+347	No	KZN434
+753	Unspecified	KZN434
+601	Not applicable	KZN434
+177096	Yes	KZN435
+562	No	KZN435
+1871	Unspecified	KZN435
+773	Not applicable	KZN435
+61829	Yes	KZN241
+560	No	KZN241
+319	Unspecified	KZN241
+2154	Not applicable	KZN241
+163503	Yes	KZN242
+374	No	KZN242
+699	Unspecified	KZN242
+730	Not applicable	KZN242
+175032	Yes	KZN244
+323	No	KZN244
+1254	Unspecified	KZN244
+967	Not applicable	KZN244
+99938	Yes	KZN245
+504	No	KZN245
+590	Unspecified	KZN245
+2061	Not applicable	KZN245
+354824	Yes	KZN252
+3429	No	KZN252
+1986	Unspecified	KZN252
+2997	Not applicable	KZN252
+32777	Yes	KZN253
+142	No	KZN253
+159	Unspecified	KZN253
+1363	Not applicable	KZN253
+101100	Yes	KZN254
+299	No	KZN254
+346	Unspecified	KZN254
+417	Not applicable	KZN254
+203706	Yes	KZN263
+1136	No	KZN263
+1672	Unspecified	KZN263
+4546	Not applicable	KZN263
+80526	Yes	KZN261
+570	No	KZN261
+801	Unspecified	KZN261
+156	Not applicable	KZN261
+124312	Yes	KZN262
+1624	No	KZN262
+1114	Unspecified	KZN262
+188	Not applicable	KZN262
+190715	Yes	KZN265
+454	No	KZN265
+2129	Unspecified	KZN265
+1610	Not applicable	KZN265
+184220	Yes	KZN266
+563	No	KZN266
+1493	Unspecified	KZN266
+2040	Not applicable	KZN266
+95439	Yes	KZN294
+125	No	KZN294
+834	Unspecified	KZN294
+327	Not applicable	KZN294
+135533	Yes	KZN291
+1301	No	KZN291
+910	Unspecified	KZN291
+334	Not applicable	KZN291
+222170	Yes	KZN292
+6966	No	KZN292
+1191	Unspecified	KZN292
+861	Not applicable	KZN292
+138878	Yes	KZN293
+343	No	KZN293
+1040	Unspecified	KZN293
+558	Not applicable	KZN293
+3316933	Yes	ETH
+61076	No	ETH
+30660	Unspecified	ETH
+33692	Not applicable	ETH
+236061	Yes	LIM331
+6310	No	LIM331
+1170	Unspecified	LIM331
+676	Not applicable	LIM331
+205121	Yes	LIM332
+6103	No	LIM332
+799	Unspecified	LIM332
+678	Not applicable	LIM332
+378983	Yes	LIM333
+8539	No	LIM333
+1270	Unspecified	LIM333
+1303	Not applicable	LIM333
+142358	Yes	LIM334
+4880	No	LIM334
+644	Unspecified	LIM334
+2755	Not applicable	LIM334
+91801	Yes	LIM335
+1525	No	LIM335
+368	Unspecified	LIM335
+1163	Not applicable	LIM335
+89705	Yes	LIM342
+1112	No	LIM342
+454	Unspecified	LIM342
+599	Not applicable	LIM342
+595182	Yes	LIM343
+15069	No	LIM343
+2597	Unspecified	LIM343
+5614	Not applicable	LIM343
+48756	Yes	LIM341
+17981	No	LIM341
+1062	Unspecified	LIM341
+559	Not applicable	LIM341
+495177	Yes	LIM344
+13338	No	LIM344
+2262	Unspecified	LIM344
+5255	Not applicable	LIM344
+158397	Yes	LIM351
+3054	No	LIM351
+744	Unspecified	LIM351
+433	Not applicable	LIM351
+128945	Yes	LIM352
+860	No	LIM352
+424	Unspecified	LIM352
+935	Not applicable	LIM352
+102318	Yes	LIM353
+3871	No	LIM353
+412	Unspecified	LIM353
+1721	Not applicable	LIM353
+595926	Yes	LIM354
+17150	No	LIM354
+2951	Unspecified	LIM354
+12972	Not applicable	LIM354
+224956	Yes	LIM355
+2595	No	LIM355
+918	Unspecified	LIM355
+1881	Not applicable	LIM355
+72075	Yes	LIM361
+5970	No	LIM361
+607	Unspecified	LIM361
+6582	Not applicable	LIM361
+101304	Yes	LIM362
+5698	No	LIM362
+639	Unspecified	LIM362
+8126	Not applicable	LIM362
+31559	Yes	LIM364
+3222	No	LIM364
+329	Unspecified	LIM364
+530	Not applicable	LIM364
+64166	Yes	LIM365
+3156	No	LIM365
+395	Unspecified	LIM365
+796	Not applicable	LIM365
+61430	Yes	LIM366
+2477	No	LIM366
+373	Unspecified	LIM366
+2220	Not applicable	LIM366
+300043	Yes	LIM367
+4834	No	LIM367
+1256	Unspecified	LIM367
+1549	Not applicable	LIM367
+116489	Yes	LIM471
+6195	No	LIM471
+670	Unspecified	LIM471
+295	Not applicable	LIM471
+241149	Yes	LIM472
+5682	No	LIM472
+1111	Unspecified	LIM472
+1421	Not applicable	LIM472
+270625	Yes	LIM473
+1528	No	LIM473
+960	Unspecified	LIM473
+1244	Not applicable	LIM473
+92244	Yes	LIM474
+750	No	LIM474
+727	Unspecified	LIM474
+74	Not applicable	LIM474
+327452	Yes	LIM475
+4543	No	LIM475
+1308	Unspecified	LIM475
+2373	Not applicable	LIM475
+180881	Yes	MP301
+3154	No	MP301
+866	Unspecified	MP301
+1109	Not applicable	MP301
+144305	Yes	MP302
+2173	No	MP302
+799	Unspecified	MP302
+2100	Not applicable	MP302
+167447	Yes	MP303
+1928	No	MP303
+1147	Unspecified	MP303
+1460	Not applicable	MP303
+81515	Yes	MP304
+729	No	MP304
+569	Unspecified	MP304
+421	Not applicable	MP304
+112037	Yes	MP305
+1553	No	MP305
+443	Unspecified	MP305
+1628	Not applicable	MP305
+41327	Yes	MP306
+511	No	MP306
+245	Unspecified	MP306
+307	Not applicable	MP306
+281746	Yes	MP307
+8231	No	MP307
+2241	Unspecified	MP307
+2320	Not applicable	MP307
+71828	Yes	MP311
+2509	No	MP311
+543	Unspecified	MP311
+572	Not applicable	MP311
+373136	Yes	MP312
+15231	No	MP312
+2189	Unspecified	MP312
+4910	Not applicable	MP312
+217265	Yes	MP313
+7380	No	MP313
+1587	Unspecified	MP313
+3599	Not applicable	MP313
+44841	Yes	MP314
+1308	No	MP314
+195	Unspecified	MP314
+872	Not applicable	MP314
+304487	Yes	MP315
+4202	No	MP315
+1363	Unspecified	MP315
+406	Not applicable	MP315
+245922	Yes	MP316
+2595	No	MP316
+865	Unspecified	MP316
+324	Not applicable	MP316
+90993	Yes	MP321
+3874	No	MP321
+886	Unspecified	MP321
+2634	Not applicable	MP321
+559572	Yes	MP322
+18841	No	MP322
+3447	Unspecified	MP322
+6933	Not applicable	MP322
+59935	Yes	MP323
+3174	No	MP323
+392	Unspecified	MP323
+3656	Not applicable	MP323
+357705	Yes	MP324
+28842	No	MP324
+5033	Unspecified	MP324
+1450	Not applicable	MP324
+534640	Yes	MP325
+4026	No	MP325
+1798	Unspecified	MP325
+784	Not applicable	MP325
+183587	Yes	NW371
+2278	No	NW371
+592	Unspecified	NW371
+490	Not applicable	NW371
+425003	Yes	NW372
+42571	No	NW372
+3083	Unspecified	NW372
+6724	Not applicable	NW372
+482484	Yes	NW373
+46532	No	NW373
+4679	Unspecified	NW373
+15880	Not applicable	NW373
+47838	Yes	NW374
+1500	No	NW374
+419	Unspecified	NW374
+1292	Not applicable	NW374
+233462	Yes	NW375
+5470	No	NW375
+1152	Unspecified	NW375
+2470	Not applicable	NW375
+106143	Yes	NW381
+500	No	NW381
+433	Unspecified	NW381
+263	Not applicable	NW381
+122786	Yes	NW382
+727	No	NW382
+375	Unspecified	NW382
+329	Not applicable	NW382
+280664	Yes	NW383
+5064	No	NW383
+1099	Unspecified	NW383
+4700	Not applicable	NW383
+165384	Yes	NW384
+1956	No	NW384
+564	Unspecified	NW384
+999	Not applicable	NW384
+146160	Yes	NW385
+2092	No	NW385
+511	Unspecified	NW385
+1951	Not applicable	NW385
+65132	Yes	NW392
+521	No	NW392
+347	Unspecified	NW392
+780	Not applicable	NW392
+59423	Yes	NW393
+446	No	NW393
+226	Unspecified	NW393
+259	Not applicable	NW393
+174905	Yes	NW394
+1087	No	NW394
+842	Unspecified	NW394
+808	Not applicable	NW394
+51671	Yes	NW396
+559	No	NW396
+189	Unspecified	NW396
+829	Not applicable	NW396
+103667	Yes	NW397
+785	No	NW397
+1055	Unspecified	NW397
+282	Not applicable	NW397
+55919	Yes	NW401
+548	No	NW401
+157	Unspecified	NW401
+78	Not applicable	NW401
+157012	Yes	NW402
+2671	No	NW402
+853	Unspecified	NW402
+2226	Not applicable	NW402
+378101	Yes	NW403
+11396	No	NW403
+1941	Unspecified	NW403
+7237	Not applicable	NW403
+76032	Yes	NW404
+592	No	NW404
+339	Unspecified	NW404
+831	Not applicable	NW404
+11436	Yes	NC061
+97	No	NC061
+53	Unspecified	NC061
+396	Not applicable	NC061
+45424	Yes	NC062
+263	No	NC062
+126	Unspecified	NC062
+1229	Not applicable	NC062
+9628	Yes	NC064
+17	No	NC064
+31	Unspecified	NC064
+511	Not applicable	NC064
+20732	Yes	NC065
+95	No	NC065
+86	Unspecified	NC065
+665	Not applicable	NC065
+11767	Yes	NC066
+40	No	NC066
+43	Unspecified	NC066
+738	Not applicable	NC066
+12062	Yes	NC067
+75	No	NC067
+36	Unspecified	NC067
+292	Not applicable	NC067
+18153	Yes	NC071
+186	No	NC071
+103	Unspecified	NC071
+159	Not applicable	NC071
+27734	Yes	NC072
+285	No	NC072
+67	Unspecified	NC072
+290	Not applicable	NC072
+41211	Yes	NC073
+322	No	NC073
+124	Unspecified	NC073
+698	Not applicable	NC073
+11362	Yes	NC074
+33	No	NC074
+20	Unspecified	NC074
+258	Not applicable	NC074
+10776	Yes	NC075
+79	No	NC075
+122	Unspecified	NC075
+1	Not applicable	NC075
+15297	Yes	NC076
+102	No	NC076
+47	Unspecified	NC076
+255	Not applicable	NC076
+21033	Yes	NC077
+172	No	NC077
+33	Unspecified	NC077
+353	Not applicable	NC077
+36055	Yes	NC078
+217	No	NC078
+184	Unspecified	NC078
+619	Not applicable	NC078
+6686	Yes	NC081
+73	No	NC081
+22	Unspecified	NC081
+223	Not applicable	NC081
+64829	Yes	NC082
+326	No	NC082
+226	Unspecified	NC082
+487	Not applicable	NC082
+90814	Yes	NC083
+980	No	NC083
+326	Unspecified	NC083
+1375	Not applicable	NC083
+16259	Yes	NC084
+93	No	NC084
+44	Unspecified	NC084
+241	Not applicable	NC084
+34204	Yes	NC085
+392	No	NC085
+96	Unspecified	NC085
+401	Not applicable	NC085
+18420	Yes	NC086
+125	No	NC086
+67	Unspecified	NC086
+75	Not applicable	NC086
+240792	Yes	NC091
+2760	No	NC091
+1083	Unspecified	NC091
+3406	Not applicable	NC091
+46004	Yes	NC092
+469	No	NC092
+173	Unspecified	NC092
+195	Not applicable	NC092
+23902	Yes	NC093
+196	No	NC093
+81	Unspecified	NC093
+25	Not applicable	NC093
+62029	Yes	NC094
+593	No	NC094
+278	Unspecified	NC094
+100	Not applicable	NC094
+88048	Yes	NC451
+753	No	NC451
+337	Unspecified	NC451
+392	Not applicable	NC451
+91418	Yes	NC452
+1131	No	NC452
+382	Unspecified	NC452
+721	Not applicable	NC452
+39150	Yes	NC453
+472	No	NC453
+252	Unspecified	NC453
+1744	Not applicable	NC453
+64292	Yes	WC011
+597	No	WC011
+556	Unspecified	WC011
+1701	Not applicable	WC011
+46761	Yes	WC012
+863	No	WC012
+379	Unspecified	WC012
+1765	Not applicable	WC012
+57351	Yes	WC013
+774	No	WC013
+521	Unspecified	WC013
+3250	Not applicable	WC013
+94916	Yes	WC014
+1524	No	WC014
+827	Unspecified	WC014
+1926	Not applicable	WC014
+103447	Yes	WC015
+1283	No	WC015
+431	Unspecified	WC015
+8601	Not applicable	WC015
+109346	Yes	WC022
+3573	No	WC022
+801	Unspecified	WC022
+2226	Not applicable	WC022
+237550	Yes	WC023
+3373	No	WC023
+2324	Unspecified	WC023
+8015	Not applicable	WC023
+141922	Yes	WC024
+3712	No	WC024
+1553	Unspecified	WC024
+8545	Not applicable	WC024
+155558	Yes	WC025
+4273	No	WC025
+1123	Unspecified	WC025
+5872	Not applicable	WC025
+92300	Yes	WC026
+2239	No	WC026
+1202	Unspecified	WC026
+1983	Not applicable	WC026
+34237	Yes	WC034
+778	No	WC034
+142	Unspecified	WC034
+759	Not applicable	WC034
+101548	Yes	WC031
+1593	No	WC031
+1654	Unspecified	WC031
+3995	Not applicable	WC031
+74555	Yes	WC032
+2935	No	WC032
+1275	Unspecified	WC032
+1668	Not applicable	WC032
+31657	Yes	WC033
+756	No	WC033
+295	Unspecified	WC033
+330	Not applicable	WC033
+23866	Yes	WC041
+145	No	WC041
+174	Unspecified	WC041
+581	Not applicable	WC041
+50923	Yes	WC042
+364	No	WC042
+255	Unspecified	WC042
+1100	Not applicable	WC042
+85779	Yes	WC043
+1237	No	WC043
+1026	Unspecified	WC043
+1388	Not applicable	WC043
+185746	Yes	WC044
+2815	No	WC044
+1094	Unspecified	WC044
+4016	Not applicable	WC044
+93062	Yes	WC045
+538	No	WC045
+275	Unspecified	WC045
+2059	Not applicable	WC045
+46053	Yes	WC047
+1623	No	WC047
+310	Unspecified	WC047
+1176	Not applicable	WC047
+63910	Yes	WC048
+3037	No	WC048
+384	Unspecified	WC048
+1328	Not applicable	WC048
+7838	Yes	WC051
+51	No	WC051
+64	Unspecified	WC051
+337	Not applicable	WC051
+12919	Yes	WC052
+78	No	WC052
+13	Unspecified	WC052
+126	Not applicable	WC052
+47738	Yes	WC053
+355	No	WC053
+419	Unspecified	WC053
+1074	Not applicable	WC053
+3485749	Yes	CPT
+148291	No	CPT
+33820	Unspecified	CPT
+72165	Not applicable	CPT
+\.
+
+
+--
+-- Data for Name: citizenship_province; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY citizenship_province (total, citizenship, province_code) FROM stdin;
+6359891	Yes	EC
+58486	No	EC
+46017	Unspecified	EC
+97658	Not applicable	EC
+2617295	Yes	FS
+52552	No	FS
+9858	Unspecified	FS
+65885	Not applicable	FS
+11088485	Yes	GT
+883647	No	GT
+118417	Unspecified	GT
+181714	Not applicable	GT
+9962244	Yes	KZN
+116406	No	KZN
+81350	Unspecified	KZN
+107301	Not applicable	KZN
+5172221	Yes	LIM
+146442	No	LIM
+24451	Unspecified	LIM
+61754	Not applicable	LIM
+3869581	Yes	MP
+110261	No	MP
+24611	Unspecified	MP
+35485	Not applicable	MP
+3315371	Yes	NW
+127297	No	NW
+18857	Unspecified	NW
+48428	Not applicable	NW
+1115227	Yes	NC
+10345	No	NC
+4441	Unspecified	NC
+15849	Not applicable	NC
+5449023	Yes	WC
+186807	No	WC
+50918	Unspecified	WC
+135986	Not applicable	WC
+\.
+
+
+--
+-- Data for Name: citizenship_subplace; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY citizenship_subplace (total, citizenship, subplace_code) FROM stdin;
+\.
+
+
+--
+-- Data for Name: citizenship_ward; Type: TABLE DATA; Schema: public; Owner: census
+--
+
+COPY citizenship_ward (total, citizenship, ward_code) FROM stdin;
+8523	Yes	21001001
+47	No	21001001
+14	Unspecified	21001001
+161	Not applicable	21001001
+6248	Yes	21001002
+98	No	21001002
+23	Unspecified	21001002
+889	Not applicable	21001002
+5802	Yes	21001003
+27	No	21001003
+90	Unspecified	21001003
+0	Not applicable	21001003
+9519	Yes	21001004
+26	No	21001004
+52	Unspecified	21001004
+684	Not applicable	21001004
+5988	Yes	21001005
+17	No	21001005
+13	Unspecified	21001005
+0	Not applicable	21001005
+6415	Yes	21001006
+24	No	21001006
+20	Unspecified	21001006
+0	Not applicable	21001006
+5813	Yes	21001007
+37	No	21001007
+8	Unspecified	21001007
+456	Not applicable	21001007
+4674	Yes	21002001
+40	No	21002001
+34	Unspecified	21002001
+0	Not applicable	21002001
+6126	Yes	21002002
+40	No	21002002
+16	Unspecified	21002002
+565	Not applicable	21002002
+6911	Yes	21002003
+30	No	21002003
+38	Unspecified	21002003
+0	Not applicable	21002003
+5783	Yes	21002004
+35	No	21002004
+19	Unspecified	21002004
+96	Not applicable	21002004
+5392	Yes	21002005
+29	No	21002005
+10	Unspecified	21002005
+15	Not applicable	21002005
+5887	Yes	21002006
+24	No	21002006
+138	Unspecified	21002006
+99	Not applicable	21002006
+2400	Yes	21003001
+19	No	21003001
+12	Unspecified	21003001
+37	Not applicable	21003001
+4011	Yes	21003002
+20	No	21003002
+12	Unspecified	21003002
+0	Not applicable	21003002
+1532	Yes	21003003
+10	No	21003003
+19	Unspecified	21003003
+4	Not applicable	21003003
+2416	Yes	21003004
+22	No	21003004
+22	Unspecified	21003004
+0	Not applicable	21003004
+2939	Yes	21004001
+14	No	21004001
+1	Unspecified	21004001
+0	Not applicable	21004001
+6953	Yes	21004002
+56	No	21004002
+64	Unspecified	21004002
+24	Not applicable	21004002
+6375	Yes	21004003
+74	No	21004003
+17	Unspecified	21004003
+0	Not applicable	21004003
+6965	Yes	21004004
+254	No	21004004
+37	Unspecified	21004004
+1213	Not applicable	21004004
+8202	Yes	21004005
+55	No	21004005
+62	Unspecified	21004005
+0	Not applicable	21004005
+4674	Yes	21004006
+17	No	21004006
+5	Unspecified	21004006
+12	Not applicable	21004006
+2884	Yes	21004007
+40	No	21004007
+15	Unspecified	21004007
+0	Not applicable	21004007
+3106	Yes	21004008
+277	No	21004008
+43	Unspecified	21004008
+1161	Not applicable	21004008
+4938	Yes	21004009
+41	No	21004009
+33	Unspecified	21004009
+0	Not applicable	21004009
+6659	Yes	21004010
+75	No	21004010
+17	Unspecified	21004010
+0	Not applicable	21004010
+6831	Yes	21004011
+55	No	21004011
+29	Unspecified	21004011
+0	Not applicable	21004011
+187	Yes	21004012
+31	No	21004012
+0	Unspecified	21004012
+2710	Not applicable	21004012
+6343	Yes	21004013
+55	No	21004013
+49	Unspecified	21004013
+48	Not applicable	21004013
+6275	Yes	21004014
+81	No	21004014
+32	Unspecified	21004014
+363	Not applicable	21004014
+5637	Yes	21005001
+69	No	21005001
+6	Unspecified	21005001
+0	Not applicable	21005001
+6647	Yes	21005002
+53	No	21005002
+58	Unspecified	21005002
+190	Not applicable	21005002
+6364	Yes	21005003
+94	No	21005003
+14	Unspecified	21005003
+16	Not applicable	21005003
+5060	Yes	21005004
+90	No	21005004
+21	Unspecified	21005004
+23	Not applicable	21005004
+6166	Yes	21005005
+95	No	21005005
+52	Unspecified	21005005
+4	Not applicable	21005005
+8841	Yes	21005006
+108	No	21005006
+41	Unspecified	21005006
+0	Not applicable	21005006
+5304	Yes	21005007
+76	No	21005007
+15	Unspecified	21005007
+0	Not applicable	21005007
+4218	Yes	21005008
+107	No	21005008
+8	Unspecified	21005008
+0	Not applicable	21005008
+6149	Yes	21005009
+121	No	21005009
+108	Unspecified	21005009
+7	Not applicable	21005009
+4146	Yes	21005010
+247	No	21005010
+233	Unspecified	21005010
+788	Not applicable	21005010
+5858	Yes	21006001
+122	No	21006001
+28	Unspecified	21006001
+0	Not applicable	21006001
+6722	Yes	21006002
+78	No	21006002
+36	Unspecified	21006002
+469	Not applicable	21006002
+7578	Yes	21006003
+151	No	21006003
+14	Unspecified	21006003
+0	Not applicable	21006003
+4754	Yes	21006004
+51	No	21006004
+27	Unspecified	21006004
+0	Not applicable	21006004
+5058	Yes	21006005
+176	No	21006005
+22	Unspecified	21006005
+47	Not applicable	21006005
+5506	Yes	21006006
+209	No	21006006
+24	Unspecified	21006006
+0	Not applicable	21006006
+6990	Yes	21006007
+161	No	21006007
+7	Unspecified	21006007
+1089	Not applicable	21006007
+9065	Yes	21006008
+240	No	21006008
+16	Unspecified	21006008
+7	Not applicable	21006008
+2142	Yes	21007001
+8	No	21007001
+3	Unspecified	21007001
+168	Not applicable	21007001
+4658	Yes	21007002
+42	No	21007002
+12	Unspecified	21007002
+15	Not applicable	21007002
+7589	Yes	21007003
+27	No	21007003
+6	Unspecified	21007003
+68	Not applicable	21007003
+2940	Yes	21007004
+7	No	21007004
+10	Unspecified	21007004
+65	Not applicable	21007004
+2111	Yes	21008001
+8	No	21008001
+8	Unspecified	21008001
+0	Not applicable	21008001
+3046	Yes	21008002
+71	No	21008002
+18	Unspecified	21008002
+0	Not applicable	21008002
+768	Yes	21008003
+21	No	21008003
+8	Unspecified	21008003
+0	Not applicable	21008003
+14157	Yes	21008004
+63	No	21008004
+86	Unspecified	21008004
+107	Not applicable	21008004
+3212	Yes	21008005
+11	No	21008005
+38	Unspecified	21008005
+0	Not applicable	21008005
+5863	Yes	21008006
+67	No	21008006
+14	Unspecified	21008006
+0	Not applicable	21008006
+9319	Yes	21008007
+78	No	21008007
+19	Unspecified	21008007
+0	Not applicable	21008007
+7863	Yes	21008008
+194	No	21008008
+58	Unspecified	21008008
+104	Not applicable	21008008
+9738	Yes	21008009
+129	No	21008009
+24	Unspecified	21008009
+17	Not applicable	21008009
+6757	Yes	21008010
+143	No	21008010
+32	Unspecified	21008010
+0	Not applicable	21008010
+2661	Yes	21008011
+72	No	21008011
+23	Unspecified	21008011
+129	Not applicable	21008011
+5869	Yes	21008012
+220	No	21008012
+39	Unspecified	21008012
+3	Not applicable	21008012
+5913	Yes	21008013
+59	No	21008013
+12	Unspecified	21008013
+502	Not applicable	21008013
+6781	Yes	21008014
+191	No	21008014
+33	Unspecified	21008014
+0	Not applicable	21008014
+11380	Yes	21008015
+208	No	21008015
+107	Unspecified	21008015
+204	Not applicable	21008015
+10340	Yes	21009001
+240	No	21009001
+47	Unspecified	21009001
+30	Not applicable	21009001
+5659	Yes	21009002
+134	No	21009002
+18	Unspecified	21009002
+39	Not applicable	21009002
+5342	Yes	21009003
+124	No	21009003
+29	Unspecified	21009003
+0	Not applicable	21009003
+6198	Yes	21009004
+100	No	21009004
+21	Unspecified	21009004
+5	Not applicable	21009004
+6830	Yes	21009005
+40	No	21009005
+30	Unspecified	21009005
+2	Not applicable	21009005
+5305	Yes	21009006
+86	No	21009006
+42	Unspecified	21009006
+0	Not applicable	21009006
+4817	Yes	21201001
+139	No	21201001
+18	Unspecified	21201001
+2101	Not applicable	21201001
+8290	Yes	21201002
+64	No	21201002
+43	Unspecified	21201002
+0	Not applicable	21201002
+6974	Yes	21201003
+7	No	21201003
+13	Unspecified	21201003
+0	Not applicable	21201003
+6943	Yes	21201004
+1	No	21201004
+35	Unspecified	21201004
+0	Not applicable	21201004
+9135	Yes	21201005
+18	No	21201005
+48	Unspecified	21201005
+0	Not applicable	21201005
+7821	Yes	21201006
+8	No	21201006
+72	Unspecified	21201006
+0	Not applicable	21201006
+6820	Yes	21201007
+9	No	21201007
+42	Unspecified	21201007
+0	Not applicable	21201007
+7774	Yes	21201008
+9	No	21201008
+36	Unspecified	21201008
+140	Not applicable	21201008
+10738	Yes	21201009
+107	No	21201009
+118	Unspecified	21201009
+552	Not applicable	21201009
+7935	Yes	21201010
+17	No	21201010
+17	Unspecified	21201010
+0	Not applicable	21201010
+7532	Yes	21201011
+8	No	21201011
+36	Unspecified	21201011
+0	Not applicable	21201011
+8075	Yes	21201012
+11	No	21201012
+18	Unspecified	21201012
+1	Not applicable	21201012
+6602	Yes	21201013
+105	No	21201013
+20	Unspecified	21201013
+381	Not applicable	21201013
+7359	Yes	21201014
+6	No	21201014
+52	Unspecified	21201014
+0	Not applicable	21201014
+11426	Yes	21201015
+15	No	21201015
+78	Unspecified	21201015
+3	Not applicable	21201015
+10283	Yes	21201016
+22	No	21201016
+67	Unspecified	21201016
+0	Not applicable	21201016
+8883	Yes	21201017
+7	No	21201017
+47	Unspecified	21201017
+0	Not applicable	21201017
+6411	Yes	21201018
+12	No	21201018
+26	Unspecified	21201018
+0	Not applicable	21201018
+12194	Yes	21201019
+27	No	21201019
+38	Unspecified	21201019
+256	Not applicable	21201019
+8932	Yes	21201020
+7	No	21201020
+39	Unspecified	21201020
+10	Not applicable	21201020
+6653	Yes	21201021
+8	No	21201021
+11	Unspecified	21201021
+0	Not applicable	21201021
+7756	Yes	21201022
+1	No	21201022
+31	Unspecified	21201022
+0	Not applicable	21201022
+8639	Yes	21201023
+15	No	21201023
+42	Unspecified	21201023
+0	Not applicable	21201023
+6849	Yes	21201024
+6	No	21201024
+93	Unspecified	21201024
+0	Not applicable	21201024
+7356	Yes	21201025
+56	No	21201025
+24	Unspecified	21201025
+311	Not applicable	21201025
+9195	Yes	21201026
+20	No	21201026
+121	Unspecified	21201026
+0	Not applicable	21201026
+6138	Yes	21201027
+7	No	21201027
+70	Unspecified	21201027
+0	Not applicable	21201027
+9043	Yes	21201028
+51	No	21201028
+15	Unspecified	21201028
+267	Not applicable	21201028
+6150	Yes	21201029
+6	No	21201029
+52	Unspecified	21201029
+242	Not applicable	21201029
+8458	Yes	21201030
+11	No	21201030
+18	Unspecified	21201030
+0	Not applicable	21201030
+7211	Yes	21201031
+43	No	21201031
+90	Unspecified	21201031
+0	Not applicable	21201031
+5495	Yes	21202001
+164	No	21202001
+23	Unspecified	21202001
+482	Not applicable	21202001
+7835	Yes	21202002
+56	No	21202002
+29	Unspecified	21202002
+8	Not applicable	21202002
+7272	Yes	21202003
+91	No	21202003
+45	Unspecified	21202003
+197	Not applicable	21202003
+8068	Yes	21202004
+68	No	21202004
+17	Unspecified	21202004
+90	Not applicable	21202004
+8914	Yes	21202005
+67	No	21202005
+49	Unspecified	21202005
+550	Not applicable	21202005
+3850	Yes	21202006
+16	No	21202006
+12	Unspecified	21202006
+2285	Not applicable	21202006
+8708	Yes	21202007
+18	No	21202007
+29	Unspecified	21202007
+57	Not applicable	21202007
+7130	Yes	21202008
+40	No	21202008
+11	Unspecified	21202008
+0	Not applicable	21202008
+7927	Yes	21202009
+27	No	21202009
+6	Unspecified	21202009
+0	Not applicable	21202009
+6420	Yes	21202010
+5	No	21202010
+45	Unspecified	21202010
+0	Not applicable	21202010
+7869	Yes	21202011
+10	No	21202011
+37	Unspecified	21202011
+0	Not applicable	21202011
+7395	Yes	21202012
+39	No	21202012
+24	Unspecified	21202012
+0	Not applicable	21202012
+7051	Yes	21202013
+13	No	21202013
+14	Unspecified	21202013
+78	Not applicable	21202013
+7398	Yes	21202014
+4	No	21202014
+36	Unspecified	21202014
+0	Not applicable	21202014
+6083	Yes	21202015
+5	No	21202015
+33	Unspecified	21202015
+0	Not applicable	21202015
+7321	Yes	21202016
+43	No	21202016
+75	Unspecified	21202016
+0	Not applicable	21202016
+7903	Yes	21202017
+21	No	21202017
+51	Unspecified	21202017
+0	Not applicable	21202017
+8078	Yes	21202018
+49	No	21202018
+36	Unspecified	21202018
+441	Not applicable	21202018
+7484	Yes	21202019
+2	No	21202019
+36	Unspecified	21202019
+0	Not applicable	21202019
+7367	Yes	21202020
+9	No	21202020
+26	Unspecified	21202020
+0	Not applicable	21202020
+7630	Yes	21202021
+11	No	21202021
+97	Unspecified	21202021
+0	Not applicable	21202021
+9622	Yes	21202022
+22	No	21202022
+50	Unspecified	21202022
+0	Not applicable	21202022
+7451	Yes	21202023
+7	No	21202023
+36	Unspecified	21202023
+0	Not applicable	21202023
+10123	Yes	21202024
+11	No	21202024
+65	Unspecified	21202024
+0	Not applicable	21202024
+11309	Yes	21202025
+16	No	21202025
+114	Unspecified	21202025
+172	Not applicable	21202025
+10440	Yes	21202026
+21	No	21202026
+26	Unspecified	21202026
+2	Not applicable	21202026
+9363	Yes	21202027
+6	No	21202027
+81	Unspecified	21202027
+10	Not applicable	21202027
+8505	Yes	21202028
+19	No	21202028
+257	Unspecified	21202028
+0	Not applicable	21202028
+8779	Yes	21202029
+20	No	21202029
+26	Unspecified	21202029
+68	Not applicable	21202029
+7104	Yes	21202030
+46	No	21202030
+31	Unspecified	21202030
+366	Not applicable	21202030
+9325	Yes	21202031
+9	No	21202031
+13	Unspecified	21202031
+1	Not applicable	21202031
+6509	Yes	21203001
+36	No	21203001
+81	Unspecified	21203001
+48	Not applicable	21203001
+4289	Yes	21203002
+3	No	21203002
+44	Unspecified	21203002
+0	Not applicable	21203002
+5150	Yes	21203003
+4	No	21203003
+8	Unspecified	21203003
+480	Not applicable	21203003
+5896	Yes	21203004
+8	No	21203004
+56	Unspecified	21203004
+0	Not applicable	21203004
+5287	Yes	21203005
+40	No	21203005
+19	Unspecified	21203005
+0	Not applicable	21203005
+5574	Yes	21203006
+65	No	21203006
+75	Unspecified	21203006
+0	Not applicable	21203006
+5235	Yes	21203007
+20	No	21203007
+51	Unspecified	21203007
+13	Not applicable	21203007
+5456	Yes	21204001
+14	No	21204001
+11	Unspecified	21204001
+0	Not applicable	21204001
+7018	Yes	21204002
+90	No	21204002
+9	Unspecified	21204002
+199	Not applicable	21204002
+5822	Yes	21204003
+9	No	21204003
+11	Unspecified	21204003
+169	Not applicable	21204003
+6099	Yes	21204004
+51	No	21204004
+30	Unspecified	21204004
+423	Not applicable	21204004
+6868	Yes	21204005
+19	No	21204005
+34	Unspecified	21204005
+0	Not applicable	21204005
+7496	Yes	21204006
+29	No	21204006
+18	Unspecified	21204006
+0	Not applicable	21204006
+5541	Yes	21204007
+16	No	21204007
+37	Unspecified	21204007
+0	Not applicable	21204007
+6316	Yes	21204008
+11	No	21204008
+6	Unspecified	21204008
+24	Not applicable	21204008
+5102	Yes	21204009
+8	No	21204009
+16	Unspecified	21204009
+0	Not applicable	21204009
+4771	Yes	21204010
+21	No	21204010
+11	Unspecified	21204010
+257	Not applicable	21204010
+5112	Yes	21204011
+7	No	21204011
+15	Unspecified	21204011
+0	Not applicable	21204011
+7466	Yes	21204012
+6	No	21204012
+37	Unspecified	21204012
+0	Not applicable	21204012
+5055	Yes	21204013
+3	No	21204013
+16	Unspecified	21204013
+0	Not applicable	21204013
+6952	Yes	21204014
+17	No	21204014
+27	Unspecified	21204014
+90	Not applicable	21204014
+5630	Yes	21204015
+20	No	21204015
+17	Unspecified	21204015
+0	Not applicable	21204015
+7474	Yes	21204016
+35	No	21204016
+34	Unspecified	21204016
+0	Not applicable	21204016
+4686	Yes	21204017
+85	No	21204017
+15	Unspecified	21204017
+348	Not applicable	21204017
+5526	Yes	21204018
+21	No	21204018
+17	Unspecified	21204018
+0	Not applicable	21204018
+5601	Yes	21204019
+9	No	21204019
+24	Unspecified	21204019
+13	Not applicable	21204019
+6364	Yes	21204020
+15	No	21204020
+24	Unspecified	21204020
+0	Not applicable	21204020
+5526	Yes	21206001
+7	No	21206001
+23	Unspecified	21206001
+0	Not applicable	21206001
+5850	Yes	21206002
+15	No	21206002
+86	Unspecified	21206002
+12	Not applicable	21206002
+5765	Yes	21206003
+14	No	21206003
+51	Unspecified	21206003
+0	Not applicable	21206003
+5542	Yes	21206004
+4	No	21206004
+14	Unspecified	21206004
+0	Not applicable	21206004
+6034	Yes	21206005
+8	No	21206005
+23	Unspecified	21206005
+0	Not applicable	21206005
+5313	Yes	21206006
+17	No	21206006
+13	Unspecified	21206006
+1	Not applicable	21206006
+5959	Yes	21206007
+19	No	21206007
+72	Unspecified	21206007
+0	Not applicable	21206007
+5343	Yes	21206008
+15	No	21206008
+31	Unspecified	21206008
+0	Not applicable	21206008
+4792	Yes	21206009
+12	No	21206009
+33	Unspecified	21206009
+60	Not applicable	21206009
+4665	Yes	21206010
+79	No	21206010
+39	Unspecified	21206010
+228	Not applicable	21206010
+5919	Yes	21206011
+20	No	21206011
+15	Unspecified	21206011
+10	Not applicable	21206011
+4690	Yes	21206012
+20	No	21206012
+19	Unspecified	21206012
+54	Not applicable	21206012
+5729	Yes	21206013
+13	No	21206013
+35	Unspecified	21206013
+0	Not applicable	21206013
+4796	Yes	21207001
+11	No	21207001
+15	Unspecified	21207001
+0	Not applicable	21207001
+5765	Yes	21207002
+19	No	21207002
+19	Unspecified	21207002
+0	Not applicable	21207002
+5403	Yes	21207003
+9	No	21207003
+41	Unspecified	21207003
+23	Not applicable	21207003
+7278	Yes	21207004
+90	No	21207004
+37	Unspecified	21207004
+55	Not applicable	21207004
+5466	Yes	21207005
+20	No	21207005
+76	Unspecified	21207005
+0	Not applicable	21207005
+5811	Yes	21207006
+257	No	21207006
+18	Unspecified	21207006
+57	Not applicable	21207006
+6161	Yes	21207007
+12	No	21207007
+32	Unspecified	21207007
+0	Not applicable	21207007
+7016	Yes	21207008
+26	No	21207008
+56	Unspecified	21207008
+0	Not applicable	21207008
+8148	Yes	21207009
+27	No	21207009
+21	Unspecified	21207009
+6	Not applicable	21207009
+5249	Yes	21207010
+54	No	21207010
+55	Unspecified	21207010
+523	Not applicable	21207010
+1986	Yes	21207011
+64	No	21207011
+8	Unspecified	21207011
+2593	Not applicable	21207011
+5571	Yes	21207012
+21	No	21207012
+14	Unspecified	21207012
+0	Not applicable	21207012
+6545	Yes	21207013
+6	No	21207013
+10	Unspecified	21207013
+0	Not applicable	21207013
+5887	Yes	21207014
+18	No	21207014
+58	Unspecified	21207014
+0	Not applicable	21207014
+5192	Yes	21207015
+113	No	21207015
+40	Unspecified	21207015
+2139	Not applicable	21207015
+5778	Yes	21207016
+24	No	21207016
+32	Unspecified	21207016
+950	Not applicable	21207016
+4801	Yes	21207017
+20	No	21207017
+26	Unspecified	21207017
+0	Not applicable	21207017
+6104	Yes	21207018
+28	No	21207018
+27	Unspecified	21207018
+168	Not applicable	21207018
+4941	Yes	21207019
+12	No	21207019
+50	Unspecified	21207019
+4	Not applicable	21207019
+4834	Yes	21207020
+60	No	21207020
+41	Unspecified	21207020
+420	Not applicable	21207020
+5797	Yes	21207021
+47	No	21207021
+39	Unspecified	21207021
+0	Not applicable	21207021
+4857	Yes	21208001
+78	No	21208001
+22	Unspecified	21208001
+409	Not applicable	21208001
+4228	Yes	21208002
+31	No	21208002
+12	Unspecified	21208002
+0	Not applicable	21208002
+3243	Yes	21208003
+63	No	21208003
+22	Unspecified	21208003
+58	Not applicable	21208003
+10962	Yes	21208004
+74	No	21208004
+67	Unspecified	21208004
+139	Not applicable	21208004
+6851	Yes	21301001
+58	No	21301001
+20	Unspecified	21301001
+0	Not applicable	21301001
+5515	Yes	21301002
+33	No	21301002
+19	Unspecified	21301002
+0	Not applicable	21301002
+4812	Yes	21301003
+79	No	21301003
+26	Unspecified	21301003
+0	Not applicable	21301003
+6339	Yes	21301004
+19	No	21301004
+38	Unspecified	21301004
+109	Not applicable	21301004
+7877	Yes	21301005
+118	No	21301005
+28	Unspecified	21301005
+727	Not applicable	21301005
+11928	Yes	21301006
+116	No	21301006
+72	Unspecified	21301006
+119	Not applicable	21301006
+8196	Yes	21301007
+10	No	21301007
+4	Unspecified	21301007
+192	Not applicable	21301007
+6049	Yes	21301008
+53	No	21301008
+6	Unspecified	21301008
+267	Not applicable	21301008
+5826	Yes	21301009
+14	No	21301009
+24	Unspecified	21301009
+18	Not applicable	21301009
+7028	Yes	21302001
+62	No	21302001
+12	Unspecified	21302001
+0	Not applicable	21302001
+5420	Yes	21302002
+56	No	21302002
+150	Unspecified	21302002
+16	Not applicable	21302002
+7446	Yes	21302003
+139	No	21302003
+44	Unspecified	21302003
+0	Not applicable	21302003
+5831	Yes	21302004
+42	No	21302004
+68	Unspecified	21302004
+118	Not applicable	21302004
+6722	Yes	21302005
+71	No	21302005
+54	Unspecified	21302005
+2	Not applicable	21302005
+4456	Yes	21303001
+32	No	21303001
+53	Unspecified	21303001
+0	Not applicable	21303001
+5418	Yes	21303002
+143	No	21303002
+31	Unspecified	21303002
+398	Not applicable	21303002
+5744	Yes	21303003
+63	No	21303003
+41	Unspecified	21303003
+0	Not applicable	21303003
+5499	Yes	21303004
+34	No	21303004
+59	Unspecified	21303004
+0	Not applicable	21303004
+8777	Yes	21304001
+39	No	21304001
+82	Unspecified	21304001
+7	Not applicable	21304001
+6832	Yes	21304002
+74	No	21304002
+13	Unspecified	21304002
+0	Not applicable	21304002
+6664	Yes	21304003
+34	No	21304003
+1	Unspecified	21304003
+0	Not applicable	21304003
+5330	Yes	21304004
+52	No	21304004
+26	Unspecified	21304004
+17	Not applicable	21304004
+5464	Yes	21304005
+44	No	21304005
+29	Unspecified	21304005
+440	Not applicable	21304005
+6383	Yes	21304006
+216	No	21304006
+26	Unspecified	21304006
+501	Not applicable	21304006
+10269	Yes	21304007
+81	No	21304007
+114	Unspecified	21304007
+0	Not applicable	21304007
+6533	Yes	21304008
+111	No	21304008
+30	Unspecified	21304008
+10	Not applicable	21304008
+6853	Yes	21304009
+35	No	21304009
+21	Unspecified	21304009
+0	Not applicable	21304009
+4216	Yes	21304010
+47	No	21304010
+28	Unspecified	21304010
+14	Not applicable	21304010
+8086	Yes	21304011
+85	No	21304011
+41	Unspecified	21304011
+0	Not applicable	21304011
+5591	Yes	21304012
+22	No	21304012
+56	Unspecified	21304012
+0	Not applicable	21304012
+5306	Yes	21304013
+38	No	21304013
+35	Unspecified	21304013
+115	Not applicable	21304013
+5990	Yes	21304014
+65	No	21304014
+12	Unspecified	21304014
+0	Not applicable	21304014
+4748	Yes	21304015
+38	No	21304015
+16	Unspecified	21304015
+21	Not applicable	21304015
+5849	Yes	21304016
+111	No	21304016
+28	Unspecified	21304016
+104	Not applicable	21304016
+6908	Yes	21304017
+78	No	21304017
+48	Unspecified	21304017
+0	Not applicable	21304017
+12257	Yes	21304018
+96	No	21304018
+29	Unspecified	21304018
+156	Not applicable	21304018
+8781	Yes	21304019
+28	No	21304019
+26	Unspecified	21304019
+0	Not applicable	21304019
+6378	Yes	21304020
+33	No	21304020
+24	Unspecified	21304020
+0	Not applicable	21304020
+6021	Yes	21304021
+74	No	21304021
+6	Unspecified	21304021
+0	Not applicable	21304021
+7854	Yes	21304022
+96	No	21304022
+30	Unspecified	21304022
+0	Not applicable	21304022
+4585	Yes	21304023
+53	No	21304023
+11	Unspecified	21304023
+26	Not applicable	21304023
+5312	Yes	21304024
+94	No	21304024
+23	Unspecified	21304024
+98	Not applicable	21304024
+8874	Yes	21304025
+236	No	21304025
+35	Unspecified	21304025
+284	Not applicable	21304025
+7989	Yes	21304026
+463	No	21304026
+36	Unspecified	21304026
+901	Not applicable	21304026
+6818	Yes	21304027
+50	No	21304027
+24	Unspecified	21304027
+119	Not applicable	21304027
+7132	Yes	21305001
+24	No	21305001
+57	Unspecified	21305001
+92	Not applicable	21305001
+5658	Yes	21305002
+42	No	21305002
+11	Unspecified	21305002
+0	Not applicable	21305002
+6677	Yes	21305003
+36	No	21305003
+48	Unspecified	21305003
+0	Not applicable	21305003
+7617	Yes	21305004
+94	No	21305004
+40	Unspecified	21305004
+0	Not applicable	21305004
+7932	Yes	21305005
+37	No	21305005
+47	Unspecified	21305005
+0	Not applicable	21305005
+7177	Yes	21305006
+7	No	21305006
+62	Unspecified	21305006
+0	Not applicable	21305006
+6365	Yes	21305007
+32	No	21305007
+19	Unspecified	21305007
+0	Not applicable	21305007
+6956	Yes	21305008
+129	No	21305008
+27	Unspecified	21305008
+326	Not applicable	21305008
+5548	Yes	21305009
+12	No	21305009
+16	Unspecified	21305009
+84	Not applicable	21305009
+6053	Yes	21305010
+7	No	21305010
+10	Unspecified	21305010
+78	Not applicable	21305010
+5135	Yes	21305011
+8	No	21305011
+8	Unspecified	21305011
+0	Not applicable	21305011
+6294	Yes	21305012
+31	No	21305012
+90	Unspecified	21305012
+0	Not applicable	21305012
+7342	Yes	21305013
+62	No	21305013
+42	Unspecified	21305013
+0	Not applicable	21305013
+7470	Yes	21305014
+219	No	21305014
+85	Unspecified	21305014
+1009	Not applicable	21305014
+7101	Yes	21305015
+35	No	21305015
+38	Unspecified	21305015
+8	Not applicable	21305015
+8349	Yes	21305016
+20	No	21305016
+66	Unspecified	21305016
+4	Not applicable	21305016
+6936	Yes	21305017
+58	No	21305017
+39	Unspecified	21305017
+0	Not applicable	21305017
+7302	Yes	21305018
+13	No	21305018
+100	Unspecified	21305018
+0	Not applicable	21305018
+5295	Yes	21305019
+8	No	21305019
+85	Unspecified	21305019
+0	Not applicable	21305019
+5921	Yes	21305020
+30	No	21305020
+33	Unspecified	21305020
+0	Not applicable	21305020
+7563	Yes	21305021
+26	No	21305021
+73	Unspecified	21305021
+23	Not applicable	21305021
+6938	Yes	21306001
+50	No	21306001
+24	Unspecified	21306001
+20	Not applicable	21306001
+5684	Yes	21306002
+36	No	21306002
+125	Unspecified	21306002
+0	Not applicable	21306002
+6807	Yes	21306003
+62	No	21306003
+30	Unspecified	21306003
+0	Not applicable	21306003
+6776	Yes	21306004
+103	No	21306004
+26	Unspecified	21306004
+55	Not applicable	21306004
+9094	Yes	21306005
+102	No	21306005
+92	Unspecified	21306005
+360	Not applicable	21306005
+7692	Yes	21306006
+35	No	21306006
+50	Unspecified	21306006
+0	Not applicable	21306006
+8214	Yes	21306007
+61	No	21306007
+31	Unspecified	21306007
+5	Not applicable	21306007
+7419	Yes	21306008
+24	No	21306008
+33	Unspecified	21306008
+429	Not applicable	21306008
+6682	Yes	21306009
+35	No	21306009
+37	Unspecified	21306009
+0	Not applicable	21306009
+5799	Yes	21306010
+21	No	21306010
+51	Unspecified	21306010
+0	Not applicable	21306010
+6849	Yes	21306011
+38	No	21306011
+29	Unspecified	21306011
+0	Not applicable	21306011
+6350	Yes	21306012
+37	No	21306012
+32	Unspecified	21306012
+326	Not applicable	21306012
+5746	Yes	21306013
+36	No	21306013
+36	Unspecified	21306013
+0	Not applicable	21306013
+7111	Yes	21306014
+40	No	21306014
+52	Unspecified	21306014
+548	Not applicable	21306014
+6839	Yes	21306015
+30	No	21306015
+32	Unspecified	21306015
+0	Not applicable	21306015
+6147	Yes	21306016
+79	No	21306016
+40	Unspecified	21306016
+35	Not applicable	21306016
+5956	Yes	21306017
+25	No	21306017
+43	Unspecified	21306017
+0	Not applicable	21306017
+5997	Yes	21307001
+10	No	21307001
+52	Unspecified	21307001
+0	Not applicable	21307001
+6361	Yes	21307002
+15	No	21307002
+294	Unspecified	21307002
+0	Not applicable	21307002
+5583	Yes	21307003
+31	No	21307003
+78	Unspecified	21307003
+0	Not applicable	21307003
+7186	Yes	21307004
+20	No	21307004
+70	Unspecified	21307004
+3	Not applicable	21307004
+6721	Yes	21307005
+12	No	21307005
+35	Unspecified	21307005
+0	Not applicable	21307005
+8038	Yes	21307006
+18	No	21307006
+35	Unspecified	21307006
+3	Not applicable	21307006
+7861	Yes	21307007
+23	No	21307007
+27	Unspecified	21307007
+0	Not applicable	21307007
+8476	Yes	21307008
+17	No	21307008
+125	Unspecified	21307008
+0	Not applicable	21307008
+7334	Yes	21307009
+29	No	21307009
+54	Unspecified	21307009
+170	Not applicable	21307009
+10257	Yes	21307010
+80	No	21307010
+479	Unspecified	21307010
+655	Not applicable	21307010
+5257	Yes	21307011
+151	No	21307011
+69	Unspecified	21307011
+0	Not applicable	21307011
+7554	Yes	21307012
+24	No	21307012
+89	Unspecified	21307012
+0	Not applicable	21307012
+7742	Yes	21307013
+28	No	21307013
+146	Unspecified	21307013
+0	Not applicable	21307013
+7908	Yes	21307014
+47	No	21307014
+115	Unspecified	21307014
+4	Not applicable	21307014
+8956	Yes	21307015
+30	No	21307015
+125	Unspecified	21307015
+324	Not applicable	21307015
+7674	Yes	21307016
+25	No	21307016
+36	Unspecified	21307016
+84	Not applicable	21307016
+8284	Yes	21307017
+33	No	21307017
+88	Unspecified	21307017
+0	Not applicable	21307017
+8829	Yes	21307018
+57	No	21307018
+181	Unspecified	21307018
+0	Not applicable	21307018
+8483	Yes	21307019
+22	No	21307019
+129	Unspecified	21307019
+1	Not applicable	21307019
+6633	Yes	21307020
+11	No	21307020
+225	Unspecified	21307020
+0	Not applicable	21307020
+7686	Yes	21308001
+107	No	21308001
+158	Unspecified	21308001
+305	Not applicable	21308001
+7062	Yes	21308002
+27	No	21308002
+82	Unspecified	21308002
+0	Not applicable	21308002
+8039	Yes	21308003
+35	No	21308003
+100	Unspecified	21308003
+0	Not applicable	21308003
+5237	Yes	21308004
+165	No	21308004
+36	Unspecified	21308004
+315	Not applicable	21308004
+8585	Yes	21308005
+43	No	21308005
+50	Unspecified	21308005
+0	Not applicable	21308005
+5963	Yes	21308006
+84	No	21308006
+125	Unspecified	21308006
+0	Not applicable	21308006
+6372	Yes	21308007
+25	No	21308007
+67	Unspecified	21308007
+0	Not applicable	21308007
+6523	Yes	21308008
+45	No	21308008
+68	Unspecified	21308008
+0	Not applicable	21308008
+6135	Yes	21308009
+18	No	21308009
+125	Unspecified	21308009
+0	Not applicable	21308009
+9280	Yes	21401001
+67	No	21401001
+100	Unspecified	21401001
+12	Not applicable	21401001
+9716	Yes	21401002
+82	No	21401002
+22	Unspecified	21401002
+39	Not applicable	21401002
+7955	Yes	21401003
+61	No	21401003
+24	Unspecified	21401003
+90	Not applicable	21401003
+6736	Yes	21401004
+88	No	21401004
+99	Unspecified	21401004
+24	Not applicable	21401004
+8315	Yes	21401005
+22	No	21401005
+110	Unspecified	21401005
+0	Not applicable	21401005
+5321	Yes	21401006
+67	No	21401006
+45	Unspecified	21401006
+0	Not applicable	21401006
+7489	Yes	21401007
+37	No	21401007
+72	Unspecified	21401007
+0	Not applicable	21401007
+6329	Yes	21401008
+51	No	21401008
+11	Unspecified	21401008
+0	Not applicable	21401008
+10735	Yes	21401009
+278	No	21401009
+110	Unspecified	21401009
+100	Not applicable	21401009
+8743	Yes	21401010
+52	No	21401010
+50	Unspecified	21401010
+0	Not applicable	21401010
+8499	Yes	21401011
+54	No	21401011
+43	Unspecified	21401011
+53	Not applicable	21401011
+7553	Yes	21401012
+54	No	21401012
+39	Unspecified	21401012
+114	Not applicable	21401012
+9378	Yes	21401013
+75	No	21401013
+104	Unspecified	21401013
+0	Not applicable	21401013
+6808	Yes	21401014
+89	No	21401014
+35	Unspecified	21401014
+0	Not applicable	21401014
+8426	Yes	21401015
+98	No	21401015
+108	Unspecified	21401015
+0	Not applicable	21401015
+7118	Yes	21401016
+31	No	21401016
+45	Unspecified	21401016
+121	Not applicable	21401016
+6620	Yes	21401017
+60	No	21401017
+47	Unspecified	21401017
+238	Not applicable	21401017
+6520	Yes	21402001
+43	No	21402001
+83	Unspecified	21402001
+0	Not applicable	21402001
+11435	Yes	21402002
+290	No	21402002
+113	Unspecified	21402002
+18	Not applicable	21402002
+5156	Yes	21402003
+176	No	21402003
+46	Unspecified	21402003
+0	Not applicable	21402003
+4908	Yes	21402004
+87	No	21402004
+31	Unspecified	21402004
+0	Not applicable	21402004
+4968	Yes	21402005
+79	No	21402005
+19	Unspecified	21402005
+0	Not applicable	21402005
+6482	Yes	21402006
+94	No	21402006
+62	Unspecified	21402006
+0	Not applicable	21402006
+6980	Yes	21402007
+147	No	21402007
+29	Unspecified	21402007
+0	Not applicable	21402007
+9373	Yes	21402008
+456	No	21402008
+74	Unspecified	21402008
+50	Not applicable	21402008
+6619	Yes	21402009
+149	No	21402009
+98	Unspecified	21402009
+0	Not applicable	21402009
+8123	Yes	21402010
+626	No	21402010
+80	Unspecified	21402010
+224	Not applicable	21402010
+7514	Yes	21402011
+239	No	21402011
+41	Unspecified	21402011
+0	Not applicable	21402011
+5522	Yes	21402012
+60	No	21402012
+39	Unspecified	21402012
+0	Not applicable	21402012
+6390	Yes	21402013
+118	No	21402013
+155	Unspecified	21402013
+0	Not applicable	21402013
+6828	Yes	21402014
+117	No	21402014
+32	Unspecified	21402014
+138	Not applicable	21402014
+6268	Yes	21402015
+136	No	21402015
+80	Unspecified	21402015
+0	Not applicable	21402015
+5245	Yes	21402016
+326	No	21402016
+37	Unspecified	21402016
+170	Not applicable	21402016
+6555	Yes	21402017
+196	No	21402017
+31	Unspecified	21402017
+0	Not applicable	21402017
+5807	Yes	21402018
+181	No	21402018
+49	Unspecified	21402018
+0	Not applicable	21402018
+7670	Yes	21402019
+117	No	21402019
+47	Unspecified	21402019
+404	Not applicable	21402019
+7348	Yes	21403001
+66	No	21403001
+13	Unspecified	21403001
+7	Not applicable	21403001
+8922	Yes	21403002
+50	No	21403002
+28	Unspecified	21403002
+0	Not applicable	21403002
+5603	Yes	21403003
+44	No	21403003
+18	Unspecified	21403003
+30	Not applicable	21403003
+6815	Yes	21403004
+107	No	21403004
+52	Unspecified	21403004
+521	Not applicable	21403004
+4787	Yes	21403005
+104	No	21403005
+16	Unspecified	21403005
+29	Not applicable	21403005
+9041	Yes	21403006
+147	No	21403006
+51	Unspecified	21403006
+0	Not applicable	21403006
+6111	Yes	21404001
+56	No	21404001
+12	Unspecified	21404001
+4	Not applicable	21404001
+4681	Yes	21404002
+31	No	21404002
+15	Unspecified	21404002
+0	Not applicable	21404002
+9484	Yes	21404003
+97	No	21404003
+37	Unspecified	21404003
+530	Not applicable	21404003
+5177	Yes	21404004
+47	No	21404004
+26	Unspecified	21404004
+0	Not applicable	21404004
+7286	Yes	21404005
+53	No	21404005
+29	Unspecified	21404005
+0	Not applicable	21404005
+6867	Yes	21503001
+12	No	21503001
+33	Unspecified	21503001
+0	Not applicable	21503001
+11197	Yes	21503002
+14	No	21503002
+105	Unspecified	21503002
+19	Not applicable	21503002
+8074	Yes	21503003
+5	No	21503003
+72	Unspecified	21503003
+0	Not applicable	21503003
+8597	Yes	21503004
+21	No	21503004
+33	Unspecified	21503004
+0	Not applicable	21503004
+9812	Yes	21503005
+18	No	21503005
+170	Unspecified	21503005
+0	Not applicable	21503005
+9957	Yes	21503006
+200	No	21503006
+121	Unspecified	21503006
+181	Not applicable	21503006
+9940	Yes	21503007
+12	No	21503007
+57	Unspecified	21503007
+0	Not applicable	21503007
+7159	Yes	21503008
+8	No	21503008
+45	Unspecified	21503008
+108	Not applicable	21503008
+9270	Yes	21503009
+22	No	21503009
+140	Unspecified	21503009
+8	Not applicable	21503009
+8209	Yes	21503010
+1	No	21503010
+41	Unspecified	21503010
+0	Not applicable	21503010
+9183	Yes	21503011
+14	No	21503011
+14	Unspecified	21503011
+0	Not applicable	21503011
+7564	Yes	21503012
+14	No	21503012
+52	Unspecified	21503012
+0	Not applicable	21503012
+9060	Yes	21503013
+29	No	21503013
+141	Unspecified	21503013
+0	Not applicable	21503013
+8625	Yes	21503014
+68	No	21503014
+23	Unspecified	21503014
+0	Not applicable	21503014
+6018	Yes	21503015
+313	No	21503015
+33	Unspecified	21503015
+297	Not applicable	21503015
+8089	Yes	21503016
+11	No	21503016
+23	Unspecified	21503016
+0	Not applicable	21503016
+7453	Yes	21503017
+13	No	21503017
+107	Unspecified	21503017
+104	Not applicable	21503017
+8162	Yes	21503018
+14	No	21503018
+18	Unspecified	21503018
+0	Not applicable	21503018
+10800	Yes	21503019
+41	No	21503019
+134	Unspecified	21503019
+157	Not applicable	21503019
+11144	Yes	21503020
+49	No	21503020
+44	Unspecified	21503020
+33	Not applicable	21503020
+11320	Yes	21503021
+23	No	21503021
+34	Unspecified	21503021
+273	Not applicable	21503021
+8768	Yes	21503022
+22	No	21503022
+59	Unspecified	21503022
+0	Not applicable	21503022
+6745	Yes	21503023
+23	No	21503023
+153	Unspecified	21503023
+0	Not applicable	21503023
+7791	Yes	21503024
+11	No	21503024
+61	Unspecified	21503024
+1	Not applicable	21503024
+8495	Yes	21503025
+9	No	21503025
+136	Unspecified	21503025
+0	Not applicable	21503025
+9011	Yes	21503026
+45	No	21503026
+94	Unspecified	21503026
+56	Not applicable	21503026
+6409	Yes	21503027
+10	No	21503027
+25	Unspecified	21503027
+0	Not applicable	21503027
+10469	Yes	21503028
+8	No	21503028
+57	Unspecified	21503028
+0	Not applicable	21503028
+9705	Yes	21503029
+18	No	21503029
+27	Unspecified	21503029
+184	Not applicable	21503029
+10696	Yes	21503030
+29	No	21503030
+61	Unspecified	21503030
+0	Not applicable	21503030
+9245	Yes	21503031
+7	No	21503031
+31	Unspecified	21503031
+0	Not applicable	21503031
+9283	Yes	21504001
+16	No	21504001
+33	Unspecified	21504001
+0	Not applicable	21504001
+8538	Yes	21504002
+16	No	21504002
+49	Unspecified	21504002
+168	Not applicable	21504002
+8749	Yes	21504003
+12	No	21504003
+29	Unspecified	21504003
+0	Not applicable	21504003
+7066	Yes	21504004
+22	No	21504004
+41	Unspecified	21504004
+2	Not applicable	21504004
+6697	Yes	21504005
+17	No	21504005
+185	Unspecified	21504005
+0	Not applicable	21504005
+5429	Yes	21504006
+38	No	21504006
+36	Unspecified	21504006
+244	Not applicable	21504006
+8095	Yes	21504007
+5	No	21504007
+74	Unspecified	21504007
+0	Not applicable	21504007
+6651	Yes	21504008
+14	No	21504008
+27	Unspecified	21504008
+3	Not applicable	21504008
+5871	Yes	21504009
+6	No	21504009
+31	Unspecified	21504009
+0	Not applicable	21504009
+8703	Yes	21504010
+7	No	21504010
+67	Unspecified	21504010
+0	Not applicable	21504010
+8558	Yes	21504011
+4	No	21504011
+112	Unspecified	21504011
+4	Not applicable	21504011
+9283	Yes	21504012
+5	No	21504012
+25	Unspecified	21504012
+0	Not applicable	21504012
+8082	Yes	21504013
+6	No	21504013
+62	Unspecified	21504013
+111	Not applicable	21504013
+6832	Yes	21504014
+21	No	21504014
+109	Unspecified	21504014
+0	Not applicable	21504014
+3962	Yes	21504015
+1	No	21504015
+54	Unspecified	21504015
+0	Not applicable	21504015
+6408	Yes	21504016
+10	No	21504016
+19	Unspecified	21504016
+0	Not applicable	21504016
+7282	Yes	21504017
+18	No	21504017
+48	Unspecified	21504017
+0	Not applicable	21504017
+8309	Yes	21504018
+7	No	21504018
+42	Unspecified	21504018
+0	Not applicable	21504018
+10563	Yes	21504019
+9	No	21504019
+37	Unspecified	21504019
+16	Not applicable	21504019
+9725	Yes	21504020
+36	No	21504020
+154	Unspecified	21504020
+0	Not applicable	21504020
+9923	Yes	21505001
+8	No	21505001
+36	Unspecified	21505001
+0	Not applicable	21505001
+7992	Yes	21505002
+15	No	21505002
+33	Unspecified	21505002
+0	Not applicable	21505002
+7462	Yes	21505003
+5	No	21505003
+22	Unspecified	21505003
+0	Not applicable	21505003
+7784	Yes	21505004
+17	No	21505004
+25	Unspecified	21505004
+0	Not applicable	21505004
+8591	Yes	21505005
+22	No	21505005
+20	Unspecified	21505005
+0	Not applicable	21505005
+9941	Yes	21505006
+7	No	21505006
+71	Unspecified	21505006
+0	Not applicable	21505006
+7711	Yes	21505007
+38	No	21505007
+25	Unspecified	21505007
+271	Not applicable	21505007
+7852	Yes	21505008
+13	No	21505008
+10	Unspecified	21505008
+0	Not applicable	21505008
+9671	Yes	21505009
+32	No	21505009
+63	Unspecified	21505009
+660	Not applicable	21505009
+10770	Yes	21505010
+44	No	21505010
+49	Unspecified	21505010
+0	Not applicable	21505010
+12984	Yes	21505011
+131	No	21505011
+132	Unspecified	21505011
+0	Not applicable	21505011
+10343	Yes	21505012
+96	No	21505012
+63	Unspecified	21505012
+128	Not applicable	21505012
+8359	Yes	21505013
+30	No	21505013
+100	Unspecified	21505013
+0	Not applicable	21505013
+8288	Yes	21505014
+19	No	21505014
+23	Unspecified	21505014
+0	Not applicable	21505014
+11684	Yes	21505015
+67	No	21505015
+44	Unspecified	21505015
+87	Not applicable	21505015
+8076	Yes	21505016
+17	No	21505016
+53	Unspecified	21505016
+0	Not applicable	21505016
+10122	Yes	21505017
+10	No	21505017
+134	Unspecified	21505017
+0	Not applicable	21505017
+8262	Yes	21505018
+8	No	21505018
+25	Unspecified	21505018
+0	Not applicable	21505018
+10989	Yes	21505019
+24	No	21505019
+27	Unspecified	21505019
+55	Not applicable	21505019
+11507	Yes	21505020
+17	No	21505020
+48	Unspecified	21505020
+9	Not applicable	21505020
+6906	Yes	21505021
+47	No	21505021
+195	Unspecified	21505021
+257	Not applicable	21505021
+10712	Yes	21505022
+21	No	21505022
+47	Unspecified	21505022
+0	Not applicable	21505022
+9315	Yes	21505023
+11	No	21505023
+36	Unspecified	21505023
+44	Not applicable	21505023
+7190	Yes	21505024
+27	No	21505024
+151	Unspecified	21505024
+38	Not applicable	21505024
+8427	Yes	21505025
+11	No	21505025
+121	Unspecified	21505025
+0	Not applicable	21505025
+11258	Yes	21505026
+69	No	21505026
+59	Unspecified	21505026
+0	Not applicable	21505026
+6499	Yes	21505027
+15	No	21505027
+84	Unspecified	21505027
+0	Not applicable	21505027
+8301	Yes	21505028
+25	No	21505028
+16	Unspecified	21505028
+0	Not applicable	21505028
+9991	Yes	21505029
+16	No	21505029
+204	Unspecified	21505029
+0	Not applicable	21505029
+10317	Yes	21505030
+14	No	21505030
+24	Unspecified	21505030
+15	Not applicable	21505030
+8743	Yes	21505031
+16	No	21505031
+26	Unspecified	21505031
+0	Not applicable	21505031
+7267	Yes	21506001
+17	No	21506001
+35	Unspecified	21506001
+72	Not applicable	21506001
+6634	Yes	21506002
+28	No	21506002
+25	Unspecified	21506002
+0	Not applicable	21506002
+7806	Yes	21506003
+23	No	21506003
+62	Unspecified	21506003
+0	Not applicable	21506003
+6942	Yes	21506004
+21	No	21506004
+36	Unspecified	21506004
+0	Not applicable	21506004
+6013	Yes	21506005
+7	No	21506005
+36	Unspecified	21506005
+141	Not applicable	21506005
+10266	Yes	21506006
+145	No	21506006
+84	Unspecified	21506006
+83	Not applicable	21506006
+5463	Yes	21506007
+10	No	21506007
+28	Unspecified	21506007
+0	Not applicable	21506007
+8129	Yes	21506008
+6	No	21506008
+33	Unspecified	21506008
+230	Not applicable	21506008
+5447	Yes	21506009
+11	No	21506009
+35	Unspecified	21506009
+83	Not applicable	21506009
+6259	Yes	21506010
+24	No	21506010
+58	Unspecified	21506010
+0	Not applicable	21506010
+7440	Yes	21506011
+18	No	21506011
+154	Unspecified	21506011
+0	Not applicable	21506011
+8308	Yes	21506012
+8	No	21506012
+44	Unspecified	21506012
+0	Not applicable	21506012
+7951	Yes	21506013
+19	No	21506013
+234	Unspecified	21506013
+0	Not applicable	21506013
+8123	Yes	21506014
+15	No	21506014
+26	Unspecified	21506014
+0	Not applicable	21506014
+8693	Yes	21506015
+109	No	21506015
+82	Unspecified	21506015
+196	Not applicable	21506015
+7413	Yes	21506016
+12	No	21506016
+15	Unspecified	21506016
+0	Not applicable	21506016
+7973	Yes	21506017
+20	No	21506017
+203	Unspecified	21506017
+7	Not applicable	21506017
+7063	Yes	21506018
+13	No	21506018
+63	Unspecified	21506018
+0	Not applicable	21506018
+6845	Yes	21506019
+6	No	21506019
+33	Unspecified	21506019
+0	Not applicable	21506019
+5707	Yes	21506020
+13	No	21506020
+27	Unspecified	21506020
+0	Not applicable	21506020
+5843	Yes	21506021
+18	No	21506021
+72	Unspecified	21506021
+203	Not applicable	21506021
+5795	Yes	21506022
+2	No	21506022
+133	Unspecified	21506022
+0	Not applicable	21506022
+7164	Yes	21506023
+9	No	21506023
+35	Unspecified	21506023
+0	Not applicable	21506023
+7656	Yes	21506024
+6	No	21506024
+38	Unspecified	21506024
+0	Not applicable	21506024
+7343	Yes	21506025
+19	No	21506025
+25	Unspecified	21506025
+48	Not applicable	21506025
+5357	Yes	21506026
+20	No	21506026
+46	Unspecified	21506026
+0	Not applicable	21506026
+10077	Yes	21507001
+158	No	21507001
+43	Unspecified	21507001
+532	Not applicable	21507001
+9936	Yes	21507002
+186	No	21507002
+77	Unspecified	21507002
+25	Not applicable	21507002
+12174	Yes	21507003
+273	No	21507003
+59	Unspecified	21507003
+0	Not applicable	21507003
+15619	Yes	21507004
+153	No	21507004
+103	Unspecified	21507004
+20	Not applicable	21507004
+4275	Yes	21507005
+146	No	21507005
+49	Unspecified	21507005
+4051	Not applicable	21507005
+9633	Yes	21507006
+850	No	21507006
+469	Unspecified	21507006
+1244	Not applicable	21507006
+1846	Yes	21507007
+162	No	21507007
+9	Unspecified	21507007
+0	Not applicable	21507007
+9543	Yes	21507008
+296	No	21507008
+52	Unspecified	21507008
+2413	Not applicable	21507008
+11681	Yes	21507009
+266	No	21507009
+92	Unspecified	21507009
+903	Not applicable	21507009
+10870	Yes	21507010
+15	No	21507010
+72	Unspecified	21507010
+240	Not applicable	21507010
+21552	Yes	21507011
+228	No	21507011
+266	Unspecified	21507011
+1439	Not applicable	21507011
+14053	Yes	21507012
+79	No	21507012
+76	Unspecified	21507012
+0	Not applicable	21507012
+9651	Yes	21507013
+160	No	21507013
+41	Unspecified	21507013
+12	Not applicable	21507013
+11512	Yes	21507014
+48	No	21507014
+67	Unspecified	21507014
+90	Not applicable	21507014
+11046	Yes	21507015
+30	No	21507015
+33	Unspecified	21507015
+0	Not applicable	21507015
+13185	Yes	21507016
+113	No	21507016
+36	Unspecified	21507016
+0	Not applicable	21507016
+11604	Yes	21507017
+33	No	21507017
+138	Unspecified	21507017
+0	Not applicable	21507017
+12120	Yes	21507018
+22	No	21507018
+155	Unspecified	21507018
+0	Not applicable	21507018
+13804	Yes	21507019
+30	No	21507019
+66	Unspecified	21507019
+12	Not applicable	21507019
+14676	Yes	21507020
+28	No	21507020
+85	Unspecified	21507020
+240	Not applicable	21507020
+13829	Yes	21507021
+37	No	21507021
+137	Unspecified	21507021
+0	Not applicable	21507021
+14231	Yes	21507022
+28	No	21507022
+109	Unspecified	21507022
+2	Not applicable	21507022
+15409	Yes	21507023
+26	No	21507023
+77	Unspecified	21507023
+0	Not applicable	21507023
+15743	Yes	21507024
+42	No	21507024
+103	Unspecified	21507024
+0	Not applicable	21507024
+19755	Yes	21507025
+34	No	21507025
+173	Unspecified	21507025
+11	Not applicable	21507025
+12411	Yes	21507026
+20	No	21507026
+80	Unspecified	21507026
+0	Not applicable	21507026
+12318	Yes	21507027
+4	No	21507027
+109	Unspecified	21507027
+16	Not applicable	21507027
+11953	Yes	21507028
+28	No	21507028
+41	Unspecified	21507028
+0	Not applicable	21507028
+13615	Yes	21507029
+29	No	21507029
+83	Unspecified	21507029
+21	Not applicable	21507029
+12569	Yes	21507030
+122	No	21507030
+65	Unspecified	21507030
+0	Not applicable	21507030
+12023	Yes	21507031
+34	No	21507031
+69	Unspecified	21507031
+0	Not applicable	21507031
+13900	Yes	21507032
+42	No	21507032
+119	Unspecified	21507032
+100	Not applicable	21507032
+12800	Yes	21507033
+78	No	21507033
+117	Unspecified	21507033
+0	Not applicable	21507033
+11645	Yes	21507034
+25	No	21507034
+56	Unspecified	21507034
+0	Not applicable	21507034
+11973	Yes	21507035
+49	No	21507035
+108	Unspecified	21507035
+0	Not applicable	21507035
+5939	Yes	24401001
+202	No	24401001
+21	Unspecified	24401001
+272	Not applicable	24401001
+13080	Yes	24401002
+415	No	24401002
+79	Unspecified	24401002
+0	Not applicable	24401002
+7573	Yes	24401003
+131	No	24401003
+107	Unspecified	24401003
+0	Not applicable	24401003
+8019	Yes	24401004
+42	No	24401004
+263	Unspecified	24401004
+0	Not applicable	24401004
+8405	Yes	24401005
+24	No	24401005
+45	Unspecified	24401005
+0	Not applicable	24401005
+7032	Yes	24401006
+358	No	24401006
+9	Unspecified	24401006
+0	Not applicable	24401006
+7553	Yes	24401007
+19	No	24401007
+38	Unspecified	24401007
+0	Not applicable	24401007
+9464	Yes	24401008
+197	No	24401008
+85	Unspecified	24401008
+0	Not applicable	24401008
+6556	Yes	24401009
+10	No	24401009
+39	Unspecified	24401009
+0	Not applicable	24401009
+8778	Yes	24401010
+59	No	24401010
+27	Unspecified	24401010
+0	Not applicable	24401010
+11096	Yes	24401011
+112	No	24401011
+213	Unspecified	24401011
+0	Not applicable	24401011
+6493	Yes	24401012
+27	No	24401012
+106	Unspecified	24401012
+0	Not applicable	24401012
+8037	Yes	24401013
+78	No	24401013
+126	Unspecified	24401013
+0	Not applicable	24401013
+5879	Yes	24401014
+86	No	24401014
+117	Unspecified	24401014
+504	Not applicable	24401014
+6621	Yes	24401015
+27	No	24401015
+67	Unspecified	24401015
+0	Not applicable	24401015
+6311	Yes	24401016
+27	No	24401016
+67	Unspecified	24401016
+0	Not applicable	24401016
+8291	Yes	24401017
+45	No	24401017
+173	Unspecified	24401017
+0	Not applicable	24401017
+7181	Yes	24401018
+35	No	24401018
+37	Unspecified	24401018
+0	Not applicable	24401018
+3731	Yes	24401019
+351	No	24401019
+42	Unspecified	24401019
+0	Not applicable	24401019
+11565	Yes	24401020
+184	No	24401020
+67	Unspecified	24401020
+0	Not applicable	24401020
+6272	Yes	24401021
+31	No	24401021
+37	Unspecified	24401021
+802	Not applicable	24401021
+6069	Yes	24401022
+32	No	24401022
+89	Unspecified	24401022
+98	Not applicable	24401022
+6258	Yes	24401023
+27	No	24401023
+59	Unspecified	24401023
+0	Not applicable	24401023
+5456	Yes	24401024
+15	No	24401024
+99	Unspecified	24401024
+0	Not applicable	24401024
+6792	Yes	24401025
+161	No	24401025
+77	Unspecified	24401025
+37	Not applicable	24401025
+8760	Yes	24401026
+64	No	24401026
+70	Unspecified	24401026
+0	Not applicable	24401026
+7660	Yes	24402001
+17	No	24402001
+6	Unspecified	24402001
+0	Not applicable	24402001
+5301	Yes	24402002
+3	No	24402002
+539	Unspecified	24402002
+0	Not applicable	24402002
+8932	Yes	24402003
+17	No	24402003
+21	Unspecified	24402003
+226	Not applicable	24402003
+7610	Yes	24402004
+14	No	24402004
+32	Unspecified	24402004
+0	Not applicable	24402004
+5656	Yes	24402005
+1	No	24402005
+34	Unspecified	24402005
+0	Not applicable	24402005
+6099	Yes	24402006
+2	No	24402006
+64	Unspecified	24402006
+0	Not applicable	24402006
+7235	Yes	24402007
+152	No	24402007
+149	Unspecified	24402007
+502	Not applicable	24402007
+6495	Yes	24402008
+16	No	24402008
+68	Unspecified	24402008
+0	Not applicable	24402008
+5945	Yes	24402009
+46	No	24402009
+17	Unspecified	24402009
+0	Not applicable	24402009
+7394	Yes	24402010
+11	No	24402010
+47	Unspecified	24402010
+14	Not applicable	24402010
+8176	Yes	24402011
+9	No	24402011
+71	Unspecified	24402011
+0	Not applicable	24402011
+6583	Yes	24402012
+16	No	24402012
+79	Unspecified	24402012
+0	Not applicable	24402012
+6124	Yes	24402013
+9	No	24402013
+133	Unspecified	24402013
+0	Not applicable	24402013
+7103	Yes	24402014
+18	No	24402014
+87	Unspecified	24402014
+0	Not applicable	24402014
+6317	Yes	24402015
+11	No	24402015
+57	Unspecified	24402015
+195	Not applicable	24402015
+8583	Yes	24402016
+21	No	24402016
+82	Unspecified	24402016
+0	Not applicable	24402016
+7581	Yes	24402017
+52	No	24402017
+73	Unspecified	24402017
+517	Not applicable	24402017
+5820	Yes	24402018
+221	No	24402018
+68	Unspecified	24402018
+555	Not applicable	24402018
+7933	Yes	24402019
+46	No	24402019
+209	Unspecified	24402019
+0	Not applicable	24402019
+7855	Yes	24402020
+8	No	24402020
+34	Unspecified	24402020
+21	Not applicable	24402020
+6478	Yes	24402021
+21	No	24402021
+38	Unspecified	24402021
+0	Not applicable	24402021
+6933	Yes	24402022
+4	No	24402022
+65	Unspecified	24402022
+0	Not applicable	24402022
+6529	Yes	24402023
+26	No	24402023
+155	Unspecified	24402023
+21	Not applicable	24402023
+6991	Yes	24402024
+15	No	24402024
+60	Unspecified	24402024
+0	Not applicable	24402024
+6296	Yes	24402025
+15	No	24402025
+35	Unspecified	24402025
+0	Not applicable	24402025
+7231	Yes	24402026
+11	No	24402026
+30	Unspecified	24402026
+0	Not applicable	24402026
+5593	Yes	24402027
+41	No	24402027
+38	Unspecified	24402027
+0	Not applicable	24402027
+7600	Yes	24403001
+61	No	24403001
+66	Unspecified	24403001
+247	Not applicable	24403001
+7566	Yes	24403002
+2	No	24403002
+137	Unspecified	24403002
+0	Not applicable	24403002
+7812	Yes	24403003
+6	No	24403003
+24	Unspecified	24403003
+0	Not applicable	24403003
+6858	Yes	24403004
+3	No	24403004
+10	Unspecified	24403004
+0	Not applicable	24403004
+8181	Yes	24403005
+14	No	24403005
+82	Unspecified	24403005
+0	Not applicable	24403005
+11694	Yes	24403006
+24	No	24403006
+100	Unspecified	24403006
+0	Not applicable	24403006
+7720	Yes	24403007
+37	No	24403007
+40	Unspecified	24403007
+570	Not applicable	24403007
+8996	Yes	24403008
+5	No	24403008
+52	Unspecified	24403008
+7	Not applicable	24403008
+12238	Yes	24403009
+58	No	24403009
+18	Unspecified	24403009
+0	Not applicable	24403009
+9611	Yes	24403010
+24	No	24403010
+38	Unspecified	24403010
+0	Not applicable	24403010
+8374	Yes	24403011
+6	No	24403011
+43	Unspecified	24403011
+0	Not applicable	24403011
+8371	Yes	24403012
+15	No	24403012
+79	Unspecified	24403012
+0	Not applicable	24403012
+8083	Yes	24403013
+18	No	24403013
+71	Unspecified	24403013
+0	Not applicable	24403013
+10116	Yes	24403014
+24	No	24403014
+50	Unspecified	24403014
+0	Not applicable	24403014
+9338	Yes	24403015
+5	No	24403015
+35	Unspecified	24403015
+0	Not applicable	24403015
+9022	Yes	24403016
+6	No	24403016
+37	Unspecified	24403016
+0	Not applicable	24403016
+11748	Yes	24403017
+24	No	24403017
+109	Unspecified	24403017
+0	Not applicable	24403017
+9345	Yes	24403018
+27	No	24403018
+49	Unspecified	24403018
+0	Not applicable	24403018
+10310	Yes	24403019
+12	No	24403019
+381	Unspecified	24403019
+12	Not applicable	24403019
+10126	Yes	24403020
+15	No	24403020
+145	Unspecified	24403020
+0	Not applicable	24403020
+6804	Yes	24403021
+14	No	24403021
+69	Unspecified	24403021
+24	Not applicable	24403021
+8964	Yes	24403022
+4	No	24403022
+76	Unspecified	24403022
+0	Not applicable	24403022
+11975	Yes	24403023
+27	No	24403023
+126	Unspecified	24403023
+0	Not applicable	24403023
+6724	Yes	24403024
+24	No	24403024
+24	Unspecified	24403024
+81	Not applicable	24403024
+11746	Yes	24403025
+4	No	24403025
+67	Unspecified	24403025
+0	Not applicable	24403025
+7498	Yes	24403026
+33	No	24403026
+142	Unspecified	24403026
+0	Not applicable	24403026
+8990	Yes	24403027
+79	No	24403027
+49	Unspecified	24403027
+0	Not applicable	24403027
+6847	Yes	24403028
+4	No	24403028
+73	Unspecified	24403028
+0	Not applicable	24403028
+8493	Yes	24403029
+12	No	24403029
+47	Unspecified	24403029
+0	Not applicable	24403029
+8774	Yes	24403030
+13	No	24403030
+50	Unspecified	24403030
+0	Not applicable	24403030
+8112	Yes	24403031
+19	No	24403031
+27	Unspecified	24403031
+0	Not applicable	24403031
+6195	Yes	24404001
+12	No	24404001
+20	Unspecified	24404001
+0	Not applicable	24404001
+6967	Yes	24404002
+9	No	24404002
+27	Unspecified	24404002
+0	Not applicable	24404002
+6225	Yes	24404003
+6	No	24404003
+50	Unspecified	24404003
+0	Not applicable	24404003
+5946	Yes	24404004
+8	No	24404004
+38	Unspecified	24404004
+0	Not applicable	24404004
+6068	Yes	24404005
+6	No	24404005
+49	Unspecified	24404005
+4	Not applicable	24404005
+6771	Yes	24404006
+8	No	24404006
+29	Unspecified	24404006
+0	Not applicable	24404006
+8171	Yes	24404007
+25	No	24404007
+41	Unspecified	24404007
+0	Not applicable	24404007
+7356	Yes	24404008
+7	No	24404008
+28	Unspecified	24404008
+0	Not applicable	24404008
+6664	Yes	24404009
+134	No	24404009
+28	Unspecified	24404009
+94	Not applicable	24404009
+5190	Yes	24404010
+7	No	24404010
+70	Unspecified	24404010
+0	Not applicable	24404010
+6380	Yes	24404011
+12	No	24404011
+35	Unspecified	24404011
+0	Not applicable	24404011
+6683	Yes	24404012
+99	No	24404012
+79	Unspecified	24404012
+0	Not applicable	24404012
+8793	Yes	24404013
+13	No	24404013
+76	Unspecified	24404013
+0	Not applicable	24404013
+6479	Yes	24404014
+21	No	24404014
+92	Unspecified	24404014
+1	Not applicable	24404014
+5217	Yes	24404015
+0	No	24404015
+20	Unspecified	24404015
+0	Not applicable	24404015
+8780	Yes	24404016
+7	No	24404016
+66	Unspecified	24404016
+0	Not applicable	24404016
+7173	Yes	24404017
+2	No	24404017
+12	Unspecified	24404017
+0	Not applicable	24404017
+7643	Yes	24404018
+7	No	24404018
+31	Unspecified	24404018
+0	Not applicable	24404018
+12968	Yes	29200001
+67	No	29200001
+49	Unspecified	29200001
+0	Not applicable	29200001
+11347	Yes	29200002
+26	No	29200002
+31	Unspecified	29200002
+120	Not applicable	29200002
+14126	Yes	29200003
+820	No	29200003
+120	Unspecified	29200003
+2887	Not applicable	29200003
+11841	Yes	29200004
+384	No	29200004
+86	Unspecified	29200004
+552	Not applicable	29200004
+14850	Yes	29200005
+93	No	29200005
+114	Unspecified	29200005
+5	Not applicable	29200005
+13839	Yes	29200006
+60	No	29200006
+79	Unspecified	29200006
+165	Not applicable	29200006
+11621	Yes	29200007
+25	No	29200007
+41	Unspecified	29200007
+0	Not applicable	29200007
+10412	Yes	29200008
+40	No	29200008
+11	Unspecified	29200008
+0	Not applicable	29200008
+18157	Yes	29200009
+230	No	29200009
+79	Unspecified	29200009
+79	Not applicable	29200009
+19048	Yes	29200010
+73	No	29200010
+51	Unspecified	29200010
+11	Not applicable	29200010
+15380	Yes	29200011
+74	No	29200011
+55	Unspecified	29200011
+28	Not applicable	29200011
+14826	Yes	29200012
+50	No	29200012
+32	Unspecified	29200012
+206	Not applicable	29200012
+25645	Yes	29200013
+205	No	29200013
+60	Unspecified	29200013
+34	Not applicable	29200013
+9334	Yes	29200014
+38	No	29200014
+41	Unspecified	29200014
+71	Not applicable	29200014
+11386	Yes	29200015
+194	No	29200015
+129	Unspecified	29200015
+201	Not applicable	29200015
+26174	Yes	29200016
+330	No	29200016
+172	Unspecified	29200016
+757	Not applicable	29200016
+16185	Yes	29200017
+57	No	29200017
+33	Unspecified	29200017
+299	Not applicable	29200017
+9511	Yes	29200018
+368	No	29200018
+195	Unspecified	29200018
+1530	Not applicable	29200018
+12073	Yes	29200019
+48	No	29200019
+87	Unspecified	29200019
+251	Not applicable	29200019
+10918	Yes	29200020
+27	No	29200020
+151	Unspecified	29200020
+0	Not applicable	29200020
+14004	Yes	29200021
+119	No	29200021
+47	Unspecified	29200021
+1386	Not applicable	29200021
+15237	Yes	29200022
+89	No	29200022
+118	Unspecified	29200022
+0	Not applicable	29200022
+15333	Yes	29200023
+50	No	29200023
+54	Unspecified	29200023
+0	Not applicable	29200023
+14367	Yes	29200024
+28	No	29200024
+70	Unspecified	29200024
+24	Not applicable	29200024
+12843	Yes	29200025
+68	No	29200025
+6	Unspecified	29200025
+0	Not applicable	29200025
+16821	Yes	29200026
+34	No	29200026
+91	Unspecified	29200026
+0	Not applicable	29200026
+10716	Yes	29200027
+248	No	29200027
+101	Unspecified	29200027
+209	Not applicable	29200027
+15819	Yes	29200028
+334	No	29200028
+92	Unspecified	29200028
+6	Not applicable	29200028
+19829	Yes	29200029
+535	No	29200029
+201	Unspecified	29200029
+4	Not applicable	29200029
+12878	Yes	29200030
+44	No	29200030
+39	Unspecified	29200030
+0	Not applicable	29200030
+20451	Yes	29200031
+122	No	29200031
+198	Unspecified	29200031
+292	Not applicable	29200031
+14866	Yes	29200032
+11	No	29200032
+52	Unspecified	29200032
+0	Not applicable	29200032
+15788	Yes	29200033
+18	No	29200033
+139	Unspecified	29200033
+0	Not applicable	29200033
+12702	Yes	29200034
+101	No	29200034
+109	Unspecified	29200034
+89	Not applicable	29200034
+13684	Yes	29200035
+219	No	29200035
+63	Unspecified	29200035
+144	Not applicable	29200035
+15343	Yes	29200036
+93	No	29200036
+86	Unspecified	29200036
+182	Not applicable	29200036
+12645	Yes	29200037
+463	No	29200037
+116	Unspecified	29200037
+547	Not applicable	29200037
+15293	Yes	29200038
+46	No	29200038
+62	Unspecified	29200038
+148	Not applicable	29200038
+16140	Yes	29200039
+103	No	29200039
+58	Unspecified	29200039
+0	Not applicable	29200039
+12157	Yes	29200040
+27	No	29200040
+45	Unspecified	29200040
+54	Not applicable	29200040
+12224	Yes	29200041
+96	No	29200041
+89	Unspecified	29200041
+139	Not applicable	29200041
+14306	Yes	29200042
+101	No	29200042
+25	Unspecified	29200042
+149	Not applicable	29200042
+17207	Yes	29200043
+150	No	29200043
+85	Unspecified	29200043
+1222	Not applicable	29200043
+21265	Yes	29200044
+88	No	29200044
+116	Unspecified	29200044
+112	Not applicable	29200044
+12613	Yes	29200045
+85	No	29200045
+110	Unspecified	29200045
+0	Not applicable	29200045
+17464	Yes	29200046
+123	No	29200046
+129	Unspecified	29200046
+1821	Not applicable	29200046
+8634	Yes	29200047
+1065	No	29200047
+268	Unspecified	29200047
+3770	Not applicable	29200047
+11573	Yes	29200048
+64	No	29200048
+48	Unspecified	29200048
+84	Not applicable	29200048
+11888	Yes	29200049
+50	No	29200049
+727	Unspecified	29200049
+15	Not applicable	29200049
+11043	Yes	29200050
+67	No	29200050
+17	Unspecified	29200050
+1	Not applicable	29200050
+14041	Yes	29300001
+961	No	29300001
+114	Unspecified	29300001
+4029	Not applicable	29300001
+16940	Yes	29300002
+1867	No	29300002
+144	Unspecified	29300002
+2076	Not applicable	29300002
+13458	Yes	29300003
+670	No	29300003
+182	Unspecified	29300003
+1075	Not applicable	29300003
+24487	Yes	29300004
+1109	No	29300004
+194	Unspecified	29300004
+25	Not applicable	29300004
+16219	Yes	29300005
+1466	No	29300005
+118	Unspecified	29300005
+421	Not applicable	29300005
+13148	Yes	29300006
+381	No	29300006
+217	Unspecified	29300006
+54	Not applicable	29300006
+17077	Yes	29300007
+341	No	29300007
+179	Unspecified	29300007
+160	Not applicable	29300007
+19619	Yes	29300008
+452	No	29300008
+149	Unspecified	29300008
+237	Not applicable	29300008
+15390	Yes	29300009
+257	No	29300009
+123	Unspecified	29300009
+96	Not applicable	29300009
+18288	Yes	29300010
+67	No	29300010
+130	Unspecified	29300010
+311	Not applicable	29300010
+15233	Yes	29300011
+475	No	29300011
+99	Unspecified	29300011
+751	Not applicable	29300011
+26360	Yes	29300012
+365	No	29300012
+122	Unspecified	29300012
+88	Not applicable	29300012
+20305	Yes	29300013
+40	No	29300013
+49	Unspecified	29300013
+0	Not applicable	29300013
+12901	Yes	29300014
+100	No	29300014
+33	Unspecified	29300014
+0	Not applicable	29300014
+15142	Yes	29300015
+94	No	29300015
+52	Unspecified	29300015
+0	Not applicable	29300015
+9106	Yes	29300016
+53	No	29300016
+26	Unspecified	29300016
+0	Not applicable	29300016
+15465	Yes	29300017
+99	No	29300017
+46	Unspecified	29300017
+0	Not applicable	29300017
+16744	Yes	29300018
+151	No	29300018
+41	Unspecified	29300018
+0	Not applicable	29300018
+11459	Yes	29300019
+73	No	29300019
+14	Unspecified	29300019
+0	Not applicable	29300019
+11266	Yes	29300020
+101	No	29300020
+25	Unspecified	29300020
+0	Not applicable	29300020
+13801	Yes	29300021
+60	No	29300021
+76	Unspecified	29300021
+0	Not applicable	29300021
+15199	Yes	29300022
+155	No	29300022
+228	Unspecified	29300022
+0	Not applicable	29300022
+13496	Yes	29300023
+68	No	29300023
+21	Unspecified	29300023
+0	Not applicable	29300023
+14156	Yes	29300024
+162	No	29300024
+287	Unspecified	29300024
+0	Not applicable	29300024
+14508	Yes	29300025
+275	No	29300025
+83	Unspecified	29300025
+2023	Not applicable	29300025
+11391	Yes	29300026
+105	No	29300026
+94	Unspecified	29300026
+0	Not applicable	29300026
+14328	Yes	29300027
+96	No	29300027
+31	Unspecified	29300027
+0	Not applicable	29300027
+17333	Yes	29300028
+222	No	29300028
+67	Unspecified	29300028
+57	Not applicable	29300028
+20250	Yes	29300029
+65	No	29300029
+211	Unspecified	29300029
+0	Not applicable	29300029
+14788	Yes	29300030
+47	No	29300030
+122	Unspecified	29300030
+0	Not applicable	29300030
+20591	Yes	29300031
+82	No	29300031
+131	Unspecified	29300031
+13	Not applicable	29300031
+22381	Yes	29300032
+85	No	29300032
+107	Unspecified	29300032
+254	Not applicable	29300032
+17363	Yes	29300033
+103	No	29300033
+164	Unspecified	29300033
+0	Not applicable	29300033
+21360	Yes	29300034
+50	No	29300034
+58	Unspecified	29300034
+181	Not applicable	29300034
+19359	Yes	29300035
+70	No	29300035
+103	Unspecified	29300035
+147	Not applicable	29300035
+13545	Yes	29300036
+102	No	29300036
+89	Unspecified	29300036
+0	Not applicable	29300036
+19276	Yes	29300037
+184	No	29300037
+50	Unspecified	29300037
+0	Not applicable	29300037
+17382	Yes	29300038
+179	No	29300038
+71	Unspecified	29300038
+0	Not applicable	29300038
+16889	Yes	29300039
+155	No	29300039
+51	Unspecified	29300039
+213	Not applicable	29300039
+26089	Yes	29300040
+627	No	29300040
+219	Unspecified	29300040
+79	Not applicable	29300040
+48614	Yes	29300041
+567	No	29300041
+495	Unspecified	29300041
+60	Not applicable	29300041
+18965	Yes	29300042
+140	No	29300042
+86	Unspecified	29300042
+0	Not applicable	29300042
+16133	Yes	29300043
+202	No	29300043
+56	Unspecified	29300043
+0	Not applicable	29300043
+25799	Yes	29300044
+214	No	29300044
+101	Unspecified	29300044
+38	Not applicable	29300044
+20620	Yes	29300045
+143	No	29300045
+72	Unspecified	29300045
+0	Not applicable	29300045
+18209	Yes	29300046
+149	No	29300046
+46	Unspecified	29300046
+0	Not applicable	29300046
+15080	Yes	29300047
+111	No	29300047
+56	Unspecified	29300047
+0	Not applicable	29300047
+15318	Yes	29300048
+413	No	29300048
+137	Unspecified	29300048
+331	Not applicable	29300048
+18410	Yes	29300049
+47	No	29300049
+30	Unspecified	29300049
+108	Not applicable	29300049
+24676	Yes	29300050
+325	No	29300050
+142	Unspecified	29300050
+0	Not applicable	29300050
+22565	Yes	29300051
+432	No	29300051
+93	Unspecified	29300051
+1156	Not applicable	29300051
+23130	Yes	29300052
+112	No	29300052
+119	Unspecified	29300052
+223	Not applicable	29300052
+31280	Yes	29300053
+175	No	29300053
+144	Unspecified	29300053
+153	Not applicable	29300053
+24861	Yes	29300054
+280	No	29300054
+103	Unspecified	29300054
+0	Not applicable	29300054
+25850	Yes	29300055
+544	No	29300055
+78	Unspecified	29300055
+0	Not applicable	29300055
+23771	Yes	29300056
+281	No	29300056
+109	Unspecified	29300056
+17	Not applicable	29300056
+16326	Yes	29300057
+158	No	29300057
+99	Unspecified	29300057
+0	Not applicable	29300057
+17157	Yes	29300058
+178	No	29300058
+100	Unspecified	29300058
+9	Not applicable	29300058
+16667	Yes	29300059
+109	No	29300059
+44	Unspecified	29300059
+0	Not applicable	29300059
+24287	Yes	29300060
+410	No	29300060
+179	Unspecified	29300060
+268	Not applicable	29300060
+5825	Yes	41601001
+24	No	41601001
+1	Unspecified	41601001
+38	Not applicable	41601001
+6474	Yes	41601002
+43	No	41601002
+29	Unspecified	41601002
+189	Not applicable	41601002
+7185	Yes	41601003
+43	No	41601003
+30	Unspecified	41601003
+16	Not applicable	41601003
+5671	Yes	41601004
+54	No	41601004
+9	Unspecified	41601004
+0	Not applicable	41601004
+5315	Yes	41601005
+56	No	41601005
+8	Unspecified	41601005
+1279	Not applicable	41601005
+6009	Yes	41601006
+55	No	41601006
+19	Unspecified	41601006
+257	Not applicable	41601006
+6062	Yes	41602001
+60	No	41602001
+8	Unspecified	41602001
+101	Not applicable	41602001
+6539	Yes	41602002
+99	No	41602002
+8	Unspecified	41602002
+228	Not applicable	41602002
+6376	Yes	41602003
+71	No	41602003
+17	Unspecified	41602003
+273	Not applicable	41602003
+5368	Yes	41602004
+64	No	41602004
+17	Unspecified	41602004
+233	Not applicable	41602004
+5595	Yes	41602005
+59	No	41602005
+2	Unspecified	41602005
+82	Not applicable	41602005
+5576	Yes	41602006
+81	No	41602006
+13	Unspecified	41602006
+59	Not applicable	41602006
+5467	Yes	41602007
+25	No	41602007
+33	Unspecified	41602007
+195	Not applicable	41602007
+6174	Yes	41602008
+60	No	41602008
+20	Unspecified	41602008
+206	Not applicable	41602008
+6143	Yes	41603001
+33	No	41603001
+6	Unspecified	41603001
+0	Not applicable	41603001
+6826	Yes	41603002
+86	No	41603002
+27	Unspecified	41603002
+431	Not applicable	41603002
+6039	Yes	41603003
+168	No	41603003
+35	Unspecified	41603003
+65	Not applicable	41603003
+2935	Yes	41603004
+42	No	41603004
+5	Unspecified	41603004
+0	Not applicable	41603004
+4602	Yes	41603005
+99	No	41603005
+10	Unspecified	41603005
+51	Not applicable	41603005
+6444	Yes	41603006
+74	No	41603006
+18	Unspecified	41603006
+8	Not applicable	41603006
+8265	Yes	41604001
+166	No	41604001
+17	Unspecified	41604001
+0	Not applicable	41604001
+5229	Yes	41604002
+84	No	41604002
+12	Unspecified	41604002
+0	Not applicable	41604002
+5320	Yes	41604003
+115	No	41604003
+23	Unspecified	41604003
+13	Not applicable	41604003
+4932	Yes	41604004
+127	No	41604004
+11	Unspecified	41604004
+0	Not applicable	41604004
+4450	Yes	41801001
+46	No	41801001
+26	Unspecified	41801001
+267	Not applicable	41801001
+7401	Yes	41801002
+61	No	41801002
+16	Unspecified	41801002
+174	Not applicable	41801002
+6762	Yes	41801003
+61	No	41801003
+33	Unspecified	41801003
+1	Not applicable	41801003
+3960	Yes	41801004
+55	No	41801004
+11	Unspecified	41801004
+384	Not applicable	41801004
+9952	Yes	41801005
+65	No	41801005
+87	Unspecified	41801005
+0	Not applicable	41801005
+1933	Yes	41801006
+100	No	41801006
+11	Unspecified	41801006
+3179	Not applicable	41801006
+6339	Yes	41801007
+211	No	41801007
+53	Unspecified	41801007
+0	Not applicable	41801007
+4758	Yes	41801008
+41	No	41801008
+15	Unspecified	41801008
+0	Not applicable	41801008
+7548	Yes	41801009
+177	No	41801009
+34	Unspecified	41801009
+14	Not applicable	41801009
+4973	Yes	41801010
+82	No	41801010
+56	Unspecified	41801010
+0	Not applicable	41801010
+6810	Yes	41802001
+46	No	41802001
+14	Unspecified	41802001
+213	Not applicable	41802001
+7720	Yes	41802002
+53	No	41802002
+36	Unspecified	41802002
+700	Not applicable	41802002
+8450	Yes	41802003
+113	No	41802003
+22	Unspecified	41802003
+15	Not applicable	41802003
+4703	Yes	41802004
+37	No	41802004
+7	Unspecified	41802004
+48	Not applicable	41802004
+4920	Yes	41803001
+42	No	41803001
+12	Unspecified	41803001
+0	Not applicable	41803001
+4661	Yes	41803002
+32	No	41803002
+8	Unspecified	41803002
+0	Not applicable	41803002
+6252	Yes	41803003
+59	No	41803003
+10	Unspecified	41803003
+0	Not applicable	41803003
+7224	Yes	41803004
+86	No	41803004
+24	Unspecified	41803004
+118	Not applicable	41803004
+7238	Yes	41803005
+27	No	41803005
+8	Unspecified	41803005
+15	Not applicable	41803005
+5679	Yes	41803006
+41	No	41803006
+19	Unspecified	41803006
+0	Not applicable	41803006
+5409	Yes	41803007
+59	No	41803007
+24	Unspecified	41803007
+0	Not applicable	41803007
+5206	Yes	41803008
+52	No	41803008
+24	Unspecified	41803008
+378	Not applicable	41803008
+11251	Yes	41804001
+109	No	41804001
+28	Unspecified	41804001
+354	Not applicable	41804001
+12489	Yes	41804002
+63	No	41804002
+39	Unspecified	41804002
+0	Not applicable	41804002
+13312	Yes	41804003
+147	No	41804003
+78	Unspecified	41804003
+451	Not applicable	41804003
+11115	Yes	41804004
+475	No	41804004
+136	Unspecified	41804004
+0	Not applicable	41804004
+10430	Yes	41804005
+572	No	41804005
+75	Unspecified	41804005
+31	Not applicable	41804005
+9287	Yes	41804006
+328	No	41804006
+26	Unspecified	41804006
+0	Not applicable	41804006
+11608	Yes	41804007
+544	No	41804007
+43	Unspecified	41804007
+0	Not applicable	41804007
+8980	Yes	41804008
+872	No	41804008
+53	Unspecified	41804008
+262	Not applicable	41804008
+9437	Yes	41804009
+572	No	41804009
+39	Unspecified	41804009
+1334	Not applicable	41804009
+11661	Yes	41804010
+221	No	41804010
+54	Unspecified	41804010
+0	Not applicable	41804010
+12051	Yes	41804011
+518	No	41804011
+31	Unspecified	41804011
+30	Not applicable	41804011
+16226	Yes	41804012
+1508	No	41804012
+99	Unspecified	41804012
+0	Not applicable	41804012
+5802	Yes	41804013
+669	No	41804013
+71	Unspecified	41804013
+0	Not applicable	41804013
+12096	Yes	41804014
+238	No	41804014
+41	Unspecified	41804014
+0	Not applicable	41804014
+12682	Yes	41804015
+375	No	41804015
+36	Unspecified	41804015
+0	Not applicable	41804015
+13267	Yes	41804016
+509	No	41804016
+45	Unspecified	41804016
+0	Not applicable	41804016
+13359	Yes	41804017
+755	No	41804017
+59	Unspecified	41804017
+0	Not applicable	41804017
+9407	Yes	41804018
+274	No	41804018
+3	Unspecified	41804018
+0	Not applicable	41804018
+13740	Yes	41804019
+466	No	41804019
+53	Unspecified	41804019
+0	Not applicable	41804019
+10706	Yes	41804020
+331	No	41804020
+21	Unspecified	41804020
+0	Not applicable	41804020
+12558	Yes	41804021
+247	No	41804021
+19	Unspecified	41804021
+0	Not applicable	41804021
+12128	Yes	41804022
+339	No	41804022
+28	Unspecified	41804022
+0	Not applicable	41804022
+4755	Yes	41804023
+787	No	41804023
+26	Unspecified	41804023
+1085	Not applicable	41804023
+5313	Yes	41804024
+361	No	41804024
+18	Unspecified	41804024
+1126	Not applicable	41804024
+14181	Yes	41804025
+275	No	41804025
+86	Unspecified	41804025
+48	Not applicable	41804025
+8623	Yes	41804026
+226	No	41804026
+26	Unspecified	41804026
+0	Not applicable	41804026
+9013	Yes	41804027
+385	No	41804027
+63	Unspecified	41804027
+683	Not applicable	41804027
+7585	Yes	41804028
+249	No	41804028
+20	Unspecified	41804028
+408	Not applicable	41804028
+7427	Yes	41804029
+247	No	41804029
+36	Unspecified	41804029
+0	Not applicable	41804029
+8712	Yes	41804030
+350	No	41804030
+27	Unspecified	41804030
+0	Not applicable	41804030
+8675	Yes	41804031
+501	No	41804031
+31	Unspecified	41804031
+0	Not applicable	41804031
+11070	Yes	41804032
+347	No	41804032
+87	Unspecified	41804032
+350	Not applicable	41804032
+8767	Yes	41804033
+572	No	41804033
+64	Unspecified	41804033
+317	Not applicable	41804033
+11635	Yes	41804034
+455	No	41804034
+89	Unspecified	41804034
+735	Not applicable	41804034
+7558	Yes	41804035
+400	No	41804035
+38	Unspecified	41804035
+3697	Not applicable	41804035
+10840	Yes	41804036
+579	No	41804036
+43	Unspecified	41804036
+206	Not applicable	41804036
+7031	Yes	41805001
+76	No	41805001
+30	Unspecified	41805001
+0	Not applicable	41805001
+5313	Yes	41805002
+60	No	41805002
+59	Unspecified	41805002
+63	Not applicable	41805002
+6645	Yes	41805003
+33	No	41805003
+10	Unspecified	41805003
+0	Not applicable	41805003
+7876	Yes	41805004
+34	No	41805004
+27	Unspecified	41805004
+0	Not applicable	41805004
+6533	Yes	41805005
+49	No	41805005
+33	Unspecified	41805005
+0	Not applicable	41805005
+5540	Yes	41805006
+54	No	41805006
+12	Unspecified	41805006
+0	Not applicable	41805006
+5401	Yes	41805007
+47	No	41805007
+37	Unspecified	41805007
+0	Not applicable	41805007
+5537	Yes	41805008
+32	No	41805008
+18	Unspecified	41805008
+0	Not applicable	41805008
+10449	Yes	41805009
+127	No	41805009
+47	Unspecified	41805009
+0	Not applicable	41805009
+6323	Yes	41805010
+13	No	41805010
+44	Unspecified	41805010
+105	Not applicable	41805010
+7829	Yes	41805011
+84	No	41805011
+32	Unspecified	41805011
+0	Not applicable	41805011
+5259	Yes	41805012
+69	No	41805012
+23	Unspecified	41805012
+268	Not applicable	41805012
+5349	Yes	41901001
+80	No	41901001
+11	Unspecified	41901001
+54	Not applicable	41901001
+9899	Yes	41901002
+61	No	41901002
+48	Unspecified	41901002
+0	Not applicable	41901002
+5381	Yes	41901003
+22	No	41901003
+16	Unspecified	41901003
+0	Not applicable	41901003
+4940	Yes	41901004
+45	No	41901004
+4	Unspecified	41901004
+13	Not applicable	41901004
+2778	Yes	41901005
+17	No	41901005
+2	Unspecified	41901005
+0	Not applicable	41901005
+10319	Yes	41901006
+113	No	41901006
+16	Unspecified	41901006
+164	Not applicable	41901006
+7070	Yes	41901007
+53	No	41901007
+8	Unspecified	41901007
+0	Not applicable	41901007
+8212	Yes	41901008
+90	No	41901008
+20	Unspecified	41901008
+0	Not applicable	41901008
+5740	Yes	41901009
+183	No	41901009
+22	Unspecified	41901009
+263	Not applicable	41901009
+3474	Yes	41901010
+187	No	41901010
+18	Unspecified	41901010
+269	Not applicable	41901010
+6189	Yes	41901011
+75	No	41901011
+17	Unspecified	41901011
+0	Not applicable	41901011
+5121	Yes	41901012
+120	No	41901012
+19	Unspecified	41901012
+0	Not applicable	41901012
+7396	Yes	41901013
+103	No	41901013
+17	Unspecified	41901013
+0	Not applicable	41901013
+5621	Yes	41901014
+92	No	41901014
+8	Unspecified	41901014
+0	Not applicable	41901014
+7609	Yes	41901015
+509	No	41901015
+34	Unspecified	41901015
+552	Not applicable	41901015
+6989	Yes	41901016
+157	No	41901016
+12	Unspecified	41901016
+20	Not applicable	41901016
+1713	Yes	41901017
+21	No	41901017
+0	Unspecified	41901017
+0	Not applicable	41901017
+5061	Yes	41901018
+194	No	41901018
+10	Unspecified	41901018
+0	Not applicable	41901018
+6079	Yes	41902001
+50	No	41902001
+2	Unspecified	41902001
+0	Not applicable	41902001
+4915	Yes	41902002
+44	No	41902002
+7	Unspecified	41902002
+0	Not applicable	41902002
+6436	Yes	41902003
+45	No	41902003
+19	Unspecified	41902003
+194	Not applicable	41902003
+6285	Yes	41902004
+54	No	41902004
+2	Unspecified	41902004
+0	Not applicable	41902004
+5041	Yes	41902005
+51	No	41902005
+6	Unspecified	41902005
+0	Not applicable	41902005
+6542	Yes	41902006
+63	No	41902006
+4	Unspecified	41902006
+273	Not applicable	41902006
+5257	Yes	41902007
+32	No	41902007
+11	Unspecified	41902007
+0	Not applicable	41902007
+5737	Yes	41902008
+76	No	41902008
+8	Unspecified	41902008
+0	Not applicable	41902008
+2703	Yes	41902009
+45	No	41902009
+24	Unspecified	41902009
+243	Not applicable	41902009
+3705	Yes	41902010
+50	No	41902010
+21	Unspecified	41902010
+184	Not applicable	41902010
+9114	Yes	41902011
+115	No	41902011
+14	Unspecified	41902011
+221	Not applicable	41902011
+8997	Yes	41902012
+162	No	41902012
+29	Unspecified	41902012
+85	Not applicable	41902012
+3201	Yes	41902013
+67	No	41902013
+8	Unspecified	41902013
+0	Not applicable	41902013
+5671	Yes	41902014
+148	No	41902014
+11	Unspecified	41902014
+347	Not applicable	41902014
+6383	Yes	41902015
+63	No	41902015
+15	Unspecified	41902015
+150	Not applicable	41902015
+5419	Yes	41902016
+160	No	41902016
+8	Unspecified	41902016
+139	Not applicable	41902016
+6934	Yes	41902017
+42	No	41902017
+39	Unspecified	41902017
+0	Not applicable	41902017
+7008	Yes	41902018
+95	No	41902018
+36	Unspecified	41902018
+574	Not applicable	41902018
+11265	Yes	41902019
+67	No	41902019
+3	Unspecified	41902019
+0	Not applicable	41902019
+7063	Yes	41902020
+180	No	41902020
+9	Unspecified	41902020
+652	Not applicable	41902020
+6504	Yes	41903001
+52	No	41903001
+1	Unspecified	41903001
+228	Not applicable	41903001
+7452	Yes	41903002
+44	No	41903002
+9	Unspecified	41903002
+0	Not applicable	41903002
+7865	Yes	41903003
+42	No	41903003
+19	Unspecified	41903003
+0	Not applicable	41903003
+5655	Yes	41903004
+56	No	41903004
+15	Unspecified	41903004
+140	Not applicable	41903004
+5956	Yes	41903005
+40	No	41903005
+39	Unspecified	41903005
+7	Not applicable	41903005
+6162	Yes	41903006
+94	No	41903006
+24	Unspecified	41903006
+233	Not applicable	41903006
+6333	Yes	41903007
+112	No	41903007
+4	Unspecified	41903007
+2	Not applicable	41903007
+5076	Yes	41903008
+43	No	41903008
+14	Unspecified	41903008
+0	Not applicable	41903008
+8010	Yes	41903009
+45	No	41903009
+47	Unspecified	41903009
+0	Not applicable	41903009
+14222	Yes	41904001
+84	No	41904001
+72	Unspecified	41904001
+0	Not applicable	41904001
+8791	Yes	41904002
+64	No	41904002
+48	Unspecified	41904002
+0	Not applicable	41904002
+8384	Yes	41904003
+52	No	41904003
+3	Unspecified	41904003
+152	Not applicable	41904003
+8301	Yes	41904004
+33	No	41904004
+64	Unspecified	41904004
+30	Not applicable	41904004
+10530	Yes	41904005
+41	No	41904005
+44	Unspecified	41904005
+0	Not applicable	41904005
+6483	Yes	41904006
+60	No	41904006
+30	Unspecified	41904006
+9	Not applicable	41904006
+7895	Yes	41904007
+120	No	41904007
+22	Unspecified	41904007
+0	Not applicable	41904007
+4754	Yes	41904008
+26	No	41904008
+15	Unspecified	41904008
+0	Not applicable	41904008
+9927	Yes	41904009
+53	No	41904009
+20	Unspecified	41904009
+0	Not applicable	41904009
+8617	Yes	41904010
+27	No	41904010
+24	Unspecified	41904010
+128	Not applicable	41904010
+8428	Yes	41904011
+97	No	41904011
+14	Unspecified	41904011
+115	Not applicable	41904011
+12658	Yes	41904012
+83	No	41904012
+25	Unspecified	41904012
+81	Not applicable	41904012
+8517	Yes	41904013
+34	No	41904013
+24	Unspecified	41904013
+0	Not applicable	41904013
+9403	Yes	41904014
+49	No	41904014
+34	Unspecified	41904014
+0	Not applicable	41904014
+9161	Yes	41904015
+15	No	41904015
+37	Unspecified	41904015
+0	Not applicable	41904015
+9199	Yes	41904016
+83	No	41904016
+43	Unspecified	41904016
+32	Not applicable	41904016
+7506	Yes	41904017
+61	No	41904017
+45	Unspecified	41904017
+120	Not applicable	41904017
+7904	Yes	41904018
+81	No	41904018
+33	Unspecified	41904018
+53	Not applicable	41904018
+9767	Yes	41904019
+37	No	41904019
+11	Unspecified	41904019
+0	Not applicable	41904019
+6850	Yes	41904020
+23	No	41904020
+25	Unspecified	41904020
+0	Not applicable	41904020
+9247	Yes	41904021
+53	No	41904021
+29	Unspecified	41904021
+480	Not applicable	41904021
+11115	Yes	41904022
+163	No	41904022
+30	Unspecified	41904022
+781	Not applicable	41904022
+9698	Yes	41904023
+111	No	41904023
+43	Unspecified	41904023
+0	Not applicable	41904023
+16314	Yes	41904024
+82	No	41904024
+33	Unspecified	41904024
+0	Not applicable	41904024
+7816	Yes	41904025
+73	No	41904025
+25	Unspecified	41904025
+0	Not applicable	41904025
+6693	Yes	41904026
+32	No	41904026
+23	Unspecified	41904026
+2	Not applicable	41904026
+8772	Yes	41904027
+171	No	41904027
+33	Unspecified	41904027
+207	Not applicable	41904027
+11600	Yes	41904028
+163	No	41904028
+46	Unspecified	41904028
+62	Not applicable	41904028
+9400	Yes	41904029
+171	No	41904029
+33	Unspecified	41904029
+29	Not applicable	41904029
+6801	Yes	41904030
+55	No	41904030
+16	Unspecified	41904030
+0	Not applicable	41904030
+8185	Yes	41904031
+24	No	41904031
+10	Unspecified	41904031
+168	Not applicable	41904031
+12951	Yes	41904032
+50	No	41904032
+12	Unspecified	41904032
+0	Not applicable	41904032
+11956	Yes	41904033
+148	No	41904033
+22	Unspecified	41904033
+487	Not applicable	41904033
+14469	Yes	41904034
+89	No	41904034
+44	Unspecified	41904034
+315	Not applicable	41904034
+6645	Yes	41904035
+20	No	41904035
+9	Unspecified	41904035
+6	Not applicable	41904035
+2181	Yes	41905001
+30	No	41905001
+6	Unspecified	41905001
+104	Not applicable	41905001
+6311	Yes	41905002
+48	No	41905002
+12	Unspecified	41905002
+0	Not applicable	41905002
+3828	Yes	41905003
+69	No	41905003
+14	Unspecified	41905003
+217	Not applicable	41905003
+5438	Yes	41905004
+70	No	41905004
+3	Unspecified	41905004
+0	Not applicable	41905004
+6795	Yes	41905005
+24	No	41905005
+7	Unspecified	41905005
+53	Not applicable	41905005
+5713	Yes	41905006
+59	No	41905006
+12	Unspecified	41905006
+0	Not applicable	41905006
+6142	Yes	41905007
+170	No	41905007
+10	Unspecified	41905007
+156	Not applicable	41905007
+10205	Yes	41905008
+74	No	41905008
+14	Unspecified	41905008
+8	Not applicable	41905008
+6267	Yes	41906001
+71	No	41906001
+10	Unspecified	41906001
+0	Not applicable	41906001
+5400	Yes	41906002
+394	No	41906002
+27	Unspecified	41906002
+0	Not applicable	41906002
+5240	Yes	41906003
+250	No	41906003
+6	Unspecified	41906003
+263	Not applicable	41906003
+7285	Yes	41906004
+147	No	41906004
+13	Unspecified	41906004
+0	Not applicable	41906004
+5264	Yes	41906005
+93	No	41906005
+10	Unspecified	41906005
+0	Not applicable	41906005
+4641	Yes	41906006
+79	No	41906006
+12	Unspecified	41906006
+0	Not applicable	41906006
+4756	Yes	41906007
+326	No	41906007
+41	Unspecified	41906007
+138	Not applicable	41906007
+5143	Yes	41906008
+55	No	41906008
+1	Unspecified	41906008
+285	Not applicable	41906008
+4779	Yes	41906009
+48	No	41906009
+12	Unspecified	41906009
+0	Not applicable	41906009
+7754	Yes	42001001
+26	No	42001001
+13	Unspecified	42001001
+0	Not applicable	42001001
+7040	Yes	42001002
+116	No	42001002
+5	Unspecified	42001002
+1018	Not applicable	42001002
+5017	Yes	42001003
+21	No	42001003
+15	Unspecified	42001003
+3334	Not applicable	42001003
+6567	Yes	42001004
+17	No	42001004
+16	Unspecified	42001004
+0	Not applicable	42001004
+7011	Yes	42001005
+28	No	42001005
+11	Unspecified	42001005
+0	Not applicable	42001005
+2934	Yes	42001006
+18	No	42001006
+9	Unspecified	42001006
+2	Not applicable	42001006
+7802	Yes	42001007
+21	No	42001007
+5	Unspecified	42001007
+0	Not applicable	42001007
+5028	Yes	42001008
+25	No	42001008
+6	Unspecified	42001008
+0	Not applicable	42001008
+7299	Yes	42001009
+92	No	42001009
+9	Unspecified	42001009
+504	Not applicable	42001009
+5171	Yes	42001010
+27	No	42001010
+15	Unspecified	42001010
+194	Not applicable	42001010
+4543	Yes	42001011
+79	No	42001011
+31	Unspecified	42001011
+0	Not applicable	42001011
+4399	Yes	42001012
+57	No	42001012
+14	Unspecified	42001012
+0	Not applicable	42001012
+7917	Yes	42001013
+28	No	42001013
+21	Unspecified	42001013
+106	Not applicable	42001013
+4352	Yes	42001014
+20	No	42001014
+10	Unspecified	42001014
+0	Not applicable	42001014
+5718	Yes	42001015
+102	No	42001015
+10	Unspecified	42001015
+15	Not applicable	42001015
+6158	Yes	42001016
+263	No	42001016
+46	Unspecified	42001016
+408	Not applicable	42001016
+4951	Yes	42001017
+34	No	42001017
+7	Unspecified	42001017
+282	Not applicable	42001017
+7279	Yes	42001018
+41	No	42001018
+30	Unspecified	42001018
+0	Not applicable	42001018
+6643	Yes	42001019
+100	No	42001019
+25	Unspecified	42001019
+47	Not applicable	42001019
+7621	Yes	42001020
+48	No	42001020
+14	Unspecified	42001020
+0	Not applicable	42001020
+6599	Yes	42001021
+85	No	42001021
+13	Unspecified	42001021
+0	Not applicable	42001021
+7350	Yes	42001022
+56	No	42001022
+17	Unspecified	42001022
+0	Not applicable	42001022
+4063	Yes	42001023
+27	No	42001023
+25	Unspecified	42001023
+18	Not applicable	42001023
+1314	Yes	42001024
+136	No	42001024
+6	Unspecified	42001024
+4764	Not applicable	42001024
+6984	Yes	42001025
+138	No	42001025
+41	Unspecified	42001025
+307	Not applicable	42001025
+7803	Yes	42003001
+50	No	42003001
+26	Unspecified	42003001
+30	Not applicable	42003001
+5500	Yes	42003002
+59	No	42003002
+10	Unspecified	42003002
+0	Not applicable	42003002
+5126	Yes	42003003
+108	No	42003003
+23	Unspecified	42003003
+264	Not applicable	42003003
+3454	Yes	42003004
+3	No	42003004
+17	Unspecified	42003004
+0	Not applicable	42003004
+4548	Yes	42003005
+49	No	42003005
+10	Unspecified	42003005
+65	Not applicable	42003005
+2164	Yes	42003006
+39	No	42003006
+7	Unspecified	42003006
+0	Not applicable	42003006
+9729	Yes	42003007
+47	No	42003007
+21	Unspecified	42003007
+0	Not applicable	42003007
+11908	Yes	42003008
+145	No	42003008
+42	Unspecified	42003008
+89	Not applicable	42003008
+5593	Yes	42003009
+55	No	42003009
+23	Unspecified	42003009
+6	Not applicable	42003009
+5338	Yes	42003010
+97	No	42003010
+21	Unspecified	42003010
+4	Not applicable	42003010
+3970	Yes	42003011
+97	No	42003011
+11	Unspecified	42003011
+150	Not applicable	42003011
+5287	Yes	42003012
+159	No	42003012
+13	Unspecified	42003012
+0	Not applicable	42003012
+4912	Yes	42003013
+81	No	42003013
+38	Unspecified	42003013
+408	Not applicable	42003013
+6036	Yes	42003014
+98	No	42003014
+13	Unspecified	42003014
+0	Not applicable	42003014
+4444	Yes	42003015
+35	No	42003015
+31	Unspecified	42003015
+13	Not applicable	42003015
+8685	Yes	42003016
+65	No	42003016
+14	Unspecified	42003016
+6	Not applicable	42003016
+7057	Yes	42003017
+62	No	42003017
+20	Unspecified	42003017
+0	Not applicable	42003017
+4651	Yes	42003018
+71	No	42003018
+20	Unspecified	42003018
+157	Not applicable	42003018
+6660	Yes	42003019
+45	No	42003019
+24	Unspecified	42003019
+0	Not applicable	42003019
+4620	Yes	42003020
+83	No	42003020
+13	Unspecified	42003020
+0	Not applicable	42003020
+15849	Yes	42004001
+256	No	42004001
+108	Unspecified	42004001
+0	Not applicable	42004001
+4269	Yes	42004002
+207	No	42004002
+10	Unspecified	42004002
+0	Not applicable	42004002
+5839	Yes	42004003
+73	No	42004003
+25	Unspecified	42004003
+0	Not applicable	42004003
+5322	Yes	42004004
+92	No	42004004
+14	Unspecified	42004004
+0	Not applicable	42004004
+6532	Yes	42004005
+145	No	42004005
+19	Unspecified	42004005
+5	Not applicable	42004005
+4878	Yes	42004006
+41	No	42004006
+9	Unspecified	42004006
+0	Not applicable	42004006
+3955	Yes	42004007
+46	No	42004007
+11	Unspecified	42004007
+0	Not applicable	42004007
+7238	Yes	42004008
+97	No	42004008
+12	Unspecified	42004008
+0	Not applicable	42004008
+4886	Yes	42004009
+54	No	42004009
+8	Unspecified	42004009
+5	Not applicable	42004009
+6948	Yes	42004010
+92	No	42004010
+9	Unspecified	42004010
+30	Not applicable	42004010
+5043	Yes	42004011
+59	No	42004011
+5	Unspecified	42004011
+2	Not applicable	42004011
+4043	Yes	42004012
+25	No	42004012
+4	Unspecified	42004012
+0	Not applicable	42004012
+12157	Yes	42004013
+327	No	42004013
+30	Unspecified	42004013
+0	Not applicable	42004013
+10373	Yes	42004014
+168	No	42004014
+103	Unspecified	42004014
+39	Not applicable	42004014
+3281	Yes	42004015
+23	No	42004015
+38	Unspecified	42004015
+0	Not applicable	42004015
+6406	Yes	42004016
+62	No	42004016
+83	Unspecified	42004016
+142	Not applicable	42004016
+7078	Yes	42004017
+146	No	42004017
+58	Unspecified	42004017
+552	Not applicable	42004017
+2863	Yes	42004018
+57	No	42004018
+58	Unspecified	42004018
+30	Not applicable	42004018
+11562	Yes	42004019
+571	No	42004019
+59	Unspecified	42004019
+483	Not applicable	42004019
+8153	Yes	42004020
+205	No	42004020
+41	Unspecified	42004020
+3335	Not applicable	42004020
+4292	Yes	42004021
+58	No	42004021
+7	Unspecified	42004021
+0	Not applicable	42004021
+4083	Yes	42005001
+49	No	42005001
+13	Unspecified	42005001
+0	Not applicable	42005001
+9511	Yes	42005002
+65	No	42005002
+31	Unspecified	42005002
+0	Not applicable	42005002
+5882	Yes	42005003
+18	No	42005003
+13	Unspecified	42005003
+0	Not applicable	42005003
+6034	Yes	42005004
+79	No	42005004
+37	Unspecified	42005004
+64	Not applicable	42005004
+4946	Yes	42005005
+69	No	42005005
+58	Unspecified	42005005
+308	Not applicable	42005005
+5181	Yes	42005006
+49	No	42005006
+14	Unspecified	42005006
+22	Not applicable	42005006
+6614	Yes	42005007
+27	No	42005007
+37	Unspecified	42005007
+2	Not applicable	42005007
+7170	Yes	42005008
+40	No	42005008
+46	Unspecified	42005008
+115	Not applicable	42005008
+7233	Yes	42005009
+58	No	42005009
+10	Unspecified	42005009
+0	Not applicable	42005009
+11158	Yes	49400001
+1088	No	49400001
+119	Unspecified	49400001
+84	Not applicable	49400001
+12416	Yes	49400002
+595	No	49400002
+89	Unspecified	49400002
+104	Not applicable	49400002
+11256	Yes	49400003
+504	No	49400003
+51	Unspecified	49400003
+273	Not applicable	49400003
+11682	Yes	49400004
+472	No	49400004
+78	Unspecified	49400004
+28	Not applicable	49400004
+14171	Yes	49400005
+379	No	49400005
+85	Unspecified	49400005
+0	Not applicable	49400005
+16447	Yes	49400006
+375	No	49400006
+142	Unspecified	49400006
+0	Not applicable	49400006
+7838	Yes	49400007
+145	No	49400007
+20	Unspecified	49400007
+7	Not applicable	49400007
+16364	Yes	49400008
+432	No	49400008
+52	Unspecified	49400008
+0	Not applicable	49400008
+12750	Yes	49400009
+108	No	49400009
+38	Unspecified	49400009
+0	Not applicable	49400009
+16900	Yes	49400010
+344	No	49400010
+49	Unspecified	49400010
+0	Not applicable	49400010
+14564	Yes	49400011
+288	No	49400011
+59	Unspecified	49400011
+0	Not applicable	49400011
+21495	Yes	49400012
+836	No	49400012
+78	Unspecified	49400012
+0	Not applicable	49400012
+9155	Yes	49400013
+137	No	49400013
+30	Unspecified	49400013
+7	Not applicable	49400013
+14745	Yes	49400014
+168	No	49400014
+25	Unspecified	49400014
+0	Not applicable	49400014
+14302	Yes	49400015
+274	No	49400015
+143	Unspecified	49400015
+0	Not applicable	49400015
+13504	Yes	49400016
+77	No	49400016
+147	Unspecified	49400016
+589	Not applicable	49400016
+15657	Yes	49400017
+464	No	49400017
+59	Unspecified	49400017
+273	Not applicable	49400017
+22966	Yes	49400018
+464	No	49400018
+67	Unspecified	49400018
+680	Not applicable	49400018
+12316	Yes	49400019
+960	No	49400019
+66	Unspecified	49400019
+395	Not applicable	49400019
+10962	Yes	49400020
+361	No	49400020
+49	Unspecified	49400020
+1729	Not applicable	49400020
+9346	Yes	49400021
+319	No	49400021
+108	Unspecified	49400021
+653	Not applicable	49400021
+11587	Yes	49400022
+263	No	49400022
+55	Unspecified	49400022
+1308	Not applicable	49400022
+6867	Yes	49400023
+205	No	49400023
+40	Unspecified	49400023
+3350	Not applicable	49400023
+10459	Yes	49400024
+77	No	49400024
+55	Unspecified	49400024
+216	Not applicable	49400024
+12399	Yes	49400025
+69	No	49400025
+90	Unspecified	49400025
+724	Not applicable	49400025
+9631	Yes	49400026
+94	No	49400026
+77	Unspecified	49400026
+805	Not applicable	49400026
+21073	Yes	49400027
+364	No	49400027
+45	Unspecified	49400027
+188	Not applicable	49400027
+15113	Yes	49400028
+168	No	49400028
+31	Unspecified	49400028
+0	Not applicable	49400028
+13672	Yes	49400029
+162	No	49400029
+30	Unspecified	49400029
+0	Not applicable	49400029
+14739	Yes	49400030
+290	No	49400030
+40	Unspecified	49400030
+242	Not applicable	49400030
+11491	Yes	49400031
+140	No	49400031
+14	Unspecified	49400031
+85	Not applicable	49400031
+12890	Yes	49400032
+164	No	49400032
+27	Unspecified	49400032
+0	Not applicable	49400032
+13627	Yes	49400033
+136	No	49400033
+29	Unspecified	49400033
+10	Not applicable	49400033
+18340	Yes	49400034
+236	No	49400034
+29	Unspecified	49400034
+0	Not applicable	49400034
+17515	Yes	49400035
+166	No	49400035
+24	Unspecified	49400035
+3	Not applicable	49400035
+13355	Yes	49400036
+217	No	49400036
+35	Unspecified	49400036
+0	Not applicable	49400036
+18414	Yes	49400037
+281	No	49400037
+29	Unspecified	49400037
+108	Not applicable	49400037
+11602	Yes	49400038
+237	No	49400038
+45	Unspecified	49400038
+29	Not applicable	49400038
+12559	Yes	49400039
+408	No	49400039
+24	Unspecified	49400039
+0	Not applicable	49400039
+11984	Yes	49400040
+207	No	49400040
+17	Unspecified	49400040
+70	Not applicable	49400040
+11807	Yes	49400041
+257	No	49400041
+24	Unspecified	49400041
+0	Not applicable	49400041
+12091	Yes	49400042
+122	No	49400042
+17	Unspecified	49400042
+0	Not applicable	49400042
+14119	Yes	49400043
+211	No	49400043
+13	Unspecified	49400043
+180	Not applicable	49400043
+17705	Yes	49400044
+302	No	49400044
+185	Unspecified	49400044
+711	Not applicable	49400044
+32896	Yes	49400045
+2018	No	49400045
+205	Unspecified	49400045
+0	Not applicable	49400045
+32446	Yes	49400046
+1392	No	49400046
+168	Unspecified	49400046
+5049	Not applicable	49400046
+14509	Yes	49400047
+129	No	49400047
+35	Unspecified	49400047
+265	Not applicable	49400047
+11007	Yes	49400048
+225	No	49400048
+98	Unspecified	49400048
+106	Not applicable	49400048
+14610	Yes	49400049
+236	No	49400049
+35	Unspecified	49400049
+18	Not applicable	49400049
+15482	Yes	74201001
+418	No	74201001
+149	Unspecified	74201001
+166	Not applicable	74201001
+16532	Yes	74201002
+183	No	74201002
+60	Unspecified	74201002
+102	Not applicable	74201002
+17629	Yes	74201003
+557	No	74201003
+142	Unspecified	74201003
+6	Not applicable	74201003
+13916	Yes	74201004
+575	No	74201004
+139	Unspecified	74201004
+88	Not applicable	74201004
+16168	Yes	74201005
+580	No	74201005
+215	Unspecified	74201005
+361	Not applicable	74201005
+24332	Yes	74201006
+576	No	74201006
+133	Unspecified	74201006
+0	Not applicable	74201006
+18328	Yes	74201007
+658	No	74201007
+71	Unspecified	74201007
+26	Not applicable	74201007
+12850	Yes	74201008
+286	No	74201008
+116	Unspecified	74201008
+497	Not applicable	74201008
+16793	Yes	74201009
+907	No	74201009
+78	Unspecified	74201009
+213	Not applicable	74201009
+18409	Yes	74201010
+1463	No	74201010
+252	Unspecified	74201010
+938	Not applicable	74201010
+19142	Yes	74201011
+501	No	74201011
+191	Unspecified	74201011
+1546	Not applicable	74201011
+10788	Yes	74201012
+264	No	74201012
+37	Unspecified	74201012
+100	Not applicable	74201012
+14117	Yes	74201013
+572	No	74201013
+72	Unspecified	74201013
+19	Not applicable	74201013
+11292	Yes	74201014
+343	No	74201014
+40	Unspecified	74201014
+0	Not applicable	74201014
+17244	Yes	74201015
+1957	No	74201015
+183	Unspecified	74201015
+1195	Not applicable	74201015
+14457	Yes	74201016
+506	No	74201016
+75	Unspecified	74201016
+364	Not applicable	74201016
+9821	Yes	74201017
+156	No	74201017
+26	Unspecified	74201017
+382	Not applicable	74201017
+14586	Yes	74201018
+402	No	74201018
+110	Unspecified	74201018
+54	Not applicable	74201018
+16303	Yes	74201019
+1062	No	74201019
+79	Unspecified	74201019
+17	Not applicable	74201019
+17134	Yes	74201020
+282	No	74201020
+42	Unspecified	74201020
+0	Not applicable	74201020
+18983	Yes	74201021
+717	No	74201021
+87	Unspecified	74201021
+0	Not applicable	74201021
+17277	Yes	74201022
+525	No	74201022
+149	Unspecified	74201022
+8	Not applicable	74201022
+14077	Yes	74201023
+560	No	74201023
+78	Unspecified	74201023
+0	Not applicable	74201023
+11524	Yes	74201024
+172	No	74201024
+75	Unspecified	74201024
+0	Not applicable	74201024
+19867	Yes	74201025
+593	No	74201025
+227	Unspecified	74201025
+8	Not applicable	74201025
+25870	Yes	74201026
+458	No	74201026
+308	Unspecified	74201026
+0	Not applicable	74201026
+11219	Yes	74201027
+84	No	74201027
+16	Unspecified	74201027
+10	Not applicable	74201027
+24530	Yes	74201028
+384	No	74201028
+205	Unspecified	74201028
+0	Not applicable	74201028
+15632	Yes	74201029
+390	No	74201029
+73	Unspecified	74201029
+117	Not applicable	74201029
+12170	Yes	74201030
+124	No	74201030
+25	Unspecified	74201030
+0	Not applicable	74201030
+11552	Yes	74201031
+61	No	74201031
+43	Unspecified	74201031
+50	Not applicable	74201031
+11457	Yes	74201032
+141	No	74201032
+54	Unspecified	74201032
+12	Not applicable	74201032
+15320	Yes	74201033
+220	No	74201033
+334	Unspecified	74201033
+3	Not applicable	74201033
+11726	Yes	74201034
+115	No	74201034
+21	Unspecified	74201034
+0	Not applicable	74201034
+11102	Yes	74201035
+189	No	74201035
+31	Unspecified	74201035
+0	Not applicable	74201035
+21230	Yes	74201036
+759	No	74201036
+134	Unspecified	74201036
+56	Not applicable	74201036
+11644	Yes	74201037
+128	No	74201037
+33	Unspecified	74201037
+0	Not applicable	74201037
+14909	Yes	74201038
+275	No	74201038
+83	Unspecified	74201038
+24	Not applicable	74201038
+13090	Yes	74201039
+409	No	74201039
+55	Unspecified	74201039
+0	Not applicable	74201039
+12532	Yes	74201040
+171	No	74201040
+36	Unspecified	74201040
+0	Not applicable	74201040
+13046	Yes	74201041
+191	No	74201041
+42	Unspecified	74201041
+19	Not applicable	74201041
+8439	Yes	74201042
+197	No	74201042
+69	Unspecified	74201042
+9	Not applicable	74201042
+15444	Yes	74201043
+1254	No	74201043
+86	Unspecified	74201043
+2	Not applicable	74201043
+17639	Yes	74201044
+873	No	74201044
+72	Unspecified	74201044
+25	Not applicable	74201044
+12647	Yes	74201045
+361	No	74201045
+110	Unspecified	74201045
+743	Not applicable	74201045
+6691	Yes	74202001
+490	No	74202001
+70	Unspecified	74202001
+9	Not applicable	74202001
+4843	Yes	74202002
+112	No	74202002
+73	Unspecified	74202002
+31	Not applicable	74202002
+5443	Yes	74202003
+64	No	74202003
+79	Unspecified	74202003
+14	Not applicable	74202003
+6585	Yes	74202004
+735	No	74202004
+94	Unspecified	74202004
+679	Not applicable	74202004
+8972	Yes	74202005
+1232	No	74202005
+114	Unspecified	74202005
+59	Not applicable	74202005
+9157	Yes	74202006
+177	No	74202006
+72	Unspecified	74202006
+0	Not applicable	74202006
+5704	Yes	74202007
+861	No	74202007
+95	Unspecified	74202007
+158	Not applicable	74202007
+7562	Yes	74202008
+932	No	74202008
+63	Unspecified	74202008
+0	Not applicable	74202008
+715	Yes	74202009
+34	No	74202009
+0	Unspecified	74202009
+147	Not applicable	74202009
+8066	Yes	74202010
+556	No	74202010
+65	Unspecified	74202010
+104	Not applicable	74202010
+5945	Yes	74202011
+718	No	74202011
+123	Unspecified	74202011
+385	Not applicable	74202011
+3147	Yes	74202012
+458	No	74202012
+55	Unspecified	74202012
+196	Not applicable	74202012
+6865	Yes	74202013
+195	No	74202013
+81	Unspecified	74202013
+193	Not applicable	74202013
+5995	Yes	74202014
+56	No	74202014
+33	Unspecified	74202014
+0	Not applicable	74202014
+5427	Yes	74203001
+306	No	74203001
+37	Unspecified	74203001
+25	Not applicable	74203001
+7966	Yes	74203002
+120	No	74203002
+31	Unspecified	74203002
+0	Not applicable	74203002
+6774	Yes	74203003
+121	No	74203003
+17	Unspecified	74203003
+0	Not applicable	74203003
+6490	Yes	74203004
+112	No	74203004
+34	Unspecified	74203004
+0	Not applicable	74203004
+6810	Yes	74203005
+69	No	74203005
+11	Unspecified	74203005
+0	Not applicable	74203005
+5922	Yes	74203006
+210	No	74203006
+17	Unspecified	74203006
+62	Not applicable	74203006
+8572	Yes	74203007
+503	No	74203007
+118	Unspecified	74203007
+993	Not applicable	74203007
+9057	Yes	74203008
+484	No	74203008
+98	Unspecified	74203008
+608	Not applicable	74203008
+5892	Yes	74203009
+145	No	74203009
+92	Unspecified	74203009
+288	Not applicable	74203009
+6856	Yes	74203010
+310	No	74203010
+57	Unspecified	74203010
+0	Not applicable	74203010
+6138	Yes	74203011
+275	No	74203011
+12	Unspecified	74203011
+63	Not applicable	74203011
+8573	Yes	74203012
+485	No	74203012
+27	Unspecified	74203012
+740	Not applicable	74203012
+8266	Yes	74203013
+237	No	74203013
+65	Unspecified	74203013
+1	Not applicable	74203013
+11515	Yes	74801001
+1782	No	74801001
+132	Unspecified	74801001
+109	Not applicable	74801001
+14663	Yes	74801002
+1014	No	74801002
+188	Unspecified	74801002
+0	Not applicable	74801002
+11322	Yes	74801003
+1250	No	74801003
+58	Unspecified	74801003
+673	Not applicable	74801003
+12343	Yes	74801004
+487	No	74801004
+28	Unspecified	74801004
+0	Not applicable	74801004
+7271	Yes	74801005
+241	No	74801005
+280	Unspecified	74801005
+0	Not applicable	74801005
+7748	Yes	74801006
+67	No	74801006
+29	Unspecified	74801006
+0	Not applicable	74801006
+9543	Yes	74801007
+144	No	74801007
+43	Unspecified	74801007
+223	Not applicable	74801007
+10615	Yes	74801008
+261	No	74801008
+350	Unspecified	74801008
+0	Not applicable	74801008
+6328	Yes	74801009
+180	No	74801009
+27	Unspecified	74801009
+115	Not applicable	74801009
+8217	Yes	74801010
+312	No	74801010
+15	Unspecified	74801010
+0	Not applicable	74801010
+13087	Yes	74801011
+139	No	74801011
+19	Unspecified	74801011
+0	Not applicable	74801011
+6357	Yes	74801012
+139	No	74801012
+28	Unspecified	74801012
+0	Not applicable	74801012
+9793	Yes	74801013
+202	No	74801013
+54	Unspecified	74801013
+0	Not applicable	74801013
+12518	Yes	74801014
+569	No	74801014
+83	Unspecified	74801014
+212	Not applicable	74801014
+7331	Yes	74801015
+170	No	74801015
+32	Unspecified	74801015
+0	Not applicable	74801015
+10585	Yes	74801016
+950	No	74801016
+56	Unspecified	74801016
+0	Not applicable	74801016
+8257	Yes	74801017
+109	No	74801017
+15	Unspecified	74801017
+428	Not applicable	74801017
+9660	Yes	74801018
+293	No	74801018
+93	Unspecified	74801018
+185	Not applicable	74801018
+6504	Yes	74801019
+123	No	74801019
+43	Unspecified	74801019
+30	Not applicable	74801019
+10978	Yes	74801020
+912	No	74801020
+63	Unspecified	74801020
+250	Not applicable	74801020
+8150	Yes	74801021
+167	No	74801021
+69	Unspecified	74801021
+1135	Not applicable	74801021
+9757	Yes	74801022
+303	No	74801022
+116	Unspecified	74801022
+102	Not applicable	74801022
+9044	Yes	74801023
+2248	No	74801023
+125	Unspecified	74801023
+124	Not applicable	74801023
+12383	Yes	74801024
+385	No	74801024
+40	Unspecified	74801024
+0	Not applicable	74801024
+6139	Yes	74801025
+655	No	74801025
+17	Unspecified	74801025
+30	Not applicable	74801025
+11929	Yes	74801026
+823	No	74801026
+116	Unspecified	74801026
+3033	Not applicable	74801026
+11537	Yes	74801027
+1444	No	74801027
+72	Unspecified	74801027
+346	Not applicable	74801027
+9263	Yes	74801028
+284	No	74801028
+77	Unspecified	74801028
+0	Not applicable	74801028
+7289	Yes	74801029
+474	No	74801029
+71	Unspecified	74801029
+18	Not applicable	74801029
+13611	Yes	74801030
+2190	No	74801030
+142	Unspecified	74801030
+0	Not applicable	74801030
+9192	Yes	74801031
+753	No	74801031
+106	Unspecified	74801031
+249	Not applicable	74801031
+6862	Yes	74801032
+570	No	74801032
+47	Unspecified	74801032
+0	Not applicable	74801032
+6367	Yes	74801033
+1501	No	74801033
+125	Unspecified	74801033
+287	Not applicable	74801033
+13361	Yes	74801034
+1354	No	74801034
+96	Unspecified	74801034
+0	Not applicable	74801034
+10092	Yes	74802001
+758	No	74802001
+97	Unspecified	74802001
+4	Not applicable	74802001
+11131	Yes	74802002
+477	No	74802002
+124	Unspecified	74802002
+61	Not applicable	74802002
+5925	Yes	74802003
+340	No	74802003
+65	Unspecified	74802003
+0	Not applicable	74802003
+4182	Yes	74802004
+63	No	74802004
+30	Unspecified	74802004
+0	Not applicable	74802004
+4296	Yes	74802005
+384	No	74802005
+19	Unspecified	74802005
+168	Not applicable	74802005
+6374	Yes	74802006
+255	No	74802006
+69	Unspecified	74802006
+0	Not applicable	74802006
+7720	Yes	74802007
+107	No	74802007
+52	Unspecified	74802007
+0	Not applicable	74802007
+7976	Yes	74802008
+479	No	74802008
+19	Unspecified	74802008
+1553	Not applicable	74802008
+9091	Yes	74802009
+357	No	74802009
+70	Unspecified	74802009
+236	Not applicable	74802009
+4038	Yes	74802010
+47	No	74802010
+6	Unspecified	74802010
+0	Not applicable	74802010
+3813	Yes	74802011
+92	No	74802011
+27	Unspecified	74802011
+0	Not applicable	74802011
+5645	Yes	74802012
+735	No	74802012
+23	Unspecified	74802012
+0	Not applicable	74802012
+7287	Yes	74802013
+102	No	74802013
+9	Unspecified	74802013
+0	Not applicable	74802013
+6476	Yes	74802014
+350	No	74802014
+17	Unspecified	74802014
+0	Not applicable	74802014
+6545	Yes	74802015
+139	No	74802015
+105	Unspecified	74802015
+0	Not applicable	74802015
+7410	Yes	74802016
+147	No	74802016
+44	Unspecified	74802016
+0	Not applicable	74802016
+3993	Yes	74802017
+103	No	74802017
+5	Unspecified	74802017
+36	Not applicable	74802017
+6890	Yes	74802018
+307	No	74802018
+46	Unspecified	74802018
+0	Not applicable	74802018
+4410	Yes	74802019
+125	No	74802019
+1	Unspecified	74802019
+0	Not applicable	74802019
+8589	Yes	74802020
+209	No	74802020
+11	Unspecified	74802020
+0	Not applicable	74802020
+4130	Yes	74802021
+192	No	74802021
+11	Unspecified	74802021
+0	Not applicable	74802021
+4301	Yes	74802022
+284	No	74802022
+14	Unspecified	74802022
+0	Not applicable	74802022
+5952	Yes	74803001
+1464	No	74803001
+74	Unspecified	74803001
+0	Not applicable	74803001
+6710	Yes	74803002
+1869	No	74803002
+88	Unspecified	74803002
+223	Not applicable	74803002
+1582	Yes	74803003
+1123	No	74803003
+19	Unspecified	74803003
+0	Not applicable	74803003
+4625	Yes	74803004
+371	No	74803004
+32	Unspecified	74803004
+0	Not applicable	74803004
+4358	Yes	74803005
+666	No	74803005
+35	Unspecified	74803005
+0	Not applicable	74803005
+7260	Yes	74803006
+472	No	74803006
+59	Unspecified	74803006
+0	Not applicable	74803006
+8335	Yes	74803007
+205	No	74803007
+23	Unspecified	74803007
+0	Not applicable	74803007
+9530	Yes	74803008
+236	No	74803008
+22	Unspecified	74803008
+0	Not applicable	74803008
+4667	Yes	74803009
+1408	No	74803009
+135	Unspecified	74803009
+0	Not applicable	74803009
+6052	Yes	74803010
+1514	No	74803010
+89	Unspecified	74803010
+85	Not applicable	74803010
+3678	Yes	74803011
+1077	No	74803011
+91	Unspecified	74803011
+0	Not applicable	74803011
+6757	Yes	74803012
+1262	No	74803012
+63	Unspecified	74803012
+0	Not applicable	74803012
+5083	Yes	74803013
+1099	No	74803013
+39	Unspecified	74803013
+0	Not applicable	74803013
+5229	Yes	74803014
+1651	No	74803014
+101	Unspecified	74803014
+0	Not applicable	74803014
+5394	Yes	74803015
+1163	No	74803015
+52	Unspecified	74803015
+0	Not applicable	74803015
+8012	Yes	74803016
+1505	No	74803016
+61	Unspecified	74803016
+168	Not applicable	74803016
+10450	Yes	74804001
+528	No	74804001
+72	Unspecified	74804001
+0	Not applicable	74804001
+7676	Yes	74804002
+281	No	74804002
+50	Unspecified	74804002
+111	Not applicable	74804002
+5374	Yes	74804003
+915	No	74804003
+97	Unspecified	74804003
+0	Not applicable	74804003
+7998	Yes	74804004
+1104	No	74804004
+37	Unspecified	74804004
+0	Not applicable	74804004
+2088	Yes	74804005
+521	No	74804005
+6	Unspecified	74804005
+0	Not applicable	74804005
+5387	Yes	74804006
+267	No	74804006
+10	Unspecified	74804006
+120	Not applicable	74804006
+7483	Yes	74804007
+208	No	74804007
+27	Unspecified	74804007
+59	Not applicable	74804007
+5610	Yes	74804008
+436	No	74804008
+33	Unspecified	74804008
+0	Not applicable	74804008
+5406	Yes	74804009
+636	No	74804009
+24	Unspecified	74804009
+12	Not applicable	74804009
+6227	Yes	74804010
+296	No	74804010
+57	Unspecified	74804010
+0	Not applicable	74804010
+4570	Yes	74804011
+1212	No	74804011
+30	Unspecified	74804011
+220	Not applicable	74804011
+4625	Yes	74804012
+176	No	74804012
+25	Unspecified	74804012
+974	Not applicable	74804012
+4683	Yes	74804013
+658	No	74804013
+11	Unspecified	74804013
+2216	Not applicable	74804013
+4830	Yes	74804014
+2707	No	74804014
+70	Unspecified	74804014
+417	Not applicable	74804014
+3861	Yes	74804015
+864	No	74804015
+80	Unspecified	74804015
+163	Not applicable	74804015
+6801	Yes	74804016
+478	No	74804016
+87	Unspecified	74804016
+163	Not applicable	74804016
+5414	Yes	74804017
+194	No	74804017
+57	Unspecified	74804017
+84	Not applicable	74804017
+4941	Yes	74804018
+442	No	74804018
+121	Unspecified	74804018
+240	Not applicable	74804018
+0	Yes	74804019
+0	No	74804019
+0	Unspecified	74804019
+3798	Not applicable	74804019
+8934	Yes	74804020
+731	No	74804020
+57	Unspecified	74804020
+0	Not applicable	74804020
+11760	Yes	74804021
+1925	No	74804021
+228	Unspecified	74804021
+0	Not applicable	74804021
+6827	Yes	74804022
+216	No	74804022
+116	Unspecified	74804022
+0	Not applicable	74804022
+6046	Yes	74804023
+700	No	74804023
+32	Unspecified	74804023
+0	Not applicable	74804023
+4708	Yes	74804024
+133	No	74804024
+62	Unspecified	74804024
+365	Not applicable	74804024
+7138	Yes	74804025
+254	No	74804025
+48	Unspecified	74804025
+0	Not applicable	74804025
+10206	Yes	74804026
+408	No	74804026
+64	Unspecified	74804026
+56	Not applicable	74804026
+3850	Yes	74804027
+910	No	74804027
+60	Unspecified	74804027
+230	Not applicable	74804027
+6075	Yes	74804028
+508	No	74804028
+50	Unspecified	74804028
+3	Not applicable	74804028
+49902	Yes	79700001
+4067	No	79700001
+496	Unspecified	79700001
+422	Not applicable	79700001
+31235	Yes	79700002
+1656	No	79700002
+214	Unspecified	79700002
+0	Not applicable	79700002
+24265	Yes	79700003
+1927	No	79700003
+133	Unspecified	79700003
+0	Not applicable	79700003
+12755	Yes	79700004
+302	No	79700004
+61	Unspecified	79700004
+0	Not applicable	79700004
+25523	Yes	79700005
+1499	No	79700005
+186	Unspecified	79700005
+0	Not applicable	79700005
+28059	Yes	79700006
+1334	No	79700006
+164	Unspecified	79700006
+0	Not applicable	79700006
+24778	Yes	79700007
+660	No	79700007
+90	Unspecified	79700007
+18	Not applicable	79700007
+29962	Yes	79700008
+2277	No	79700008
+332	Unspecified	79700008
+0	Not applicable	79700008
+23073	Yes	79700009
+924	No	79700009
+167	Unspecified	79700009
+110	Not applicable	79700009
+23735	Yes	79700010
+1779	No	79700010
+203	Unspecified	79700010
+11	Not applicable	79700010
+26569	Yes	79700011
+4068	No	79700011
+250	Unspecified	79700011
+0	Not applicable	79700011
+32143	Yes	79700012
+4399	No	79700012
+230	Unspecified	79700012
+0	Not applicable	79700012
+27315	Yes	79700013
+1839	No	79700013
+366	Unspecified	79700013
+60	Not applicable	79700013
+28155	Yes	79700014
+2630	No	79700014
+261	Unspecified	79700014
+0	Not applicable	79700014
+27178	Yes	79700015
+1731	No	79700015
+488	Unspecified	79700015
+45	Not applicable	79700015
+23578	Yes	79700016
+2831	No	79700016
+594	Unspecified	79700016
+281	Not applicable	79700016
+29728	Yes	79700017
+5573	No	79700017
+617	Unspecified	79700017
+847	Not applicable	79700017
+24316	Yes	79700018
+2430	No	79700018
+427	Unspecified	79700018
+269	Not applicable	79700018
+23717	Yes	79700019
+2219	No	79700019
+444	Unspecified	79700019
+228	Not applicable	79700019
+22967	Yes	79700020
+4621	No	79700020
+453	Unspecified	79700020
+877	Not applicable	79700020
+38184	Yes	79700021
+3441	No	79700021
+392	Unspecified	79700021
+1093	Not applicable	79700021
+25311	Yes	79700022
+3325	No	79700022
+603	Unspecified	79700022
+0	Not applicable	79700022
+26519	Yes	79700023
+1619	No	79700023
+546	Unspecified	79700023
+55	Not applicable	79700023
+41528	Yes	79700024
+2751	No	79700024
+408	Unspecified	79700024
+1358	Not applicable	79700024
+40675	Yes	79700025
+2771	No	79700025
+375	Unspecified	79700025
+244	Not applicable	79700025
+31089	Yes	79700026
+1743	No	79700026
+194	Unspecified	79700026
+0	Not applicable	79700026
+22243	Yes	79700027
+1022	No	79700027
+291	Unspecified	79700027
+301	Not applicable	79700027
+23419	Yes	79700028
+1615	No	79700028
+465	Unspecified	79700028
+355	Not applicable	79700028
+17464	Yes	79700029
+910	No	79700029
+87	Unspecified	79700029
+45	Not applicable	79700029
+20791	Yes	79700030
+1641	No	79700030
+170	Unspecified	79700030
+0	Not applicable	79700030
+31610	Yes	79700031
+2090	No	79700031
+477	Unspecified	79700031
+0	Not applicable	79700031
+22081	Yes	79700032
+1679	No	79700032
+294	Unspecified	79700032
+222	Not applicable	79700032
+35565	Yes	79700033
+4326	No	79700033
+856	Unspecified	79700033
+0	Not applicable	79700033
+25159	Yes	79700034
+732	No	79700034
+87	Unspecified	79700034
+0	Not applicable	79700034
+25749	Yes	79700035
+1964	No	79700035
+268	Unspecified	79700035
+118	Not applicable	79700035
+22522	Yes	79700036
+3812	No	79700036
+382	Unspecified	79700036
+340	Not applicable	79700036
+28330	Yes	79700037
+1405	No	79700037
+184	Unspecified	79700037
+518	Not applicable	79700037
+32322	Yes	79700038
+1131	No	79700038
+191	Unspecified	79700038
+33	Not applicable	79700038
+31465	Yes	79700039
+2755	No	79700039
+396	Unspecified	79700039
+0	Not applicable	79700039
+27794	Yes	79700040
+1780	No	79700040
+914	Unspecified	79700040
+0	Not applicable	79700040
+39842	Yes	79700041
+2330	No	79700041
+238	Unspecified	79700041
+0	Not applicable	79700041
+34317	Yes	79700042
+1353	No	79700042
+327	Unspecified	79700042
+30	Not applicable	79700042
+25953	Yes	79700043
+769	No	79700043
+163	Unspecified	79700043
+83	Not applicable	79700043
+30924	Yes	79700044
+1087	No	79700044
+94	Unspecified	79700044
+0	Not applicable	79700044
+28644	Yes	79700045
+1466	No	79700045
+174	Unspecified	79700045
+129	Not applicable	79700045
+27089	Yes	79700046
+370	No	79700046
+147	Unspecified	79700046
+0	Not applicable	79700046
+29631	Yes	79700047
+566	No	79700047
+77	Unspecified	79700047
+0	Not applicable	79700047
+22083	Yes	79700048
+944	No	79700048
+112	Unspecified	79700048
+0	Not applicable	79700048
+23654	Yes	79700049
+1393	No	79700049
+228	Unspecified	79700049
+0	Not applicable	79700049
+25198	Yes	79700050
+1954	No	79700050
+260	Unspecified	79700050
+0	Not applicable	79700050
+28527	Yes	79700051
+2116	No	79700051
+268	Unspecified	79700051
+6	Not applicable	79700051
+30339	Yes	79700052
+1851	No	79700052
+172	Unspecified	79700052
+518	Not applicable	79700052
+34505	Yes	79700053
+1222	No	79700053
+150	Unspecified	79700053
+10	Not applicable	79700053
+24425	Yes	79700054
+1465	No	79700054
+153	Unspecified	79700054
+0	Not applicable	79700054
+27749	Yes	79700055
+1885	No	79700055
+191	Unspecified	79700055
+0	Not applicable	79700055
+22980	Yes	79700056
+984	No	79700056
+99	Unspecified	79700056
+85	Not applicable	79700056
+32555	Yes	79700057
+1576	No	79700057
+126	Unspecified	79700057
+0	Not applicable	79700057
+41563	Yes	79700058
+2488	No	79700058
+291	Unspecified	79700058
+2	Not applicable	79700058
+31174	Yes	79700059
+877	No	79700059
+126	Unspecified	79700059
+0	Not applicable	79700059
+30060	Yes	79700060
+1225	No	79700060
+120	Unspecified	79700060
+0	Not applicable	79700060
+36190	Yes	79700061
+2532	No	79700061
+171	Unspecified	79700061
+5	Not applicable	79700061
+22861	Yes	79700062
+881	No	79700062
+103	Unspecified	79700062
+0	Not applicable	79700062
+33362	Yes	79700063
+1834	No	79700063
+237	Unspecified	79700063
+27	Not applicable	79700063
+32805	Yes	79700064
+1542	No	79700064
+128	Unspecified	79700064
+0	Not applicable	79700064
+36829	Yes	79700065
+2374	No	79700065
+168	Unspecified	79700065
+0	Not applicable	79700065
+40573	Yes	79700066
+1177	No	79700066
+160	Unspecified	79700066
+42	Not applicable	79700066
+32716	Yes	79700067
+1122	No	79700067
+196	Unspecified	79700067
+130	Not applicable	79700067
+31389	Yes	79700068
+1960	No	79700068
+154	Unspecified	79700068
+0	Not applicable	79700068
+19966	Yes	79700069
+1474	No	79700069
+209	Unspecified	79700069
+21	Not applicable	79700069
+20952	Yes	79700070
+2066	No	79700070
+161	Unspecified	79700070
+98	Not applicable	79700070
+33524	Yes	79700071
+4014	No	79700071
+237	Unspecified	79700071
+4788	Not applicable	79700071
+29035	Yes	79700072
+2753	No	79700072
+253	Unspecified	79700072
+248	Not applicable	79700072
+28084	Yes	79700073
+3205	No	79700073
+459	Unspecified	79700073
+785	Not applicable	79700073
+25234	Yes	79700074
+901	No	79700074
+182	Unspecified	79700074
+522	Not applicable	79700074
+30183	Yes	79700075
+1840	No	79700075
+537	Unspecified	79700075
+615	Not applicable	79700075
+26537	Yes	79700076
+849	No	79700076
+737	Unspecified	79700076
+508	Not applicable	79700076
+31692	Yes	79700077
+692	No	79700077
+139	Unspecified	79700077
+0	Not applicable	79700077
+22569	Yes	79700078
+891	No	79700078
+120	Unspecified	79700078
+224	Not applicable	79700078
+31031	Yes	79700079
+1129	No	79700079
+277	Unspecified	79700079
+0	Not applicable	79700079
+21189	Yes	79700080
+494	No	79700080
+212	Unspecified	79700080
+16	Not applicable	79700080
+40589	Yes	79700081
+3126	No	79700081
+749	Unspecified	79700081
+0	Not applicable	79700081
+26033	Yes	79700082
+500	No	79700082
+93	Unspecified	79700082
+311	Not applicable	79700082
+24824	Yes	79700083
+666	No	79700083
+144	Unspecified	79700083
+0	Not applicable	79700083
+38134	Yes	79700084
+1262	No	79700084
+320	Unspecified	79700084
+0	Not applicable	79700084
+29561	Yes	79700085
+669	No	79700085
+128	Unspecified	79700085
+177	Not applicable	79700085
+37843	Yes	79700086
+1290	No	79700086
+131	Unspecified	79700086
+0	Not applicable	79700086
+28917	Yes	79700087
+497	No	79700087
+259	Unspecified	79700087
+965	Not applicable	79700087
+29581	Yes	79700088
+910	No	79700088
+471	Unspecified	79700088
+494	Not applicable	79700088
+46489	Yes	79700089
+4463	No	79700089
+318	Unspecified	79700089
+0	Not applicable	79700089
+29354	Yes	79700090
+2746	No	79700090
+357	Unspecified	79700090
+0	Not applicable	79700090
+31106	Yes	79700091
+1890	No	79700091
+351	Unspecified	79700091
+60	Not applicable	79700091
+26140	Yes	79700092
+2647	No	79700092
+572	Unspecified	79700092
+494	Not applicable	79700092
+20887	Yes	79700093
+2639	No	79700093
+111	Unspecified	79700093
+191	Not applicable	79700093
+24840	Yes	79700094
+1525	No	79700094
+246	Unspecified	79700094
+36	Not applicable	79700094
+28328	Yes	79700095
+878	No	79700095
+124	Unspecified	79700095
+0	Not applicable	79700095
+25134	Yes	79700096
+1911	No	79700096
+164	Unspecified	79700096
+0	Not applicable	79700096
+31942	Yes	79700097
+1687	No	79700097
+433	Unspecified	79700097
+572	Not applicable	79700097
+21243	Yes	79700098
+434	No	79700098
+343	Unspecified	79700098
+9	Not applicable	79700098
+40618	Yes	79700099
+2736	No	79700099
+275	Unspecified	79700099
+3902	Not applicable	79700099
+28409	Yes	79700100
+2058	No	79700100
+383	Unspecified	79700100
+25	Not applicable	79700100
+39279	Yes	79700101
+2785	No	79700101
+206	Unspecified	79700101
+0	Not applicable	79700101
+42847	Yes	79800001
+2057	No	79800001
+308	Unspecified	79800001
+292	Not applicable	79800001
+39646	Yes	79800002
+977	No	79800002
+782	Unspecified	79800002
+260	Not applicable	79800002
+29805	Yes	79800003
+1570	No	79800003
+154	Unspecified	79800003
+40	Not applicable	79800003
+39737	Yes	79800004
+1659	No	79800004
+221	Unspecified	79800004
+0	Not applicable	79800004
+45815	Yes	79800005
+3515	No	79800005
+403	Unspecified	79800005
+21	Not applicable	79800005
+35441	Yes	79800006
+2331	No	79800006
+362	Unspecified	79800006
+144	Not applicable	79800006
+36310	Yes	79800007
+2333	No	79800007
+259	Unspecified	79800007
+242	Not applicable	79800007
+35750	Yes	79800008
+3967	No	79800008
+332	Unspecified	79800008
+61	Not applicable	79800008
+27974	Yes	79800009
+1575	No	79800009
+307	Unspecified	79800009
+116	Not applicable	79800009
+31190	Yes	79800010
+2441	No	79800010
+350	Unspecified	79800010
+18	Not applicable	79800010
+32503	Yes	79800011
+525	No	79800011
+221	Unspecified	79800011
+25	Not applicable	79800011
+26896	Yes	79800012
+258	No	79800012
+105	Unspecified	79800012
+48	Not applicable	79800012
+36538	Yes	79800013
+946	No	79800013
+182	Unspecified	79800013
+0	Not applicable	79800013
+30581	Yes	79800014
+416	No	79800014
+71	Unspecified	79800014
+0	Not applicable	79800014
+25612	Yes	79800015
+928	No	79800015
+244	Unspecified	79800015
+0	Not applicable	79800015
+26179	Yes	79800016
+643	No	79800016
+136	Unspecified	79800016
+26	Not applicable	79800016
+35567	Yes	79800017
+1968	No	79800017
+100	Unspecified	79800017
+123	Not applicable	79800017
+37906	Yes	79800018
+229	No	79800018
+149	Unspecified	79800018
+206	Not applicable	79800018
+27144	Yes	79800019
+1235	No	79800019
+280	Unspecified	79800019
+13	Not applicable	79800019
+30824	Yes	79800020
+1002	No	79800020
+171	Unspecified	79800020
+0	Not applicable	79800020
+28073	Yes	79800021
+1056	No	79800021
+131	Unspecified	79800021
+0	Not applicable	79800021
+30186	Yes	79800022
+1219	No	79800022
+232	Unspecified	79800022
+56	Not applicable	79800022
+29803	Yes	79800023
+1815	No	79800023
+314	Unspecified	79800023
+255	Not applicable	79800023
+30145	Yes	79800024
+3559	No	79800024
+248	Unspecified	79800024
+0	Not applicable	79800024
+33727	Yes	79800025
+1288	No	79800025
+259	Unspecified	79800025
+324	Not applicable	79800025
+23974	Yes	79800026
+1119	No	79800026
+273	Unspecified	79800026
+0	Not applicable	79800026
+23573	Yes	79800027
+1191	No	79800027
+124	Unspecified	79800027
+0	Not applicable	79800027
+27468	Yes	79800028
+1075	No	79800028
+304	Unspecified	79800028
+107	Not applicable	79800028
+27898	Yes	79800029
+777	No	79800029
+246	Unspecified	79800029
+1426	Not applicable	79800029
+32610	Yes	79800030
+1784	No	79800030
+331	Unspecified	79800030
+0	Not applicable	79800030
+25328	Yes	79800031
+2019	No	79800031
+274	Unspecified	79800031
+67	Not applicable	79800031
+36005	Yes	79800032
+4469	No	79800032
+507	Unspecified	79800032
+186	Not applicable	79800032
+26629	Yes	79800033
+1038	No	79800033
+163	Unspecified	79800033
+79	Not applicable	79800033
+26777	Yes	79800034
+1391	No	79800034
+238	Unspecified	79800034
+87	Not applicable	79800034
+23791	Yes	79800035
+786	No	79800035
+135	Unspecified	79800035
+457	Not applicable	79800035
+23473	Yes	79800036
+791	No	79800036
+114	Unspecified	79800036
+102	Not applicable	79800036
+28494	Yes	79800037
+962	No	79800037
+191	Unspecified	79800037
+426	Not applicable	79800037
+20913	Yes	79800038
+547	No	79800038
+253	Unspecified	79800038
+2	Not applicable	79800038
+29954	Yes	79800039
+1481	No	79800039
+348	Unspecified	79800039
+0	Not applicable	79800039
+23600	Yes	79800040
+1075	No	79800040
+326	Unspecified	79800040
+0	Not applicable	79800040
+23825	Yes	79800041
+756	No	79800041
+221	Unspecified	79800041
+93	Not applicable	79800041
+22238	Yes	79800042
+1374	No	79800042
+363	Unspecified	79800042
+0	Not applicable	79800042
+24875	Yes	79800043
+984	No	79800043
+282	Unspecified	79800043
+0	Not applicable	79800043
+49237	Yes	79800044
+4620	No	79800044
+518	Unspecified	79800044
+158	Not applicable	79800044
+26116	Yes	79800045
+1493	No	79800045
+203	Unspecified	79800045
+0	Not applicable	79800045
+27011	Yes	79800046
+1379	No	79800046
+151	Unspecified	79800046
+0	Not applicable	79800046
+28044	Yes	79800047
+1171	No	79800047
+192	Unspecified	79800047
+0	Not applicable	79800047
+30740	Yes	79800048
+929	No	79800048
+517	Unspecified	79800048
+0	Not applicable	79800048
+48516	Yes	79800049
+1717	No	79800049
+619	Unspecified	79800049
+0	Not applicable	79800049
+21682	Yes	79800050
+1375	No	79800050
+238	Unspecified	79800050
+0	Not applicable	79800050
+27199	Yes	79800051
+1007	No	79800051
+203	Unspecified	79800051
+0	Not applicable	79800051
+28717	Yes	79800052
+852	No	79800052
+164	Unspecified	79800052
+0	Not applicable	79800052
+60652	Yes	79800053
+2311	No	79800053
+326	Unspecified	79800053
+0	Not applicable	79800053
+39205	Yes	79800054
+2865	No	79800054
+534	Unspecified	79800054
+210	Not applicable	79800054
+25224	Yes	79800055
+3988	No	79800055
+536	Unspecified	79800055
+200	Not applicable	79800055
+23565	Yes	79800056
+6308	No	79800056
+723	Unspecified	79800056
+499	Not applicable	79800056
+30792	Yes	79800057
+4948	No	79800057
+819	Unspecified	79800057
+112	Not applicable	79800057
+24084	Yes	79800058
+4719	No	79800058
+550	Unspecified	79800058
+2065	Not applicable	79800058
+3843	Yes	79800059
+1565	No	79800059
+136	Unspecified	79800059
+0	Not applicable	79800059
+23475	Yes	79800060
+11134	No	79800060
+761	Unspecified	79800060
+10003	Not applicable	79800060
+14204	Yes	79800061
+2111	No	79800061
+308	Unspecified	79800061
+349	Not applicable	79800061
+12230	Yes	79800062
+8447	No	79800062
+469	Unspecified	79800062
+0	Not applicable	79800062
+15394	Yes	79800063
+10778	No	79800063
+832	Unspecified	79800063
+78	Not applicable	79800063
+19155	Yes	79800064
+13810	No	79800064
+1094	Unspecified	79800064
+248	Not applicable	79800064
+21799	Yes	79800065
+1583	No	79800065
+246	Unspecified	79800065
+407	Not applicable	79800065
+29012	Yes	79800066
+11991	No	79800066
+1709	Unspecified	79800066
+2739	Not applicable	79800066
+12040	Yes	79800067
+6686	No	79800067
+920	Unspecified	79800067
+2522	Not applicable	79800067
+31608	Yes	79800068
+1141	No	79800068
+171	Unspecified	79800068
+109	Not applicable	79800068
+27326	Yes	79800069
+2707	No	79800069
+633	Unspecified	79800069
+3048	Not applicable	79800069
+27408	Yes	79800070
+2536	No	79800070
+389	Unspecified	79800070
+689	Not applicable	79800070
+30150	Yes	79800071
+910	No	79800071
+383	Unspecified	79800071
+30	Not applicable	79800071
+15839	Yes	79800072
+1206	No	79800072
+257	Unspecified	79800072
+1085	Not applicable	79800072
+22916	Yes	79800073
+3891	No	79800073
+390	Unspecified	79800073
+767	Not applicable	79800073
+21630	Yes	79800074
+3264	No	79800074
+513	Unspecified	79800074
+371	Not applicable	79800074
+21453	Yes	79800075
+889	No	79800075
+347	Unspecified	79800075
+30	Not applicable	79800075
+17393	Yes	79800076
+640	No	79800076
+220	Unspecified	79800076
+9	Not applicable	79800076
+43171	Yes	79800077
+8015	No	79800077
+489	Unspecified	79800077
+24	Not applicable	79800077
+39654	Yes	79800078
+7759	No	79800078
+629	Unspecified	79800078
+0	Not applicable	79800078
+38170	Yes	79800079
+8761	No	79800079
+624	Unspecified	79800079
+57	Not applicable	79800079
+25209	Yes	79800080
+2637	No	79800080
+284	Unspecified	79800080
+0	Not applicable	79800080
+28725	Yes	79800081
+4571	No	79800081
+503	Unspecified	79800081
+635	Not applicable	79800081
+33643	Yes	79800082
+958	No	79800082
+334	Unspecified	79800082
+449	Not applicable	79800082
+19650	Yes	79800083
+872	No	79800083
+827	Unspecified	79800083
+0	Not applicable	79800083
+30461	Yes	79800084
+1904	No	79800084
+518	Unspecified	79800084
+296	Not applicable	79800084
+24332	Yes	79800085
+1448	No	79800085
+227	Unspecified	79800085
+0	Not applicable	79800085
+30361	Yes	79800086
+2312	No	79800086
+269	Unspecified	79800086
+1436	Not applicable	79800086
+13571	Yes	79800087
+1613	No	79800087
+188	Unspecified	79800087
+1332	Not applicable	79800087
+21788	Yes	79800088
+2046	No	79800088
+279	Unspecified	79800088
+138	Not applicable	79800088
+19964	Yes	79800089
+1363	No	79800089
+316	Unspecified	79800089
+113	Not applicable	79800089
+18767	Yes	79800090
+3182	No	79800090
+374	Unspecified	79800090
+542	Not applicable	79800090
+22945	Yes	79800091
+2528	No	79800091
+316	Unspecified	79800091
+297	Not applicable	79800091
+41212	Yes	79800092
+5869	No	79800092
+474	Unspecified	79800092
+21	Not applicable	79800092
+19688	Yes	79800093
+2671	No	79800093
+338	Unspecified	79800093
+1160	Not applicable	79800093
+17181	Yes	79800094
+3042	No	79800094
+353	Unspecified	79800094
+55	Not applicable	79800094
+35888	Yes	79800095
+9707	No	79800095
+644	Unspecified	79800095
+0	Not applicable	79800095
+44366	Yes	79800096
+13078	No	79800096
+1043	Unspecified	79800096
+302	Not applicable	79800096
+46902	Yes	79800097
+4971	No	79800097
+1059	Unspecified	79800097
+1148	Not applicable	79800097
+23829	Yes	79800098
+5607	No	79800098
+661	Unspecified	79800098
+209	Not applicable	79800098
+18168	Yes	79800099
+1620	No	79800099
+223	Unspecified	79800099
+108	Not applicable	79800099
+44306	Yes	79800100
+9359	No	79800100
+983	Unspecified	79800100
+0	Not applicable	79800100
+27677	Yes	79800101
+2823	No	79800101
+425	Unspecified	79800101
+89	Not applicable	79800101
+26759	Yes	79800102
+4347	No	79800102
+388	Unspecified	79800102
+1380	Not applicable	79800102
+27167	Yes	79800103
+7531	No	79800103
+736	Unspecified	79800103
+972	Not applicable	79800103
+24287	Yes	79800104
+4293	No	79800104
+659	Unspecified	79800104
+183	Not applicable	79800104
+46357	Yes	79800105
+2488	No	79800105
+401	Unspecified	79800105
+7	Not applicable	79800105
+28388	Yes	79800106
+4777	No	79800106
+598	Unspecified	79800106
+694	Not applicable	79800106
+18327	Yes	79800107
+897	No	79800107
+176	Unspecified	79800107
+0	Not applicable	79800107
+29468	Yes	79800108
+2220	No	79800108
+570	Unspecified	79800108
+0	Not applicable	79800108
+21774	Yes	79800109
+2866	No	79800109
+415	Unspecified	79800109
+13	Not applicable	79800109
+45297	Yes	79800110
+9941	No	79800110
+690	Unspecified	79800110
+1019	Not applicable	79800110
+50050	Yes	79800111
+8244	No	79800111
+792	Unspecified	79800111
+0	Not applicable	79800111
+48610	Yes	79800112
+7988	No	79800112
+728	Unspecified	79800112
+452	Not applicable	79800112
+67813	Yes	79800113
+22629	No	79800113
+1252	Unspecified	79800113
+23	Not applicable	79800113
+39359	Yes	79800114
+7942	No	79800114
+868	Unspecified	79800114
+17	Not applicable	79800114
+32360	Yes	79800115
+3786	No	79800115
+761	Unspecified	79800115
+49	Not applicable	79800115
+19616	Yes	79800116
+1093	No	79800116
+164	Unspecified	79800116
+0	Not applicable	79800116
+16919	Yes	79800117
+2309	No	79800117
+254	Unspecified	79800117
+86	Not applicable	79800117
+21757	Yes	79800118
+4875	No	79800118
+535	Unspecified	79800118
+3249	Not applicable	79800118
+42361	Yes	79800119
+4421	No	79800119
+291	Unspecified	79800119
+108	Not applicable	79800119
+36351	Yes	79800120
+2097	No	79800120
+299	Unspecified	79800120
+105	Not applicable	79800120
+50262	Yes	79800121
+2662	No	79800121
+316	Unspecified	79800121
+100	Not applicable	79800121
+47119	Yes	79800122
+3775	No	79800122
+376	Unspecified	79800122
+788	Not applicable	79800122
+26172	Yes	79800123
+13379	No	79800123
+837	Unspecified	79800123
+2803	Not applicable	79800123
+30972	Yes	79800124
+9929	No	79800124
+899	Unspecified	79800124
+1267	Not applicable	79800124
+35472	Yes	79800125
+1319	No	79800125
+288	Unspecified	79800125
+8593	Not applicable	79800125
+25214	Yes	79800126
+2381	No	79800126
+614	Unspecified	79800126
+43	Not applicable	79800126
+23009	Yes	79800127
+4226	No	79800127
+370	Unspecified	79800127
+0	Not applicable	79800127
+48471	Yes	79800128
+4481	No	79800128
+308	Unspecified	79800128
+0	Not applicable	79800128
+35372	Yes	79800129
+1659	No	79800129
+286	Unspecified	79800129
+0	Not applicable	79800129
+22989	Yes	79800130
+594	No	79800130
+148	Unspecified	79800130
+0	Not applicable	79800130
+24451	Yes	79900001
+431	No	79900001
+218	Unspecified	79900001
+249	Not applicable	79900001
+18988	Yes	79900002
+718	No	79900002
+258	Unspecified	79900002
+843	Not applicable	79900002
+30090	Yes	79900003
+1229	No	79900003
+223	Unspecified	79900003
+2573	Not applicable	79900003
+35032	Yes	79900004
+1944	No	79900004
+246	Unspecified	79900004
+365	Not applicable	79900004
+25851	Yes	79900005
+932	No	79900005
+299	Unspecified	79900005
+355	Not applicable	79900005
+16320	Yes	79900006
+785	No	79900006
+63	Unspecified	79900006
+5	Not applicable	79900006
+40507	Yes	79900007
+1685	No	79900007
+308	Unspecified	79900007
+346	Not applicable	79900007
+29318	Yes	79900008
+380	No	79900008
+155	Unspecified	79900008
+0	Not applicable	79900008
+34008	Yes	79900009
+3105	No	79900009
+366	Unspecified	79900009
+0	Not applicable	79900009
+37786	Yes	79900010
+1984	No	79900010
+198	Unspecified	79900010
+0	Not applicable	79900010
+23515	Yes	79900011
+550	No	79900011
+174	Unspecified	79900011
+0	Not applicable	79900011
+18913	Yes	79900012
+2328	No	79900012
+399	Unspecified	79900012
+108	Not applicable	79900012
+26726	Yes	79900013
+334	No	79900013
+63	Unspecified	79900013
+24	Not applicable	79900013
+26329	Yes	79900014
+567	No	79900014
+141	Unspecified	79900014
+0	Not applicable	79900014
+19115	Yes	79900015
+224	No	79900015
+69	Unspecified	79900015
+103	Not applicable	79900015
+20351	Yes	79900016
+667	No	79900016
+64	Unspecified	79900016
+0	Not applicable	79900016
+39135	Yes	79900017
+1429	No	79900017
+198	Unspecified	79900017
+9	Not applicable	79900017
+23430	Yes	79900018
+706	No	79900018
+132	Unspecified	79900018
+311	Not applicable	79900018
+27436	Yes	79900019
+1393	No	79900019
+199	Unspecified	79900019
+1444	Not applicable	79900019
+26034	Yes	79900020
+757	No	79900020
+168	Unspecified	79900020
+154	Not applicable	79900020
+28473	Yes	79900021
+1051	No	79900021
+306	Unspecified	79900021
+38	Not applicable	79900021
+31918	Yes	79900022
+527	No	79900022
+327	Unspecified	79900022
+824	Not applicable	79900022
+19830	Yes	79900023
+1482	No	79900023
+157	Unspecified	79900023
+0	Not applicable	79900023
+44443	Yes	79900024
+2454	No	79900024
+612	Unspecified	79900024
+228	Not applicable	79900024
+24836	Yes	79900025
+525	No	79900025
+108	Unspecified	79900025
+141	Not applicable	79900025
+24871	Yes	79900026
+720	No	79900026
+113	Unspecified	79900026
+292	Not applicable	79900026
+27399	Yes	79900027
+678	No	79900027
+242	Unspecified	79900027
+0	Not applicable	79900027
+17361	Yes	79900028
+366	No	79900028
+129	Unspecified	79900028
+0	Not applicable	79900028
+27034	Yes	79900029
+1439	No	79900029
+181	Unspecified	79900029
+15	Not applicable	79900029
+36704	Yes	79900030
+747	No	79900030
+173	Unspecified	79900030
+144	Not applicable	79900030
+22656	Yes	79900031
+1262	No	79900031
+132	Unspecified	79900031
+285	Not applicable	79900031
+28856	Yes	79900032
+849	No	79900032
+219	Unspecified	79900032
+961	Not applicable	79900032
+16553	Yes	79900033
+328	No	79900033
+52	Unspecified	79900033
+61	Not applicable	79900033
+19737	Yes	79900034
+590	No	79900034
+138	Unspecified	79900034
+1684	Not applicable	79900034
+17099	Yes	79900035
+320	No	79900035
+94	Unspecified	79900035
+327	Not applicable	79900035
+20191	Yes	79900036
+297	No	79900036
+97	Unspecified	79900036
+2075	Not applicable	79900036
+39698	Yes	79900037
+3607	No	79900037
+323	Unspecified	79900037
+9	Not applicable	79900037
+9233	Yes	79900038
+78	No	79900038
+51	Unspecified	79900038
+0	Not applicable	79900038
+29880	Yes	79900039
+1117	No	79900039
+162	Unspecified	79900039
+0	Not applicable	79900039
+59888	Yes	79900040
+2052	No	79900040
+301	Unspecified	79900040
+0	Not applicable	79900040
+16721	Yes	79900041
+940	No	79900041
+125	Unspecified	79900041
+630	Not applicable	79900041
+18335	Yes	79900042
+1776	No	79900042
+219	Unspecified	79900042
+64	Not applicable	79900042
+25293	Yes	79900043
+606	No	79900043
+148	Unspecified	79900043
+110	Not applicable	79900043
+16662	Yes	79900044
+969	No	79900044
+168	Unspecified	79900044
+295	Not applicable	79900044
+10372	Yes	79900045
+461	No	79900045
+94	Unspecified	79900045
+195	Not applicable	79900045
+18173	Yes	79900046
+1843	No	79900046
+286	Unspecified	79900046
+399	Not applicable	79900046
+15690	Yes	79900047
+557	No	79900047
+116	Unspecified	79900047
+45	Not applicable	79900047
+34365	Yes	79900048
+1248	No	79900048
+278	Unspecified	79900048
+6	Not applicable	79900048
+33553	Yes	79900049
+1222	No	79900049
+118	Unspecified	79900049
+532	Not applicable	79900049
+19844	Yes	79900050
+592	No	79900050
+239	Unspecified	79900050
+174	Not applicable	79900050
+23894	Yes	79900051
+1618	No	79900051
+146	Unspecified	79900051
+18	Not applicable	79900051
+20311	Yes	79900052
+281	No	79900052
+158	Unspecified	79900052
+495	Not applicable	79900052
+21989	Yes	79900053
+929	No	79900053
+220	Unspecified	79900053
+740	Not applicable	79900053
+19524	Yes	79900054
+700	No	79900054
+197	Unspecified	79900054
+410	Not applicable	79900054
+24878	Yes	79900055
+641	No	79900055
+211	Unspecified	79900055
+91	Not applicable	79900055
+13089	Yes	79900056
+1770	No	79900056
+144	Unspecified	79900056
+4377	Not applicable	79900056
+24960	Yes	79900057
+1305	No	79900057
+511	Unspecified	79900057
+1356	Not applicable	79900057
+24875	Yes	79900058
+2128	No	79900058
+281	Unspecified	79900058
+6377	Not applicable	79900058
+16115	Yes	79900059
+4778	No	79900059
+247	Unspecified	79900059
+2588	Not applicable	79900059
+21081	Yes	79900060
+5392	No	79900060
+437	Unspecified	79900060
+5771	Not applicable	79900060
+33537	Yes	79900061
+7633	No	79900061
+527	Unspecified	79900061
+1060	Not applicable	79900061
+19768	Yes	79900062
+315	No	79900062
+104	Unspecified	79900062
+92	Not applicable	79900062
+16558	Yes	79900063
+368	No	79900063
+41	Unspecified	79900063
+96	Not applicable	79900063
+33642	Yes	79900064
+930	No	79900064
+554	Unspecified	79900064
+91	Not applicable	79900064
+19414	Yes	79900065
+1259	No	79900065
+194	Unspecified	79900065
+529	Not applicable	79900065
+20573	Yes	79900066
+406	No	79900066
+178	Unspecified	79900066
+2328	Not applicable	79900066
+19273	Yes	79900067
+1192	No	79900067
+177	Unspecified	79900067
+0	Not applicable	79900067
+28163	Yes	79900068
+643	No	79900068
+143	Unspecified	79900068
+253	Not applicable	79900068
+23935	Yes	79900069
+426	No	79900069
+222	Unspecified	79900069
+47	Not applicable	79900069
+30133	Yes	79900070
+882	No	79900070
+183	Unspecified	79900070
+8	Not applicable	79900070
+28814	Yes	79900071
+1835	No	79900071
+149	Unspecified	79900071
+0	Not applicable	79900071
+21445	Yes	79900072
+612	No	79900072
+89	Unspecified	79900072
+0	Not applicable	79900072
+37681	Yes	79900073
+1220	No	79900073
+334	Unspecified	79900073
+380	Not applicable	79900073
+23187	Yes	79900074
+553	No	79900074
+153	Unspecified	79900074
+227	Not applicable	79900074
+28668	Yes	79900075
+515	No	79900075
+101	Unspecified	79900075
+105	Not applicable	79900075
+23050	Yes	79900076
+458	No	79900076
+109	Unspecified	79900076
+0	Not applicable	79900076
+69540	Yes	79900077
+13795	No	79900077
+947	Unspecified	79900077
+254	Not applicable	79900077
+22042	Yes	79900078
+907	No	79900078
+187	Unspecified	79900078
+49	Not applicable	79900078
+27464	Yes	79900079
+616	No	79900079
+233	Unspecified	79900079
+591	Not applicable	79900079
+20602	Yes	79900080
+4214	No	79900080
+382	Unspecified	79900080
+1605	Not applicable	79900080
+9325	Yes	79900081
+2326	No	79900081
+152	Unspecified	79900081
+537	Not applicable	79900081
+15481	Yes	79900082
+1246	No	79900082
+200	Unspecified	79900082
+3090	Not applicable	79900082
+10657	Yes	79900083
+670	No	79900083
+89	Unspecified	79900083
+680	Not applicable	79900083
+23888	Yes	79900084
+1101	No	79900084
+212	Unspecified	79900084
+1266	Not applicable	79900084
+32422	Yes	79900085
+1743	No	79900085
+240	Unspecified	79900085
+223	Not applicable	79900085
+37659	Yes	79900086
+5361	No	79900086
+565	Unspecified	79900086
+0	Not applicable	79900086
+22404	Yes	79900087
+1438	No	79900087
+111	Unspecified	79900087
+914	Not applicable	79900087
+27260	Yes	79900088
+478	No	79900088
+112	Unspecified	79900088
+0	Not applicable	79900088
+27334	Yes	79900089
+698	No	79900089
+94	Unspecified	79900089
+0	Not applicable	79900089
+40090	Yes	79900090
+2457	No	79900090
+269	Unspecified	79900090
+5	Not applicable	79900090
+36599	Yes	79900091
+2916	No	79900091
+571	Unspecified	79900091
+393	Not applicable	79900091
+21299	Yes	79900092
+4946	No	79900092
+447	Unspecified	79900092
+3747	Not applicable	79900092
+15283	Yes	79900093
+509	No	79900093
+57	Unspecified	79900093
+1936	Not applicable	79900093
+20148	Yes	79900094
+361	No	79900094
+48	Unspecified	79900094
+57	Not applicable	79900094
+23817	Yes	79900095
+353	No	79900095
+113	Unspecified	79900095
+27	Not applicable	79900095
+28096	Yes	79900096
+1588	No	79900096
+482	Unspecified	79900096
+218	Not applicable	79900096
+19257	Yes	79900097
+1717	No	79900097
+87	Unspecified	79900097
+0	Not applicable	79900097
+23898	Yes	79900098
+1250	No	79900098
+306	Unspecified	79900098
+42	Not applicable	79900098
+31220	Yes	79900099
+1652	No	79900099
+214	Unspecified	79900099
+326	Not applicable	79900099
+27141	Yes	79900100
+1262	No	79900100
+211	Unspecified	79900100
+4007	Not applicable	79900100
+26970	Yes	79900101
+2842	No	79900101
+378	Unspecified	79900101
+178	Not applicable	79900101
+29114	Yes	79900102
+2110	No	79900102
+473	Unspecified	79900102
+12	Not applicable	79900102
+25195	Yes	79900103
+473	No	79900103
+101	Unspecified	79900103
+75	Not applicable	79900103
+25076	Yes	79900104
+897	No	79900104
+113	Unspecified	79900104
+9	Not applicable	79900104
+23993	Yes	79900105
+922	No	79900105
+192	Unspecified	79900105
+1012	Not applicable	79900105
+7670	Yes	52103001
+0	No	52103001
+10	Unspecified	52103001
+0	Not applicable	52103001
+8728	Yes	52103002
+11	No	52103002
+80	Unspecified	52103002
+0	Not applicable	52103002
+8991	Yes	52103003
+17	No	52103003
+81	Unspecified	52103003
+0	Not applicable	52103003
+9488	Yes	52103004
+26	No	52103004
+47	Unspecified	52103004
+0	Not applicable	52103004
+9342	Yes	52103005
+10	No	52103005
+34	Unspecified	52103005
+131	Not applicable	52103005
+5858	Yes	52103006
+21	No	52103006
+39	Unspecified	52103006
+5	Not applicable	52103006
+6095	Yes	52103007
+2	No	52103007
+16	Unspecified	52103007
+0	Not applicable	52103007
+8249	Yes	52103008
+1	No	52103008
+51	Unspecified	52103008
+9	Not applicable	52103008
+6271	Yes	52103009
+6	No	52103009
+27	Unspecified	52103009
+0	Not applicable	52103009
+11118	Yes	52103010
+59	No	52103010
+63	Unspecified	52103010
+0	Not applicable	52103010
+8347	Yes	52103011
+2	No	52103011
+62	Unspecified	52103011
+183	Not applicable	52103011
+6572	Yes	52103012
+7	No	52103012
+11	Unspecified	52103012
+0	Not applicable	52103012
+6696	Yes	52103013
+2	No	52103013
+31	Unspecified	52103013
+0	Not applicable	52103013
+7567	Yes	52103014
+17	No	52103014
+53	Unspecified	52103014
+103	Not applicable	52103014
+8954	Yes	52103015
+7	No	52103015
+36	Unspecified	52103015
+0	Not applicable	52103015
+8636	Yes	52103016
+9	No	52103016
+29	Unspecified	52103016
+603	Not applicable	52103016
+7666	Yes	52103017
+15	No	52103017
+18	Unspecified	52103017
+0	Not applicable	52103017
+12919	Yes	52103018
+25	No	52103018
+112	Unspecified	52103018
+0	Not applicable	52103018
+9695	Yes	52103019
+24	No	52103019
+17	Unspecified	52103019
+0	Not applicable	52103019
+9685	Yes	52104001
+6	No	52104001
+60	Unspecified	52104001
+0	Not applicable	52104001
+10439	Yes	52104002
+10	No	52104002
+28	Unspecified	52104002
+0	Not applicable	52104002
+9337	Yes	52104003
+132	No	52104003
+75	Unspecified	52104003
+0	Not applicable	52104003
+8155	Yes	52104004
+7	No	52104004
+72	Unspecified	52104004
+0	Not applicable	52104004
+9658	Yes	52104005
+12	No	52104005
+52	Unspecified	52104005
+16	Not applicable	52104005
+7626	Yes	52104006
+9	No	52104006
+16	Unspecified	52104006
+0	Not applicable	52104006
+10606	Yes	52104007
+23	No	52104007
+45	Unspecified	52104007
+14	Not applicable	52104007
+9709	Yes	52104008
+12	No	52104008
+68	Unspecified	52104008
+0	Not applicable	52104008
+10111	Yes	52104009
+16	No	52104009
+77	Unspecified	52104009
+0	Not applicable	52104009
+10265	Yes	52104010
+57	No	52104010
+51	Unspecified	52104010
+105	Not applicable	52104010
+7349	Yes	52105001
+18	No	52105001
+18	Unspecified	52105001
+3	Not applicable	52105001
+7171	Yes	52105002
+16	No	52105002
+16	Unspecified	52105002
+96	Not applicable	52105002
+9901	Yes	52105003
+6	No	52105003
+36	Unspecified	52105003
+285	Not applicable	52105003
+9393	Yes	52105004
+12	No	52105004
+24	Unspecified	52105004
+0	Not applicable	52105004
+10501	Yes	52105005
+4	No	52105005
+26	Unspecified	52105005
+0	Not applicable	52105005
+7358	Yes	52105006
+53	No	52105006
+40	Unspecified	52105006
+216	Not applicable	52105006
+6760	Yes	52106001
+283	No	52106001
+63	Unspecified	52106001
+353	Not applicable	52106001
+7409	Yes	52106002
+474	No	52106002
+120	Unspecified	52106002
+836	Not applicable	52106002
+7971	Yes	52106003
+246	No	52106003
+65	Unspecified	52106003
+249	Not applicable	52106003
+8318	Yes	52106004
+8	No	52106004
+67	Unspecified	52106004
+140	Not applicable	52106004
+9320	Yes	52106005
+8	No	52106005
+20	Unspecified	52106005
+0	Not applicable	52106005
+8593	Yes	52106006
+207	No	52106006
+64	Unspecified	52106006
+250	Not applicable	52106006
+8490	Yes	52106007
+21	No	52106007
+40	Unspecified	52106007
+0	Not applicable	52106007
+7961	Yes	52106008
+8	No	52106008
+13	Unspecified	52106008
+0	Not applicable	52106008
+11913	Yes	52106009
+35	No	52106009
+67	Unspecified	52106009
+0	Not applicable	52106009
+10491	Yes	52106010
+38	No	52106010
+107	Unspecified	52106010
+0	Not applicable	52106010
+8758	Yes	52106011
+17	No	52106011
+22	Unspecified	52106011
+0	Not applicable	52106011
+9388	Yes	52106012
+229	No	52106012
+98	Unspecified	52106012
+189	Not applicable	52106012
+5328	Yes	52106013
+51	No	52106013
+14	Unspecified	52106013
+319	Not applicable	52106013
+8006	Yes	52106014
+1	No	52106014
+18	Unspecified	52106014
+0	Not applicable	52106014
+5771	Yes	52106015
+20	No	52106015
+13	Unspecified	52106015
+0	Not applicable	52106015
+6925	Yes	52106016
+237	No	52106016
+53	Unspecified	52106016
+304	Not applicable	52106016
+8218	Yes	52106017
+44	No	52106017
+95	Unspecified	52106017
+0	Not applicable	52106017
+6502	Yes	52106018
+178	No	52106018
+82	Unspecified	52106018
+1242	Not applicable	52106018
+5027	Yes	52106019
+258	No	52106019
+71	Unspecified	52106019
+448	Not applicable	52106019
+14530	Yes	52106020
+50	No	52106020
+260	Unspecified	52106020
+15	Not applicable	52106020
+7018	Yes	52106021
+23	No	52106021
+86	Unspecified	52106021
+0	Not applicable	52106021
+8160	Yes	52106022
+15	No	52106022
+21	Unspecified	52106022
+240	Not applicable	52106022
+6449	Yes	52106023
+23	No	52106023
+50	Unspecified	52106023
+0	Not applicable	52106023
+9688	Yes	52106024
+33	No	52106024
+69	Unspecified	52106024
+0	Not applicable	52106024
+9175	Yes	52106025
+38	No	52106025
+78	Unspecified	52106025
+86	Not applicable	52106025
+12728	Yes	52106026
+41	No	52106026
+53	Unspecified	52106026
+0	Not applicable	52106026
+10751	Yes	52106027
+20	No	52106027
+207	Unspecified	52106027
+111	Not applicable	52106027
+6876	Yes	52106028
+20	No	52106028
+42	Unspecified	52106028
+0	Not applicable	52106028
+10148	Yes	52106029
+33	No	52106029
+62	Unspecified	52106029
+0	Not applicable	52106029
+7135	Yes	52101001
+4	No	52101001
+47	Unspecified	52101001
+0	Not applicable	52101001
+7097	Yes	52101002
+3	No	52101002
+221	Unspecified	52101002
+0	Not applicable	52101002
+6185	Yes	52101003
+18	No	52101003
+27	Unspecified	52101003
+0	Not applicable	52101003
+7934	Yes	52101004
+18	No	52101004
+91	Unspecified	52101004
+0	Not applicable	52101004
+10568	Yes	52101005
+10	No	52101005
+49	Unspecified	52101005
+0	Not applicable	52101005
+9356	Yes	52101006
+2	No	52101006
+12	Unspecified	52101006
+0	Not applicable	52101006
+5832	Yes	52101007
+8	No	52101007
+43	Unspecified	52101007
+270	Not applicable	52101007
+6788	Yes	52101008
+9	No	52101008
+56	Unspecified	52101008
+0	Not applicable	52101008
+8307	Yes	52101009
+5	No	52101009
+62	Unspecified	52101009
+265	Not applicable	52101009
+6927	Yes	52101010
+14	No	52101010
+26	Unspecified	52101010
+14	Not applicable	52101010
+7428	Yes	52102001
+14	No	52102001
+13	Unspecified	52102001
+0	Not applicable	52102001
+9692	Yes	52102002
+19	No	52102002
+109	Unspecified	52102002
+85	Not applicable	52102002
+9003	Yes	52102003
+89	No	52102003
+45	Unspecified	52102003
+162	Not applicable	52102003
+6305	Yes	52102004
+77	No	52102004
+32	Unspecified	52102004
+449	Not applicable	52102004
+5624	Yes	52102005
+105	No	52102005
+42	Unspecified	52102005
+786	Not applicable	52102005
+5267	Yes	52102006
+34	No	52102006
+17	Unspecified	52102006
+760	Not applicable	52102006
+8172	Yes	52102007
+65	No	52102007
+81	Unspecified	52102007
+448	Not applicable	52102007
+9109	Yes	52102008
+16	No	52102008
+86	Unspecified	52102008
+0	Not applicable	52102008
+6681	Yes	52102009
+8	No	52102009
+36	Unspecified	52102009
+6	Not applicable	52102009
+7428	Yes	52102010
+265	No	52102010
+48	Unspecified	52102010
+272	Not applicable	52102010
+12258	Yes	52201001
+176	No	52201001
+72	Unspecified	52201001
+0	Not applicable	52201001
+5398	Yes	52201002
+100	No	52201002
+42	Unspecified	52201002
+395	Not applicable	52201002
+10127	Yes	52201003
+26	No	52201003
+32	Unspecified	52201003
+0	Not applicable	52201003
+9071	Yes	52201004
+61	No	52201004
+67	Unspecified	52201004
+26	Not applicable	52201004
+11003	Yes	52201005
+51	No	52201005
+103	Unspecified	52201005
+0	Not applicable	52201005
+7503	Yes	52201006
+7	No	52201006
+51	Unspecified	52201006
+0	Not applicable	52201006
+5141	Yes	52201007
+121	No	52201007
+44	Unspecified	52201007
+272	Not applicable	52201007
+6845	Yes	52201008
+5	No	52201008
+7	Unspecified	52201008
+0	Not applicable	52201008
+9554	Yes	52201009
+385	No	52201009
+42	Unspecified	52201009
+30	Not applicable	52201009
+6580	Yes	52201010
+19	No	52201010
+36	Unspecified	52201010
+0	Not applicable	52201010
+7357	Yes	52201011
+9	No	52201011
+27	Unspecified	52201011
+0	Not applicable	52201011
+7882	Yes	52201012
+40	No	52201012
+105	Unspecified	52201012
+0	Not applicable	52201012
+5235	Yes	52201013
+7	No	52201013
+62	Unspecified	52201013
+0	Not applicable	52201013
+6467	Yes	52202001
+1104	No	52202001
+90	Unspecified	52202001
+0	Not applicable	52202001
+1135	Yes	52202002
+108	No	52202002
+24	Unspecified	52202002
+0	Not applicable	52202002
+5266	Yes	52202003
+282	No	52202003
+73	Unspecified	52202003
+791	Not applicable	52202003
+8447	Yes	52202004
+698	No	52202004
+102	Unspecified	52202004
+55	Not applicable	52202004
+6151	Yes	52202005
+387	No	52202005
+105	Unspecified	52202005
+408	Not applicable	52202005
+5696	Yes	52202006
+274	No	52202006
+122	Unspecified	52202006
+1254	Not applicable	52202006
+6328	Yes	52202007
+453	No	52202007
+61	Unspecified	52202007
+822	Not applicable	52202007
+13320	Yes	52202008
+81	No	52202008
+106	Unspecified	52202008
+1	Not applicable	52202008
+9452	Yes	52202009
+73	No	52202009
+46	Unspecified	52202009
+0	Not applicable	52202009
+5254	Yes	52202010
+42	No	52202010
+12	Unspecified	52202010
+0	Not applicable	52202010
+7261	Yes	52202011
+46	No	52202011
+11	Unspecified	52202011
+2	Not applicable	52202011
+9950	Yes	52202012
+258	No	52202012
+84	Unspecified	52202012
+11	Not applicable	52202012
+10543	Yes	52203001
+231	No	52203001
+61	Unspecified	52203001
+578	Not applicable	52203001
+8220	Yes	52203002
+169	No	52203002
+74	Unspecified	52203002
+0	Not applicable	52203002
+6633	Yes	52203003
+75	No	52203003
+36	Unspecified	52203003
+172	Not applicable	52203003
+11030	Yes	52203004
+96	No	52203004
+183	Unspecified	52203004
+0	Not applicable	52203004
+8587	Yes	52204001
+24	No	52204001
+71	Unspecified	52204001
+2	Not applicable	52204001
+9457	Yes	52204002
+32	No	52204002
+58	Unspecified	52204002
+0	Not applicable	52204002
+7959	Yes	52204003
+32	No	52204003
+76	Unspecified	52204003
+2	Not applicable	52204003
+6747	Yes	52204004
+31	No	52204004
+28	Unspecified	52204004
+0	Not applicable	52204004
+18570	Yes	52205001
+41	No	52205001
+159	Unspecified	52205001
+0	Not applicable	52205001
+18206	Yes	52205002
+24	No	52205002
+204	Unspecified	52205002
+0	Not applicable	52205002
+15484	Yes	52205003
+8	No	52205003
+83	Unspecified	52205003
+0	Not applicable	52205003
+14016	Yes	52205004
+13	No	52205004
+178	Unspecified	52205004
+16	Not applicable	52205004
+15738	Yes	52205005
+14	No	52205005
+88	Unspecified	52205005
+0	Not applicable	52205005
+17222	Yes	52205006
+9	No	52205006
+51	Unspecified	52205006
+0	Not applicable	52205006
+17952	Yes	52205007
+28	No	52205007
+70	Unspecified	52205007
+0	Not applicable	52205007
+15168	Yes	52205008
+19	No	52205008
+103	Unspecified	52205008
+0	Not applicable	52205008
+14438	Yes	52205009
+22	No	52205009
+78	Unspecified	52205009
+0	Not applicable	52205009
+14008	Yes	52205010
+30	No	52205010
+114	Unspecified	52205010
+0	Not applicable	52205010
+19716	Yes	52205011
+108	No	52205011
+95	Unspecified	52205011
+27	Not applicable	52205011
+11639	Yes	52205012
+54	No	52205012
+82	Unspecified	52205012
+0	Not applicable	52205012
+21623	Yes	52205013
+113	No	52205013
+162	Unspecified	52205013
+55	Not applicable	52205013
+15272	Yes	52205014
+15	No	52205014
+30	Unspecified	52205014
+0	Not applicable	52205014
+18391	Yes	52205015
+88	No	52205015
+63	Unspecified	52205015
+0	Not applicable	52205015
+20782	Yes	52205016
+215	No	52205016
+234	Unspecified	52205016
+0	Not applicable	52205016
+21357	Yes	52205017
+91	No	52205017
+84	Unspecified	52205017
+0	Not applicable	52205017
+20302	Yes	52205018
+194	No	52205018
+192	Unspecified	52205018
+20	Not applicable	52205018
+14596	Yes	52205019
+49	No	52205019
+97	Unspecified	52205019
+1703	Not applicable	52205019
+13322	Yes	52205020
+104	No	52205020
+241	Unspecified	52205020
+0	Not applicable	52205020
+9785	Yes	52205021
+98	No	52205021
+90	Unspecified	52205021
+0	Not applicable	52205021
+14195	Yes	52205022
+125	No	52205022
+221	Unspecified	52205022
+124	Not applicable	52205022
+14157	Yes	52205023
+68	No	52205023
+105	Unspecified	52205023
+54	Not applicable	52205023
+15799	Yes	52205024
+187	No	52205024
+112	Unspecified	52205024
+83	Not applicable	52205024
+13382	Yes	52205025
+593	No	52205025
+129	Unspecified	52205025
+1356	Not applicable	52205025
+14142	Yes	52205026
+426	No	52205026
+215	Unspecified	52205026
+3003	Not applicable	52205026
+10146	Yes	52205027
+1702	No	52205027
+93	Unspecified	52205027
+1096	Not applicable	52205027
+20422	Yes	52205028
+66	No	52205028
+47	Unspecified	52205028
+46	Not applicable	52205028
+17865	Yes	52205029
+889	No	52205029
+228	Unspecified	52205029
+0	Not applicable	52205029
+19602	Yes	52205030
+356	No	52205030
+129	Unspecified	52205030
+0	Not applicable	52205030
+11708	Yes	52205031
+115	No	52205031
+128	Unspecified	52205031
+144	Not applicable	52205031
+14790	Yes	52205032
+525	No	52205032
+210	Unspecified	52205032
+447	Not applicable	52205032
+10011	Yes	52205033
+879	No	52205033
+93	Unspecified	52205033
+1926	Not applicable	52205033
+20936	Yes	52205034
+368	No	52205034
+104	Unspecified	52205034
+0	Not applicable	52205034
+16448	Yes	52205035
+299	No	52205035
+39	Unspecified	52205035
+57	Not applicable	52205035
+17179	Yes	52205036
+891	No	52205036
+137	Unspecified	52205036
+1272	Not applicable	52205036
+14589	Yes	52205037
+427	No	52205037
+110	Unspecified	52205037
+297	Not applicable	52205037
+11318	Yes	52206001
+11	No	52206001
+25	Unspecified	52206001
+109	Not applicable	52206001
+10097	Yes	52206002
+23	No	52206002
+29	Unspecified	52206002
+62	Not applicable	52206002
+7254	Yes	52206003
+180	No	52206003
+30	Unspecified	52206003
+127	Not applicable	52206003
+8406	Yes	52206004
+380	No	52206004
+44	Unspecified	52206004
+366	Not applicable	52206004
+8414	Yes	52206005
+3	No	52206005
+44	Unspecified	52206005
+0	Not applicable	52206005
+8721	Yes	52206006
+68	No	52206006
+48	Unspecified	52206006
+74	Not applicable	52206006
+7235	Yes	52206007
+8	No	52206007
+66	Unspecified	52206007
+0	Not applicable	52206007
+6307	Yes	52207001
+187	No	52207001
+54	Unspecified	52207001
+289	Not applicable	52207001
+9950	Yes	52207002
+278	No	52207002
+57	Unspecified	52207002
+0	Not applicable	52207002
+13316	Yes	52207003
+145	No	52207003
+58	Unspecified	52207003
+1093	Not applicable	52207003
+3574	Yes	52207004
+199	No	52207004
+24	Unspecified	52207004
+25	Not applicable	52207004
+8804	Yes	52207005
+8	No	52207005
+54	Unspecified	52207005
+0	Not applicable	52207005
+10491	Yes	52207006
+59	No	52207006
+30	Unspecified	52207006
+5	Not applicable	52207006
+10497	Yes	52207007
+21	No	52207007
+51	Unspecified	52207007
+216	Not applicable	52207007
+8519	Yes	52302001
+18	No	52302001
+31	Unspecified	52302001
+0	Not applicable	52302001
+7311	Yes	52302002
+46	No	52302002
+21	Unspecified	52302002
+0	Not applicable	52302002
+10392	Yes	52302003
+56	No	52302003
+109	Unspecified	52302003
+0	Not applicable	52302003
+5610	Yes	52302004
+14	No	52302004
+12	Unspecified	52302004
+0	Not applicable	52302004
+8777	Yes	52302005
+18	No	52302005
+79	Unspecified	52302005
+0	Not applicable	52302005
+9153	Yes	52302006
+286	No	52302006
+108	Unspecified	52302006
+0	Not applicable	52302006
+8663	Yes	52302007
+6	No	52302007
+35	Unspecified	52302007
+0	Not applicable	52302007
+6650	Yes	52302008
+25	No	52302008
+13	Unspecified	52302008
+0	Not applicable	52302008
+10139	Yes	52302009
+227	No	52302009
+49	Unspecified	52302009
+0	Not applicable	52302009
+6145	Yes	52302010
+433	No	52302010
+41	Unspecified	52302010
+30	Not applicable	52302010
+6446	Yes	52302011
+189	No	52302011
+28	Unspecified	52302011
+933	Not applicable	52302011
+5800	Yes	52302012
+361	No	52302012
+63	Unspecified	52302012
+272	Not applicable	52302012
+12539	Yes	52302013
+11	No	52302013
+36	Unspecified	52302013
+0	Not applicable	52302013
+11771	Yes	52302014
+16	No	52302014
+71	Unspecified	52302014
+240	Not applicable	52302014
+7866	Yes	52302015
+4	No	52302015
+90	Unspecified	52302015
+0	Not applicable	52302015
+7047	Yes	52302016
+2	No	52302016
+252	Unspecified	52302016
+0	Not applicable	52302016
+7910	Yes	52302017
+5	No	52302017
+18	Unspecified	52302017
+0	Not applicable	52302017
+8170	Yes	52302018
+2	No	52302018
+55	Unspecified	52302018
+0	Not applicable	52302018
+7647	Yes	52302019
+6	No	52302019
+55	Unspecified	52302019
+0	Not applicable	52302019
+10914	Yes	52302020
+82	No	52302020
+82	Unspecified	52302020
+0	Not applicable	52302020
+8441	Yes	52302021
+18	No	52302021
+79	Unspecified	52302021
+0	Not applicable	52302021
+10192	Yes	52302022
+173	No	52302022
+18	Unspecified	52302022
+1	Not applicable	52302022
+7613	Yes	52302023
+5	No	52302023
+37	Unspecified	52302023
+0	Not applicable	52302023
+8270	Yes	52302024
+35	No	52302024
+91	Unspecified	52302024
+0	Not applicable	52302024
+9268	Yes	52302025
+92	No	52302025
+46	Unspecified	52302025
+195	Not applicable	52302025
+5617	Yes	52302026
+98	No	52302026
+81	Unspecified	52302026
+594	Not applicable	52302026
+14368	Yes	52302027
+53	No	52302027
+51	Unspecified	52302027
+0	Not applicable	52302027
+10096	Yes	52303001
+15	No	52303001
+146	Unspecified	52303001
+0	Not applicable	52303001
+11256	Yes	52303002
+60	No	52303002
+52	Unspecified	52303002
+100	Not applicable	52303002
+9823	Yes	52303003
+16	No	52303003
+70	Unspecified	52303003
+0	Not applicable	52303003
+11094	Yes	52303004
+5	No	52303004
+21	Unspecified	52303004
+0	Not applicable	52303004
+8880	Yes	52303005
+8	No	52303005
+78	Unspecified	52303005
+0	Not applicable	52303005
+9596	Yes	52303006
+6	No	52303006
+85	Unspecified	52303006
+0	Not applicable	52303006
+10359	Yes	52303007
+0	No	52303007
+34	Unspecified	52303007
+0	Not applicable	52303007
+11121	Yes	52303008
+8	No	52303008
+28	Unspecified	52303008
+0	Not applicable	52303008
+10937	Yes	52303009
+2	No	52303009
+28	Unspecified	52303009
+0	Not applicable	52303009
+9157	Yes	52303010
+4	No	52303010
+32	Unspecified	52303010
+0	Not applicable	52303010
+9433	Yes	52304001
+25	No	52304001
+49	Unspecified	52304001
+0	Not applicable	52304001
+8339	Yes	52304002
+7	No	52304002
+24	Unspecified	52304002
+0	Not applicable	52304002
+9902	Yes	52304003
+128	No	52304003
+40	Unspecified	52304003
+4	Not applicable	52304003
+7279	Yes	52304004
+328	No	52304004
+71	Unspecified	52304004
+546	Not applicable	52304004
+9594	Yes	52304005
+9	No	52304005
+54	Unspecified	52304005
+5	Not applicable	52304005
+7442	Yes	52304006
+54	No	52304006
+43	Unspecified	52304006
+0	Not applicable	52304006
+9230	Yes	52304007
+42	No	52304007
+187	Unspecified	52304007
+90	Not applicable	52304007
+11274	Yes	52304008
+38	No	52304008
+13	Unspecified	52304008
+12	Not applicable	52304008
+8731	Yes	52304009
+16	No	52304009
+11	Unspecified	52304009
+132	Not applicable	52304009
+9002	Yes	52305001
+226	No	52305001
+35	Unspecified	52305001
+32	Not applicable	52305001
+10859	Yes	52305002
+39	No	52305002
+35	Unspecified	52305002
+132	Not applicable	52305002
+9035	Yes	52305003
+14	No	52305003
+64	Unspecified	52305003
+0	Not applicable	52305003
+9164	Yes	52305004
+30	No	52305004
+69	Unspecified	52305004
+0	Not applicable	52305004
+8429	Yes	52305005
+13	No	52305005
+114	Unspecified	52305005
+0	Not applicable	52305005
+9068	Yes	52305006
+50	No	52305006
+19	Unspecified	52305006
+87	Not applicable	52305006
+8698	Yes	52305007
+11	No	52305007
+11	Unspecified	52305007
+0	Not applicable	52305007
+8897	Yes	52305008
+8	No	52305008
+13	Unspecified	52305008
+0	Not applicable	52305008
+8604	Yes	52305009
+90	No	52305009
+17	Unspecified	52305009
+0	Not applicable	52305009
+9074	Yes	52305010
+92	No	52305010
+16	Unspecified	52305010
+144	Not applicable	52305010
+10786	Yes	52305011
+56	No	52305011
+43	Unspecified	52305011
+0	Not applicable	52305011
+9489	Yes	52305012
+176	No	52305012
+86	Unspecified	52305012
+364	Not applicable	52305012
+9259	Yes	52305013
+20	No	52305013
+37	Unspecified	52305013
+0	Not applicable	52305013
+8466	Yes	52305014
+39	No	52305014
+70	Unspecified	52305014
+989	Not applicable	52305014
+8281	Yes	52306001
+23	No	52306001
+29	Unspecified	52306001
+109	Not applicable	52306001
+7600	Yes	52306002
+13	No	52306002
+24	Unspecified	52306002
+0	Not applicable	52306002
+7341	Yes	52306003
+1	No	52306003
+56	Unspecified	52306003
+0	Not applicable	52306003
+9034	Yes	52306004
+29	No	52306004
+165	Unspecified	52306004
+3	Not applicable	52306004
+7004	Yes	52306005
+29	No	52306005
+13	Unspecified	52306005
+14	Not applicable	52306005
+8550	Yes	52306006
+1	No	52306006
+30	Unspecified	52306006
+0	Not applicable	52306006
+7206	Yes	52306007
+20	No	52306007
+11	Unspecified	52306007
+3	Not applicable	52306007
+9358	Yes	52306008
+14	No	52306008
+53	Unspecified	52306008
+0	Not applicable	52306008
+10279	Yes	52306009
+13	No	52306009
+42	Unspecified	52306009
+0	Not applicable	52306009
+11838	Yes	52306010
+21	No	52306010
+47	Unspecified	52306010
+0	Not applicable	52306010
+8754	Yes	52306011
+4	No	52306011
+28	Unspecified	52306011
+0	Not applicable	52306011
+6951	Yes	52306012
+30	No	52306012
+30	Unspecified	52306012
+0	Not applicable	52306012
+9762	Yes	52306013
+31	No	52306013
+97	Unspecified	52306013
+133	Not applicable	52306013
+4642	Yes	52701001
+26	No	52701001
+11	Unspecified	52701001
+30	Not applicable	52701001
+7584	Yes	52701002
+80	No	52701002
+14	Unspecified	52701002
+66	Not applicable	52701002
+11044	Yes	52701003
+36	No	52701003
+291	Unspecified	52701003
+28	Not applicable	52701003
+11735	Yes	52701004
+208	No	52701004
+92	Unspecified	52701004
+54	Not applicable	52701004
+8500	Yes	52701005
+42	No	52701005
+86	Unspecified	52701005
+260	Not applicable	52701005
+12923	Yes	52701006
+45	No	52701006
+96	Unspecified	52701006
+0	Not applicable	52701006
+9707	Yes	52701007
+47	No	52701007
+42	Unspecified	52701007
+0	Not applicable	52701007
+8444	Yes	52701008
+23	No	52701008
+27	Unspecified	52701008
+0	Not applicable	52701008
+11764	Yes	52701009
+34	No	52701009
+39	Unspecified	52701009
+5	Not applicable	52701009
+7086	Yes	52701010
+37	No	52701010
+28	Unspecified	52701010
+37	Not applicable	52701010
+9472	Yes	52701011
+89	No	52701011
+27	Unspecified	52701011
+0	Not applicable	52701011
+7280	Yes	52701012
+30	No	52701012
+22	Unspecified	52701012
+0	Not applicable	52701012
+8830	Yes	52701013
+12	No	52701013
+76	Unspecified	52701013
+0	Not applicable	52701013
+8054	Yes	52701014
+11	No	52701014
+47	Unspecified	52701014
+0	Not applicable	52701014
+10200	Yes	52701015
+24	No	52701015
+177	Unspecified	52701015
+0	Not applicable	52701015
+7585	Yes	52701016
+37	No	52701016
+53	Unspecified	52701016
+0	Not applicable	52701016
+9163	Yes	52701017
+110	No	52701017
+33	Unspecified	52701017
+190	Not applicable	52701017
+6964	Yes	52702001
+9	No	52702001
+171	Unspecified	52702001
+29	Not applicable	52702001
+7984	Yes	52702002
+22	No	52702002
+43	Unspecified	52702002
+95	Not applicable	52702002
+9345	Yes	52702003
+14	No	52702003
+62	Unspecified	52702003
+0	Not applicable	52702003
+8237	Yes	52702004
+29	No	52702004
+26	Unspecified	52702004
+0	Not applicable	52702004
+13502	Yes	52702005
+54	No	52702005
+120	Unspecified	52702005
+0	Not applicable	52702005
+6886	Yes	52702006
+26	No	52702006
+27	Unspecified	52702006
+0	Not applicable	52702006
+9375	Yes	52702007
+141	No	52702007
+40	Unspecified	52702007
+18	Not applicable	52702007
+8429	Yes	52702008
+17	No	52702008
+58	Unspecified	52702008
+0	Not applicable	52702008
+9438	Yes	52702009
+14	No	52702009
+54	Unspecified	52702009
+0	Not applicable	52702009
+10960	Yes	52702010
+13	No	52702010
+113	Unspecified	52702010
+0	Not applicable	52702010
+7759	Yes	52702011
+178	No	52702011
+104	Unspecified	52702011
+53	Not applicable	52702011
+10337	Yes	52702012
+44	No	52702012
+19	Unspecified	52702012
+0	Not applicable	52702012
+10688	Yes	52702013
+39	No	52702013
+12	Unspecified	52702013
+36	Not applicable	52702013
+11164	Yes	52702014
+106	No	52702014
+184	Unspecified	52702014
+180	Not applicable	52702014
+8307	Yes	52702015
+95	No	52702015
+64	Unspecified	52702015
+0	Not applicable	52702015
+9401	Yes	52702016
+26	No	52702016
+67	Unspecified	52702016
+0	Not applicable	52702016
+10375	Yes	52702017
+17	No	52702017
+33	Unspecified	52702017
+0	Not applicable	52702017
+7868	Yes	52702018
+14	No	52702018
+57	Unspecified	52702018
+0	Not applicable	52702018
+8672	Yes	52702019
+8	No	52702019
+132	Unspecified	52702019
+0	Not applicable	52702019
+7714	Yes	52702020
+231	No	52702020
+95	Unspecified	52702020
+108	Not applicable	52702020
+9751	Yes	52703001
+30	No	52703001
+260	Unspecified	52703001
+32	Not applicable	52703001
+7143	Yes	52703002
+79	No	52703002
+104	Unspecified	52703002
+13	Not applicable	52703002
+5976	Yes	52703003
+330	No	52703003
+46	Unspecified	52703003
+461	Not applicable	52703003
+10715	Yes	52703004
+72	No	52703004
+223	Unspecified	52703004
+23	Not applicable	52703004
+6529	Yes	52704001
+4	No	52704001
+24	Unspecified	52704001
+91	Not applicable	52704001
+4620	Yes	52704002
+56	No	52704002
+96	Unspecified	52704002
+314	Not applicable	52704002
+12150	Yes	52704003
+22	No	52704003
+94	Unspecified	52704003
+25	Not applicable	52704003
+11121	Yes	52704004
+7	No	52704004
+141	Unspecified	52704004
+0	Not applicable	52704004
+7599	Yes	52704005
+21	No	52704005
+36	Unspecified	52704005
+4	Not applicable	52704005
+8249	Yes	52704006
+11	No	52704006
+89	Unspecified	52704006
+0	Not applicable	52704006
+8116	Yes	52704007
+5	No	52704007
+101	Unspecified	52704007
+0	Not applicable	52704007
+12256	Yes	52704008
+18	No	52704008
+109	Unspecified	52704008
+16	Not applicable	52704008
+5772	Yes	52705001
+41	No	52705001
+27	Unspecified	52705001
+0	Not applicable	52705001
+14933	Yes	52705002
+191	No	52705002
+178	Unspecified	52705002
+0	Not applicable	52705002
+15090	Yes	52705003
+50	No	52705003
+85	Unspecified	52705003
+246	Not applicable	52705003
+5683	Yes	52705004
+369	No	52705004
+50	Unspecified	52705004
+404	Not applicable	52705004
+3442	Yes	52705005
+198	No	52705005
+41	Unspecified	52705005
+118	Not applicable	52705005
+14552	Yes	52705006
+123	No	52705006
+209	Unspecified	52705006
+121	Not applicable	52705006
+8102	Yes	52705007
+8	No	52705007
+106	Unspecified	52705007
+0	Not applicable	52705007
+9728	Yes	52705008
+55	No	52705008
+26	Unspecified	52705008
+0	Not applicable	52705008
+6979	Yes	52705009
+6	No	52705009
+48	Unspecified	52705009
+0	Not applicable	52705009
+9503	Yes	52705010
+16	No	52705010
+52	Unspecified	52705010
+8	Not applicable	52705010
+8052	Yes	52705011
+18	No	52705011
+36	Unspecified	52705011
+0	Not applicable	52705011
+9009	Yes	52705012
+13	No	52705012
+52	Unspecified	52705012
+0	Not applicable	52705012
+4954	Yes	52705013
+10	No	52705013
+219	Unspecified	52705013
+0	Not applicable	52705013
+7018	Yes	52705014
+11	No	52705014
+66	Unspecified	52705014
+0	Not applicable	52705014
+7420	Yes	52705015
+10	No	52705015
+63	Unspecified	52705015
+0	Not applicable	52705015
+11701	Yes	52705016
+120	No	52705016
+77	Unspecified	52705016
+0	Not applicable	52705016
+8212	Yes	52705017
+17	No	52705017
+396	Unspecified	52705017
+11	Not applicable	52705017
+12328	Yes	52705018
+12	No	52705018
+100	Unspecified	52705018
+0	Not applicable	52705018
+8864	Yes	52705019
+5	No	52705019
+76	Unspecified	52705019
+0	Not applicable	52705019
+11600	Yes	52802001
+149	No	52802001
+101	Unspecified	52802001
+296	Not applicable	52802001
+11137	Yes	52802002
+271	No	52802002
+69	Unspecified	52802002
+776	Not applicable	52802002
+8671	Yes	52802003
+109	No	52802003
+47	Unspecified	52802003
+230	Not applicable	52802003
+12222	Yes	52802004
+104	No	52802004
+117	Unspecified	52802004
+30	Not applicable	52802004
+15330	Yes	52802005
+164	No	52802005
+70	Unspecified	52802005
+0	Not applicable	52802005
+12228	Yes	52802006
+70	No	52802006
+246	Unspecified	52802006
+0	Not applicable	52802006
+5859	Yes	52802007
+19	No	52802007
+18	Unspecified	52802007
+0	Not applicable	52802007
+5082	Yes	52802008
+38	No	52802008
+18	Unspecified	52802008
+0	Not applicable	52802008
+13269	Yes	52802009
+194	No	52802009
+87	Unspecified	52802009
+8	Not applicable	52802009
+11139	Yes	52802010
+40	No	52802010
+131	Unspecified	52802010
+0	Not applicable	52802010
+8972	Yes	52802011
+18	No	52802011
+141	Unspecified	52802011
+0	Not applicable	52802011
+8468	Yes	52802012
+76	No	52802012
+30	Unspecified	52802012
+0	Not applicable	52802012
+14663	Yes	52802013
+79	No	52802013
+185	Unspecified	52802013
+0	Not applicable	52802013
+12056	Yes	52802014
+190	No	52802014
+69	Unspecified	52802014
+0	Not applicable	52802014
+11998	Yes	52802015
+152	No	52802015
+81	Unspecified	52802015
+22	Not applicable	52802015
+7692	Yes	52802016
+75	No	52802016
+34	Unspecified	52802016
+0	Not applicable	52802016
+10243	Yes	52802017
+96	No	52802017
+124	Unspecified	52802017
+0	Not applicable	52802017
+14590	Yes	52802018
+50	No	52802018
+248	Unspecified	52802018
+0	Not applicable	52802018
+11935	Yes	52802019
+74	No	52802019
+11	Unspecified	52802019
+0	Not applicable	52802019
+8476	Yes	52802020
+36	No	52802020
+39	Unspecified	52802020
+0	Not applicable	52802020
+6916	Yes	52802021
+7	No	52802021
+27	Unspecified	52802021
+0	Not applicable	52802021
+9021	Yes	52802022
+77	No	52802022
+83	Unspecified	52802022
+0	Not applicable	52802022
+9820	Yes	52802023
+384	No	52802023
+57	Unspecified	52802023
+442	Not applicable	52802023
+13812	Yes	52802024
+268	No	52802024
+119	Unspecified	52802024
+4133	Not applicable	52802024
+13650	Yes	52802025
+123	No	52802025
+88	Unspecified	52802025
+10	Not applicable	52802025
+11384	Yes	52802026
+70	No	52802026
+69	Unspecified	52802026
+0	Not applicable	52802026
+8824	Yes	52802027
+23	No	52802027
+26	Unspecified	52802027
+0	Not applicable	52802027
+6823	Yes	52802028
+60	No	52802028
+33	Unspecified	52802028
+524	Not applicable	52802028
+15055	Yes	52802029
+277	No	52802029
+35	Unspecified	52802029
+0	Not applicable	52802029
+7225	Yes	52802030
+61	No	52802030
+115	Unspecified	52802030
+3958	Not applicable	52802030
+10486	Yes	52806001
+28	No	52806001
+116	Unspecified	52806001
+0	Not applicable	52806001
+7065	Yes	52806002
+2	No	52806002
+77	Unspecified	52806002
+0	Not applicable	52806002
+7522	Yes	52806003
+10	No	52806003
+119	Unspecified	52806003
+81	Not applicable	52806003
+6329	Yes	52806004
+2	No	52806004
+39	Unspecified	52806004
+0	Not applicable	52806004
+8272	Yes	52806005
+109	No	52806005
+29	Unspecified	52806005
+353	Not applicable	52806005
+8704	Yes	52806006
+8	No	52806006
+41	Unspecified	52806006
+326	Not applicable	52806006
+8455	Yes	52806007
+12	No	52806007
+97	Unspecified	52806007
+0	Not applicable	52806007
+6738	Yes	52806008
+7	No	52806008
+27	Unspecified	52806008
+80	Not applicable	52806008
+7478	Yes	52806009
+9	No	52806009
+40	Unspecified	52806009
+0	Not applicable	52806009
+8390	Yes	52806010
+4	No	52806010
+80	Unspecified	52806010
+197	Not applicable	52806010
+6378	Yes	52806011
+5	No	52806011
+49	Unspecified	52806011
+33	Not applicable	52806011
+8786	Yes	52806012
+14	No	52806012
+78	Unspecified	52806012
+0	Not applicable	52806012
+9497	Yes	52806013
+2	No	52806013
+95	Unspecified	52806013
+0	Not applicable	52806013
+8042	Yes	52806014
+18	No	52806014
+87	Unspecified	52806014
+0	Not applicable	52806014
+5233	Yes	52801001
+18	No	52801001
+41	Unspecified	52801001
+0	Not applicable	52801001
+5043	Yes	52801002
+156	No	52801002
+85	Unspecified	52801002
+70	Not applicable	52801002
+7547	Yes	52801003
+20	No	52801003
+61	Unspecified	52801003
+0	Not applicable	52801003
+10469	Yes	52801004
+140	No	52801004
+168	Unspecified	52801004
+0	Not applicable	52801004
+7828	Yes	52801005
+8	No	52801005
+44	Unspecified	52801005
+0	Not applicable	52801005
+7431	Yes	52801006
+73	No	52801006
+149	Unspecified	52801006
+0	Not applicable	52801006
+5731	Yes	52801007
+23	No	52801007
+33	Unspecified	52801007
+54	Not applicable	52801007
+10571	Yes	52801008
+34	No	52801008
+61	Unspecified	52801008
+0	Not applicable	52801008
+10192	Yes	52801009
+8	No	52801009
+171	Unspecified	52801009
+0	Not applicable	52801009
+7286	Yes	52801010
+5	No	52801010
+57	Unspecified	52801010
+0	Not applicable	52801010
+8069	Yes	52801011
+13	No	52801011
+265	Unspecified	52801011
+0	Not applicable	52801011
+8120	Yes	52801012
+13	No	52801012
+107	Unspecified	52801012
+0	Not applicable	52801012
+7240	Yes	52801013
+0	No	52801013
+24	Unspecified	52801013
+0	Not applicable	52801013
+10348	Yes	52801014
+85	No	52801014
+264	Unspecified	52801014
+0	Not applicable	52801014
+9455	Yes	52801015
+18	No	52801015
+55	Unspecified	52801015
+0	Not applicable	52801015
+6874	Yes	52803001
+9	No	52803001
+119	Unspecified	52803001
+0	Not applicable	52803001
+9438	Yes	52803002
+8	No	52803002
+74	Unspecified	52803002
+0	Not applicable	52803002
+10065	Yes	52803003
+1	No	52803003
+36	Unspecified	52803003
+192	Not applicable	52803003
+8041	Yes	52803004
+0	No	52803004
+22	Unspecified	52803004
+0	Not applicable	52803004
+10638	Yes	52803005
+17	No	52803005
+52	Unspecified	52803005
+0	Not applicable	52803005
+9396	Yes	52803006
+19	No	52803006
+40	Unspecified	52803006
+0	Not applicable	52803006
+9527	Yes	52803007
+107	No	52803007
+186	Unspecified	52803007
+0	Not applicable	52803007
+9204	Yes	52803008
+9	No	52803008
+261	Unspecified	52803008
+0	Not applicable	52803008
+7296	Yes	52804001
+8	No	52804001
+147	Unspecified	52804001
+0	Not applicable	52804001
+7889	Yes	52804002
+3	No	52804002
+44	Unspecified	52804002
+0	Not applicable	52804002
+7142	Yes	52804003
+15	No	52804003
+77	Unspecified	52804003
+0	Not applicable	52804003
+8736	Yes	52804004
+23	No	52804004
+153	Unspecified	52804004
+0	Not applicable	52804004
+9664	Yes	52804005
+11	No	52804005
+111	Unspecified	52804005
+0	Not applicable	52804005
+6852	Yes	52804006
+14	No	52804006
+65	Unspecified	52804006
+0	Not applicable	52804006
+7466	Yes	52804007
+186	No	52804007
+158	Unspecified	52804007
+0	Not applicable	52804007
+9088	Yes	52804008
+16	No	52804008
+102	Unspecified	52804008
+0	Not applicable	52804008
+8155	Yes	52804009
+34	No	52804009
+22	Unspecified	52804009
+0	Not applicable	52804009
+9232	Yes	52804010
+12	No	52804010
+102	Unspecified	52804010
+0	Not applicable	52804010
+8056	Yes	52804011
+190	No	52804011
+98	Unspecified	52804011
+0	Not applicable	52804011
+5576	Yes	52804012
+27	No	52804012
+35	Unspecified	52804012
+0	Not applicable	52804012
+8888	Yes	52804013
+99	No	52804013
+77	Unspecified	52804013
+0	Not applicable	52804013
+8570	Yes	52804014
+7	No	52804014
+134	Unspecified	52804014
+0	Not applicable	52804014
+9390	Yes	52804015
+21	No	52804015
+53	Unspecified	52804015
+0	Not applicable	52804015
+11738	Yes	52804016
+15	No	52804016
+98	Unspecified	52804016
+0	Not applicable	52804016
+6805	Yes	52804017
+22	No	52804017
+44	Unspecified	52804017
+0	Not applicable	52804017
+3790	Yes	52804018
+115	No	52804018
+23	Unspecified	52804018
+0	Not applicable	52804018
+6455	Yes	52804019
+306	No	52804019
+117	Unspecified	52804019
+371	Not applicable	52804019
+10412	Yes	52804020
+60	No	52804020
+216	Unspecified	52804020
+0	Not applicable	52804020
+6847	Yes	52804021
+6	No	52804021
+87	Unspecified	52804021
+0	Not applicable	52804021
+7068	Yes	52804022
+5	No	52804022
+78	Unspecified	52804022
+0	Not applicable	52804022
+8901	Yes	52804023
+7	No	52804023
+115	Unspecified	52804023
+0	Not applicable	52804023
+9332	Yes	52804024
+5	No	52804024
+101	Unspecified	52804024
+0	Not applicable	52804024
+6816	Yes	52804025
+3	No	52804025
+71	Unspecified	52804025
+0	Not applicable	52804025
+9392	Yes	52804026
+75	No	52804026
+63	Unspecified	52804026
+0	Not applicable	52804026
+8039	Yes	52805001
+197	No	52805001
+23	Unspecified	52805001
+0	Not applicable	52805001
+7008	Yes	52805002
+59	No	52805002
+50	Unspecified	52805002
+0	Not applicable	52805002
+8785	Yes	52805003
+5	No	52805003
+56	Unspecified	52805003
+0	Not applicable	52805003
+7658	Yes	52805004
+38	No	52805004
+26	Unspecified	52805004
+0	Not applicable	52805004
+9905	Yes	52805005
+8	No	52805005
+47	Unspecified	52805005
+0	Not applicable	52805005
+5873	Yes	52805006
+7	No	52805006
+34	Unspecified	52805006
+0	Not applicable	52805006
+10101	Yes	54301001
+19	No	54301001
+66	Unspecified	54301001
+0	Not applicable	54301001
+9430	Yes	54301002
+10	No	54301002
+60	Unspecified	54301002
+5	Not applicable	54301002
+9822	Yes	54301003
+11	No	54301003
+80	Unspecified	54301003
+0	Not applicable	54301003
+9264	Yes	54301004
+6	No	54301004
+77	Unspecified	54301004
+0	Not applicable	54301004
+8265	Yes	54301005
+30	No	54301005
+74	Unspecified	54301005
+0	Not applicable	54301005
+9331	Yes	54301006
+119	No	54301006
+74	Unspecified	54301006
+20	Not applicable	54301006
+7782	Yes	54301007
+12	No	54301007
+92	Unspecified	54301007
+0	Not applicable	54301007
+8918	Yes	54301008
+9	No	54301008
+29	Unspecified	54301008
+0	Not applicable	54301008
+10140	Yes	54301009
+80	No	54301009
+34	Unspecified	54301009
+15	Not applicable	54301009
+8720	Yes	54301010
+8	No	54301010
+29	Unspecified	54301010
+0	Not applicable	54301010
+7549	Yes	54301011
+48	No	54301011
+86	Unspecified	54301011
+135	Not applicable	54301011
+3166	Yes	54302001
+37	No	54302001
+21	Unspecified	54302001
+0	Not applicable	54302001
+3682	Yes	54302002
+86	No	54302002
+16	Unspecified	54302002
+225	Not applicable	54302002
+2991	Yes	54302003
+68	No	54302003
+8	Unspecified	54302003
+40	Not applicable	54302003
+2364	Yes	54302004
+49	No	54302004
+8	Unspecified	54302004
+137	Not applicable	54302004
+11255	Yes	54303001
+82	No	54303001
+103	Unspecified	54303001
+0	Not applicable	54303001
+6944	Yes	54303002
+93	No	54303002
+39	Unspecified	54303002
+251	Not applicable	54303002
+5937	Yes	54303003
+161	No	54303003
+33	Unspecified	54303003
+645	Not applicable	54303003
+11490	Yes	54303004
+93	No	54303004
+30	Unspecified	54303004
+1	Not applicable	54303004
+3311	Yes	54303005
+56	No	54303005
+71	Unspecified	54303005
+0	Not applicable	54303005
+9467	Yes	54303006
+79	No	54303006
+80	Unspecified	54303006
+3	Not applicable	54303006
+6832	Yes	54303007
+26	No	54303007
+36	Unspecified	54303007
+42	Not applicable	54303007
+8706	Yes	54303008
+76	No	54303008
+39	Unspecified	54303008
+0	Not applicable	54303008
+7568	Yes	54304001
+15	No	54304001
+44	Unspecified	54304001
+67	Not applicable	54304001
+5263	Yes	54304002
+78	No	54304002
+22	Unspecified	54304002
+332	Not applicable	54304002
+9052	Yes	54304003
+7	No	54304003
+77	Unspecified	54304003
+0	Not applicable	54304003
+10873	Yes	54304004
+154	No	54304004
+106	Unspecified	54304004
+193	Not applicable	54304004
+8609	Yes	54304005
+4	No	54304005
+70	Unspecified	54304005
+0	Not applicable	54304005
+7509	Yes	54304006
+11	No	54304006
+60	Unspecified	54304006
+0	Not applicable	54304006
+7153	Yes	54304007
+14	No	54304007
+136	Unspecified	54304007
+0	Not applicable	54304007
+11582	Yes	54304008
+2	No	54304008
+61	Unspecified	54304008
+0	Not applicable	54304008
+6691	Yes	54304009
+26	No	54304009
+36	Unspecified	54304009
+0	Not applicable	54304009
+8052	Yes	54304010
+11	No	54304010
+67	Unspecified	54304010
+0	Not applicable	54304010
+7703	Yes	54304011
+14	No	54304011
+15	Unspecified	54304011
+9	Not applicable	54304011
+9935	Yes	54304012
+10	No	54304012
+60	Unspecified	54304012
+0	Not applicable	54304012
+9545	Yes	54305001
+19	No	54305001
+38	Unspecified	54305001
+0	Not applicable	54305001
+9242	Yes	54305002
+52	No	54305002
+54	Unspecified	54305002
+0	Not applicable	54305002
+7373	Yes	54305003
+5	No	54305003
+48	Unspecified	54305003
+20	Not applicable	54305003
+8209	Yes	54305004
+18	No	54305004
+230	Unspecified	54305004
+0	Not applicable	54305004
+9504	Yes	54305005
+13	No	54305005
+60	Unspecified	54305005
+0	Not applicable	54305005
+10413	Yes	54305006
+11	No	54305006
+77	Unspecified	54305006
+0	Not applicable	54305006
+8975	Yes	54305007
+40	No	54305007
+95	Unspecified	54305007
+0	Not applicable	54305007
+8629	Yes	54305008
+6	No	54305008
+379	Unspecified	54305008
+15	Not applicable	54305008
+7336	Yes	54305009
+14	No	54305009
+100	Unspecified	54305009
+0	Not applicable	54305009
+9971	Yes	54305010
+25	No	54305010
+35	Unspecified	54305010
+0	Not applicable	54305010
+6988	Yes	54305011
+25	No	54305011
+70	Unspecified	54305011
+93	Not applicable	54305011
+9543	Yes	54305012
+35	No	54305012
+16	Unspecified	54305012
+189	Not applicable	54305012
+10701	Yes	54305013
+25	No	54305013
+88	Unspecified	54305013
+0	Not applicable	54305013
+10234	Yes	54305014
+17	No	54305014
+107	Unspecified	54305014
+0	Not applicable	54305014
+7467	Yes	54305015
+11	No	54305015
+19	Unspecified	54305015
+0	Not applicable	54305015
+8331	Yes	54305016
+199	No	54305016
+68	Unspecified	54305016
+144	Not applicable	54305016
+8921	Yes	54305017
+24	No	54305017
+138	Unspecified	54305017
+105	Not applicable	54305017
+8787	Yes	54305018
+10	No	54305018
+79	Unspecified	54305018
+0	Not applicable	54305018
+7462	Yes	54305019
+8	No	54305019
+41	Unspecified	54305019
+207	Not applicable	54305019
+9464	Yes	54305020
+6	No	54305020
+131	Unspecified	54305020
+0	Not applicable	54305020
+6235	Yes	52401001
+36	No	52401001
+20	Unspecified	52401001
+660	Not applicable	52401001
+11986	Yes	52401002
+163	No	52401002
+42	Unspecified	52401002
+939	Not applicable	52401002
+14983	Yes	52401003
+34	No	52401003
+76	Unspecified	52401003
+0	Not applicable	52401003
+8089	Yes	52401004
+53	No	52401004
+38	Unspecified	52401004
+210	Not applicable	52401004
+9756	Yes	52401005
+56	No	52401005
+13	Unspecified	52401005
+0	Not applicable	52401005
+10780	Yes	52401006
+218	No	52401006
+131	Unspecified	52401006
+345	Not applicable	52401006
+13060	Yes	52402001
+27	No	52402001
+156	Unspecified	52402001
+0	Not applicable	52402001
+9348	Yes	52402002
+9	No	52402002
+81	Unspecified	52402002
+0	Not applicable	52402002
+11139	Yes	52402003
+5	No	52402003
+21	Unspecified	52402003
+0	Not applicable	52402003
+8672	Yes	52402004
+4	No	52402004
+43	Unspecified	52402004
+0	Not applicable	52402004
+9343	Yes	52402005
+34	No	52402005
+30	Unspecified	52402005
+85	Not applicable	52402005
+7328	Yes	52402006
+19	No	52402006
+28	Unspecified	52402006
+0	Not applicable	52402006
+8807	Yes	52402007
+3	No	52402007
+8	Unspecified	52402007
+0	Not applicable	52402007
+8704	Yes	52402008
+3	No	52402008
+55	Unspecified	52402008
+0	Not applicable	52402008
+9462	Yes	52402009
+31	No	52402009
+24	Unspecified	52402009
+5	Not applicable	52402009
+10580	Yes	52402010
+5	No	52402010
+70	Unspecified	52402010
+145	Not applicable	52402010
+11984	Yes	52402011
+16	No	52402011
+42	Unspecified	52402011
+0	Not applicable	52402011
+8291	Yes	52402012
+5	No	52402012
+17	Unspecified	52402012
+0	Not applicable	52402012
+9671	Yes	52402013
+1	No	52402013
+22	Unspecified	52402013
+0	Not applicable	52402013
+9471	Yes	52402014
+176	No	52402014
+38	Unspecified	52402014
+495	Not applicable	52402014
+11013	Yes	52402015
+9	No	52402015
+43	Unspecified	52402015
+0	Not applicable	52402015
+8043	Yes	52402016
+6	No	52402016
+11	Unspecified	52402016
+0	Not applicable	52402016
+8587	Yes	52402017
+19	No	52402017
+8	Unspecified	52402017
+0	Not applicable	52402017
+9855	Yes	52404001
+1	No	52404001
+88	Unspecified	52404001
+0	Not applicable	52404001
+9242	Yes	52404002
+5	No	52404002
+55	Unspecified	52404002
+0	Not applicable	52404002
+10093	Yes	52404003
+5	No	52404003
+41	Unspecified	52404003
+0	Not applicable	52404003
+9764	Yes	52404004
+36	No	52404004
+55	Unspecified	52404004
+273	Not applicable	52404004
+13346	Yes	52404005
+76	No	52404005
+92	Unspecified	52404005
+0	Not applicable	52404005
+9989	Yes	52404006
+6	No	52404006
+160	Unspecified	52404006
+0	Not applicable	52404006
+7663	Yes	52404007
+8	No	52404007
+21	Unspecified	52404007
+0	Not applicable	52404007
+7125	Yes	52404008
+5	No	52404008
+86	Unspecified	52404008
+0	Not applicable	52404008
+9202	Yes	52404009
+7	No	52404009
+83	Unspecified	52404009
+0	Not applicable	52404009
+8795	Yes	52404010
+20	No	52404010
+23	Unspecified	52404010
+0	Not applicable	52404010
+9068	Yes	52404011
+5	No	52404011
+46	Unspecified	52404011
+0	Not applicable	52404011
+8360	Yes	52404012
+12	No	52404012
+61	Unspecified	52404012
+0	Not applicable	52404012
+7825	Yes	52404013
+5	No	52404013
+52	Unspecified	52404013
+0	Not applicable	52404013
+10219	Yes	52404014
+27	No	52404014
+44	Unspecified	52404014
+277	Not applicable	52404014
+8063	Yes	52404015
+9	No	52404015
+23	Unspecified	52404015
+0	Not applicable	52404015
+8878	Yes	52404016
+6	No	52404016
+85	Unspecified	52404016
+0	Not applicable	52404016
+10299	Yes	52404017
+51	No	52404017
+86	Unspecified	52404017
+180	Not applicable	52404017
+7697	Yes	52404018
+0	No	52404018
+48	Unspecified	52404018
+21	Not applicable	52404018
+9550	Yes	52404019
+40	No	52404019
+106	Unspecified	52404019
+216	Not applicable	52404019
+10555	Yes	52405001
+4	No	52405001
+50	Unspecified	52405001
+0	Not applicable	52405001
+9782	Yes	52405002
+50	No	52405002
+55	Unspecified	52405002
+0	Not applicable	52405002
+9559	Yes	52405003
+3	No	52405003
+34	Unspecified	52405003
+0	Not applicable	52405003
+8015	Yes	52405004
+7	No	52405004
+53	Unspecified	52405004
+5	Not applicable	52405004
+8752	Yes	52405005
+148	No	52405005
+51	Unspecified	52405005
+694	Not applicable	52405005
+8614	Yes	52405006
+14	No	52405006
+90	Unspecified	52405006
+78	Not applicable	52405006
+11234	Yes	52405007
+38	No	52405007
+36	Unspecified	52405007
+5	Not applicable	52405007
+11840	Yes	52405008
+13	No	52405008
+55	Unspecified	52405008
+2	Not applicable	52405008
+4481	Yes	52405009
+78	No	52405009
+39	Unspecified	52405009
+276	Not applicable	52405009
+7672	Yes	52405010
+101	No	52405010
+50	Unspecified	52405010
+850	Not applicable	52405010
+9433	Yes	52405011
+47	No	52405011
+77	Unspecified	52405011
+151	Not applicable	52405011
+15079	Yes	52502001
+97	No	52502001
+112	Unspecified	52502001
+555	Not applicable	52502001
+10073	Yes	52502002
+161	No	52502002
+107	Unspecified	52502002
+13	Not applicable	52502002
+7543	Yes	52502003
+394	No	52502003
+39	Unspecified	52502003
+205	Not applicable	52502003
+8582	Yes	52502004
+539	No	52502004
+54	Unspecified	52502004
+18	Not applicable	52502004
+9708	Yes	52502005
+190	No	52502005
+60	Unspecified	52502005
+0	Not applicable	52502005
+21794	Yes	52502006
+40	No	52502006
+199	Unspecified	52502006
+9	Not applicable	52502006
+16592	Yes	52502007
+36	No	52502007
+59	Unspecified	52502007
+0	Not applicable	52502007
+8789	Yes	52502008
+54	No	52502008
+281	Unspecified	52502008
+0	Not applicable	52502008
+14406	Yes	52502009
+60	No	52502009
+47	Unspecified	52502009
+0	Not applicable	52502009
+10535	Yes	52502010
+92	No	52502010
+14	Unspecified	52502010
+0	Not applicable	52502010
+10254	Yes	52502011
+130	No	52502011
+60	Unspecified	52502011
+0	Not applicable	52502011
+9310	Yes	52502012
+24	No	52502012
+86	Unspecified	52502012
+0	Not applicable	52502012
+8474	Yes	52502013
+48	No	52502013
+20	Unspecified	52502013
+0	Not applicable	52502013
+14247	Yes	52502014
+108	No	52502014
+27	Unspecified	52502014
+0	Not applicable	52502014
+11172	Yes	52502015
+41	No	52502015
+23	Unspecified	52502015
+0	Not applicable	52502015
+14681	Yes	52502016
+59	No	52502016
+55	Unspecified	52502016
+0	Not applicable	52502016
+11042	Yes	52502017
+91	No	52502017
+46	Unspecified	52502017
+0	Not applicable	52502017
+12770	Yes	52502018
+40	No	52502018
+25	Unspecified	52502018
+0	Not applicable	52502018
+9825	Yes	52502019
+170	No	52502019
+23	Unspecified	52502019
+0	Not applicable	52502019
+14486	Yes	52502020
+126	No	52502020
+72	Unspecified	52502020
+0	Not applicable	52502020
+13287	Yes	52502021
+41	No	52502021
+55	Unspecified	52502021
+482	Not applicable	52502021
+8435	Yes	52502022
+29	No	52502022
+18	Unspecified	52502022
+295	Not applicable	52502022
+9642	Yes	52502023
+82	No	52502023
+64	Unspecified	52502023
+6	Not applicable	52502023
+12523	Yes	52502024
+47	No	52502024
+146	Unspecified	52502024
+1	Not applicable	52502024
+11615	Yes	52502025
+351	No	52502025
+90	Unspecified	52502025
+1413	Not applicable	52502025
+7160	Yes	52502026
+14	No	52502026
+7	Unspecified	52502026
+0	Not applicable	52502026
+10853	Yes	52502027
+143	No	52502027
+35	Unspecified	52502027
+0	Not applicable	52502027
+7294	Yes	52502028
+54	No	52502028
+50	Unspecified	52502028
+0	Not applicable	52502028
+10949	Yes	52502029
+88	No	52502029
+28	Unspecified	52502029
+0	Not applicable	52502029
+12408	Yes	52502030
+33	No	52502030
+49	Unspecified	52502030
+0	Not applicable	52502030
+11295	Yes	52502031
+47	No	52502031
+37	Unspecified	52502031
+0	Not applicable	52502031
+10766	Yes	52503001
+80	No	52503001
+62	Unspecified	52503001
+0	Not applicable	52503001
+4842	Yes	52503002
+39	No	52503002
+17	Unspecified	52503002
+392	Not applicable	52503002
+8433	Yes	52503003
+13	No	52503003
+26	Unspecified	52503003
+971	Not applicable	52503003
+8736	Yes	52503004
+10	No	52503004
+54	Unspecified	52503004
+0	Not applicable	52503004
+9484	Yes	52504001
+31	No	52504001
+26	Unspecified	52504001
+208	Not applicable	52504001
+7707	Yes	52504002
+143	No	52504002
+36	Unspecified	52504002
+209	Not applicable	52504002
+9038	Yes	52504003
+12	No	52504003
+51	Unspecified	52504003
+0	Not applicable	52504003
+9180	Yes	52504004
+13	No	52504004
+20	Unspecified	52504004
+0	Not applicable	52504004
+7402	Yes	52504005
+3	No	52504005
+19	Unspecified	52504005
+0	Not applicable	52504005
+9455	Yes	52504006
+33	No	52504006
+49	Unspecified	52504006
+0	Not applicable	52504006
+8073	Yes	52504007
+2	No	52504007
+18	Unspecified	52504007
+0	Not applicable	52504007
+9390	Yes	52504008
+26	No	52504008
+29	Unspecified	52504008
+0	Not applicable	52504008
+9770	Yes	52504009
+6	No	52504009
+12	Unspecified	52504009
+0	Not applicable	52504009
+11466	Yes	52504010
+2	No	52504010
+15	Unspecified	52504010
+0	Not applicable	52504010
+10135	Yes	52504011
+26	No	52504011
+71	Unspecified	52504011
+0	Not applicable	52504011
+9790	Yes	52603001
+21	No	52603001
+54	Unspecified	52603001
+141	Not applicable	52603001
+7745	Yes	52603002
+10	No	52603002
+93	Unspecified	52603002
+674	Not applicable	52603002
+10892	Yes	52603003
+20	No	52603003
+96	Unspecified	52603003
+168	Not applicable	52603003
+6897	Yes	52603004
+9	No	52603004
+71	Unspecified	52603004
+0	Not applicable	52603004
+10569	Yes	52603005
+59	No	52603005
+132	Unspecified	52603005
+0	Not applicable	52603005
+10204	Yes	52603006
+31	No	52603006
+74	Unspecified	52603006
+26	Not applicable	52603006
+10830	Yes	52603007
+78	No	52603007
+15	Unspecified	52603007
+23	Not applicable	52603007
+3661	Yes	52603008
+218	No	52603008
+21	Unspecified	52603008
+931	Not applicable	52603008
+5979	Yes	52603009
+105	No	52603009
+42	Unspecified	52603009
+228	Not applicable	52603009
+2698	Yes	52603010
+0	No	52603010
+10	Unspecified	52603010
+0	Not applicable	52603010
+10593	Yes	52603011
+125	No	52603011
+88	Unspecified	52603011
+554	Not applicable	52603011
+11053	Yes	52603012
+32	No	52603012
+85	Unspecified	52603012
+1540	Not applicable	52603012
+13985	Yes	52603013
+62	No	52603013
+203	Unspecified	52603013
+5	Not applicable	52603013
+8483	Yes	52603014
+7	No	52603014
+114	Unspecified	52603014
+0	Not applicable	52603014
+8079	Yes	52603015
+7	No	52603015
+21	Unspecified	52603015
+0	Not applicable	52603015
+9329	Yes	52603016
+4	No	52603016
+85	Unspecified	52603016
+0	Not applicable	52603016
+11816	Yes	52603017
+13	No	52603017
+55	Unspecified	52603017
+0	Not applicable	52603017
+7972	Yes	52603018
+54	No	52603018
+61	Unspecified	52603018
+0	Not applicable	52603018
+7319	Yes	52603019
+20	No	52603019
+101	Unspecified	52603019
+0	Not applicable	52603019
+11020	Yes	52603020
+61	No	52603020
+40	Unspecified	52603020
+0	Not applicable	52603020
+12470	Yes	52603021
+33	No	52603021
+103	Unspecified	52603021
+0	Not applicable	52603021
+12324	Yes	52603022
+167	No	52603022
+108	Unspecified	52603022
+256	Not applicable	52603022
+12497	Yes	52601001
+137	No	52601001
+77	Unspecified	52601001
+0	Not applicable	52601001
+13881	Yes	52601002
+106	No	52601002
+154	Unspecified	52601002
+0	Not applicable	52601002
+10540	Yes	52601003
+168	No	52601003
+106	Unspecified	52601003
+139	Not applicable	52601003
+9987	Yes	52601004
+97	No	52601004
+29	Unspecified	52601004
+0	Not applicable	52601004
+8302	Yes	52601005
+18	No	52601005
+206	Unspecified	52601005
+0	Not applicable	52601005
+8013	Yes	52601006
+15	No	52601006
+107	Unspecified	52601006
+0	Not applicable	52601006
+8547	Yes	52601007
+13	No	52601007
+30	Unspecified	52601007
+17	Not applicable	52601007
+8760	Yes	52601008
+15	No	52601008
+92	Unspecified	52601008
+0	Not applicable	52601008
+11373	Yes	52602001
+30	No	52602001
+101	Unspecified	52602001
+0	Not applicable	52602001
+8396	Yes	52602002
+217	No	52602002
+50	Unspecified	52602002
+0	Not applicable	52602002
+7970	Yes	52602003
+20	No	52602003
+73	Unspecified	52602003
+0	Not applicable	52602003
+10636	Yes	52602004
+44	No	52602004
+45	Unspecified	52602004
+12	Not applicable	52602004
+8054	Yes	52602005
+151	No	52602005
+115	Unspecified	52602005
+0	Not applicable	52602005
+7692	Yes	52602006
+10	No	52602006
+14	Unspecified	52602006
+0	Not applicable	52602006
+7208	Yes	52602007
+18	No	52602007
+75	Unspecified	52602007
+0	Not applicable	52602007
+7653	Yes	52602008
+4	No	52602008
+205	Unspecified	52602008
+0	Not applicable	52602008
+11817	Yes	52602009
+72	No	52602009
+94	Unspecified	52602009
+0	Not applicable	52602009
+10581	Yes	52602010
+227	No	52602010
+62	Unspecified	52602010
+10	Not applicable	52602010
+10223	Yes	52602011
+546	No	52602011
+122	Unspecified	52602011
+0	Not applicable	52602011
+9111	Yes	52602012
+69	No	52602012
+42	Unspecified	52602012
+152	Not applicable	52602012
+5059	Yes	52602013
+40	No	52602013
+61	Unspecified	52602013
+0	Not applicable	52602013
+8540	Yes	52602014
+176	No	52602014
+56	Unspecified	52602014
+14	Not applicable	52602014
+10518	Yes	52605001
+14	No	52605001
+67	Unspecified	52605001
+0	Not applicable	52605001
+10478	Yes	52605002
+3	No	52605002
+36	Unspecified	52605002
+0	Not applicable	52605002
+10515	Yes	52605003
+7	No	52605003
+365	Unspecified	52605003
+0	Not applicable	52605003
+12169	Yes	52605004
+35	No	52605004
+51	Unspecified	52605004
+0	Not applicable	52605004
+9385	Yes	52605005
+5	No	52605005
+58	Unspecified	52605005
+0	Not applicable	52605005
+7499	Yes	52605006
+36	No	52605006
+34	Unspecified	52605006
+0	Not applicable	52605006
+9848	Yes	52605007
+13	No	52605007
+81	Unspecified	52605007
+0	Not applicable	52605007
+8226	Yes	52605008
+5	No	52605008
+45	Unspecified	52605008
+0	Not applicable	52605008
+12913	Yes	52605009
+114	No	52605009
+94	Unspecified	52605009
+0	Not applicable	52605009
+8565	Yes	52605010
+12	No	52605010
+350	Unspecified	52605010
+0	Not applicable	52605010
+9967	Yes	52605011
+5	No	52605011
+50	Unspecified	52605011
+0	Not applicable	52605011
+10070	Yes	52605012
+7	No	52605012
+87	Unspecified	52605012
+0	Not applicable	52605012
+6505	Yes	52605013
+1	No	52605013
+40	Unspecified	52605013
+0	Not applicable	52605013
+11090	Yes	52605014
+2	No	52605014
+175	Unspecified	52605014
+0	Not applicable	52605014
+7305	Yes	52605015
+9	No	52605015
+206	Unspecified	52605015
+0	Not applicable	52605015
+13535	Yes	52605016
+114	No	52605016
+83	Unspecified	52605016
+1607	Not applicable	52605016
+8388	Yes	52605017
+16	No	52605017
+48	Unspecified	52605017
+2	Not applicable	52605017
+10373	Yes	52605018
+8	No	52605018
+95	Unspecified	52605018
+0	Not applicable	52605018
+375	Yes	52605019
+26	No	52605019
+1	Unspecified	52605019
+0	Not applicable	52605019
+5679	Yes	52605020
+22	No	52605020
+106	Unspecified	52605020
+1	Not applicable	52605020
+7310	Yes	52605021
+0	No	52605021
+59	Unspecified	52605021
+0	Not applicable	52605021
+6335	Yes	52606001
+2	No	52606001
+85	Unspecified	52606001
+0	Not applicable	52606001
+9392	Yes	52606002
+39	No	52606002
+229	Unspecified	52606002
+0	Not applicable	52606002
+6515	Yes	52606003
+11	No	52606003
+48	Unspecified	52606003
+109	Not applicable	52606003
+7342	Yes	52606004
+20	No	52606004
+62	Unspecified	52606004
+10	Not applicable	52606004
+8931	Yes	52606005
+2	No	52606005
+150	Unspecified	52606005
+0	Not applicable	52606005
+6564	Yes	52606006
+3	No	52606006
+14	Unspecified	52606006
+0	Not applicable	52606006
+6643	Yes	52606007
+6	No	52606007
+100	Unspecified	52606007
+0	Not applicable	52606007
+9208	Yes	52606008
+19	No	52606008
+49	Unspecified	52606008
+193	Not applicable	52606008
+7950	Yes	52606009
+13	No	52606009
+21	Unspecified	52606009
+190	Not applicable	52606009
+6203	Yes	52606010
+2	No	52606010
+24	Unspecified	52606010
+0	Not applicable	52606010
+8672	Yes	52606011
+43	No	52606011
+69	Unspecified	52606011
+0	Not applicable	52606011
+5965	Yes	52606012
+122	No	52606012
+31	Unspecified	52606012
+146	Not applicable	52606012
+9153	Yes	52606013
+38	No	52606013
+86	Unspecified	52606013
+23	Not applicable	52606013
+9188	Yes	52606014
+3	No	52606014
+57	Unspecified	52606014
+0	Not applicable	52606014
+8920	Yes	52606015
+4	No	52606015
+52	Unspecified	52606015
+0	Not applicable	52606015
+8854	Yes	52606016
+3	No	52606016
+27	Unspecified	52606016
+189	Not applicable	52606016
+8625	Yes	52606017
+24	No	52606017
+45	Unspecified	52606017
+0	Not applicable	52606017
+8510	Yes	52606018
+94	No	52606018
+35	Unspecified	52606018
+431	Not applicable	52606018
+4418	Yes	52606019
+73	No	52606019
+41	Unspecified	52606019
+0	Not applicable	52606019
+8056	Yes	52606020
+4	No	52606020
+47	Unspecified	52606020
+10	Not applicable	52606020
+7672	Yes	52606021
+7	No	52606021
+36	Unspecified	52606021
+739	Not applicable	52606021
+7819	Yes	52606022
+24	No	52606022
+68	Unspecified	52606022
+0	Not applicable	52606022
+6622	Yes	52606023
+4	No	52606023
+15	Unspecified	52606023
+0	Not applicable	52606023
+6668	Yes	52606024
+4	No	52606024
+102	Unspecified	52606024
+0	Not applicable	52606024
+8316	Yes	52904001
+15	No	52904001
+20	Unspecified	52904001
+148	Not applicable	52904001
+9731	Yes	52904002
+2	No	52904002
+72	Unspecified	52904002
+0	Not applicable	52904002
+8286	Yes	52904003
+18	No	52904003
+71	Unspecified	52904003
+0	Not applicable	52904003
+10063	Yes	52904004
+7	No	52904004
+103	Unspecified	52904004
+0	Not applicable	52904004
+10538	Yes	52904005
+1	No	52904005
+29	Unspecified	52904005
+18	Not applicable	52904005
+7480	Yes	52904006
+10	No	52904006
+35	Unspecified	52904006
+0	Not applicable	52904006
+7900	Yes	52904007
+6	No	52904007
+70	Unspecified	52904007
+0	Not applicable	52904007
+9031	Yes	52904008
+18	No	52904008
+183	Unspecified	52904008
+0	Not applicable	52904008
+7860	Yes	52904009
+9	No	52904009
+64	Unspecified	52904009
+0	Not applicable	52904009
+9469	Yes	52904010
+31	No	52904010
+154	Unspecified	52904010
+161	Not applicable	52904010
+6764	Yes	52904011
+6	No	52904011
+33	Unspecified	52904011
+0	Not applicable	52904011
+8099	Yes	52901001
+17	No	52901001
+57	Unspecified	52901001
+0	Not applicable	52901001
+8319	Yes	52901002
+16	No	52901002
+168	Unspecified	52901002
+0	Not applicable	52901002
+7828	Yes	52901003
+152	No	52901003
+56	Unspecified	52901003
+127	Not applicable	52901003
+9587	Yes	52901004
+223	No	52901004
+42	Unspecified	52901004
+0	Not applicable	52901004
+6982	Yes	52901005
+1	No	52901005
+70	Unspecified	52901005
+0	Not applicable	52901005
+6839	Yes	52901006
+12	No	52901006
+8	Unspecified	52901006
+0	Not applicable	52901006
+9241	Yes	52901007
+200	No	52901007
+39	Unspecified	52901007
+36	Not applicable	52901007
+9008	Yes	52901008
+179	No	52901008
+28	Unspecified	52901008
+141	Not applicable	52901008
+9045	Yes	52901009
+17	No	52901009
+161	Unspecified	52901009
+0	Not applicable	52901009
+8076	Yes	52901010
+83	No	52901010
+56	Unspecified	52901010
+0	Not applicable	52901010
+7914	Yes	52901011
+13	No	52901011
+10	Unspecified	52901011
+0	Not applicable	52901011
+12848	Yes	52901012
+72	No	52901012
+37	Unspecified	52901012
+0	Not applicable	52901012
+3421	Yes	52901013
+80	No	52901013
+59	Unspecified	52901013
+0	Not applicable	52901013
+9684	Yes	52901014
+57	No	52901014
+32	Unspecified	52901014
+0	Not applicable	52901014
+3933	Yes	52901015
+67	No	52901015
+29	Unspecified	52901015
+30	Not applicable	52901015
+9120	Yes	52901016
+30	No	52901016
+35	Unspecified	52901016
+0	Not applicable	52901016
+5588	Yes	52901017
+81	No	52901017
+21	Unspecified	52901017
+0	Not applicable	52901017
+7392	Yes	52902001
+30	No	52902001
+23	Unspecified	52902001
+0	Not applicable	52902001
+9150	Yes	52902002
+112	No	52902002
+21	Unspecified	52902002
+0	Not applicable	52902002
+5862	Yes	52902003
+238	No	52902003
+28	Unspecified	52902003
+0	Not applicable	52902003
+8278	Yes	52902004
+376	No	52902004
+66	Unspecified	52902004
+0	Not applicable	52902004
+7506	Yes	52902005
+311	No	52902005
+50	Unspecified	52902005
+0	Not applicable	52902005
+6914	Yes	52902006
+548	No	52902006
+100	Unspecified	52902006
+49	Not applicable	52902006
+10919	Yes	52902007
+187	No	52902007
+52	Unspecified	52902007
+0	Not applicable	52902007
+7711	Yes	52902008
+163	No	52902008
+22	Unspecified	52902008
+0	Not applicable	52902008
+7290	Yes	52902009
+151	No	52902009
+30	Unspecified	52902009
+0	Not applicable	52902009
+9652	Yes	52902010
+509	No	52902010
+54	Unspecified	52902010
+0	Not applicable	52902010
+8873	Yes	52902011
+264	No	52902011
+61	Unspecified	52902011
+0	Not applicable	52902011
+10670	Yes	52902012
+703	No	52902012
+77	Unspecified	52902012
+0	Not applicable	52902012
+8390	Yes	52902013
+111	No	52902013
+27	Unspecified	52902013
+0	Not applicable	52902013
+7924	Yes	52902014
+264	No	52902014
+22	Unspecified	52902014
+0	Not applicable	52902014
+11369	Yes	52902015
+271	No	52902015
+76	Unspecified	52902015
+0	Not applicable	52902015
+9383	Yes	52902016
+117	No	52902016
+39	Unspecified	52902016
+30	Not applicable	52902016
+6693	Yes	52902017
+105	No	52902017
+9	Unspecified	52902017
+0	Not applicable	52902017
+7718	Yes	52902018
+355	No	52902018
+7	Unspecified	52902018
+0	Not applicable	52902018
+7425	Yes	52902019
+124	No	52902019
+54	Unspecified	52902019
+359	Not applicable	52902019
+3401	Yes	52902020
+89	No	52902020
+16	Unspecified	52902020
+0	Not applicable	52902020
+6702	Yes	52902021
+36	No	52902021
+28	Unspecified	52902021
+225	Not applicable	52902021
+10982	Yes	52902022
+498	No	52902022
+123	Unspecified	52902022
+90	Not applicable	52902022
+10881	Yes	52902023
+233	No	52902023
+46	Unspecified	52902023
+0	Not applicable	52902023
+10724	Yes	52902024
+710	No	52902024
+69	Unspecified	52902024
+0	Not applicable	52902024
+8115	Yes	52902025
+28	No	52902025
+68	Unspecified	52902025
+0	Not applicable	52902025
+5703	Yes	52902026
+410	No	52902026
+18	Unspecified	52902026
+0	Not applicable	52902026
+6541	Yes	52902027
+20	No	52902027
+4	Unspecified	52902027
+108	Not applicable	52902027
+6311	Yes	52903001
+54	No	52903001
+68	Unspecified	52903001
+97	Not applicable	52903001
+5547	Yes	52903002
+11	No	52903002
+12	Unspecified	52903002
+0	Not applicable	52903002
+8874	Yes	52903003
+131	No	52903003
+37	Unspecified	52903003
+0	Not applicable	52903003
+6266	Yes	52903004
+0	No	52903004
+151	Unspecified	52903004
+0	Not applicable	52903004
+6368	Yes	52903005
+5	No	52903005
+32	Unspecified	52903005
+0	Not applicable	52903005
+8895	Yes	52903006
+38	No	52903006
+45	Unspecified	52903006
+52	Not applicable	52903006
+4984	Yes	52903007
+7	No	52903007
+16	Unspecified	52903007
+0	Not applicable	52903007
+7393	Yes	52903008
+6	No	52903008
+50	Unspecified	52903008
+0	Not applicable	52903008
+5018	Yes	52903009
+4	No	52903009
+63	Unspecified	52903009
+0	Not applicable	52903009
+8280	Yes	52903010
+5	No	52903010
+25	Unspecified	52903010
+0	Not applicable	52903010
+7682	Yes	52903011
+3	No	52903011
+62	Unspecified	52903011
+0	Not applicable	52903011
+10733	Yes	52903012
+16	No	52903012
+121	Unspecified	52903012
+0	Not applicable	52903012
+8716	Yes	52903013
+4	No	52903013
+163	Unspecified	52903013
+0	Not applicable	52903013
+6574	Yes	52903014
+4	No	52903014
+34	Unspecified	52903014
+0	Not applicable	52903014
+6677	Yes	52903015
+32	No	52903015
+15	Unspecified	52903015
+0	Not applicable	52903015
+7345	Yes	52903016
+7	No	52903016
+24	Unspecified	52903016
+409	Not applicable	52903016
+7278	Yes	52903017
+1	No	52903017
+38	Unspecified	52903017
+0	Not applicable	52903017
+7033	Yes	52903018
+11	No	52903018
+33	Unspecified	52903018
+0	Not applicable	52903018
+8904	Yes	52903019
+6	No	52903019
+49	Unspecified	52903019
+0	Not applicable	52903019
+30315	Yes	59500001
+159	No	59500001
+330	Unspecified	59500001
+15	Not applicable	59500001
+29931	Yes	59500002
+35	No	59500002
+469	Unspecified	59500002
+0	Not applicable	59500002
+41905	Yes	59500003
+104	No	59500003
+267	Unspecified	59500003
+129	Not applicable	59500003
+37532	Yes	59500004
+143	No	59500004
+281	Unspecified	59500004
+9	Not applicable	59500004
+28287	Yes	59500005
+112	No	59500005
+192	Unspecified	59500005
+10	Not applicable	59500005
+27123	Yes	59500006
+101	No	59500006
+578	Unspecified	59500006
+3	Not applicable	59500006
+29108	Yes	59500007
+143	No	59500007
+399	Unspecified	59500007
+0	Not applicable	59500007
+33702	Yes	59500008
+930	No	59500008
+455	Unspecified	59500008
+453	Not applicable	59500008
+30608	Yes	59500009
+957	No	59500009
+254	Unspecified	59500009
+104	Not applicable	59500009
+20557	Yes	59500010
+1242	No	59500010
+275	Unspecified	59500010
+175	Not applicable	59500010
+47440	Yes	59500011
+664	No	59500011
+368	Unspecified	59500011
+232	Not applicable	59500011
+26638	Yes	59500012
+127	No	59500012
+274	Unspecified	59500012
+15	Not applicable	59500012
+34432	Yes	59500013
+921	No	59500013
+356	Unspecified	59500013
+0	Not applicable	59500013
+25839	Yes	59500014
+657	No	59500014
+333	Unspecified	59500014
+0	Not applicable	59500014
+37440	Yes	59500015
+1029	No	59500015
+572	Unspecified	59500015
+303	Not applicable	59500015
+34634	Yes	59500016
+880	No	59500016
+443	Unspecified	59500016
+619	Not applicable	59500016
+35936	Yes	59500017
+427	No	59500017
+225	Unspecified	59500017
+144	Not applicable	59500017
+26100	Yes	59500018
+1503	No	59500018
+358	Unspecified	59500018
+499	Not applicable	59500018
+42646	Yes	59500019
+417	No	59500019
+333	Unspecified	59500019
+125	Not applicable	59500019
+23018	Yes	59500020
+21	No	59500020
+309	Unspecified	59500020
+188	Not applicable	59500020
+25986	Yes	59500021
+494	No	59500021
+179	Unspecified	59500021
+323	Not applicable	59500021
+25017	Yes	59500022
+298	No	59500022
+218	Unspecified	59500022
+0	Not applicable	59500022
+27403	Yes	59500023
+933	No	59500023
+359	Unspecified	59500023
+1895	Not applicable	59500023
+30600	Yes	59500024
+992	No	59500024
+356	Unspecified	59500024
+1507	Not applicable	59500024
+36267	Yes	59500025
+1317	No	59500025
+397	Unspecified	59500025
+1043	Not applicable	59500025
+25350	Yes	59500026
+6393	No	59500026
+373	Unspecified	59500026
+2485	Not applicable	59500026
+19220	Yes	59500027
+1470	No	59500027
+217	Unspecified	59500027
+2066	Not applicable	59500027
+18072	Yes	59500028
+3979	No	59500028
+270	Unspecified	59500028
+849	Not applicable	59500028
+32951	Yes	59500029
+529	No	59500029
+336	Unspecified	59500029
+15	Not applicable	59500029
+36103	Yes	59500030
+970	No	59500030
+387	Unspecified	59500030
+85	Not applicable	59500030
+29417	Yes	59500031
+1353	No	59500031
+391	Unspecified	59500031
+1950	Not applicable	59500031
+18259	Yes	59500032
+2672	No	59500032
+307	Unspecified	59500032
+887	Not applicable	59500032
+26996	Yes	59500033
+2524	No	59500033
+293	Unspecified	59500033
+2115	Not applicable	59500033
+35604	Yes	59500034
+1134	No	59500034
+283	Unspecified	59500034
+192	Not applicable	59500034
+28137	Yes	59500035
+1740	No	59500035
+520	Unspecified	59500035
+689	Not applicable	59500035
+28814	Yes	59500036
+1723	No	59500036
+449	Unspecified	59500036
+173	Not applicable	59500036
+39995	Yes	59500037
+205	No	59500037
+477	Unspecified	59500037
+101	Not applicable	59500037
+38433	Yes	59500038
+216	No	59500038
+303	Unspecified	59500038
+0	Not applicable	59500038
+24430	Yes	59500039
+33	No	59500039
+151	Unspecified	59500039
+0	Not applicable	59500039
+29328	Yes	59500040
+149	No	59500040
+566	Unspecified	59500040
+0	Not applicable	59500040
+34578	Yes	59500041
+199	No	59500041
+448	Unspecified	59500041
+108	Not applicable	59500041
+38170	Yes	59500042
+203	No	59500042
+402	Unspecified	59500042
+69	Not applicable	59500042
+32855	Yes	59500043
+77	No	59500043
+280	Unspecified	59500043
+0	Not applicable	59500043
+40946	Yes	59500044
+220	No	59500044
+428	Unspecified	59500044
+384	Not applicable	59500044
+37857	Yes	59500045
+133	No	59500045
+528	Unspecified	59500045
+175	Not applicable	59500045
+29220	Yes	59500046
+78	No	59500046
+160	Unspecified	59500046
+0	Not applicable	59500046
+30622	Yes	59500047
+87	No	59500047
+215	Unspecified	59500047
+0	Not applicable	59500047
+29088	Yes	59500048
+84	No	59500048
+210	Unspecified	59500048
+698	Not applicable	59500048
+35970	Yes	59500049
+96	No	59500049
+102	Unspecified	59500049
+0	Not applicable	59500049
+28303	Yes	59500050
+73	No	59500050
+156	Unspecified	59500050
+14	Not applicable	59500050
+39391	Yes	59500051
+462	No	59500051
+350	Unspecified	59500051
+13	Not applicable	59500051
+34555	Yes	59500052
+107	No	59500052
+123	Unspecified	59500052
+509	Not applicable	59500052
+34585	Yes	59500053
+875	No	59500053
+358	Unspecified	59500053
+39	Not applicable	59500053
+30797	Yes	59500054
+225	No	59500054
+156	Unspecified	59500054
+0	Not applicable	59500054
+42429	Yes	59500055
+177	No	59500055
+449	Unspecified	59500055
+0	Not applicable	59500055
+41720	Yes	59500056
+203	No	59500056
+279	Unspecified	59500056
+33	Not applicable	59500056
+34607	Yes	59500057
+769	No	59500057
+256	Unspecified	59500057
+0	Not applicable	59500057
+36628	Yes	59500058
+574	No	59500058
+333	Unspecified	59500058
+131	Not applicable	59500058
+42736	Yes	59500059
+713	No	59500059
+454	Unspecified	59500059
+1440	Not applicable	59500059
+35925	Yes	59500060
+757	No	59500060
+438	Unspecified	59500060
+116	Not applicable	59500060
+32516	Yes	59500061
+403	No	59500061
+120	Unspecified	59500061
+230	Not applicable	59500061
+29543	Yes	59500062
+315	No	59500062
+680	Unspecified	59500062
+61	Not applicable	59500062
+33068	Yes	59500063
+516	No	59500063
+262	Unspecified	59500063
+176	Not applicable	59500063
+33230	Yes	59500064
+2033	No	59500064
+399	Unspecified	59500064
+74	Not applicable	59500064
+41320	Yes	59500065
+863	No	59500065
+353	Unspecified	59500065
+269	Not applicable	59500065
+29177	Yes	59500066
+843	No	59500066
+467	Unspecified	59500066
+368	Not applicable	59500066
+44165	Yes	59500067
+110	No	59500067
+402	Unspecified	59500067
+198	Not applicable	59500067
+38772	Yes	59500068
+142	No	59500068
+210	Unspecified	59500068
+232	Not applicable	59500068
+31832	Yes	59500069
+565	No	59500069
+195	Unspecified	59500069
+0	Not applicable	59500069
+29600	Yes	59500070
+117	No	59500070
+222	Unspecified	59500070
+39	Not applicable	59500070
+34823	Yes	59500071
+1161	No	59500071
+356	Unspecified	59500071
+54	Not applicable	59500071
+38045	Yes	59500072
+752	No	59500072
+190	Unspecified	59500072
+337	Not applicable	59500072
+30007	Yes	59500073
+60	No	59500073
+615	Unspecified	59500073
+772	Not applicable	59500073
+22706	Yes	59500074
+75	No	59500074
+98	Unspecified	59500074
+0	Not applicable	59500074
+20117	Yes	59500075
+132	No	59500075
+63	Unspecified	59500075
+1357	Not applicable	59500075
+18317	Yes	59500076
+74	No	59500076
+95	Unspecified	59500076
+902	Not applicable	59500076
+45535	Yes	59500077
+344	No	59500077
+170	Unspecified	59500077
+0	Not applicable	59500077
+28260	Yes	59500078
+22	No	59500078
+103	Unspecified	59500078
+0	Not applicable	59500078
+38685	Yes	59500079
+95	No	59500079
+204	Unspecified	59500079
+0	Not applicable	59500079
+30392	Yes	59500080
+147	No	59500080
+139	Unspecified	59500080
+0	Not applicable	59500080
+24489	Yes	59500081
+42	No	59500081
+151	Unspecified	59500081
+0	Not applicable	59500081
+28399	Yes	59500082
+75	No	59500082
+156	Unspecified	59500082
+593	Not applicable	59500082
+35727	Yes	59500083
+74	No	59500083
+242	Unspecified	59500083
+208	Not applicable	59500083
+38611	Yes	59500084
+292	No	59500084
+252	Unspecified	59500084
+21	Not applicable	59500084
+31940	Yes	59500085
+45	No	59500085
+126	Unspecified	59500085
+0	Not applicable	59500085
+33502	Yes	59500086
+230	No	59500086
+194	Unspecified	59500086
+107	Not applicable	59500086
+26499	Yes	59500087
+42	No	59500087
+79	Unspecified	59500087
+0	Not applicable	59500087
+33500	Yes	59500088
+235	No	59500088
+269	Unspecified	59500088
+1545	Not applicable	59500088
+31370	Yes	59500089
+222	No	59500089
+170	Unspecified	59500089
+0	Not applicable	59500089
+25619	Yes	59500090
+263	No	59500090
+145	Unspecified	59500090
+269	Not applicable	59500090
+34908	Yes	59500091
+81	No	59500091
+268	Unspecified	59500091
+0	Not applicable	59500091
+26662	Yes	59500092
+520	No	59500092
+415	Unspecified	59500092
+43	Not applicable	59500092
+34575	Yes	59500093
+598	No	59500093
+208	Unspecified	59500093
+644	Not applicable	59500093
+29531	Yes	59500094
+114	No	59500094
+276	Unspecified	59500094
+49	Not applicable	59500094
+38341	Yes	59500095
+81	No	59500095
+124	Unspecified	59500095
+0	Not applicable	59500095
+33988	Yes	59500096
+104	No	59500096
+263	Unspecified	59500096
+0	Not applicable	59500096
+23368	Yes	59500097
+694	No	59500097
+291	Unspecified	59500097
+718	Not applicable	59500097
+45864	Yes	59500098
+158	No	59500098
+313	Unspecified	59500098
+176	Not applicable	59500098
+36955	Yes	59500099
+277	No	59500099
+277	Unspecified	59500099
+63	Not applicable	59500099
+32026	Yes	59500100
+40	No	59500100
+261	Unspecified	59500100
+0	Not applicable	59500100
+23670	Yes	59500101
+1144	No	59500101
+159	Unspecified	59500101
+487	Not applicable	59500101
+39768	Yes	59500102
+807	No	59500102
+292	Unspecified	59500102
+466	Not applicable	59500102
+26957	Yes	59500103
+358	No	59500103
+360	Unspecified	59500103
+107	Not applicable	59500103
+7266	Yes	93301001
+15	No	93301001
+10	Unspecified	93301001
+0	Not applicable	93301001
+5319	Yes	93301002
+18	No	93301002
+17	Unspecified	93301002
+0	Not applicable	93301002
+8430	Yes	93301003
+131	No	93301003
+70	Unspecified	93301003
+6	Not applicable	93301003
+8063	Yes	93301004
+152	No	93301004
+58	Unspecified	93301004
+0	Not applicable	93301004
+8463	Yes	93301005
+157	No	93301005
+108	Unspecified	93301005
+0	Not applicable	93301005
+7843	Yes	93301006
+63	No	93301006
+30	Unspecified	93301006
+0	Not applicable	93301006
+11475	Yes	93301007
+225	No	93301007
+56	Unspecified	93301007
+0	Not applicable	93301007
+7483	Yes	93301008
+70	No	93301008
+17	Unspecified	93301008
+0	Not applicable	93301008
+6020	Yes	93301009
+60	No	93301009
+5	Unspecified	93301009
+0	Not applicable	93301009
+7434	Yes	93301010
+49	No	93301010
+32	Unspecified	93301010
+0	Not applicable	93301010
+7294	Yes	93301011
+308	No	93301011
+22	Unspecified	93301011
+14	Not applicable	93301011
+10023	Yes	93301012
+1838	No	93301012
+236	Unspecified	93301012
+433	Not applicable	93301012
+10926	Yes	93301013
+688	No	93301013
+47	Unspecified	93301013
+71	Not applicable	93301013
+10065	Yes	93301014
+124	No	93301014
+14	Unspecified	93301014
+19	Not applicable	93301014
+6484	Yes	93301015
+35	No	93301015
+18	Unspecified	93301015
+0	Not applicable	93301015
+6043	Yes	93301016
+13	No	93301016
+5	Unspecified	93301016
+0	Not applicable	93301016
+6532	Yes	93301017
+67	No	93301017
+25	Unspecified	93301017
+0	Not applicable	93301017
+7697	Yes	93301018
+19	No	93301018
+15	Unspecified	93301018
+0	Not applicable	93301018
+9361	Yes	93301019
+71	No	93301019
+28	Unspecified	93301019
+64	Not applicable	93301019
+7285	Yes	93301020
+18	No	93301020
+9	Unspecified	93301020
+0	Not applicable	93301020
+7803	Yes	93301021
+491	No	93301021
+28	Unspecified	93301021
+66	Not applicable	93301021
+6651	Yes	93301022
+81	No	93301022
+20	Unspecified	93301022
+0	Not applicable	93301022
+6738	Yes	93301023
+66	No	93301023
+14	Unspecified	93301023
+0	Not applicable	93301023
+8290	Yes	93301024
+136	No	93301024
+13	Unspecified	93301024
+0	Not applicable	93301024
+11109	Yes	93301025
+475	No	93301025
+107	Unspecified	93301025
+3	Not applicable	93301025
+7684	Yes	93301026
+82	No	93301026
+30	Unspecified	93301026
+0	Not applicable	93301026
+6486	Yes	93301027
+159	No	93301027
+57	Unspecified	93301027
+0	Not applicable	93301027
+8085	Yes	93301028
+452	No	93301028
+40	Unspecified	93301028
+0	Not applicable	93301028
+7960	Yes	93301029
+205	No	93301029
+26	Unspecified	93301029
+0	Not applicable	93301029
+5751	Yes	93301030
+42	No	93301030
+12	Unspecified	93301030
+0	Not applicable	93301030
+7310	Yes	93302001
+86	No	93302001
+49	Unspecified	93302001
+21	Not applicable	93302001
+5008	Yes	93302002
+27	No	93302002
+15	Unspecified	93302002
+0	Not applicable	93302002
+5563	Yes	93302003
+57	No	93302003
+13	Unspecified	93302003
+0	Not applicable	93302003
+8160	Yes	93302004
+222	No	93302004
+37	Unspecified	93302004
+110	Not applicable	93302004
+6896	Yes	93302005
+53	No	93302005
+19	Unspecified	93302005
+0	Not applicable	93302005
+7817	Yes	93302006
+53	No	93302006
+18	Unspecified	93302006
+0	Not applicable	93302006
+6437	Yes	93302007
+28	No	93302007
+10	Unspecified	93302007
+0	Not applicable	93302007
+7008	Yes	93302008
+142	No	93302008
+28	Unspecified	93302008
+184	Not applicable	93302008
+8228	Yes	93302009
+28	No	93302009
+31	Unspecified	93302009
+0	Not applicable	93302009
+8782	Yes	93302010
+19	No	93302010
+7	Unspecified	93302010
+0	Not applicable	93302010
+7745	Yes	93302011
+45	No	93302011
+23	Unspecified	93302011
+0	Not applicable	93302011
+6672	Yes	93302012
+101	No	93302012
+49	Unspecified	93302012
+0	Not applicable	93302012
+7718	Yes	93302013
+80	No	93302013
+34	Unspecified	93302013
+89	Not applicable	93302013
+6085	Yes	93302014
+1486	No	93302014
+78	Unspecified	93302014
+0	Not applicable	93302014
+7695	Yes	93302015
+69	No	93302015
+13	Unspecified	93302015
+0	Not applicable	93302015
+7404	Yes	93302016
+26	No	93302016
+19	Unspecified	93302016
+0	Not applicable	93302016
+7485	Yes	93302017
+13	No	93302017
+6	Unspecified	93302017
+0	Not applicable	93302017
+7480	Yes	93302018
+43	No	93302018
+27	Unspecified	93302018
+54	Not applicable	93302018
+7530	Yes	93302019
+78	No	93302019
+36	Unspecified	93302019
+0	Not applicable	93302019
+7620	Yes	93302020
+89	No	93302020
+26	Unspecified	93302020
+3	Not applicable	93302020
+7719	Yes	93302021
+72	No	93302021
+11	Unspecified	93302021
+0	Not applicable	93302021
+8674	Yes	93302022
+44	No	93302022
+14	Unspecified	93302022
+0	Not applicable	93302022
+7394	Yes	93302023
+36	No	93302023
+18	Unspecified	93302023
+0	Not applicable	93302023
+4460	Yes	93302024
+26	No	93302024
+13	Unspecified	93302024
+0	Not applicable	93302024
+6998	Yes	93302025
+40	No	93302025
+14	Unspecified	93302025
+0	Not applicable	93302025
+6968	Yes	93302026
+33	No	93302026
+18	Unspecified	93302026
+0	Not applicable	93302026
+5403	Yes	93302027
+25	No	93302027
+10	Unspecified	93302027
+0	Not applicable	93302027
+4675	Yes	93302028
+11	No	93302028
+1	Unspecified	93302028
+0	Not applicable	93302028
+8192	Yes	93302029
+3070	No	93302029
+161	Unspecified	93302029
+217	Not applicable	93302029
+11247	Yes	93303001
+169	No	93303001
+42	Unspecified	93303001
+2	Not applicable	93303001
+10334	Yes	93303002
+81	No	93303002
+40	Unspecified	93303002
+0	Not applicable	93303002
+11265	Yes	93303003
+37	No	93303003
+34	Unspecified	93303003
+0	Not applicable	93303003
+11273	Yes	93303004
+56	No	93303004
+36	Unspecified	93303004
+0	Not applicable	93303004
+13215	Yes	93303005
+271	No	93303005
+39	Unspecified	93303005
+0	Not applicable	93303005
+10153	Yes	93303006
+68	No	93303006
+32	Unspecified	93303006
+0	Not applicable	93303006
+10697	Yes	93303007
+39	No	93303007
+45	Unspecified	93303007
+0	Not applicable	93303007
+9028	Yes	93303008
+20	No	93303008
+14	Unspecified	93303008
+0	Not applicable	93303008
+17809	Yes	93303009
+93	No	93303009
+28	Unspecified	93303009
+0	Not applicable	93303009
+6198	Yes	93303010
+40	No	93303010
+8	Unspecified	93303010
+0	Not applicable	93303010
+7654	Yes	93303011
+35	No	93303011
+30	Unspecified	93303011
+0	Not applicable	93303011
+11083	Yes	93303012
+106	No	93303012
+33	Unspecified	93303012
+6	Not applicable	93303012
+12446	Yes	93303013
+691	No	93303013
+44	Unspecified	93303013
+58	Not applicable	93303013
+12318	Yes	93303014
+1282	No	93303014
+149	Unspecified	93303014
+82	Not applicable	93303014
+4864	Yes	93303015
+603	No	93303015
+68	Unspecified	93303015
+518	Not applicable	93303015
+16018	Yes	93303016
+1440	No	93303016
+147	Unspecified	93303016
+4	Not applicable	93303016
+12508	Yes	93303017
+398	No	93303017
+27	Unspecified	93303017
+2	Not applicable	93303017
+12470	Yes	93303018
+258	No	93303018
+37	Unspecified	93303018
+0	Not applicable	93303018
+8022	Yes	93303019
+220	No	93303019
+13	Unspecified	93303019
+64	Not applicable	93303019
+11490	Yes	93303020
+511	No	93303020
+50	Unspecified	93303020
+0	Not applicable	93303020
+13936	Yes	93303021
+380	No	93303021
+40	Unspecified	93303021
+0	Not applicable	93303021
+8927	Yes	93303022
+182	No	93303022
+14	Unspecified	93303022
+0	Not applicable	93303022
+8838	Yes	93303023
+313	No	93303023
+24	Unspecified	93303023
+0	Not applicable	93303023
+10300	Yes	93303024
+59	No	93303024
+10	Unspecified	93303024
+0	Not applicable	93303024
+11341	Yes	93303025
+202	No	93303025
+31	Unspecified	93303025
+0	Not applicable	93303025
+9220	Yes	93303026
+188	No	93303026
+32	Unspecified	93303026
+0	Not applicable	93303026
+11156	Yes	93303027
+29	No	93303027
+18	Unspecified	93303027
+359	Not applicable	93303027
+11197	Yes	93303028
+37	No	93303028
+19	Unspecified	93303028
+0	Not applicable	93303028
+15266	Yes	93303029
+284	No	93303029
+39	Unspecified	93303029
+0	Not applicable	93303029
+7061	Yes	93303030
+51	No	93303030
+13	Unspecified	93303030
+0	Not applicable	93303030
+11629	Yes	93303031
+230	No	93303031
+16	Unspecified	93303031
+205	Not applicable	93303031
+12064	Yes	93303032
+82	No	93303032
+17	Unspecified	93303032
+0	Not applicable	93303032
+15947	Yes	93303033
+60	No	93303033
+39	Unspecified	93303033
+0	Not applicable	93303033
+12010	Yes	93303034
+24	No	93303034
+41	Unspecified	93303034
+3	Not applicable	93303034
+12528	Yes	93304001
+87	No	93304001
+19	Unspecified	93304001
+0	Not applicable	93304001
+6551	Yes	93304002
+28	No	93304002
+29	Unspecified	93304002
+0	Not applicable	93304002
+6111	Yes	93304003
+199	No	93304003
+23	Unspecified	93304003
+105	Not applicable	93304003
+6961	Yes	93304004
+45	No	93304004
+12	Unspecified	93304004
+0	Not applicable	93304004
+6146	Yes	93304005
+17	No	93304005
+8	Unspecified	93304005
+102	Not applicable	93304005
+6468	Yes	93304006
+40	No	93304006
+7	Unspecified	93304006
+0	Not applicable	93304006
+5684	Yes	93304007
+52	No	93304007
+4	Unspecified	93304007
+262	Not applicable	93304007
+7683	Yes	93304008
+67	No	93304008
+37	Unspecified	93304008
+87	Not applicable	93304008
+6978	Yes	93304009
+18	No	93304009
+6	Unspecified	93304009
+0	Not applicable	93304009
+7034	Yes	93304010
+139	No	93304010
+7	Unspecified	93304010
+650	Not applicable	93304010
+4968	Yes	93304011
+129	No	93304011
+54	Unspecified	93304011
+548	Not applicable	93304011
+7132	Yes	93304012
+247	No	93304012
+92	Unspecified	93304012
+805	Not applicable	93304012
+8345	Yes	93304013
+377	No	93304013
+47	Unspecified	93304013
+0	Not applicable	93304013
+3083	Yes	93304014
+85	No	93304014
+5	Unspecified	93304014
+0	Not applicable	93304014
+8576	Yes	93304015
+332	No	93304015
+33	Unspecified	93304015
+33	Not applicable	93304015
+11222	Yes	93304016
+1700	No	93304016
+130	Unspecified	93304016
+0	Not applicable	93304016
+15359	Yes	93304017
+738	No	93304017
+76	Unspecified	93304017
+1	Not applicable	93304017
+11528	Yes	93304018
+583	No	93304018
+53	Unspecified	93304018
+162	Not applicable	93304018
+4272	Yes	93305001
+608	No	93305001
+55	Unspecified	93305001
+687	Not applicable	93305001
+7823	Yes	93305002
+309	No	93305002
+31	Unspecified	93305002
+92	Not applicable	93305002
+6755	Yes	93305003
+72	No	93305003
+34	Unspecified	93305003
+0	Not applicable	93305003
+6223	Yes	93305004
+9	No	93305004
+66	Unspecified	93305004
+0	Not applicable	93305004
+5892	Yes	93305005
+27	No	93305005
+9	Unspecified	93305005
+0	Not applicable	93305005
+6971	Yes	93305006
+95	No	93305006
+70	Unspecified	93305006
+99	Not applicable	93305006
+6117	Yes	93305007
+62	No	93305007
+5	Unspecified	93305007
+0	Not applicable	93305007
+7610	Yes	93305008
+50	No	93305008
+9	Unspecified	93305008
+0	Not applicable	93305008
+6317	Yes	93305009
+46	No	93305009
+4	Unspecified	93305009
+0	Not applicable	93305009
+6488	Yes	93305010
+22	No	93305010
+24	Unspecified	93305010
+114	Not applicable	93305010
+8717	Yes	93305011
+67	No	93305011
+9	Unspecified	93305011
+0	Not applicable	93305011
+8160	Yes	93305012
+78	No	93305012
+21	Unspecified	93305012
+0	Not applicable	93305012
+5841	Yes	93305013
+48	No	93305013
+23	Unspecified	93305013
+171	Not applicable	93305013
+4616	Yes	93305014
+33	No	93305014
+10	Unspecified	93305014
+0	Not applicable	93305014
+6436	Yes	93402001
+86	No	93402001
+13	Unspecified	93402001
+0	Not applicable	93402001
+6933	Yes	93402002
+44	No	93402002
+13	Unspecified	93402002
+3	Not applicable	93402002
+7276	Yes	93402003
+85	No	93402003
+18	Unspecified	93402003
+0	Not applicable	93402003
+6159	Yes	93402004
+42	No	93402004
+23	Unspecified	93402004
+217	Not applicable	93402004
+9024	Yes	93402005
+176	No	93402005
+5	Unspecified	93402005
+12	Not applicable	93402005
+6137	Yes	93402006
+17	No	93402006
+52	Unspecified	93402006
+0	Not applicable	93402006
+6202	Yes	93402007
+48	No	93402007
+124	Unspecified	93402007
+30	Not applicable	93402007
+5268	Yes	93402008
+66	No	93402008
+25	Unspecified	93402008
+0	Not applicable	93402008
+7990	Yes	93402009
+128	No	93402009
+16	Unspecified	93402009
+0	Not applicable	93402009
+5906	Yes	93402010
+123	No	93402010
+27	Unspecified	93402010
+8	Not applicable	93402010
+8244	Yes	93402011
+99	No	93402011
+87	Unspecified	93402011
+0	Not applicable	93402011
+8051	Yes	93402012
+137	No	93402012
+31	Unspecified	93402012
+92	Not applicable	93402012
+6078	Yes	93402013
+60	No	93402013
+21	Unspecified	93402013
+237	Not applicable	93402013
+16196	Yes	93403001
+1107	No	93403001
+112	Unspecified	93403001
+2	Not applicable	93403001
+11868	Yes	93403002
+52	No	93403002
+5	Unspecified	93403002
+8	Not applicable	93403002
+14422	Yes	93403003
+193	No	93403003
+46	Unspecified	93403003
+11	Not applicable	93403003
+14964	Yes	93403004
+187	No	93403004
+62	Unspecified	93403004
+0	Not applicable	93403004
+15158	Yes	93403005
+268	No	93403005
+60	Unspecified	93403005
+1258	Not applicable	93403005
+15178	Yes	93403006
+133	No	93403006
+103	Unspecified	93403006
+0	Not applicable	93403006
+17328	Yes	93403007
+815	No	93403007
+103	Unspecified	93403007
+0	Not applicable	93403007
+13577	Yes	93403008
+285	No	93403008
+188	Unspecified	93403008
+13	Not applicable	93403008
+13922	Yes	93403009
+113	No	93403009
+64	Unspecified	93403009
+0	Not applicable	93403009
+14190	Yes	93403010
+146	No	93403010
+78	Unspecified	93403010
+0	Not applicable	93403010
+16542	Yes	93403011
+389	No	93403011
+67	Unspecified	93403011
+26	Not applicable	93403011
+14207	Yes	93403012
+204	No	93403012
+54	Unspecified	93403012
+0	Not applicable	93403012
+16505	Yes	93403013
+641	No	93403013
+108	Unspecified	93403013
+411	Not applicable	93403013
+14417	Yes	93403014
+494	No	93403014
+191	Unspecified	93403014
+0	Not applicable	93403014
+16551	Yes	93403015
+1142	No	93403015
+115	Unspecified	93403015
+90	Not applicable	93403015
+12558	Yes	93403016
+47	No	93403016
+20	Unspecified	93403016
+0	Not applicable	93403016
+12516	Yes	93403017
+60	No	93403017
+35	Unspecified	93403017
+145	Not applicable	93403017
+15857	Yes	93403018
+313	No	93403018
+41	Unspecified	93403018
+1	Not applicable	93403018
+15807	Yes	93403019
+201	No	93403019
+54	Unspecified	93403019
+0	Not applicable	93403019
+16474	Yes	93403020
+547	No	93403020
+52	Unspecified	93403020
+1	Not applicable	93403020
+17219	Yes	93403021
+1594	No	93403021
+162	Unspecified	93403021
+262	Not applicable	93403021
+15358	Yes	93403022
+749	No	93403022
+27	Unspecified	93403022
+252	Not applicable	93403022
+15365	Yes	93403023
+914	No	93403023
+40	Unspecified	93403023
+232	Not applicable	93403023
+18370	Yes	93403024
+299	No	93403024
+44	Unspecified	93403024
+0	Not applicable	93403024
+14765	Yes	93403025
+242	No	93403025
+63	Unspecified	93403025
+256	Not applicable	93403025
+14396	Yes	93403026
+111	No	93403026
+32	Unspecified	93403026
+0	Not applicable	93403026
+16805	Yes	93403027
+250	No	93403027
+53	Unspecified	93403027
+0	Not applicable	93403027
+13237	Yes	93403028
+154	No	93403028
+47	Unspecified	93403028
+0	Not applicable	93403028
+16547	Yes	93403029
+207	No	93403029
+99	Unspecified	93403029
+2	Not applicable	93403029
+12576	Yes	93403030
+369	No	93403030
+49	Unspecified	93403030
+1	Not applicable	93403030
+12691	Yes	93403031
+148	No	93403031
+30	Unspecified	93403031
+7	Not applicable	93403031
+14206	Yes	93403032
+249	No	93403032
+36	Unspecified	93403032
+0	Not applicable	93403032
+16686	Yes	93403033
+269	No	93403033
+22	Unspecified	93403033
+11	Not applicable	93403033
+14900	Yes	93403034
+123	No	93403034
+41	Unspecified	93403034
+0	Not applicable	93403034
+17148	Yes	93403035
+269	No	93403035
+47	Unspecified	93403035
+229	Not applicable	93403035
+13874	Yes	93403036
+702	No	93403036
+63	Unspecified	93403036
+2026	Not applicable	93403036
+13518	Yes	93403037
+405	No	93403037
+33	Unspecified	93403037
+370	Not applicable	93403037
+14279	Yes	93403038
+314	No	93403038
+79	Unspecified	93403038
+0	Not applicable	93403038
+13120	Yes	93403039
+196	No	93403039
+64	Unspecified	93403039
+0	Not applicable	93403039
+11888	Yes	93403040
+167	No	93403040
+9	Unspecified	93403040
+0	Not applicable	93403040
+9256	Yes	93401001
+3860	No	93401001
+81	Unspecified	93401001
+168	Not applicable	93401001
+8277	Yes	93401002
+7934	No	93401002
+443	Unspecified	93401002
+93	Not applicable	93401002
+10118	Yes	93401003
+2370	No	93401003
+242	Unspecified	93401003
+29	Not applicable	93401003
+3915	Yes	93401004
+907	No	93401004
+62	Unspecified	93401004
+213	Not applicable	93401004
+8433	Yes	93401005
+1895	No	93401005
+133	Unspecified	93401005
+0	Not applicable	93401005
+8757	Yes	93401006
+1014	No	93401006
+101	Unspecified	93401006
+56	Not applicable	93401006
+11903	Yes	93404001
+54	No	93404001
+35	Unspecified	93404001
+2	Not applicable	93404001
+11462	Yes	93404002
+67	No	93404002
+38	Unspecified	93404002
+0	Not applicable	93404002
+14127	Yes	93404003
+292	No	93404003
+63	Unspecified	93404003
+0	Not applicable	93404003
+17200	Yes	93404004
+204	No	93404004
+35	Unspecified	93404004
+54	Not applicable	93404004
+12387	Yes	93404005
+108	No	93404005
+45	Unspecified	93404005
+3	Not applicable	93404005
+12066	Yes	93404006
+108	No	93404006
+46	Unspecified	93404006
+6	Not applicable	93404006
+11814	Yes	93404007
+72	No	93404007
+33	Unspecified	93404007
+0	Not applicable	93404007
+13003	Yes	93404008
+245	No	93404008
+81	Unspecified	93404008
+91	Not applicable	93404008
+12661	Yes	93404009
+133	No	93404009
+92	Unspecified	93404009
+39	Not applicable	93404009
+9555	Yes	93404010
+102	No	93404010
+46	Unspecified	93404010
+0	Not applicable	93404010
+10541	Yes	93404011
+33	No	93404011
+51	Unspecified	93404011
+91	Not applicable	93404011
+10342	Yes	93404012
+37	No	93404012
+11	Unspecified	93404012
+0	Not applicable	93404012
+13764	Yes	93404013
+142	No	93404013
+49	Unspecified	93404013
+0	Not applicable	93404013
+13466	Yes	93404014
+130	No	93404014
+33	Unspecified	93404014
+30	Not applicable	93404014
+16799	Yes	93404015
+454	No	93404015
+66	Unspecified	93404015
+346	Not applicable	93404015
+13425	Yes	93404016
+320	No	93404016
+46	Unspecified	93404016
+27	Not applicable	93404016
+12424	Yes	93404017
+353	No	93404017
+44	Unspecified	93404017
+101	Not applicable	93404017
+11193	Yes	93404018
+123	No	93404018
+53	Unspecified	93404018
+87	Not applicable	93404018
+11813	Yes	93404019
+144	No	93404019
+61	Unspecified	93404019
+2	Not applicable	93404019
+15833	Yes	93404020
+1373	No	93404020
+145	Unspecified	93404020
+3157	Not applicable	93404020
+15616	Yes	93404021
+4622	No	93404021
+314	Unspecified	93404021
+486	Not applicable	93404021
+14544	Yes	93404022
+234	No	93404022
+57	Unspecified	93404022
+77	Not applicable	93404022
+11090	Yes	93404023
+150	No	93404023
+34	Unspecified	93404023
+126	Not applicable	93404023
+16478	Yes	93404024
+225	No	93404024
+75	Unspecified	93404024
+13	Not applicable	93404024
+14869	Yes	93404025
+127	No	93404025
+56	Unspecified	93404025
+0	Not applicable	93404025
+13598	Yes	93404026
+735	No	93404026
+93	Unspecified	93404026
+4	Not applicable	93404026
+10371	Yes	93404027
+86	No	93404027
+21	Unspecified	93404027
+0	Not applicable	93404027
+15324	Yes	93404028
+388	No	93404028
+55	Unspecified	93404028
+87	Not applicable	93404028
+11229	Yes	93404029
+286	No	93404029
+82	Unspecified	93404029
+52	Not applicable	93404029
+11020	Yes	93404030
+257	No	93404030
+38	Unspecified	93404030
+0	Not applicable	93404030
+12308	Yes	93404031
+389	No	93404031
+33	Unspecified	93404031
+0	Not applicable	93404031
+14563	Yes	93404032
+249	No	93404032
+35	Unspecified	93404032
+0	Not applicable	93404032
+13763	Yes	93404033
+186	No	93404033
+22	Unspecified	93404033
+303	Not applicable	93404033
+13835	Yes	93404034
+177	No	93404034
+65	Unspecified	93404034
+0	Not applicable	93404034
+13220	Yes	93404035
+332	No	93404035
+33	Unspecified	93404035
+59	Not applicable	93404035
+15632	Yes	93404036
+125	No	93404036
+30	Unspecified	93404036
+1	Not applicable	93404036
+10828	Yes	93404037
+107	No	93404037
+58	Unspecified	93404037
+8	Not applicable	93404037
+11109	Yes	93404038
+168	No	93404038
+88	Unspecified	93404038
+3	Not applicable	93404038
+5910	Yes	93501001
+72	No	93501001
+5	Unspecified	93501001
+0	Not applicable	93501001
+7438	Yes	93501002
+37	No	93501002
+46	Unspecified	93501002
+0	Not applicable	93501002
+7092	Yes	93501003
+20	No	93501003
+4	Unspecified	93501003
+0	Not applicable	93501003
+6206	Yes	93501004
+23	No	93501004
+25	Unspecified	93501004
+0	Not applicable	93501004
+6864	Yes	93501005
+253	No	93501005
+37	Unspecified	93501005
+0	Not applicable	93501005
+6948	Yes	93501006
+14	No	93501006
+37	Unspecified	93501006
+0	Not applicable	93501006
+8515	Yes	93501007
+10	No	93501007
+14	Unspecified	93501007
+0	Not applicable	93501007
+5286	Yes	93501008
+20	No	93501008
+12	Unspecified	93501008
+0	Not applicable	93501008
+9462	Yes	93501009
+30	No	93501009
+38	Unspecified	93501009
+4	Not applicable	93501009
+8744	Yes	93501010
+90	No	93501010
+83	Unspecified	93501010
+0	Not applicable	93501010
+7519	Yes	93501011
+39	No	93501011
+78	Unspecified	93501011
+0	Not applicable	93501011
+6779	Yes	93501012
+642	No	93501012
+76	Unspecified	93501012
+0	Not applicable	93501012
+6264	Yes	93501013
+28	No	93501013
+13	Unspecified	93501013
+0	Not applicable	93501013
+7388	Yes	93501014
+15	No	93501014
+33	Unspecified	93501014
+0	Not applicable	93501014
+6759	Yes	93501015
+107	No	93501015
+8	Unspecified	93501015
+0	Not applicable	93501015
+6440	Yes	93501016
+24	No	93501016
+14	Unspecified	93501016
+0	Not applicable	93501016
+7263	Yes	93501017
+37	No	93501017
+35	Unspecified	93501017
+0	Not applicable	93501017
+8429	Yes	93501018
+337	No	93501018
+59	Unspecified	93501018
+23	Not applicable	93501018
+14476	Yes	93501019
+286	No	93501019
+27	Unspecified	93501019
+399	Not applicable	93501019
+6725	Yes	93501020
+22	No	93501020
+38	Unspecified	93501020
+0	Not applicable	93501020
+7890	Yes	93501021
+949	No	93501021
+62	Unspecified	93501021
+7	Not applicable	93501021
+5753	Yes	93502001
+35	No	93502001
+55	Unspecified	93502001
+0	Not applicable	93502001
+6776	Yes	93502002
+54	No	93502002
+13	Unspecified	93502002
+0	Not applicable	93502002
+7486	Yes	93502003
+39	No	93502003
+42	Unspecified	93502003
+0	Not applicable	93502003
+6608	Yes	93502004
+15	No	93502004
+9	Unspecified	93502004
+0	Not applicable	93502004
+6396	Yes	93502005
+75	No	93502005
+11	Unspecified	93502005
+0	Not applicable	93502005
+5881	Yes	93502006
+71	No	93502006
+11	Unspecified	93502006
+0	Not applicable	93502006
+8368	Yes	93502007
+58	No	93502007
+32	Unspecified	93502007
+0	Not applicable	93502007
+7004	Yes	93502008
+32	No	93502008
+27	Unspecified	93502008
+0	Not applicable	93502008
+7033	Yes	93502009
+66	No	93502009
+36	Unspecified	93502009
+102	Not applicable	93502009
+7133	Yes	93502010
+27	No	93502010
+10	Unspecified	93502010
+0	Not applicable	93502010
+6395	Yes	93502011
+51	No	93502011
+31	Unspecified	93502011
+0	Not applicable	93502011
+5892	Yes	93502012
+28	No	93502012
+20	Unspecified	93502012
+0	Not applicable	93502012
+6266	Yes	93502013
+51	No	93502013
+6	Unspecified	93502013
+0	Not applicable	93502013
+7388	Yes	93502014
+99	No	93502014
+24	Unspecified	93502014
+0	Not applicable	93502014
+7202	Yes	93502015
+28	No	93502015
+28	Unspecified	93502015
+0	Not applicable	93502015
+7720	Yes	93502016
+31	No	93502016
+7	Unspecified	93502016
+0	Not applicable	93502016
+6209	Yes	93502017
+24	No	93502017
+27	Unspecified	93502017
+113	Not applicable	93502017
+6356	Yes	93502018
+23	No	93502018
+18	Unspecified	93502018
+665	Not applicable	93502018
+7078	Yes	93502019
+53	No	93502019
+17	Unspecified	93502019
+55	Not applicable	93502019
+8529	Yes	93503001
+1867	No	93503001
+42	Unspecified	93503001
+26	Not applicable	93503001
+8748	Yes	93503002
+110	No	93503002
+50	Unspecified	93503002
+0	Not applicable	93503002
+5387	Yes	93503003
+64	No	93503003
+16	Unspecified	93503003
+446	Not applicable	93503003
+7005	Yes	93503004
+124	No	93503004
+42	Unspecified	93503004
+0	Not applicable	93503004
+4896	Yes	93503005
+17	No	93503005
+17	Unspecified	93503005
+0	Not applicable	93503005
+8347	Yes	93503006
+119	No	93503006
+34	Unspecified	93503006
+0	Not applicable	93503006
+9788	Yes	93503007
+172	No	93503007
+16	Unspecified	93503007
+141	Not applicable	93503007
+9530	Yes	93503008
+160	No	93503008
+75	Unspecified	93503008
+0	Not applicable	93503008
+7844	Yes	93503009
+165	No	93503009
+32	Unspecified	93503009
+1	Not applicable	93503009
+6139	Yes	93503010
+787	No	93503010
+21	Unspecified	93503010
+935	Not applicable	93503010
+5002	Yes	93503011
+47	No	93503011
+11	Unspecified	93503011
+0	Not applicable	93503011
+8080	Yes	93503012
+106	No	93503012
+22	Unspecified	93503012
+172	Not applicable	93503012
+7008	Yes	93503013
+75	No	93503013
+11	Unspecified	93503013
+0	Not applicable	93503013
+6012	Yes	93503014
+58	No	93503014
+21	Unspecified	93503014
+0	Not applicable	93503014
+18879	Yes	93504001
+730	No	93504001
+63	Unspecified	93504001
+860	Not applicable	93504001
+15504	Yes	93504002
+179	No	93504002
+56	Unspecified	93504002
+3	Not applicable	93504002
+11249	Yes	93504003
+53	No	93504003
+133	Unspecified	93504003
+0	Not applicable	93504003
+15846	Yes	93504004
+84	No	93504004
+100	Unspecified	93504004
+477	Not applicable	93504004
+16927	Yes	93504005
+151	No	93504005
+59	Unspecified	93504005
+46	Not applicable	93504005
+17597	Yes	93504006
+1082	No	93504006
+114	Unspecified	93504006
+953	Not applicable	93504006
+14162	Yes	93504007
+73	No	93504007
+56	Unspecified	93504007
+0	Not applicable	93504007
+34885	Yes	93504008
+4363	No	93504008
+252	Unspecified	93504008
+0	Not applicable	93504008
+12756	Yes	93504009
+129	No	93504009
+14	Unspecified	93504009
+632	Not applicable	93504009
+14819	Yes	93504010
+498	No	93504010
+43	Unspecified	93504010
+0	Not applicable	93504010
+17690	Yes	93504011
+600	No	93504011
+43	Unspecified	93504011
+0	Not applicable	93504011
+8534	Yes	93504012
+175	No	93504012
+31	Unspecified	93504012
+108	Not applicable	93504012
+12265	Yes	93504013
+346	No	93504013
+65	Unspecified	93504013
+187	Not applicable	93504013
+17105	Yes	93504014
+559	No	93504014
+113	Unspecified	93504014
+0	Not applicable	93504014
+12429	Yes	93504015
+72	No	93504015
+21	Unspecified	93504015
+0	Not applicable	93504015
+21111	Yes	93504016
+480	No	93504016
+68	Unspecified	93504016
+0	Not applicable	93504016
+15516	Yes	93504017
+396	No	93504017
+64	Unspecified	93504017
+116	Not applicable	93504017
+15776	Yes	93504018
+124	No	93504018
+63	Unspecified	93504018
+2	Not applicable	93504018
+16371	Yes	93504019
+1483	No	93504019
+110	Unspecified	93504019
+295	Not applicable	93504019
+25307	Yes	93504020
+910	No	93504020
+225	Unspecified	93504020
+1708	Not applicable	93504020
+6160	Yes	93504021
+156	No	93504021
+46	Unspecified	93504021
+201	Not applicable	93504021
+14059	Yes	93504022
+611	No	93504022
+87	Unspecified	93504022
+2683	Not applicable	93504022
+16593	Yes	93504023
+1090	No	93504023
+143	Unspecified	93504023
+1143	Not applicable	93504023
+15590	Yes	93504024
+108	No	93504024
+26	Unspecified	93504024
+0	Not applicable	93504024
+24725	Yes	93504025
+484	No	93504025
+67	Unspecified	93504025
+593	Not applicable	93504025
+4484	Yes	93504026
+136	No	93504026
+27	Unspecified	93504026
+2449	Not applicable	93504026
+21780	Yes	93504027
+277	No	93504027
+55	Unspecified	93504027
+2	Not applicable	93504027
+13601	Yes	93504028
+112	No	93504028
+70	Unspecified	93504028
+0	Not applicable	93504028
+10233	Yes	93504029
+31	No	93504029
+13	Unspecified	93504029
+0	Not applicable	93504029
+11729	Yes	93504030
+52	No	93504030
+29	Unspecified	93504030
+0	Not applicable	93504030
+18473	Yes	93504031
+171	No	93504031
+104	Unspecified	93504031
+0	Not applicable	93504031
+15874	Yes	93504032
+115	No	93504032
+54	Unspecified	93504032
+0	Not applicable	93504032
+15834	Yes	93504033
+116	No	93504033
+65	Unspecified	93504033
+250	Not applicable	93504033
+15282	Yes	93504034
+90	No	93504034
+65	Unspecified	93504034
+0	Not applicable	93504034
+12598	Yes	93504035
+56	No	93504035
+77	Unspecified	93504035
+0	Not applicable	93504035
+15252	Yes	93504036
+434	No	93504036
+128	Unspecified	93504036
+0	Not applicable	93504036
+15188	Yes	93504037
+532	No	93504037
+60	Unspecified	93504037
+264	Not applicable	93504037
+13743	Yes	93504038
+93	No	93504038
+142	Unspecified	93504038
+0	Not applicable	93504038
+7873	Yes	93505001
+25	No	93505001
+123	Unspecified	93505001
+0	Not applicable	93505001
+8581	Yes	93505002
+32	No	93505002
+44	Unspecified	93505002
+40	Not applicable	93505002
+7499	Yes	93505003
+18	No	93505003
+47	Unspecified	93505003
+0	Not applicable	93505003
+6508	Yes	93505004
+33	No	93505004
+36	Unspecified	93505004
+181	Not applicable	93505004
+7046	Yes	93505005
+16	No	93505005
+4	Unspecified	93505005
+0	Not applicable	93505005
+7846	Yes	93505006
+42	No	93505006
+46	Unspecified	93505006
+5	Not applicable	93505006
+8036	Yes	93505007
+55	No	93505007
+28	Unspecified	93505007
+0	Not applicable	93505007
+9095	Yes	93505008
+313	No	93505008
+22	Unspecified	93505008
+226	Not applicable	93505008
+7802	Yes	93505009
+255	No	93505009
+26	Unspecified	93505009
+10	Not applicable	93505009
+5564	Yes	93505010
+183	No	93505010
+17	Unspecified	93505010
+0	Not applicable	93505010
+6969	Yes	93505011
+51	No	93505011
+12	Unspecified	93505011
+0	Not applicable	93505011
+6076	Yes	93505012
+147	No	93505012
+55	Unspecified	93505012
+0	Not applicable	93505012
+7140	Yes	93505013
+139	No	93505013
+34	Unspecified	93505013
+0	Not applicable	93505013
+7957	Yes	93505014
+37	No	93505014
+17	Unspecified	93505014
+0	Not applicable	93505014
+10702	Yes	93505015
+208	No	93505015
+28	Unspecified	93505015
+0	Not applicable	93505015
+8520	Yes	93505016
+261	No	93505016
+35	Unspecified	93505016
+0	Not applicable	93505016
+8712	Yes	93505017
+166	No	93505017
+50	Unspecified	93505017
+782	Not applicable	93505017
+5373	Yes	93505018
+133	No	93505018
+17	Unspecified	93505018
+556	Not applicable	93505018
+9756	Yes	93505019
+19	No	93505019
+55	Unspecified	93505019
+13	Not applicable	93505019
+7648	Yes	93505020
+42	No	93505020
+17	Unspecified	93505020
+0	Not applicable	93505020
+7220	Yes	93505021
+43	No	93505021
+10	Unspecified	93505021
+0	Not applicable	93505021
+10278	Yes	93505022
+116	No	93505022
+21	Unspecified	93505022
+0	Not applicable	93505022
+7556	Yes	93505023
+29	No	93505023
+19	Unspecified	93505023
+0	Not applicable	93505023
+5664	Yes	93505024
+38	No	93505024
+2	Unspecified	93505024
+0	Not applicable	93505024
+7983	Yes	93505025
+16	No	93505025
+24	Unspecified	93505025
+57	Not applicable	93505025
+11232	Yes	93505026
+49	No	93505026
+22	Unspecified	93505026
+0	Not applicable	93505026
+7666	Yes	93505027
+49	No	93505027
+25	Unspecified	93505027
+11	Not applicable	93505027
+6694	Yes	93505028
+58	No	93505028
+41	Unspecified	93505028
+0	Not applicable	93505028
+5959	Yes	93505029
+23	No	93505029
+40	Unspecified	93505029
+0	Not applicable	93505029
+6708	Yes	93601001
+715	No	93601001
+64	Unspecified	93601001
+187	Not applicable	93601001
+9333	Yes	93601002
+279	No	93601002
+98	Unspecified	93601002
+194	Not applicable	93601002
+9409	Yes	93601003
+1658	No	93601003
+154	Unspecified	93601003
+20	Not applicable	93601003
+4251	Yes	93601004
+280	No	93601004
+50	Unspecified	93601004
+47	Not applicable	93601004
+3450	Yes	93601005
+175	No	93601005
+14	Unspecified	93601005
+327	Not applicable	93601005
+3830	Yes	93601006
+294	No	93601006
+18	Unspecified	93601006
+266	Not applicable	93601006
+10488	Yes	93601007
+1192	No	93601007
+75	Unspecified	93601007
+110	Not applicable	93601007
+3718	Yes	93601008
+491	No	93601008
+46	Unspecified	93601008
+1570	Not applicable	93601008
+13939	Yes	93601009
+598	No	93601009
+61	Unspecified	93601009
+0	Not applicable	93601009
+3983	Yes	93601010
+143	No	93601010
+19	Unspecified	93601010
+0	Not applicable	93601010
+6	Yes	93601011
+0	No	93601011
+0	Unspecified	93601011
+3861	Not applicable	93601011
+2961	Yes	93601012
+146	No	93601012
+8	Unspecified	93601012
+0	Not applicable	93601012
+15379	Yes	93602001
+662	No	93602001
+71	Unspecified	93602001
+1301	Not applicable	93602001
+7377	Yes	93602002
+257	No	93602002
+66	Unspecified	93602002
+5741	Not applicable	93602002
+8460	Yes	93602003
+2152	No	93602003
+65	Unspecified	93602003
+461	Not applicable	93602003
+7766	Yes	93602004
+223	No	93602004
+61	Unspecified	93602004
+308	Not applicable	93602004
+6991	Yes	93602005
+591	No	93602005
+52	Unspecified	93602005
+226	Not applicable	93602005
+6216	Yes	93602006
+79	No	93602006
+18	Unspecified	93602006
+0	Not applicable	93602006
+7210	Yes	93602007
+41	No	93602007
+95	Unspecified	93602007
+0	Not applicable	93602007
+8725	Yes	93602008
+64	No	93602008
+50	Unspecified	93602008
+0	Not applicable	93602008
+8755	Yes	93602009
+132	No	93602009
+51	Unspecified	93602009
+4	Not applicable	93602009
+8674	Yes	93602010
+102	No	93602010
+14	Unspecified	93602010
+0	Not applicable	93602010
+7854	Yes	93602011
+1283	No	93602011
+33	Unspecified	93602011
+85	Not applicable	93602011
+7895	Yes	93602012
+112	No	93602012
+63	Unspecified	93602012
+0	Not applicable	93602012
+11547	Yes	93604001
+1358	No	93604001
+141	Unspecified	93604001
+0	Not applicable	93604001
+5641	Yes	93604002
+369	No	93604002
+28	Unspecified	93604002
+0	Not applicable	93604002
+4593	Yes	93604003
+820	No	93604003
+88	Unspecified	93604003
+55	Not applicable	93604003
+3352	Yes	93604004
+148	No	93604004
+39	Unspecified	93604004
+290	Not applicable	93604004
+6425	Yes	93604005
+527	No	93604005
+33	Unspecified	93604005
+185	Not applicable	93604005
+9549	Yes	93605001
+429	No	93605001
+46	Unspecified	93605001
+5	Not applicable	93605001
+5130	Yes	93605002
+1224	No	93605002
+135	Unspecified	93605002
+24	Not applicable	93605002
+6512	Yes	93605003
+231	No	93605003
+18	Unspecified	93605003
+136	Not applicable	93605003
+4211	Yes	93605004
+62	No	93605004
+25	Unspecified	93605004
+252	Not applicable	93605004
+11645	Yes	93605005
+387	No	93605005
+43	Unspecified	93605005
+136	Not applicable	93605005
+9385	Yes	93605006
+165	No	93605006
+27	Unspecified	93605006
+0	Not applicable	93605006
+7727	Yes	93605007
+209	No	93605007
+21	Unspecified	93605007
+0	Not applicable	93605007
+5453	Yes	93605008
+373	No	93605008
+37	Unspecified	93605008
+243	Not applicable	93605008
+4553	Yes	93605009
+76	No	93605009
+43	Unspecified	93605009
+0	Not applicable	93605009
+10823	Yes	93606001
+496	No	93606001
+122	Unspecified	93606001
+757	Not applicable	93606001
+7484	Yes	93606002
+366	No	93606002
+46	Unspecified	93606002
+0	Not applicable	93606002
+5669	Yes	93606003
+147	No	93606003
+17	Unspecified	93606003
+0	Not applicable	93606003
+11520	Yes	93606004
+439	No	93606004
+52	Unspecified	93606004
+1217	Not applicable	93606004
+4293	Yes	93606005
+255	No	93606005
+31	Unspecified	93606005
+0	Not applicable	93606005
+5543	Yes	93606006
+96	No	93606006
+53	Unspecified	93606006
+98	Not applicable	93606006
+8420	Yes	93606007
+247	No	93606007
+25	Unspecified	93606007
+84	Not applicable	93606007
+5692	Yes	93606008
+272	No	93606008
+21	Unspecified	93606008
+60	Not applicable	93606008
+1985	Yes	93606009
+158	No	93606009
+6	Unspecified	93606009
+4	Not applicable	93606009
+9541	Yes	93607001
+54	No	93607001
+80	Unspecified	93607001
+18	Not applicable	93607001
+8465	Yes	93607002
+83	No	93607002
+41	Unspecified	93607002
+0	Not applicable	93607002
+9655	Yes	93607003
+128	No	93607003
+40	Unspecified	93607003
+0	Not applicable	93607003
+9080	Yes	93607004
+67	No	93607004
+29	Unspecified	93607004
+0	Not applicable	93607004
+7190	Yes	93607005
+18	No	93607005
+17	Unspecified	93607005
+0	Not applicable	93607005
+9419	Yes	93607006
+44	No	93607006
+53	Unspecified	93607006
+0	Not applicable	93607006
+10077	Yes	93607007
+153	No	93607007
+44	Unspecified	93607007
+0	Not applicable	93607007
+7697	Yes	93607008
+30	No	93607008
+27	Unspecified	93607008
+0	Not applicable	93607008
+8408	Yes	93607009
+49	No	93607009
+22	Unspecified	93607009
+138	Not applicable	93607009
+7678	Yes	93607010
+37	No	93607010
+15	Unspecified	93607010
+0	Not applicable	93607010
+9443	Yes	93607011
+113	No	93607011
+168	Unspecified	93607011
+0	Not applicable	93607011
+9861	Yes	93607012
+542	No	93607012
+31	Unspecified	93607012
+212	Not applicable	93607012
+10447	Yes	93607013
+38	No	93607013
+31	Unspecified	93607013
+0	Not applicable	93607013
+8334	Yes	93607014
+66	No	93607014
+21	Unspecified	93607014
+0	Not applicable	93607014
+7617	Yes	93607015
+49	No	93607015
+36	Unspecified	93607015
+0	Not applicable	93607015
+8791	Yes	93607016
+276	No	93607016
+46	Unspecified	93607016
+55	Not applicable	93607016
+8742	Yes	93607017
+42	No	93607017
+16	Unspecified	93607017
+0	Not applicable	93607017
+11396	Yes	93607018
+146	No	93607018
+126	Unspecified	93607018
+0	Not applicable	93607018
+8473	Yes	93607019
+66	No	93607019
+16	Unspecified	93607019
+0	Not applicable	93607019
+10110	Yes	93607020
+91	No	93607020
+36	Unspecified	93607020
+0	Not applicable	93607020
+6074	Yes	93607021
+67	No	93607021
+2	Unspecified	93607021
+0	Not applicable	93607021
+9257	Yes	93607022
+142	No	93607022
+22	Unspecified	93607022
+0	Not applicable	93607022
+8017	Yes	93607023
+128	No	93607023
+18	Unspecified	93607023
+0	Not applicable	93607023
+11920	Yes	93607024
+213	No	93607024
+22	Unspecified	93607024
+0	Not applicable	93607024
+10913	Yes	93607025
+60	No	93607025
+8	Unspecified	93607025
+0	Not applicable	93607025
+5770	Yes	93607026
+168	No	93607026
+18	Unspecified	93607026
+0	Not applicable	93607026
+9267	Yes	93607027
+178	No	93607027
+12	Unspecified	93607027
+0	Not applicable	93607027
+11863	Yes	93607028
+257	No	93607028
+22	Unspecified	93607028
+453	Not applicable	93607028
+11075	Yes	93607029
+337	No	93607029
+28	Unspecified	93607029
+0	Not applicable	93607029
+8311	Yes	93607030
+87	No	93607030
+26	Unspecified	93607030
+0	Not applicable	93607030
+20120	Yes	93607031
+350	No	93607031
+126	Unspecified	93607031
+174	Not applicable	93607031
+7034	Yes	93607032
+754	No	93607032
+57	Unspecified	93607032
+499	Not applicable	93607032
+6372	Yes	94701001
+65	No	94701001
+9	Unspecified	94701001
+0	Not applicable	94701001
+5910	Yes	94701002
+38	No	94701002
+24	Unspecified	94701002
+0	Not applicable	94701002
+9508	Yes	94701003
+44	No	94701003
+49	Unspecified	94701003
+0	Not applicable	94701003
+6906	Yes	94701004
+64	No	94701004
+25	Unspecified	94701004
+0	Not applicable	94701004
+5551	Yes	94701005
+4223	No	94701005
+247	Unspecified	94701005
+0	Not applicable	94701005
+7755	Yes	94701006
+103	No	94701006
+45	Unspecified	94701006
+0	Not applicable	94701006
+4211	Yes	94701007
+701	No	94701007
+44	Unspecified	94701007
+121	Not applicable	94701007
+7900	Yes	94701008
+327	No	94701008
+11	Unspecified	94701008
+0	Not applicable	94701008
+8574	Yes	94701009
+141	No	94701009
+20	Unspecified	94701009
+0	Not applicable	94701009
+7980	Yes	94701010
+45	No	94701010
+9	Unspecified	94701010
+0	Not applicable	94701010
+6599	Yes	94701011
+13	No	94701011
+25	Unspecified	94701011
+0	Not applicable	94701011
+8499	Yes	94701012
+16	No	94701012
+51	Unspecified	94701012
+0	Not applicable	94701012
+6847	Yes	94701013
+20	No	94701013
+20	Unspecified	94701013
+30	Not applicable	94701013
+5852	Yes	94701014
+31	No	94701014
+43	Unspecified	94701014
+0	Not applicable	94701014
+9523	Yes	94701015
+110	No	94701015
+23	Unspecified	94701015
+12	Not applicable	94701015
+8500	Yes	94701016
+255	No	94701016
+25	Unspecified	94701016
+132	Not applicable	94701016
+11415	Yes	94702001
+66	No	94702001
+28	Unspecified	94702001
+0	Not applicable	94702001
+5490	Yes	94702002
+38	No	94702002
+62	Unspecified	94702002
+0	Not applicable	94702002
+6868	Yes	94702003
+24	No	94702003
+28	Unspecified	94702003
+0	Not applicable	94702003
+5238	Yes	94702004
+46	No	94702004
+12	Unspecified	94702004
+0	Not applicable	94702004
+8621	Yes	94702005
+47	No	94702005
+19	Unspecified	94702005
+0	Not applicable	94702005
+6369	Yes	94702006
+80	No	94702006
+20	Unspecified	94702006
+0	Not applicable	94702006
+11283	Yes	94702007
+106	No	94702007
+78	Unspecified	94702007
+0	Not applicable	94702007
+6217	Yes	94702008
+39	No	94702008
+52	Unspecified	94702008
+0	Not applicable	94702008
+11017	Yes	94702009
+143	No	94702009
+47	Unspecified	94702009
+0	Not applicable	94702009
+9507	Yes	94702010
+50	No	94702010
+74	Unspecified	94702010
+0	Not applicable	94702010
+4203	Yes	94702011
+52	No	94702011
+16	Unspecified	94702011
+453	Not applicable	94702011
+8549	Yes	94702012
+1112	No	94702012
+42	Unspecified	94702012
+0	Not applicable	94702012
+3752	Yes	94702013
+212	No	94702013
+32	Unspecified	94702013
+134	Not applicable	94702013
+10507	Yes	94702014
+2253	No	94702014
+76	Unspecified	94702014
+107	Not applicable	94702014
+8434	Yes	94702015
+22	No	94702015
+23	Unspecified	94702015
+0	Not applicable	94702015
+8689	Yes	94702016
+27	No	94702016
+35	Unspecified	94702016
+0	Not applicable	94702016
+6481	Yes	94702017
+60	No	94702017
+16	Unspecified	94702017
+0	Not applicable	94702017
+7001	Yes	94702018
+39	No	94702018
+15	Unspecified	94702018
+0	Not applicable	94702018
+7831	Yes	94702019
+25	No	94702019
+13	Unspecified	94702019
+0	Not applicable	94702019
+10116	Yes	94702020
+238	No	94702020
+42	Unspecified	94702020
+4	Not applicable	94702020
+10242	Yes	94702021
+54	No	94702021
+32	Unspecified	94702021
+21	Not applicable	94702021
+5353	Yes	94702022
+27	No	94702022
+5	Unspecified	94702022
+0	Not applicable	94702022
+6977	Yes	94702023
+19	No	94702023
+9	Unspecified	94702023
+0	Not applicable	94702023
+10447	Yes	94702024
+139	No	94702024
+16	Unspecified	94702024
+0	Not applicable	94702024
+7626	Yes	94702025
+32	No	94702025
+127	Unspecified	94702025
+90	Not applicable	94702025
+5453	Yes	94702026
+53	No	94702026
+24	Unspecified	94702026
+113	Not applicable	94702026
+11168	Yes	94702027
+120	No	94702027
+28	Unspecified	94702027
+0	Not applicable	94702027
+9272	Yes	94702028
+93	No	94702028
+33	Unspecified	94702028
+0	Not applicable	94702028
+8973	Yes	94702029
+361	No	94702029
+68	Unspecified	94702029
+491	Not applicable	94702029
+8050	Yes	94702030
+106	No	94702030
+38	Unspecified	94702030
+8	Not applicable	94702030
+9965	Yes	94703001
+34	No	94703001
+56	Unspecified	94703001
+0	Not applicable	94703001
+7409	Yes	94703002
+11	No	94703002
+3	Unspecified	94703002
+0	Not applicable	94703002
+10168	Yes	94703003
+156	No	94703003
+16	Unspecified	94703003
+4	Not applicable	94703003
+8135	Yes	94703004
+41	No	94703004
+69	Unspecified	94703004
+0	Not applicable	94703004
+8591	Yes	94703005
+33	No	94703005
+19	Unspecified	94703005
+0	Not applicable	94703005
+8042	Yes	94703006
+22	No	94703006
+16	Unspecified	94703006
+0	Not applicable	94703006
+6178	Yes	94703007
+10	No	94703007
+11	Unspecified	94703007
+0	Not applicable	94703007
+13509	Yes	94703008
+78	No	94703008
+99	Unspecified	94703008
+629	Not applicable	94703008
+10198	Yes	94703009
+142	No	94703009
+75	Unspecified	94703009
+0	Not applicable	94703009
+6898	Yes	94703010
+11	No	94703010
+6	Unspecified	94703010
+5	Not applicable	94703010
+6030	Yes	94703011
+152	No	94703011
+6	Unspecified	94703011
+62	Not applicable	94703011
+8945	Yes	94703012
+40	No	94703012
+22	Unspecified	94703012
+0	Not applicable	94703012
+11341	Yes	94703013
+12	No	94703013
+10	Unspecified	94703013
+26	Not applicable	94703013
+6398	Yes	94703014
+33	No	94703014
+35	Unspecified	94703014
+0	Not applicable	94703014
+7092	Yes	94703015
+11	No	94703015
+18	Unspecified	94703015
+0	Not applicable	94703015
+7203	Yes	94703016
+28	No	94703016
+13	Unspecified	94703016
+0	Not applicable	94703016
+9309	Yes	94703017
+12	No	94703017
+19	Unspecified	94703017
+0	Not applicable	94703017
+10084	Yes	94703018
+184	No	94703018
+23	Unspecified	94703018
+0	Not applicable	94703018
+9807	Yes	94703019
+38	No	94703019
+16	Unspecified	94703019
+0	Not applicable	94703019
+9145	Yes	94703020
+50	No	94703020
+18	Unspecified	94703020
+0	Not applicable	94703020
+9979	Yes	94703021
+118	No	94703021
+44	Unspecified	94703021
+240	Not applicable	94703021
+7787	Yes	94703022
+13	No	94703022
+17	Unspecified	94703022
+0	Not applicable	94703022
+10770	Yes	94703023
+27	No	94703023
+132	Unspecified	94703023
+0	Not applicable	94703023
+7777	Yes	94703024
+29	No	94703024
+14	Unspecified	94703024
+54	Not applicable	94703024
+10021	Yes	94703025
+40	No	94703025
+46	Unspecified	94703025
+0	Not applicable	94703025
+8864	Yes	94703026
+55	No	94703026
+45	Unspecified	94703026
+206	Not applicable	94703026
+8086	Yes	94703027
+8	No	94703027
+22	Unspecified	94703027
+0	Not applicable	94703027
+11159	Yes	94703028
+30	No	94703028
+18	Unspecified	94703028
+0	Not applicable	94703028
+6474	Yes	94703029
+10	No	94703029
+17	Unspecified	94703029
+16	Not applicable	94703029
+8433	Yes	94703030
+95	No	94703030
+32	Unspecified	94703030
+2	Not applicable	94703030
+6828	Yes	94703031
+6	No	94703031
+20	Unspecified	94703031
+0	Not applicable	94703031
+5960	Yes	94704001
+24	No	94704001
+103	Unspecified	94704001
+0	Not applicable	94704001
+7969	Yes	94704002
+27	No	94704002
+28	Unspecified	94704002
+0	Not applicable	94704002
+7241	Yes	94704003
+122	No	94704003
+13	Unspecified	94704003
+56	Not applicable	94704003
+5958	Yes	94704004
+9	No	94704004
+27	Unspecified	94704004
+0	Not applicable	94704004
+5908	Yes	94704005
+63	No	94704005
+12	Unspecified	94704005
+0	Not applicable	94704005
+8429	Yes	94704006
+86	No	94704006
+31	Unspecified	94704006
+18	Not applicable	94704006
+8219	Yes	94704007
+38	No	94704007
+27	Unspecified	94704007
+0	Not applicable	94704007
+6754	Yes	94704008
+67	No	94704008
+109	Unspecified	94704008
+0	Not applicable	94704008
+6343	Yes	94704009
+15	No	94704009
+86	Unspecified	94704009
+0	Not applicable	94704009
+5284	Yes	94704010
+8	No	94704010
+70	Unspecified	94704010
+0	Not applicable	94704010
+9305	Yes	94704011
+40	No	94704011
+104	Unspecified	94704011
+0	Not applicable	94704011
+7777	Yes	94704012
+153	No	94704012
+75	Unspecified	94704012
+0	Not applicable	94704012
+7097	Yes	94704013
+99	No	94704013
+42	Unspecified	94704013
+0	Not applicable	94704013
+8155	Yes	94705001
+222	No	94705001
+19	Unspecified	94705001
+5	Not applicable	94705001
+14433	Yes	94705002
+411	No	94705002
+38	Unspecified	94705002
+107	Not applicable	94705002
+9637	Yes	94705003
+39	No	94705003
+17	Unspecified	94705003
+0	Not applicable	94705003
+4980	Yes	94705004
+57	No	94705004
+43	Unspecified	94705004
+0	Not applicable	94705004
+13796	Yes	94705005
+183	No	94705005
+61	Unspecified	94705005
+0	Not applicable	94705005
+8934	Yes	94705006
+27	No	94705006
+46	Unspecified	94705006
+24	Not applicable	94705006
+11583	Yes	94705007
+337	No	94705007
+27	Unspecified	94705007
+137	Not applicable	94705007
+11119	Yes	94705008
+103	No	94705008
+72	Unspecified	94705008
+1	Not applicable	94705008
+11550	Yes	94705009
+32	No	94705009
+26	Unspecified	94705009
+0	Not applicable	94705009
+12065	Yes	94705010
+191	No	94705010
+29	Unspecified	94705010
+293	Not applicable	94705010
+7246	Yes	94705011
+157	No	94705011
+11	Unspecified	94705011
+0	Not applicable	94705011
+8712	Yes	94705012
+74	No	94705012
+11	Unspecified	94705012
+0	Not applicable	94705012
+16183	Yes	94705013
+273	No	94705013
+77	Unspecified	94705013
+474	Not applicable	94705013
+12380	Yes	94705014
+61	No	94705014
+52	Unspecified	94705014
+112	Not applicable	94705014
+8238	Yes	94705015
+12	No	94705015
+37	Unspecified	94705015
+0	Not applicable	94705015
+7912	Yes	94705016
+27	No	94705016
+19	Unspecified	94705016
+184	Not applicable	94705016
+11391	Yes	94705017
+88	No	94705017
+54	Unspecified	94705017
+0	Not applicable	94705017
+11082	Yes	94705018
+777	No	94705018
+91	Unspecified	94705018
+0	Not applicable	94705018
+10575	Yes	94705019
+176	No	94705019
+18	Unspecified	94705019
+30	Not applicable	94705019
+12137	Yes	94705020
+50	No	94705020
+23	Unspecified	94705020
+0	Not applicable	94705020
+6420	Yes	94705021
+10	No	94705021
+60	Unspecified	94705021
+0	Not applicable	94705021
+8559	Yes	94705022
+20	No	94705022
+55	Unspecified	94705022
+0	Not applicable	94705022
+9527	Yes	94705023
+18	No	94705023
+75	Unspecified	94705023
+0	Not applicable	94705023
+8910	Yes	94705024
+21	No	94705024
+20	Unspecified	94705024
+0	Not applicable	94705024
+13558	Yes	94705025
+430	No	94705025
+72	Unspecified	94705025
+0	Not applicable	94705025
+7582	Yes	94705026
+59	No	94705026
+67	Unspecified	94705026
+0	Not applicable	94705026
+12392	Yes	94705027
+25	No	94705027
+47	Unspecified	94705027
+0	Not applicable	94705027
+11685	Yes	94705028
+37	No	94705028
+19	Unspecified	94705028
+0	Not applicable	94705028
+11473	Yes	94705029
+33	No	94705029
+13	Unspecified	94705029
+0	Not applicable	94705029
+13601	Yes	94705030
+151	No	94705030
+44	Unspecified	94705030
+0	Not applicable	94705030
+11636	Yes	94705031
+443	No	94705031
+65	Unspecified	94705031
+1006	Not applicable	94705031
+8579	Yes	83001001
+84	No	83001001
+27	Unspecified	83001001
+0	Not applicable	83001001
+7485	Yes	83001002
+126	No	83001002
+12	Unspecified	83001002
+0	Not applicable	83001002
+7812	Yes	83001003
+160	No	83001003
+33	Unspecified	83001003
+0	Not applicable	83001003
+7909	Yes	83001004
+197	No	83001004
+32	Unspecified	83001004
+0	Not applicable	83001004
+6196	Yes	83001005
+77	No	83001005
+25	Unspecified	83001005
+0	Not applicable	83001005
+7581	Yes	83001006
+126	No	83001006
+37	Unspecified	83001006
+87	Not applicable	83001006
+2396	Yes	83001007
+2	No	83001007
+2	Unspecified	83001007
+0	Not applicable	83001007
+3589	Yes	83001008
+134	No	83001008
+86	Unspecified	83001008
+0	Not applicable	83001008
+12615	Yes	83001009
+149	No	83001009
+47	Unspecified	83001009
+0	Not applicable	83001009
+6344	Yes	83001010
+74	No	83001010
+29	Unspecified	83001010
+262	Not applicable	83001010
+7300	Yes	83001011
+62	No	83001011
+22	Unspecified	83001011
+0	Not applicable	83001011
+7053	Yes	83001012
+136	No	83001012
+40	Unspecified	83001012
+10	Not applicable	83001012
+4780	Yes	83001013
+61	No	83001013
+6	Unspecified	83001013
+0	Not applicable	83001013
+8811	Yes	83001014
+327	No	83001014
+30	Unspecified	83001014
+8	Not applicable	83001014
+10908	Yes	83001015
+199	No	83001015
+47	Unspecified	83001015
+217	Not applicable	83001015
+9171	Yes	83001016
+88	No	83001016
+84	Unspecified	83001016
+0	Not applicable	83001016
+3810	Yes	83001017
+23	No	83001017
+22	Unspecified	83001017
+13	Not applicable	83001017
+9815	Yes	83001018
+156	No	83001018
+49	Unspecified	83001018
+0	Not applicable	83001018
+6368	Yes	83001019
+88	No	83001019
+36	Unspecified	83001019
+0	Not applicable	83001019
+5149	Yes	83001020
+90	No	83001020
+8	Unspecified	83001020
+0	Not applicable	83001020
+9545	Yes	83001021
+139	No	83001021
+29	Unspecified	83001021
+205	Not applicable	83001021
+1779	Yes	83001022
+20	No	83001022
+3	Unspecified	83001022
+0	Not applicable	83001022
+8825	Yes	83001023
+283	No	83001023
+84	Unspecified	83001023
+214	Not applicable	83001023
+10368	Yes	83001024
+294	No	83001024
+23	Unspecified	83001024
+70	Not applicable	83001024
+6694	Yes	83001025
+60	No	83001025
+55	Unspecified	83001025
+23	Not applicable	83001025
+5952	Yes	83002001
+92	No	83002001
+56	Unspecified	83002001
+0	Not applicable	83002001
+8799	Yes	83002002
+73	No	83002002
+21	Unspecified	83002002
+0	Not applicable	83002002
+8362	Yes	83002003
+210	No	83002003
+37	Unspecified	83002003
+740	Not applicable	83002003
+4958	Yes	83002004
+65	No	83002004
+17	Unspecified	83002004
+0	Not applicable	83002004
+3397	Yes	83002005
+29	No	83002005
+3	Unspecified	83002005
+0	Not applicable	83002005
+5088	Yes	83002006
+148	No	83002006
+8	Unspecified	83002006
+60	Not applicable	83002006
+4649	Yes	83002007
+222	No	83002007
+75	Unspecified	83002007
+666	Not applicable	83002007
+13210	Yes	83002008
+161	No	83002008
+76	Unspecified	83002008
+150	Not applicable	83002008
+9467	Yes	83002009
+178	No	83002009
+146	Unspecified	83002009
+0	Not applicable	83002009
+8363	Yes	83002010
+72	No	83002010
+44	Unspecified	83002010
+3	Not applicable	83002010
+7170	Yes	83002011
+50	No	83002011
+21	Unspecified	83002011
+46	Not applicable	83002011
+3224	Yes	83002012
+43	No	83002012
+8	Unspecified	83002012
+0	Not applicable	83002012
+8480	Yes	83002013
+75	No	83002013
+16	Unspecified	83002013
+383	Not applicable	83002013
+6283	Yes	83002014
+68	No	83002014
+20	Unspecified	83002014
+0	Not applicable	83002014
+9944	Yes	83002015
+112	No	83002015
+46	Unspecified	83002015
+0	Not applicable	83002015
+15300	Yes	83002016
+292	No	83002016
+90	Unspecified	83002016
+39	Not applicable	83002016
+7016	Yes	83002017
+117	No	83002017
+21	Unspecified	83002017
+0	Not applicable	83002017
+6405	Yes	83002018
+33	No	83002018
+17	Unspecified	83002018
+0	Not applicable	83002018
+8238	Yes	83002019
+133	No	83002019
+77	Unspecified	83002019
+13	Not applicable	83002019
+10011	Yes	83003001
+102	No	83003001
+20	Unspecified	83003001
+0	Not applicable	83003001
+16273	Yes	83003002
+82	No	83003002
+90	Unspecified	83003002
+0	Not applicable	83003002
+12663	Yes	83003003
+37	No	83003003
+110	Unspecified	83003003
+196	Not applicable	83003003
+5741	Yes	83003004
+55	No	83003004
+67	Unspecified	83003004
+0	Not applicable	83003004
+11909	Yes	83003005
+171	No	83003005
+109	Unspecified	83003005
+0	Not applicable	83003005
+8170	Yes	83003006
+33	No	83003006
+74	Unspecified	83003006
+0	Not applicable	83003006
+4760	Yes	83003007
+233	No	83003007
+51	Unspecified	83003007
+1039	Not applicable	83003007
+8978	Yes	83003008
+34	No	83003008
+77	Unspecified	83003008
+6	Not applicable	83003008
+13832	Yes	83003009
+109	No	83003009
+88	Unspecified	83003009
+0	Not applicable	83003009
+6523	Yes	83003010
+194	No	83003010
+35	Unspecified	83003010
+0	Not applicable	83003010
+12116	Yes	83003011
+172	No	83003011
+33	Unspecified	83003011
+0	Not applicable	83003011
+6284	Yes	83003012
+67	No	83003012
+32	Unspecified	83003012
+0	Not applicable	83003012
+7300	Yes	83003013
+129	No	83003013
+23	Unspecified	83003013
+0	Not applicable	83003013
+9003	Yes	83003014
+112	No	83003014
+108	Unspecified	83003014
+173	Not applicable	83003014
+8365	Yes	83003015
+8	No	83003015
+57	Unspecified	83003015
+24	Not applicable	83003015
+5618	Yes	83003016
+62	No	83003016
+19	Unspecified	83003016
+0	Not applicable	83003016
+6777	Yes	83003017
+75	No	83003017
+22	Unspecified	83003017
+10	Not applicable	83003017
+3378	Yes	83003018
+16	No	83003018
+11	Unspecified	83003018
+0	Not applicable	83003018
+9746	Yes	83003019
+239	No	83003019
+122	Unspecified	83003019
+12	Not applicable	83003019
+7477	Yes	83004001
+57	No	83004001
+20	Unspecified	83004001
+0	Not applicable	83004001
+3390	Yes	83004002
+20	No	83004002
+2	Unspecified	83004002
+0	Not applicable	83004002
+7712	Yes	83004003
+80	No	83004003
+75	Unspecified	83004003
+0	Not applicable	83004003
+6634	Yes	83004004
+111	No	83004004
+18	Unspecified	83004004
+0	Not applicable	83004004
+6443	Yes	83004005
+66	No	83004005
+132	Unspecified	83004005
+211	Not applicable	83004005
+8878	Yes	83004006
+58	No	83004006
+10	Unspecified	83004006
+123	Not applicable	83004006
+6718	Yes	83004007
+131	No	83004007
+12	Unspecified	83004007
+87	Not applicable	83004007
+7721	Yes	83004008
+84	No	83004008
+57	Unspecified	83004008
+0	Not applicable	83004008
+5355	Yes	83004009
+31	No	83004009
+71	Unspecified	83004009
+0	Not applicable	83004009
+12427	Yes	83004010
+39	No	83004010
+147	Unspecified	83004010
+0	Not applicable	83004010
+8761	Yes	83004011
+52	No	83004011
+25	Unspecified	83004011
+0	Not applicable	83004011
+6109	Yes	83005001
+59	No	83005001
+14	Unspecified	83005001
+12	Not applicable	83005001
+4243	Yes	83005002
+26	No	83005002
+14	Unspecified	83005002
+2	Not applicable	83005002
+7571	Yes	83005003
+112	No	83005003
+21	Unspecified	83005003
+0	Not applicable	83005003
+5745	Yes	83005004
+71	No	83005004
+32	Unspecified	83005004
+0	Not applicable	83005004
+7828	Yes	83005005
+130	No	83005005
+15	Unspecified	83005005
+0	Not applicable	83005005
+5050	Yes	83005006
+62	No	83005006
+8	Unspecified	83005006
+0	Not applicable	83005006
+6137	Yes	83005007
+30	No	83005007
+23	Unspecified	83005007
+0	Not applicable	83005007
+8474	Yes	83005008
+184	No	83005008
+62	Unspecified	83005008
+707	Not applicable	83005008
+6913	Yes	83005009
+67	No	83005009
+35	Unspecified	83005009
+148	Not applicable	83005009
+5124	Yes	83005010
+234	No	83005010
+36	Unspecified	83005010
+291	Not applicable	83005010
+12994	Yes	83005011
+81	No	83005011
+31	Unspecified	83005011
+19	Not applicable	83005011
+9739	Yes	83005012
+166	No	83005012
+34	Unspecified	83005012
+124	Not applicable	83005012
+6685	Yes	83005013
+34	No	83005013
+40	Unspecified	83005013
+0	Not applicable	83005013
+7127	Yes	83005014
+148	No	83005014
+46	Unspecified	83005014
+325	Not applicable	83005014
+12298	Yes	83005015
+148	No	83005015
+36	Unspecified	83005015
+0	Not applicable	83005015
+7532	Yes	83006001
+43	No	83006001
+64	Unspecified	83006001
+0	Not applicable	83006001
+7281	Yes	83006002
+118	No	83006002
+16	Unspecified	83006002
+0	Not applicable	83006002
+4892	Yes	83006003
+161	No	83006003
+30	Unspecified	83006003
+21	Not applicable	83006003
+8007	Yes	83006004
+72	No	83006004
+100	Unspecified	83006004
+0	Not applicable	83006004
+6633	Yes	83006005
+75	No	83006005
+21	Unspecified	83006005
+260	Not applicable	83006005
+6983	Yes	83006006
+42	No	83006006
+14	Unspecified	83006006
+26	Not applicable	83006006
+12849	Yes	83007001
+377	No	83007001
+79	Unspecified	83007001
+29	Not applicable	83007001
+9809	Yes	83007002
+262	No	83007002
+38	Unspecified	83007002
+8	Not applicable	83007002
+9064	Yes	83007003
+156	No	83007003
+15	Unspecified	83007003
+0	Not applicable	83007003
+6199	Yes	83007004
+200	No	83007004
+29	Unspecified	83007004
+0	Not applicable	83007004
+7997	Yes	83007005
+123	No	83007005
+89	Unspecified	83007005
+1010	Not applicable	83007005
+4692	Yes	83007006
+214	No	83007006
+8	Unspecified	83007006
+54	Not applicable	83007006
+6814	Yes	83007007
+67	No	83007007
+39	Unspecified	83007007
+0	Not applicable	83007007
+6722	Yes	83007008
+146	No	83007008
+27	Unspecified	83007008
+0	Not applicable	83007008
+6222	Yes	83007009
+148	No	83007009
+18	Unspecified	83007009
+0	Not applicable	83007009
+10088	Yes	83007010
+242	No	83007010
+84	Unspecified	83007010
+1	Not applicable	83007010
+7867	Yes	83007011
+154	No	83007011
+73	Unspecified	83007011
+0	Not applicable	83007011
+10112	Yes	83007012
+497	No	83007012
+112	Unspecified	83007012
+0	Not applicable	83007012
+6879	Yes	83007013
+228	No	83007013
+25	Unspecified	83007013
+0	Not applicable	83007013
+4629	Yes	83007014
+216	No	83007014
+18	Unspecified	83007014
+0	Not applicable	83007014
+11900	Yes	83007015
+438	No	83007015
+144	Unspecified	83007015
+478	Not applicable	83007015
+12619	Yes	83007016
+681	No	83007016
+72	Unspecified	83007016
+0	Not applicable	83007016
+4915	Yes	83007017
+371	No	83007017
+88	Unspecified	83007017
+0	Not applicable	83007017
+10322	Yes	83007018
+397	No	83007018
+103	Unspecified	83007018
+0	Not applicable	83007018
+17389	Yes	83007019
+611	No	83007019
+147	Unspecified	83007019
+0	Not applicable	83007019
+11205	Yes	83007020
+765	No	83007020
+114	Unspecified	83007020
+0	Not applicable	83007020
+7721	Yes	83007021
+151	No	83007021
+119	Unspecified	83007021
+0	Not applicable	83007021
+10328	Yes	83007022
+131	No	83007022
+37	Unspecified	83007022
+0	Not applicable	83007022
+5309	Yes	83007023
+97	No	83007023
+25	Unspecified	83007023
+0	Not applicable	83007023
+7607	Yes	83007024
+85	No	83007024
+47	Unspecified	83007024
+0	Not applicable	83007024
+10761	Yes	83007025
+202	No	83007025
+135	Unspecified	83007025
+30	Not applicable	83007025
+11397	Yes	83007026
+147	No	83007026
+44	Unspecified	83007026
+0	Not applicable	83007026
+5312	Yes	83007027
+164	No	83007027
+29	Unspecified	83007027
+0	Not applicable	83007027
+11986	Yes	83007028
+375	No	83007028
+114	Unspecified	83007028
+710	Not applicable	83007028
+4951	Yes	83007029
+36	No	83007029
+24	Unspecified	83007029
+0	Not applicable	83007029
+9498	Yes	83007030
+81	No	83007030
+197	Unspecified	83007030
+0	Not applicable	83007030
+10589	Yes	83007031
+362	No	83007031
+107	Unspecified	83007031
+0	Not applicable	83007031
+7994	Yes	83007032
+106	No	83007032
+44	Unspecified	83007032
+0	Not applicable	83007032
+6450	Yes	83101001
+118	No	83101001
+38	Unspecified	83101001
+0	Not applicable	83101001
+5044	Yes	83101002
+111	No	83101002
+5	Unspecified	83101002
+91	Not applicable	83101002
+13674	Yes	83101003
+334	No	83101003
+25	Unspecified	83101003
+0	Not applicable	83101003
+5812	Yes	83101004
+181	No	83101004
+29	Unspecified	83101004
+0	Not applicable	83101004
+7207	Yes	83101005
+219	No	83101005
+44	Unspecified	83101005
+0	Not applicable	83101005
+6346	Yes	83101006
+215	No	83101006
+53	Unspecified	83101006
+30	Not applicable	83101006
+10606	Yes	83101007
+462	No	83101007
+154	Unspecified	83101007
+100	Not applicable	83101007
+5719	Yes	83101008
+294	No	83101008
+67	Unspecified	83101008
+0	Not applicable	83101008
+10969	Yes	83101009
+575	No	83101009
+129	Unspecified	83101009
+351	Not applicable	83101009
+15100	Yes	83102001
+445	No	83102001
+58	Unspecified	83102001
+0	Not applicable	83102001
+9003	Yes	83102002
+315	No	83102002
+32	Unspecified	83102002
+0	Not applicable	83102002
+4040	Yes	83102003
+122	No	83102003
+10	Unspecified	83102003
+0	Not applicable	83102003
+9889	Yes	83102004
+189	No	83102004
+25	Unspecified	83102004
+10	Not applicable	83102004
+10256	Yes	83102005
+100	No	83102005
+8	Unspecified	83102005
+0	Not applicable	83102005
+13954	Yes	83102006
+467	No	83102006
+34	Unspecified	83102006
+0	Not applicable	83102006
+8164	Yes	83102007
+109	No	83102007
+14	Unspecified	83102007
+0	Not applicable	83102007
+12312	Yes	83102008
+586	No	83102008
+57	Unspecified	83102008
+0	Not applicable	83102008
+10015	Yes	83102009
+495	No	83102009
+34	Unspecified	83102009
+2	Not applicable	83102009
+7325	Yes	83102010
+99	No	83102010
+10	Unspecified	83102010
+0	Not applicable	83102010
+7051	Yes	83102011
+109	No	83102011
+72	Unspecified	83102011
+86	Not applicable	83102011
+12953	Yes	83102012
+463	No	83102012
+34	Unspecified	83102012
+1805	Not applicable	83102012
+6106	Yes	83102013
+153	No	83102013
+37	Unspecified	83102013
+0	Not applicable	83102013
+11229	Yes	83102014
+1598	No	83102014
+93	Unspecified	83102014
+0	Not applicable	83102014
+15720	Yes	83102015
+929	No	83102015
+95	Unspecified	83102015
+0	Not applicable	83102015
+8119	Yes	83102016
+224	No	83102016
+21	Unspecified	83102016
+0	Not applicable	83102016
+9547	Yes	83102017
+592	No	83102017
+117	Unspecified	83102017
+0	Not applicable	83102017
+12175	Yes	83102018
+262	No	83102018
+100	Unspecified	83102018
+46	Not applicable	83102018
+11387	Yes	83102019
+693	No	83102019
+53	Unspecified	83102019
+19	Not applicable	83102019
+9633	Yes	83102020
+390	No	83102020
+180	Unspecified	83102020
+39	Not applicable	83102020
+17657	Yes	83102021
+1199	No	83102021
+118	Unspecified	83102021
+230	Not applicable	83102021
+4745	Yes	83102022
+474	No	83102022
+100	Unspecified	83102022
+203	Not applicable	83102022
+12151	Yes	83102023
+294	No	83102023
+39	Unspecified	83102023
+0	Not applicable	83102023
+10092	Yes	83102024
+321	No	83102024
+65	Unspecified	83102024
+287	Not applicable	83102024
+14470	Yes	83102025
+439	No	83102025
+29	Unspecified	83102025
+0	Not applicable	83102025
+8811	Yes	83102026
+128	No	83102026
+97	Unspecified	83102026
+151	Not applicable	83102026
+8472	Yes	83102027
+215	No	83102027
+114	Unspecified	83102027
+124	Not applicable	83102027
+15112	Yes	83102028
+423	No	83102028
+43	Unspecified	83102028
+78	Not applicable	83102028
+19037	Yes	83102029
+460	No	83102029
+89	Unspecified	83102029
+191	Not applicable	83102029
+9418	Yes	83102030
+532	No	83102030
+41	Unspecified	83102030
+858	Not applicable	83102030
+10324	Yes	83102031
+135	No	83102031
+36	Unspecified	83102031
+0	Not applicable	83102031
+10679	Yes	83102032
+706	No	83102032
+53	Unspecified	83102032
+132	Not applicable	83102032
+13187	Yes	83102033
+476	No	83102033
+111	Unspecified	83102033
+467	Not applicable	83102033
+15002	Yes	83102034
+1091	No	83102034
+173	Unspecified	83102034
+182	Not applicable	83102034
+4006	Yes	83103001
+35	No	83103001
+1	Unspecified	83103001
+0	Not applicable	83103001
+12317	Yes	83103002
+214	No	83103002
+42	Unspecified	83103002
+0	Not applicable	83103002
+7390	Yes	83103003
+193	No	83103003
+16	Unspecified	83103003
+202	Not applicable	83103003
+4410	Yes	83103004
+424	No	83103004
+60	Unspecified	83103004
+115	Not applicable	83103004
+3595	Yes	83103005
+76	No	83103005
+38	Unspecified	83103005
+240	Not applicable	83103005
+6400	Yes	83103006
+187	No	83103006
+47	Unspecified	83103006
+166	Not applicable	83103006
+5645	Yes	83103007
+109	No	83103007
+51	Unspecified	83103007
+18	Not applicable	83103007
+9825	Yes	83103008
+917	No	83103008
+38	Unspecified	83103008
+94	Not applicable	83103008
+6434	Yes	83103009
+162	No	83103009
+33	Unspecified	83103009
+0	Not applicable	83103009
+14922	Yes	83103010
+724	No	83103010
+145	Unspecified	83103010
+193	Not applicable	83103010
+10825	Yes	83103011
+703	No	83103011
+79	Unspecified	83103011
+17	Not applicable	83103011
+14240	Yes	83103012
+239	No	83103012
+148	Unspecified	83103012
+803	Not applicable	83103012
+5480	Yes	83103013
+284	No	83103013
+69	Unspecified	83103013
+246	Not applicable	83103013
+6098	Yes	83103014
+129	No	83103014
+46	Unspecified	83103014
+490	Not applicable	83103014
+7297	Yes	83103015
+79	No	83103015
+79	Unspecified	83103015
+962	Not applicable	83103015
+7573	Yes	83103016
+133	No	83103016
+68	Unspecified	83103016
+30	Not applicable	83103016
+6683	Yes	83103017
+281	No	83103017
+15	Unspecified	83103017
+0	Not applicable	83103017
+4567	Yes	83103018
+36	No	83103018
+18	Unspecified	83103018
+0	Not applicable	83103018
+5232	Yes	83103019
+307	No	83103019
+19	Unspecified	83103019
+0	Not applicable	83103019
+4385	Yes	83103020
+87	No	83103020
+19	Unspecified	83103020
+0	Not applicable	83103020
+5930	Yes	83103021
+94	No	83103021
+126	Unspecified	83103021
+0	Not applicable	83103021
+3398	Yes	83103022
+57	No	83103022
+16	Unspecified	83103022
+0	Not applicable	83103022
+12378	Yes	83103023
+169	No	83103023
+37	Unspecified	83103023
+0	Not applicable	83103023
+1972	Yes	83103024
+44	No	83103024
+3	Unspecified	83103024
+0	Not applicable	83103024
+12900	Yes	83103025
+360	No	83103025
+56	Unspecified	83103025
+0	Not applicable	83103025
+2135	Yes	83103026
+67	No	83103026
+37	Unspecified	83103026
+0	Not applicable	83103026
+6034	Yes	83103027
+293	No	83103027
+22	Unspecified	83103027
+0	Not applicable	83103027
+18745	Yes	83103028
+871	No	83103028
+227	Unspecified	83103028
+0	Not applicable	83103028
+6449	Yes	83103029
+107	No	83103029
+30	Unspecified	83103029
+23	Not applicable	83103029
+5754	Yes	83104001
+70	No	83104001
+28	Unspecified	83104001
+0	Not applicable	83104001
+4995	Yes	83104002
+105	No	83104002
+17	Unspecified	83104002
+0	Not applicable	83104002
+6220	Yes	83104003
+60	No	83104003
+19	Unspecified	83104003
+240	Not applicable	83104003
+5846	Yes	83104004
+162	No	83104004
+42	Unspecified	83104004
+0	Not applicable	83104004
+3855	Yes	83104005
+512	No	83104005
+20	Unspecified	83104005
+47	Not applicable	83104005
+7204	Yes	83104006
+192	No	83104006
+9	Unspecified	83104006
+108	Not applicable	83104006
+5894	Yes	83104007
+95	No	83104007
+14	Unspecified	83104007
+84	Not applicable	83104007
+5073	Yes	83104008
+113	No	83104008
+45	Unspecified	83104008
+393	Not applicable	83104008
+9945	Yes	83105001
+130	No	83105001
+202	Unspecified	83105001
+0	Not applicable	83105001
+11052	Yes	83105002
+127	No	83105002
+29	Unspecified	83105002
+0	Not applicable	83105002
+7741	Yes	83105003
+76	No	83105003
+53	Unspecified	83105003
+0	Not applicable	83105003
+15161	Yes	83105004
+373	No	83105004
+58	Unspecified	83105004
+175	Not applicable	83105004
+6896	Yes	83105005
+64	No	83105005
+50	Unspecified	83105005
+60	Not applicable	83105005
+10780	Yes	83105006
+67	No	83105006
+61	Unspecified	83105006
+0	Not applicable	83105006
+9581	Yes	83105007
+93	No	83105007
+17	Unspecified	83105007
+0	Not applicable	83105007
+11930	Yes	83105008
+271	No	83105008
+16	Unspecified	83105008
+0	Not applicable	83105008
+9774	Yes	83105009
+200	No	83105009
+23	Unspecified	83105009
+0	Not applicable	83105009
+7399	Yes	83105010
+169	No	83105010
+20	Unspecified	83105010
+0	Not applicable	83105010
+11363	Yes	83105011
+128	No	83105011
+41	Unspecified	83105011
+2	Not applicable	83105011
+6572	Yes	83105012
+34	No	83105012
+18	Unspecified	83105012
+0	Not applicable	83105012
+7730	Yes	83105013
+59	No	83105013
+17	Unspecified	83105013
+18	Not applicable	83105013
+13750	Yes	83105014
+275	No	83105014
+44	Unspecified	83105014
+0	Not applicable	83105014
+9802	Yes	83105015
+86	No	83105015
+16	Unspecified	83105015
+0	Not applicable	83105015
+9363	Yes	83105016
+98	No	83105016
+21	Unspecified	83105016
+1	Not applicable	83105016
+8579	Yes	83105017
+106	No	83105017
+25	Unspecified	83105017
+0	Not applicable	83105017
+9783	Yes	83105018
+65	No	83105018
+130	Unspecified	83105018
+11	Not applicable	83105018
+11180	Yes	83105019
+173	No	83105019
+39	Unspecified	83105019
+0	Not applicable	83105019
+14015	Yes	83105020
+197	No	83105020
+27	Unspecified	83105020
+2	Not applicable	83105020
+9259	Yes	83105021
+133	No	83105021
+54	Unspecified	83105021
+0	Not applicable	83105021
+10648	Yes	83105022
+104	No	83105022
+78	Unspecified	83105022
+0	Not applicable	83105022
+8827	Yes	83105023
+142	No	83105023
+39	Unspecified	83105023
+0	Not applicable	83105023
+9972	Yes	83105024
+117	No	83105024
+26	Unspecified	83105024
+19	Not applicable	83105024
+8067	Yes	83105025
+138	No	83105025
+15	Unspecified	83105025
+17	Not applicable	83105025
+7456	Yes	83105026
+134	No	83105026
+57	Unspecified	83105026
+91	Not applicable	83105026
+8360	Yes	83105027
+80	No	83105027
+17	Unspecified	83105027
+0	Not applicable	83105027
+7136	Yes	83105028
+68	No	83105028
+25	Unspecified	83105028
+1	Not applicable	83105028
+5840	Yes	83105029
+78	No	83105029
+11	Unspecified	83105029
+0	Not applicable	83105029
+11033	Yes	83105030
+100	No	83105030
+73	Unspecified	83105030
+8	Not applicable	83105030
+9268	Yes	83105031
+53	No	83105031
+44	Unspecified	83105031
+0	Not applicable	83105031
+6229	Yes	83105032
+262	No	83105032
+19	Unspecified	83105032
+1	Not applicable	83105032
+7892	Yes	83106001
+161	No	83106001
+22	Unspecified	83106001
+0	Not applicable	83106001
+8776	Yes	83106002
+249	No	83106002
+37	Unspecified	83106002
+100	Not applicable	83106002
+7190	Yes	83106003
+55	No	83106003
+16	Unspecified	83106003
+0	Not applicable	83106003
+7853	Yes	83106004
+201	No	83106004
+34	Unspecified	83106004
+0	Not applicable	83106004
+8134	Yes	83106005
+63	No	83106005
+17	Unspecified	83106005
+23	Not applicable	83106005
+9459	Yes	83106006
+137	No	83106006
+19	Unspecified	83106006
+60	Not applicable	83106006
+7176	Yes	83106007
+39	No	83106007
+35	Unspecified	83106007
+0	Not applicable	83106007
+7322	Yes	83106008
+32	No	83106008
+27	Unspecified	83106008
+0	Not applicable	83106008
+5407	Yes	83106009
+32	No	83106009
+8	Unspecified	83106009
+0	Not applicable	83106009
+7695	Yes	83106010
+77	No	83106010
+38	Unspecified	83106010
+0	Not applicable	83106010
+8421	Yes	83106011
+42	No	83106011
+13	Unspecified	83106011
+0	Not applicable	83106011
+9115	Yes	83106012
+70	No	83106012
+18	Unspecified	83106012
+6	Not applicable	83106012
+7649	Yes	83106013
+47	No	83106013
+12	Unspecified	83106013
+0	Not applicable	83106013
+7336	Yes	83106014
+63	No	83106014
+27	Unspecified	83106014
+0	Not applicable	83106014
+9053	Yes	83106015
+66	No	83106015
+38	Unspecified	83106015
+0	Not applicable	83106015
+4662	Yes	83106016
+39	No	83106016
+16	Unspecified	83106016
+0	Not applicable	83106016
+10428	Yes	83106017
+127	No	83106017
+74	Unspecified	83106017
+0	Not applicable	83106017
+7696	Yes	83106018
+125	No	83106018
+9	Unspecified	83106018
+0	Not applicable	83106018
+9605	Yes	83106019
+63	No	83106019
+16	Unspecified	83106019
+2	Not applicable	83106019
+6699	Yes	83106020
+52	No	83106020
+32	Unspecified	83106020
+0	Not applicable	83106020
+8783	Yes	83106021
+72	No	83106021
+100	Unspecified	83106021
+0	Not applicable	83106021
+9456	Yes	83106022
+68	No	83106022
+20	Unspecified	83106022
+0	Not applicable	83106022
+5208	Yes	83106023
+72	No	83106023
+2	Unspecified	83106023
+0	Not applicable	83106023
+10033	Yes	83106024
+136	No	83106024
+34	Unspecified	83106024
+0	Not applicable	83106024
+7372	Yes	83106025
+78	No	83106025
+45	Unspecified	83106025
+0	Not applicable	83106025
+8748	Yes	83106026
+60	No	83106026
+37	Unspecified	83106026
+68	Not applicable	83106026
+7925	Yes	83106027
+49	No	83106027
+20	Unspecified	83106027
+0	Not applicable	83106027
+6474	Yes	83106028
+60	No	83106028
+30	Unspecified	83106028
+0	Not applicable	83106028
+7868	Yes	83106029
+81	No	83106029
+7	Unspecified	83106029
+0	Not applicable	83106029
+8161	Yes	83106030
+78	No	83106030
+48	Unspecified	83106030
+12	Not applicable	83106030
+8328	Yes	83106031
+103	No	83106031
+11	Unspecified	83106031
+53	Not applicable	83106031
+3111	Yes	83201001
+128	No	83201001
+17	Unspecified	83201001
+0	Not applicable	83201001
+7865	Yes	83201002
+295	No	83201002
+56	Unspecified	83201002
+0	Not applicable	83201002
+9364	Yes	83201003
+339	No	83201003
+36	Unspecified	83201003
+180	Not applicable	83201003
+7454	Yes	83201004
+215	No	83201004
+80	Unspecified	83201004
+71	Not applicable	83201004
+9596	Yes	83201005
+337	No	83201005
+141	Unspecified	83201005
+19	Not applicable	83201005
+4717	Yes	83201006
+175	No	83201006
+98	Unspecified	83201006
+202	Not applicable	83201006
+8401	Yes	83201007
+436	No	83201007
+80	Unspecified	83201007
+519	Not applicable	83201007
+7232	Yes	83201008
+38	No	83201008
+40	Unspecified	83201008
+57	Not applicable	83201008
+8451	Yes	83201009
+38	No	83201009
+29	Unspecified	83201009
+7	Not applicable	83201009
+4692	Yes	83201010
+329	No	83201010
+19	Unspecified	83201010
+335	Not applicable	83201010
+4632	Yes	83201011
+902	No	83201011
+60	Unspecified	83201011
+42	Not applicable	83201011
+4066	Yes	83201012
+101	No	83201012
+31	Unspecified	83201012
+284	Not applicable	83201012
+2539	Yes	83201013
+31	No	83201013
+15	Unspecified	83201013
+0	Not applicable	83201013
+8873	Yes	83201014
+508	No	83201014
+186	Unspecified	83201014
+918	Not applicable	83201014
+21451	Yes	83202001
+477	No	83202001
+48	Unspecified	83202001
+174	Not applicable	83202001
+21537	Yes	83202002
+439	No	83202002
+93	Unspecified	83202002
+0	Not applicable	83202002
+15819	Yes	83202003
+277	No	83202003
+34	Unspecified	83202003
+12	Not applicable	83202003
+9231	Yes	83202004
+339	No	83202004
+97	Unspecified	83202004
+0	Not applicable	83202004
+16698	Yes	83202005
+162	No	83202005
+53	Unspecified	83202005
+0	Not applicable	83202005
+15142	Yes	83202006
+192	No	83202006
+56	Unspecified	83202006
+38	Not applicable	83202006
+12962	Yes	83202007
+272	No	83202007
+52	Unspecified	83202007
+16	Not applicable	83202007
+15237	Yes	83202008
+923	No	83202008
+125	Unspecified	83202008
+119	Not applicable	83202008
+14080	Yes	83202009
+120	No	83202009
+131	Unspecified	83202009
+0	Not applicable	83202009
+13781	Yes	83202010
+363	No	83202010
+69	Unspecified	83202010
+0	Not applicable	83202010
+15068	Yes	83202011
+528	No	83202011
+31	Unspecified	83202011
+0	Not applicable	83202011
+10680	Yes	83202012
+1549	No	83202012
+85	Unspecified	83202012
+938	Not applicable	83202012
+10955	Yes	83202013
+228	No	83202013
+52	Unspecified	83202013
+0	Not applicable	83202013
+16737	Yes	83202014
+1267	No	83202014
+143	Unspecified	83202014
+495	Not applicable	83202014
+13743	Yes	83202015
+587	No	83202015
+192	Unspecified	83202015
+880	Not applicable	83202015
+9928	Yes	83202016
+605	No	83202016
+116	Unspecified	83202016
+829	Not applicable	83202016
+14699	Yes	83202017
+523	No	83202017
+113	Unspecified	83202017
+93	Not applicable	83202017
+13528	Yes	83202018
+653	No	83202018
+71	Unspecified	83202018
+244	Not applicable	83202018
+13970	Yes	83202019
+505	No	83202019
+74	Unspecified	83202019
+8	Not applicable	83202019
+12795	Yes	83202020
+587	No	83202020
+66	Unspecified	83202020
+0	Not applicable	83202020
+16314	Yes	83202021
+442	No	83202021
+45	Unspecified	83202021
+0	Not applicable	83202021
+13279	Yes	83202022
+460	No	83202022
+83	Unspecified	83202022
+0	Not applicable	83202022
+10070	Yes	83202023
+283	No	83202023
+45	Unspecified	83202023
+1	Not applicable	83202023
+11823	Yes	83202024
+282	No	83202024
+49	Unspecified	83202024
+14	Not applicable	83202024
+14722	Yes	83202025
+105	No	83202025
+31	Unspecified	83202025
+86	Not applicable	83202025
+16946	Yes	83202026
+480	No	83202026
+83	Unspecified	83202026
+0	Not applicable	83202026
+17625	Yes	83202027
+709	No	83202027
+84	Unspecified	83202027
+0	Not applicable	83202027
+15360	Yes	83202028
+279	No	83202028
+86	Unspecified	83202028
+0	Not applicable	83202028
+15550	Yes	83202029
+424	No	83202029
+70	Unspecified	83202029
+0	Not applicable	83202029
+10397	Yes	83202030
+507	No	83202030
+110	Unspecified	83202030
+675	Not applicable	83202030
+10807	Yes	83202031
+186	No	83202031
+103	Unspecified	83202031
+0	Not applicable	83202031
+16431	Yes	83202032
+881	No	83202032
+210	Unspecified	83202032
+460	Not applicable	83202032
+12089	Yes	83202033
+609	No	83202033
+56	Unspecified	83202033
+238	Not applicable	83202033
+12204	Yes	83202034
+108	No	83202034
+25	Unspecified	83202034
+0	Not applicable	83202034
+14437	Yes	83202035
+435	No	83202035
+55	Unspecified	83202035
+184	Not applicable	83202035
+12548	Yes	83202036
+286	No	83202036
+76	Unspecified	83202036
+0	Not applicable	83202036
+14051	Yes	83202037
+160	No	83202037
+186	Unspecified	83202037
+0	Not applicable	83202037
+22622	Yes	83202038
+1289	No	83202038
+257	Unspecified	83202038
+1086	Not applicable	83202038
+14258	Yes	83202039
+321	No	83202039
+92	Unspecified	83202039
+343	Not applicable	83202039
+4558	Yes	83203001
+437	No	83203001
+25	Unspecified	83203001
+20	Not applicable	83203001
+7124	Yes	83203002
+707	No	83203002
+33	Unspecified	83203002
+276	Not applicable	83203002
+11099	Yes	83203003
+468	No	83203003
+156	Unspecified	83203003
+1452	Not applicable	83203003
+7720	Yes	83203004
+628	No	83203004
+51	Unspecified	83203004
+56	Not applicable	83203004
+5584	Yes	83203005
+80	No	83203005
+15	Unspecified	83203005
+0	Not applicable	83203005
+5902	Yes	83203006
+124	No	83203006
+31	Unspecified	83203006
+727	Not applicable	83203006
+3239	Yes	83203007
+133	No	83203007
+21	Unspecified	83203007
+0	Not applicable	83203007
+8283	Yes	83203008
+445	No	83203008
+30	Unspecified	83203008
+748	Not applicable	83203008
+6426	Yes	83203009
+152	No	83203009
+31	Unspecified	83203009
+377	Not applicable	83203009
+13129	Yes	83204001
+997	No	83204001
+190	Unspecified	83204001
+0	Not applicable	83204001
+19890	Yes	83204002
+1456	No	83204002
+376	Unspecified	83204002
+0	Not applicable	83204002
+14605	Yes	83204003
+1903	No	83204003
+291	Unspecified	83204003
+0	Not applicable	83204003
+8111	Yes	83204004
+734	No	83204004
+85	Unspecified	83204004
+0	Not applicable	83204004
+11859	Yes	83204005
+876	No	83204005
+179	Unspecified	83204005
+0	Not applicable	83204005
+11712	Yes	83204006
+3235	No	83204006
+238	Unspecified	83204006
+139	Not applicable	83204006
+11116	Yes	83204007
+5877	No	83204007
+306	Unspecified	83204007
+241	Not applicable	83204007
+13290	Yes	83204008
+483	No	83204008
+114	Unspecified	83204008
+15	Not applicable	83204008
+12752	Yes	83204009
+438	No	83204009
+115	Unspecified	83204009
+370	Not applicable	83204009
+12473	Yes	83204010
+560	No	83204010
+142	Unspecified	83204010
+0	Not applicable	83204010
+11885	Yes	83204011
+918	No	83204011
+106	Unspecified	83204011
+0	Not applicable	83204011
+10112	Yes	83204012
+399	No	83204012
+88	Unspecified	83204012
+0	Not applicable	83204012
+9607	Yes	83204013
+241	No	83204013
+140	Unspecified	83204013
+0	Not applicable	83204013
+9944	Yes	83204014
+739	No	83204014
+49	Unspecified	83204014
+0	Not applicable	83204014
+12160	Yes	83204015
+319	No	83204015
+120	Unspecified	83204015
+0	Not applicable	83204015
+9515	Yes	83204016
+269	No	83204016
+82	Unspecified	83204016
+0	Not applicable	83204016
+6937	Yes	83204017
+412	No	83204017
+18	Unspecified	83204017
+0	Not applicable	83204017
+9980	Yes	83204018
+100	No	83204018
+74	Unspecified	83204018
+0	Not applicable	83204018
+8622	Yes	83204019
+157	No	83204019
+53	Unspecified	83204019
+2	Not applicable	83204019
+14874	Yes	83204020
+576	No	83204020
+125	Unspecified	83204020
+19	Not applicable	83204020
+14035	Yes	83204021
+909	No	83204021
+280	Unspecified	83204021
+0	Not applicable	83204021
+11050	Yes	83204022
+631	No	83204022
+146	Unspecified	83204022
+0	Not applicable	83204022
+7598	Yes	83204023
+114	No	83204023
+99	Unspecified	83204023
+0	Not applicable	83204023
+11206	Yes	83204024
+388	No	83204024
+292	Unspecified	83204024
+0	Not applicable	83204024
+8314	Yes	83204025
+157	No	83204025
+92	Unspecified	83204025
+0	Not applicable	83204025
+5923	Yes	83204026
+340	No	83204026
+109	Unspecified	83204026
+0	Not applicable	83204026
+10529	Yes	83204027
+648	No	83204027
+272	Unspecified	83204027
+38	Not applicable	83204027
+6019	Yes	83204028
+88	No	83204028
+51	Unspecified	83204028
+5	Not applicable	83204028
+9650	Yes	83204029
+882	No	83204029
+108	Unspecified	83204029
+7	Not applicable	83204029
+11457	Yes	83204030
+2914	No	83204030
+168	Unspecified	83204030
+614	Not applicable	83204030
+7339	Yes	83204031
+319	No	83204031
+83	Unspecified	83204031
+0	Not applicable	83204031
+9639	Yes	83204032
+132	No	83204032
+340	Unspecified	83204032
+0	Not applicable	83204032
+12371	Yes	83204033
+633	No	83204033
+102	Unspecified	83204033
+0	Not applicable	83204033
+20415	Yes	83205001
+160	No	83205001
+53	Unspecified	83205001
+150	Not applicable	83205001
+11098	Yes	83205002
+35	No	83205002
+20	Unspecified	83205002
+0	Not applicable	83205002
+15538	Yes	83205003
+126	No	83205003
+47	Unspecified	83205003
+0	Not applicable	83205003
+10988	Yes	83205004
+45	No	83205004
+46	Unspecified	83205004
+0	Not applicable	83205004
+10619	Yes	83205005
+31	No	83205005
+30	Unspecified	83205005
+0	Not applicable	83205005
+18017	Yes	83205006
+64	No	83205006
+75	Unspecified	83205006
+0	Not applicable	83205006
+14879	Yes	83205007
+115	No	83205007
+46	Unspecified	83205007
+0	Not applicable	83205007
+12861	Yes	83205008
+161	No	83205008
+20	Unspecified	83205008
+0	Not applicable	83205008
+17900	Yes	83205009
+332	No	83205009
+17	Unspecified	83205009
+183	Not applicable	83205009
+14699	Yes	83205010
+139	No	83205010
+21	Unspecified	83205010
+0	Not applicable	83205010
+13914	Yes	83205011
+85	No	83205011
+88	Unspecified	83205011
+0	Not applicable	83205011
+12604	Yes	83205012
+129	No	83205012
+17	Unspecified	83205012
+10	Not applicable	83205012
+11811	Yes	83205013
+30	No	83205013
+35	Unspecified	83205013
+0	Not applicable	83205013
+12689	Yes	83205014
+97	No	83205014
+41	Unspecified	83205014
+0	Not applicable	83205014
+15273	Yes	83205015
+52	No	83205015
+29	Unspecified	83205015
+0	Not applicable	83205015
+11366	Yes	83205016
+43	No	83205016
+20	Unspecified	83205016
+8	Not applicable	83205016
+14869	Yes	83205017
+107	No	83205017
+22	Unspecified	83205017
+0	Not applicable	83205017
+18842	Yes	83205018
+169	No	83205018
+37	Unspecified	83205018
+263	Not applicable	83205018
+16626	Yes	83205019
+69	No	83205019
+19	Unspecified	83205019
+0	Not applicable	83205019
+12080	Yes	83205020
+40	No	83205020
+36	Unspecified	83205020
+0	Not applicable	83205020
+14217	Yes	83205021
+16	No	83205021
+4	Unspecified	83205021
+0	Not applicable	83205021
+12922	Yes	83205022
+52	No	83205022
+252	Unspecified	83205022
+0	Not applicable	83205022
+14725	Yes	83205023
+154	No	83205023
+109	Unspecified	83205023
+5	Not applicable	83205023
+15334	Yes	83205024
+120	No	83205024
+57	Unspecified	83205024
+0	Not applicable	83205024
+16262	Yes	83205025
+145	No	83205025
+121	Unspecified	83205025
+0	Not applicable	83205025
+13029	Yes	83205026
+63	No	83205026
+30	Unspecified	83205026
+0	Not applicable	83205026
+14389	Yes	83205027
+61	No	83205027
+49	Unspecified	83205027
+0	Not applicable	83205027
+9766	Yes	83205028
+60	No	83205028
+82	Unspecified	83205028
+0	Not applicable	83205028
+11707	Yes	83205029
+55	No	83205029
+18	Unspecified	83205029
+0	Not applicable	83205029
+15439	Yes	83205030
+55	No	83205030
+19	Unspecified	83205030
+0	Not applicable	83205030
+19995	Yes	83205031
+320	No	83205031
+55	Unspecified	83205031
+33	Not applicable	83205031
+13090	Yes	83205032
+44	No	83205032
+19	Unspecified	83205032
+0	Not applicable	83205032
+17368	Yes	83205033
+110	No	83205033
+50	Unspecified	83205033
+90	Not applicable	83205033
+18492	Yes	83205034
+290	No	83205034
+89	Unspecified	83205034
+42	Not applicable	83205034
+15732	Yes	83205035
+179	No	83205035
+42	Unspecified	83205035
+0	Not applicable	83205035
+13503	Yes	83205036
+52	No	83205036
+32	Unspecified	83205036
+0	Not applicable	83205036
+11584	Yes	83205037
+220	No	83205037
+48	Unspecified	83205037
+0	Not applicable	83205037
+7325	Yes	63701001
+82	No	63701001
+38	Unspecified	63701001
+208	Not applicable	63701001
+7960	Yes	63701002
+72	No	63701002
+19	Unspecified	63701002
+0	Not applicable	63701002
+8691	Yes	63701003
+112	No	63701003
+26	Unspecified	63701003
+14	Not applicable	63701003
+6481	Yes	63701004
+95	No	63701004
+22	Unspecified	63701004
+0	Not applicable	63701004
+5855	Yes	63701005
+25	No	63701005
+15	Unspecified	63701005
+0	Not applicable	63701005
+5195	Yes	63701006
+86	No	63701006
+22	Unspecified	63701006
+0	Not applicable	63701006
+6673	Yes	63701007
+41	No	63701007
+4	Unspecified	63701007
+0	Not applicable	63701007
+6062	Yes	63701008
+51	No	63701008
+11	Unspecified	63701008
+0	Not applicable	63701008
+4792	Yes	63701009
+43	No	63701009
+19	Unspecified	63701009
+0	Not applicable	63701009
+5889	Yes	63701010
+36	No	63701010
+18	Unspecified	63701010
+62	Not applicable	63701010
+7075	Yes	63701011
+46	No	63701011
+14	Unspecified	63701011
+0	Not applicable	63701011
+8535	Yes	63701012
+97	No	63701012
+36	Unspecified	63701012
+9	Not applicable	63701012
+10735	Yes	63701013
+309	No	63701013
+35	Unspecified	63701013
+107	Not applicable	63701013
+7294	Yes	63701014
+100	No	63701014
+3	Unspecified	63701014
+0	Not applicable	63701014
+4565	Yes	63701015
+70	No	63701015
+16	Unspecified	63701015
+0	Not applicable	63701015
+6517	Yes	63701016
+82	No	63701016
+8	Unspecified	63701016
+0	Not applicable	63701016
+4449	Yes	63701017
+46	No	63701017
+16	Unspecified	63701017
+0	Not applicable	63701017
+5530	Yes	63701018
+20	No	63701018
+2	Unspecified	63701018
+0	Not applicable	63701018
+6780	Yes	63701019
+70	No	63701019
+22	Unspecified	63701019
+2	Not applicable	63701019
+5609	Yes	63701020
+81	No	63701020
+3	Unspecified	63701020
+0	Not applicable	63701020
+5202	Yes	63701021
+42	No	63701021
+10	Unspecified	63701021
+1	Not applicable	63701021
+8213	Yes	63701022
+91	No	63701022
+12	Unspecified	63701022
+0	Not applicable	63701022
+6642	Yes	63701023
+127	No	63701023
+21	Unspecified	63701023
+0	Not applicable	63701023
+4627	Yes	63701024
+63	No	63701024
+17	Unspecified	63701024
+27	Not applicable	63701024
+6245	Yes	63701025
+77	No	63701025
+11	Unspecified	63701025
+26	Not applicable	63701025
+6878	Yes	63701026
+78	No	63701026
+13	Unspecified	63701026
+27	Not applicable	63701026
+4651	Yes	63701027
+37	No	63701027
+9	Unspecified	63701027
+0	Not applicable	63701027
+9114	Yes	63701028
+201	No	63701028
+151	Unspecified	63701028
+7	Not applicable	63701028
+9125	Yes	63702001
+267	No	63702001
+60	Unspecified	63702001
+64	Not applicable	63702001
+8329	Yes	63702002
+116	No	63702002
+18	Unspecified	63702002
+149	Not applicable	63702002
+10663	Yes	63702003
+129	No	63702003
+32	Unspecified	63702003
+59	Not applicable	63702003
+9265	Yes	63702004
+124	No	63702004
+47	Unspecified	63702004
+0	Not applicable	63702004
+12171	Yes	63702005
+167	No	63702005
+20	Unspecified	63702005
+0	Not applicable	63702005
+9203	Yes	63702006
+87	No	63702006
+18	Unspecified	63702006
+12	Not applicable	63702006
+8360	Yes	63702007
+1144	No	63702007
+41	Unspecified	63702007
+0	Not applicable	63702007
+10433	Yes	63702008
+133	No	63702008
+51	Unspecified	63702008
+15	Not applicable	63702008
+13700	Yes	63702009
+304	No	63702009
+99	Unspecified	63702009
+129	Not applicable	63702009
+18877	Yes	63702010
+1129	No	63702010
+89	Unspecified	63702010
+54	Not applicable	63702010
+12666	Yes	63702011
+214	No	63702011
+26	Unspecified	63702011
+3	Not applicable	63702011
+8554	Yes	63702012
+319	No	63702012
+24	Unspecified	63702012
+22	Not applicable	63702012
+6741	Yes	63702013
+751	No	63702013
+54	Unspecified	63702013
+14	Not applicable	63702013
+16218	Yes	63702014
+5708	No	63702014
+237	Unspecified	63702014
+843	Not applicable	63702014
+8439	Yes	63702015
+351	No	63702015
+77	Unspecified	63702015
+14	Not applicable	63702015
+12736	Yes	63702016
+457	No	63702016
+52	Unspecified	63702016
+30	Not applicable	63702016
+11477	Yes	63702017
+1992	No	63702017
+291	Unspecified	63702017
+67	Not applicable	63702017
+10350	Yes	63702018
+667	No	63702018
+52	Unspecified	63702018
+210	Not applicable	63702018
+11181	Yes	63702019
+705	No	63702019
+63	Unspecified	63702019
+0	Not applicable	63702019
+11326	Yes	63702020
+234	No	63702020
+39	Unspecified	63702020
+30	Not applicable	63702020
+12136	Yes	63702021
+1152	No	63702021
+100	Unspecified	63702021
+89	Not applicable	63702021
+12925	Yes	63702022
+1192	No	63702022
+121	Unspecified	63702022
+302	Not applicable	63702022
+4567	Yes	63702023
+789	No	63702023
+111	Unspecified	63702023
+241	Not applicable	63702023
+13553	Yes	63702024
+203	No	63702024
+60	Unspecified	63702024
+0	Not applicable	63702024
+31377	Yes	63702025
+4983	No	63702025
+151	Unspecified	63702025
+454	Not applicable	63702025
+14516	Yes	63702026
+3748	No	63702026
+215	Unspecified	63702026
+1897	Not applicable	63702026
+13380	Yes	63702027
+2240	No	63702027
+121	Unspecified	63702027
+349	Not applicable	63702027
+10683	Yes	63702028
+988	No	63702028
+114	Unspecified	63702028
+0	Not applicable	63702028
+16196	Yes	63702029
+4709	No	63702029
+213	Unspecified	63702029
+52	Not applicable	63702029
+14388	Yes	63702030
+2208	No	63702030
+158	Unspecified	63702030
+137	Not applicable	63702030
+7350	Yes	63702031
+1141	No	63702031
+20	Unspecified	63702031
+0	Not applicable	63702031
+7576	Yes	63702032
+1018	No	63702032
+64	Unspecified	63702032
+0	Not applicable	63702032
+10812	Yes	63702033
+2539	No	63702033
+150	Unspecified	63702033
+1219	Not applicable	63702033
+9787	Yes	63702034
+102	No	63702034
+18	Unspecified	63702034
+0	Not applicable	63702034
+15264	Yes	63702035
+382	No	63702035
+65	Unspecified	63702035
+153	Not applicable	63702035
+10680	Yes	63702036
+181	No	63702036
+13	Unspecified	63702036
+116	Not applicable	63702036
+13845	Yes	63703001
+1247	No	63703001
+81	Unspecified	63703001
+647	Not applicable	63703001
+15056	Yes	63703002
+1670	No	63703002
+65	Unspecified	63703002
+0	Not applicable	63703002
+7908	Yes	63703003
+919	No	63703003
+83	Unspecified	63703003
+1819	Not applicable	63703003
+11706	Yes	63703004
+1670	No	63703004
+151	Unspecified	63703004
+240	Not applicable	63703004
+8483	Yes	63703005
+387	No	63703005
+145	Unspecified	63703005
+0	Not applicable	63703005
+11729	Yes	63703006
+739	No	63703006
+100	Unspecified	63703006
+182	Not applicable	63703006
+15351	Yes	63703007
+2408	No	63703007
+144	Unspecified	63703007
+0	Not applicable	63703007
+20805	Yes	63703008
+760	No	63703008
+111	Unspecified	63703008
+223	Not applicable	63703008
+7515	Yes	63703009
+552	No	63703009
+48	Unspecified	63703009
+397	Not applicable	63703009
+16772	Yes	63703010
+1901	No	63703010
+183	Unspecified	63703010
+198	Not applicable	63703010
+15237	Yes	63703011
+1603	No	63703011
+157	Unspecified	63703011
+580	Not applicable	63703011
+14004	Yes	63703012
+967	No	63703012
+44	Unspecified	63703012
+0	Not applicable	63703012
+6767	Yes	63703013
+669	No	63703013
+185	Unspecified	63703013
+221	Not applicable	63703013
+8853	Yes	63703014
+368	No	63703014
+142	Unspecified	63703014
+118	Not applicable	63703014
+11535	Yes	63703015
+303	No	63703015
+201	Unspecified	63703015
+595	Not applicable	63703015
+9140	Yes	63703016
+232	No	63703016
+132	Unspecified	63703016
+19	Not applicable	63703016
+19289	Yes	63703017
+1017	No	63703017
+234	Unspecified	63703017
+348	Not applicable	63703017
+20704	Yes	63703018
+2082	No	63703018
+296	Unspecified	63703018
+420	Not applicable	63703018
+22583	Yes	63703019
+1328	No	63703019
+76	Unspecified	63703019
+113	Not applicable	63703019
+8218	Yes	63703020
+454	No	63703020
+45	Unspecified	63703020
+0	Not applicable	63703020
+17229	Yes	63703021
+830	No	63703021
+70	Unspecified	63703021
+0	Not applicable	63703021
+16205	Yes	63703022
+1756	No	63703022
+129	Unspecified	63703022
+430	Not applicable	63703022
+10930	Yes	63703023
+1706	No	63703023
+78	Unspecified	63703023
+0	Not applicable	63703023
+16785	Yes	63703024
+3236	No	63703024
+122	Unspecified	63703024
+5329	Not applicable	63703024
+9865	Yes	63703025
+190	No	63703025
+20	Unspecified	63703025
+0	Not applicable	63703025
+13549	Yes	63703026
+220	No	63703026
+26	Unspecified	63703026
+178	Not applicable	63703026
+14282	Yes	63703027
+242	No	63703027
+169	Unspecified	63703027
+0	Not applicable	63703027
+11421	Yes	63703028
+153	No	63703028
+86	Unspecified	63703028
+38	Not applicable	63703028
+16598	Yes	63703029
+931	No	63703029
+70	Unspecified	63703029
+0	Not applicable	63703029
+12966	Yes	63703030
+525	No	63703030
+41	Unspecified	63703030
+0	Not applicable	63703030
+7575	Yes	63703031
+2007	No	63703031
+117	Unspecified	63703031
+2136	Not applicable	63703031
+13462	Yes	63703032
+2820	No	63703032
+225	Unspecified	63703032
+158	Not applicable	63703032
+5066	Yes	63703033
+1291	No	63703033
+88	Unspecified	63703033
+0	Not applicable	63703033
+8356	Yes	63703034
+1163	No	63703034
+125	Unspecified	63703034
+1048	Not applicable	63703034
+8397	Yes	63703035
+2023	No	63703035
+170	Unspecified	63703035
+213	Not applicable	63703035
+15211	Yes	63703036
+1290	No	63703036
+201	Unspecified	63703036
+230	Not applicable	63703036
+17150	Yes	63703037
+3747	No	63703037
+267	Unspecified	63703037
+0	Not applicable	63703037
+1935	Yes	63703038
+1126	No	63703038
+52	Unspecified	63703038
+0	Not applicable	63703038
+8330	Yes	63704001
+155	No	63704001
+72	Unspecified	63704001
+23	Not applicable	63704001
+8668	Yes	63704002
+434	No	63704002
+63	Unspecified	63704002
+913	Not applicable	63704002
+4400	Yes	63704003
+111	No	63704003
+41	Unspecified	63704003
+356	Not applicable	63704003
+5176	Yes	63704004
+31	No	63704004
+45	Unspecified	63704004
+0	Not applicable	63704004
+11282	Yes	63704005
+206	No	63704005
+74	Unspecified	63704005
+0	Not applicable	63704005
+9982	Yes	63704006
+563	No	63704006
+124	Unspecified	63704006
+0	Not applicable	63704006
+5958	Yes	63705001
+66	No	63705001
+42	Unspecified	63705001
+0	Not applicable	63705001
+7407	Yes	63705002
+56	No	63705002
+63	Unspecified	63705002
+5	Not applicable	63705002
+6374	Yes	63705003
+61	No	63705003
+34	Unspecified	63705003
+184	Not applicable	63705003
+9811	Yes	63705004
+83	No	63705004
+102	Unspecified	63705004
+0	Not applicable	63705004
+10099	Yes	63705005
+248	No	63705005
+51	Unspecified	63705005
+0	Not applicable	63705005
+6806	Yes	63705006
+94	No	63705006
+46	Unspecified	63705006
+0	Not applicable	63705006
+6258	Yes	63705007
+546	No	63705007
+22	Unspecified	63705007
+460	Not applicable	63705007
+6951	Yes	63705008
+172	No	63705008
+16	Unspecified	63705008
+0	Not applicable	63705008
+8480	Yes	63705009
+270	No	63705009
+18	Unspecified	63705009
+0	Not applicable	63705009
+11226	Yes	63705010
+558	No	63705010
+46	Unspecified	63705010
+217	Not applicable	63705010
+6113	Yes	63705011
+31	No	63705011
+9	Unspecified	63705011
+0	Not applicable	63705011
+5551	Yes	63705012
+31	No	63705012
+13	Unspecified	63705012
+0	Not applicable	63705012
+5799	Yes	63705013
+548	No	63705013
+21	Unspecified	63705013
+693	Not applicable	63705013
+6828	Yes	63705014
+273	No	63705014
+28	Unspecified	63705014
+539	Not applicable	63705014
+7051	Yes	63705015
+486	No	63705015
+23	Unspecified	63705015
+2	Not applicable	63705015
+9554	Yes	63705016
+319	No	63705016
+65	Unspecified	63705016
+0	Not applicable	63705016
+9183	Yes	63705017
+159	No	63705017
+5	Unspecified	63705017
+0	Not applicable	63705017
+6657	Yes	63705018
+50	No	63705018
+8	Unspecified	63705018
+0	Not applicable	63705018
+7383	Yes	63705019
+75	No	63705019
+53	Unspecified	63705019
+0	Not applicable	63705019
+7178	Yes	63705020
+30	No	63705020
+21	Unspecified	63705020
+0	Not applicable	63705020
+8181	Yes	63705021
+30	No	63705021
+107	Unspecified	63705021
+0	Not applicable	63705021
+7136	Yes	63705022
+88	No	63705022
+6	Unspecified	63705022
+0	Not applicable	63705022
+7719	Yes	63705023
+107	No	63705023
+15	Unspecified	63705023
+0	Not applicable	63705023
+4170	Yes	63705024
+72	No	63705024
+13	Unspecified	63705024
+0	Not applicable	63705024
+7261	Yes	63705025
+64	No	63705025
+21	Unspecified	63705025
+0	Not applicable	63705025
+7249	Yes	63705026
+104	No	63705026
+16	Unspecified	63705026
+214	Not applicable	63705026
+8466	Yes	63705027
+127	No	63705027
+47	Unspecified	63705027
+15	Not applicable	63705027
+9156	Yes	63705028
+383	No	63705028
+39	Unspecified	63705028
+0	Not applicable	63705028
+9073	Yes	63705029
+83	No	63705029
+31	Unspecified	63705029
+57	Not applicable	63705029
+6992	Yes	63705030
+130	No	63705030
+157	Unspecified	63705030
+84	Not applicable	63705030
+7391	Yes	63705031
+125	No	63705031
+13	Unspecified	63705031
+0	Not applicable	63705031
+7263	Yes	63801001
+51	No	63801001
+69	Unspecified	63801001
+0	Not applicable	63801001
+6312	Yes	63801002
+36	No	63801002
+43	Unspecified	63801002
+0	Not applicable	63801002
+7181	Yes	63801003
+24	No	63801003
+29	Unspecified	63801003
+0	Not applicable	63801003
+8497	Yes	63801004
+44	No	63801004
+29	Unspecified	63801004
+0	Not applicable	63801004
+5480	Yes	63801005
+20	No	63801005
+30	Unspecified	63801005
+0	Not applicable	63801005
+5874	Yes	63801006
+68	No	63801006
+18	Unspecified	63801006
+0	Not applicable	63801006
+7937	Yes	63801007
+17	No	63801007
+59	Unspecified	63801007
+0	Not applicable	63801007
+11465	Yes	63801008
+54	No	63801008
+35	Unspecified	63801008
+10	Not applicable	63801008
+8868	Yes	63801009
+34	No	63801009
+27	Unspecified	63801009
+96	Not applicable	63801009
+3093	Yes	63801010
+18	No	63801010
+9	Unspecified	63801010
+0	Not applicable	63801010
+6943	Yes	63801011
+38	No	63801011
+28	Unspecified	63801011
+157	Not applicable	63801011
+6989	Yes	63801012
+17	No	63801012
+13	Unspecified	63801012
+0	Not applicable	63801012
+10451	Yes	63801013
+37	No	63801013
+26	Unspecified	63801013
+0	Not applicable	63801013
+9792	Yes	63801014
+42	No	63801014
+16	Unspecified	63801014
+0	Not applicable	63801014
+9796	Yes	63802001
+34	No	63802001
+11	Unspecified	63802001
+0	Not applicable	63802001
+7631	Yes	63802002
+30	No	63802002
+8	Unspecified	63802002
+0	Not applicable	63802002
+6429	Yes	63802003
+11	No	63802003
+19	Unspecified	63802003
+0	Not applicable	63802003
+7613	Yes	63802004
+58	No	63802004
+12	Unspecified	63802004
+0	Not applicable	63802004
+6770	Yes	63802005
+32	No	63802005
+25	Unspecified	63802005
+0	Not applicable	63802005
+8137	Yes	63802006
+40	No	63802006
+30	Unspecified	63802006
+6	Not applicable	63802006
+8244	Yes	63802007
+59	No	63802007
+60	Unspecified	63802007
+90	Not applicable	63802007
+4412	Yes	63802008
+82	No	63802008
+12	Unspecified	63802008
+60	Not applicable	63802008
+16426	Yes	63802009
+73	No	63802009
+81	Unspecified	63802009
+0	Not applicable	63802009
+10188	Yes	63802010
+33	No	63802010
+9	Unspecified	63802010
+0	Not applicable	63802010
+7613	Yes	63802011
+39	No	63802011
+14	Unspecified	63802011
+0	Not applicable	63802011
+10917	Yes	63802012
+87	No	63802012
+19	Unspecified	63802012
+107	Not applicable	63802012
+3464	Yes	63802013
+12	No	63802013
+6	Unspecified	63802013
+0	Not applicable	63802013
+6572	Yes	63802014
+129	No	63802014
+53	Unspecified	63802014
+66	Not applicable	63802014
+8574	Yes	63802015
+7	No	63802015
+15	Unspecified	63802015
+0	Not applicable	63802015
+10205	Yes	63803001
+76	No	63803001
+69	Unspecified	63803001
+2	Not applicable	63803001
+7827	Yes	63803002
+143	No	63803002
+21	Unspecified	63803002
+63	Not applicable	63803002
+8502	Yes	63803003
+73	No	63803003
+7	Unspecified	63803003
+0	Not applicable	63803003
+8860	Yes	63803004
+103	No	63803004
+62	Unspecified	63803004
+159	Not applicable	63803004
+3436	Yes	63803005
+46	No	63803005
+8	Unspecified	63803005
+1	Not applicable	63803005
+9872	Yes	63803006
+249	No	63803006
+57	Unspecified	63803006
+615	Not applicable	63803006
+14016	Yes	63803007
+590	No	63803007
+33	Unspecified	63803007
+518	Not applicable	63803007
+6521	Yes	63803008
+251	No	63803008
+26	Unspecified	63803008
+116	Not applicable	63803008
+9935	Yes	63803009
+281	No	63803009
+43	Unspecified	63803009
+1016	Not applicable	63803009
+6340	Yes	63803010
+282	No	63803010
+44	Unspecified	63803010
+0	Not applicable	63803010
+5492	Yes	63803011
+142	No	63803011
+26	Unspecified	63803011
+9	Not applicable	63803011
+9433	Yes	63803012
+120	No	63803012
+28	Unspecified	63803012
+0	Not applicable	63803012
+14719	Yes	63803013
+214	No	63803013
+51	Unspecified	63803013
+0	Not applicable	63803013
+13076	Yes	63803014
+144	No	63803014
+44	Unspecified	63803014
+0	Not applicable	63803014
+7819	Yes	63803015
+190	No	63803015
+23	Unspecified	63803015
+30	Not applicable	63803015
+10318	Yes	63803016
+266	No	63803016
+40	Unspecified	63803016
+0	Not applicable	63803016
+7651	Yes	63803017
+169	No	63803017
+59	Unspecified	63803017
+0	Not applicable	63803017
+9515	Yes	63803018
+113	No	63803018
+26	Unspecified	63803018
+0	Not applicable	63803018
+5359	Yes	63803019
+47	No	63803019
+15	Unspecified	63803019
+0	Not applicable	63803019
+5639	Yes	63803020
+134	No	63803020
+29	Unspecified	63803020
+0	Not applicable	63803020
+8232	Yes	63803021
+55	No	63803021
+16	Unspecified	63803021
+0	Not applicable	63803021
+12319	Yes	63803022
+123	No	63803022
+61	Unspecified	63803022
+0	Not applicable	63803022
+8000	Yes	63803023
+32	No	63803023
+8	Unspecified	63803023
+0	Not applicable	63803023
+8902	Yes	63803024
+34	No	63803024
+9	Unspecified	63803024
+66	Not applicable	63803024
+7953	Yes	63803025
+29	No	63803025
+8	Unspecified	63803025
+118	Not applicable	63803025
+9440	Yes	63803026
+17	No	63803026
+17	Unspecified	63803026
+0	Not applicable	63803026
+9454	Yes	63803027
+64	No	63803027
+60	Unspecified	63803027
+1368	Not applicable	63803027
+10358	Yes	63803028
+365	No	63803028
+32	Unspecified	63803028
+605	Not applicable	63803028
+10583	Yes	63803029
+398	No	63803029
+103	Unspecified	63803029
+14	Not applicable	63803029
+8587	Yes	63803030
+199	No	63803030
+56	Unspecified	63803030
+0	Not applicable	63803030
+12297	Yes	63803031
+115	No	63803031
+18	Unspecified	63803031
+0	Not applicable	63803031
+6666	Yes	63804001
+25	No	63804001
+3	Unspecified	63804001
+0	Not applicable	63804001
+5966	Yes	63804002
+41	No	63804002
+6	Unspecified	63804002
+13	Not applicable	63804002
+8028	Yes	63804003
+79	No	63804003
+33	Unspecified	63804003
+0	Not applicable	63804003
+9304	Yes	63804004
+72	No	63804004
+14	Unspecified	63804004
+0	Not applicable	63804004
+8259	Yes	63804005
+103	No	63804005
+32	Unspecified	63804005
+0	Not applicable	63804005
+5196	Yes	63804006
+189	No	63804006
+56	Unspecified	63804006
+569	Not applicable	63804006
+4936	Yes	63804007
+43	No	63804007
+24	Unspecified	63804007
+0	Not applicable	63804007
+7074	Yes	63804008
+38	No	63804008
+12	Unspecified	63804008
+0	Not applicable	63804008
+4706	Yes	63804009
+49	No	63804009
+1	Unspecified	63804009
+9	Not applicable	63804009
+8939	Yes	63804010
+34	No	63804010
+26	Unspecified	63804010
+0	Not applicable	63804010
+6386	Yes	63804011
+26	No	63804011
+22	Unspecified	63804011
+0	Not applicable	63804011
+6016	Yes	63804012
+75	No	63804012
+48	Unspecified	63804012
+0	Not applicable	63804012
+10616	Yes	63804013
+554	No	63804013
+58	Unspecified	63804013
+303	Not applicable	63804013
+11326	Yes	63804014
+259	No	63804014
+67	Unspecified	63804014
+0	Not applicable	63804014
+11174	Yes	63804015
+59	No	63804015
+22	Unspecified	63804015
+0	Not applicable	63804015
+10766	Yes	63804016
+142	No	63804016
+18	Unspecified	63804016
+48	Not applicable	63804016
+6829	Yes	63804017
+29	No	63804017
+21	Unspecified	63804017
+0	Not applicable	63804017
+5478	Yes	63804018
+35	No	63804018
+14	Unspecified	63804018
+0	Not applicable	63804018
+7279	Yes	63804019
+28	No	63804019
+29	Unspecified	63804019
+0	Not applicable	63804019
+8855	Yes	63804020
+28	No	63804020
+25	Unspecified	63804020
+6	Not applicable	63804020
+11587	Yes	63804021
+49	No	63804021
+32	Unspecified	63804021
+51	Not applicable	63804021
+4733	Yes	63805001
+24	No	63805001
+20	Unspecified	63805001
+0	Not applicable	63805001
+8674	Yes	63805002
+48	No	63805002
+46	Unspecified	63805002
+0	Not applicable	63805002
+5577	Yes	63805003
+30	No	63805003
+15	Unspecified	63805003
+0	Not applicable	63805003
+6750	Yes	63805004
+68	No	63805004
+16	Unspecified	63805004
+90	Not applicable	63805004
+6275	Yes	63805005
+58	No	63805005
+14	Unspecified	63805005
+0	Not applicable	63805005
+4922	Yes	63805006
+89	No	63805006
+11	Unspecified	63805006
+55	Not applicable	63805006
+7832	Yes	63805007
+32	No	63805007
+10	Unspecified	63805007
+0	Not applicable	63805007
+6390	Yes	63805008
+62	No	63805008
+20	Unspecified	63805008
+0	Not applicable	63805008
+5757	Yes	63805009
+18	No	63805009
+42	Unspecified	63805009
+0	Not applicable	63805009
+4823	Yes	63805010
+30	No	63805010
+14	Unspecified	63805010
+0	Not applicable	63805010
+10347	Yes	63805011
+97	No	63805011
+65	Unspecified	63805011
+0	Not applicable	63805011
+7349	Yes	63805012
+118	No	63805012
+28	Unspecified	63805012
+312	Not applicable	63805012
+9917	Yes	63805013
+67	No	63805013
+36	Unspecified	63805013
+0	Not applicable	63805013
+8091	Yes	63805014
+85	No	63805014
+16	Unspecified	63805014
+0	Not applicable	63805014
+5995	Yes	63805015
+373	No	63805015
+45	Unspecified	63805015
+307	Not applicable	63805015
+8177	Yes	63805016
+283	No	63805016
+24	Unspecified	63805016
+784	Not applicable	63805016
+7704	Yes	63805017
+141	No	63805017
+24	Unspecified	63805017
+75	Not applicable	63805017
+7257	Yes	63805018
+50	No	63805018
+12	Unspecified	63805018
+0	Not applicable	63805018
+12813	Yes	63805019
+362	No	63805019
+36	Unspecified	63805019
+328	Not applicable	63805019
+6778	Yes	63805020
+57	No	63805020
+18	Unspecified	63805020
+0	Not applicable	63805020
+8956	Yes	63902001
+51	No	63902001
+62	Unspecified	63902001
+191	Not applicable	63902001
+6713	Yes	63902002
+77	No	63902002
+35	Unspecified	63902002
+0	Not applicable	63902002
+8509	Yes	63902003
+37	No	63902003
+25	Unspecified	63902003
+0	Not applicable	63902003
+11273	Yes	63902004
+38	No	63902004
+53	Unspecified	63902004
+0	Not applicable	63902004
+8853	Yes	63902005
+54	No	63902005
+37	Unspecified	63902005
+0	Not applicable	63902005
+4699	Yes	63902006
+37	No	63902006
+14	Unspecified	63902006
+0	Not applicable	63902006
+6388	Yes	63902007
+101	No	63902007
+65	Unspecified	63902007
+589	Not applicable	63902007
+5004	Yes	63902008
+52	No	63902008
+49	Unspecified	63902008
+0	Not applicable	63902008
+4736	Yes	63902009
+75	No	63902009
+8	Unspecified	63902009
+0	Not applicable	63902009
+8251	Yes	63903001
+48	No	63903001
+29	Unspecified	63903001
+0	Not applicable	63903001
+4799	Yes	63903002
+61	No	63903002
+2	Unspecified	63903002
+0	Not applicable	63903002
+8076	Yes	63903003
+52	No	63903003
+18	Unspecified	63903003
+20	Not applicable	63903003
+6335	Yes	63903004
+23	No	63903004
+13	Unspecified	63903004
+0	Not applicable	63903004
+9647	Yes	63903005
+84	No	63903005
+32	Unspecified	63903005
+1	Not applicable	63903005
+7896	Yes	63903006
+48	No	63903006
+46	Unspecified	63903006
+0	Not applicable	63903006
+7959	Yes	63903007
+93	No	63903007
+73	Unspecified	63903007
+238	Not applicable	63903007
+6460	Yes	63903008
+37	No	63903008
+13	Unspecified	63903008
+0	Not applicable	63903008
+7174	Yes	63904001
+97	No	63904001
+20	Unspecified	63904001
+350	Not applicable	63904001
+9552	Yes	63904002
+31	No	63904002
+27	Unspecified	63904002
+0	Not applicable	63904002
+7132	Yes	63904003
+41	No	63904003
+90	Unspecified	63904003
+0	Not applicable	63904003
+5815	Yes	63904004
+42	No	63904004
+66	Unspecified	63904004
+0	Not applicable	63904004
+7197	Yes	63904005
+71	No	63904005
+53	Unspecified	63904005
+100	Not applicable	63904005
+8670	Yes	63904006
+21	No	63904006
+27	Unspecified	63904006
+0	Not applicable	63904006
+5634	Yes	63904007
+35	No	63904007
+25	Unspecified	63904007
+0	Not applicable	63904007
+6562	Yes	63904008
+41	No	63904008
+20	Unspecified	63904008
+55	Not applicable	63904008
+8122	Yes	63904009
+31	No	63904009
+12	Unspecified	63904009
+0	Not applicable	63904009
+6850	Yes	63904010
+32	No	63904010
+30	Unspecified	63904010
+0	Not applicable	63904010
+5394	Yes	63904011
+124	No	63904011
+12	Unspecified	63904011
+82	Not applicable	63904011
+7544	Yes	63904012
+37	No	63904012
+17	Unspecified	63904012
+0	Not applicable	63904012
+5642	Yes	63904013
+84	No	63904013
+110	Unspecified	63904013
+221	Not applicable	63904013
+6379	Yes	63904014
+31	No	63904014
+28	Unspecified	63904014
+0	Not applicable	63904014
+7101	Yes	63904015
+44	No	63904015
+45	Unspecified	63904015
+0	Not applicable	63904015
+5864	Yes	63904016
+11	No	63904016
+2	Unspecified	63904016
+0	Not applicable	63904016
+6805	Yes	63904017
+22	No	63904017
+68	Unspecified	63904017
+0	Not applicable	63904017
+7523	Yes	63904018
+28	No	63904018
+32	Unspecified	63904018
+0	Not applicable	63904018
+5695	Yes	63904019
+40	No	63904019
+8	Unspecified	63904019
+0	Not applicable	63904019
+6955	Yes	63904020
+60	No	63904020
+41	Unspecified	63904020
+0	Not applicable	63904020
+7244	Yes	63904021
+27	No	63904021
+22	Unspecified	63904021
+0	Not applicable	63904021
+5568	Yes	63904022
+25	No	63904022
+15	Unspecified	63904022
+0	Not applicable	63904022
+5262	Yes	63904023
+19	No	63904023
+24	Unspecified	63904023
+0	Not applicable	63904023
+6713	Yes	63904024
+31	No	63904024
+4	Unspecified	63904024
+0	Not applicable	63904024
+6728	Yes	63904025
+45	No	63904025
+28	Unspecified	63904025
+0	Not applicable	63904025
+5778	Yes	63904026
+19	No	63904026
+15	Unspecified	63904026
+0	Not applicable	63904026
+9252	Yes	63906001
+76	No	63906001
+41	Unspecified	63906001
+170	Not applicable	63906001
+4815	Yes	63906002
+45	No	63906002
+1	Unspecified	63906002
+0	Not applicable	63906002
+8669	Yes	63906003
+75	No	63906003
+22	Unspecified	63906003
+0	Not applicable	63906003
+5105	Yes	63906004
+114	No	63906004
+25	Unspecified	63906004
+228	Not applicable	63906004
+8906	Yes	63906005
+73	No	63906005
+45	Unspecified	63906005
+0	Not applicable	63906005
+6466	Yes	63906006
+99	No	63906006
+30	Unspecified	63906006
+316	Not applicable	63906006
+8458	Yes	63906007
+77	No	63906007
+24	Unspecified	63906007
+115	Not applicable	63906007
+8066	Yes	63907001
+13	No	63907001
+35	Unspecified	63907001
+0	Not applicable	63907001
+7181	Yes	63907002
+57	No	63907002
+65	Unspecified	63907002
+30	Not applicable	63907002
+10755	Yes	63907003
+114	No	63907003
+187	Unspecified	63907003
+17	Not applicable	63907003
+6714	Yes	63907004
+58	No	63907004
+26	Unspecified	63907004
+103	Not applicable	63907004
+4478	Yes	63907005
+42	No	63907005
+9	Unspecified	63907005
+1	Not applicable	63907005
+6275	Yes	63907006
+34	No	63907006
+7	Unspecified	63907006
+26	Not applicable	63907006
+7305	Yes	63907007
+40	No	63907007
+10	Unspecified	63907007
+0	Not applicable	63907007
+6925	Yes	63907008
+34	No	63907008
+11	Unspecified	63907008
+0	Not applicable	63907008
+4835	Yes	63907009
+60	No	63907009
+44	Unspecified	63907009
+0	Not applicable	63907009
+7544	Yes	63907010
+98	No	63907010
+467	Unspecified	63907010
+0	Not applicable	63907010
+6010	Yes	63907011
+25	No	63907011
+42	Unspecified	63907011
+0	Not applicable	63907011
+5711	Yes	63907012
+40	No	63907012
+24	Unspecified	63907012
+0	Not applicable	63907012
+7827	Yes	63907013
+44	No	63907013
+14	Unspecified	63907013
+0	Not applicable	63907013
+7334	Yes	63907014
+82	No	63907014
+70	Unspecified	63907014
+105	Not applicable	63907014
+6708	Yes	63907015
+42	No	63907015
+42	Unspecified	63907015
+0	Not applicable	63907015
+4512	Yes	64001001
+37	No	64001001
+3	Unspecified	64001001
+0	Not applicable	64001001
+4609	Yes	64001002
+63	No	64001002
+18	Unspecified	64001002
+0	Not applicable	64001002
+14474	Yes	64001003
+81	No	64001003
+39	Unspecified	64001003
+0	Not applicable	64001003
+9363	Yes	64001004
+27	No	64001004
+26	Unspecified	64001004
+0	Not applicable	64001004
+12401	Yes	64001005
+155	No	64001005
+43	Unspecified	64001005
+0	Not applicable	64001005
+10561	Yes	64001006
+185	No	64001006
+27	Unspecified	64001006
+78	Not applicable	64001006
+5783	Yes	64002001
+67	No	64002001
+33	Unspecified	64002001
+0	Not applicable	64002001
+13252	Yes	64002002
+316	No	64002002
+115	Unspecified	64002002
+515	Not applicable	64002002
+10190	Yes	64002003
+172	No	64002003
+72	Unspecified	64002003
+440	Not applicable	64002003
+9248	Yes	64002004
+139	No	64002004
+121	Unspecified	64002004
+20	Not applicable	64002004
+2782	Yes	64002005
+38	No	64002005
+19	Unspecified	64002005
+0	Not applicable	64002005
+4201	Yes	64002006
+98	No	64002006
+13	Unspecified	64002006
+0	Not applicable	64002006
+5304	Yes	64002007
+101	No	64002007
+32	Unspecified	64002007
+93	Not applicable	64002007
+4308	Yes	64002008
+69	No	64002008
+21	Unspecified	64002008
+0	Not applicable	64002008
+7406	Yes	64002009
+120	No	64002009
+66	Unspecified	64002009
+0	Not applicable	64002009
+4075	Yes	64002010
+80	No	64002010
+16	Unspecified	64002010
+0	Not applicable	64002010
+2424	Yes	64002011
+37	No	64002011
+23	Unspecified	64002011
+182	Not applicable	64002011
+5465	Yes	64002012
+94	No	64002012
+20	Unspecified	64002012
+38	Not applicable	64002012
+8814	Yes	64002013
+71	No	64002013
+35	Unspecified	64002013
+0	Not applicable	64002013
+4416	Yes	64002014
+43	No	64002014
+9	Unspecified	64002014
+0	Not applicable	64002014
+4060	Yes	64002015
+59	No	64002015
+48	Unspecified	64002015
+410	Not applicable	64002015
+4282	Yes	64002016
+96	No	64002016
+18	Unspecified	64002016
+0	Not applicable	64002016
+5430	Yes	64002017
+54	No	64002017
+38	Unspecified	64002017
+0	Not applicable	64002017
+6075	Yes	64002018
+190	No	64002018
+13	Unspecified	64002018
+0	Not applicable	64002018
+9090	Yes	64002019
+156	No	64002019
+29	Unspecified	64002019
+154	Not applicable	64002019
+6336	Yes	64002020
+149	No	64002020
+13	Unspecified	64002020
+0	Not applicable	64002020
+12611	Yes	64002021
+124	No	64002021
+14	Unspecified	64002021
+0	Not applicable	64002021
+2093	Yes	64002022
+28	No	64002022
+14	Unspecified	64002022
+240	Not applicable	64002022
+4201	Yes	64002023
+24	No	64002023
+16	Unspecified	64002023
+99	Not applicable	64002023
+1129	Yes	64002024
+124	No	64002024
+24	Unspecified	64002024
+11	Not applicable	64002024
+3331	Yes	64002025
+73	No	64002025
+21	Unspecified	64002025
+24	Not applicable	64002025
+10705	Yes	64002026
+147	No	64002026
+8	Unspecified	64002026
+0	Not applicable	64002026
+15533	Yes	64003001
+322	No	64003001
+106	Unspecified	64003001
+605	Not applicable	64003001
+15523	Yes	64003002
+146	No	64003002
+30	Unspecified	64003002
+0	Not applicable	64003002
+9958	Yes	64003003
+169	No	64003003
+23	Unspecified	64003003
+0	Not applicable	64003003
+19344	Yes	64003004
+207	No	64003004
+54	Unspecified	64003004
+5	Not applicable	64003004
+12288	Yes	64003005
+91	No	64003005
+30	Unspecified	64003005
+0	Not applicable	64003005
+11329	Yes	64003006
+165	No	64003006
+46	Unspecified	64003006
+1351	Not applicable	64003006
+11341	Yes	64003007
+98	No	64003007
+39	Unspecified	64003007
+0	Not applicable	64003007
+9221	Yes	64003008
+115	No	64003008
+33	Unspecified	64003008
+0	Not applicable	64003008
+9771	Yes	64003009
+154	No	64003009
+20	Unspecified	64003009
+65	Not applicable	64003009
+6771	Yes	64003010
+140	No	64003010
+37	Unspecified	64003010
+0	Not applicable	64003010
+7563	Yes	64003011
+114	No	64003011
+19	Unspecified	64003011
+0	Not applicable	64003011
+15304	Yes	64003012
+187	No	64003012
+95	Unspecified	64003012
+0	Not applicable	64003012
+10959	Yes	64003013
+269	No	64003013
+36	Unspecified	64003013
+0	Not applicable	64003013
+10242	Yes	64003014
+171	No	64003014
+28	Unspecified	64003014
+0	Not applicable	64003014
+10416	Yes	64003015
+204	No	64003015
+79	Unspecified	64003015
+31	Not applicable	64003015
+9040	Yes	64003016
+108	No	64003016
+77	Unspecified	64003016
+16	Not applicable	64003016
+10978	Yes	64003017
+210	No	64003017
+50	Unspecified	64003017
+298	Not applicable	64003017
+12203	Yes	64003018
+179	No	64003018
+135	Unspecified	64003018
+163	Not applicable	64003018
+11799	Yes	64003019
+644	No	64003019
+92	Unspecified	64003019
+1077	Not applicable	64003019
+5853	Yes	64003020
+219	No	64003020
+25	Unspecified	64003020
+0	Not applicable	64003020
+5475	Yes	64003021
+709	No	64003021
+42	Unspecified	64003021
+1733	Not applicable	64003021
+18474	Yes	64003022
+978	No	64003022
+94	Unspecified	64003022
+0	Not applicable	64003022
+12463	Yes	64003023
+456	No	64003023
+50	Unspecified	64003023
+0	Not applicable	64003023
+9722	Yes	64003024
+352	No	64003024
+29	Unspecified	64003024
+0	Not applicable	64003024
+9133	Yes	64003025
+182	No	64003025
+24	Unspecified	64003025
+0	Not applicable	64003025
+8462	Yes	64003026
+293	No	64003026
+32	Unspecified	64003026
+0	Not applicable	64003026
+11084	Yes	64003027
+474	No	64003027
+63	Unspecified	64003027
+0	Not applicable	64003027
+8907	Yes	64003028
+534	No	64003028
+79	Unspecified	64003028
+916	Not applicable	64003028
+8924	Yes	64003029
+497	No	64003029
+40	Unspecified	64003029
+615	Not applicable	64003029
+9241	Yes	64003030
+566	No	64003030
+80	Unspecified	64003030
+11	Not applicable	64003030
+12165	Yes	64003031
+508	No	64003031
+67	Unspecified	64003031
+240	Not applicable	64003031
+8620	Yes	64003032
+708	No	64003032
+25	Unspecified	64003032
+111	Not applicable	64003032
+10423	Yes	64003033
+705	No	64003033
+81	Unspecified	64003033
+0	Not applicable	64003033
+7530	Yes	64003034
+213	No	64003034
+69	Unspecified	64003034
+0	Not applicable	64003034
+12044	Yes	64003035
+309	No	64003035
+113	Unspecified	64003035
+0	Not applicable	64003035
+5748	Yes	64004001
+64	No	64004001
+24	Unspecified	64004001
+0	Not applicable	64004001
+5599	Yes	64004002
+32	No	64004002
+57	Unspecified	64004002
+0	Not applicable	64004002
+5189	Yes	64004003
+46	No	64004003
+35	Unspecified	64004003
+0	Not applicable	64004003
+6251	Yes	64004004
+18	No	64004004
+8	Unspecified	64004004
+0	Not applicable	64004004
+5258	Yes	64004005
+146	No	64004005
+49	Unspecified	64004005
+719	Not applicable	64004005
+6222	Yes	64004006
+87	No	64004006
+32	Unspecified	64004006
+22	Not applicable	64004006
+3376	Yes	64004007
+30	No	64004007
+13	Unspecified	64004007
+0	Not applicable	64004007
+14811	Yes	64004008
+41	No	64004008
+66	Unspecified	64004008
+14	Not applicable	64004008
+5215	Yes	64004009
+73	No	64004009
+15	Unspecified	64004009
+76	Not applicable	64004009
+10541	Yes	64004010
+28	No	64004010
+31	Unspecified	64004010
+0	Not applicable	64004010
+7821	Yes	64004011
+28	No	64004011
+9	Unspecified	64004011
+0	Not applicable	64004011
+2048	Yes	30601001
+6	No	30601001
+22	Unspecified	30601001
+28	Not applicable	30601001
+3518	Yes	30601002
+22	No	30601002
+8	Unspecified	30601002
+183	Not applicable	30601002
+2921	Yes	30601003
+60	No	30601003
+6	Unspecified	30601003
+173	Not applicable	30601003
+2949	Yes	30601004
+9	No	30601004
+17	Unspecified	30601004
+12	Not applicable	30601004
+5472	Yes	30602001
+13	No	30602001
+3	Unspecified	30602001
+0	Not applicable	30602001
+5090	Yes	30602002
+79	No	30602002
+5	Unspecified	30602002
+303	Not applicable	30602002
+4522	Yes	30602003
+15	No	30602003
+5	Unspecified	30602003
+142	Not applicable	30602003
+3637	Yes	30602004
+30	No	30602004
+21	Unspecified	30602004
+128	Not applicable	30602004
+4737	Yes	30602005
+42	No	30602005
+49	Unspecified	30602005
+439	Not applicable	30602005
+5991	Yes	30602006
+27	No	30602006
+3	Unspecified	30602006
+90	Not applicable	30602006
+5180	Yes	30602007
+26	No	30602007
+33	Unspecified	30602007
+6	Not applicable	30602007
+5244	Yes	30602008
+18	No	30602008
+2	Unspecified	30602008
+121	Not applicable	30602008
+5550	Yes	30602009
+12	No	30602009
+4	Unspecified	30602009
+0	Not applicable	30602009
+2023	Yes	30604001
+1	No	30604001
+3	Unspecified	30604001
+0	Not applicable	30604001
+2979	Yes	30604002
+9	No	30604002
+6	Unspecified	30604002
+267	Not applicable	30604002
+2375	Yes	30604003
+5	No	30604003
+6	Unspecified	30604003
+244	Not applicable	30604003
+2250	Yes	30604004
+1	No	30604004
+16	Unspecified	30604004
+0	Not applicable	30604004
+3864	Yes	30605001
+4	No	30605001
+2	Unspecified	30605001
+74	Not applicable	30605001
+5341	Yes	30605002
+34	No	30605002
+3	Unspecified	30605002
+245	Not applicable	30605002
+3842	Yes	30605003
+30	No	30605003
+11	Unspecified	30605003
+120	Not applicable	30605003
+4343	Yes	30605004
+22	No	30605004
+50	Unspecified	30605004
+68	Not applicable	30605004
+3342	Yes	30605005
+5	No	30605005
+19	Unspecified	30605005
+158	Not applicable	30605005
+3083	Yes	30606001
+12	No	30606001
+18	Unspecified	30606001
+255	Not applicable	30606001
+2915	Yes	30606002
+13	No	30606002
+5	Unspecified	30606002
+96	Not applicable	30606002
+3028	Yes	30606003
+4	No	30606003
+15	Unspecified	30606003
+24	Not applicable	30606003
+2741	Yes	30606004
+11	No	30606004
+5	Unspecified	30606004
+363	Not applicable	30606004
+3501	Yes	30607001
+6	No	30607001
+13	Unspecified	30607001
+0	Not applicable	30607001
+2570	Yes	30607002
+12	No	30607002
+4	Unspecified	30607002
+0	Not applicable	30607002
+2937	Yes	30607003
+12	No	30607003
+7	Unspecified	30607003
+0	Not applicable	30607003
+3054	Yes	30607004
+45	No	30607004
+12	Unspecified	30607004
+292	Not applicable	30607004
+4957	Yes	30701001
+96	No	30701001
+45	Unspecified	30701001
+25	Not applicable	30701001
+5281	Yes	30701002
+21	No	30701002
+25	Unspecified	30701002
+23	Not applicable	30701002
+4624	Yes	30701003
+46	No	30701003
+18	Unspecified	30701003
+26	Not applicable	30701003
+3291	Yes	30701004
+24	No	30701004
+15	Unspecified	30701004
+85	Not applicable	30701004
+6469	Yes	30702001
+59	No	30702001
+27	Unspecified	30702001
+3	Not applicable	30702001
+4520	Yes	30702002
+20	No	30702002
+11	Unspecified	30702002
+9	Not applicable	30702002
+6752	Yes	30702003
+52	No	30702003
+12	Unspecified	30702003
+0	Not applicable	30702003
+5821	Yes	30702004
+66	No	30702004
+6	Unspecified	30702004
+185	Not applicable	30702004
+4173	Yes	30702005
+88	No	30702005
+11	Unspecified	30702005
+93	Not applicable	30702005
+5123	Yes	30703001
+31	No	30703001
+20	Unspecified	30703001
+0	Not applicable	30703001
+7783	Yes	30703002
+43	No	30703002
+13	Unspecified	30703002
+157	Not applicable	30703002
+5344	Yes	30703003
+37	No	30703003
+30	Unspecified	30703003
+8	Not applicable	30703003
+5300	Yes	30703004
+46	No	30703004
+8	Unspecified	30703004
+0	Not applicable	30703004
+5695	Yes	30703005
+65	No	30703005
+28	Unspecified	30703005
+262	Not applicable	30703005
+5886	Yes	30703006
+43	No	30703006
+16	Unspecified	30703006
+233	Not applicable	30703006
+6082	Yes	30703007
+58	No	30703007
+10	Unspecified	30703007
+38	Not applicable	30703007
+2472	Yes	30704001
+18	No	30704001
+2	Unspecified	30704001
+258	Not applicable	30704001
+3854	Yes	30704002
+4	No	30704002
+3	Unspecified	30704002
+0	Not applicable	30704002
+2156	Yes	30704003
+2	No	30704003
+10	Unspecified	30704003
+0	Not applicable	30704003
+2880	Yes	30704004
+8	No	30704004
+4	Unspecified	30704004
+0	Not applicable	30704004
+2967	Yes	30705001
+17	No	30705001
+4	Unspecified	30705001
+1	Not applicable	30705001
+4150	Yes	30705002
+25	No	30705002
+79	Unspecified	30705002
+0	Not applicable	30705002
+1570	Yes	30705003
+4	No	30705003
+13	Unspecified	30705003
+0	Not applicable	30705003
+2089	Yes	30705004
+33	No	30705004
+26	Unspecified	30705004
+0	Not applicable	30705004
+3420	Yes	30706001
+12	No	30706001
+4	Unspecified	30706001
+101	Not applicable	30706001
+4360	Yes	30706002
+31	No	30706002
+14	Unspecified	30706002
+154	Not applicable	30706002
+3226	Yes	30706003
+22	No	30706003
+17	Unspecified	30706003
+0	Not applicable	30706003
+4291	Yes	30706004
+37	No	30706004
+13	Unspecified	30706004
+0	Not applicable	30706004
+6423	Yes	30707001
+70	No	30707001
+2	Unspecified	30707001
+0	Not applicable	30707001
+3651	Yes	30707002
+20	No	30707002
+7	Unspecified	30707002
+109	Not applicable	30707002
+6176	Yes	30707003
+47	No	30707003
+10	Unspecified	30707003
+148	Not applicable	30707003
+4783	Yes	30707004
+36	No	30707004
+14	Unspecified	30707004
+96	Not applicable	30707004
+5599	Yes	30708001
+39	No	30708001
+13	Unspecified	30708001
+310	Not applicable	30708001
+4752	Yes	30708002
+30	No	30708002
+30	Unspecified	30708002
+0	Not applicable	30708002
+6936	Yes	30708003
+36	No	30708003
+27	Unspecified	30708003
+0	Not applicable	30708003
+8080	Yes	30708004
+53	No	30708004
+40	Unspecified	30708004
+0	Not applicable	30708004
+4693	Yes	30708005
+36	No	30708005
+21	Unspecified	30708005
+0	Not applicable	30708005
+5995	Yes	30708006
+23	No	30708006
+52	Unspecified	30708006
+309	Not applicable	30708006
+482	Yes	30801001
+3	No	30801001
+0	Unspecified	30801001
+0	Not applicable	30801001
+2716	Yes	30801002
+24	No	30801002
+15	Unspecified	30801002
+3	Not applicable	30801002
+2082	Yes	30801003
+14	No	30801003
+2	Unspecified	30801003
+195	Not applicable	30801003
+1407	Yes	30801004
+33	No	30801004
+4	Unspecified	30801004
+25	Not applicable	30801004
+11129	Yes	30802001
+34	No	30802001
+96	Unspecified	30802001
+149	Not applicable	30802001
+8103	Yes	30802002
+51	No	30802002
+33	Unspecified	30802002
+4	Not applicable	30802002
+9292	Yes	30802003
+32	No	30802003
+6	Unspecified	30802003
+187	Not applicable	30802003
+6273	Yes	30802004
+50	No	30802004
+19	Unspecified	30802004
+34	Not applicable	30802004
+5465	Yes	30802005
+22	No	30802005
+8	Unspecified	30802005
+4	Not applicable	30802005
+7629	Yes	30802006
+47	No	30802006
+8	Unspecified	30802006
+0	Not applicable	30802006
+4815	Yes	30802007
+12	No	30802007
+19	Unspecified	30802007
+10	Not applicable	30802007
+5610	Yes	30802008
+24	No	30802008
+26	Unspecified	30802008
+0	Not applicable	30802008
+6514	Yes	30802009
+54	No	30802009
+12	Unspecified	30802009
+99	Not applicable	30802009
+6342	Yes	30803001
+43	No	30803001
+13	Unspecified	30803001
+0	Not applicable	30803001
+7619	Yes	30803002
+68	No	30803002
+8	Unspecified	30803002
+0	Not applicable	30803002
+5180	Yes	30803003
+39	No	30803003
+16	Unspecified	30803003
+93	Not applicable	30803003
+4627	Yes	30803004
+40	No	30803004
+47	Unspecified	30803004
+0	Not applicable	30803004
+7095	Yes	30803005
+10	No	30803005
+17	Unspecified	30803005
+0	Not applicable	30803005
+6747	Yes	30803006
+126	No	30803006
+37	Unspecified	30803006
+0	Not applicable	30803006
+3556	Yes	30803007
+49	No	30803007
+21	Unspecified	30803007
+0	Not applicable	30803007
+6600	Yes	30803008
+163	No	30803008
+20	Unspecified	30803008
+8	Not applicable	30803008
+6365	Yes	30803009
+60	No	30803009
+42	Unspecified	30803009
+77	Not applicable	30803009
+10106	Yes	30803010
+141	No	30803010
+9	Unspecified	30803010
+0	Not applicable	30803010
+7424	Yes	30803011
+75	No	30803011
+39	Unspecified	30803011
+0	Not applicable	30803011
+6566	Yes	30803012
+43	No	30803012
+19	Unspecified	30803012
+8	Not applicable	30803012
+7045	Yes	30803013
+92	No	30803013
+24	Unspecified	30803013
+1189	Not applicable	30803013
+5543	Yes	30803014
+32	No	30803014
+14	Unspecified	30803014
+0	Not applicable	30803014
+4286	Yes	30804001
+17	No	30804001
+12	Unspecified	30804001
+30	Not applicable	30804001
+4856	Yes	30804002
+23	No	30804002
+13	Unspecified	30804002
+0	Not applicable	30804002
+3553	Yes	30804003
+46	No	30804003
+12	Unspecified	30804003
+211	Not applicable	30804003
+3565	Yes	30804004
+8	No	30804004
+7	Unspecified	30804004
+0	Not applicable	30804004
+3959	Yes	30805001
+24	No	30805001
+30	Unspecified	30805001
+8	Not applicable	30805001
+6523	Yes	30805002
+112	No	30805002
+13	Unspecified	30805002
+0	Not applicable	30805002
+5661	Yes	30805003
+33	No	30805003
+21	Unspecified	30805003
+0	Not applicable	30805003
+5280	Yes	30805004
+47	No	30805004
+2	Unspecified	30805004
+96	Not applicable	30805004
+7476	Yes	30805005
+117	No	30805005
+25	Unspecified	30805005
+125	Not applicable	30805005
+5306	Yes	30805006
+60	No	30805006
+4	Unspecified	30805006
+172	Not applicable	30805006
+4203	Yes	30806001
+31	No	30806001
+26	Unspecified	30806001
+0	Not applicable	30806001
+2839	Yes	30806002
+11	No	30806002
+2	Unspecified	30806002
+53	Not applicable	30806002
+6911	Yes	30806003
+53	No	30806003
+31	Unspecified	30806003
+14	Not applicable	30806003
+4468	Yes	30806004
+29	No	30806004
+7	Unspecified	30806004
+8	Not applicable	30806004
+5868	Yes	30901001
+27	No	30901001
+16	Unspecified	30901001
+0	Not applicable	30901001
+11278	Yes	30901002
+53	No	30901002
+45	Unspecified	30901002
+2	Not applicable	30901002
+8401	Yes	30901003
+70	No	30901003
+8	Unspecified	30901003
+0	Not applicable	30901003
+7000	Yes	30901004
+71	No	30901004
+119	Unspecified	30901004
+0	Not applicable	30901004
+7316	Yes	30901005
+77	No	30901005
+20	Unspecified	30901005
+0	Not applicable	30901005
+7104	Yes	30901006
+45	No	30901006
+7	Unspecified	30901006
+0	Not applicable	30901006
+8692	Yes	30901007
+48	No	30901007
+37	Unspecified	30901007
+0	Not applicable	30901007
+8941	Yes	30901008
+117	No	30901008
+55	Unspecified	30901008
+18	Not applicable	30901008
+7155	Yes	30901009
+28	No	30901009
+6	Unspecified	30901009
+0	Not applicable	30901009
+6714	Yes	30901010
+42	No	30901010
+10	Unspecified	30901010
+0	Not applicable	30901010
+7298	Yes	30901011
+51	No	30901011
+18	Unspecified	30901011
+22	Not applicable	30901011
+5917	Yes	30901012
+44	No	30901012
+37	Unspecified	30901012
+52	Not applicable	30901012
+8309	Yes	30901013
+111	No	30901013
+86	Unspecified	30901013
+89	Not applicable	30901013
+6085	Yes	30901014
+57	No	30901014
+29	Unspecified	30901014
+385	Not applicable	30901014
+7175	Yes	30901015
+68	No	30901015
+10	Unspecified	30901015
+0	Not applicable	30901015
+12878	Yes	30901016
+159	No	30901016
+6	Unspecified	30901016
+0	Not applicable	30901016
+10508	Yes	30901017
+129	No	30901017
+22	Unspecified	30901017
+0	Not applicable	30901017
+4371	Yes	30901018
+124	No	30901018
+23	Unspecified	30901018
+0	Not applicable	30901018
+6627	Yes	30901019
+69	No	30901019
+48	Unspecified	30901019
+121	Not applicable	30901019
+7221	Yes	30901020
+347	No	30901020
+63	Unspecified	30901020
+113	Not applicable	30901020
+7636	Yes	30901021
+253	No	30901021
+25	Unspecified	30901021
+540	Not applicable	30901021
+8983	Yes	30901022
+82	No	30901022
+24	Unspecified	30901022
+595	Not applicable	30901022
+5183	Yes	30901023
+85	No	30901023
+32	Unspecified	30901023
+369	Not applicable	30901023
+5613	Yes	30901024
+70	No	30901024
+34	Unspecified	30901024
+250	Not applicable	30901024
+8128	Yes	30901025
+93	No	30901025
+27	Unspecified	30901025
+439	Not applicable	30901025
+9533	Yes	30901026
+120	No	30901026
+18	Unspecified	30901026
+7	Not applicable	30901026
+10024	Yes	30901027
+65	No	30901027
+109	Unspecified	30901027
+342	Not applicable	30901027
+9357	Yes	30901028
+68	No	30901028
+42	Unspecified	30901028
+62	Not applicable	30901028
+1879	Yes	30901029
+28	No	30901029
+2	Unspecified	30901029
+0	Not applicable	30901029
+9786	Yes	30901030
+78	No	30901030
+28	Unspecified	30901030
+0	Not applicable	30901030
+9814	Yes	30901031
+79	No	30901031
+77	Unspecified	30901031
+0	Not applicable	30901031
+5706	Yes	30902001
+51	No	30902001
+5	Unspecified	30902001
+0	Not applicable	30902001
+6534	Yes	30902002
+73	No	30902002
+49	Unspecified	30902002
+127	Not applicable	30902002
+8739	Yes	30902003
+140	No	30902003
+26	Unspecified	30902003
+0	Not applicable	30902003
+6186	Yes	30902004
+53	No	30902004
+12	Unspecified	30902004
+0	Not applicable	30902004
+7516	Yes	30902005
+74	No	30902005
+36	Unspecified	30902005
+0	Not applicable	30902005
+4797	Yes	30902006
+35	No	30902006
+13	Unspecified	30902006
+1	Not applicable	30902006
+6527	Yes	30902007
+42	No	30902007
+31	Unspecified	30902007
+67	Not applicable	30902007
+7441	Yes	30903001
+62	No	30903001
+15	Unspecified	30903001
+0	Not applicable	30903001
+4901	Yes	30903002
+24	No	30903002
+15	Unspecified	30903002
+0	Not applicable	30903002
+2565	Yes	30903003
+5	No	30903003
+0	Unspecified	30903003
+0	Not applicable	30903003
+5970	Yes	30903004
+38	No	30903004
+21	Unspecified	30903004
+8	Not applicable	30903004
+3026	Yes	30903005
+67	No	30903005
+30	Unspecified	30903005
+17	Not applicable	30903005
+8081	Yes	30904001
+40	No	30904001
+88	Unspecified	30904001
+0	Not applicable	30904001
+5158	Yes	30904002
+69	No	30904002
+30	Unspecified	30904002
+0	Not applicable	30904002
+4515	Yes	30904003
+44	No	30904003
+11	Unspecified	30904003
+0	Not applicable	30904003
+5806	Yes	30904004
+33	No	30904004
+28	Unspecified	30904004
+0	Not applicable	30904004
+9182	Yes	30904005
+149	No	30904005
+40	Unspecified	30904005
+0	Not applicable	30904005
+3116	Yes	30904006
+73	No	30904006
+8	Unspecified	30904006
+100	Not applicable	30904006
+9243	Yes	30904007
+77	No	30904007
+22	Unspecified	30904007
+0	Not applicable	30904007
+9192	Yes	30904008
+34	No	30904008
+17	Unspecified	30904008
+0	Not applicable	30904008
+7737	Yes	30904009
+74	No	30904009
+33	Unspecified	30904009
+0	Not applicable	30904009
+5439	Yes	34501001
+80	No	34501001
+15	Unspecified	34501001
+0	Not applicable	34501001
+5832	Yes	34501002
+46	No	34501002
+9	Unspecified	34501002
+0	Not applicable	34501002
+5574	Yes	34501003
+56	No	34501003
+9	Unspecified	34501003
+0	Not applicable	34501003
+6341	Yes	34501004
+36	No	34501004
+34	Unspecified	34501004
+392	Not applicable	34501004
+5853	Yes	34501005
+21	No	34501005
+8	Unspecified	34501005
+0	Not applicable	34501005
+5936	Yes	34501006
+19	No	34501006
+16	Unspecified	34501006
+0	Not applicable	34501006
+4505	Yes	34501007
+23	No	34501007
+23	Unspecified	34501007
+0	Not applicable	34501007
+5159	Yes	34501008
+24	No	34501008
+27	Unspecified	34501008
+0	Not applicable	34501008
+7371	Yes	34501009
+21	No	34501009
+19	Unspecified	34501009
+0	Not applicable	34501009
+6445	Yes	34501010
+250	No	34501010
+33	Unspecified	34501010
+0	Not applicable	34501010
+5500	Yes	34501011
+72	No	34501011
+17	Unspecified	34501011
+0	Not applicable	34501011
+5726	Yes	34501012
+16	No	34501012
+20	Unspecified	34501012
+0	Not applicable	34501012
+7353	Yes	34501013
+43	No	34501013
+42	Unspecified	34501013
+0	Not applicable	34501013
+5143	Yes	34501014
+22	No	34501014
+17	Unspecified	34501014
+0	Not applicable	34501014
+5873	Yes	34501015
+25	No	34501015
+48	Unspecified	34501015
+0	Not applicable	34501015
+5307	Yes	34502001
+154	No	34502001
+56	Unspecified	34502001
+604	Not applicable	34502001
+8650	Yes	34502002
+61	No	34502002
+40	Unspecified	34502002
+0	Not applicable	34502002
+9838	Yes	34502003
+148	No	34502003
+10	Unspecified	34502003
+0	Not applicable	34502003
+5733	Yes	34502004
+73	No	34502004
+14	Unspecified	34502004
+5	Not applicable	34502004
+3257	Yes	34502005
+31	No	34502005
+4	Unspecified	34502005
+0	Not applicable	34502005
+8544	Yes	34502006
+236	No	34502006
+40	Unspecified	34502006
+0	Not applicable	34502006
+5790	Yes	34502007
+17	No	34502007
+12	Unspecified	34502007
+0	Not applicable	34502007
+5779	Yes	34502008
+77	No	34502008
+45	Unspecified	34502008
+90	Not applicable	34502008
+3753	Yes	34502009
+27	No	34502009
+4	Unspecified	34502009
+0	Not applicable	34502009
+10949	Yes	34502010
+101	No	34502010
+105	Unspecified	34502010
+22	Not applicable	34502010
+6858	Yes	34502011
+64	No	34502011
+10	Unspecified	34502011
+0	Not applicable	34502011
+10205	Yes	34502012
+64	No	34502012
+26	Unspecified	34502012
+0	Not applicable	34502012
+6755	Yes	34502013
+79	No	34502013
+16	Unspecified	34502013
+0	Not applicable	34502013
+10871	Yes	34503001
+62	No	34503001
+77	Unspecified	34503001
+541	Not applicable	34503001
+7811	Yes	34503002
+52	No	34503002
+36	Unspecified	34503002
+9	Not applicable	34503002
+6058	Yes	34503003
+44	No	34503003
+22	Unspecified	34503003
+119	Not applicable	34503003
+7770	Yes	34503004
+68	No	34503004
+79	Unspecified	34503004
+98	Not applicable	34503004
+6640	Yes	34503005
+245	No	34503005
+38	Unspecified	34503005
+977	Not applicable	34503005
+8875	Yes	10101001
+34	No	10101001
+57	Unspecified	10101001
+102	Not applicable	10101001
+7925	Yes	10101002
+36	No	10101002
+163	Unspecified	10101002
+349	Not applicable	10101002
+6736	Yes	10101003
+229	No	10101003
+42	Unspecified	10101003
+0	Not applicable	10101003
+9035	Yes	10101004
+47	No	10101004
+36	Unspecified	10101004
+541	Not applicable	10101004
+7045	Yes	10101005
+33	No	10101005
+185	Unspecified	10101005
+158	Not applicable	10101005
+7092	Yes	10101006
+56	No	10101006
+39	Unspecified	10101006
+0	Not applicable	10101006
+8514	Yes	10101007
+54	No	10101007
+7	Unspecified	10101007
+372	Not applicable	10101007
+9071	Yes	10101008
+109	No	10101008
+27	Unspecified	10101008
+179	Not applicable	10101008
+10137	Yes	10102001
+75	No	10102001
+85	Unspecified	10102001
+127	Not applicable	10102001
+5584	Yes	10102002
+38	No	10102002
+18	Unspecified	10102002
+634	Not applicable	10102002
+6666	Yes	10102003
+574	No	10102003
+49	Unspecified	10102003
+234	Not applicable	10102003
+9429	Yes	10102004
+78	No	10102004
+186	Unspecified	10102004
+348	Not applicable	10102004
+7319	Yes	10102005
+24	No	10102005
+15	Unspecified	10102005
+258	Not applicable	10102005
+7627	Yes	10102006
+74	No	10102006
+26	Unspecified	10102006
+164	Not applicable	10102006
+9881	Yes	10103001
+99	No	10103001
+29	Unspecified	10103001
+498	Not applicable	10103001
+5108	Yes	10103002
+12	No	10103002
+84	Unspecified	10103002
+5	Not applicable	10103002
+8330	Yes	10103003
+216	No	10103003
+17	Unspecified	10103003
+164	Not applicable	10103003
+8868	Yes	10103004
+43	No	10103004
+148	Unspecified	10103004
+402	Not applicable	10103004
+11112	Yes	10103005
+254	No	10103005
+25	Unspecified	10103005
+1623	Not applicable	10103005
+3233	Yes	10103006
+17	No	10103006
+14	Unspecified	10103006
+382	Not applicable	10103006
+10819	Yes	10103007
+134	No	10103007
+204	Unspecified	10103007
+176	Not applicable	10103007
+8306	Yes	10104001
+86	No	10104001
+10	Unspecified	10104001
+0	Not applicable	10104001
+10115	Yes	10104002
+373	No	10104002
+99	Unspecified	10104002
+0	Not applicable	10104002
+4694	Yes	10104003
+34	No	10104003
+10	Unspecified	10104003
+1467	Not applicable	10104003
+8534	Yes	10104004
+52	No	10104004
+5	Unspecified	10104004
+0	Not applicable	10104004
+5939	Yes	10104005
+77	No	10104005
+64	Unspecified	10104005
+124	Not applicable	10104005
+8148	Yes	10104006
+210	No	10104006
+107	Unspecified	10104006
+5	Not applicable	10104006
+7071	Yes	10104007
+128	No	10104007
+329	Unspecified	10104007
+17	Not applicable	10104007
+5687	Yes	10104008
+56	No	10104008
+46	Unspecified	10104008
+0	Not applicable	10104008
+7592	Yes	10104009
+286	No	10104009
+68	Unspecified	10104009
+30	Not applicable	10104009
+8167	Yes	10104010
+87	No	10104010
+39	Unspecified	10104010
+230	Not applicable	10104010
+5403	Yes	10104011
+62	No	10104011
+12	Unspecified	10104011
+38	Not applicable	10104011
+8321	Yes	10104012
+38	No	10104012
+34	Unspecified	10104012
+15	Not applicable	10104012
+6940	Yes	10104013
+34	No	10104013
+4	Unspecified	10104013
+0	Not applicable	10104013
+7106	Yes	10105001
+38	No	10105001
+17	Unspecified	10105001
+3396	Not applicable	10105001
+8821	Yes	10105002
+84	No	10105002
+124	Unspecified	10105002
+138	Not applicable	10105002
+8402	Yes	10105003
+160	No	10105003
+28	Unspecified	10105003
+298	Not applicable	10105003
+10480	Yes	10105004
+97	No	10105004
+24	Unspecified	10105004
+1393	Not applicable	10105004
+7641	Yes	10105005
+186	No	10105005
+30	Unspecified	10105005
+60	Not applicable	10105005
+8227	Yes	10105006
+74	No	10105006
+1	Unspecified	10105006
+0	Not applicable	10105006
+11671	Yes	10105007
+100	No	10105007
+12	Unspecified	10105007
+1235	Not applicable	10105007
+6329	Yes	10105008
+52	No	10105008
+46	Unspecified	10105008
+528	Not applicable	10105008
+8158	Yes	10105009
+352	No	10105009
+21	Unspecified	10105009
+0	Not applicable	10105009
+8031	Yes	10105010
+33	No	10105010
+36	Unspecified	10105010
+589	Not applicable	10105010
+9261	Yes	10105011
+26	No	10105011
+17	Unspecified	10105011
+0	Not applicable	10105011
+9319	Yes	10105012
+81	No	10105012
+74	Unspecified	10105012
+964	Not applicable	10105012
+6229	Yes	10202001
+724	No	10202001
+123	Unspecified	10202001
+0	Not applicable	10202001
+6138	Yes	10202002
+67	No	10202002
+10	Unspecified	10202002
+0	Not applicable	10202002
+8767	Yes	10202003
+33	No	10202003
+19	Unspecified	10202003
+387	Not applicable	10202003
+7302	Yes	10202004
+31	No	10202004
+11	Unspecified	10202004
+12	Not applicable	10202004
+8748	Yes	10202005
+76	No	10202005
+41	Unspecified	10202005
+182	Not applicable	10202005
+10741	Yes	10202006
+30	No	10202006
+226	Unspecified	10202006
+17	Not applicable	10202006
+13510	Yes	10202007
+461	No	10202007
+150	Unspecified	10202007
+221	Not applicable	10202007
+9520	Yes	10202008
+622	No	10202008
+69	Unspecified	10202008
+0	Not applicable	10202008
+9224	Yes	10202009
+674	No	10202009
+39	Unspecified	10202009
+282	Not applicable	10202009
+9687	Yes	10202010
+401	No	10202010
+23	Unspecified	10202010
+0	Not applicable	10202010
+11514	Yes	10202011
+233	No	10202011
+67	Unspecified	10202011
+468	Not applicable	10202011
+7966	Yes	10202012
+223	No	10202012
+25	Unspecified	10202012
+657	Not applicable	10202012
+9811	Yes	10203001
+65	No	10203001
+69	Unspecified	10203001
+0	Not applicable	10203001
+4616	Yes	10203002
+83	No	10203002
+106	Unspecified	10203002
+342	Not applicable	10203002
+11092	Yes	10203003
+147	No	10203003
+505	Unspecified	10203003
+0	Not applicable	10203003
+5371	Yes	10203004
+169	No	10203004
+52	Unspecified	10203004
+1006	Not applicable	10203004
+9211	Yes	10203005
+260	No	10203005
+55	Unspecified	10203005
+11	Not applicable	10203005
+5672	Yes	10203006
+139	No	10203006
+20	Unspecified	10203006
+0	Not applicable	10203006
+9325	Yes	10203007
+41	No	10203007
+37	Unspecified	10203007
+0	Not applicable	10203007
+1779	Yes	10203008
+90	No	10203008
+8	Unspecified	10203008
+0	Not applicable	10203008
+6192	Yes	10203009
+443	No	10203009
+76	Unspecified	10203009
+0	Not applicable	10203009
+8004	Yes	10203010
+17	No	10203010
+19	Unspecified	10203010
+242	Not applicable	10203010
+11998	Yes	10203011
+122	No	10203011
+11	Unspecified	10203011
+0	Not applicable	10203011
+6111	Yes	10203012
+274	No	10203012
+14	Unspecified	10203012
+0	Not applicable	10203012
+7659	Yes	10203013
+69	No	10203013
+23	Unspecified	10203013
+0	Not applicable	10203013
+13712	Yes	10203014
+113	No	10203014
+111	Unspecified	10203014
+0	Not applicable	10203014
+6614	Yes	10203015
+182	No	10203015
+52	Unspecified	10203015
+305	Not applicable	10203015
+7371	Yes	10203016
+112	No	10203016
+5	Unspecified	10203016
+0	Not applicable	10203016
+9219	Yes	10203017
+36	No	10203017
+251	Unspecified	10203017
+124	Not applicable	10203017
+7018	Yes	10203018
+129	No	10203018
+23	Unspecified	10203018
+1083	Not applicable	10203018
+5755	Yes	10203019
+87	No	10203019
+31	Unspecified	10203019
+717	Not applicable	10203019
+3288	Yes	10203020
+14	No	10203020
+17	Unspecified	10203020
+0	Not applicable	10203020
+11015	Yes	10203021
+42	No	10203021
+113	Unspecified	10203021
+173	Not applicable	10203021
+8115	Yes	10203022
+237	No	10203022
+113	Unspecified	10203022
+285	Not applicable	10203022
+7283	Yes	10203023
+110	No	10203023
+245	Unspecified	10203023
+463	Not applicable	10203023
+6639	Yes	10203024
+15	No	10203024
+69	Unspecified	10203024
+0	Not applicable	10203024
+7974	Yes	10203025
+22	No	10203025
+40	Unspecified	10203025
+840	Not applicable	10203025
+10082	Yes	10203026
+28	No	10203026
+73	Unspecified	10203026
+0	Not applicable	10203026
+6304	Yes	10203027
+30	No	10203027
+33	Unspecified	10203027
+0	Not applicable	10203027
+5072	Yes	10203028
+86	No	10203028
+46	Unspecified	10203028
+1880	Not applicable	10203028
+7585	Yes	10203029
+69	No	10203029
+22	Unspecified	10203029
+189	Not applicable	10203029
+9822	Yes	10203030
+104	No	10203030
+11	Unspecified	10203030
+1	Not applicable	10203030
+7840	Yes	10203031
+42	No	10203031
+74	Unspecified	10203031
+354	Not applicable	10203031
+11515	Yes	10204001
+651	No	10204001
+120	Unspecified	10204001
+102	Not applicable	10204001
+7301	Yes	10204002
+169	No	10204002
+50	Unspecified	10204002
+0	Not applicable	10204002
+8858	Yes	10204003
+70	No	10204003
+22	Unspecified	10204003
+1	Not applicable	10204003
+8131	Yes	10204004
+77	No	10204004
+21	Unspecified	10204004
+0	Not applicable	10204004
+5586	Yes	10204005
+25	No	10204005
+45	Unspecified	10204005
+0	Not applicable	10204005
+5602	Yes	10204006
+85	No	10204006
+157	Unspecified	10204006
+13	Not applicable	10204006
+3330	Yes	10204007
+174	No	10204007
+27	Unspecified	10204007
+341	Not applicable	10204007
+1148	Yes	10204008
+119	No	10204008
+4	Unspecified	10204008
+4412	Not applicable	10204008
+376	Yes	10204009
+31	No	10204009
+1	Unspecified	10204009
+414	Not applicable	10204009
+4449	Yes	10204010
+420	No	10204010
+41	Unspecified	10204010
+360	Not applicable	10204010
+5539	Yes	10204011
+288	No	10204011
+28	Unspecified	10204011
+691	Not applicable	10204011
+7850	Yes	10204012
+123	No	10204012
+37	Unspecified	10204012
+0	Not applicable	10204012
+2333	Yes	10204013
+47	No	10204013
+19	Unspecified	10204013
+84	Not applicable	10204013
+5010	Yes	10204014
+190	No	10204014
+79	Unspecified	10204014
+0	Not applicable	10204014
+10100	Yes	10204015
+166	No	10204015
+137	Unspecified	10204015
+0	Not applicable	10204015
+7774	Yes	10204016
+42	No	10204016
+81	Unspecified	10204016
+729	Not applicable	10204016
+7289	Yes	10204017
+134	No	10204017
+130	Unspecified	10204017
+174	Not applicable	10204017
+8591	Yes	10204018
+118	No	10204018
+51	Unspecified	10204018
+3	Not applicable	10204018
+9417	Yes	10204019
+173	No	10204019
+389	Unspecified	10204019
+515	Not applicable	10204019
+9122	Yes	10204020
+245	No	10204020
+53	Unspecified	10204020
+208	Not applicable	10204020
+8406	Yes	10204021
+189	No	10204021
+26	Unspecified	10204021
+31	Not applicable	10204021
+4196	Yes	10204022
+176	No	10204022
+35	Unspecified	10204022
+467	Not applicable	10204022
+8428	Yes	10205001
+205	No	10205001
+41	Unspecified	10205001
+78	Not applicable	10205001
+7553	Yes	10205002
+1703	No	10205002
+157	Unspecified	10205002
+0	Not applicable	10205002
+9152	Yes	10205003
+298	No	10205003
+113	Unspecified	10205003
+29	Not applicable	10205003
+9561	Yes	10205004
+235	No	10205004
+43	Unspecified	10205004
+142	Not applicable	10205004
+11290	Yes	10205005
+123	No	10205005
+22	Unspecified	10205005
+7	Not applicable	10205005
+4752	Yes	10205006
+74	No	10205006
+6	Unspecified	10205006
+517	Not applicable	10205006
+5281	Yes	10205007
+80	No	10205007
+9	Unspecified	10205007
+817	Not applicable	10205007
+8728	Yes	10205008
+155	No	10205008
+12	Unspecified	10205008
+17	Not applicable	10205008
+6637	Yes	10205009
+49	No	10205009
+12	Unspecified	10205009
+150	Not applicable	10205009
+7837	Yes	10205010
+25	No	10205010
+44	Unspecified	10205010
+18	Not applicable	10205010
+6450	Yes	10205011
+147	No	10205011
+96	Unspecified	10205011
+0	Not applicable	10205011
+5723	Yes	10205012
+179	No	10205012
+16	Unspecified	10205012
+1265	Not applicable	10205012
+7137	Yes	10205013
+27	No	10205013
+309	Unspecified	10205013
+120	Not applicable	10205013
+5901	Yes	10205014
+14	No	10205014
+9	Unspecified	10205014
+0	Not applicable	10205014
+6235	Yes	10205015
+85	No	10205015
+53	Unspecified	10205015
+1733	Not applicable	10205015
+7415	Yes	10205016
+463	No	10205016
+60	Unspecified	10205016
+0	Not applicable	10205016
+3263	Yes	10205017
+111	No	10205017
+5	Unspecified	10205017
+0	Not applicable	10205017
+7992	Yes	10205018
+100	No	10205018
+20	Unspecified	10205018
+0	Not applicable	10205018
+6067	Yes	10205019
+17	No	10205019
+35	Unspecified	10205019
+6	Not applicable	10205019
+7215	Yes	10205020
+45	No	10205020
+29	Unspecified	10205020
+338	Not applicable	10205020
+12943	Yes	10205021
+140	No	10205021
+34	Unspecified	10205021
+635	Not applicable	10205021
+5535	Yes	10206001
+59	No	10206001
+14	Unspecified	10206001
+130	Not applicable	10206001
+7652	Yes	10206002
+876	No	10206002
+48	Unspecified	10206002
+297	Not applicable	10206002
+7764	Yes	10206003
+161	No	10206003
+352	Unspecified	10206003
+415	Not applicable	10206003
+7648	Yes	10206004
+106	No	10206004
+103	Unspecified	10206004
+0	Not applicable	10206004
+5552	Yes	10206005
+66	No	10206005
+7	Unspecified	10206005
+19	Not applicable	10206005
+9608	Yes	10206006
+100	No	10206006
+88	Unspecified	10206006
+0	Not applicable	10206006
+8225	Yes	10206007
+333	No	10206007
+319	Unspecified	10206007
+793	Not applicable	10206007
+9480	Yes	10206008
+115	No	10206008
+61	Unspecified	10206008
+58	Not applicable	10206008
+7380	Yes	10206009
+88	No	10206009
+1	Unspecified	10206009
+140	Not applicable	10206009
+5390	Yes	10206010
+189	No	10206010
+19	Unspecified	10206010
+0	Not applicable	10206010
+5748	Yes	10206011
+70	No	10206011
+2	Unspecified	10206011
+126	Not applicable	10206011
+12318	Yes	10206012
+76	No	10206012
+188	Unspecified	10206012
+5	Not applicable	10206012
+7267	Yes	10304001
+233	No	10304001
+20	Unspecified	10304001
+102	Not applicable	10304001
+7372	Yes	10304002
+165	No	10304002
+79	Unspecified	10304002
+295	Not applicable	10304002
+7698	Yes	10304003
+43	No	10304003
+20	Unspecified	10304003
+18	Not applicable	10304003
+3102	Yes	10304004
+64	No	10304004
+9	Unspecified	10304004
+342	Not applicable	10304004
+8798	Yes	10304005
+272	No	10304005
+14	Unspecified	10304005
+2	Not applicable	10304005
+8682	Yes	10301001
+129	No	10301001
+323	Unspecified	10301001
+121	Not applicable	10301001
+7717	Yes	10301002
+255	No	10301002
+279	Unspecified	10301002
+191	Not applicable	10301002
+10447	Yes	10301003
+92	No	10301003
+29	Unspecified	10301003
+606	Not applicable	10301003
+6517	Yes	10301004
+122	No	10301004
+25	Unspecified	10301004
+439	Not applicable	10301004
+9646	Yes	10301005
+173	No	10301005
+38	Unspecified	10301005
+1770	Not applicable	10301005
+6492	Yes	10301006
+274	No	10301006
+38	Unspecified	10301006
+2	Not applicable	10301006
+7595	Yes	10301007
+62	No	10301007
+118	Unspecified	10301007
+447	Not applicable	10301007
+5038	Yes	10301008
+17	No	10301008
+11	Unspecified	10301008
+0	Not applicable	10301008
+7635	Yes	10301009
+25	No	10301009
+135	Unspecified	10301009
+201	Not applicable	10301009
+5449	Yes	10301010
+58	No	10301010
+368	Unspecified	10301010
+30	Not applicable	10301010
+5226	Yes	10301011
+39	No	10301011
+28	Unspecified	10301011
+0	Not applicable	10301011
+7438	Yes	10301012
+45	No	10301012
+82	Unspecified	10301012
+12	Not applicable	10301012
+13665	Yes	10301013
+303	No	10301013
+181	Unspecified	10301013
+176	Not applicable	10301013
+6393	Yes	10302001
+46	No	10302001
+15	Unspecified	10302001
+0	Not applicable	10302001
+6129	Yes	10302002
+98	No	10302002
+235	Unspecified	10302002
+404	Not applicable	10302002
+3298	Yes	10302003
+385	No	10302003
+47	Unspecified	10302003
+536	Not applicable	10302003
+7185	Yes	10302004
+219	No	10302004
+28	Unspecified	10302004
+369	Not applicable	10302004
+5991	Yes	10302005
+279	No	10302005
+76	Unspecified	10302005
+0	Not applicable	10302005
+6132	Yes	10302006
+318	No	10302006
+80	Unspecified	10302006
+0	Not applicable	10302006
+3633	Yes	10302007
+140	No	10302007
+229	Unspecified	10302007
+100	Not applicable	10302007
+9291	Yes	10302008
+109	No	10302008
+13	Unspecified	10302008
+0	Not applicable	10302008
+2338	Yes	10302009
+46	No	10302009
+30	Unspecified	10302009
+30	Not applicable	10302009
+6290	Yes	10302010
+265	No	10302010
+72	Unspecified	10302010
+11	Not applicable	10302010
+8644	Yes	10302011
+221	No	10302011
+121	Unspecified	10302011
+101	Not applicable	10302011
+4679	Yes	10302012
+590	No	10302012
+66	Unspecified	10302012
+0	Not applicable	10302012
+4552	Yes	10302013
+220	No	10302013
+262	Unspecified	10302013
+117	Not applicable	10302013
+5609	Yes	10303001
+97	No	10303001
+7	Unspecified	10303001
+281	Not applicable	10303001
+7905	Yes	10303002
+44	No	10303002
+40	Unspecified	10303002
+40	Not applicable	10303002
+5822	Yes	10303003
+372	No	10303003
+122	Unspecified	10303003
+0	Not applicable	10303003
+5594	Yes	10303004
+72	No	10303004
+54	Unspecified	10303004
+0	Not applicable	10303004
+6728	Yes	10303005
+170	No	10303005
+71	Unspecified	10303005
+9	Not applicable	10303005
+6419	Yes	10401001
+13	No	10401001
+12	Unspecified	10401001
+0	Not applicable	10401001
+7149	Yes	10401002
+46	No	10401002
+114	Unspecified	10401002
+135	Not applicable	10401002
+4981	Yes	10401003
+10	No	10401003
+25	Unspecified	10401003
+0	Not applicable	10401003
+5316	Yes	10401004
+77	No	10401004
+23	Unspecified	10401004
+446	Not applicable	10401004
+6600	Yes	10402001
+54	No	10402001
+35	Unspecified	10402001
+55	Not applicable	10402001
+7251	Yes	10402002
+60	No	10402002
+39	Unspecified	10402002
+135	Not applicable	10402002
+4610	Yes	10402003
+26	No	10402003
+18	Unspecified	10402003
+185	Not applicable	10402003
+8374	Yes	10402004
+48	No	10402004
+11	Unspecified	10402004
+23	Not applicable	10402004
+5490	Yes	10402005
+70	No	10402005
+10	Unspecified	10402005
+206	Not applicable	10402005
+6411	Yes	10402006
+70	No	10402006
+100	Unspecified	10402006
+335	Not applicable	10402006
+6098	Yes	10402007
+23	No	10402007
+31	Unspecified	10402007
+157	Not applicable	10402007
+6090	Yes	10402008
+12	No	10402008
+11	Unspecified	10402008
+4	Not applicable	10402008
+6587	Yes	10403001
+120	No	10403001
+46	Unspecified	10403001
+0	Not applicable	10403001
+5613	Yes	10403002
+104	No	10403002
+45	Unspecified	10403002
+0	Not applicable	10403002
+9659	Yes	10403003
+251	No	10403003
+76	Unspecified	10403003
+0	Not applicable	10403003
+5164	Yes	10403004
+79	No	10403004
+36	Unspecified	10403004
+27	Not applicable	10403004
+6285	Yes	10403005
+64	No	10403005
+24	Unspecified	10403005
+10	Not applicable	10403005
+5765	Yes	10403006
+89	No	10403006
+198	Unspecified	10403006
+207	Not applicable	10403006
+4685	Yes	10403007
+76	No	10403007
+59	Unspecified	10403007
+125	Not applicable	10403007
+4195	Yes	10403008
+159	No	10403008
+90	Unspecified	10403008
+232	Not applicable	10403008
+6482	Yes	10403009
+23	No	10403009
+96	Unspecified	10403009
+112	Not applicable	10403009
+3817	Yes	10403010
+41	No	10403010
+73	Unspecified	10403010
+640	Not applicable	10403010
+6629	Yes	10403011
+137	No	10403011
+33	Unspecified	10403011
+35	Not applicable	10403011
+4756	Yes	10403012
+37	No	10403012
+61	Unspecified	10403012
+0	Not applicable	10403012
+6544	Yes	10403013
+21	No	10403013
+72	Unspecified	10403013
+0	Not applicable	10403013
+9598	Yes	10403014
+38	No	10403014
+117	Unspecified	10403014
+0	Not applicable	10403014
+9074	Yes	10404001
+87	No	10404001
+59	Unspecified	10404001
+136	Not applicable	10404001
+3306	Yes	10404002
+61	No	10404002
+30	Unspecified	10404002
+0	Not applicable	10404002
+5509	Yes	10404003
+217	No	10404003
+15	Unspecified	10404003
+7	Not applicable	10404003
+7066	Yes	10404004
+332	No	10404004
+45	Unspecified	10404004
+749	Not applicable	10404004
+6295	Yes	10404005
+47	No	10404005
+11	Unspecified	10404005
+220	Not applicable	10404005
+9924	Yes	10404006
+88	No	10404006
+34	Unspecified	10404006
+0	Not applicable	10404006
+9137	Yes	10404007
+204	No	10404007
+54	Unspecified	10404007
+0	Not applicable	10404007
+7527	Yes	10404008
+44	No	10404008
+18	Unspecified	10404008
+170	Not applicable	10404008
+5841	Yes	10404009
+120	No	10404009
+5	Unspecified	10404009
+0	Not applicable	10404009
+3077	Yes	10404010
+44	No	10404010
+31	Unspecified	10404010
+0	Not applicable	10404010
+7622	Yes	10404011
+133	No	10404011
+20	Unspecified	10404011
+984	Not applicable	10404011
+4197	Yes	10404012
+87	No	10404012
+5	Unspecified	10404012
+0	Not applicable	10404012
+7404	Yes	10404013
+182	No	10404013
+17	Unspecified	10404013
+0	Not applicable	10404013
+9470	Yes	10404014
+43	No	10404014
+58	Unspecified	10404014
+0	Not applicable	10404014
+6016	Yes	10404015
+91	No	10404015
+48	Unspecified	10404015
+0	Not applicable	10404015
+11551	Yes	10404016
+128	No	10404016
+279	Unspecified	10404016
+0	Not applicable	10404016
+9023	Yes	10404017
+34	No	10404017
+14	Unspecified	10404017
+201	Not applicable	10404017
+4913	Yes	10404018
+103	No	10404018
+11	Unspecified	10404018
+0	Not applicable	10404018
+8540	Yes	10404019
+293	No	10404019
+169	Unspecified	10404019
+269	Not applicable	10404019
+7850	Yes	10404020
+44	No	10404020
+19	Unspecified	10404020
+0	Not applicable	10404020
+9095	Yes	10404021
+94	No	10404021
+29	Unspecified	10404021
+0	Not applicable	10404021
+8059	Yes	10404022
+123	No	10404022
+82	Unspecified	10404022
+14	Not applicable	10404022
+8584	Yes	10404023
+89	No	10404023
+10	Unspecified	10404023
+1266	Not applicable	10404023
+7909	Yes	10404024
+61	No	10404024
+13	Unspecified	10404024
+0	Not applicable	10404024
+8757	Yes	10404025
+66	No	10404025
+18	Unspecified	10404025
+0	Not applicable	10404025
+6471	Yes	10405001
+35	No	10405001
+17	Unspecified	10405001
+12	Not applicable	10405001
+6698	Yes	10405002
+37	No	10405002
+37	Unspecified	10405002
+121	Not applicable	10405002
+7744	Yes	10405003
+130	No	10405003
+16	Unspecified	10405003
+772	Not applicable	10405003
+4603	Yes	10405004
+45	No	10405004
+22	Unspecified	10405004
+12	Not applicable	10405004
+6213	Yes	10405005
+21	No	10405005
+1	Unspecified	10405005
+0	Not applicable	10405005
+11075	Yes	10405006
+16	No	10405006
+16	Unspecified	10405006
+0	Not applicable	10405006
+6248	Yes	10405007
+33	No	10405007
+43	Unspecified	10405007
+836	Not applicable	10405007
+10476	Yes	10405008
+68	No	10405008
+47	Unspecified	10405008
+0	Not applicable	10405008
+5547	Yes	10405009
+11	No	10405009
+13	Unspecified	10405009
+0	Not applicable	10405009
+6313	Yes	10405010
+12	No	10405010
+13	Unspecified	10405010
+0	Not applicable	10405010
+10512	Yes	10405011
+45	No	10405011
+26	Unspecified	10405011
+13	Not applicable	10405011
+6600	Yes	10405012
+75	No	10405012
+15	Unspecified	10405012
+66	Not applicable	10405012
+4562	Yes	10405013
+7	No	10405013
+7	Unspecified	10405013
+227	Not applicable	10405013
+7448	Yes	10407001
+234	No	10407001
+48	Unspecified	10407001
+389	Not applicable	10407001
+6435	Yes	10407002
+466	No	10407002
+41	Unspecified	10407002
+783	Not applicable	10407002
+4555	Yes	10407003
+48	No	10407003
+6	Unspecified	10407003
+0	Not applicable	10407003
+6772	Yes	10407004
+106	No	10407004
+18	Unspecified	10407004
+0	Not applicable	10407004
+5569	Yes	10407005
+375	No	10407005
+30	Unspecified	10407005
+0	Not applicable	10407005
+4110	Yes	10407006
+127	No	10407006
+18	Unspecified	10407006
+0	Not applicable	10407006
+11163	Yes	10407007
+268	No	10407007
+149	Unspecified	10407007
+4	Not applicable	10407007
+5837	Yes	10408001
+356	No	10408001
+18	Unspecified	10408001
+0	Not applicable	10408001
+5481	Yes	10408002
+253	No	10408002
+52	Unspecified	10408002
+7	Not applicable	10408002
+4397	Yes	10408003
+140	No	10408003
+14	Unspecified	10408003
+30	Not applicable	10408003
+4944	Yes	10408004
+276	No	10408004
+36	Unspecified	10408004
+0	Not applicable	10408004
+5836	Yes	10408005
+215	No	10408005
+16	Unspecified	10408005
+0	Not applicable	10408005
+8495	Yes	10408006
+158	No	10408006
+39	Unspecified	10408006
+0	Not applicable	10408006
+12239	Yes	10408007
+442	No	10408007
+59	Unspecified	10408007
+0	Not applicable	10408007
+5579	Yes	10408008
+185	No	10408008
+15	Unspecified	10408008
+90	Not applicable	10408008
+6752	Yes	10408009
+419	No	10408009
+46	Unspecified	10408009
+521	Not applicable	10408009
+4350	Yes	10408010
+593	No	10408010
+88	Unspecified	10408010
+680	Not applicable	10408010
+2714	Yes	10501001
+18	No	10501001
+37	Unspecified	10501001
+61	Not applicable	10501001
+676	Yes	10501002
+19	No	10501002
+1	Unspecified	10501002
+231	Not applicable	10501002
+353	Yes	10501003
+0	No	10501003
+0	Unspecified	10501003
+7	Not applicable	10501003
+4094	Yes	10501004
+14	No	10501004
+26	Unspecified	10501004
+38	Not applicable	10501004
+3505	Yes	10502001
+9	No	10502001
+0	Unspecified	10502001
+8	Not applicable	10502001
+2487	Yes	10502002
+36	No	10502002
+13	Unspecified	10502002
+101	Not applicable	10502002
+2625	Yes	10502003
+22	No	10502003
+0	Unspecified	10502003
+0	Not applicable	10502003
+4302	Yes	10502004
+12	No	10502004
+0	Unspecified	10502004
+17	Not applicable	10502004
+7276	Yes	10503001
+23	No	10503001
+55	Unspecified	10503001
+99	Not applicable	10503001
+5967	Yes	10503002
+79	No	10503002
+18	Unspecified	10503002
+454	Not applicable	10503002
+6941	Yes	10503003
+57	No	10503003
+182	Unspecified	10503003
+100	Not applicable	10503003
+5123	Yes	10503004
+46	No	10503004
+80	Unspecified	10503004
+99	Not applicable	10503004
+6980	Yes	10503005
+67	No	10503005
+56	Unspecified	10503005
+0	Not applicable	10503005
+4896	Yes	10503006
+1	No	10503006
+13	Unspecified	10503006
+10	Not applicable	10503006
+10554	Yes	10503007
+82	No	10503007
+15	Unspecified	10503007
+312	Not applicable	10503007
+24157	Yes	19100001
+1093	No	19100001
+218	Unspecified	19100001
+1417	Not applicable	19100001
+21932	Yes	19100002
+1393	No	19100002
+166	Unspecified	19100002
+2093	Not applicable	19100002
+28323	Yes	19100003
+1154	No	19100003
+275	Unspecified	19100003
+2194	Not applicable	19100003
+34320	Yes	19100004
+5845	No	19100004
+402	Unspecified	19100004
+349	Not applicable	19100004
+21254	Yes	19100005
+688	No	19100005
+215	Unspecified	19100005
+2507	Not applicable	19100005
+22644	Yes	19100006
+627	No	19100006
+172	Unspecified	19100006
+30	Not applicable	19100006
+29711	Yes	19100007
+376	No	19100007
+430	Unspecified	19100007
+289	Not applicable	19100007
+36226	Yes	19100008
+780	No	19100008
+417	Unspecified	19100008
+321	Not applicable	19100008
+23536	Yes	19100009
+705	No	19100009
+115	Unspecified	19100009
+4944	Not applicable	19100009
+24673	Yes	19100010
+2120	No	19100010
+186	Unspecified	19100010
+3543	Not applicable	19100010
+38364	Yes	19100011
+1460	No	19100011
+289	Unspecified	19100011
+1579	Not applicable	19100011
+34069	Yes	19100012
+639	No	19100012
+683	Unspecified	19100012
+0	Not applicable	19100012
+44964	Yes	19100013
+595	No	19100013
+198	Unspecified	19100013
+0	Not applicable	19100013
+41744	Yes	19100014
+964	No	19100014
+280	Unspecified	19100014
+300	Not applicable	19100014
+20279	Yes	19100015
+1623	No	19100015
+360	Unspecified	19100015
+345	Not applicable	19100015
+41677	Yes	19100016
+833	No	19100016
+601	Unspecified	19100016
+0	Not applicable	19100016
+40282	Yes	19100017
+511	No	19100017
+139	Unspecified	19100017
+145	Not applicable	19100017
+21920	Yes	19100018
+290	No	19100018
+94	Unspecified	19100018
+0	Not applicable	19100018
+52980	Yes	19100019
+1192	No	19100019
+296	Unspecified	19100019
+49	Not applicable	19100019
+39839	Yes	19100020
+1152	No	19100020
+771	Unspecified	19100020
+0	Not applicable	19100020
+19863	Yes	19100021
+788	No	19100021
+214	Unspecified	19100021
+713	Not applicable	19100021
+29802	Yes	19100022
+366	No	19100022
+166	Unspecified	19100022
+513	Not applicable	19100022
+30684	Yes	19100023
+2535	No	19100023
+206	Unspecified	19100023
+24	Not applicable	19100023
+27260	Yes	19100024
+89	No	19100024
+290	Unspecified	19100024
+91	Not applicable	19100024
+39122	Yes	19100025
+545	No	19100025
+412	Unspecified	19100025
+132	Not applicable	19100025
+27497	Yes	19100026
+2377	No	19100026
+630	Unspecified	19100026
+237	Not applicable	19100026
+25143	Yes	19100027
+2221	No	19100027
+373	Unspecified	19100027
+380	Not applicable	19100027
+29881	Yes	19100028
+273	No	19100028
+662	Unspecified	19100028
+12	Not applicable	19100028
+42528	Yes	19100029
+435	No	19100029
+140	Unspecified	19100029
+165	Not applicable	19100029
+34331	Yes	19100030
+626	No	19100030
+469	Unspecified	19100030
+297	Not applicable	19100030
+34693	Yes	19100031
+266	No	19100031
+173	Unspecified	19100031
+196	Not applicable	19100031
+36406	Yes	19100032
+802	No	19100032
+222	Unspecified	19100032
+0	Not applicable	19100032
+41256	Yes	19100033
+2168	No	19100033
+270	Unspecified	19100033
+0	Not applicable	19100033
+32151	Yes	19100034
+1287	No	19100034
+955	Unspecified	19100034
+0	Not applicable	19100034
+37818	Yes	19100035
+1689	No	19100035
+419	Unspecified	19100035
+141	Not applicable	19100035
+33504	Yes	19100036
+423	No	19100036
+239	Unspecified	19100036
+0	Not applicable	19100036
+21832	Yes	19100037
+265	No	19100037
+109	Unspecified	19100037
+0	Not applicable	19100037
+20149	Yes	19100038
+438	No	19100038
+45	Unspecified	19100038
+0	Not applicable	19100038
+23665	Yes	19100039
+468	No	19100039
+218	Unspecified	19100039
+120	Not applicable	19100039
+27843	Yes	19100040
+288	No	19100040
+341	Unspecified	19100040
+0	Not applicable	19100040
+20337	Yes	19100041
+333	No	19100041
+155	Unspecified	19100041
+180	Not applicable	19100041
+27763	Yes	19100042
+160	No	19100042
+160	Unspecified	19100042
+0	Not applicable	19100042
+39908	Yes	19100043
+239	No	19100043
+228	Unspecified	19100043
+28	Not applicable	19100043
+32751	Yes	19100044
+827	No	19100044
+252	Unspecified	19100044
+574	Not applicable	19100044
+33748	Yes	19100045
+787	No	19100045
+148	Unspecified	19100045
+110	Not applicable	19100045
+32768	Yes	19100046
+204	No	19100046
+490	Unspecified	19100046
+428	Not applicable	19100046
+34056	Yes	19100047
+160	No	19100047
+262	Unspecified	19100047
+147	Not applicable	19100047
+27988	Yes	19100048
+633	No	19100048
+390	Unspecified	19100048
+741	Not applicable	19100048
+36361	Yes	19100049
+519	No	19100049
+190	Unspecified	19100049
+394	Not applicable	19100049
+32697	Yes	19100050
+152	No	19100050
+128	Unspecified	19100050
+0	Not applicable	19100050
+22257	Yes	19100051
+618	No	19100051
+238	Unspecified	19100051
+176	Not applicable	19100051
+24154	Yes	19100052
+238	No	19100052
+277	Unspecified	19100052
+6	Not applicable	19100052
+24588	Yes	19100053
+2308	No	19100053
+200	Unspecified	19100053
+1931	Not applicable	19100053
+20431	Yes	19100054
+4353	No	19100054
+464	Unspecified	19100054
+2655	Not applicable	19100054
+28114	Yes	19100055
+5214	No	19100055
+354	Unspecified	19100055
+1853	Not applicable	19100055
+30404	Yes	19100056
+2931	No	19100056
+127	Unspecified	19100056
+335	Not applicable	19100056
+22133	Yes	19100057
+4197	No	19100057
+442	Unspecified	19100057
+6304	Not applicable	19100057
+23196	Yes	19100058
+2722	No	19100058
+385	Unspecified	19100058
+2321	Not applicable	19100058
+18088	Yes	19100059
+3078	No	19100059
+335	Unspecified	19100059
+2232	Not applicable	19100059
+30334	Yes	19100060
+952	No	19100060
+241	Unspecified	19100060
+151	Not applicable	19100060
+23972	Yes	19100061
+1132	No	19100061
+362	Unspecified	19100061
+6417	Not applicable	19100061
+20441	Yes	19100062
+2674	No	19100062
+291	Unspecified	19100062
+1426	Not applicable	19100062
+26229	Yes	19100063
+1142	No	19100063
+226	Unspecified	19100063
+275	Not applicable	19100063
+20668	Yes	19100064
+2560	No	19100064
+223	Unspecified	19100064
+1039	Not applicable	19100064
+27602	Yes	19100065
+388	No	19100065
+126	Unspecified	19100065
+0	Not applicable	19100065
+28554	Yes	19100066
+206	No	19100066
+85	Unspecified	19100066
+0	Not applicable	19100066
+43170	Yes	19100067
+4687	No	19100067
+742	Unspecified	19100067
+14	Not applicable	19100067
+31212	Yes	19100068
+213	No	19100068
+368	Unspecified	19100068
+40	Not applicable	19100068
+29939	Yes	19100069
+5960	No	19100069
+925	Unspecified	19100069
+347	Not applicable	19100069
+22807	Yes	19100070
+1131	No	19100070
+236	Unspecified	19100070
+760	Not applicable	19100070
+23215	Yes	19100071
+2315	No	19100071
+240	Unspecified	19100071
+2173	Not applicable	19100071
+23834	Yes	19100072
+1198	No	19100072
+117	Unspecified	19100072
+40	Not applicable	19100072
+22068	Yes	19100073
+1415	No	19100073
+309	Unspecified	19100073
+493	Not applicable	19100073
+30287	Yes	19100074
+5737	No	19100074
+470	Unspecified	19100074
+328	Not applicable	19100074
+36793	Yes	19100075
+617	No	19100075
+166	Unspecified	19100075
+123	Not applicable	19100075
+38738	Yes	19100076
+539	No	19100076
+180	Unspecified	19100076
+1509	Not applicable	19100076
+19330	Yes	19100077
+3150	No	19100077
+327	Unspecified	19100077
+5444	Not applicable	19100077
+39427	Yes	19100078
+349	No	19100078
+198	Unspecified	19100078
+97	Not applicable	19100078
+34491	Yes	19100079
+498	No	19100079
+237	Unspecified	19100079
+184	Not applicable	19100079
+44427	Yes	19100080
+1228	No	19100080
+275	Unspecified	19100080
+221	Not applicable	19100080
+31896	Yes	19100081
+188	No	19100081
+81	Unspecified	19100081
+0	Not applicable	19100081
+40826	Yes	19100082
+406	No	19100082
+150	Unspecified	19100082
+0	Not applicable	19100082
+21667	Yes	19100083
+2380	No	19100083
+239	Unspecified	19100083
+555	Not applicable	19100083
+21029	Yes	19100084
+1790	No	19100084
+202	Unspecified	19100084
+2273	Not applicable	19100084
+29424	Yes	19100085
+3193	No	19100085
+260	Unspecified	19100085
+490	Not applicable	19100085
+36613	Yes	19100086
+1850	No	19100086
+625	Unspecified	19100086
+89	Not applicable	19100086
+29194	Yes	19100087
+170	No	19100087
+288	Unspecified	19100087
+0	Not applicable	19100087
+38686	Yes	19100088
+1226	No	19100088
+316	Unspecified	19100088
+685	Not applicable	19100088
+27261	Yes	19100089
+295	No	19100089
+82	Unspecified	19100089
+0	Not applicable	19100089
+28149	Yes	19100090
+323	No	19100090
+71	Unspecified	19100090
+33	Not applicable	19100090
+30315	Yes	19100091
+301	No	19100091
+76	Unspecified	19100091
+0	Not applicable	19100091
+33383	Yes	19100092
+997	No	19100092
+154	Unspecified	19100092
+166	Not applicable	19100092
+30903	Yes	19100093
+187	No	19100093
+128	Unspecified	19100093
+0	Not applicable	19100093
+24348	Yes	19100094
+430	No	19100094
+155	Unspecified	19100094
+35	Not applicable	19100094
+57659	Yes	19100095
+971	No	19100095
+210	Unspecified	19100095
+0	Not applicable	19100095
+25851	Yes	19100096
+590	No	19100096
+284	Unspecified	19100096
+110	Not applicable	19100096
+27899	Yes	19100097
+476	No	19100097
+100	Unspecified	19100097
+54	Not applicable	19100097
+27588	Yes	19100098
+939	No	19100098
+255	Unspecified	19100098
+190	Not applicable	19100098
+51158	Yes	19100099
+578	No	19100099
+476	Unspecified	19100099
+0	Not applicable	19100099
+41512	Yes	19100100
+1696	No	19100100
+315	Unspecified	19100100
+784	Not applicable	19100100
+35467	Yes	19100101
+1311	No	19100101
+306	Unspecified	19100101
+0	Not applicable	19100101
+25613	Yes	19100102
+898	No	19100102
+413	Unspecified	19100102
+116	Not applicable	19100102
+39975	Yes	19100103
+808	No	19100103
+415	Unspecified	19100103
+109	Not applicable	19100103
+32663	Yes	19100104
+3694	No	19100104
+560	Unspecified	19100104
+56	Not applicable	19100104
+37793	Yes	19100105
+897	No	19100105
+273	Unspecified	19100105
+608	Not applicable	19100105
+61443	Yes	19100106
+2815	No	19100106
+253	Unspecified	19100106
+0	Not applicable	19100106
+37253	Yes	19100107
+5161	No	19100107
+507	Unspecified	19100107
+375	Not applicable	19100107
+52292	Yes	19100108
+952	No	19100108
+222	Unspecified	19100108
+72	Not applicable	19100108
+39530	Yes	19100109
+325	No	19100109
+214	Unspecified	19100109
+263	Not applicable	19100109
+26144	Yes	19100110
+246	No	19100110
+1119	Unspecified	19100110
+285	Not applicable	19100110
+34611	Yes	19100111
+2047	No	19100111
+642	Unspecified	19100111
+195	Not applicable	19100111
+\.
+
+
+--
+-- Name: citizenship_country_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY citizenship_country
+    ADD CONSTRAINT citizenship_country_pkey PRIMARY KEY (citizenship, country_code);
+
+
+--
+-- Name: citizenship_municipality_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY citizenship_municipality
+    ADD CONSTRAINT citizenship_municipality_pkey PRIMARY KEY (citizenship, municipality_code);
+
+
+--
+-- Name: citizenship_province_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY citizenship_province
+    ADD CONSTRAINT citizenship_province_pkey PRIMARY KEY (citizenship, province_code);
+
+
+--
+-- Name: citizenship_subplace_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY citizenship_subplace
+    ADD CONSTRAINT citizenship_subplace_pkey PRIMARY KEY (citizenship, subplace_code);
+
+
+--
+-- Name: citizenship_ward_pkey; Type: CONSTRAINT; Schema: public; Owner: census; Tablespace: 
+--
+
+ALTER TABLE ONLY citizenship_ward
+    ADD CONSTRAINT citizenship_ward_pkey PRIMARY KEY (citizenship, ward_code);
+
+
+--
+-- Name: ix_citizenship_country_country_code; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX ix_citizenship_country_country_code ON citizenship_country USING btree (country_code);
+
+
+--
+-- Name: ix_citizenship_municipality_municipality_code; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX ix_citizenship_municipality_municipality_code ON citizenship_municipality USING btree (municipality_code);
+
+
+--
+-- Name: ix_citizenship_province_province_code; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX ix_citizenship_province_province_code ON citizenship_province USING btree (province_code);
+
+
+--
+-- Name: ix_citizenship_subplace_subplace_code; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX ix_citizenship_subplace_subplace_code ON citizenship_subplace USING btree (subplace_code);
+
+
+--
+-- Name: ix_citizenship_ward_ward_code; Type: INDEX; Schema: public; Owner: census; Tablespace: 
+--
+
+CREATE INDEX ix_citizenship_ward_ward_code ON citizenship_ward USING btree (ward_code);
+
+
+--
+-- Name: citizenship_country_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY citizenship_country
+    ADD CONSTRAINT citizenship_country_country_code_fkey FOREIGN KEY (country_code) REFERENCES country(code);
+
+
+--
+-- Name: citizenship_municipality_municipality_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY citizenship_municipality
+    ADD CONSTRAINT citizenship_municipality_municipality_code_fkey FOREIGN KEY (municipality_code) REFERENCES municipality(code);
+
+
+--
+-- Name: citizenship_province_province_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY citizenship_province
+    ADD CONSTRAINT citizenship_province_province_code_fkey FOREIGN KEY (province_code) REFERENCES province(code);
+
+
+--
+-- Name: citizenship_subplace_subplace_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY citizenship_subplace
+    ADD CONSTRAINT citizenship_subplace_subplace_code_fkey FOREIGN KEY (subplace_code) REFERENCES subplace(code);
+
+
+--
+-- Name: citizenship_ward_ward_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: census
+--
+
+ALTER TABLE ONLY citizenship_ward
+    ADD CONSTRAINT citizenship_ward_ward_code_fkey FOREIGN KEY (ward_code) REFERENCES ward(code);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
