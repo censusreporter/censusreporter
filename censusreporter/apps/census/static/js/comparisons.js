@@ -30,7 +30,7 @@ function Comparison(options) {
         comparison.dataFormat = options.dataFormat;
         comparison.geoIDs = options.geoIDs;
         comparison.primaryGeoID = options.primaryGeoID || ((comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null);
-        comparison.chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
+        comparison.chosenSumlevAncestorList = '';
         // jQuery things
         comparison.$topicSelect = $(options.topicSelect);
         comparison.$topicSelectContainer = $(options.topicSelectContainer);
@@ -1045,38 +1045,18 @@ function Comparison(options) {
         remote: {
             url: comparison.geoSearchAPI,
             replace: function (url, query) {
-                return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
+                return url += '?q=' + query + '&geolevels=' + comparison.chosenSumlevAncestorList;
             },
             filter: function(response) {
-                var results = response.results;
-                results.map(function(item) {
-                    item['geo_level'] = sumlevMap[item['geo_level']]['name'];
-                });
-                return results;
+                return response.results;
             }
         }
     });
     
     comparison.sumlevSelectEngine = new Bloodhound({
-        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.plural_name); },
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.plural); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: [
-            {name: 'state', plural_name: 'states', sumlev: '040', ancestor_sumlev_list: '010,020,030', ancestor_options: 'the United States, a region or division' },
-            {name: 'county', plural_name: 'counties', sumlev: '050', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'county subdivision', plural_name: 'county subdivisions', sumlev: '060', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'place', plural_name: 'places', sumlev: '160', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'metro area', plural_name: 'metro areas', sumlev: '310', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'native area', plural_name: 'native areas', sumlev: '250', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'census tract', plural_name: 'census tracts', sumlev: '140', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a region, division, state, county or place' },
-            {name: 'block group', plural_name: 'block groups', sumlev: '150', ancestor_sumlev_list: '010,020,030,040,050,140,160', ancestor_options: 'the United States, a region, division, state, county, place or census tract' },
-            {name: 'zip codes', plural_name: 'ZIP codes', sumlev: '860', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a region, division, state, county or place' },
-            {name: 'congressional district', plural_name: 'congressional districts', sumlev: '500', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'state senate district', plural_name: 'state senate districts', sumlev: '610', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'state house district', plural_name: 'state house districts', sumlev: '620', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'elementary school district', plural_name: 'elementary school districts', sumlev: '950', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'secondary school district', plural_name: 'secondary school districts', sumlev: '960', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'unified school district', plural_name: 'unified school districts', sumlev: '970', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county'}
-        ]
+        local: _.values(sumlevMap),
     });
 
     comparison.makeGeoSelectWidget = function() {
@@ -1123,7 +1103,7 @@ function Comparison(options) {
             templates: {
                 header: '<h2>Summary levels</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{plural_name}}<span class="result-type">{{sumlev}}</span></p>'
+                    '<p class="result-name">{{plural}}</p>'
                 )
             }
         }, {
@@ -1133,7 +1113,7 @@ function Comparison(options) {
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{geo_level}}</span></p>'
                 )
             }
         });
@@ -1144,9 +1124,11 @@ function Comparison(options) {
             if (!datum['full_geoid'] && !!datum['sumlev']) {
                 // we have a sumlev choice, so provide a parent input
                 comparison.chosenSumlev = datum['sumlev'];
-                comparison.chosenSumlevPluralName = datum['plural_name'];
-                comparison.chosenSumlevAncestorList = datum['ancestor_sumlev_list'],
-                comparison.chosenSumlevAncestorOptions = datum['ancestor_options'];
+                comparison.chosenSumlevPluralName = datum['plural'];
+                comparison.chosenSumlevAncestorList = datum['ancestors'],
+                comparison.chosenSumlevAncestorOptions = _.map(datum['ancestors'], function(level) {
+                    return sumlevMap[level].plural;
+                }).join(', ');
 
                 comparison.makeParentSelectWidget();
                 $('#geography-add-parent-container').slideDown();
@@ -1345,6 +1327,9 @@ function Comparison(options) {
     }
     
     comparison.toggleGeoControls = function() {
+        comparison.chosenSumlevAncestorList = '';
+        d3.select('#geography-add-parent-container').remove();
+
         $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children, #map-controls #data-display').toggle();
         if (!!comparison.lockedParent) {
             var toggledY = (comparison.lockedParent.css('overflow-y') == 'auto') ? 'visible' : 'auto';

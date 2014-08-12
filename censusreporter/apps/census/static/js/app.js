@@ -40,13 +40,17 @@ $(document).ajaxComplete(function(event, request, settings) {
 // standard mapping of summary level code to summary level name
 var sumlevMap = {
     "country": {"name": "country", "plural": "countries", "sumlev": "country",
-                "children": ['province', 'municipality']},
+                "children": ['province', 'municipality'],
+                "ancestors": []},
     "province":  {"name": "province", "plural": "provinces", "sumlev": "province",
-                "children": ['municipality', 'ward']},
+                "children": ['municipality', 'ward'],
+                "ancestors": ['country']},
     "municipality":  {"name": "municipality", "plural": "municipalities", "sumlev": "municipality",
-                "children": ['ward']},
+                "children": ['ward'],
+                "ancestors": ['province', 'country']},
     "ward":  {"name": "ward", "plural": "wards", "sumlev": "ward",
-                "children": []}
+                "children": [],
+                "ancestors": ['municipality', 'province', 'country']},
 };
 
 var releaseNames = {
