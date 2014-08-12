@@ -1712,6 +1712,23 @@ function Comparison(options) {
 
             var url = 'http://maps.code4sa.org/political/2011/' + level;
             if (filter_level != 'country') {
+
+                // hack around the maps api filtering weirdly
+                // for wards and provinces
+                if (level == 'ward' && filter_level == 'province') {
+                    filter_code = {
+                        'EC': 'Eastern Cape',
+                        'FS': 'Free State',
+                        'GT': 'Gauteng',
+                        'KZN': 'KwaZulu-Natal',
+                        'LIM': 'Limpopo',
+                        'MP': 'Mpumalanga',
+                        'NC': 'Northern Cape',
+                        'NW': 'North West',
+                        'WC': 'Western Cape',
+                    }[filter_code];
+                }
+
                 url = url + '?filter[' + filter_level + ']=' + filter_code;
             }
 
