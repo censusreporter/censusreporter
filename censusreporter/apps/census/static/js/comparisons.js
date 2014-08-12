@@ -137,6 +137,14 @@ function Comparison(options) {
         comparison.makeMapDataSelector();
         comparison.makeMapLegendContainer();
         comparison.makeMapSumlevSelector();
+
+        // initial page load, make map with currently selected
+        // column (first column by default)
+        if (comparison.hash.column && comparison.table.columns[comparison.hash.column]) {
+            comparison.chosenColumn = comparison.hash.column;
+        } else {
+            comparison.chosenColumn = comparison.columnKeys[0];
+        }
         
         var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -168,22 +176,6 @@ function Comparison(options) {
               maxZoom: 17
             }).addTo(comparison.map);
                 
-
-            // initial page load, make map with currently selected
-            // column (first column by default), and sumlev with the most
-            // geographies
-            if (document.location.hash.slice(0, 5) == '#col-') {
-                var col = document.location.hash.slice(5);
-                if (comparison.table.columns[col]) {
-                    comparison.chosenColumn = col;
-                }
-            }
-
-            if (!comparison.chosenColumn) {
-                comparison.chosenColumn = comparison.columnKeys[0];
-            }
-
-            comparison.changeMapControls();
             comparison.showChoropleth();
 
             comparison.sumlevSelector.fadeIn();
@@ -193,6 +185,7 @@ function Comparison(options) {
 
         comparison.loadMapData(mapDataLoaded);
         
+        comparison.changeMapControls();
         comparison.addGeographyCompareTools();
         if (!!comparison.denominatorColumn) {
             comparison.addMapNumberToggle(comparison.showChoropleth);
@@ -333,7 +326,7 @@ function Comparison(options) {
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
 
             // update the URL
-            document.location = '#col-' + comparison.chosenColumn;
+            window.location = comparison.buildComparisonURL();
         });
     }
 
@@ -341,7 +334,7 @@ function Comparison(options) {
         // add the "change summary level" picker
 
         comparison.sortedSumlevList = comparison.makeSortedSumlevMap(comparison.sumlevMap);
-        comparison.chosenSumlev = comparison.sortedSumlevList[0]['sumlev'];
+        comparison.chosenSumlev = comparison.hash.sumlev || comparison.sortedSumlevList[0]['sumlev'];
 
         comparison.headerContainer.select('#sumlev-select').remove();
         var sumlevSelector = comparison.headerContainer.append('div')
@@ -403,6 +396,8 @@ function Comparison(options) {
             comparison.makeChosenGeoList();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
+
+            window.location = comparison.buildComparisonURL();
         });
     }
     
@@ -1137,10 +1132,10 @@ function Comparison(options) {
                 // we have a geoID, so add it
                 comparison.geoIDs.push(datum['full_geoid']);
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
-
-                window.location = comparison.buildComparisonURL();
             }
+
             // TODO: pushState to maintain history without page reload
+            window.location = comparison.buildComparisonURL();
         });
     }
     
@@ -1444,6 +1439,14 @@ function Comparison(options) {
         if (!!primaryGeoID) {
             url += '&primary_geo_id=' + primaryGeoID
         }
+
+        if (dataFormat == 'map') {
+            comparison.hash = {
+                column: comparison.chosenColumn,
+                sumlev: comparison.chosenSumlev,
+            }
+        }
+
         if (!!comparison.hash) {
             var hashArray = [];
             _.each(comparison.hash, function(v, k) {
