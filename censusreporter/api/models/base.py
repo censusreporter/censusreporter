@@ -85,8 +85,6 @@ class GeoMixin(object):
 
     @property
     def context_name(self):
-        if hasattr(self, 'province'):
-            return '%s, %s' % (self.short_name, self.province.code)
         return self.short_name
 
     @property
@@ -149,6 +147,10 @@ class Ward(Base, GeoMixin):
         return [self.municipality, self.province, self.country]
 
     @property
+    def context_name(self):
+        return '%s, %s, %s' % (self.short_name, self.municipality.name, self.province.code)
+
+    @property
     def short_name(self):
         return 'Ward %d (%s)' % (self.ward_no, self.code)
 
@@ -171,6 +173,10 @@ class Municipality(Base, GeoMixin):
 
     level = 'municipality'
     child_level = 'ward'
+
+    @property
+    def context_name(self):
+        return '%s, %s' % (self.short_name, self.province.code)
 
     def parents(self):
         return [self.province, self.country]
