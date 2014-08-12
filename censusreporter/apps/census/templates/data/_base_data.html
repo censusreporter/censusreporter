@@ -19,12 +19,14 @@ for applying things across that entire family of pages.
 {% include 'data/_blocks/_topic_select_input.html' %}
 
 <article id="data-display" class="clearfix">
-    <header class="section-contents">
-        <h1>Table explorer</h1>
+    <header class="section-contents table-explorer">
+        <h1>Table explorer<br>
+            <a href="#" id="change-table">Change table</a>
+        </h1>
     </header>
     <div class="section-container">
         <section id="data-container" class="clearfix">
-            <h2>Table {{ table }}</h2>
+            <h2 class="table-title">Table {{ table }}</h2>
             <h2 class="header-for-columns"></h2>
             <aside>{% block aside_notes %}{% endblock %}</aside>
             

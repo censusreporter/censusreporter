@@ -17,7 +17,10 @@ PACKAGES = (
     'memcached',
     'upstart',
     'nginx',
-    'npm'  # Node is for yUglify
+    'npm',  # Node is for yUglify
+    'build-dep',
+    'python-numpy',
+    'python-psycopg2',
 )
 # Nginx & Upstart constants
 SERVER_NAMES = 'wazimap.co.za'
@@ -53,27 +56,14 @@ def prod():
 def provision():
     require('deploy_type', provided_by=[dev, prod])
 
-    commands = (
-        'apt-get install --yes --no-upgrade %s' % ' '.join(PACKAGES),
-    )
-    if env.deploy_type == 'prod':
-        commands += (
-            'mkdir -p %s' % env.deploy_dir,
-            'chown -R %s:%s %s' % (env.deploy_user, env.deploy_user, env.deploy_dir),
-        )
-
-    if env.deploy_type == 'dev':
-        local('; '.join('sudo %s' % cmd for cmd in commands))
-        local('sudo apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
-        local('sudo npm config set registry http://registry.npmjs.org/')
-        local('sudo npm -g install yuglify')
-        return
-
-    sudo('; '.join(commands))
-    sudo('apt-get build-dep python-numpy python-psycopg2 --no-upgrade')
+    sudo('apt-get install --yes --no-upgrade %s' % ' '.join(PACKAGES))
     sudo('npm config set registry http://registry.npmjs.org/')
     sudo('npm -g install yuglify')
-    sudo('mv -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available')
+
+    if env.deploy_type == 'prod':
+        sudo('mkdir -p %s' % env.deploy_dir)
+        sudo('chown -R %s:%s %s' % (env.deploy_user, env.deploy_user, env.deploy_dir))
+        sudo('mv -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available')
 
     provision_api()
 
@@ -105,7 +95,9 @@ def deploy():
                     {'project-dir': env.repo_dir}, use_sudo=True, backup=False)
 
     with cd(env.repo_dir), prefix('. ../%s/bin/activate' % VIRTUALENV_DIR):
-        sudo('pip install -r requirements.txt', user=env.deploy_user)
+        with shell_env(CPLUS_INCLUDE_PATH='/usr/include/gdal', C_INCLUDE_PATH='/usr/include/gdal'):
+            sudo('pip install -r requirements.txt', user=env.deploy_user)
+
         sudo('python manage.py collectstatic --settings=config.prod.settings '
              '--noinput', user=env.deploy_user)
 

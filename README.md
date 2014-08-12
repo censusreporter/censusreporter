@@ -75,6 +75,13 @@ Then fire it up:
 
     >> ./manage.py runserver
 
+Importing Data
+==============
+
+The website gets census information from tables stored in Postgres, using the logic in the `censusreporter/api` package.
+
+For more infromation on how census data is stored, table formats, and importing new data, see [censusreporter/api/README.md](https://github.com/Code4SA/censusreporter/blob/master/censusreporter/api/README.md).
+
 Profile pages
 =============
 

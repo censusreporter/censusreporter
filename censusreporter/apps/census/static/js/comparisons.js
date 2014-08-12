@@ -18,7 +18,7 @@ This expects to have Underscore, D3 and jQuery.
 
 function Comparison(options) {
     var comparison = {
-        tableSearchAPI: 'http://api.censusreporter.org/1.0/table/search',
+        tableSearchAPI: '/api/1.0/table',
         geoSearchAPI: '/place-search/json/',
         rootGeoAPI: 'http://api.censusreporter.org/1.0/geo/tiger2012/',
         dataAPI: '/api/1.0/data/show/latest'
@@ -169,9 +169,20 @@ function Comparison(options) {
             }).addTo(comparison.map);
                 
 
-            // initial page load, make map with first column
-            // and sumlev with the most geographies
-            comparison.chosenColumn = comparison.columnKeys[0];
+            // initial page load, make map with currently selected
+            // column (first column by default), and sumlev with the most
+            // geographies
+            if (document.location.hash.slice(0, 5) == '#col-') {
+                var col = document.location.hash.slice(5);
+                if (comparison.table.columns[col]) {
+                    comparison.chosenColumn = col;
+                }
+            }
+
+            if (!comparison.chosenColumn) {
+                comparison.chosenColumn = comparison.columnKeys[0];
+            }
+
             comparison.changeMapControls();
             comparison.showChoropleth();
 
@@ -320,6 +331,9 @@ function Comparison(options) {
             comparison.changeMapControls();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
+
+            // update the URL
+            document.location = '#col-' + comparison.chosenColumn;
         });
     }
 
@@ -962,33 +976,22 @@ function Comparison(options) {
 
     // typeahead autocomplete setup
     comparison.topicSelectEngine = new Bloodhound({
-        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        datumTokenizer: function(d) {
+            var fields = [
+                d.title,
+                d.table_id,
+            ];
+            _.each(d.columns, function(col) {
+                fields.push(col.name);
+            });
+
+            return Bloodhound.tokenizers.whitespace(fields.join(' '));
+        },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        limit: 1500,
-        remote: {
+        limit: 50,
+        prefetch: {
             url: comparison.tableSearchAPI,
-            replace: function (url, query) {
-                url += '?';
-                if (query) {
-                    url += 'q=' + query;
-                }
-                return url;
-            },
-            filter: function(response) {
-                var resultNumber = response.length;
-                if (resultNumber === 0) {
-                    response.push({
-                        table_name: 'Sorry, no matches found. Try changing your search.'
-                    });
-                }
-                response.map(function(item) {
-                    if (!!item['topics']) {
-                        item['topic_string'] = item['topics'].join(', ');
-                    }
-                });
-                return response;
-            }
-        }
+        },
     });
     
     comparison.makeTopicSelectWidget = function() {
@@ -1009,10 +1012,8 @@ function Comparison(options) {
             templates: {
                 suggestion: Handlebars.compile(
                     [
-                        '{{#if table_id}}<h5 class="result-type">{{#if column_name}}Column in {{/if}}Table {{table_id}}</h5>{{/if}}',
-                        '<p class="result-name">{{simple_table_name}}</p>',
-                        '{{#if column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/if}}',
-                        '{{#if topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/if}}'
+                        '{{#if table_id}}<h5 class="result-type">Table {{table_id}}</h5>{{/if}}',
+                        '<p class="result-name">{{title}}</p>',
                     ].join('')
                 )
             }

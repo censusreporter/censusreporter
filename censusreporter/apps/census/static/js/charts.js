@@ -1189,7 +1189,7 @@ function Chart(options) {
         if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
             value += '%';
         } else if (chart.chartStatType == 'dollar') {
-            value = '$' + chart.commaFmt(value);
+            value = 'R' + chart.commaFmt(value);
         } else {
             value = chart.commaFmt(value);
         }

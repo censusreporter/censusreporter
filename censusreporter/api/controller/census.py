@@ -131,6 +131,52 @@ COLLAPSED_INCOME_CATEGORIES["R 102 401 - R 204 800"] = "Over R102k"
 COLLAPSED_INCOME_CATEGORIES["R 204 801 or more"] = "Over R102k"
 COLLAPSED_INCOME_CATEGORIES["Unspecified"] = "Unspecified"
 
+ESTIMATED_INCOME_CATEGORIES = {}
+ESTIMATED_INCOME_CATEGORIES["R0"] = 0
+ESTIMATED_INCOME_CATEGORIES["Under R400"] = 200
+ESTIMATED_INCOME_CATEGORIES["R400 - R800"] = 600
+ESTIMATED_INCOME_CATEGORIES["R800 - R2k"] = 1200
+ESTIMATED_INCOME_CATEGORIES["R2k - R3k"] = 2400
+ESTIMATED_INCOME_CATEGORIES["R3k - R6k"] = 4800
+ESTIMATED_INCOME_CATEGORIES["R6k - R13k"] = 9600
+ESTIMATED_INCOME_CATEGORIES["R13k - R26k"] = 19200
+ESTIMATED_INCOME_CATEGORIES["R26k - R51k"] = 38400
+ESTIMATED_INCOME_CATEGORIES["R51k - R102k"] = 76800
+ESTIMATED_INCOME_CATEGORIES["Over R102k"] = 204800
+ESTIMATED_INCOME_CATEGORIES["Unspecified"] = None
+
+# Household income
+HOUSEHOLD_INCOME_RECODE = OrderedDict()
+HOUSEHOLD_INCOME_RECODE['No income'] = 'R0'
+HOUSEHOLD_INCOME_RECODE['R 1 - R 4800'] = 'Under R4800'
+HOUSEHOLD_INCOME_RECODE['R 4801 - R 9600'] = 'R5k - R10k'
+HOUSEHOLD_INCOME_RECODE['R 9601 - R 19 600'] = 'R10k - R20k'
+HOUSEHOLD_INCOME_RECODE['R 19 601 - R 38 200'] = 'R20k - R40k'
+HOUSEHOLD_INCOME_RECODE['R 38 201 - R 76 400'] = 'R40k - R75k'
+HOUSEHOLD_INCOME_RECODE['R 76 401 - R 153 800'] = 'R75k - R150k'
+HOUSEHOLD_INCOME_RECODE['R 153 801 - R 307 600'] = 'R150k - R300k'
+HOUSEHOLD_INCOME_RECODE['R 307 601 - R 614 400'] = 'R300k - R600k'
+HOUSEHOLD_INCOME_RECODE['R 614 001 - R 1 228 800'] = 'R600k - R1.2M'
+HOUSEHOLD_INCOME_RECODE['R 1 228 801 - R 2 457 600'] = 'R1.2M - R2.5M'
+HOUSEHOLD_INCOME_RECODE['R 2 457 601 or more'] = 'Over R2.5M'
+
+HOUSEHOLD_INCOME_ESTIMATE = {}
+HOUSEHOLD_INCOME_ESTIMATE['R0'] = 0
+HOUSEHOLD_INCOME_ESTIMATE['Under R4800'] = 2400
+HOUSEHOLD_INCOME_ESTIMATE['R5k - R10k'] = 7200
+HOUSEHOLD_INCOME_ESTIMATE['R10k - R20k'] = 14600
+HOUSEHOLD_INCOME_ESTIMATE['R20k - R40k'] = 29400
+HOUSEHOLD_INCOME_ESTIMATE['R40k - R75k'] = 57300
+HOUSEHOLD_INCOME_ESTIMATE['R75k - R150k'] = 115100
+HOUSEHOLD_INCOME_ESTIMATE['R150k - R300k'] = 230700
+HOUSEHOLD_INCOME_ESTIMATE['R300k - R600k'] = 461000
+HOUSEHOLD_INCOME_ESTIMATE['R600k - R1.2M'] = 921400
+HOUSEHOLD_INCOME_ESTIMATE['R1.2M - R2.5M'] = 1843200
+HOUSEHOLD_INCOME_ESTIMATE['Over R2.5M'] = 2500000
+HOUSEHOLD_INCOME_ESTIMATE['Unspecified'] = None
+
+
+
 # Sanitation categories
 
 SHORT_WATER_SOURCE_CATEGORIES = {
@@ -185,6 +231,25 @@ HOUSEHOLD_GOODS_RECODE = {
 }
 
 
+# Type of dwelling
+
+TYPE_OF_DWELLING_RECODE = {
+    'House or brick/concrete block structure on a separate stand or yard or on a farm': 'House',
+    'Traditional dwelling/hut/structure made of traditional materials': 'Traditional',
+    'Flat or apartment in a block of flats': 'Apartment',
+    'Cluster house in complex': 'Cluster house',
+    'Townhouse (semi-detached house in a complex)': 'Townhouse',
+    'Semi-detached house': 'Semi-detached house',
+    'House/flat/room in backyard': 'Backyard in flat',
+    'Informal dwelling (shack; in backyard)': 'Shack',
+    'Informal dwelling (shack; not in backyard; e.g. in an informal/squatter settlement or on a farm)': 'Shack',
+    'Room/flatlet on a property or larger dwelling/servants quarters/granny flat': 'Room or flatlet',
+    'Caravan/tent': 'Caravan/tent',
+    'Other': 'Other',
+    'Unspecified': 'Unspecified',
+    'Not applicable': 'N/A',
+}
+
 def get_census_profile(geo_code, geo_level):
     session = get_session()
 
@@ -209,6 +274,7 @@ def get_census_profile(geo_code, geo_level):
         group_remainder(data['service_delivery']['refuse_disposal_distribution'])
         group_remainder(data['service_delivery']['toilet_facilities_distribution'], 5)
         group_remainder(data['demographics']['language_distribution'], 7)
+        group_remainder(data['households']['type_of_dwelling_distribution'], 5)
         
         return data
 
@@ -322,19 +388,10 @@ def get_demographics_profile(geo_code, geo_level, session):
 def get_households_profile(geo_code, geo_level, session):
     # head of household
     # gender
-    db_model_gender = get_model_from_fields(['gender of head of household'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_gender, geo_code, geo_level, session)
-    total_households = 0.0
-    female_heads = 0.0
-    for obj in objects:
-        total_households += obj.total
-
-        gender = getattr(obj, 'gender of head of household')
-        if gender == 'Unspecified':
-            continue
-        if gender == 'Female':
-            female_heads += obj.total
+    head_gender_dist, total_households = get_stat_data(
+            ['gender of household head'], geo_level, geo_code, session,
+            order_by='-total')
+    female_heads = head_gender_dist['Female']['numerators']['this']
 
     # age
     db_model_age = get_model_from_fields(['age of household head'],
@@ -343,37 +400,40 @@ def get_households_profile(geo_code, geo_level, session):
     total_under_20 = 0.0
     for obj in objects:
         age = getattr(obj, 'age of household head')
-        if age in ['10 - 14', '15 - 19']:
+        if age in ['10 - 14', '15 - 17', '18 - 19']:
             total_under_20 += obj.total
 
     # tenure
-    db_model_tenure = get_model_from_fields(['tenure status'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_tenure, geo_code, geo_level, session)
-    tenure_data = {}
-    owned = 0.0
-    for obj in objects:
-        tenure = getattr(obj, 'tenure status')
-        if tenure.startswith('Owned'):
-            owned += obj.total
-        tenure_data[tenure] = {
-            "name": tenure,
-            "values": {"this": round(obj.total / total_households * 100, 2)},
-            "numerators": {"this": obj.total},
-        }
+    tenure_data, total_households = get_stat_data(
+            ['tenure status'], geo_level, geo_code, session,
+            order_by='-total')
+    owned = 0
+    for key, data in tenure_data.iteritems():
+        if key.startswith('Owned'):
+            owned += data['numerators']['this']
 
-    add_metadata(tenure_data, db_model_tenure)
+    # annual household income
+    income_dist_data, _ = get_stat_data(
+            ['annual household income'], geo_level, geo_code, session,
+            exclude=['Unspecified'],
+            recode=HOUSEHOLD_INCOME_RECODE,
+            key_order=HOUSEHOLD_INCOME_RECODE.values())
+
+    # average income
+    total_income = 0
+    for key, cat in income_dist_data.iteritems():
+        if key != 'metadata':
+            income = HOUSEHOLD_INCOME_ESTIMATE[key]
+            if income is not None:
+                total_income += income * cat['numerators']['this']
+
 
     # type of dwelling
-    db_model_dwelling = get_model_from_fields(['type of dwelling'],
-                                            geo_level)
-    objects = get_objects_by_geo(db_model_dwelling, geo_code, geo_level, session)
-    informal = 0.0
-    for obj in objects:
-        dwelling = getattr(obj, 'type of dwelling')
-        if dwelling.startswith('Informal'):
-            informal += obj.total
-
+    type_of_dwelling_dist, _ = get_stat_data(
+            ['type of dwelling'], geo_level, geo_code, session,
+            recode=TYPE_OF_DWELLING_RECODE,
+            order_by='-total')
+    informal = type_of_dwelling_dist['Shack']['numerators']['this']
 
     # household goods
     household_goods, _ = get_stat_data(
@@ -392,6 +452,7 @@ def get_households_profile(geo_code, geo_level, session):
                 'values': {'this': round(owned / total_households * 100, 2)},
                 'numerators': {'this': owned},
                 },
+            'type_of_dwelling_distribution': type_of_dwelling_dist,
             'informal': {
                 'name': 'Households that are informal dwellings (shacks)',
                 'values': {'this': round(informal / total_households * 100, 2)},
@@ -399,7 +460,13 @@ def get_households_profile(geo_code, geo_level, session):
                 },
             'tenure_distribution': tenure_data,
             'household_goods': household_goods,
+            'annual_income_distribution': income_dist_data,
+            'mean_annual_income': {
+                'name': 'Average annual household income',
+                'values': {'this': round(total_income / total_households, 0)},
+                },
             'head_of_household': {
+                'gender_distribution': head_gender_dist,
                 'female': {
                     'name': 'Households with women as their head',
                     'values': {'this': round(female_heads / total_households * 100, 2)},
@@ -415,11 +482,20 @@ def get_households_profile(geo_code, geo_level, session):
 
 def get_economics_profile(geo_code, geo_level, session):
     # income
-    income_dist_data, total_income = get_stat_data(
+    income_dist_data, total_workers = get_stat_data(
             ['employed individual monthly income'], geo_level, geo_code, session,
             exclude=['Not applicable'],
             recode=COLLAPSED_INCOME_CATEGORIES,
             key_order=COLLAPSED_INCOME_CATEGORIES.values())
+
+    # average income
+    total_income = 0
+    for key, cat in income_dist_data.iteritems():
+        if key != 'metadata':
+            income = ESTIMATED_INCOME_CATEGORIES[key]
+            if income is not None:
+                total_income += income * cat['numerators']['this']
+
 
     # employment status
     employ_status, total_workers = get_stat_data(
@@ -439,6 +515,10 @@ def get_economics_profile(geo_code, geo_level, session):
     total_households = total_with_access + total_without_access
 
     return {'individual_income_distribution': income_dist_data,
+            'mean_individual_income': {
+                'name': 'Average monthly income',
+                'values': {'this': round(total_income / total_workers, 0)},
+                },
             'employment_status': employ_status,
             'sector_type_distribution': sector_dist_data,
             'internet_access_distribution': internet_access_dist,

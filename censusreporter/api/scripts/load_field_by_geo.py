@@ -199,7 +199,7 @@ class SuperImporter(object):
 
             if geo_level == 'province':
                 code = province_codes[geo_name]
-            elif geo_name == 'country':
+            elif geo_level == 'country':
                 code = 'ZA'
             else:
                 code = geo_name.split(':')[0]

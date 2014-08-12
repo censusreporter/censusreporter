@@ -120,9 +120,9 @@ class SimpleTable(object):
 
                 for row in rows:
                     geo_values = data['%s-%s' % (geo_level, row.geo_code)]
+
                     for col in self.columns.iterkeys():
-                        # duplicate the total column into Total
-                        if col == 'Total':
+                        if col == 'total':
                             value = getattr(row, self.total_column)
                         else:
                             value = getattr(row, col)
@@ -136,12 +136,13 @@ class SimpleTable(object):
         return data
 
 
-    def as_dict(self):
+    def as_dict(self, columns=True):
         return {
             'title': self.description,
             'universe': self.universe,
-            'denominator_column_id': self.total_column,
+            'denominator_column_id': 'total',
             'columns': self.columns,
+            'table_id': self.id.upper(),
         }
 
 
@@ -400,7 +401,7 @@ def get_model_from_fields(fields, geo_level, table_name=None):
     field_set = set(fields)
 
     possibilities = [(t, len(t.field_set - field_set))
-        for t in FIELD_TABLES.itervalues() if len(t.field_set) >= len(field_set)]
+        for t in FIELD_TABLES.itervalues() if len(t.field_set) >= len(field_set) and len(field_set - t.field_set) == 0]
     table, _ = min(possibilities, key=lambda p: p[1])
 
     if not table:
@@ -441,6 +442,12 @@ def build_model_from_fields(fields, geo_level, table_name=None):
         )
     _census_table_models[table_name] = Model
 
+    session = get_session()
+    try:
+        Model.__table__.create(session.get_bind(), checkfirst=True)
+    finally:
+        session.close()
+
     return Model
 
 
@@ -465,7 +472,6 @@ def get_table_name(fields=None, geo_level=None, id=None):
 FieldTable(['access to internet'])
 FieldTable(['age groups in 5 years'])
 FieldTable(['age in completed years'])
-FieldTable(['age of household head'], universe='Households')
 FieldTable(['electricity for cooking', 'electricity for heating', 'electricity for lighting'])
 FieldTable(['energy or fuel for cooking'])
 FieldTable(['energy or fuel for heating'])
@@ -473,10 +479,8 @@ FieldTable(['energy or fuel for lighting'])
 FieldTable(['gender'])
 FieldTable(['gender', 'marital status'])
 FieldTable(['gender', 'population group'])
-FieldTable(['gender of head of household'], universe='Households')
 FieldTable(['highest educational level'])
 FieldTable(['highest educational level 20 and older'], universe='Individuals 20 and older')
-FieldTable(['household goods'], universe='Households', denominator_key='total households')
 FieldTable(['language'], description='Population by primary language spoken at home')
 FieldTable(['employed individual monthly income'], universe='Employed individuals')
 FieldTable(['official employment status'], universe='Workers 15 and over')
@@ -484,9 +488,14 @@ FieldTable(['type of sector'], universe='Workers 15 and over')
 FieldTable(['population group'])
 FieldTable(['refuse disposal'])
 FieldTable(['source of water'])
-FieldTable(['tenure status'], universe='Households')
 FieldTable(['toilet facilities'])
+
+FieldTable(['gender of household head', 'age of household head'], universe='Households')
+FieldTable(['annual household income', 'gender of household head'], universe='Households')
+FieldTable(['household goods'], universe='Households', denominator_key='total households')
+FieldTable(['tenure status'], universe='Households')
 FieldTable(['type of dwelling'], universe='Households')
+
 FieldTable(['party'], universe='Votes', id='party_votes_national_2014', description='2014 National Election results',
         dataset='2014 National Elections', year='2014')
 FieldTable(['party'], universe='Votes', id='party_votes_provincial_2014', description='2014 Provincial Election results',

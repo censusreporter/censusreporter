@@ -179,26 +179,40 @@
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#households" id="households">Households <i class="fa fa-link"></i></a></h2>
-            <div class="column-half">
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.total_households stat_type='number' %}
             </div>
-            <div class="column-half">
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.informal stat_type='percentage' %}
             </div>
+            <div class="column-third" id="chart-pie-households-type_of_dwelling_distribution" data-stat-type="percentage" data-chart-title="Households by type of dwelling"></div>
         </section>
         <section class="clearfix stat-row grouped-row">
-            <div class="column-half">
+            <h2><a class="permalink" href="#tenure" id="tenure">Household ownership <i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.owned stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-households-tenure_distribution" data-stat-type="percentage" data-chart-title="Households by ownership"></div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <h2><a class="permalink" href="#household-head" id="household-head">Head of household <i class="fa fa-link"></i></a></h2>
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.female stat_type='percentage' %}
             </div>
-            <div class="column-half">
+            <div class="column-third" id="chart-pie-households-head_of_household-gender_distribution" data-stat-type="percentage" data-chart-title="Head of household by gender"></div>
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=households.head_of_household.under_20 stat_type='number' %}
             </div>
         </section>
-        <section class="clearfix stat-row grouped-row">
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=households.owned stat_type='percentage' %}
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#household-income" id="household-income">Annual household income<i class="fa fa-link"></i></a></h2>
+            <aside>
+                Average annual household income is an estimate, be careful with this value.
+            </aside>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.mean_annual_income stat_type='dollar' %}
             </div>
-            <div class="column-half" id="chart-pie-households-tenure_distribution" data-stat-type="percentage" data-chart-title="Households by tenure"></div>
+            <div class="column-three-quarters" id="chart-column-households-annual_income_distribution" data-stat-type="scaled-percentage" data-chart-title="Annual household income"></div>
         </section>
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#household_goods" id="household_goods">Household goods <i class="fa fa-link"></i></a></h2>
@@ -275,10 +289,14 @@
             <div class="column-third" id="chart-pie-economics-sector_type_distribution" data-chart-title="Sector of employment" data-stat-type="percentage" data-qualifier="Universe: {{ economics.sector_type_distribution.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#income" id="income">Income <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#income" id="income">Monthly income <i class="fa fa-link"></i></a></h2>
             <aside>
+                Average monthly income is an estimate, be careful with this value.
             </aside>
-            <div class="column-full" id="chart-histogram-economics-individual_income_distribution" data-chart-title="Employees by monthly income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.individual_income_distribution.metadata.universe }}"></div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.mean_individual_income stat_type='dollar' %}
+            </div>
+            <div class="column-three-quarters" id="chart-histogram-economics-individual_income_distribution" data-chart-title="Employees by monthly income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.individual_income_distribution.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#internet" id="internet">Internet access <i class="fa fa-link"></i></a></h2>
@@ -347,8 +365,8 @@ var drawMaps = function() {
     }
 
     // add imagery
-    L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+    L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
       subdomains: 'abcd',
       maxZoom: 17
     }).addTo(map);
@@ -366,7 +384,7 @@ var drawMaps = function() {
                   "color": "#777",
                   "weight": 2,
                   "opacity": 0.3,
-                  "fillOpacity": 0.4,
+                  "fillOpacity": 0.5,
                   "clickable": false
               }
           });
@@ -442,11 +460,13 @@ var drawMaps = function() {
 
                         layer.on('mouseover', function() {
                             layer.setStyle({
-                                "fillOpacity": 0.5,
+                                "fillColor": "#66c2a5",
+                                "fillOpacity": 0.7,
                             });
                         });
                         layer.on('mouseout', function() {
                             layer.setStyle({
+                                "fillColor": "#ccc",
                                 "fillOpacity": 0.3,
                             });
                         });

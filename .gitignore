@@ -3,5 +3,4 @@
 node_modules/
 censusreporter/config/dev/local.py
 .idea/
-censusreporter/api/data/votes
 censusreporter/embed_data/profiles/*
