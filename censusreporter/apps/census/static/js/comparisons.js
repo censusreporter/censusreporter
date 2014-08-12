@@ -30,7 +30,7 @@ function Comparison(options) {
         comparison.dataFormat = options.dataFormat;
         comparison.geoIDs = options.geoIDs;
         comparison.primaryGeoID = options.primaryGeoID || ((comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null);
-        comparison.chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
+        comparison.chosenSumlevAncestorList = '';
         // jQuery things
         comparison.$topicSelect = $(options.topicSelect);
         comparison.$topicSelectContainer = $(options.topicSelectContainer);
@@ -138,13 +138,10 @@ function Comparison(options) {
         comparison.makeMapLegendContainer();
         comparison.makeMapSumlevSelector();
         
-        var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2012?geo_ids=" + comparison.geoIDs.join(','),
-            allowMapDrag = (browserWidth > 480) ? true : false;
-        
-        d3.json(geoAPI, function(error, json) {
-            if (error) return console.warn(error);
+        var allowMapDrag = (browserWidth > 480) ? true : false;
 
-            comparison.geoFeatures = json.features;
+        var mapDataLoaded = function(features) {
+            comparison.geoFeatures = features;
             comparison.mergeMapData();
 
             // draw the base map
@@ -152,7 +149,7 @@ function Comparison(options) {
                 // in case we're redrawing without refresh
                 comparison.map.remove();
             }
-            comparison.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+            comparison.map = L.map('slippy-map', {
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: allowMapDrag,
@@ -163,6 +160,14 @@ function Comparison(options) {
                     position: 'topright'
                 }));
             }
+
+            // add imagery
+            L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', {
+              attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+              subdomains: 'abcd',
+              maxZoom: 17
+            }).addTo(comparison.map);
+                
 
             // initial page load, make map with currently selected
             // column (first column by default), and sumlev with the most
@@ -184,7 +189,9 @@ function Comparison(options) {
             comparison.sumlevSelector.fadeIn();
             comparison.mapLegend.fadeIn();
             comparison.dataSelector.fadeIn();
-        })
+        };
+
+        comparison.loadMapData(mapDataLoaded);
         
         comparison.addGeographyCompareTools();
         if (!!comparison.denominatorColumn) {
@@ -456,7 +463,7 @@ function Comparison(options) {
         }
         
         var viewGeoData = _.filter(comparison.geoFeatures, function(g) {
-            var thisSumlev = g.properties.geoid.slice(0, 3);
+            var thisSumlev = g.properties.geoid.split('-')[0];
             return thisSumlev == comparison.chosenSumlev;
         })
 
@@ -1038,38 +1045,18 @@ function Comparison(options) {
         remote: {
             url: comparison.geoSearchAPI,
             replace: function (url, query) {
-                return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
+                return url += '?q=' + query + '&geolevels=' + comparison.chosenSumlevAncestorList;
             },
             filter: function(response) {
-                var results = response.results;
-                results.map(function(item) {
-                    item['geo_level'] = sumlevMap[item['geo_level']]['name'];
-                });
-                return results;
+                return response.results;
             }
         }
     });
     
     comparison.sumlevSelectEngine = new Bloodhound({
-        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.plural_name); },
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.plural); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: [
-            {name: 'state', plural_name: 'states', sumlev: '040', ancestor_sumlev_list: '010,020,030', ancestor_options: 'the United States, a region or division' },
-            {name: 'county', plural_name: 'counties', sumlev: '050', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'county subdivision', plural_name: 'county subdivisions', sumlev: '060', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'place', plural_name: 'places', sumlev: '160', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'metro area', plural_name: 'metro areas', sumlev: '310', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'native area', plural_name: 'native areas', sumlev: '250', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'census tract', plural_name: 'census tracts', sumlev: '140', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a region, division, state, county or place' },
-            {name: 'block group', plural_name: 'block groups', sumlev: '150', ancestor_sumlev_list: '010,020,030,040,050,140,160', ancestor_options: 'the United States, a region, division, state, county, place or census tract' },
-            {name: 'zip codes', plural_name: 'ZIP codes', sumlev: '860', ancestor_sumlev_list: '010,020,030,040,050,160', ancestor_options: 'the United States, a region, division, state, county or place' },
-            {name: 'congressional district', plural_name: 'congressional districts', sumlev: '500', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'state senate district', plural_name: 'state senate districts', sumlev: '610', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'state house district', plural_name: 'state house districts', sumlev: '620', ancestor_sumlev_list: '010,020,030,040', ancestor_options: 'the United States, a region, division or state' },
-            {name: 'elementary school district', plural_name: 'elementary school districts', sumlev: '950', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'secondary school district', plural_name: 'secondary school districts', sumlev: '960', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county' },
-            {name: 'unified school district', plural_name: 'unified school districts', sumlev: '970', ancestor_sumlev_list: '010,020,030,040,050', ancestor_options: 'the United States, a region, division, state or county'}
-        ]
+        local: _.values(sumlevMap),
     });
 
     comparison.makeGeoSelectWidget = function() {
@@ -1116,7 +1103,7 @@ function Comparison(options) {
             templates: {
                 header: '<h2>Summary levels</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{plural_name}}<span class="result-type">{{sumlev}}</span></p>'
+                    '<p class="result-name">{{plural}}</p>'
                 )
             }
         }, {
@@ -1126,7 +1113,7 @@ function Comparison(options) {
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{geo_level}}</span></p>'
                 )
             }
         });
@@ -1137,9 +1124,11 @@ function Comparison(options) {
             if (!datum['full_geoid'] && !!datum['sumlev']) {
                 // we have a sumlev choice, so provide a parent input
                 comparison.chosenSumlev = datum['sumlev'];
-                comparison.chosenSumlevPluralName = datum['plural_name'];
-                comparison.chosenSumlevAncestorList = datum['ancestor_sumlev_list'],
-                comparison.chosenSumlevAncestorOptions = datum['ancestor_options'];
+                comparison.chosenSumlevPluralName = datum['plural'];
+                comparison.chosenSumlevAncestorList = datum['ancestors'],
+                comparison.chosenSumlevAncestorOptions = _.map(datum['ancestors'], function(level) {
+                    return sumlevMap[level].plural;
+                }).join(', ');
 
                 comparison.makeParentSelectWidget();
                 $('#geography-add-parent-container').slideDown();
@@ -1338,6 +1327,9 @@ function Comparison(options) {
     }
     
     comparison.toggleGeoControls = function() {
+        comparison.chosenSumlevAncestorList = '';
+        d3.select('#geography-add-parent-container').remove();
+
         $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children, #map-controls #data-display').toggle();
         if (!!comparison.lockedParent) {
             var toggledY = (comparison.lockedParent.css('overflow-y') == 'auto') ? 'visible' : 'auto';
@@ -1681,6 +1673,92 @@ function Comparison(options) {
         if (typeof(ga) == 'function') {
             ga('send', 'event', category, action, label);
         }
+    }
+    
+    comparison.addNumbertoggles = function(redrawFunction) {
+        d3.select('#number-toggles').remove();
+        var toggleText = (comparison.valueType == 'estimate') ? 'Switch to percentages' : 'Switch to totals',
+            toggleID = (comparison.valueType == 'estimate') ? 'show-percentage' : 'show-number',
+            notes = d3.select('#tool-notes'),
+            toggle = notes.append('div')
+                    .attr('id', 'number-toggles')
+                    .classed('tool-group', true)
+                .append('a')
+                    .classed('toggle-control', true)
+                    .attr('id', toggleID)
+                    .text(toggleText);
+
+        comparison.addNumberToggleListener(redrawFunction);
+        return comparison;
+    }
+
+    comparison.loadMapData = function(cb) {
+        // load all country, province, municipality and ward geo data
+        var counter = comparison.geoIDs.length;
+        var featureMap = {};
+
+        _.each(comparison.geoIDs, function(geoid) {
+            var parts = geoid.split('-'),
+                level = parts[0],
+                filter_code = parts[1],
+                filter_level = level;
+
+            if (level.indexOf('|') > -1) {
+                // compound level
+                parts = level.split('|');
+                level = parts[0];
+                filter_level = parts[1];
+            }
+
+            var url = 'http://maps.code4sa.org/political/2011/' + level;
+            if (filter_level != 'country') {
+
+                // hack around the maps api filtering weirdly
+                // for wards and provinces
+                if (level == 'ward' && filter_level == 'province') {
+                    filter_code = {
+                        'EC': 'Eastern Cape',
+                        'FS': 'Free State',
+                        'GT': 'Gauteng',
+                        'KZN': 'KwaZulu-Natal',
+                        'LIM': 'Limpopo',
+                        'MP': 'Mpumalanga',
+                        'NC': 'Northern Cape',
+                        'NW': 'North West',
+                        'WC': 'Western Cape',
+                    }[filter_code];
+                }
+
+                url = url + '?filter[' + filter_level + ']=' + filter_code;
+            }
+
+            d3.json(url, function(error, topo) {
+                --counter;
+                if (error) return console.warn(error);
+
+                var features = topojson.feature(topo, topo.objects.demarcation).features;
+
+                // index by geoid
+                _.each(features, function(feature) {
+                    var geoid = level + '-' + feature.id;
+                    featureMap[geoid] = feature;
+                });
+
+                if (counter == 0) {
+                    // collect those we're interested in
+                    var usefulFeatures = {};
+
+                    _.each(comparison.dataGeoIDs, function(geoid) {
+                        var feature = featureMap[geoid];
+                        feature.properties.geoid = geoid;
+                        feature.properties.name = comparison.data.geography[geoid].name;
+                        usefulFeatures[geoid] = feature;
+                    });
+
+                    cb(usefulFeatures);
+                }
+            });
+        });
     }
 
     // ready, set, go

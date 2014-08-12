@@ -31,6 +31,9 @@
     vertical-align: baseline;
     height: 21px;
 }
+.box-header img {
+    vertical-align: middle;
+}
 #page-footer ul.ul-icon-list {
     margin-bottom: 30px;
 }
@@ -42,6 +45,10 @@
 #how-to h1.article-header {
     font-size: 3em;
     margin-bottom: .25em;
+}
+
+.chart .action-links a {
+    text-decoration: none;
 }
 
 header.section-contents.table-explorer h1 a {

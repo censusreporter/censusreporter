@@ -36,6 +36,8 @@ function Chart(options) {
         // add a bit of geodata for links and hovercards
         var geographyThis = options.geographyData['this'],
             geographyParents = options.geographyData.parents;
+        chart.thisGeo = geographyThis;
+        chart.parentGeo = geographyParents;
 
         chart.comparisonNames = {
             'this': (!!geographyThis) ? geographyThis.short_name : 'here',
@@ -65,6 +67,10 @@ function Chart(options) {
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
+        chart.tableID = chart.initialData.metadata && chart.initialData.metadata.table_id;
+        if (chart.tableID) chart.tableID = chart.capitalize(chart.tableID);
+
+        chart.generateURLs();
         
         chart.chartDataValues = d3.values(chart.chartDataValues).filter(function(n){return typeof(n) != 'function'}).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
@@ -725,6 +731,15 @@ function Chart(options) {
 
         chart.actionLinks.append("span").text("/");
 
+        if (chart.tableID) {
+            chart.showMap = chart.actionLinks
+                .append("a")
+                    .text("Map")
+                    .attr("href", chart.mapURL);
+
+            chart.actionLinks.append("span").text("/");
+        }
+
         chart.showEmbed = chart.actionLinks
             .append("a")
                 .classed("chart-show-embed", true)
@@ -901,8 +916,7 @@ function Chart(options) {
             clickTargets = row.selectAll(".chart-get-data"),
             clicked = d3.select(this),
             hide = clicked.classed("opened"),
-            tableID = chart.capitalize(chart.initialData.metadata.table_id),
-            tableURL = '/data/table/?table='+tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+chart.geoIDs.join(',');
+            tableID = chart.capitalize(chart.initialData.metadata.table_id);
         chart.dataDrawer = row.select(".data-drawer");
         
         // make sure we're in a pristine state
@@ -931,7 +945,9 @@ function Chart(options) {
                         } else {
                             titleText = "Table " + tableID;
                         }
-                        return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
+                        return titleText + " <a class='smaller push-right' href='" + chart.tableURL + "'>View table</a>"
+                                         + " <a class='smaller push-right' href='" + chart.mapURL + "'>Map</a>"
+                                         + " <a class='smaller push-right' href='" + chart.distributionURL + "'>Distribution</a>";
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")
@@ -1313,6 +1329,33 @@ function Chart(options) {
         // make sure we have Google Analytics function available
         if (typeof(ga) == 'function') {
             ga('send', 'event', category, action, label);
+        }
+    }
+
+    chart.generateURLs = function() {
+        if (chart.tableID) {
+            var geoIDs = chart.geoIDs;
+
+            chart.tableURL =        '/data/table/?table='+chart.tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+geoIDs.join(',');
+            chart.distributionURL = '/data/distribution/?table='+chart.tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+geoIDs.join(',');
+
+            // when showing maps, try to show relevant geos right from
+            // the start.
+            geoIDs = [];
+            if (chart.thisGeo.parent_geoid) {
+                // show our peers
+                var parentGeo = chart.parentGeo;
+                geoIDs.push(chart.thisGeo.geo_level + "|" + chart.thisGeo.parent_geoid);
+
+                if (parentGeo.parent_geoid) {
+                    geoIDs.push(parentGeo.geo_level + "|" + parentGeo.parent_geoid);
+                }
+            } else {
+                // show all children of this level
+                geoIDs.push(chart.thisGeo.child_level + "|" + chart.thisGeo.full_geoid);
+            }
+
+            chart.mapURL = '/data/map/?table='+chart.tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+geoIDs.join(',');
         }
     }
 

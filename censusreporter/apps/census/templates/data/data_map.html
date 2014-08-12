@@ -1,4 +1,5 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
+{% load staticfiles %}
 
 {% block head_title %}Map View: {{ block.super }}{% endblock %}
 
@@ -11,6 +12,7 @@
 {% endblock %}
 
 {% block head_javascript_extra %}
+<script src="{{ STATIC_URL }}js/vendor/topojson.v1.min.js"></script>
 <script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
 {% endblock %}
 
@@ -20,7 +22,7 @@
 <div id="map-controls" class="clearfix">
     <header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
-            <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+				<img src="{% static 'img/wazi-logo.png' %}"> Wazi
         </a>
     </header>
     <div class="box-content">
