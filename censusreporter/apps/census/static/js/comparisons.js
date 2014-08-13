@@ -1716,9 +1716,11 @@ function Comparison(options) {
                 filter_level = parts[1];
             }
 
-            var url = 'http://maps.code4sa.org/political/2011/' + level;
-            if (filter_level != 'country') {
+            var url = (level == 'country') ?
+                'http://maps.code4sa.org/political/country' :
+                'http://maps.code4sa.org/political/2011/' + level;
 
+            if (filter_level != 'country') {
                 // hack around the maps api filtering weirdly
                 // for wards and provinces
                 if (level == 'ward' && filter_level == 'province') {
@@ -1746,8 +1748,8 @@ function Comparison(options) {
 
                 // index by geoid
                 _.each(features, function(feature) {
-                    var geoid = level + '-' + feature.id;
-                    featureMap[geoid] = feature;
+                    if (level == 'country') feature.id = 'ZA';
+                    featureMap[level + '-' + feature.id] = feature;
                 });
 
                 if (counter == 0) {
