@@ -1157,10 +1157,10 @@ function Comparison(options) {
                 // we have a geoID, so add it
                 comparison.geoIDs.push(datum['full_geoid']);
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
-            }
 
-            // TODO: pushState to maintain history without page reload
-            window.location = comparison.buildComparisonURL();
+                // TODO: pushState to maintain history without page reload
+                window.location = comparison.buildComparisonURL();
+            }
         });
     }
     
