@@ -334,7 +334,11 @@ function Comparison(options) {
         // add the "change summary level" picker
 
         comparison.sortedSumlevList = comparison.makeSortedSumlevMap(comparison.sumlevMap);
-        comparison.chosenSumlev = comparison.hash.sumlev || comparison.sortedSumlevList[0]['sumlev'];
+        if (comparison.hash.sumlev && sumlevMap[comparison.hash.sumlev]) {
+            comparison.chosenSumlev = comparison.hash.sumlev;
+        } else {
+            comparison.chosenSumlev = comparison.sortedSumlevList[0]['sumlev'];
+        }
 
         comparison.headerContainer.select('#sumlev-select').remove();
         var sumlevSelector = comparison.headerContainer.append('div')
@@ -1441,10 +1445,9 @@ function Comparison(options) {
         }
 
         if (dataFormat == 'map') {
-            comparison.hash = {
-                column: comparison.chosenColumn,
-                sumlev: comparison.chosenSumlev,
-            }
+            comparison.hash = {};
+            if (comparison.chosenColumn) comparison.hash.column = comparison.chosenColumn;
+            if (comparison.chosenSumlev) comparison.hash.sumlev = comparison.chosenSumlev;
         }
 
         if (!!comparison.hash) {
