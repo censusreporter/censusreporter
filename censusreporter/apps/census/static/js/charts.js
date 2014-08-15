@@ -64,6 +64,9 @@ function Chart(options) {
         metadataFields.forEach(function(v) {
             chart.chartDataValues.remove(v)
         });
+        if ($.isEmptyObject(chart.chartDataValues)) {
+          return;
+        }
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
