@@ -416,7 +416,10 @@ def get_demographics_profile(geo_code, geo_level, session):
             exclude_zero=True, order_by='-total',
             recode=region_recode)
 
-    born_in_sa = region_of_birth_dist['South Africa']['numerators']['this']
+    if 'South Africa' in region_of_birth_dist:
+        born_in_sa = region_of_birth_dist['South Africa']['numerators']['this']
+    else:
+        born_in_sa = 0
 
     final_data['region_of_birth_distribution'] = region_of_birth_dist
     final_data['born_in_south_africa'] = {
