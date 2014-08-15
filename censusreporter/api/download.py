@@ -3,6 +3,8 @@ import tempfile
 import os
 import urllib
 import logging
+import zipfile
+import re
 
 import requests
 from osgeo import ogr, osr
@@ -20,6 +22,8 @@ supported_formats = {
 
 log = logging.getLogger('censusreporter')
 
+bad_layer_chars = re.compile('[ #-]')
+
 def generate_download_bundle(tables, geos, geo_ids, data, fmt):
     ogr.UseExceptions()
 
@@ -32,9 +36,16 @@ def generate_download_bundle(tables, geos, geo_ids, data, fmt):
     # where we're going to put the data temporarily
     temp_path = tempfile.mkdtemp()
     try:
-        file_ident = "%s_%s" % (tables[0].id.upper(), geos[0].short_name)
-        out_filename = '%s.%s' % (file_ident, fmt)
-        out_filepath = os.path.join(temp_path, out_filename)
+        file_ident = "%s_%s" % (
+                tables[0].id.upper(),
+                # The gdal KML driver doesn't like certain chars in its layer names.
+                # It will replace them for you, but then subsequent calls hang.
+                bad_layer_chars.sub('_', geos[0].short_name))
+
+        # where the files go, what we'll eventually zip up
+        inner_path = os.path.join(temp_path, file_ident)
+        os.mkdir(inner_path)
+        out_filepath = os.path.join(inner_path, '%s.%s' % (file_ident, fmt))
 
         out_driver = ogr.GetDriverByName(format['driver'])
         out_srs = osr.SpatialReference()
@@ -82,11 +93,20 @@ def generate_download_bundle(tables, geos, geo_ids, data, fmt):
 
         # this closes the object and ensure
         # the data is flushed to the file
-        out_data.Destroy()
+        out_data = None
 
-        with open(out_filepath) as f:
+        # zip it up, they can be huge
+        zfile_filename = file_ident + '.zip'
+        zfile_filepath = os.path.join(temp_path, zfile_filename)
+        zfile = zipfile.ZipFile(zfile_filepath, 'w', zipfile.ZIP_DEFLATED)
+        for root, dirs, files in os.walk(inner_path):
+            for f in files:
+                zfile.write(os.path.join(root, f), os.path.join(file_ident, f))
+        zfile.close()
+
+        with open(zfile_filepath) as f:
             content = f.read()
-            return content, out_filename, format['mime']
+            return content, zfile_filename, 'application/zip'
 
     finally:
         shutil.rmtree(temp_path)
@@ -116,8 +136,6 @@ def load_geometries(geo_ids):
 
 
 def get_geojson_datasource(url):
-    driver = ogr.GetDriverByName('GeoJSON')
-
     data = cache.get(url)
     if data:
         log.info("Cache hit for %s" % url)
@@ -130,6 +148,7 @@ def get_geojson_datasource(url):
         data = resp.text
         cache.set(url, data, CACHE_SECS)
 
+    driver = ogr.GetDriverByName('GeoJSON')
     ds = driver.Open(data)
     return ds
 
