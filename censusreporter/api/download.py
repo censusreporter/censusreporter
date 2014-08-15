@@ -44,6 +44,7 @@ def generate_download_bundle(tables, geos, geo_ids, data, fmt):
 
         # where the files go, what we'll eventually zip up
         inner_path = os.path.join(temp_path, file_ident)
+        log.info("Generating download in %s" % inner_path)
         os.mkdir(inner_path)
         out_filepath = os.path.join(inner_path, '%s.%s' % (file_ident, fmt))
 
@@ -98,11 +99,15 @@ def generate_download_bundle(tables, geos, geo_ids, data, fmt):
         # zip it up, they can be huge
         zfile_filename = file_ident + '.zip'
         zfile_filepath = os.path.join(temp_path, zfile_filename)
+        log.info("Zipping download into %s" % zfile_filepath)
+
         zfile = zipfile.ZipFile(zfile_filepath, 'w', zipfile.ZIP_DEFLATED)
         for root, dirs, files in os.walk(inner_path):
             for f in files:
                 zfile.write(os.path.join(root, f), os.path.join(file_ident, f))
         zfile.close()
+
+        log.info("Zipped. Reading and streaming.")
 
         with open(zfile_filepath) as f:
             content = f.read()
@@ -142,14 +147,18 @@ def get_geojson_datasource(url):
     else:
         log.info("Fetching %s" % url)
         resp = requests.get(url)
-        log.info("Done")
+        log.info("Fetched")
 
         resp.raise_for_status()
         data = resp.text
+        log.info("Caching")
         cache.set(url, data, CACHE_SECS)
+        log.info("Cached")
 
     driver = ogr.GetDriverByName('GeoJSON')
+    log.info("Parsing")
     ds = driver.Open(data)
+    log.info("Parsed")
     return ds
 
 def get_geometry_url(geoid):
