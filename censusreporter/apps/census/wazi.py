@@ -197,7 +197,7 @@ class DataAPIView(View):
 
         data = self.get_data(self.data_geos, self.tables)
 
-        content, fname, mime_type = generate_download_bundle(self.tables, self.data_geos, data, fmt)
+        content, fname, mime_type = generate_download_bundle(self.tables, self.data_geos, self.geo_ids, data, fmt)
 
         response = HttpResponse(content, content_type=mime_type)
         response['Content-Disposition'] = 'attachment; filename="%s"' % fname
