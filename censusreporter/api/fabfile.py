@@ -18,7 +18,7 @@ PACKAGES = (
 def provision_api():
     require('deploy_type')
 
-    sudo('apt-get install %s --no-upgrade' % ' '.join(PACKAGES))
+    sudo('apt-get install --yes --no-upgrade %s' % ' '.join(PACKAGES))
     sudo('sed -i "s/local   all             all                                     peer/local   all             all                                     trust/" /etc/postgresql/9.1/main/pg_hba.conf')
     sudo('/etc/init.d/postgresql restart')
 

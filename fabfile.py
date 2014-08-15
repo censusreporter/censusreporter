@@ -18,9 +18,6 @@ PACKAGES = (
     'upstart',
     'nginx',
     'npm',  # Node is for yUglify
-    'build-dep',
-    'python-numpy',
-    'python-psycopg2',
 )
 # Nginx & Upstart constants
 SERVER_NAMES = 'wazimap.co.za'
@@ -57,13 +54,14 @@ def provision():
     require('deploy_type', provided_by=[dev, prod])
 
     sudo('apt-get install --yes --no-upgrade %s' % ' '.join(PACKAGES))
+    sudo('apt-get build-dep --yes python-numpy python-psycopg2')
     sudo('npm config set registry http://registry.npmjs.org/')
     sudo('npm -g install yuglify')
 
     if env.deploy_type == 'prod':
         sudo('mkdir -p %s' % env.deploy_dir)
         sudo('chown -R %s:%s %s' % (env.deploy_user, env.deploy_user, env.deploy_dir))
-        sudo('mv -f /etc/nginx/sites-enabled/default /etc/nginx/sites-available')
+        sudo('rm /etc/nginx/sites-enabled/default')
 
     provision_api()
 
