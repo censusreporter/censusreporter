@@ -316,12 +316,12 @@ def get_demographics_profile(geo_code, geo_level, session):
             ('Female', {
                 "name": "Female",
                 "values": {"this": round((total_pop - total_male) / total_pop * 100, 2)},
-                "numerators": {"this": total_male},
+                "numerators": {"this": total_pop - total_male},
             }),
             ('Male', {
                 "name": "Male",
                 "values": {"this": round(total_male / total_pop * 100, 2)},
-                "numerators": {"this": total_pop - total_male},
+                "numerators": {"this": total_male},
             }),
         ))
 
