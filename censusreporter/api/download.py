@@ -2,9 +2,14 @@ import shutil
 import tempfile
 import os
 import urllib
-from osgeo import ogr, osr
-
 import logging
+
+import requests
+from osgeo import ogr, osr
+from django.core.cache import cache
+
+# Amount of time to cache geometry data
+CACHE_SECS = 24*60*60
 
 supported_formats = {
     'kml':      {"driver": "KML",     'geometry': True, 'mime': 'application/vnd.google-earth.kml+xml'},
@@ -13,7 +18,7 @@ supported_formats = {
     'csv':      {"driver": "CSV",     'geometry': False, 'mime': 'text/csv'},
 }
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('censusreporter')
 
 def generate_download_bundle(tables, geos, geo_ids, data, fmt):
     ogr.UseExceptions()
@@ -112,9 +117,20 @@ def load_geometries(geo_ids):
 
 def get_geojson_datasource(url):
     driver = ogr.GetDriverByName('GeoJSON')
-    log.info("Fetching %s" % url)
-    ds = driver.Open(url)
-    log.info("Done")
+
+    data = cache.get(url)
+    if data:
+        log.info("Cache hit for %s" % url)
+    else:
+        log.info("Fetching %s" % url)
+        resp = requests.get(url)
+        log.info("Done")
+
+        resp.raise_for_status()
+        data = resp.text
+        cache.set(url, data, CACHE_SECS)
+
+    ds = driver.Open(data)
     return ds
 
 def get_geometry_url(geoid):
