@@ -76,7 +76,7 @@ def generate_download_bundle(tables, geos, geo_ids, data, fmt):
             out_feat.SetField2('geo_level', geo.level)
             out_feat.SetField2('geo_code', geo.code)
             out_feat.SetField2('geoid', geoid)
-            out_feat.SetField2('name', geo.short_name)
+            out_feat.SetField2('name', geo.short_name.encode('utf-8'))
 
             for table in tables:
                 table_estimates = data[geoid][table.id.upper()]['estimate']
