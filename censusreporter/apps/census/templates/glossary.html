@@ -27,6 +27,27 @@
 
 
         <dl class="glossary">
+
+            <dt id="term-cdp-refererence">CDP</dt>
+            <dd>
+                <p>See <a href="{% url 'glossary' %}#term-cdp">Census Designated Place</a>.</p>
+            </dd>
+            
+
+            <dt id="term-ccd" data-alt-keywords="census-county-division">Census County Division (CCD)</dt>
+            <dd>
+                <p>
+                    Census County Divisions (CCDs) are a subset of <a href="{% url 'glossary' %}#term-county-subdivision">county subdivision</a> defined by the US Census Bureau, in cooperation with local officials, for states which do not have sub-county governmental units. 
+                </p>
+                <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
+           </dd>
+            <dt id="term-cdp" data-alt-keywords="census-designated-place">Census Designated Place (CDP)</dt>
+            <dd>
+                <p>
+                    Census Designated Places (CDPs) are a subset of the <a href="{% url 'glossary' %}#term-place">place</a> <a href="{% url 'glossary' %}#term-summary-level">summary level</a>. CDPs have no legal status or government, but are identifiable by name. The boundaries of CDPs are usually defined in cooperation with local officials, and are subject to revision at each decennial census.
+                </p>
+                <p>For complete details on places, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Census documentation</a>.</p>
+           </dd>
             <dt id="term-csa" data-alt-keywords="combined-statistical-area">Combined Statistical Area (CSA)</dt>
             <dd>
                 <p>Officially specified by the Office of Management and Budget, a CSA combines adjacent <a href="{% url 'glossary' %}#term-cbsa">CBSAs</a> which have a moderate degree of social and economic ties. Ties between the component CBSAs in a CSA are not as strong as ties between the counties in any of the individual CBSAs.</p>
@@ -40,7 +61,7 @@
 
             <dt id="term-county-subdivision">County Subdivision</dt>
             <dd>
-                <p>Because each state organizes its governments differently, there are some states where the "county subdivision" <a href="{% url 'glossary' %}#term-summary-level">summary level</a> is important, and others where it is unlikely be be used for analysis. In 12 states, most or all county subdivisions serve as local governments much like cities and towns. Specifically, those states are Connecticut, Maine, Massachusetts, Michigan, Minnesota, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, and Wisconsin. In these and 17 more states, most or all county subdivisions are legal entities, known to the Census Bureau as <em>minor civil divisions</em> (or MCDs). In the rest of the states, county subdivisions exist for statistical purposes, but are less likely to be important for journalists.</p>
+                <p>Because each state organizes its governments differently, there are some states where the "county subdivision" <a href="{% url 'glossary' %}#term-summary-level">summary level</a> is important, and others where it is unlikely be be used for analysis. In 12 states, most or all county subdivisions serve as local governments much like cities and towns. Specifically, those states are Connecticut, Maine, Massachusetts, Michigan, Minnesota, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, and Wisconsin. In these and 17 more states, most or all county subdivisions are legal entities, known to the Census Bureau as <em>minor civil divisions</em> (or MCDs). In the rest of the states, county subdivisions (known as <a href="{% url 'glossary' %}#term-ccd">CCDs</a>) exist for statistical purposes, but may be less important for journalists.</p>
                 <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
             </dd>
 
@@ -54,6 +75,11 @@
                 <p>A number describing the statistical confidence in an estimate. When the margin of error is more than 10% of the estimate, Census Reporter recommends using caution when presenting the estimate. Know your wiggle-words.</p>
             </dd>
 
+            <dt id="term-mcd-refererence">MCD</dt>
+            <dd>
+                <p>See <a href="{% url 'glossary' %}#term-mcd">Minor Civil Division</a>.</p>
+            </dd>
+            
             <dt id="term-metropolitan-statistical-area">Metropolitan Statistical Area (MSA)</dt>
             <dd>
                 <p>A county or counties around an urban core of population greater than 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p>
@@ -63,6 +89,14 @@
             <dd>
                 <p>A county or counties around an urban core of population between 10,000 and 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p>
             </dd>
+
+            <dt id="term-mcd" data-alt-keywords="minor-civil-division">Minor Civil Division (MCD)</dt>
+            <dd>
+                <p>
+                    Minor Civil Divisions (MCDs) are a subset of <a href="{% url 'glossary' %}#term-county-subdivision">county subdivision</a> based on official governmental/administrative boundaries. In states where counties are not divided into governmental units, the Census Bureau creates statistical areas known as <a href="{% url 'glossary' %}#term-ccd">Census County Divisions</a>.
+                </p>
+                <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
+           </dd>
 
             <dt id="term-place">Place</dt>
             <dd>
