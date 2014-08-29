@@ -870,7 +870,7 @@ class Elasticsearch(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'release_options': ['ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
+            'release_options': ['ACS 2013 1-Year', 'ACS 2013 3-Year', 'ACS 2013 5-Year', 'ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
         }
         tables = None
         columns = None
