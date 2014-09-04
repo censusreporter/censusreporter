@@ -1129,6 +1129,8 @@ function Comparison(options) {
                     return sumlevMap[level].plural;
                 }).join(', ');
 
+                element.typeahead('val', datum['plural']);
+
                 comparison.makeParentSelectWidget();
                 $('#geography-add-parent-container').slideDown();
                 $('#geography-add-parent').focus();
