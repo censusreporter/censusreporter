@@ -140,7 +140,7 @@ class SimpleTable(object):
         return {
             'title': self.description,
             'universe': self.universe,
-            'denominator_column_id': 'total',
+            'denominator_column_id': self.total_column,
             'columns': self.columns,
             'table_id': self.id.upper(),
         }
