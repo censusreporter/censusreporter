@@ -1003,7 +1003,7 @@ function Comparison(options) {
             autoselect: true,
             highlight: false,
             hint: false,
-            minLength: 2
+            minLength: 1
         }, {
             name: 'topics',
             displayKey: 'simple_table_name',
