@@ -118,17 +118,26 @@
             <dt id="term-summary-level">Summary Level</dt>
             <dd>
                 <p>The Census Bureau tabulates data for many different geographic scales. Summary Level is the generic term for a kind of geography, such as state, county, or <a href="{% url 'glossary' %}#term-place">place</a>. There are also summary levels for somewhat esoteric tabulations, such as the parts of Census tracts which are divided between places.</p>
-                <p>For more, see our guide to summary levels. (coming soon)</p>
+                <p>For more, see our <a href="{% url 'topic_detail' topic_slug='geography' %}#summary-levels">guide to summary levels</a>.</p>
             </dd>
 
             <dt id="term-tenure">Tenure</dt>
             <dd>
                 <p>Tenure refers to the distinction between owner-occupied and renter-occupied housing units.</p>
             </dd>
+
             <dt id="term-universe">Universe</dt>
             <dd>
                 <p>A universe is the focus of a given data tabulation. For many Census tables, the universe is all Americans, but it is not always. For example, the Census Bureau specifically constrains tables about educational attainment, employment, child bearing, and others based on age and other characteristics. Some tables focus specifically on the United States, excluding Puerto Rico, or vice versa. Be sure to take note of the universe when analyzing data and expressing findings about it.</p>
             </dd>
+
+            <dt id="term-urban-area">Urban Area</dt>
+            <dd>
+                <p>An urban area is a Census <a href="{% url 'glossary' %}#summary-level">summary level</a>. Urban areas are based on a densely-settled core of tracts or blocks, but also include adjacent land which is developed for urban use or which connects two dense territories. Urban areas come in two types: <em>Urbanized Areas</em> (a.k.a. UAs), with 50,000+ population and <em>Urban Clusters</em> (a.k.a. UCs), with 2,500-50,000 people.</p>
+                <p>Urban areas and <a href="{% url 'glossary' %}#term-cbsa">CBSA</a>s describe similar areas, but CBSAs comprise the entirety of one or more counties, including rural land in them, while urban areas are based on population and land-use characteristics. As a point of reference, in the 2012 ACS, the <a href="/profiles/31000US16980-chicago-joliet-naperville-il-in-wi-metro-area">Chicago metropolitan statistical area</a> had almost 1,000,000 more people than the <a href="/profiles/40000US16264-chicago-il-in-urbanized-area">Chicago urbanized area</a>.</p>
+                 <p>For more information, consult the <a href="https://www.census.gov/geo/reference/ua/urban-rural-2010.html">Census Bureau's documentation</a>.</p>
+            </dd>
+
         </dl>
     </section>
 </article>
