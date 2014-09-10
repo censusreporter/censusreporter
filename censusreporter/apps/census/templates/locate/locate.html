@@ -17,7 +17,7 @@
             {% for place in places %}
                 <li>
                     <a href="{% url 'geography_detail_geoid' place.full_geoid %}" class="card">
-                        <span class="identifier">{{ place.sumlev_name }}</span>
+                        <span class="identifier glossary-term">{{ place.sumlev_name }}</span>
                         {{ place.full_name }}
                     </a>
                 </li>
@@ -52,5 +52,12 @@ if (navigator.geolocation && !lat && !lon) {
     spinner.spin(spinnerTarget);
     navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
 }
+Glossary.init("{% url 'glossary' %}",".glossary-term");
+$('a.card').click(function(e){
+    if ($(e.target).hasClass('glossary-term')) {
+        Glossary.popup(e.target);
+        return false;
+    }
+});
 </script>
 {% endblock %}
