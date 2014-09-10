@@ -1,12 +1,13 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize madlibs %}
 
 {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
+{% block head_meta_description %}Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %}
 
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
         <meta property="og:site_name" content="Census Reporter" />
         <meta property="og:url" content="http://censusreporter.org/profiles/{{ geography.this.full_geoid }}-{{ geography.this.full_name|slugify }}" />
-        <meta property="og:description" content="Population data and dollar figures from {{ geography.this.short_name}}, broken down by category: Demographics, Economics, Families, Housing and Social." />
+        <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
 {% endblock %}
@@ -16,7 +17,7 @@
         <meta name="twitter:site" content="@CensusReporter">
         <meta name="twitter:creator" content="@CensusReporter">
         <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
-        <meta name="twitter:description" content="Population data and dollar figures from {{ geography.this.short_name}}, broken down by category: Demographics, Economics, Families, Housing and Social.">
+        <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
         {#}<meta name="twitter:image" content="">{#}
 {% endblock %}
 
