@@ -317,23 +317,44 @@ class GeographySearchView(TemplateView):
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
-    def dispatch(self, *args, **kwargs):
-        self.geo_id = self.kwargs.get('geography_id', None)
-        self.slug = self.kwargs.get('slug', None)
+    def parse_fragment(self,fragment):
+        """Given a URL, return a (geoid,slug) tuple. slug may be None. GeoIDs are not tested for structure, but are simply the part of the URL before any '-' character, also allowing for the curiosity of Vermont legislative districts. (see https://github.com/censusreporter/censusreporter/issues/50)"""
+        parts = fragment.split('-',1)
+        if len(parts) == 1:
+            return (fragment,None)
 
-        if not self.slug:
+        geoid,slug = parts
+        if len(slug) == 1:
+            geoid = '{}-{}'.format(geoid,slug)
+            slug = None
+        else:
+            parts = slug.split('-')
+            if len(parts) > 1 and len(parts[0]) == 1:
+                geoid = '{}-{}'.format(geoid,parts[0])
+                slug = '-'.join(parts[1:])
+            
+        return (geoid,slug)
+
+    def dispatch(self, *args, **kwargs):
+
+        self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
+
+        if self.slug is None:
             geo = self.get_geography(self.geo_id)
             if geo:
                 try:
                     # if possible, redirect to slugged URL
                     slug = slugify(geo['properties']['display_name'])
+                    fragment = '{}-{}'.format(self.geo_id, slug)
                     return HttpResponseRedirect(
-                        reverse('geography_detail', args=(self.geo_id, slug))
-                    )
-                except:
+                        reverse('geography_detail', args=(fragment,)
+                    ))
+                except Exception, e:
                     # if we have a strange situation where there's no
                     # display name attached to the geography, we should
                     # go ahead and display the profile page
+                    logger.warn(e)
+                    logger.warn("Geography {} has no display_name".format(self.geo_id))
                     pass
             else:
                 # if we get nothing from the API, pass through for 404

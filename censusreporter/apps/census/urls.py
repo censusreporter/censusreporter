@@ -25,21 +25,13 @@ urlpatterns = patterns('',
         name    = 'homepage',
     ),
 
-    # e.g. /profiles/16000US5367000-spokane-wa/ (Spokane, WA)
-    url(
-        regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)-(?P<slug>[-\w]+)/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
-        kwargs  = {},
-        name    = 'geography_detail',
-    ),
-
     # e.g. /profiles/16000US5367000/ (Spokane, WA)
     # this should redirect to slugged version of the URL above
     url(
-        regex   = '^profiles/(?P<geography_id>[a-zA-Z0-9]+)/$',
+        regex   = '^profiles/(?P<fragment>[a-zA-Z0-9\-]+)/$',
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
-        name    = 'geography_detail_geoid',
+        name    = 'geography_detail',
     ),
 
     url(
