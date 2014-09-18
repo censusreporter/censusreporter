@@ -84,6 +84,24 @@ def calculate_median(objects, field_name):
                     float(getattr(objects[i + 1], field_name))) / 2.0
 
 
+def calculate_median_stat(stats):
+    '''
+    Calculates the stat (key) that lies at the median for stat data from the
+    output of get_stat_data.
+    Note: this function assumes the objects are sorted.
+    '''
+    total = 0
+    keys = [k for k in stats.iterkeys() if k != 'metadata']
+    total = sum(stats[k]['numerators']['this'] for k in keys)
+    half = total / 2.0
+
+    counter = 0
+    for key in keys:
+        counter += stats[key]['numerators']['this']
+        if counter >= half:
+            return key
+
+
 def get_summary_geo_info(geo_code=None, geo_level=None, session=None,
                          geo_object=None):
     if geo_object is not None:

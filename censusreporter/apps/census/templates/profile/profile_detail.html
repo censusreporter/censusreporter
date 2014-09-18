@@ -222,10 +222,10 @@
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#household-income" id="household-income">Annual household income<i class="fa fa-link"></i></a></h2>
             <aside>
-                Average annual household income is an estimate, be careful with this value.
+                Average annual household income is a median estimate, be careful with this value.
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=households.mean_annual_income stat_type='dollar' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=households.median_annual_income stat_type='dollar' %}
             </div>
             <div class="column-three-quarters" id="chart-column-households-annual_income_distribution" data-stat-type="scaled-percentage" data-chart-title="Annual household income"></div>
         </section>
@@ -306,10 +306,10 @@
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#income" id="income">Monthly income <i class="fa fa-link"></i></a></h2>
             <aside>
-                Average monthly income is an estimate, be careful with this value.
+                Average monthly income is a median estimate, be careful with this value.
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.mean_individual_income stat_type='dollar' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.median_individual_income stat_type='dollar' %}
             </div>
             <div class="column-three-quarters" id="chart-histogram-economics-individual_income_distribution" data-chart-title="Employees by monthly income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.individual_income_distribution.metadata.universe }}"></div>
         </section>

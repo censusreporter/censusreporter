@@ -5,7 +5,7 @@ from sqlalchemy import func
 from api.models import get_model_from_fields
 from api.utils import get_session, LocationNotFound
 
-from .utils import (collapse_categories, calculate_median, get_summary_geo_info,
+from .utils import (collapse_categories, calculate_median, calculate_median_stat, get_summary_geo_info,
                     merge_dicts, group_remainder, add_metadata, get_stat_data, get_objects_by_geo, percent)
 
 
@@ -465,14 +465,9 @@ def get_households_profile(geo_code, geo_level, session):
             recode=HOUSEHOLD_INCOME_RECODE,
             key_order=HOUSEHOLD_INCOME_RECODE.values())
 
-    # average income
-    total_income = 0
-    for key, cat in income_dist_data.iteritems():
-        if key != 'metadata':
-            income = HOUSEHOLD_INCOME_ESTIMATE[key]
-            if income is not None:
-                total_income += income * cat['numerators']['this']
-
+    # median income
+    median = calculate_median_stat(income_dist_data)
+    median_income = HOUSEHOLD_INCOME_ESTIMATE[median]
 
     # type of dwelling
     type_of_dwelling_dist, _ = get_stat_data(
@@ -507,9 +502,9 @@ def get_households_profile(geo_code, geo_level, session):
             'tenure_distribution': tenure_data,
             'household_goods': household_goods,
             'annual_income_distribution': income_dist_data,
-            'mean_annual_income': {
+            'median_annual_income': {
                 'name': 'Average annual household income',
-                'values': {'this': 0 if total_households == 0 else round(total_income / total_households, 0)},
+                'values': {'this': median_income},
                 },
             'head_of_household': {
                 'gender_distribution': head_gender_dist,
@@ -534,14 +529,9 @@ def get_economics_profile(geo_code, geo_level, session):
             recode=COLLAPSED_INCOME_CATEGORIES,
             key_order=COLLAPSED_INCOME_CATEGORIES.values())
 
-    # average income
-    total_income = 0
-    for key, cat in income_dist_data.iteritems():
-        if key != 'metadata':
-            income = ESTIMATED_INCOME_CATEGORIES[key]
-            if income is not None:
-                total_income += income * cat['numerators']['this']
-
+    # median income
+    median = calculate_median_stat(income_dist_data)
+    median_income = ESTIMATED_INCOME_CATEGORIES[median]
 
     # employment status
     employ_status, total_workers = get_stat_data(
@@ -561,9 +551,9 @@ def get_economics_profile(geo_code, geo_level, session):
     total_households = total_with_access + total_without_access
 
     return {'individual_income_distribution': income_dist_data,
-            'mean_individual_income': {
+            'median_individual_income': {
                 'name': 'Average monthly income',
-                'values': {'this': round(total_income / total_workers, 0)},
+                'values': {'this': median_income},
                 },
             'employment_status': employ_status,
             'sector_type_distribution': sector_dist_data,
