@@ -142,7 +142,7 @@ class TableDetailView(TemplateView):
         'I': 'Hispanic or Latino',
     }
     TABLE_TYPE_TRANSLATE_DICT = {
-        'B': 'Base',
+        'B': 'Detailed',
         'C': 'Collapsed',
     }
     
