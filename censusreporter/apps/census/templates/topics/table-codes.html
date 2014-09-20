@@ -17,7 +17,7 @@
 <h4>Full and Collapsed Tables</h4>    
 <p>Tables beginning with <strong>B</strong> have the most detailed column breakdown, while a <strong>C</strong> table for the same numbers will have fewer columns. For example, the <strong><a href="{% url 'table_detail' 'B02003' %}">B02003</a></strong> table ("Detailed Race") has 71 columns, while the "collapsed version," <strong><a href="{% url 'table_detail' 'C02003' %}">C02003</a></strong> has only 19 columns. While your instinct may be to want as much data as possible, sometimes choosing the <strong>C</strong> table can simplify your analysis.
 </p>
-<h4>Table subjects</h4>
+<h4 id="table-subjects">Table subjects</h4>
 <p>
     The first two digits after <strong>B/C</strong> indicate the broad subject of a table. Note that many tables have more than one subject, but this reflects the main subject.
     <dl class="dl-horizontal">
@@ -155,6 +155,12 @@ The data profile (DP) tables provide a lot of popular statistics across subjects
 <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/12_1YR/S2701/0100000US">S2701</a></dt><dd>Health Insurance Coverage Status</dd>
 <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/12_1YR/S2702/0100000US">S2702</a></dt><dd>Selected Characteristics Of The Uninsured In The United States</dd>
     </dl>
+<h4>GCT: Geographic Comparison</h4>
+<p>
+The Geographic Comparison tables take a single statistic and list its value for a number of similar geographies. For example, you can download the median monthly housing costs for major cities in the US in a single file, or you can download the same housing costs estimates for all states in the US.</p>
+<p>
+    The American Fact Finder lists over 1200 of these files (in part because each statistic is offered in more than a dozen variations), so we don't have a list for you, but you can find them directly in the Fact Finder's "advanced search." Just go to the Topics section, and look under "Product Type."
+</p>
 </section>
 {% endblock %}
 
