@@ -1,0 +1,61 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+</section>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B21001' %}">B21001</a><sup>†</sup></strong></td>
+<td>Sex by Age by Veteran Status for the Civilian Population 18 Years and Over</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21002' %}">B21002</a></strong></td>
+<td>Period of Military Service for Civilian Veterans 18 Years and Over</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21003' %}">B21003</a></strong></td>
+<td>Veteran Status by Educational Attainment for the Civilian Population 25 Years and Over</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21004' %}">B21004</a></strong></td>
+<td>Median Income in the Past 12 Months (In 2013 Inflation-adjusted Dollars) by Veteran Status by Sex for the Civilian Population 18 Years and Over With Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B21005' %}">B21005</a><sup>‡</sup></strong></td>
+<td>Age by Veteran Status by Employment Status for the Civilian Population 18 to 64 Years</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21007' %}">B21007</a><sup>‡</sup></strong></td>
+<td>Age by Veteran Status by Poverty Status in the Past 12 Months by Disability Status for the Civilian Population 18 Years and Over</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21100' %}">B21100</a><sup>‡</sup></strong></td>
+<td>Service-connected Disability-rating Status and Ratings for Civilian Veterans 18 Years and Over</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B99211' %}">B99211</a></strong></td>
+<td>Imputation of Veteran Status for the Population 18 Years and Over</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B99212' %}">B99212</a></strong></td>
+<td>Imputation of Period of Military Service for Civilian Veterans 18 Years and Over</td>
+</tr>
+</tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.
+            </td>
+        </tr>
+        <tr class="help-text">
+            <td colspan="2">
+              <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.
+            </td>
+          
+        </tr>
+    </tfoot>
+</table>
+
+
+{% endblock %}

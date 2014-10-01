@@ -207,6 +207,20 @@ TOPICS_LIST = [
         'short_description': "The Census is a big subject and there's a lot to learn, but you don't have to learn it all at once.",
         'template_name': 'getting_started.html',
     },
+
+    {
+        'title': 'Veterans and Military',
+        'slug': 'veterans',
+        'topics': ['veterans'],
+        'description': 'Data collected about past and present members of the U.S. Armed Forces.',
+        'template_name': 'veterans.html',
+        'question_images': ['veteran.png', 'veteran_period.png', 'va_rating.png'], # [, 'va_rating.png'],
+        'question_pdfs': [
+            ('Veteran Status and Period of Military Service','http://www.census.gov/acs/www/Downloads/QbyQfact/veteran.pdf'),
+            ('VA Service-Connected Disability Rating Status','http://www.census.gov/acs/www/Downloads/QbyQfact/VA_rating.pdf')
+        ]
+    },
+
 ]
 
 TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
