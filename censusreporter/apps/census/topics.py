@@ -218,7 +218,7 @@ TOPICS_LIST = [
         'question_pdfs': [
             ('Veteran Status and Period of Military Service','http://www.census.gov/acs/www/Downloads/QbyQfact/veteran.pdf'),
             ('VA Service-Connected Disability Rating Status','http://www.census.gov/acs/www/Downloads/QbyQfact/VA_rating.pdf'),
-            ('The Migration of Military Spouses using the 2007-2011 5-Year American Community Survey', 'http://www.census.gov/hhes/migration/files/Military_Migration_paper_final_13-04-29.pdf')
+            # ('The Migration of Military Spouses using the 2007-2011 5-Year American Community Survey', 'http://www.census.gov/hhes/migration/files/Military_Migration_paper_final_13-04-29.pdf')
         ]
     },
 
