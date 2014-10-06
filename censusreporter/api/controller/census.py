@@ -312,7 +312,7 @@ def get_demographics_profile(geo_code, geo_level, session):
     query = query.filter(getattr(db_model_sex, geo_attr) == geo_code)
     total_male = query.one()[0]
 
-    sex_data = OrderedDict((  # census data refers to sex as gender
+    sex_data = OrderedDict(sorted([  # census data refers to sex as gender
             ('Female', {
                 "name": "Female",
                 "values": {"this": round((total_pop - total_male) / total_pop * 100, 2)},
@@ -323,7 +323,8 @@ def get_demographics_profile(geo_code, geo_level, session):
                 "values": {"this": round(total_male / total_pop * 100, 2)},
                 "numerators": {"this": total_male},
             }),
-        ))
+        ],
+        key=lambda p: -p[1]['values']['this']))
 
     add_metadata(sex_data, db_model_sex)
 
@@ -365,7 +366,7 @@ def get_demographics_profile(geo_code, geo_level, session):
         else:
             between_18_64 += obj.total
 
-    age_dist = OrderedDict((
+    age_dist = OrderedDict(sorted([
         ("under_18", {
             "name": "Under 18",
             "values": {"this": round(under_18 / total * 100, 2)}
@@ -378,7 +379,8 @@ def get_demographics_profile(geo_code, geo_level, session):
             "name": "65 and over",
             "values": {"this": round(over_or_65 / total * 100, 2)}
         })
-    ))
+        ],
+        key=lambda p: -p[1]['values']['this']))
 
     add_metadata(age_dist, db_model_age)
 
@@ -536,16 +538,19 @@ def get_economics_profile(geo_code, geo_level, session):
     # employment status
     employ_status, total_workers = get_stat_data(
             ['official employment status'], geo_level, geo_code, session,
-            exclude=['Age less than 15 years', 'Not applicable'])
+            exclude=['Age less than 15 years', 'Not applicable'],
+            order_by='-total')
 
     # sector
     sector_dist_data, _ = get_stat_data(
             ['type of sector'], geo_level, geo_code, session,
-            exclude=['Not applicable'], exclude_zero=True)
+            exclude=['Not applicable'], exclude_zero=True,
+            order_by='-total')
 
     # access to internet
     internet_access_dist, total_with_access = get_stat_data(
-            ['access to internet'], geo_level, geo_code, session, exclude=['No access to internet'])
+            ['access to internet'], geo_level, geo_code, session, exclude=['No access to internet'],
+            order_by='-total')
     _, total_without_access = get_stat_data(
             ['access to internet'], geo_level, geo_code, session, only=['No access to internet'])
     total_households = total_with_access + total_without_access
@@ -642,40 +647,29 @@ def get_service_delivery_profile(geo_code, geo_level, session):
         else:
             elec_access_data['total_no_elec']['numerators']['this'] += obj.total
 
-    # toilets
-    db_model_toilet = get_model_from_fields(['toilet facilities'], geo_level)
-    objects = get_objects_by_geo(db_model_toilet, geo_code, geo_level, session,
-                                 order_by='-total')
-    toilet_data = OrderedDict()
-    total_toilet = 0.0
-    total_flush_toilet = 0.0
-    for obj in objects:
-        name = getattr(obj, 'toilet facilities')
-        toilet_data[name] = {
-            "name": name,
-            "numerators": {"this": obj.total},
-        }
-        total_toilet += obj.total
-        if name.startswith('Flush') or name.startswith('Chemical'):
-            total_flush_toilet += obj.total
-
-    total_no_toilet = toilet_data['None']['numerators']['this']
-    toilet_data = collapse_categories(toilet_data,
-                                      COLLAPSED_TOILET_CATEGORIES,
-                                      key_order=(
-                                        'Flush toilet', 'Chemical toilet',
-                                        'Pit toilet', 'Bucket toilet',
-                                        'Other', 'None', 'Unspecified', 'N/A'))
-
-    for data, total in zip((water_src_data, refuse_disp_data, elec_access_data, toilet_data),
-                           (total_wsrc, total_ref, total_elec, total_toilet)):
+    for data, total in zip((water_src_data, refuse_disp_data, elec_access_data),
+                           (total_wsrc, total_ref, total_elec)):
         for fields in data.values():
             fields["values"] = {"this": percent(fields["numerators"]["this"], total)}
 
     add_metadata(water_src_data, db_model_wsrc)
     add_metadata(refuse_disp_data, db_model_ref)
     add_metadata(elec_access_data, db_model_elec)
-    add_metadata(toilet_data, db_model_toilet)
+
+    # toilets
+    toilet_data, total_toilet = get_stat_data(
+            ['toilet facilities'], geo_level, geo_code, session,
+            exclude_zero=True,
+            recode=COLLAPSED_TOILET_CATEGORIES,
+            order_by='-total')
+
+    total_flush_toilet = 0.0
+    total_no_toilet = 0.0
+    for key, data in toilet_data.iteritems():
+        if key.startswith('Flush') or key.startswith('Chemical'):
+            total_flush_toilet += data['numerators']['this']
+        if key == 'None':
+            total_no_toilet += data['numerators']['this']
 
     return {'water_source_distribution': water_src_data,
             'percentage_water_from_service_provider': {
