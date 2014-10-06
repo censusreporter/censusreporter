@@ -1,5 +1,5 @@
 {% extends 'table/_base_table.html' %}
-
+{% load tabletags %}
 {% block head_title %}Table {{ table.table_id }}: {{ table.simple_table_title }} - {{ block.super }}{% endblock %}
 
 {% block head_facebook_tags %}
@@ -72,6 +72,7 @@
             <div class="column-golden-narrow">
                 {% if related_topic_pages %}
                 <div class="sidebar-block">
+                    {% table_specific table.table_id  %}
                     <h4>Background on table topics</h4>
                     <p class="explain"><a href="{% url 'topic_list' %}">Topic pages</a> describe concepts covered by the ACS. For background on the topics in Table {{ table.table_id }}, see:</p>
                     <ul>{% for slug, title in related_topic_pages %}
