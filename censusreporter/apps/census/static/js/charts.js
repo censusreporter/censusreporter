@@ -72,7 +72,7 @@ function Chart(options) {
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
         
-        chart.chartDataValues = d3.values(chart.chartDataValues).filter(function(n){return typeof(n) != 'function'}).map(function(d) {
+        chart.chartDataValues = chart.chartDataValues.values().filter(function(n){return typeof(n) != 'function'}).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
                 // data shaped for grouped-column or -bar presentation
                 dataObj = {
@@ -545,7 +545,7 @@ function Chart(options) {
         });
 
         // create array of categories specific to this chart
-        chart.chartCategories = d3.values(chart.chartDataValues).map(function(d) {
+        chart.chartCategories = chart.chartDataValues.map(function(d) {
             return d.name
         });
         
