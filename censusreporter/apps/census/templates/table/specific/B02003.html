@@ -1,0 +1,6 @@
+{% extends "table/specific/_base_specific.html" %}
+{% block table_specific %}
+<p class="explain">
+    Because the columns in <strong>B02003</strong> are so detailed, this table is only available for the entire US, and is only included in the 1-year and 3-year ACS releases. If you want similar information for any other geographies or for the 5-year ACS, use table <a href='{% url "table_detail" "C02003" %}'>C02003</a>
+</p>
+{% endblock %}

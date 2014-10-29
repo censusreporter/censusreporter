@@ -51,6 +51,7 @@ def seed(geoid):
         write_profile_json(s3key, json.dumps(api_data))
         logger.info("Wrote to key {}".format(s3key))
     except Exception, e:
+        logger.error("Problem caching {}".format(geoid))
         logger.exception(e)
     logger.info("Done working on {}".format(geoid))
 

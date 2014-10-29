@@ -43,6 +43,20 @@ urlpatterns = patterns('',
 
     # e.g. /table/B01001/
     url(
+        regex   = '^tables/B23002/$',
+        view    = RedirectView.as_view(url=reverse_lazy('table_detail',kwargs={'table':'B23002A'})),
+        kwargs  = {},
+        name    = 'redirect_B23002',
+    ),
+
+    url(
+        regex   = '^tables/C23002/$',
+        view    = RedirectView.as_view(url=reverse_lazy('table_detail',kwargs={'table':'C23002A'})),
+        kwargs  = {},
+        name    = 'redirect_C23002',
+    ),
+
+    url(
         regex   = '^tables/(?P<table>[a-zA-Z0-9]+)/$',
         view    = cache_page(STANDARD_CACHE_TIME)(TableDetailView.as_view()),
         kwargs  = {},
