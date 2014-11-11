@@ -466,7 +466,7 @@ var makeCharts = function() {
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
 
-        Charts[i] = Chart({
+        var chartstuff = {
             chartContainer: chartID,
             chartDataKey: chartDataKey,
             chartType: chartType,
@@ -477,7 +477,13 @@ var makeCharts = function() {
             chartInitialSort: chartInitialSort,
             chartStatType: chartStatType,
             geographyData: geographyData
-        });
+        }
+        try {
+            Charts[i] = Chart(chartstuff);
+        } catch(e) {
+            console.log("Error making chart " + chartID)
+            console.log(chartstuff);
+        }
     });
 }
 makeCharts();
