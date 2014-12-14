@@ -4,44 +4,126 @@
     <title>Example of using Census Reporter GeoJSON tiles on your own maps.</title>
 </head>
 <body>
-
-<div id="map"></div>
+<select id="sumlev-picker">
+    <option> -- pick a summary level -- </option>
+</select>
+<div id="map" style="width: 100%; height: 100%;"></div>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="//cdn.jsdelivr.net/g/jquery@1.11.1,leaflet@0.7.3,underscorejs"></script>
 <script src="http://censusreporter.org/static/js/TileLayer.GeoJSON.js"></script>
 <script type="text/javascript">
+    // make it big
+
+    var sumlevs = [
+        { 'level': '020', 'name': 'region', zoom: 4 },
+        { 'level': '030', 'name': 'division', zoom: 4 },
+        { 'level': '040', 'name': 'state', zoom: 4 },
+        { 'level': '050', 'name': 'county', zoom: 7 },
+        { 'level': '060', 'name': 'county subdivision', zoom: 7 },
+        { 'level': '140', 'name': 'census tract', zoom: 10 },
+        { 'level': '150', 'name': 'block group', zoom: 15 },
+        { 'level': '160', 'name': 'place', zoom: 9 },
+        { 'level': '170', 'name': 'consolidated city' },
+        { 'level': '230', 'name': 'Alaska native regional corporation' },
+        { 'level': '250', 'name': 'native area', zoom: 4 },
+        { 'level': '251', 'name': 'tribal subdivision', zoom: 4 },
+        { 'level': '256', 'name': 'tribal tract', zoom: 4 },
+        { 'level': '310', 'name': 'metro (CBSA) area', zoom: 7 },
+        { 'level': '314', 'name': 'metropolitan division', zoom: 4 },
+        { 'level': '330', 'name': 'combined statistical area', zoom: 4 },
+        { 'level': '335', 'name': 'combined NECTA', zoom: 4 },
+        { 'level': '350', 'name': 'NECTA', zoom: 4 },
+        { 'level': '364', 'name': 'NECTA division', zoom: 4 },
+        { 'level': '400', 'name': 'urban area', zoom: 7 },
+        { 'level': '500', 'name': 'congressional district', zoom: 7 },
+        { 'level': '610', 'name': 'state house (upper)', zoom: 7 },
+        { 'level': '620', 'name': 'state house (lower)', zoom: 7 },
+        { 'level': '795', 'name': 'PUMA', zoom: 8  },
+        { 'level': '860', 'name': 'ZIP code', zoom: 12  },
+        { 'level': '950', 'name': 'school district (elementary)', zoom: 10  },
+        { 'level': '960', 'name': 'school district (secondary)', zoom: 10  },
+        { 'level': '970', 'name': 'school district (unified)', zoom: 10  }
+    ]
+
     var div = document.getElementById("map");
-    div.style.height = window.innerHeight + "px";
-    var map = L.map()
-    map.setView();
-    L.tileLayer('http://a.tile.openstreetmap.org /${z}/${x}/${y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-        maxZoom: 18
-    }).addTo(map);
+    div.style.height = (window.innerHeight - 100) + "px";
+
+    var baseLayer = function() {
+        return L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: { 'name': 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://mapbox.com">Mapbox</a>' },
+                maxZoom: 18
+        });
+    }
+
+    // pretty basic Leaflet here...
+    var map = L.map("map")
+    map.setView([39.833333, -98.583333], 5);
+    map.addLayer(baseLayer());
 
 
-    var thisSumlev = '040';
-    var rootGeoAPI = "http://api.censusreporter.org/1.0/geo/tiger2012/"
-    var tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    var defaultStyle = {
+            "clickable": true,
+            "color": "#00d",
+            "fillColor": "#ccc",
+            "weight": 1.0,
+            "opacity": 0.3,
+            "fillOpacity": 0.3,
+        };
 
-    var geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
-        clipTiles: true,
-        unique: function(feature) {
-            return feature.properties.geoid;
+
+    // more about sumlevs at http://censusreporter.org/glossary/#term-summary-level
+    var defaultSumlev = '040';
+//    var tilesGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    var makeLayer = function(sumlev) {
+        var tilesGeoAPI = 'http://embed.censusreporter.org/tiger2012/tile/' + sumlev + '/{z}/{x}/{y}.geojson';
+
+        var geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
+            clipTiles: true,
+            unique: function(feature) {
+                return feature.properties.geoid;
+            }
+        }, {
+            style: defaultStyle,
+            onEachFeature: function(feature, layer) {
+                // you can wire behavior to each "feature", or place outline.
+                var profileURL = 'http://censusreporter.org/profiles/' + feature.properties.geoid;
+                layer.bindPopup("<a href='" + profileURL + "'>" + feature.properties.name + "</a>");
+                layer.on('mouseover', function() {
+                    layer.setStyle({
+                        "fillOpacity": 0.5,
+                    });
+                });
+                layer.on('mouseout', function() {
+                    layer.setStyle(defaultStyle);
+                });
+            }
+        });
+
+        return geojsonTileLayer;
+    }
+
+    _.each(sumlevs,function(l) { 
+        $('<option>').val(l.level).text(l.level + " - " + l.name).appendTo('#sumlev-picker');
+    });
+
+
+    $("#sumlev-picker").change(function(e) { 
+        var sumlev = _.findWhere(sumlevs,{level: $(e.target).val()})
+        if (sumlev) {
+            if (sumlev.zoom) {
+                map.setZoom(sumlev.zoom);
+            }
+            if (typeof sumlev.layer == 'undefined') {
+                sumlev.layer = makeLayer(sumlev.level);
+            }
+            _.each(sumlevs,function(sl) { 
+                if (sl.layer && map.hasLayer(sl.layer)) {
+                    map.removeLayer(sl.layer);
+                }
+            })
+            map.addLayer(sumlev.layer);
         }
-    })
-
-    map.addLayer(geojsonTileLayer);
-
-    // var featureLayer = L.geoJson(json, {
-    //     style: {
-    //         "fillColor": "#66c2a5",
-    //         "color": "#777",
-    //         "weight": 2,
-    //         "clickable": false
-    //     }
-    // });
-    // map.addLayer(featureLayer);
+    });
 
 
 
