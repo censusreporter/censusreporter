@@ -258,8 +258,8 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         '140': 'census tract',
         '150': 'block group',
         '160': 'place',
-        '170': 'consolidated city' },
-        '230': 'Alaska native regional corporation' },
+        '170': 'consolidated city',
+        '230': 'Alaska native regional corporation',
         '250': 'native area',
         '251': 'tribal subdivision',
         '256': 'tribal tract',
@@ -278,10 +278,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         '950': 'school district (elementary)',
         '960': 'school district (secondary)',
         '970': 'school district (unified)'
-    }
-
-
-
+    },
     initialize: function (summary_level, options, geojsonOptions) {
         if (typeof(this.sumlevels[summary_level] == "undefined")) {
             throw "Unsupported or invalid summary level."
