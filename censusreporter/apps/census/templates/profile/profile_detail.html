@@ -515,7 +515,7 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2013/',
+    rootGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2013/',
     parentGeoAPI = rootGeoAPI + thisGeoID + '/parents',
     tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
