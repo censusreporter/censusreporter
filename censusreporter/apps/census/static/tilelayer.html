@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example of using Census Reporter GeoJSON tiles on your own maps.</title>
+</head>
+<body>
+
+<div id="map"></div>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="http://censusreporter.org/static/js/TileLayer.GeoJSON.js"></script>
+<script type="text/javascript">
+    var div = document.getElementById("map");
+    div.style.height = window.innerHeight + "px";
+    var map = L.map()
+    map.setView();
+    L.tileLayer('http://a.tile.openstreetmap.org /${z}/${x}/${y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+        maxZoom: 18
+    }).addTo(map);
+
+
+    var thisSumlev = '040';
+    var rootGeoAPI = "http://api.censusreporter.org/1.0/geo/tiger2012/"
+    var tilesGeoAPI = rootGeoAPI + 'tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+
+    var geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
+        clipTiles: true,
+        unique: function(feature) {
+            return feature.properties.geoid;
+        }
+    })
+
+    map.addLayer(geojsonTileLayer);
+
+    // var featureLayer = L.geoJson(json, {
+    //     style: {
+    //         "fillColor": "#66c2a5",
+    //         "color": "#777",
+    //         "weight": 2,
+    //         "clickable": false
+    //     }
+    // });
+    // map.addLayer(featureLayer);
+
+
+
+</script>
+</body>
+</html>
