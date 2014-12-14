@@ -280,7 +280,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         '970': 'school district (unified)'
     },
     initialize: function (summary_level, options, geojsonOptions) {
-        if (typeof(this.sumlevels[summary_level] == "undefined")) {
+        if (typeof(this.summary_levels[summary_level]) == "undefined") {
             throw "Unsupported or invalid summary level."
         }
         var url = 'http://embed.censusreporter.org/tiger2012/tile/' + summary_level + '/{z}/{x}/{y}.geojson';

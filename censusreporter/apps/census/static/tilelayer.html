@@ -10,7 +10,7 @@
 <div id="map" style="width: 100%; height: 100%;"></div>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="//cdn.jsdelivr.net/g/jquery@1.11.1,leaflet@0.7.3,underscorejs"></script>
-<script src="http://censusreporter.org/static/js/TileLayer.GeoJSON.js"></script>
+<script src="js/TileLayer.GeoJSON.js"></script>
 <script type="text/javascript">
     // make it big
 
@@ -71,18 +71,9 @@
         };
 
 
-    // more about sumlevs at http://censusreporter.org/glossary/#term-summary-level
-    var defaultSumlev = '040';
-//    var tilesGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
     var makeLayer = function(sumlev) {
-        var tilesGeoAPI = 'http://embed.censusreporter.org/tiger2012/tile/' + sumlev + '/{z}/{x}/{y}.geojson';
 
-        var geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
-            clipTiles: true,
-            unique: function(feature) {
-                return feature.properties.geoid;
-            }
-        }, {
+        var geojsonTileLayer = new CensusReporter.SummaryLevelLayer(sumlev, {}, {
             style: defaultStyle,
             onEachFeature: function(feature, layer) {
                 // you can wire behavior to each "feature", or place outline.
