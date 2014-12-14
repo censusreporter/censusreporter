@@ -146,7 +146,7 @@ class TableDetailView(TemplateView):
         'B': 'Detailed',
         'C': 'Collapsed',
     }
-    
+
     def dispatch(self, *args, **kwargs):
         table_argument = self.kwargs.get('table', None)
         # canonicalize
@@ -159,7 +159,7 @@ class TableDetailView(TemplateView):
         self.tabulation_code = re.sub("\D", "", self.table_code)
 
         return super(TableDetailView, self).dispatch(*args, **kwargs)
-    
+
     def get_tabulation_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
         r = requests.get(endpoint)
@@ -173,7 +173,7 @@ class TableDetailView(TemplateView):
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
-        
+
         # factories for organizing metadata on arbitrary sets of tables
         def table_dict_factory():
             return {
@@ -210,12 +210,12 @@ class TableDetailView(TemplateView):
                 # is this a B or C table?
                 letter_code = table_code.upper()[0]
                 tables[letter_code] = default_table_groups[letter_code]
-                
+
                 # keep the grids separate, track which releases a table is in
                 tables[letter_code] = default_table_list[letter_code]
                 tables[letter_code][table_code] = default_table[table_code]
                 tables[letter_code][table_code]['releases'][release] = self.RELEASE_TRANSLATE_DICT[release]
-                
+
                 # get the variant names
                 if len(table_code) == 7:
                     tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[-1]]
@@ -230,7 +230,7 @@ class TableDetailView(TemplateView):
             preview_table = next(group_values.iteritems())[0]
             tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
             tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
-        
+
         return tabulation_data
 
     def get_topic_pages(self, table_topics):
@@ -240,9 +240,9 @@ class TableDetailView(TemplateView):
             matches = set(topics).intersection(table_topics)
             if matches:
                 related_topic_pages.append((key, TOPICS_MAP[key]['title']))
-        
+
         return related_topic_pages
-        
+
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/table/%s' % table_code
         r = requests.get(endpoint)
@@ -262,7 +262,7 @@ class TableDetailView(TemplateView):
             'tabulation': self.get_tabulation_data(self.tabulation_code),
         }
         page_context['related_topic_pages'] = self.get_topic_pages(page_context['table']['topics'])
-        
+
         return page_context
 
 
@@ -333,7 +333,7 @@ class GeographyDetailView(TemplateView):
             if len(parts) > 1 and len(parts[0]) == 1:
                 geoid = '{}-{}'.format(geoid,parts[0])
                 slug = '-'.join(parts[1:])
-            
+
         return (geoid,slug)
 
     def dispatch(self, *args, **kwargs):
@@ -364,7 +364,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2012/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2013/%s' % self.geo_id
         r = requests.get(endpoint)
         status_code = r.status_code
 

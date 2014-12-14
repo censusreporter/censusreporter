@@ -183,7 +183,7 @@ Note that Washington state's data is also included in this API response. When yo
 
 This endpoint provides basic information about a specific geography, including name, summary level, land area, and population. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/geo/tiger2012/16000US5367000
+    http://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000
 
 This request uses the geoID for Spokane, WA, and returns this JSON:
 
@@ -209,7 +209,7 @@ This endpoint returns Tiger 2012 data for all but one class of geography: congre
 
 This endpoint takes a specific geography and provides metadata for it, along with a list of parent geographies that contain it. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/geo/tiger2012/16000US5367000/parents
+    http://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000/parents
 
 ... which returns results that include name, geoID, summary level, geography class, and percentage of coverage:
 
@@ -397,7 +397,7 @@ The `column-*` class isn't really important here; that's just a structural setti
 At the bottom of the profile page, we trigger all the charts at once. Profile data is assigned to a Javascript variable:
 
     profileData = {{ profile_data_json }};
-    
+
 And we grab all the chart placeholders with:
 
     chartContainers = $('[id^=chart-]')
@@ -463,7 +463,7 @@ Javascript comes into play so we can completely change chart types that won't re
         makeCharts();
     }, 50);
     $(window).resize(lazyRedrawCharts);
-    
+
 
 `gracefulType`: This function checks `window.browserWidth`, and if it's too narrow to reasonably display a column chart, flips it to a bar chart. This is called by each chart inside the `makeCharts()` function, which is triggered on page load as well as resize thanks to `lazyRedrawCharts`.
 
