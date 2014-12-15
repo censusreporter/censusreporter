@@ -73,22 +73,7 @@
 
     var makeLayer = function(sumlev) {
 
-        var geojsonTileLayer = new CensusReporter.SummaryLevelLayer(sumlev, {}, {
-            style: defaultStyle,
-            onEachFeature: function(feature, layer) {
-                // you can wire behavior to each "feature", or place outline.
-                var profileURL = 'http://censusreporter.org/profiles/' + feature.properties.geoid;
-                layer.bindPopup("<a href='" + profileURL + "'>" + feature.properties.name + "</a>");
-                layer.on('mouseover', function() {
-                    layer.setStyle({
-                        "fillOpacity": 0.5,
-                    });
-                });
-                layer.on('mouseout', function() {
-                    layer.setStyle(defaultStyle);
-                });
-            }
-        });
+        var geojsonTileLayer = new CensusReporter.SummaryLevelLayer(sumlev);
 
         return geojsonTileLayer;
     }

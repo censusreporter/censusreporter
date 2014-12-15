@@ -279,12 +279,58 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         '960': 'school district (secondary)',
         '970': 'school district (unified)'
     },
+
+    _defaultOptions: {
+        clipTiles: true,
+        unique: function(feature) {
+            return feature.properties.geoid;
+        }
+    },
+    _defaultFeatureStyle: {
+        "clickable": true,
+        "color": "#00d",
+        "fillColor": "#ccc",
+        "weight": 1.0,
+        "opacity": 0.3,
+        "fillOpacity": 0.3,
+    },
+    _defaultGeojsonOptions: {
+        onEachFeature: function(feature, layer) {
+            // you can wire behavior to each "feature", or place outline.
+            var profileURL = 'http://censusreporter.org/profiles/' + feature.properties.geoid;
+            layer.bindPopup("<a href='" + profileURL + "'>" + feature.properties.name + "</a>");
+            if (this.style && this.mouseoverStyle) {
+                layer.on('mouseover', function() {
+                    layer.setStyle(this.mouseoverStyle);
+                });
+                layer.on('mouseout', function() {
+                    layer.setStyle(this.style);
+                });
+            }
+        }
+    },
+
     initialize: function (summary_level, options, geojsonOptions) {
         if (typeof(this.summary_levels[summary_level]) == "undefined") {
             throw "Unsupported or invalid summary level."
         }
-        var url = 'http://embed.censusreporter.org/tiger2012/tile/' + summary_level + '/{z}/{x}/{y}.geojson';
 
+        var url = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+
+        options = L.Util.extend(this._defaultOptions, options);
+        geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
+
+        if (!('style' in geojsonOptions)) {
+            geojsonOptions.style = this._defaultFeatureStyle;
+        }
         CensusReporter.GeoJSONLayer.prototype.initialize.call(this, url, options, geojsonOptions);
+
+        if ('style' in geojsonOptions) {
+            this.style = geojsonOptions.style;
+        }
+
+        if ('mouseoverStyle' in options) {
+            this.mouseoverStyle = options.mouseoverStyle;
+        }
     },
 });
