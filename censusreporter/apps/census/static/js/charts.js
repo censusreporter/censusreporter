@@ -970,11 +970,11 @@ function Chart(options) {
     chart.cardToggle = function(data) {
         var cardData = (chart.chartType == 'pie') ? data.data : data;
         if (!!chart.hovercard) {
-            if (chart.hovercard.style("opacity") == 1 && comparison.clicked == d) {
+            if (chart.hovercard.style("opacity") == 1 && chart.clicked == d) {
                 chart.mouseout();
             } else {
                 chart.mouseover(cardData);
-                comparison.clicked = d;
+                chart.clicked = d;
             }
         }
     }

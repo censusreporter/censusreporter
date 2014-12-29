@@ -137,6 +137,14 @@ function Comparison(options) {
         comparison.makeMapDataSelector();
         comparison.makeMapLegendContainer();
         comparison.makeMapSumlevSelector();
+        
+        // initial page load, make map with currently selected
+        // column (first column by default)
+        if (comparison.hash.column && comparison.table.columns[comparison.hash.column]) {
+            comparison.chosenColumn = comparison.hash.column;
+        } else {
+            comparison.chosenColumn = comparison.columnKeys[0];
+        }
 
         var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2013?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
@@ -164,10 +172,6 @@ function Comparison(options) {
                 }));
             }
 
-            // initial page load, make map with first column
-            // and sumlev with the most geographies
-            comparison.chosenColumn = comparison.columnKeys[0];
-            comparison.changeMapControls();
             comparison.showChoropleth();
 
             comparison.sumlevSelector.fadeIn();
@@ -175,6 +179,7 @@ function Comparison(options) {
             comparison.dataSelector.fadeIn();
         })
 
+        comparison.changeMapControls();
         comparison.addGeographyCompareTools();
         if (!!comparison.denominatorColumn) {
             comparison.addMapNumberToggle(comparison.showChoropleth);
@@ -313,6 +318,9 @@ function Comparison(options) {
             comparison.changeMapControls();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
+
+            // update the URL
+            window.location = comparison.buildComparisonURL();
         });
     }
 
@@ -320,7 +328,11 @@ function Comparison(options) {
         // add the "change summary level" picker
 
         comparison.sortedSumlevList = comparison.makeSortedSumlevMap(comparison.sumlevMap);
-        comparison.chosenSumlev = comparison.sortedSumlevList[0]['sumlev'];
+        if (comparison.hash.sumlev && sumlevMap[comparison.hash.sumlev]) {
+            comparison.chosenSumlev = comparison.hash.sumlev || comparison.sortedSumlevList[0]['sumlev'];
+        } else {
+            comparison.chosenSumlev = comparison.sortedSumlevList[0]['sumlev'];
+        }
 
         comparison.headerContainer.select('#sumlev-select').remove();
         var sumlevSelector = comparison.headerContainer.append('div')
@@ -382,6 +394,8 @@ function Comparison(options) {
             comparison.makeChosenGeoList();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
+            
+            window.location = comparison.buildComparisonURL();
         });
     }
 
@@ -787,7 +801,8 @@ function Comparison(options) {
                         return roundNumber(v.xScale(d[comparison.valueType]), 1)+'%';
                     });
 
-            var chartPointCircles = chartPoints.append('a')
+            var chartPointCircles = chartPoints.append('span')
+                    .attr('class', 'point')
                     .attr('data-index', function(d) {
                         return 'geography-'+d.geoID;
                     });
@@ -797,20 +812,22 @@ function Comparison(options) {
 
         // set up the chart point listeners
         comparison.coalCharts = $('.coal-chart');
-        comparison.coalChartPoints = $('.coal-chart a');
+        comparison.coalChartPoints = $('.coal-chart .point');
 
-        comparison.coalCharts.on('mouseover', 'a', function(e) {
+        comparison.coalCharts.on('mouseover', '.point', function(e) {
             var chosenIndex = $(this).data('index'),
                 filteredPoints = comparison.coalChartPoints.filter('[data-index='+chosenIndex+']');
 
             filteredPoints.addClass('hovered');
             filteredPoints.children('span').css('display', 'block');
         })
-        comparison.coalCharts.on('mouseout', 'a', function(e) {
+        comparison.coalCharts.on('mouseout', '.point', function(e) {
             comparison.coalChartPoints.removeClass('hovered');
             comparison.coalChartPoints.children('span').removeAttr('style');
         })
-        comparison.coalCharts.on('click', 'a', function(e) {
+        comparison.coalCharts.on('click', '.point', function(e) {
+            // allow clicking on the hovercard link
+            if (e.target.tagName == 'A') return;
             e.preventDefault();
             comparison.toggleSelectedDistributionPoints($(this).data('index'));
             comparison.trackEvent('Distribution View', 'Click to toggle point highlight', '');
@@ -820,9 +837,10 @@ function Comparison(options) {
     comparison.makeDistributionLabels = function(points) {
         var chartPointLabels = points.append('span')
                 .classed('hovercard', true);
-
-        chartPointLabels.append('span')
+                
+        chartPointLabels.append('a')
                 .classed('label-title', true)
+                .attr('href', function(d) { return '/profiles/' + d.geoID + '/'; })
                 .text(function(d) { return d.name });
 
         var addPct = function() {
@@ -1148,9 +1166,9 @@ function Comparison(options) {
                 comparison.geoIDs.push(datum['full_geoid']);
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
 
+                // TODO: pushState to maintain history without page reload
                 window.location = comparison.buildComparisonURL();
             }
-            // TODO: pushState to maintain history without page reload
         });
     }
 
@@ -1448,6 +1466,13 @@ function Comparison(options) {
         if (!!primaryGeoID) {
             url += '&primary_geo_id=' + primaryGeoID
         }
+
+        if (dataFormat == 'map') {
+            comparison.hash = {};
+            if (comparison.chosenColumn) comparison.hash.column = comparison.chosenColumn;
+            if (comparison.chosenSumlev) comparison.hash.sumlev = comparison.chosenSumlev;
+        }
+
         if (!!comparison.hash) {
             var hashArray = [];
             _.each(comparison.hash, function(v, k) {
@@ -1466,7 +1491,7 @@ function Comparison(options) {
         comparison.hash = comparison.hash || {};
 
         if (window.location.hash) {
-            var hash = window.location.hash.substring(1),
+            var hash = decodeURIComponent(window.location.hash.substring(1)),
                 hashBits = hash.split(',');
 
             _.each(hashBits, function(bit) {
