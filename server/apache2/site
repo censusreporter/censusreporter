@@ -2,7 +2,7 @@
     ServerName %(domainname)s
     ServerAdmin admin@%(domainname)s
 
-    WSGIDaemonProcess %(domainname)s user=www-data group=www-data threads=5 python-path=%(django_project_path)s:%(django_venv_path)s
+    WSGIDaemonProcess %(domainname)s user=www-data group=www-data threads=25 python-path=%(django_project_path)s:%(django_venv_path)s
     WSGIScriptAlias / %(django_project_path)s/config/prod/wsgi.py
 
     <Directory %(django_project_path)s>

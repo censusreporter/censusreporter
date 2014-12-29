@@ -11,9 +11,9 @@
 var theseGeoIDs = [thisGeoID, placeGeoID, CBSAGeoID, countyGeoID, stateGeoID, nationGeoID].filter(function(n){return n}),
     chosenTableID = chosenTableID || null,
     topicSelect = $('#topic-select');
-    
+
 var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
-    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2012/',
+    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2013/',
     dataAPI = 'http://api.censusreporter.org/1.0/data/show/latest';
 
 var topicSelectEngine = new Bloodhound({
