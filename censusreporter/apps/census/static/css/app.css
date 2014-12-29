@@ -856,14 +856,14 @@ h1.article-header-right {
     font-weight: bold;
 }
 .grid .value {
-    width: 7em;
+    min-width: 7em;
     text-align: right;
     padding-right: 1em;
 }
 .grid .context {
     font-size: .9em;
     margin-bottom: -.1em;
-    width: 4em;
+    min-width: 4em;
 }
 .stat .context {
     margin-left: .33em;
