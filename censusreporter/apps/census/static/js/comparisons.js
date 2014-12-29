@@ -787,7 +787,8 @@ function Comparison(options) {
                         return roundNumber(v.xScale(d[comparison.valueType]), 1)+'%';
                     });
 
-            var chartPointCircles = chartPoints.append('a')
+            var chartPointCircles = chartPoints.append('span')
+                    .attr('class', 'point')
                     .attr('data-index', function(d) {
                         return 'geography-'+d.geoID;
                     });
@@ -797,20 +798,22 @@ function Comparison(options) {
 
         // set up the chart point listeners
         comparison.coalCharts = $('.coal-chart');
-        comparison.coalChartPoints = $('.coal-chart a');
+        comparison.coalChartPoints = $('.coal-chart .point');
 
-        comparison.coalCharts.on('mouseover', 'a', function(e) {
+        comparison.coalCharts.on('mouseover', '.point', function(e) {
             var chosenIndex = $(this).data('index'),
                 filteredPoints = comparison.coalChartPoints.filter('[data-index='+chosenIndex+']');
 
             filteredPoints.addClass('hovered');
             filteredPoints.children('span').css('display', 'block');
         })
-        comparison.coalCharts.on('mouseout', 'a', function(e) {
+        comparison.coalCharts.on('mouseout', '.point', function(e) {
             comparison.coalChartPoints.removeClass('hovered');
             comparison.coalChartPoints.children('span').removeAttr('style');
         })
-        comparison.coalCharts.on('click', 'a', function(e) {
+        comparison.coalCharts.on('click', '.point', function(e) {
+            // allow clicking on the hovercard link
+            if (e.target.tagName == 'A') return;
             e.preventDefault();
             comparison.toggleSelectedDistributionPoints($(this).data('index'));
             comparison.trackEvent('Distribution View', 'Click to toggle point highlight', '');
@@ -820,9 +823,10 @@ function Comparison(options) {
     comparison.makeDistributionLabels = function(points) {
         var chartPointLabels = points.append('span')
                 .classed('hovercard', true);
-
-        chartPointLabels.append('span')
+                
+        chartPointLabels.append('a')
                 .classed('label-title', true)
+                .attr('href', function(d) { return '/profiles/' + d.geoID + '/'; })
                 .text(function(d) { return d.name });
 
         var addPct = function() {
