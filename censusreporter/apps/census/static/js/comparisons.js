@@ -1491,7 +1491,7 @@ function Comparison(options) {
         comparison.hash = comparison.hash || {};
 
         if (window.location.hash) {
-            var hash = window.location.hash.substring(1),
+            var hash = decodeURIComponent(window.location.hash.substring(1)),
                 hashBits = hash.split(',');
 
             _.each(hashBits, function(bit) {
