@@ -478,7 +478,7 @@ section.chart-divider h2 {
     bottom: -6px;
     margin-left: -5px;
 }
-.coal-chart li a {
+.coal-chart li .point {
     display: block;
     cursor: pointer;
     position: relative;
@@ -491,18 +491,18 @@ section.chart-divider h2 {
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
-.coal-chart li a:hover,
-.coal-chart li a.hovered {
+.coal-chart li .point:hover,
+.coal-chart li .point.hovered {
     background-color: #42472e;
     border-color: #42472e;
     z-index: 3;
 }
-.coal-chart li a.selected {
+.coal-chart li .point.selected {
     background-color: #027b7a;
     border-color: #027b7a;
     z-index: 2;
 }
-.coal-chart li a.selected.hovered {
+.coal-chart li .pointz.selected.hovered {
     z-index: 4;
 }
 .coal-chart li a .hovercard {
@@ -517,9 +517,9 @@ section.chart-divider h2 {
     padding: .5em;
     border: 1px solid #e0e0e0;
 }
-.coal-chart li a:hover .hovercard,
-.coal-chart li a.hovered .hovercard,
-.coal-chart li a.selected .hovercard {
+.coal-chart li .point:hover .hovercard,
+.coal-chart li .point.hovered .hovercard,
+.coal-chart li .point.selected .hovercard {
     display: block;
     background-color: #fff;
 }
