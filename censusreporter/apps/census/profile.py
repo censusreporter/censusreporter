@@ -49,10 +49,20 @@ def moe_add(moe_a, moe_b):
     # From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
     return math.sqrt(moe_a**2 + moe_b**2)
 
+def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
+    # From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
+    # "Calculating MOEs for Derived Proportions" A-14 / A-15
+    proportion = float(numerator) / denominator
+    try:
+        return math.sqrt(numerator_moe**2 - (proportion**2 * denominator_moe**2)) / float(denominator)
+    except ValueError, e:
+        return moe_ratio(numerator, denominator, numerator_moe, denominator_moe)
+
 def moe_ratio(numerator, denominator, numerator_moe, denominator_moe):
     # From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
-    estimated_ratio = numerator / denominator
-    return math.sqrt(numerator_moe**2 + (estimated_ratio**2 * denominator_moe**2)) / denominator
+    # "Calculating MOEs for Derived Ratios" A-14 / A-15
+    ratio = float(numerator) / denominator
+    return math.sqrt(numerator_moe**2 + (ratio**2 * denominator_moe**2)) / float(denominator)
 
 ops = {
     '+': operator.add,
@@ -64,7 +74,7 @@ ops = {
 moe_ops = {
     '+': moe_add,
     '-': moe_add,
-    '/': moe_ratio,
+    '/': moe_proportion,
     '%': percentify,
     '%%': rateify,
 }
@@ -95,7 +105,7 @@ def value_rpn_calc(data, rpn_string):
                     c = None
                     c_moe = None
                 elif token == '/':
-                    # Broken out because MOE ratio needs both MOE and estimates
+                    # Broken out because MOE proportion needs both MOE and estimates
 
                     # We're dealing with ratios, not pure division.
                     if a == 0 or b == 0:
@@ -103,7 +113,7 @@ def value_rpn_calc(data, rpn_string):
                         c_moe = 0
                     else:
                         c = ops[token](a, b)
-                        c_moe = moe_ratio(a, b, a_moe, b_moe)
+                        c_moe = moe_proportion(a, b, a_moe, b_moe)
                     numerator = a
                     numerator_moe = round(a_moe, 1)
                 else:
