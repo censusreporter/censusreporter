@@ -1584,7 +1584,9 @@ function Comparison(options) {
         var title = comparison.table.title.toLowerCase();
 
         if (title.indexOf('dollars') !== -1 && title.indexOf('percent') == -1) {
-            return 'dollar'
+            if (!(title.indexOf('income') !== -1 && title.indexOf('per capita') == -1)) {
+                return 'dollar';
+            }
         }
         return 'number';
     }
