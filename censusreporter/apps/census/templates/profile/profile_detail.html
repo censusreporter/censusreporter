@@ -452,8 +452,8 @@ var makeCharts = function() {
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
         if (drilldown >= 2) {
-            for (var i = 2; i <= drilldown; i++) {
-                chartData = chartData[chartDataID[i]]
+            for (var n = 2; n <= drilldown; n++) {
+                chartData = chartData[chartDataID[n]]
             }
         }
 

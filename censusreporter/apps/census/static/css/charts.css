@@ -285,6 +285,7 @@ uncomment for separate inclusion into embed iframes */
     font-size: .75em;
     float: left;
     margin: 8px;
+    cursor: pointer;
 }
 
 .embed-footer {
