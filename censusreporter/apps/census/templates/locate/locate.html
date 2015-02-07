@@ -14,8 +14,8 @@
             <p class="explainer">Your browser says you&rsquo;re in&hellip;</p>
             {% endif %}
         </header>
-        {% if places %}
         <section class="column-half">
+        {% if places %}
             <ul class="location-list">
             {% for place in places %}
                 <li>
@@ -26,15 +26,53 @@
                 </li>
             {% endfor %}
             </ul>
-        </section>
         {% endif %}
+        </section>
+        <section id="address-search-wrapper" class="column-half">
+            <p class="explainer"><input id="address-search" type="text" placeholder="Search for an address..." autocomplete="off">
+            <a class="action-button" href="{% url 'table_search' %}">
+                <i class="fa fa-chevron-circle-right"></i>Search
+            </a></p>
+
+            <div id="map"></div>
+        </section>
     </article>
 {% endblock %}
 
 {% block body_javascript_extra %}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 <script>
+
+function initialize_geocomplete(elem_id) {
+    // depends upon Google
+  // Create the autocomplete object, restricting the search
+  // to geographical location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {HTMLInputElement} */(document.getElementById(elem_id)),
+      { types: ['geocode'],
+        componentRestrictions: {country: 'us'}
+});
+  // When the user selects an address from the dropdown,
+  // populate the address fields in the form.
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    if (autocomplete.getPlace() && autocomplete.getPlace().geometry) {
+        var place = autocomplete.getPlace(), 
+            loc = autocomplete.getPlace().geometry.location;
+        var url  = '/locate/?lat=' + loc.lat() + '&lon=' + loc.lng() + '&address=' + place.formatted_address;
+        for (var i = 0; i < place.types.length; i++) {
+            url = url + "&type=" + place.types[i];
+        }
+        window.location = url;
+    } else {
+        console.log("There isn't a place/geometry.")        
+    }
+  });
+}
+
 var lat = '{{ location.lat }}',
-    lon = '{{ location.lon }}';
+    lon = '{{ location.lon }}',
+    address = '{{ address }}';
+
 
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
@@ -55,6 +93,75 @@ if (navigator.geolocation && !lat && !lon) {
     spinner.spin(spinnerTarget);
     navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
 }
+
+google.maps.Marker.prototype.setLabel = function(label){
+    this.label = new MarkerLabel({
+      map: this.map,
+      marker: this,
+      text: label
+    });
+    this.label.bindTo('position', this, 'position');
+};
+
+var MarkerLabel = function(options) {
+    this.setValues(options);
+    this.span = document.createElement('span');
+    this.span.className = 'map-marker-label';
+};
+
+MarkerLabel.prototype = $.extend(new google.maps.OverlayView(), {
+    onAdd: function() {
+        this.getPanes().overlayImage.appendChild(this.span);
+        var self = this;
+        this.listeners = [
+        google.maps.event.addListener(this, 'position_changed', function() { self.draw();    })];
+    },
+    draw: function() {
+        var markerSize = { x: -280, y: 49 };
+
+        var text = String(this.get('text'));
+        var position = this.getProjection().fromLatLngToDivPixel(this.get('position'));
+        this.span.innerHTML = text;
+        this.span.style.left = (position.x - (markerSize.x / 2)) - (text.length * 3) + 10 + 'px';
+        this.span.style.top = (position.y - markerSize.y + 40) + 'px';
+    }
+});
+
+
+function setMap(lat, lon, address) {
+    var height = 500;
+    var map_center = new google.maps.LatLng(lat, lon);
+    $("#map").height($("#locate").height());
+    var mapOptions = {
+        zoom: 15,
+        center: map_center
+    };
+    map = new google.maps.Map(document.getElementById("map"),
+      mapOptions);
+
+    if (address) {
+        marker_icon = {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#1a9d95',
+            fillOpacity: 1,
+            scale: 7,
+            strokeWeight: 0
+          };
+        marker = new google.maps.Marker({
+          position: map_center,
+          map: map,
+          label: address,
+          icon: marker_icon,
+          draggable: true
+        });
+    }
+
+}
+
+if (lat && lon) {
+    setMap(lat, lon, address);
+}
+
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 $('a.card').click(function(e){
     if ($(e.target).hasClass('glossary-term')) {
@@ -62,5 +169,8 @@ $('a.card').click(function(e){
         return false;
     }
 });
+
+
+initialize_geocomplete('address-search');
 </script>
 {% endblock %}

@@ -729,6 +729,30 @@ h1.article-header-right {
     display: block;
     margin-left: 3em;
 }
+
+#address-search {
+    font-size: 16px;
+    width: 80%;
+}
+
+#address-search-wrapper .action-button {
+    display: inline-block;
+    float: right;
+    width: 20%px;
+}
+
+#address-search-wrapper #map {
+    width: 100%;
+}
+
+.map-marker-label{
+    position: absolute;
+    color: black;
+    font-size: 11px;
+    font-weight: bold;
+    width: 150px;
+}
+
 .action-button i {
     margin-right: .33em;
 }
