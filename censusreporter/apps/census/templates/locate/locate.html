@@ -4,7 +4,10 @@
 {% block content %}
     <article id="locate" class="clearfix">
         <header class="column-full clearfix">
-            {% if not location %}
+            {% if address and location %}
+            <h1 class="article-header">Place search</h1>
+            <p class="explainer"><strong>{{ address }}</strong> is in&hellip;</p>
+            {% elif not location %}
             <h1 class="article-header">Finding your current location&hellip;</h1>
             {% else %}
             <h1 class="article-header">Use your current location</h1>
