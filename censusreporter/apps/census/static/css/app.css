@@ -744,6 +744,11 @@ h1.article-header-right {
     width: 100%;
 }
 
+.trigger-highlight {
+    float: left;
+    padding-top: 1.2em;
+    padding-right: 1em;
+}
 .map-marker-label{
     position: absolute;
     color: black;

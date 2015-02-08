@@ -19,7 +19,7 @@
             <ul class="location-list">
             {% for place in places %}
                 <li data-geoid="{{ place.full_geoid }}">
-                    <a href="{% url 'geography_detail' place.full_geoid %}" class="card">
+                    <i class="trigger-highlight fa fa-arrows-alt"></i><a href="{% url 'geography_detail' place.full_geoid %}" class="card">
                         <span class="identifier glossary-term">{{ place.sumlev_name }}</span>
                         {{ place.full_name }}
                     </a>
@@ -211,10 +211,12 @@ function getBounds(feature) {
     }
     return bounds;
 }
+var highlighted_feature = null;
 
 function highlightFeature(geoid) {
     var feature = map.data.getFeatureById(geoid);
     if (feature) {
+        highlighted_feature = feature;
         bounds = getBounds(feature);
         map.setCenter( bounds.getCenter(), map.fitBounds(bounds));
         map.data.revertStyle();
@@ -224,6 +226,15 @@ function highlightFeature(geoid) {
 
 $(".location-list li").on("mouseout",function(){
     map.data.revertStyle();
+    if (highlighted_feature) {
+        map.data.overrideStyle(highlighted_feature, HIGHLIGHT_STYLE);
+    }
+});
+$(".trigger-highlight").click(function(){
+    var geoid = $(this.parentElement).data('geoid');
+    if (geoid) {
+        highlightFeature(geoid);
+    }
 });
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 $('a.card').click(function(e){
