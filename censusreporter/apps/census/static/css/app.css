@@ -732,13 +732,12 @@ h1.article-header-right {
 
 #address-search {
     font-size: 16px;
-    width: 80%;
+    width: 85%;
 }
 
 #address-search-wrapper .action-button {
     display: inline-block;
     float: right;
-    width: 20%px;
 }
 
 #address-search-wrapper #map {

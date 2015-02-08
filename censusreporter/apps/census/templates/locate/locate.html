@@ -18,7 +18,7 @@
         {% if places %}
             <ul class="location-list">
             {% for place in places %}
-                <li>
+                <li data-geoid="{{ place.full_geoid }}">
                     <a href="{% url 'geography_detail' place.full_geoid %}" class="card">
                         <span class="identifier glossary-term">{{ place.sumlev_name }}</span>
                         {{ place.full_name }}
@@ -30,9 +30,7 @@
         </section>
         <section id="address-search-wrapper" class="column-half">
             <p class="explainer"><input id="address-search" type="text" placeholder="Search for an address..." autocomplete="off">
-            <a class="action-button" href="{% url 'table_search' %}">
-                <i class="fa fa-chevron-circle-right"></i>Search
-            </a></p>
+            <a class="action-button" href="{% url 'table_search' %}">Search</a></p>
 
             <div id="map"></div>
         </section>
@@ -71,8 +69,10 @@ function initialize_geocomplete(elem_id) {
 
 var lat = '{{ location.lat }}',
     lon = '{{ location.lon }}',
-    address = '{{ address }}';
+    address = '{{ address|default_if_none:"" }}';
 
+var places = [{% for place in places %}'{{ place.full_geoid }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+var place_geojson = {};
 
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
@@ -139,22 +139,33 @@ function setMap(lat, lon, address) {
     map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
 
-    if (address) {
-        marker_icon = {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: '#1a9d95',
-            fillOpacity: 1,
-            scale: 7,
-            strokeWeight: 0
-          };
-        marker = new google.maps.Marker({
-          position: map_center,
-          map: map,
-          label: address,
-          icon: marker_icon,
-          draggable: true
-        });
+    marker_icon = {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#1a9d95',
+        fillOpacity: 1,
+        scale: 7,
+        strokeWeight: 0
+      };
+    marker = new google.maps.Marker({
+      position: map_center,
+      map: map,
+      label: '', // address, # leave blank for now
+      icon: marker_icon,
+      draggable: true
+    });
+
+    if (places) {
+        // $(spinnerTarget).hide(); // heavy-handed.
+        var url = 'http://api.censusreporter.org/1.0/geo/show/tiger2013?geo_ids='+places.join(',')
+        map.data.setStyle({fillOpacity: 0, strokeOpacity: 0})
+        map.data.loadGeoJson(url,{idPropertyName: 'geoid'});
+        
+        // $.getJSON(url,{},function(d){
+        //     _.each(d.features,function(f){ place_geojson[f.properties.geoid] = f})
+        // });
+
     }
+
 
 }
 
@@ -162,6 +173,58 @@ if (lat && lon) {
     setMap(lat, lon, address);
 }
 
+HIGHLIGHT_STYLE = {
+    fillColor: "#66c2a5",
+    fillOpacity: .3,
+    strokeColor: "#777",
+    strokeOpacity: .3,
+    strokeWeight: 2
+}
+$(".location-list li").on("mouseover",function(){
+    var geoid = $(this).data('geoid');
+    map.data.forEach(function(f) {
+        if (f.getId() == geoid) {
+            map.data.overrideStyle(f,HIGHLIGHT_STYLE);
+        } else {
+            map.data.revertStyle(f);
+        }
+    })
+})
+
+function getBounds(feature) {
+    if (typeof(feature) == 'string') {
+        return getBounds(map.data.getFeatureById(feature))
+    }
+    if (feature.getGeometry) {
+        return getBounds(feature.getGeometry())
+    }
+    if (!(_(['MultiPolygon','Polygon','LinearRing'])).contains(feature.getType())) {
+        throw "Don't know how to extend bounds for feature type."
+    }
+    var bounds = new google.maps.LatLngBounds();
+
+    if (feature.getType() == 'LinearRing') {
+        _(feature.getArray()).each(function(ll) { bounds.extend(ll)});
+    } else {
+        console.log(feature.getType());
+        _(feature.getArray()).each(function(b) { bounds.union(getBounds(b)) });
+    }
+    return bounds;
+}
+
+function highlightFeature(geoid) {
+    var feature = map.data.getFeatureById(geoid);
+    if (feature) {
+        bounds = getBounds(feature);
+        map.setCenter( bounds.getCenter(), map.fitBounds(bounds));
+        map.data.revertStyle();
+        map.data.overrideStyle(feature, HIGHLIGHT_STYLE);
+    }
+}
+
+$(".location-list li").on("mouseout",function(){
+    map.data.revertStyle();
+});
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 $('a.card').click(function(e){
     if ($(e.target).hasClass('glossary-term')) {
