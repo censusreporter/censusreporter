@@ -157,8 +157,11 @@ function setMap(lat, lon, address) {
     if (places) {
         // $(spinnerTarget).hide(); // heavy-handed.
         var url = 'http://api.censusreporter.org/1.0/geo/show/tiger2013?geo_ids='+places.join(',')
-        map.data.setStyle({fillOpacity: 0, strokeOpacity: 0})
+        map.data.setStyle({fillOpacity: 0, strokeOpacity: 0, zIndex: 1})
         map.data.loadGeoJson(url,{idPropertyName: 'geoid'});
+        map.data.addListener('click', function(event) {
+            window.location.href = '/profiles/' + event.feature.getId();
+        })
         
         // $.getJSON(url,{},function(d){
         //     _.each(d.features,function(f){ place_geojson[f.properties.geoid] = f})
@@ -178,7 +181,8 @@ HIGHLIGHT_STYLE = {
     fillOpacity: .3,
     strokeColor: "#777",
     strokeOpacity: .3,
-    strokeWeight: 2
+    strokeWeight: 2,
+    zIndex: 100
 }
 $(".location-list li").on("mouseover",function(){
     var geoid = $(this).data('geoid');
