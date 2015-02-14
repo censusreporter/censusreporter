@@ -582,6 +582,15 @@ aside#facets {
     top: 0;
 }
 
+#use-location {
+    display: inline;
+    float: right;
+    font-size: .8em;
+    padding: 0 9px;
+}
+
+#address-search-message { display: none;}
+
 #cover-profile {
     position: relative;
 }

@@ -1,245 +1,44 @@
 {% extends '_base.html' %}
 
+{% block head_css_extra %}
+<link href='http://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
+{% endblock %}
+
+{% block head_javascript_extra %}
+<script src='http://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+{% endblock %}
+
 
 {% block content %}
-    <article id="locate" class="clearfix">
-        <header class="column-full clearfix">
-            {% if address and location %}
-            <h1 class="article-header">Place search</h1>
-            <p class="explainer"><strong>{{ address }}</strong> is in&hellip;</p>
-            {% elif not location %}
-            <h1 class="article-header">Finding your current location&hellip;</h1>
-            {% else %}
-            <h1 class="article-header">Use your current location</h1>
-            <p class="explainer">Your browser says you&rsquo;re in&hellip;</p>
-            {% endif %}
-        </header>
-        <section class="column-half">
-        {% if places %}
-            <ul class="location-list">
-            {% for place in places %}
-                <li data-geoid="{{ place.full_geoid }}">
-                    <i class="trigger-highlight fa fa-arrows-alt"></i><a href="{% url 'geography_detail' place.full_geoid %}" class="card">
-                        <span class="identifier glossary-term">{{ place.sumlev_name }}</span>
-                        {{ place.full_name }}
-                    </a>
-                </li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-        </section>
-        <section id="address-search-wrapper" class="column-half">
-            <p class="explainer"><input id="address-search" type="text" placeholder="Search for an address..." autocomplete="off">
-            <a class="action-button" href="{% url 'table_search' %}">Search</a></p>
+<div id="map-controls" class="clearfix">
+    <header class="box-header">
+        <a class="title" href="{% url 'homepage' %}">
+            <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+        </a>
+        <a id="use-location" class="action-button"><span class="fa fa-location-arrow"></span> Use my current location</a>
+    </header>
+    <div class="box-content">
+        <section class="clearfix">
+            <h2>Address search</h2>
+            <p id="address-search-message"></p>
 
-            <div id="map"></div>
         </section>
-    </article>
+        <section id="data-display" class="clearfix">
+        </section>
+    </div>
+</div>
+<div id="slippy-map"></div>
+<script id="place-result-template" type="text/template">
+    <li data-geoid="<%= full_geoid %>"><a href="/profiles/<%= full_geoid %>"><%= full_name %></a></li>
+</script>
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+<script src='{{STATIC_URL}}js/vendor/leaflet.label.js'></script>
+<script src="{{STATIC_URL}}js/address.search.js"></script>
 <script>
-
-function initialize_geocomplete(elem_id) {
-    // depends upon Google
-  // Create the autocomplete object, restricting the search
-  // to geographical location types.
-  autocomplete = new google.maps.places.Autocomplete(
-      /** @type {HTMLInputElement} */(document.getElementById(elem_id)),
-      { types: ['geocode'],
-        componentRestrictions: {country: 'us'}
-});
-  // When the user selects an address from the dropdown,
-  // populate the address fields in the form.
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    if (autocomplete.getPlace() && autocomplete.getPlace().geometry) {
-        var place = autocomplete.getPlace(), 
-            loc = autocomplete.getPlace().geometry.location;
-        var url  = '/locate/?lat=' + loc.lat() + '&lon=' + loc.lng() + '&address=' + place.formatted_address;
-        for (var i = 0; i < place.types.length; i++) {
-            url = url + "&type=" + place.types[i];
-        }
-        window.location = url;
-    } else {
-        console.log("There isn't a place/geometry.")        
-    }
-  });
-}
-
-var lat = '{{ location.lat }}',
-    lon = '{{ location.lon }}',
-    address = '{{ address|default_if_none:"" }}';
-
-var places = [{% for place in places %}'{{ place.full_geoid }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
-var place_geojson = {};
-
-// prepare spinner
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner');
-    spinner = new Spinner();
-
-function foundLocation(position) {
-    lat = position.coords.latitude;
-    lon = position.coords.longitude;
-    window.location = '{% url "locate" %}?lat=' + lat + '&lon=' + lon;
-}
-
-function noLocation() {
-    alert('Sorry, your browser was unable to determine your location.')
-}
-
-if (navigator.geolocation && !lat && !lon) {
-    spinner.spin(spinnerTarget);
-    navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
-}
-
-google.maps.Marker.prototype.setLabel = function(label){
-    this.label = new MarkerLabel({
-      map: this.map,
-      marker: this,
-      text: label
-    });
-    this.label.bindTo('position', this, 'position');
-};
-
-var MarkerLabel = function(options) {
-    this.setValues(options);
-    this.span = document.createElement('span');
-    this.span.className = 'map-marker-label';
-};
-
-MarkerLabel.prototype = $.extend(new google.maps.OverlayView(), {
-    onAdd: function() {
-        this.getPanes().overlayImage.appendChild(this.span);
-        var self = this;
-        this.listeners = [
-        google.maps.event.addListener(this, 'position_changed', function() { self.draw();    })];
-    },
-    draw: function() {
-        var markerSize = { x: -280, y: 49 };
-
-        var text = String(this.get('text'));
-        var position = this.getProjection().fromLatLngToDivPixel(this.get('position'));
-        this.span.innerHTML = text;
-        this.span.style.left = (position.x - (markerSize.x / 2)) - (text.length * 3) + 10 + 'px';
-        this.span.style.top = (position.y - markerSize.y + 40) + 'px';
-    }
-});
-
-
-function setMap(lat, lon, address) {
-    var height = 500;
-    var map_center = new google.maps.LatLng(lat, lon);
-    $("#map").height($("#locate").height());
-    var mapOptions = {
-        zoom: 15,
-        center: map_center
-    };
-    map = new google.maps.Map(document.getElementById("map"),
-      mapOptions);
-
-    marker_icon = {
-        path: google.maps.SymbolPath.CIRCLE,
-        fillColor: '#1a9d95',
-        fillOpacity: 1,
-        scale: 7,
-        strokeWeight: 0
-      };
-    marker = new google.maps.Marker({
-      position: map_center,
-      map: map,
-      label: '', // address, # leave blank for now
-      icon: marker_icon,
-      draggable: true
-    });
-
-    if (places) {
-        // $(spinnerTarget).hide(); // heavy-handed.
-        var url = 'http://api.censusreporter.org/1.0/geo/show/tiger2013?geo_ids='+places.join(',')
-        map.data.setStyle({fillOpacity: 0, strokeOpacity: 0, zIndex: 1})
-        map.data.loadGeoJson(url,{idPropertyName: 'geoid'});
-        map.data.addListener('click', function(event) {
-            window.location.href = '/profiles/' + event.feature.getId();
-        })
-        
-        // $.getJSON(url,{},function(d){
-        //     _.each(d.features,function(f){ place_geojson[f.properties.geoid] = f})
-        // });
-
-    }
-
-
-}
-
-if (lat && lon) {
-    setMap(lat, lon, address);
-}
-
-HIGHLIGHT_STYLE = {
-    fillColor: "#66c2a5",
-    fillOpacity: .3,
-    strokeColor: "#777",
-    strokeOpacity: .3,
-    strokeWeight: 2,
-    zIndex: 100
-}
-$(".location-list li").on("mouseover",function(){
-    var geoid = $(this).data('geoid');
-    map.data.forEach(function(f) {
-        if (f.getId() == geoid) {
-            map.data.overrideStyle(f,HIGHLIGHT_STYLE);
-        } else {
-            map.data.revertStyle(f);
-        }
-    })
-})
-
-function getBounds(feature) {
-    if (typeof(feature) == 'string') {
-        return getBounds(map.data.getFeatureById(feature))
-    }
-    if (feature.getGeometry) {
-        return getBounds(feature.getGeometry())
-    }
-    if (!(_(['MultiPolygon','Polygon','LinearRing'])).contains(feature.getType())) {
-        throw "Don't know how to extend bounds for feature type."
-    }
-    var bounds = new google.maps.LatLngBounds();
-
-    if (feature.getType() == 'LinearRing') {
-        _(feature.getArray()).each(function(ll) { bounds.extend(ll)});
-    } else {
-        console.log(feature.getType());
-        _(feature.getArray()).each(function(b) { bounds.union(getBounds(b)) });
-    }
-    return bounds;
-}
-var highlighted_feature = null;
-
-function highlightFeature(geoid) {
-    var feature = map.data.getFeatureById(geoid);
-    if (feature) {
-        highlighted_feature = feature;
-        bounds = getBounds(feature);
-        map.setCenter( bounds.getCenter(), map.fitBounds(bounds));
-        map.data.revertStyle();
-        map.data.overrideStyle(feature, HIGHLIGHT_STYLE);
-    }
-}
-
-$(".location-list li").on("mouseout",function(){
-    map.data.revertStyle();
-    if (highlighted_feature) {
-        map.data.overrideStyle(highlighted_feature, HIGHLIGHT_STYLE);
-    }
-});
-$(".trigger-highlight").click(function(){
-    var geoid = $(this.parentElement).data('geoid');
-    if (geoid) {
-        highlightFeature(geoid);
-    }
-});
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 $('a.card').click(function(e){
     if ($(e.target).hasClass('glossary-term')) {
@@ -248,7 +47,5 @@ $('a.card').click(function(e){
     }
 });
 
-
-initialize_geocomplete('address-search');
 </script>
 {% endblock %}
