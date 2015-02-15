@@ -593,15 +593,8 @@ aside#facets {
 
 #address-search {
     font-size: 1em;
-    width: 85%;
+    width: 100%;
 }
-
-#address-search-wrapper .action-button {
-    display: inline-block;
-    float: right;
-    font-size: 1em;
-}
-
 
 #cover-profile {
     position: relative;

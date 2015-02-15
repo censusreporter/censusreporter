@@ -48,6 +48,16 @@ map.addControl(new L.Control.Zoom({
     position: 'topright'
 }));
 
+function processGeocoderResults(response) {
+    var results = response.features;
+    results = _.filter(results, function(item) { return item.geometry.type == "Point" && item.id.indexOf('address.') == 0; });
+    results = _.map(results, function(item) { 
+        item.place_name = item.place_name.replace(", United States", ""); 
+        return item;
+    });
+    return results;
+}
+
 var addressSearchEngine = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -57,15 +67,7 @@ var addressSearchEngine = new Bloodhound({
         replace: function (url, query) {
             return url({query: query, token: L.mapbox.accessToken});
         },
-        filter: function(response) {
-            var results = response.features;
-            results = _.filter(results, function(item) { return item.geometry.type == "Point" && item.id.indexOf('address.') == 0; });
-            results = _.map(results, function(item) { 
-                item.place_name = item.place_name.replace(", United States", ""); 
-                return item;
-            });
-            return results;
-        }
+        filter: processGeocoderResults
     }
 });
 addressSearchEngine.initialize();
@@ -73,7 +75,7 @@ addressSearchEngine.initialize();
 function selectAddress(obj, datum) {
     $("#address-search").val("");
     if (datum.geometry) {
-        var label = datum.place_name;
+        var label = datum.place_name.replace(", United States", "");
         var lng = datum.geometry.coordinates[0];
         var lat = datum.geometry.coordinates[1];
         setMap(lat, lng);
@@ -154,11 +156,16 @@ function labelWithReverse(point_marker) {
     var url = REVERSE_GEOCODE_URL({lat: ll.lat, lng: ll.lng, token: L.mapbox.accessToken});
     $.getJSON(url,function(data, status) {
         if (status == 'success' && data.features) {
-            point_marker.getLabel().setContent(data.features[0].place_name);
-            // seems like we also always want to update the address-search-message here, 
-            // but we may also want to do that when we don't have a map. Tidy this later
-            $("#address-search-message").html(data.features[0].place_name + " is in:");
-            $("#address-search-message").show();
+            var results = processGeocoderResults(data);
+            if (results.length > 0) {
+                var label = data.features[0].place_name.replace(", United States", "");
+                point_marker.getLabel().setContent(label);
+                // seems like we also always want to update the address-search-message here, 
+                // but we may also want to do that when we don't have a map. Tidy this later
+                $("#address-search-message").html(label + " is in:");
+                $("#address-search-message").show();
+
+            }
         }
     });
 }
@@ -250,3 +257,29 @@ $(".location-list li").on("mouseover",function(){
     var geoid = $(this).data('geoid');
     console.log(geoid);
 })
+
+function init_from_params(params) {
+    var lat = params.lat || '';
+    var lng = params.lng || params.lon || '';
+    var address = params.address || '';
+    if (lat && lng) {
+        lat = parseFloat(lat);
+        lng = parseFloat(lng);
+        if (!(isNaN(lat) || isNaN(lng))) {
+            setMap(lat,lng);
+            placeMarker(lat,lng, address);
+            findPlaces(lat, lng, address);
+        }
+    } else if (address) {
+        geocodeAddress(address, function(data) {
+            var results = processGeocoderResults(data);
+            if (results) {
+                selectAddress(null,results[0]);
+            } else {
+                console.log("no results for " + address);
+            }
+        });
+    }
+}
+
+init_from_params($.parseParams());
