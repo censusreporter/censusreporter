@@ -591,6 +591,18 @@ aside#facets {
 
 #address-search-message { display: none;}
 
+#address-search {
+    font-size: 1em;
+    width: 85%;
+}
+
+#address-search-wrapper .action-button {
+    display: inline-block;
+    float: right;
+    font-size: 1em;
+}
+
+
 #cover-profile {
     position: relative;
 }
@@ -737,20 +749,6 @@ h1.article-header-right {
 #geography-select-wrapper .action-button {
     display: block;
     margin-left: 3em;
-}
-
-#address-search {
-    font-size: 16px;
-    width: 85%;
-}
-
-#address-search-wrapper .action-button {
-    display: inline-block;
-    float: right;
-}
-
-#address-search-wrapper #map {
-    width: 100%;
 }
 
 .trigger-highlight {

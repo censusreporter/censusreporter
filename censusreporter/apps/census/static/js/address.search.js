@@ -67,37 +67,24 @@ if (navigator.geolocation) {
     $("#use-location").hide();    
 }
 
-var SUMLEVS = [ // establish sort order...
-    "010", 
-    "020", 
-    "030", 
-    "040", 
-    "050", 
-    "060", 
-    "140", 
-    "160", 
-    "250", 
-    "310", 
-    "400", 
-    "500", 
-    "610", 
-    "620", 
-    "860", 
-    "950", 
-    "960", 
-    "970"
-]
-
 function findPlaces(lat,lng) {
     spinner.spin(spinnerTarget);
-    params = { 'lat': lat, 'lon': lng, 'sumlevs': SUMLEVS.join(',') }
+    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970' }
     $.getJSON(geoSearchAPI,params, function(data, status) {
         spinner.stop();
         if (status == 'success') {
-            var list = $("#data-display").html("<ul></ul>")
-            for (var i = 0; i < data.results.length; i++) {
-                list.append(place_template(data.results[i]));
+            $("#data-display").html("");
+            var list = $("<ul class='location-list'></ul>");
+            list.appendTo($("#data-display"));
+
+            var results = _.sortBy(data.results,function(x){ return sumlevMap[x.sumlevel].size_sort });
+            for (var i = 0; i < results.length; i++) {
+                var d = results[i];
+                d['SUMLEVELS'] = sumlevMap;
+                $(place_template(d)).appendTo(list);
+                window.stash = results;
             }
+            $('body').trigger('glossaryUpdate', list);
         } else {
             $("#data-display").html(status);
         }

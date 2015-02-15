@@ -19,8 +19,8 @@
         <a id="use-location" class="action-button"><span class="fa fa-location-arrow"></span> Use my current location</a>
     </header>
     <div class="box-content">
-        <section class="clearfix">
-            <h2>Address search</h2>
+        <section id="address-search-wrapper" class="clearfix">
+            <input type="text" id="address-search" placeholder="Search for an address"><a class="action-button" id="address-search-trigger">Search</a>
             <p id="address-search-message"></p>
 
         </section>
@@ -30,7 +30,12 @@
 </div>
 <div id="slippy-map"></div>
 <script id="place-result-template" type="text/template">
-    <li data-geoid="<%= full_geoid %>"><a href="/profiles/<%= full_geoid %>"><%= full_name %></a></li>
+    <li data-geoid="<%= full_geoid %>">
+        <a href="/profiles/<%= full_geoid %>" class="">
+            <span class="identifier glossary-term"><%= SUMLEVELS[sumlevel].name %></span>
+            <%= full_name %>
+        </a>
+    </li>
 </script>
 {% endblock %}
 
