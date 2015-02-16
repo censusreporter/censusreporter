@@ -319,7 +319,7 @@
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <!--[if gt IE 9]><!-->
-<script src="{{ STATIC_URL }}js/TileLayer.GeoJSON.js"></script>
+<script src="{{ STATIC_URL }}js/tilelayer.js"></script>
 <!--<![endif]-->
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
@@ -345,7 +345,7 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2013/{{ geography.this.full_
         }));
     }
 
-    if (L.TileLayer.GeoJSON && thisSumlev !== "010") {
+    if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
         var defaultStyle = {
                 "clickable": true,
                 "color": "#00d",
@@ -354,12 +354,8 @@ d3.json("http://api.censusreporter.org/1.0/geo/tiger2013/{{ geography.this.full_
                 "opacity": 0.3,
                 "fillOpacity": 0.3,
             },
-        geojsonTileLayer = new L.TileLayer.GeoJSON(tilesGeoAPI, {
-            clipTiles: true,
-            unique: function(feature) {
-                return feature.properties.geoid;
-            }
-        }, {
+        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, 
+            {
             style: defaultStyle,
             onEachFeature: function(feature, layer) {
                 if (feature.properties.geoid == thisGeoID)
