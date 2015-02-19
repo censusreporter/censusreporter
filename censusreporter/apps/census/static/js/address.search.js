@@ -213,7 +213,7 @@ function placeMarker(lat, lng, label) {
     if (point_marker) {
         point_marker.setLatLng(L.latLng(lat,lng));
     } else {
-        point_marker = new L.Marker(L.latLng(lat,lng),{icon: marker_icon, fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5, draggable: true});
+        point_marker = new L.CircleMarker(L.latLng(lat,lng),{icon: marker_icon, fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
         point_marker.on("drag",function(evt) {
             point_marker.hideLabel();
         })
