@@ -380,7 +380,7 @@ This pattern&mdash;using a generator script to collect and shape data from multi
 
 ###The profile page front end
 
-The skeleton of the profile page you see on the Census Reporter website is created by <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html">a Django template</a>. The map is filled in by one Javascript library: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/TileLayer.GeoJSON.js">`TileLayer.GeoJSON.js`</a>, and the charts filled in by another: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/charts.js">`charts.js`</a>.
+The skeleton of the profile page you see on the Census Reporter website is created by <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html">a Django template</a>. The map is filled in by one Javascript library: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/tilelayer.js">`tilelayer.js`</a>, and the charts filled in by another: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/charts.js">`charts.js`</a>.
 
 ####Profile map
 
