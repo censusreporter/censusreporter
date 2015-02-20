@@ -165,6 +165,32 @@ function geocodeAddress(query, callback) {
     $.getJSON(url, callback);
 }
 
+var POLYGON_STYLE = {
+    "clickable": true,
+    "color": "#00d",
+    "fillColor": "#ccc",
+    "weight": 1.0,
+    "opacity": 0.3,
+    "fillOpacity": 0.3,
+}
+
+function makeLayer(d) {
+    console.log(d);
+    var layer = L.geoJson(d.geom,{style: POLYGON_STYLE})
+    layer.bindLabel(d.full_name, {direction: 'auto'});
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "fillOpacity": 0.5,
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(POLYGON_STYLE);
+    });
+    layer.on('click', function() {
+        window.location.href = '/profiles/' + d.full_geoid;
+    });
+    return layer;
+}
 function findPlaces(lat,lng,address) {
     spinner.spin(spinnerTarget);
     $(".location-list").hide();
@@ -177,10 +203,11 @@ function findPlaces(lat,lng,address) {
         $("#address-search-message").show();
     }
 
-    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970' }
+    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970', geom: true }
     $.getJSON(geoSearchAPI,params, function(data, status) {
         spinner.stop();
         if (status == 'success') {
+            window.PLACE_LAYERS = {}
             $("#data-display").html("");
             var list = $("<ul class='location-list'></ul>");
             list.appendTo($("#data-display"));
@@ -190,8 +217,27 @@ function findPlaces(lat,lng,address) {
                 var d = results[i];
                 d['SUMLEVELS'] = sumlevMap;
                 $(place_template(d)).appendTo(list);
-                window.stash = results;
+                window.PLACE_LAYERS[d['full_geoid']] = 
+                    makeLayer(d);
             }
+            $('.location-list li').on('mouseover',function(evt) {
+                var this_layer = $(evt.currentTarget).data('geoid');
+                _(PLACE_LAYERS).each(function(v,k) {
+                    if (k == this_layer) {
+                        v.addTo(map);
+                    } else {
+                        map.removeLayer(v);
+                    }
+                });
+            })
+            $('.zoom-to-layer').click(function() {
+                var geoid = $(this).parent().data('geoid');
+                if (PLACE_LAYERS[geoid]) {
+                    var layer = PLACE_LAYERS[geoid];
+                    layer.addTo(map);
+                    map.fitBounds(layer.getBounds());
+                }
+            });
             $('body').trigger('glossaryUpdate', list);
         } else {
             $("#data-display").html(status);

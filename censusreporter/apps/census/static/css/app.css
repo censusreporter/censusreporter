@@ -596,6 +596,10 @@ aside#facets {
     width: 100%;
 }
 
+.zoom-to-layer {
+    float: left;
+    padding: 1em 1em 0 0;
+}
 #cover-profile {
     position: relative;
 }
