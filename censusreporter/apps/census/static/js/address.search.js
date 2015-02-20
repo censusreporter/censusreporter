@@ -11,16 +11,6 @@ var lat = '',
     address = '',
     point_marker = null;
 
-var marker_icon = L.icon({
-    iconUrl: '/static/img/one_person_25x29.png',
-    // shadowUrl: 'leaf-shadow.png',
-    iconSize:     [25, 29], // size of the icon
-    // shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 29], // point of the icon which will correspond to marker's location
-    // shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
-});
-
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
@@ -213,7 +203,7 @@ function placeMarker(lat, lng, label) {
     if (point_marker) {
         point_marker.setLatLng(L.latLng(lat,lng));
     } else {
-        point_marker = new L.CircleMarker(L.latLng(lat,lng),{icon: marker_icon, fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
+        point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
         point_marker.on("drag",function(evt) {
             point_marker.hideLabel();
         })
