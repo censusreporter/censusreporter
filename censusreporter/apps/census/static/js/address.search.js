@@ -166,8 +166,8 @@ var POLYGON_STYLE = {
     "color": "#00d",
     "fillColor": "#ccc",
     "weight": 1.0,
-    "opacity": 0.5,
-    "fillOpacity": 0.3,
+    "opacity": 0.3,
+    "fillOpacity": 0.5,
 }
 
 function makeLayer(d) {
