@@ -163,11 +163,11 @@ function geocodeAddress(query, callback) {
 
 var POLYGON_STYLE = {
     "clickable": true,
-    "color": "#00d",
-    "fillColor": "#ccc",
-    "weight": 1.0,
+    "fillColor": "#66c2a5",
+    "color": "#777",
+    "weight": 2,
     "opacity": 0.3,
-    "fillOpacity": 0.5,
+    "fillOpacity": 0.3,
 }
 
 function makeLayer(d) {
@@ -175,7 +175,7 @@ function makeLayer(d) {
     layer.bindLabel(d.full_name, {noHide: true, direction: 'auto'});
     layer.on('mouseover', function() {
         layer.setStyle({
-            "fillOpacity": 0.7,
+            "fillOpacity": 0.5,
         });
     });
     layer.on('mouseout', function() {
