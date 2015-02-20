@@ -32,7 +32,7 @@
 <div id="slippy-map"></div>
 <script id="place-result-template" type="text/template">
     <li data-geoid="<%= full_geoid %>" class="clearfix">
-        <i class="zoom-to-layer fa fa-arrows-alt"></i>
+        <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape."></i>
         <a href="/profiles/<%= full_geoid %>" class="">
             <span class="identifier glossary-term"><%= SUMLEVELS[sumlevel].name %></span>
             <%= full_name %>
