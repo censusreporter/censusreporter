@@ -2,6 +2,7 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn
 var GEOCODE_URL = _("http://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>").template()
 var REVERSE_GEOCODE_URL = _("http://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>").template()
 
+var PLACE_LAYERS = {}
 var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
 
 var place_template = _.template($("#place-result-template").html())
@@ -109,7 +110,6 @@ function basicLabel(lat,lng) {
 map.on("dblclick",function(evt) { 
     var lat = evt.latlng.lat, lng = evt.latlng.lng;
     placeMarker(lat, lng)
-    _(PLACE_LAYERS).each(function(v){map.removeLayer(v)});
     findPlaces(lat, lng);
 })
 if (navigator.geolocation) {
@@ -190,6 +190,7 @@ function makeLayer(d) {
 function findPlaces(lat,lng,address) {
     spinner.spin(spinnerTarget);
     $(".location-list").hide();
+    _(PLACE_LAYERS).each(function(v){map.removeLayer(v)});
 
     if (address) {
         $("#address-search-message").html(address + " is in:");
