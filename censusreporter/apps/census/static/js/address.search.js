@@ -109,6 +109,7 @@ function basicLabel(lat,lng) {
 map.on("dblclick",function(evt) { 
     var lat = evt.latlng.lat, lng = evt.latlng.lng;
     placeMarker(lat, lng)
+    _(PLACE_LAYERS).each(function(v){map.removeLayer(v)});
     findPlaces(lat, lng);
 })
 if (navigator.geolocation) {
