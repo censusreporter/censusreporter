@@ -82,11 +82,7 @@ function makeAddressSearchWidget(element) {
         autoselect: true,
         highlight: false,
         hint: false,
-        minLength: 3,
-        updater: function(item) {
-            console.log('updater');
-            console.log(item);
-        }
+        minLength: 3
     }, {
         name: 'addresses',
         displayKey: 'place_name',
@@ -170,17 +166,16 @@ var POLYGON_STYLE = {
     "color": "#00d",
     "fillColor": "#ccc",
     "weight": 1.0,
-    "opacity": 0.3,
+    "opacity": 0.5,
     "fillOpacity": 0.3,
 }
 
 function makeLayer(d) {
-    console.log(d);
     var layer = L.geoJson(d.geom,{style: POLYGON_STYLE})
-    layer.bindLabel(d.full_name, {direction: 'auto'});
+    layer.bindLabel(d.full_name, {noHide: true, direction: 'auto'});
     layer.on('mouseover', function() {
         layer.setStyle({
-            "fillOpacity": 0.5,
+            "fillOpacity": 0.7,
         });
     });
     layer.on('mouseout', function() {
@@ -291,7 +286,6 @@ function setMap(lat, lng) {
 
 $(".location-list li").on("mouseover",function(){
     var geoid = $(this).data('geoid');
-    console.log(geoid);
 })
 
 function init_from_params(params) {
