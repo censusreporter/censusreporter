@@ -1,8 +1,11 @@
 function Table(options) {
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
+
+
     var table = {
         geoIDs: [],
-        tableSearchAPI: 'http://api.censusreporter.org/1.0/table/search',
-        geoSearchAPI: 'http://api.censusreporter.org/1.0/geo/search',
+        tableSearchAPI: API_URL + '/1.0/table/search',
+        geoSearchAPI: API_URL + '/1.0/geo/search',
         chosenSumlevAncestorList: '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970'
     }
 

@@ -83,7 +83,7 @@
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 1500,
         remote: {
-            url: "http://api.censusreporter.org/1.0/table/suggest",
+            url: CR_API_URL + '1.0/table/suggest,
             replace: function (url, query) {
                 return url + '?q=' + query;
             },
@@ -134,7 +134,7 @@
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 1500,
         remote: {
-            url: "http://api.censusreporter.org/1.0/geo/suggest",
+            url: CR_API_URL + '/1.0/geo/suggest',
             replace: function (url, query) {
                 return url + '?q=' + query;
             },

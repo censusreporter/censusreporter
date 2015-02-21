@@ -1,4 +1,4 @@
-var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search',
+var geoSearchAPI = CR_API_URL + '/1.0/geo/search',
     geoSelect = $('#geography-select'),
     chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970';
 
