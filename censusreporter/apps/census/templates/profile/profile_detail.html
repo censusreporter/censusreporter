@@ -324,7 +324,7 @@
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
 // Make the header map
-d3.json("http://api.censusreporter.org/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -511,7 +511,7 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    parentGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2013/' + thisGeoID + '/parents',
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2013/' + thisGeoID + '/parents',
     tilesGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle

@@ -12,9 +12,9 @@ var theseGeoIDs = [thisGeoID, placeGeoID, CBSAGeoID, countyGeoID, stateGeoID, na
     chosenTableID = chosenTableID || null,
     topicSelect = $('#topic-select');
 
-var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
-    rootGeoAPI = 'http://api.censusreporter.org/1.0/geo/tiger2013/',
-    dataAPI = 'http://api.censusreporter.org/1.0/data/show/latest';
+var tableSearchAPI = CR_API_URL + '/1.0/table/search',
+    rootGeoAPI = CR_API_URL + '/1.0/geo/tiger2013/',
+    dataAPI = CR_API_URL + '/1.0/data/show/latest';
 
 var topicSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },

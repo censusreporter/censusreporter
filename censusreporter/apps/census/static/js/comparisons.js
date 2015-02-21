@@ -17,11 +17,14 @@ This expects to have Underscore, D3 and jQuery.
 */
 
 function Comparison(options) {
+
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
+
     var comparison = {
-        tableSearchAPI: 'http://api.censusreporter.org/1.0/table/search',
-        geoSearchAPI: 'http://api.censusreporter.org/1.0/geo/search',
-        rootGeoAPI: 'http://api.censusreporter.org/1.0/geo/tiger2013/',
-        dataAPI: 'http://api.censusreporter.org/1.0/data/show/latest'
+        tableSearchAPI: API_URL + '/1.0/table/search',
+        geoSearchAPI: API_URL + '/1.0/geo/search',
+        rootGeoAPI: API_URL + '/1.0/geo/tiger2013/',
+        dataAPI: API_URL + '/1.0/data/show/latest'
     };
 
     comparison.init = function(options) {
@@ -125,6 +128,8 @@ function Comparison(options) {
 
     // BEGIN THE MAP-SPECIFIC THINGS
     comparison.makeMapDisplay = function() {
+        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
+
         // some extra setup for map view
         // for triggering overflow-y: visible on table search
         comparison.lockedParent = $('#map-controls').css('max-height', function() {
@@ -146,7 +151,7 @@ function Comparison(options) {
             comparison.chosenColumn = comparison.columnKeys[0];
         }
 
-        var geoAPI = "http://api.censusreporter.org/1.0/geo/show/tiger2013?geo_ids=" + comparison.geoIDs.join(','),
+        var geoAPI = API_URL + "/1.0/geo/show/tiger2013?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
 
         d3.json(geoAPI, function(error, json) {

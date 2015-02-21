@@ -525,7 +525,7 @@ class DataView(TemplateView):
         return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        download_link_prefix = 'http://api.censusreporter.org/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
+        download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
 
         page_context = {
             'table': self.table or '',

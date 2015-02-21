@@ -1,5 +1,5 @@
-var tableSearchAPI = 'http://api.censusreporter.org/1.0/table/search',
-    geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
+var tableSearchAPI = CR_API_URL + '/1.0/table/search',
+    geoSearchAPI = CR_API_URL + '/1.0/geo/search';
 
 var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#explore-topic-picker'),
