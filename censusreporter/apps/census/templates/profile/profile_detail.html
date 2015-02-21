@@ -324,7 +324,7 @@
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true", function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
