@@ -7,7 +7,7 @@
 
     <Directory %(django_project_path)s>
         WSGIProcessGroup %(domainname)s
-        WSGIApplicationGroup %{GLOBAL}
+        WSGIApplicationGroup %%{GLOBAL}
         Order allow,deny
         Allow from all
     </Directory>
