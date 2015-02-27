@@ -204,7 +204,9 @@ function findPlaces(lat,lng,address) {
                 $("#address-search-message").html(label);
             } else {
                 var label = $("#address-search-message").html();
-                label += " is in:"
+                if (!label.endsWith('is in:')) {
+                    label += " is in:" // don't do this if it's already there...
+                }
                 $("#address-search-message").html(label);
             }
             for (var i = 0; i < results.length; i++) {
