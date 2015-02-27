@@ -42,7 +42,7 @@ map.addControl(new L.Control.Zoom({
 
 function processGeocoderResults(response) {
     var results = response.features;
-    results = _.filter(results, function(item) { return item.geometry.type == "Point" && item.id.indexOf('address.') == 0; });
+    results = _.filter(results, function(item) { return item.id.indexOf('address.') == 0; });
     results = _.map(results, function(item) { 
         item.place_name = item.place_name.replace(", United States", ""); 
         return item;
@@ -68,12 +68,23 @@ function selectAddress(obj, datum) {
     $searchInput.typeahead('val', '');
     if (datum.geometry) {
         var label = datum.place_name.replace(", United States", "");
-        var lng = datum.geometry.coordinates[0];
-        var lat = datum.geometry.coordinates[1];
+        if (datum.geometry.type == "Point") {
+            var lng = datum.geometry.coordinates[0];
+            var lat = datum.geometry.coordinates[1];
+        } else if (datum.center) {
+            var lng = datum.center[0];
+            var lat = datum.center[1];
+        } else {
+            console.log("Don't know how to handle selection.");
+            window.selection_error = datum;
+            return false
+        }
         setMap(lat, lng);
         findPlaces(lat, lng, label);
         placeMarker(lat, lng, label);
     } else {
+        console.log("Don't know how to handle selection.");
+        window.selection_error = datum;
         return false;
     }
 }
