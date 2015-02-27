@@ -181,7 +181,7 @@ function findPlaces(lat,lng,address) {
     _(PLACE_LAYERS).each(function(v){map.removeLayer(v)});
 
     if (address) {
-        $("#address-search-message").html(address + " is in:");
+        $("#address-search-message").html(address);
         $("#address-search-message").show();
     } else {
         $("#address-search-message").html("Your location: " + basicLabel(lat,lng));
@@ -198,6 +198,15 @@ function findPlaces(lat,lng,address) {
             list.appendTo($("#data-display"));
 
             var results = _.sortBy(data.results,function(x){ return sumlevMap[x.sumlevel].size_sort });
+            if (results.length == 0) {
+                var label = $("#address-search-message").html();
+                label += " is not in any Census geographies."
+                $("#address-search-message").html(label);
+            } else {
+                var label = $("#address-search-message").html();
+                label += " is in:"
+                $("#address-search-message").html(label);
+            }
             for (var i = 0; i < results.length; i++) {
                 var d = results[i];
                 d['SUMLEVELS'] = sumlevMap;
