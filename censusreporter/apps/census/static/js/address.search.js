@@ -77,6 +77,10 @@ function selectAddress(obj, datum) {
     }
 }
 
+function makeVisibleAutocomplete() {
+    $('#map-controls').css('overflow-y', 'visible');
+}
+
 function makeAddressSearchWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
@@ -96,6 +100,7 @@ function makeAddressSearchWidget(element) {
     });
 
     element.on('typeahead:selected', selectAddress);
+    element.on('typeahead:opened', makeVisibleAutocomplete);
 }
 
 makeAddressSearchWidget($("#address-search"));
