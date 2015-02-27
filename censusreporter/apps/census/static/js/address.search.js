@@ -4,8 +4,9 @@ var REVERSE_GEOCODE_URL = _("http://api.tiles.mapbox.com/v4/geocode/mapbox.place
 
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
-
 var place_template = _.template($("#place-result-template").html())
+
+var $searchInput = $("#address-search");
 
 var lat = '',
     lng = '',
@@ -64,7 +65,7 @@ var addressSearchEngine = new Bloodhound({
 addressSearchEngine.initialize();
 
 function selectAddress(obj, datum) {
-    $("#address-search").val("");
+    $searchInput.typeahead('val', '');
     if (datum.geometry) {
         var label = datum.place_name.replace(", United States", "");
         var lng = datum.geometry.coordinates[0];
@@ -98,7 +99,7 @@ function makeAddressSearchWidget(element) {
     element.on('typeahead:selected', selectAddress);
 }
 
-makeAddressSearchWidget($("#address-search"));
+makeAddressSearchWidget($searchInput);
 
 function basicLabel(lat,lng) {
     if (!lng) {
