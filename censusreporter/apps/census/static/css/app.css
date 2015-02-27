@@ -615,6 +615,10 @@ aside#facets {
     color: #fff;
 }
 
+#data-display.no-map .zoom-to-layer {
+    display: none;
+}
+
 #cover-profile {
     position: relative;
 }

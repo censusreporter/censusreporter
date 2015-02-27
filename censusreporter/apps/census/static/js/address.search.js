@@ -11,34 +11,14 @@ var $searchInput = $("#address-search");
 var lat = '',
     lng = '',
     address = '',
-    point_marker = null;
+    point_marker = null,
+    map = null;
 
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
     spinner = new Spinner();
 
-// perhaps leave out the map on small viewports?
-if (!(lat && lng)) {
-    lat = '42.02';
-    lng = '-87.67';
-}
-var map_center = new L.latLng(lat, lng);
-window.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
-    center: map_center,
-    zoom: 13,
-    scrollWheelZoom: true,
-    zoomControl: false,
-    doubleClickZoom: false,
-    boxZoom: true,
-    keyboard: true,
-    dragging: true,
-    touchZoom: true
-});
-
-map.addControl(new L.Control.Zoom({
-    position: 'topright'
-}));
 
 function processGeocoderResults(response) {
     var results = response.features;
@@ -119,11 +99,7 @@ function basicLabel(lat,lng) {
     }
     return lat.toFixed(2) + ", " + lng.toFixed(2);
 }
-map.on("dblclick",function(evt) { 
-    var lat = evt.latlng.lat, lng = evt.latlng.lng;
-    placeMarker(lat, lng)
-    findPlaces(lat, lng);
-})
+
 if (navigator.geolocation) {
     $("#use-location").on("click",function() {
         $("#address-search-message").hide();
@@ -211,8 +187,8 @@ function findPlaces(lat,lng,address) {
         $("#address-search-message").html("Your location: " + basicLabel(lat,lng));
         $("#address-search-message").show();
     }
-
-    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970', geom: true }
+    var has_map = (window.map != null);
+    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970', geom: has_map }
     $.getJSON(geoSearchAPI,params, function(data, status) {
         spinner.stop();
         if (status == 'success') {
@@ -226,29 +202,34 @@ function findPlaces(lat,lng,address) {
                 var d = results[i];
                 d['SUMLEVELS'] = sumlevMap;
                 $(place_template(d)).appendTo(list);
-                window.PLACE_LAYERS[d['full_geoid']] = 
-                    makeLayer(d);
+                if (has_map) {
+                    window.PLACE_LAYERS[d['full_geoid']] = 
+                        makeLayer(d);
+                }
             }
-            $('.location-list li').on('mouseover',function(evt) {
-                var this_layer = $(evt.currentTarget).data('geoid');
-                _(PLACE_LAYERS).each(function(v,k) {
-                    if (k == this_layer) {
-                        v.addTo(map);
-                    } else {
-                        map.removeLayer(v);
+            if (has_map) {
+                $('.location-list li').on('mouseover',function(evt) {
+                    var this_layer = $(evt.currentTarget).data('geoid');
+                    _(PLACE_LAYERS).each(function(v,k) {
+                        if (k == this_layer) {
+                            v.addTo(map);
+                        } else {
+                            map.removeLayer(v);
+                        }
+                    });
+                })
+                $('.zoom-to-layer').click(function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var geoid = $(this).parents('li').data('geoid');
+                    if (PLACE_LAYERS[geoid]) {
+                        var layer = PLACE_LAYERS[geoid];
+                        layer.addTo(map);
+                        map.fitBounds(layer.getBounds());
                     }
                 });
-            })
-            $('.zoom-to-layer').click(function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                var geoid = $(this).parents('li').data('geoid');
-                if (PLACE_LAYERS[geoid]) {
-                    var layer = PLACE_LAYERS[geoid];
-                    layer.addTo(map);
-                    map.fitBounds(layer.getBounds());
-                }
-            });
+
+            }
             $('body').trigger('glossaryUpdate', list);
         } else {
             $("#data-display").html(status);
@@ -256,7 +237,12 @@ function findPlaces(lat,lng,address) {
     })
 }
 
-function placeMarker(lat, lng, label) {
+function placeMarker(lat, lng, label) { 
+    // TODO: extract updating address-search-message (nested in labelWithReverse)
+    // to be independent of the presence of a map.
+    if (!map) { // this could be more elegant
+        return false;
+    }
     if (point_marker) {
         point_marker.setLatLng(L.latLng(lat,lng));
     } else {
@@ -271,7 +257,6 @@ function placeMarker(lat, lng, label) {
             point_marker.showLabel();
             labelWithReverse(point_marker);
             findPlaces(new_pos.lat, new_pos.lng);
-
         })
         map.addLayer(point_marker);
     }
@@ -290,19 +275,14 @@ function placeMarker(lat, lng, label) {
     if (reverse) {
         labelWithReverse(point_marker);
     }
-
-
 }
+
 function setMap(lat, lng) {
     if (map) {
         var map_center = new L.latLng(lat, lng);
         map.panTo(map_center);
     }
 }
-
-$(".location-list li").on("mouseover",function(){
-    var geoid = $(this).data('geoid');
-})
 
 function init_from_params(params) {
     var lat = params.lat || '';
@@ -328,4 +308,40 @@ function init_from_params(params) {
     }
 }
 
+// perhaps leave out the map on small viewports?
+if (!(lat && lng)) {
+    lat = '42.02';
+    lng = '-87.67';
+}
+
+function initialize_map() {
+    var map_center = new L.latLng(lat, lng);
+    window.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+        center: map_center,
+        zoom: 13,
+        scrollWheelZoom: true,
+        zoomControl: false,
+        doubleClickZoom: false,
+        boxZoom: true,
+        keyboard: true,
+        dragging: true,
+        touchZoom: true
+    });
+
+    map.addControl(new L.Control.Zoom({
+        position: 'topright'
+    }));
+
+    map.on("dblclick",function(evt) { 
+        var lat = evt.latlng.lat, lng = evt.latlng.lng;
+        placeMarker(lat, lng)
+        findPlaces(lat, lng);
+    })
+}
+var should_show_map = true; // eventually base on viewport or similar
+if (should_show_map) {
+    initialize_map();
+} else {
+    $("#data-display").addClass('no-map')
+}
 init_from_params($.parseParams());
