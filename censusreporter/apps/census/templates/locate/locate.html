@@ -9,6 +9,7 @@
 <script src='http://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
 {% endblock %}
 
+{% block body_id %}locate{% endblock %}
 
 {% block content %}
 <div id="map-controls" class="clearfix">
@@ -16,25 +17,26 @@
         <a class="title" href="{% url 'homepage' %}">
             <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
         </a>
-        <a id="use-location" class="action-button"><span class="fa fa-location-arrow"></span> Use my current location</a>
     </header>
     <div class="box-content">
-        <section id="address-search-wrapper" class="clearfix">
-            <p class="help-text">Type until the address appears in the list. You can also double-click to place the marker.</p>
+        <div class="tool-set header-tool-set clearfix">
+            <a id="use-location" class="action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
+            or double-click to place the marker
+        </div>
+        <section class="clearfix header-container" id="address-search-wrapper">
+            <h1>Search for an address</h1>
             <input type="text" id="address-search" placeholder="Search for an address">
-            <p id="address-search-message"></p>
-
-        </section>
-        <section id="data-display" class="clearfix">
+            <h2 id="address-search-message" class="hidden bottom"></h2>
+            <aside id="data-display" class="clearfix"></aside>
         </section>
     </div>
 </div>
 <div id="slippy-map"></div>
 <script id="place-result-template" type="text/template">
-    <li data-geoid="<%= full_geoid %>" class="clearfix">
-        <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape."></i>
-        <a href="/profiles/<%= full_geoid %>" class="">
-            <span class="identifier glossary-term"><%= SUMLEVELS[sumlevel].name %></span>
+    <li data-geoid="<%= full_geoid %>">
+        <a href="/profiles/<%= full_geoid %>">
+            <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
+            <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
             <%= full_name %>
         </a>
     </li>
@@ -47,12 +49,5 @@
 <script src="{{STATIC_URL}}js/address.search.js"></script>
 <script>
 Glossary.init("{% url 'glossary' %}",".glossary-term");
-$('a.card').click(function(e){
-    if ($(e.target).hasClass('glossary-term')) {
-        Glossary.popup(e.target);
-        return false;
-    }
-});
-
 </script>
 {% endblock %}

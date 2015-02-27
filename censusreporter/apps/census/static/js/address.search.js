@@ -77,10 +77,6 @@ function selectAddress(obj, datum) {
     }
 }
 
-function makeVisibleAutocomplete() {
-    $('#map-controls').css('overflow-y', 'visible');
-}
-
 function makeAddressSearchWidget(element) {
     element.typeahead('destroy');
     element.typeahead({
@@ -100,7 +96,6 @@ function makeAddressSearchWidget(element) {
     });
 
     element.on('typeahead:selected', selectAddress);
-    element.on('typeahead:opened', makeVisibleAutocomplete);
 }
 
 makeAddressSearchWidget($("#address-search"));
@@ -232,8 +227,10 @@ function findPlaces(lat,lng,address) {
                     }
                 });
             })
-            $('.zoom-to-layer').click(function() {
-                var geoid = $(this).parent().data('geoid');
+            $('.zoom-to-layer').click(function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var geoid = $(this).parents('li').data('geoid');
                 if (PLACE_LAYERS[geoid]) {
                     var layer = PLACE_LAYERS[geoid];
                     layer.addTo(map);
