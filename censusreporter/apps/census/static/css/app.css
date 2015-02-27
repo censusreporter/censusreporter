@@ -582,6 +582,39 @@ aside#facets {
     top: 0;
 }
 
+#use-location {
+    display: inline-block;
+    font-size: .9em;
+    padding: 0 9px;
+    margin-right: .33em;
+}
+
+#address-search-message { display: none; margin-top: 1em;}
+
+#address-search {
+    font-size: 1em;
+    width: 100%;
+}
+
+.zoom-to-layer {
+    background-color: #a1d0c6;
+    text-decoration: none;
+    color: #888;
+    margin-left: .67em;
+    padding: .33em .4em;
+    font-size: .9em;
+    float: right;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.zoom-to-layer.active,
+.zoom-to-layer:hover {
+    background-color: #1a9d95;
+    color: #fff;
+}
+
 #cover-profile {
     position: relative;
 }
@@ -729,6 +762,20 @@ h1.article-header-right {
     display: block;
     margin-left: 3em;
 }
+
+.trigger-highlight {
+    float: left;
+    padding-top: 1.2em;
+    padding-right: 1em;
+}
+.map-marker-label{
+    position: absolute;
+    color: black;
+    font-size: 11px;
+    font-weight: bold;
+    width: 150px;
+}
+
 .action-button i {
     margin-right: .33em;
 }
@@ -1005,6 +1052,9 @@ h1.article-header-right {
     width: 450px;
     overflow-y: auto;
 }
+#locate #map-controls {
+    overflow-y: visible;
+}
 #map-controls h1,
 #map-controls .header-container {
     margin: .5em 0;
@@ -1050,7 +1100,8 @@ h1.article-header-right {
     float: right;
 }
 #map-controls #comparison-add-header,
-#map-controls #query-topic-picker h1 {
+#map-controls #query-topic-picker h1,
+#map-controls #address-search-wrapper h1 {
     font-size: 1.3em;
 }
 #map-controls #map-legend,
@@ -2309,24 +2360,23 @@ aside .search .result-type {
     list-style: none;
     margin: 0;
     padding: 0;
+    font-size: .9em;
 }
-.location-list li {
-    margin-bottom: .5em;
-}
+
 .location-list a {
     text-decoration: none;
     background-color: #fff;
     display: block;
     font-weight: bold;
-    padding: .67em .75em;
+    padding: .67em .2em;
 }
 .location-list a:hover {
     color: #f55b2c;
 }
 .location-list .identifier {
     float: right;
-    font-size: .75em;
-    line-height: 2;
+    font-size: .83em;
+    line-height: 1.9;
     font-weight: normal;
     font-style: italic;
     margin-left: .67em;

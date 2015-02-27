@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch, LocateView,
+    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
 
 admin.autodiscover()
@@ -121,7 +121,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^locate/$',
-        view    = LocateView.as_view(),
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html")),
         kwargs  = {},
         name    = 'locate',
     ),
