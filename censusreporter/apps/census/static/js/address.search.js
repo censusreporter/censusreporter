@@ -204,7 +204,7 @@ function findPlaces(lat,lng,address) {
                 $("#address-search-message").html(label);
             } else {
                 var label = $("#address-search-message").html();
-                if (!label.endsWith('is in:')) {
+                if (!label.match(/is in:$/i)) {
                     label += " is in:" // don't do this if it's already there...
                 }
                 $("#address-search-message").html(label);
