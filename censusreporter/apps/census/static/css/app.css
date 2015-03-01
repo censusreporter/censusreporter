@@ -615,7 +615,7 @@ aside#facets {
     color: #fff;
 }
 
-#data-display.no-map .zoom-to-layer {
+#address-search-content.no-map .zoom-to-layer, #address-search-content.no-map .no-map-hide {
     display: none;
 }
 

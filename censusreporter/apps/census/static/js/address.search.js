@@ -348,6 +348,6 @@ var should_show_map = true; // eventually base on viewport or similar
 if (should_show_map) {
     initialize_map();
 } else {
-    $("#data-display").addClass('no-map')
+    $("#address-search-content").addClass('no-map')
 }
 init_from_params($.parseParams());
