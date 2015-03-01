@@ -1,4 +1,40 @@
-CensusReporter = {};
+CensusReporter = {
+    GeoIDLayer: L.GeoJSON.extend({
+        _fetch: function(geoid) {
+            L.GeoJSON.prototype.initialize.call(this);
+            var request = new XMLHttpRequest();
+            var url = this.api_url + "/" + geoid + "?geom=true";
+            request.open('GET', url, true);
+            var self = this;
+            request.onreadystatechange = function() {
+              if (this.readyState === 4) {
+                if (this.status >= 200 && this.status < 400) {
+                  // Success!
+                  var data = JSON.parse(this.responseText);
+                  self.addData(data);
+                  self.properties = data.properties;
+                } else {
+                  if (typeof(console) != 'undefined' && typeof(console.log) == 'function') {
+                    console.log("Error ("+this.status+") getting data")
+                    console.log(this.responseText)                        
+                  }
+
+                }
+              }
+            };
+
+            request.send();
+            request = null;
+        },
+        initialize: function(geoid_spec, options) {
+            options = options || {};
+            this.options = options;
+            this.api_url = options.api_url || 'http://api.censusreporter.org/1.0/geo/tiger2013';
+            this._fetch(geoid_spec);
+
+        }
+    })
+}
 
 CensusReporter.AjaxLayer = L.TileLayer.extend({
     _requests: [],
@@ -334,3 +370,4 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         }
     },
 });
+
