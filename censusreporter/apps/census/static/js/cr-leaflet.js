@@ -1,5 +1,56 @@
-console.log("tilelayer.js is deprecated. Please switch to cr-leaflet.js");
-CensusReporter = {}
+CensusReporter = {
+    GeoIDLayer: L.GeoJSON.extend({
+        addGeoID: function(geoid) {
+            var request = new XMLHttpRequest();
+            var url = this.options.api_url + "/1.0/geo/show/tiger2013?geo_ids=" + geoid;
+            request.open('GET', url, true);
+            var self = this;
+            request.onreadystatechange = function() {
+              if (this.readyState === 4) {
+                if (this.status >= 200 && this.status < 400) {
+                  // Success!
+                  var data = JSON.parse(this.responseText);
+                  self.addData(data);
+                } else {
+                  if (typeof(console) != 'undefined' && typeof(console.log) == 'function') {
+                    console.log("Error ("+this.status+") getting data")
+                    console.log(this.responseText)                        
+                  }
+                }
+              }
+            };
+            request.send();
+            request = null;
+        },
+        initialize: function(geoid_spec, options) {
+            L.GeoJSON.prototype.initialize.call(this);
+            var options = L.extend({
+                api_url: 'http://api.censusreporter.org',
+                censusreporter_url: 'http://censusreporter.org',
+                autoclick: true
+            }, options);
+            if (options.autoclick) {
+                var censusreporter_url = options.censusreporter_url;
+                var autoclick_handler = function(data, layer) {
+                    layer.on('click',function() {
+                        window.open(censusreporter_url + "/profiles/" + data.properties.geoid);
+                    });
+                }
+                if (options.onEachFeature) {
+                    var old_handler = options.onEachFeature;
+                    options.onEachFeature = function(data, layer) {
+                        old_handler(data, layer);
+                        autoclick_handler(data, layer);
+                    }
+                } else {
+                    options.onEachFeature = autoclick_handler;
+                }
+            }
+            this.options = options;
+            this.addGeoID(geoid_spec);
+        }
+    })
+}
 
 CensusReporter.AjaxLayer = L.TileLayer.extend({
     _requests: [],
