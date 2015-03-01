@@ -19,6 +19,17 @@ $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
     spinner = new Spinner();
 
+function updateLocation(lat, lng, label) {
+    if (!label) {
+        reverseGeocode({lat: lat, lng: lng}, function(label) {
+            updateLocation(lat, lng, label);
+        })
+    } else {
+        setMap(lat, lng);
+        findPlaces(lat, lng, label);
+        placeMarker(lat, lng, label);
+    }
+}
 
 function processGeocoderResults(response) {
     var results = response.features;
@@ -59,9 +70,7 @@ function selectAddress(obj, datum) {
             window.selection_error = datum;
             return false
         }
-        setMap(lat, lng);
-        findPlaces(lat, lng, label);
-        placeMarker(lat, lng, label);
+        updateLocation(lat, lng, label);
     } else {
         console.log("Don't know how to handle selection.");
         window.selection_error = datum;
@@ -108,9 +117,7 @@ if (navigator.geolocation) {
             spinner.stop();
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-            setMap(lat,lng);
-            placeMarker(lat,lng);
-            findPlaces(lat, lng)
+            updateLocation(lat,lng)
         }
 
         function noLocation() { 
@@ -126,24 +133,21 @@ if (navigator.geolocation) {
     $("#use-location").hide();    
 }
 
-function labelWithReverse(point_marker) { 
-    var ll = point_marker.getLatLng();
+function reverseGeocode(ll,callback) {
     var url = REVERSE_GEOCODE_URL({lat: ll.lat, lng: ll.lng, token: L.mapbox.accessToken});
-    $.getJSON(url,function(data, status) {
+    $.getJSON(url, function(data, status) {
         if (status == 'success' && data.features) {
             var results = processGeocoderResults(data);
             if (results.length > 0) {
                 var label = data.features[0].place_name.replace(", United States", "");
-                point_marker.getLabel().setContent(label);
-                // seems like we also always want to update the address-search-message here, 
-                // but we may also want to do that when we don't have a map. Tidy this later
-                $("#address-search-message").html(label + " is in:");
-                $("#address-search-message").show();
-
+                callback(label, ll);
             }
+        } else {
+            callback(status, ll);
         }
     });
 }
+
 
 function geocodeAddress(query, callback) {
     var url = GEOCODE_URL({query: query, token: L.mapbox.accessToken});
@@ -251,30 +255,20 @@ function findPlaces(lat,lng,address) {
 function placeMarker(lat, lng, label) { 
     // TODO: extract updating address-search-message (nested in labelWithReverse)
     // to be independent of the presence of a map.
-    if (!map) { // this could be more elegant
-        return false;
-    }
-    if (point_marker) {
-        point_marker.setLatLng(L.latLng(lat,lng));
-    } else {
-        point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
-        map.addLayer(point_marker);
+
+    if (map) {
+        if (point_marker) {
+            point_marker.hideLabel();
+            point_marker.getLabel().setContent(label);
+            point_marker.setLatLng(L.latLng(lat,lng));
+        } else {
+            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
+            map.addLayer(point_marker);
+            point_marker.bindLabel(label, {noHide: true});
+        }
+        point_marker.showLabel();
     }
 
-    var reverse = (!label);
-
-    if (reverse) {
-        label = basicLabel(lat,lng)
-    }
-    if (point_marker.getLabel()) {
-        point_marker.getLabel().setContent(label);
-    } else {
-        point_marker.bindLabel(label, {noHide: true});
-    }
-    point_marker.showLabel();
-    if (reverse) {
-        labelWithReverse(point_marker);
-    }
 }
 
 function setMap(lat, lng) {
@@ -292,14 +286,12 @@ function init_from_params(params) {
         lat = parseFloat(lat);
         lng = parseFloat(lng);
         if (!(isNaN(lat) || isNaN(lng))) {
-            setMap(lat,lng);
-            placeMarker(lat,lng, address);
-            findPlaces(lat, lng, address);
+            updateLocation(lat,lng, address);
         }
     } else if (address) {
         geocodeAddress(address, function(data) {
             var results = processGeocoderResults(data);
-            if (results) {
+            if (results && results.length > 0) {
                 selectAddress(null,results[0]);
             } else {
                 console.log("no results for " + address);
@@ -334,8 +326,7 @@ function initialize_map() {
 
     map.on("dblclick",function(evt) { 
         var lat = evt.latlng.lat, lng = evt.latlng.lng;
-        placeMarker(lat, lng)
-        findPlaces(lat, lng);
+        updateLocation(lat, lng);
     })
 }
 var should_show_map = true; // eventually base on viewport or similar
