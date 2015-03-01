@@ -5,7 +5,8 @@ var REVERSE_GEOCODE_URL = _("http://api.tiles.mapbox.com/v4/geocode/mapbox.place
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
-
+var push_state_url_template = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
+var push_state_title_template = _.template("Census Reporter: Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");
 var $searchInput = $("#address-search");
 
 var lat = '',
@@ -19,6 +20,16 @@ $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
     spinner = new Spinner();
 
+window.onpopstate = function(event) {
+    if (event.state) {
+        var lat = event.state.lat;
+        var lng = event.state.lng;
+        var address = event.state.address;
+        if (lat && lng) {
+            updateLocation(lat, lng, address);
+        }
+    }
+}
 function updateLocation(lat, lng, label) {
     if (!label) {
         reverseGeocode({lat: lat, lng: lng}, function(label) {
@@ -28,6 +39,10 @@ function updateLocation(lat, lng, label) {
         setMap(lat, lng);
         findPlaces(lat, lng, label);
         placeMarker(lat, lng, label);
+        var state = {lat: lat, lng: lng, address: label}
+        if (!(_.isEqual(history.state,state))) {
+            history.pushState(state,push_state_title_template(state),push_state_url_template(state));
+        }
     }
 }
 
