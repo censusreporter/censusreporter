@@ -258,17 +258,6 @@ function placeMarker(lat, lng, label) {
         point_marker.setLatLng(L.latLng(lat,lng));
     } else {
         point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
-        point_marker.on("drag",function(evt) {
-            point_marker.hideLabel();
-        })
-        point_marker.on("dragend", function(evt) {
-            window.stash = evt;
-            var new_pos = evt.target.getLatLng();
-            point_marker.getLabel().setContent(basicLabel(new_pos));
-            point_marker.showLabel();
-            labelWithReverse(point_marker);
-            findPlaces(new_pos.lat, new_pos.lng);
-        })
         map.addLayer(point_marker);
     }
 
