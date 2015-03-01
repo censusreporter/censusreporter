@@ -22,6 +22,16 @@ CensusReporter = {
             request.send();
             request = null;
         },
+        removeGeoID: function(geoid) {
+            var layers = this.getLayers();
+            for (var i = 0; i < layers.length; i++) {
+                if (layers[i].feature.properties.geoid == geoid) {
+                    this.removeLayer(layers[i]);
+                    return layers[i];
+                }
+            }
+            return null;
+        },
         initialize: function(geoid_spec, options) {
             L.GeoJSON.prototype.initialize.call(this);
             var options = L.extend({
