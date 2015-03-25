@@ -21,7 +21,8 @@ function makeEmbedFrame() {
 
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
         embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
-        embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.geoID+'.json';
+        embedFrame.params.chartDataYearDir = (!!embedFrame.params.dataYear) ? embedFrame.params.dataYear+'/' : '';
+        embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
         // avoid css media-query caching issues with multiple embeds on same page
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
         embedFrame.makeChartFooter();

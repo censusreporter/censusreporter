@@ -742,10 +742,12 @@ function Chart(options) {
         var embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720,
             embedKey = chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1),
+            embedDataYear = chart.initialData.metadata.acs_release.split(' ')[1],
             embedID = 'cr-embed-'+chart.primaryGeoID+'-'+embedKey,
             embedParams = {
                 geoID: chart.primaryGeoID,
                 chartDataID: embedKey,
+                dataYear: embedDataYear,
                 chartType: chart.chartType,
                 chartHeight: 200,
                 chartQualifier: (chart.chartQualifier || ''),
