@@ -212,8 +212,9 @@ var roundNumber = function(value, decimals) {
     return value;
 }
 
-var numberWithCommas = function(n) {
-    var parts = roundNumber(n).toString().split(".");
+var numberWithCommas = function(n, decimals) {
+    var parts = roundNumber(n, decimals).toString().split(".");
+
     return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 }
 // parseParams from https://gist.github.com/kares/956897#comment-802666

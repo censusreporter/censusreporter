@@ -495,19 +495,29 @@ function Comparison(options) {
         buildLegend(quintileColors);
 
         // add the actual label values
-        var labelData = comparison.quantize.quantiles().slice(0);
-        labelData.unshift(d3.min(values));
-        labelData.push(d3.max(values));
+        var labelData = comparison.quantize.quantiles().slice(0),
+            min = d3.min(values),
+            max = d3.max(values),
+            precision = (max <= 1) ? 2 : 1;
+
+        // cases like Gini Index aren't pct, but range display needs decimals
+        if (comparison.valueType != 'percentage') {
+            precision = (max <= 1) ? 2 : (max <= 10) ? 1 : 0;
+        }
+        
+        labelData.unshift(min);
+        labelData.push(max);
+        
         var legendLabels = d3.select("#map-legend")
             .selectAll("span")
             .data(labelData)
             .text(function(d){
                 if (typeof(d) != 'undefined') {
                     if (comparison.valueType == 'percentage') {
-                        return roundNumber(d, 1) + '%';
+                        return roundNumber(d, precision) + '%';
                     } else {
                         var prefix = (comparison.statType == 'dollar') ? '$' : '';
-                        return prefix + numberWithCommas(d);
+                        return prefix + numberWithCommas(d, precision);
                     }
                 }
             });
