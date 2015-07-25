@@ -545,7 +545,7 @@ class HomepageView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'hide_nav_tools': True,
-            'topics_list': [v for k, v in sorted(TOPICS_MAP.items())],
+            'topics_list': [TOPICS_MAP['getting-started']]+[v for k, v in sorted(TOPICS_MAP.items())],
         }
 
         return page_context
