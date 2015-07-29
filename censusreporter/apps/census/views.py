@@ -476,7 +476,7 @@ class TopicView(TemplateView):
                     'slug': '',
                     'description': 'Pages describing the concepts and tables covered by the Census and American Community Survey.',
                 },
-                'topics_list': [v for k, v in sorted(TOPICS_MAP.items())],
+                'topics_list': sort_topics(TOPICS_MAP)
             }
 
         return page_context
@@ -545,7 +545,7 @@ class HomepageView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'hide_nav_tools': True,
-            'topics_list': [v for k, v in sorted(TOPICS_MAP.items())],
+            'topics_list': sort_topics(TOPICS_MAP),
         }
 
         return page_context
@@ -741,3 +741,5 @@ class GeoSearch(TemplateView):
         tables = None
         columns = None
 
+def sort_topics(topic_map):
+    return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
