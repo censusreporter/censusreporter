@@ -2303,6 +2303,11 @@ dl#racial-iteration dt {
 .twitter-typeahead .tt-hint {
     width: 100%;
 }
+
+.tt-dataset-always .result-name {
+    font-size: .83em;
+}
+
 #menu input,
 #menu .tt-dropdown-menu {
     width: 240px;

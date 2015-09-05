@@ -37,7 +37,7 @@ function makeGeoSelectWidget(element) {
         syncResults([{q: query, url: '/profiles/?q=' + query}]);
       },
       templates: {
-        suggestion: function(a) { return '<p class="result-name"><span class="result-type">search</span>Search for "'+ a.q+'"</p>' }
+        suggestion: function(a) { return '<p class="result-name"><span class="result-type">search</span><em>Don&rsquo;t see what you&rsquo;re looking for? Search all places for <strong>&ldquo;'+ a.q+'&rdquo;</strong> &hellip;</em></p>' }
       }
     },
     {
