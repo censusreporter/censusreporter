@@ -1,6 +1,7 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
-var GEOCODE_URL = _("http://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>").template()
-var REVERSE_GEOCODE_URL = _("http://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>").template()
+var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>").template()
+var PROXIMITY_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?proximity=<%=lon%>,<%=lat%>&access_token=<%=token%>").template()
+var REVERSE_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>").template()
 
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
@@ -49,8 +50,8 @@ function updateLocation(lat, lng, label) {
 function processGeocoderResults(response) {
     var results = response.features;
     results = _.filter(results, function(item) { return item.id.indexOf('address.') == 0; });
-    results = _.map(results, function(item) { 
-        item.place_name = item.place_name.replace(", United States", ""); 
+    results = _.map(results, function(item) {
+        item.place_name = item.place_name.replace(", United States", "");
         return item;
     });
     return results;
@@ -63,7 +64,11 @@ var addressSearchEngine = new Bloodhound({
     remote: {
         url: GEOCODE_URL,
         replace: function (url, query) {
+          if (window.browser_location) {
+            return PROXIMITY_GEOCODE_URL({query: query, token: L.mapbox.accessToken, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
+          } else {
             return url({query: query, token: L.mapbox.accessToken});
+          }
         },
         filter: processGeocoderResults
     }
@@ -125,27 +130,29 @@ function basicLabel(lat,lng) {
 }
 
 if (navigator.geolocation) {
+  // cache current location for proximity biasing
+  navigator.geolocation.getCurrentPosition(function(position) { window.browser_location = position; }, function() {}, {timeout:10000});
+
     $("#use-location").on("click",function() {
         $("#address-search-message").hide();
         spinner.spin(spinnerTarget);
         function foundLocation(position) {
+            window.browser_location = position;
             spinner.stop();
             lat = position.coords.latitude;
             lng = position.coords.longitude;
             updateLocation(lat,lng)
         }
 
-        function noLocation() { 
+        function noLocation() {
             spinner.stop();
-            $("#address-search-message").html('Sorry, your browser was unable to determine your location.'); 
-            $("#address-search-message").show(); 
+            $("#address-search-message").html('Sorry, your browser was unable to determine your location.');
+            $("#address-search-message").show();
         }
-
         navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
-
     })
 } else {
-    $("#use-location").hide();    
+    $("#use-location").hide();
 }
 
 function reverseGeocode(ll,callback) {
@@ -233,7 +240,7 @@ function findPlaces(lat,lng,address) {
                 d['SUMLEVELS'] = sumlevMap;
                 $(place_template(d)).appendTo(list);
                 if (has_map) {
-                    window.PLACE_LAYERS[d['full_geoid']] = 
+                    window.PLACE_LAYERS[d['full_geoid']] =
                         makeLayer(d);
                 }
             }
@@ -267,7 +274,7 @@ function findPlaces(lat,lng,address) {
     })
 }
 
-function placeMarker(lat, lng, label) { 
+function placeMarker(lat, lng, label) {
     // TODO: extract updating address-search-message (nested in labelWithReverse)
     // to be independent of the presence of a map.
 
@@ -339,7 +346,7 @@ function initialize_map() {
         position: 'topright'
     }));
 
-    map.on("dblclick",function(evt) { 
+    map.on("dblclick",function(evt) {
         var lat = evt.latlng.lat, lng = evt.latlng.lng;
         updateLocation(lat, lng);
     })
