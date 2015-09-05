@@ -2213,42 +2213,43 @@ dl#racial-iteration dt {
 
 /* dl-horizontal borrowed with modifications from Twitter Bootstrap */
 .dl-horizontal {
-  *zoom: 1;
+    *zoom: 1;
 }
 .dl-horizontal:before,
 .dl-horizontal:after {
-  display: table;
-  content: "";
-  line-height: 0;
+    display: table;
+    content: "";
+    line-height: 0;
 }
 .dl-horizontal:after {
-  clear: both;
+    clear: both;
 }
 .dl-horizontal dt {
-  float: left;
-/*  width: 160px;*/
-  clear: left;
-  text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    float: left;
+    clear: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .dl-horizontal dd {
     float: left;
-    margin-left: .67em;
-  /*margin-left: 180px;*/
+    margin-left: .83em;
+    margin-bottom: 1em;
 }
 
 @media (max-width: 767px) {
-.dl-horizontal dt {
-    float: none;
-    clear: none;
-    width: auto;
-    text-align: left;
-  }
-  .dl-horizontal dd {
-    margin-left: 0;
-  }
+    .dl-horizontal dt {
+        float: none;
+        clear: both;
+        width: auto;
+        text-align: left;
+        margin-bottom: .33em;
+    }
+    .dl-horizontal dd {
+        margin-left: 0;
+        margin-bottom: 1.5em;
+    }
 }
 /* END dl-horizontal borrowed from Twitter Bootstrap */
 
