@@ -15,6 +15,7 @@ var geoSelectEngine = new Bloodhound({
             var results = response.results;
             _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                item['url'] = '/profiles/' + item['full_geoid'] + '-' + slugify(item['full_name']);
             })
             return results;
         }
@@ -28,7 +29,18 @@ function makeGeoSelectWidget(element) {
         highlight: false,
         hint: false,
         minLength: 2
-    }, {
+    }, [
+    {
+      name: 'always',
+      async: false,
+      source: function(query, syncResults) {
+        syncResults([{q: query, url: '/profiles/?q=' + query}]);
+      },
+      templates: {
+        suggestion: function(a) { return '<p class="result-name"><span class="result-type">search</span>Search for "'+ a.q+'"</p>' }
+      }
+    },
+    {
         name: 'profile',
         displayKey: 'full_name',
         source: geoSelectEngine.ttAdapter(),
@@ -37,12 +49,12 @@ function makeGeoSelectWidget(element) {
                 '<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'
             )
         }
-    });
+    }]);
 
     element.on('typeahead:selected', function(event, datum) {
-        event.stopPropagation();
-        if (!!datum['full_geoid']) {
-            window.location = '/profiles/' + datum['full_geoid'] + '-' + slugify(datum['full_name']);
+        if (datum['url']) {
+          event.stopPropagation();
+          window.location = datum['url'];
         }
     });
 }
