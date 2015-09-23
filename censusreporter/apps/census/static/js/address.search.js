@@ -214,7 +214,7 @@ function findPlaces(lat,lng,address) {
         $("#address-search-message").show();
     }
     var has_map = (window.map != null);
-    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970', geom: has_map }
+    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,150,160,250,310,400,500,610,620,795,860,950,960,970', geom: has_map }
     $.getJSON(geoSearchAPI,params, function(data, status) {
         spinner.stop();
         if (status == 'success') {
