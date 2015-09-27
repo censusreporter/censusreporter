@@ -10,4 +10,4 @@ setgid www-data
 env PATH=%(virtualenv_dir)s/bin
 env DJANGO_SETTINGS_MODULE=config.prod.settings
 chdir %(project_path)s
-exec gunicorn_django --threads 3 --bind unix:%(domainname)s.sock -m 007
+exec gunicorn --threads 3 --bind unix:%(domainname)s.sock -m 007 censusreporter.config.prod.wsgi
