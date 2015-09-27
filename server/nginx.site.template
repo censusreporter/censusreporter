@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name %(domainname)s;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:%(project_path)s/%(domainname)s.sock;
+    }
+
+    access_log /var/log/nginx/%(domainname)s.access.log;
+    error_log /var/log/nginx/%(domainname)s.error.log;
+}
