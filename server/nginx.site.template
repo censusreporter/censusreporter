@@ -1,6 +1,6 @@
 server {
-    listen 80;
-    server_name %(domainname)s;
+    listen 80 default_server;
+    server_name %(domainname)s default_server;
 
     location / {
         include proxy_params;
