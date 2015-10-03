@@ -2139,7 +2139,8 @@ dd {
 #lightbox .hovercard {
     position: relative;
     left: -50%;
-    margin-top: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     padding: 1.5em 2em;
     font-size: 1em;
     width: auto;

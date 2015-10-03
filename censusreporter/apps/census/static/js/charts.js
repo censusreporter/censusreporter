@@ -737,13 +737,21 @@ function Chart(options) {
                 .text("Embed")
                 .on("click", chart.showEmbedCode);
     }
+
+    chart.getEmbedKey = function() {
+     return chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1);   
+    }
+
+    chart.getEmbedID = function() {
+        return 'cr-embed-'+chart.primaryGeoID+'-'+chart.getEmbedKey();
+    }
     
     chart.fillEmbedCode = function(textarea, align) {
         var embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720,
-            embedKey = chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1),
+            embedKey = chart.getEmbedKey(),
             embedDataYear = chart.initialData.metadata.acs_release.split(' ')[1],
-            embedID = 'cr-embed-'+chart.primaryGeoID+'-'+embedKey,
+            embedID = chart.getEmbedID(),
             embedParams = {
                 geoID: chart.primaryGeoID,
                 chartDataID: embedKey,
@@ -765,6 +773,7 @@ function Chart(options) {
         ].join('');
         
         textarea.html(embedCode);
+        return embedCode;
     }
 
     chart.showEmbedCode = function() {
@@ -789,11 +798,13 @@ function Chart(options) {
 
         lightbox.append('p')
                 .text('Copy the code below, then paste into your own CMS or HTML. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE8 and above.');
-                
+
         var textarea = lightbox.append('textarea')
                 .on('click', function() {
                     this.select();
                 });
+
+        var embeddedCode = chart.fillEmbedCode(textarea);
 
         lightbox.append('p')
                 .classed('filter-list display-type', true)
@@ -807,7 +818,12 @@ function Chart(options) {
                     d3.event.stopPropagation();
                     d3.selectAll('.filter-list a').classed('option-selected', false);
                     d3.select(this).classed('option-selected', true);
-                    chart.fillEmbedCode(textarea, this.text.toLowerCase())
+                    
+                    embeddedCode = chart.fillEmbedCode(textarea, this.text.toLowerCase())
+                    lightbox.append('p').html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pretium rhoncus placerat. Quisque vel purus nisi. Duis rhoncus ante felis, a dignissim velit tempor ut. Nunc pulvinar felis id risus interdum, eget condimentum quam luctus. Nulla mi nisl, auctor non elementum ut, accumsan sed sem. Nam ut imperdiet enim, a interdum nulla. Etiam quis lectus id velit consequat malesuada. Curabitur feugiat tortor a tellus egestas, non tristique ante efficitur. Fusce fringilla congue varius. Mauris nunc ligula, sollicitudin non ligula eu, pellentesque elementum magna.")
+                    x = $(chart.getEmbedID())
+                    x.style.float = d3.select(this).classed('option-selected', true)[0][0].innerHTML;
+
                 });
                 
         d3.select('#embed-align-normal')
@@ -818,8 +834,12 @@ function Chart(options) {
                 .attr('href', '/examples/embed-charts/')
                 .attr('target', '_blank')
                 .html('Learn more about Census Reporter&rsquo;s embedded charts');
-                
-        chart.fillEmbedCode(textarea);
+
+        
+
+        $(embeddedCode).appendTo(lightbox);
+        console.log(embeddedCode, "stuff here")
+
     }
     
     // pass in data obj, get back formatted value label with MOE flag
