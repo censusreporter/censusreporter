@@ -20,9 +20,15 @@ function makeEmbedFrame() {
         embedFrame.trackEvent('Embedded Charts', 'Parent URL', document.referrer);
 
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
-        embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
+        embedFrame.params.chartDataPath = embedFrame.params.chartDataID.split('-');
         embedFrame.params.chartDataYearDir = (!!embedFrame.params.dataYear) ? embedFrame.params.dataYear+'/' : '';
-        embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
+
+        if (!!embedFrame.params.releaseID) {
+            embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/charts/'+embedFrame.params.releaseID+'/'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID+'.json';
+        } else {
+            // continue supporting embed code from before release-specific data storage
+            embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
+        }
         // avoid css media-query caching issues with multiple embeds on same page
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
         embedFrame.makeChartFooter();
@@ -32,11 +38,11 @@ function makeEmbedFrame() {
         $.getJSON(embedFrame.dataSource)
             .done(function(results) {
                 // allow arbitrary nesting in API data structure
-                var data = results[embedFrame.params.chartDataID[0]],
-                    drilldown = embedFrame.params.chartDataID.length - 1;
+                var data = results[embedFrame.params.chartDataPath[0]],
+                    drilldown = embedFrame.params.chartDataPath.length - 1;
                 if (drilldown >= 1) {
                     for (var i = 1; i <= drilldown; i++) {
-                        data = data[embedFrame.params.chartDataID[i]];
+                        data = data[embedFrame.params.chartDataPath[i]];
                     }
                 }
             
