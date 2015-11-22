@@ -42,10 +42,6 @@ Create the virtual environment for your local project, activate it and install t
     >> workon census
     >> pip install -r requirements.txt
 
-If you've upgraded XCode on OS X Mavericks, you may well see some compilation errors here. If so, try this:
-
-    >> ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future pip install -r requirements.txt
-
 With your development environment still active, make sure it has the path settings it will need:
 
     >> add2virtualenv ./censusreporter
@@ -484,4 +480,3 @@ Data comparison pages
 =====================
 
 Tabular view, map view, distribution view. Docs soon.
-
