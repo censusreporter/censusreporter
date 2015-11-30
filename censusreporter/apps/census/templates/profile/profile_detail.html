@@ -323,6 +323,21 @@
 <!--<![endif]-->
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
+// Allow Ajax POST requests to bypass Django's CSRF check
+// https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
+var csrftoken = '{{ csrf_token }}';
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 // Make the header map
 d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
