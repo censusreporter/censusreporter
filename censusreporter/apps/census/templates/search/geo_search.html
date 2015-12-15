@@ -36,7 +36,7 @@
         function onMapClick(e) {
             console.log("You clicked the map at " + e.latlng.toString());
             var xhrequest = new XMLHttpRequest();
-            var url= "http://api.censusreporter.org/1.0/geo/search?lat="+e.latlng.lat+"&lon="+e.latlng.lng+"&geom=true";
+            var url= "http://api.staging.censusreporter.org/1.0/geo/search?lat="+e.latlng.lat+"&lon="+e.latlng.lng+"&geom=true";
             xhrequest.onreadystatechange = function() {
                 if (xhrequest.readyState == 4) {
                     if (xhrequest.status == 200) {

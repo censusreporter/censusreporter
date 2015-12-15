@@ -7,6 +7,10 @@ server {
         proxy_pass http://unix:%(project_path)s/%(domainname)s.sock;
     }
 
+    location /static {
+        alias %(project_path)s/censusreporter/apps/census/static;
+    }
+
     access_log /var/log/nginx/%(domainname)s.access.log;
     error_log /var/log/nginx/%(domainname)s.error.log;
 }

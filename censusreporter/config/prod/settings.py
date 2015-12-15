@@ -7,6 +7,7 @@ WSGI_APPLICATION = "config.prod.wsgi.application"
 
 ALLOWED_HOSTS = [
     '174.129.183.221',
+    '54.173.179.176',
     '.censusreporter.org',
 ]
 

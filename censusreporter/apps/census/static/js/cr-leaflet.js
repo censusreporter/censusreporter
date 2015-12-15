@@ -14,7 +14,7 @@ CensusReporter = {
                 } else {
                   if (typeof(console) != 'undefined' && typeof(console.log) == 'function') {
                     console.log("Error ("+this.status+") getting data")
-                    console.log(this.responseText)                        
+                    console.log(this.responseText)
                   }
                 }
               }
@@ -35,8 +35,8 @@ CensusReporter = {
         initialize: function(geoid_spec, options) {
             L.GeoJSON.prototype.initialize.call(this);
             var options = L.extend({
-                api_url: 'http://api.censusreporter.org',
-                censusreporter_url: 'http://censusreporter.org',
+                api_url: 'http://api.staging.censusreporter.org',
+                censusreporter_url: 'http://staging.censusreporter.org',
                 autoclick: true
             }, options);
             if (options.autoclick) {
@@ -202,7 +202,7 @@ CensusReporter.GeoJSONLayer = CensusReporter.AjaxLayer.extend({
             this._map.addLayer(this._clipPathRectangles[clipPathId]);
 
             // Add a clip path element to the SVG defs element
-            // With a path element that has the hidden rectangle's SVG path string  
+            // With a path element that has the hidden rectangle's SVG path string
             var path = document.createElementNS(L.Path.SVG_NS, 'path');
             var pathString = this._clipPathRectangles[clipPathId].getPathString();
             path.setAttribute('d', pathString);
@@ -220,7 +220,7 @@ CensusReporter.GeoJSONLayer = CensusReporter.AjaxLayer.extend({
     // * If the options.unique function is specified, merge geometries into GeometryCollections
     // grouped by the key returned by options.unique(feature) for each GeoJSON feature
     // * If options.clipTiles is set, and the browser is using SVG, perform SVG clipping on each
-    // tile's GeometryCollection 
+    // tile's GeometryCollection
     addTileData: function (geojson, tilePoint) {
         var features = L.Util.isArray(geojson) ? geojson : geojson.features,
             i, len, feature;

@@ -18,7 +18,7 @@ This expects to have Underscore, D3 and jQuery.
 
 function Comparison(options) {
 
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.staging.censusreporter.org';
 
     var comparison = {
         tableSearchAPI: API_URL + '/1.0/table/search',
@@ -128,7 +128,7 @@ function Comparison(options) {
 
     // BEGIN THE MAP-SPECIFIC THINGS
     comparison.makeMapDisplay = function() {
-        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.censusreporter.org'; 
+        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'http://api.staging.censusreporter.org';
 
         // some extra setup for map view
         // for triggering overflow-y: visible on table search
@@ -142,7 +142,7 @@ function Comparison(options) {
         comparison.makeMapDataSelector();
         comparison.makeMapLegendContainer();
         comparison.makeMapSumlevSelector();
-        
+
         // initial page load, make map with currently selected
         // column (first column by default)
         if (comparison.hash.column && comparison.table.columns[comparison.hash.column]) {
@@ -399,7 +399,7 @@ function Comparison(options) {
             comparison.makeChosenGeoList();
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
-            
+
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -504,10 +504,10 @@ function Comparison(options) {
         if (comparison.valueType != 'percentage') {
             precision = (max <= 1) ? 2 : (max <= 10) ? 1 : 0;
         }
-        
+
         labelData.unshift(min);
         labelData.push(max);
-        
+
         var legendLabels = d3.select("#map-legend")
             .selectAll("span")
             .data(labelData)
@@ -852,7 +852,7 @@ function Comparison(options) {
     comparison.makeDistributionLabels = function(points) {
         var chartPointLabels = points.append('span')
                 .classed('hovercard', true);
-                
+
         chartPointLabels.append('a')
                 .classed('label-title', true)
                 .attr('href', function(d) { return '/profiles/' + d.geoID + '/'; })
