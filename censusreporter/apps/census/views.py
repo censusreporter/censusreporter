@@ -364,7 +364,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2013/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2014/%s' % self.geo_id
         r = requests.get(endpoint)
         status_code = r.status_code
 
@@ -374,7 +374,7 @@ class GeographyDetailView(TemplateView):
         return None
 
     def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2013/%s.json' % geo_id
+        return '/1.0/data/profiles/2014/%s.json' % geo_id
 
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:
@@ -607,11 +607,11 @@ class S3Conn(object):
 
         # store static version on S3
         s3_key.set_contents_from_file(memfile)
-        
+
 class MakeJSONView(View):
     def post(self, request, *args, **kwargs):
         post_data = self.request.POST
-        
+
         if 'chart_data' in post_data:
             chart_data = simplejson.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
         if 'geography' in post_data:
@@ -621,17 +621,17 @@ class MakeJSONView(View):
 
         if 'params' in post_data:
             params = simplejson.loads(post_data['params'])
-        
+
         # for now, assume we need all these things
         if not (chart_data and geography and geo_metadata and params):
             return render_json_to_response({'success': 'false'})
-        
+
         path_to_make = params['chartDataID'].split('-')
         data = {
             'geography': geography,
             'geo_metadata': geo_metadata,
         }
-        
+
         # bless you, http://stackoverflow.com/a/13688108/3204984
         def nested_set(data, keys, value):
             for key in keys[:-1]:
@@ -641,7 +641,7 @@ class MakeJSONView(View):
         nested_set(data, path_to_make, chart_data)
 
         chart_data_json = SafeString(simplejson.dumps(data, cls=LazyEncoder))
-        
+
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
         s3 = S3Conn()
 
@@ -656,11 +656,11 @@ class MakeJSONView(View):
             s3.write_json(s3_key, chart_data_json)
         else:
             logger.warn("Could not save to S3 because there was no connection to S3.")
-        
+
         return render_json_to_response({'success': 'true'})
 
 
-        
+
 ## LOCAL DEV VERSION OF API ##
 
 class PlaceSearchJson(View):

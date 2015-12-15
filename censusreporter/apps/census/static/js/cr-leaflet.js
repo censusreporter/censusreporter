@@ -2,7 +2,7 @@ CensusReporter = {
     GeoIDLayer: L.GeoJSON.extend({
         addGeoID: function(geoid) {
             var request = new XMLHttpRequest();
-            var url = this.options.api_url + "/1.0/geo/show/tiger2013?geo_ids=" + geoid;
+            var url = this.options.api_url + "/1.0/geo/show/tiger2014?geo_ids=" + geoid;
             request.open('GET', url, true);
             var self = this;
             request.onreadystatechange = function() {
@@ -377,7 +377,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
             throw "Unsupported or invalid summary level."
         }
 
-        var url = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+        var url = 'http://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
