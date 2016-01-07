@@ -4,7 +4,7 @@ var PROXIMITY_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.pl
 var REVERSE_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>").template()
 
 var PLACE_LAYERS = {}
-var geoSearchAPI = 'http://api.staging.censusreporter.org/1.0/geo/search';
+var geoSearchAPI = 'http://api.censusreporter.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
 var push_state_url_template = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var push_state_title_template = _.template("Census Reporter: Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");
