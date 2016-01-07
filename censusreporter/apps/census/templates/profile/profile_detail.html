@@ -339,7 +339,7 @@ $.ajaxSetup({
 });
 
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -369,7 +369,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=tr
                 "opacity": 0.3,
                 "fillOpacity": 0.3,
             },
-        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, 
+        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
             {
             style: defaultStyle,
             onEachFeature: function(feature, layer) {
@@ -526,8 +526,8 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2013/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2014/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
