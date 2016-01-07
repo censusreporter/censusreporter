@@ -36,7 +36,7 @@ CensusReporter = {
             L.GeoJSON.prototype.initialize.call(this);
             var options = L.extend({
                 api_url: 'http://api.censusreporter.org',
-                censusreporter_url: 'http://staging.censusreporter.org',
+                censusreporter_url: 'http://censusreporter.org',
                 autoclick: true
             }, options);
             if (options.autoclick) {
