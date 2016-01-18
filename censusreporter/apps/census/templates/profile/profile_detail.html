@@ -323,8 +323,23 @@
 <!--<![endif]-->
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
+// Allow Ajax POST requests to bypass Django's CSRF check
+// https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
+var csrftoken = '{{ csrf_token }}';
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -354,7 +369,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2013/{{ geography.this.full_geoid }}?geom=tr
                 "opacity": 0.3,
                 "fillOpacity": 0.3,
             },
-        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, 
+        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
             {
             style: defaultStyle,
             onEachFeature: function(feature, layer) {
@@ -511,8 +526,8 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2013/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2014/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {

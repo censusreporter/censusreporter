@@ -1,0 +1,16 @@
+server {
+    listen 80 default_server;
+    server_name %(domainname)s default_server;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:%(project_path)s/%(domainname)s.sock;
+    }
+
+    location /static {
+        alias %(project_path)s/censusreporter/apps/census/static;
+    }
+
+    access_log /var/log/nginx/%(domainname)s.access.log;
+    error_log /var/log/nginx/%(domainname)s.error.log;
+}

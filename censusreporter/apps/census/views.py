@@ -364,7 +364,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2013/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2014/%s' % self.geo_id
         r = requests.get(endpoint)
         status_code = r.status_code
 
@@ -374,7 +374,7 @@ class GeographyDetailView(TemplateView):
         return None
 
     def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2013/%s.json' % geo_id
+        return '/1.0/data/profiles/2014/%s.json' % geo_id
 
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:
@@ -572,6 +572,93 @@ class ComparisonBuilder(TemplateView):
         })
 
         return page_context
+
+class S3Conn(object):
+    def make_s3(self):
+        if AWS_KEY and AWS_SECRET:
+            s3 = S3Connection(AWS_KEY, AWS_SECRET)
+        else:
+            try:
+                s3 = S3Connection()
+            except:
+                s3 = None
+        return s3
+
+    def s3_key(self, key_name):
+        s3 = self.make_s3()
+
+        key = None
+        if s3:
+            bucket = s3.get_bucket('embed.censusreporter.org')
+            key = Key(bucket, key_name)
+        return key
+
+    def write_json(self, s3_key, data):
+        s3_key.metadata['Content-Type'] = 'application/json'
+        s3_key.metadata['Content-Encoding'] = 'gzip'
+        s3_key.storage_class = 'REDUCED_REDUNDANCY'
+
+        # create gzipped version of json in memory
+        memfile = cStringIO.StringIO()
+        #memfile.write(data)
+        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+            gzip_data.write(data)
+        memfile.seek(0)
+
+        # store static version on S3
+        s3_key.set_contents_from_file(memfile)
+
+class MakeJSONView(View):
+    def post(self, request, *args, **kwargs):
+        post_data = self.request.POST
+
+        if 'chart_data' in post_data:
+            chart_data = simplejson.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
+        if 'geography' in post_data:
+            geography = simplejson.loads(post_data['geography'], object_pairs_hook=OrderedDict)
+        if 'geo_metadata' in post_data:
+            geo_metadata = simplejson.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
+
+        if 'params' in post_data:
+            params = simplejson.loads(post_data['params'])
+
+        # for now, assume we need all these things
+        if not (chart_data and geography and geo_metadata and params):
+            return render_json_to_response({'success': 'false'})
+
+        path_to_make = params['chartDataID'].split('-')
+        data = {
+            'geography': geography,
+            'geo_metadata': geo_metadata,
+        }
+
+        # bless you, http://stackoverflow.com/a/13688108/3204984
+        def nested_set(data, keys, value):
+            for key in keys[:-1]:
+                data = data.setdefault(key, {})
+            data[keys[-1]] = value
+
+        nested_set(data, path_to_make, chart_data)
+
+        chart_data_json = SafeString(simplejson.dumps(data, cls=LazyEncoder))
+
+        key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
+        s3 = S3Conn()
+
+        try:
+            s3_key = s3.s3_key(key_name)
+        except:
+            s3_key = None
+
+        if s3_key and s3_key.exists():
+            pass
+        elif s3_key:
+            s3.write_json(s3_key, chart_data_json)
+        else:
+            logger.warn("Could not save to S3 because there was no connection to S3.")
+
+        return render_json_to_response({'success': 'true'})
+
 
 
 ## LOCAL DEV VERSION OF API ##

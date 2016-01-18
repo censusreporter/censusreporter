@@ -2,7 +2,7 @@ CensusReporter = {
     GeoIDLayer: L.GeoJSON.extend({
         addGeoID: function(geoid) {
             var request = new XMLHttpRequest();
-            var url = this.options.api_url + "/1.0/geo/show/tiger2013?geo_ids=" + geoid;
+            var url = this.options.api_url + "/1.0/geo/show/tiger2014?geo_ids=" + geoid;
             request.open('GET', url, true);
             var self = this;
             request.onreadystatechange = function() {
@@ -14,7 +14,7 @@ CensusReporter = {
                 } else {
                   if (typeof(console) != 'undefined' && typeof(console.log) == 'function') {
                     console.log("Error ("+this.status+") getting data")
-                    console.log(this.responseText)                        
+                    console.log(this.responseText)
                   }
                 }
               }
@@ -202,7 +202,7 @@ CensusReporter.GeoJSONLayer = CensusReporter.AjaxLayer.extend({
             this._map.addLayer(this._clipPathRectangles[clipPathId]);
 
             // Add a clip path element to the SVG defs element
-            // With a path element that has the hidden rectangle's SVG path string  
+            // With a path element that has the hidden rectangle's SVG path string
             var path = document.createElementNS(L.Path.SVG_NS, 'path');
             var pathString = this._clipPathRectangles[clipPathId].getPathString();
             path.setAttribute('d', pathString);
@@ -220,7 +220,7 @@ CensusReporter.GeoJSONLayer = CensusReporter.AjaxLayer.extend({
     // * If the options.unique function is specified, merge geometries into GeometryCollections
     // grouped by the key returned by options.unique(feature) for each GeoJSON feature
     // * If options.clipTiles is set, and the browser is using SVG, perform SVG clipping on each
-    // tile's GeometryCollection 
+    // tile's GeometryCollection
     addTileData: function (geojson, tilePoint) {
         var features = L.Util.isArray(geojson) ? geojson : geojson.features,
             i, len, feature;
@@ -377,7 +377,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
             throw "Unsupported or invalid summary level."
         }
 
-        var url = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+        var url = 'http://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
