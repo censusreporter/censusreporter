@@ -14,3 +14,10 @@ server {
     access_log /var/log/nginx/%(domainname)s.access.log;
     error_log /var/log/nginx/%(domainname)s.error.log;
 }
+
+server {
+    listen 80;
+    server_name censusreporter.com www.censusreporter.com www.censusreporter.org;
+
+    return 301 $scheme://censusreporter.org$request_uri;
+}
