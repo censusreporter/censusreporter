@@ -35,8 +35,8 @@ CensusReporter = {
         initialize: function(geoid_spec, options) {
             L.GeoJSON.prototype.initialize.call(this);
             var options = L.extend({
-                api_url: 'http://api.censusreporter.org',
-                censusreporter_url: 'http://censusreporter.org',
+                api_url: 'https://api.censusreporter.org',
+                censusreporter_url: 'https://censusreporter.org',
                 autoclick: true
             }, options);
             if (options.autoclick) {
@@ -359,7 +359,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
     _defaultGeojsonOptions: {
         onEachFeature: function(feature, layer) {
             // you can wire behavior to each "feature", or place outline.
-            var profileURL = 'http://censusreporter.org/profiles/' + feature.properties.geoid;
+            var profileURL = 'https://censusreporter.org/profiles/' + feature.properties.geoid;
             layer.bindPopup("<a href='" + profileURL + "'>" + feature.properties.name + "</a>");
             if (this.style && this.mouseoverStyle) {
                 layer.on('mouseover', function() {

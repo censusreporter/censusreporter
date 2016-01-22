@@ -6,7 +6,7 @@
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
         <meta property="og:site_name" content="Census Reporter" />
-        <meta property="og:url" content="http://censusreporter.org/profiles/{{ geography.this.full_geoid }}-{{ geography.this.full_name|slugify }}" />
+        <meta property="og:url" content="https://censusreporter.org/profiles/{{ geography.this.full_geoid }}-{{ geography.this.full_name|slugify }}" />
         <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
@@ -22,15 +22,15 @@
 {% endblock %}
 
 {% block head_css_extra %}
-<link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
   <!--[if lte IE 8]>
-    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
   <![endif]-->
 <link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
 {% endblock %}
 
 {% block head_javascript_extra %}
-<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}

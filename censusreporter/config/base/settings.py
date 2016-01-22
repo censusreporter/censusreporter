@@ -108,4 +108,4 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-API_URL = 'http://api.censusreporter.org'
+API_URL = 'https://api.censusreporter.org'

@@ -91,8 +91,8 @@ function makeEmbedFrame() {
             '<h3 class="chart-title">' + embedFrame.params.chartTitle + '</h3>',
             '<ul>',
             '<li><strong>This chart counts:</strong> ' + aboutData.universe + '</li>',
-            '<li>The data in this chart comes from <a href="http://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">Table ' + aboutData.table_id.toUpperCase() + '</a> in the U.S. Census Bureau&rsquo;s ' + aboutData.acs_release + ' release. The chart is from <a href="http://censusreporter.org">Census Reporter</a>, a project to make Census data easier to use and understand.</li>',
-            '<li><a href="http://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
+            '<li>The data in this chart comes from <a href="https://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">Table ' + aboutData.table_id.toUpperCase() + '</a> in the U.S. Census Bureau&rsquo;s ' + aboutData.acs_release + ' release. The chart is from <a href="https://censusreporter.org">Census Reporter</a>, a project to make Census data easier to use and understand.</li>',
+            '<li><a href="https://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
             '</ul>'
         ].join('');
     }
@@ -107,7 +107,7 @@ function makeEmbedFrame() {
 
         embedFrame.elements.footer.append('a')
             .classed('title', true)
-            .attr('href', 'http://censusreporter.org')
+            .attr('href', 'https://censusreporter.org')
             .html('<img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo12.png"> Census Reporter');
     }
 

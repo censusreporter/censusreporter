@@ -5,7 +5,7 @@ The United States Census Bureau provides a massive amount of data about the Amer
 
 Census Reporter's goal is to make it easier for journalists to write stories using Census data. Our focus is on the American Community Survey; we want to help people understand what the survey covers and help them quickly find data from places they care about. Census Reporter received <a href="http://www.niemanlab.org/2012/10/knight-funding-expands-ires-journalist-friendly-census-site/">funding from the Knight News Challenge</a>, and primary development took place from March 2013 through June 2014.
 
-The <a href="http://censusreporter.org/">Census Reporter website</a> includes three primary types of pages: <a href="http://censusreporter.org/profiles/16000US5367000-spokane-wa/">geographical profiles</a>, which provide an overview of data indicators from a particular place; <a href="http://censusreporter.org/data/table/?table=B15002&geo_ids=050|04000US17&primary_geo_id=04000US17">data comparisons</a>, which use tabular, map and distribution formats to show information from a table across a group of geographies; and <a href="http://censusreporter.org/topics/income/">topical overviews</a>, which document the concepts and tables the ACS uses to cover specific subject areas.
+The <a href="https://censusreporter.org/">Census Reporter website</a> includes three primary types of pages: <a href="https://censusreporter.org/profiles/16000US5367000-spokane-wa/">geographical profiles</a>, which provide an overview of data indicators from a particular place; <a href="https://censusreporter.org/data/table/?table=B15002&geo_ids=050|04000US17&primary_geo_id=04000US17">data comparisons</a>, which use tabular, map and distribution formats to show information from a table across a group of geographies; and <a href="https://censusreporter.org/topics/income/">topical overviews</a>, which document the concepts and tables the ACS uses to cover specific subject areas.
 
 In This Guide
 =============
@@ -74,7 +74,7 @@ As part of the Census Reporter project, we've loaded ACS data into a Postgres da
 ###Show data
 This endpoint does the heavy lifting for Census Reporter's profile and comparison pages. Given a release code, a table code, and a geography, it will return American Community Survey data. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=16000US5367000
+    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=16000US5367000
 
 This will return data for Spokane, WA, from the "Sex By Age" table, using the "latest" ACS release available. In this case, "latest" determines not only the year of release, but also the estimate used. The ACS provides <a href="http://www.census.gov/acs/www/guidance_for_data_users/estimates/">three datasets per year</a>: the 1-year, which uses 12 months of data to arrive at estimates for areas with at least 65,000 residents; the 3-year, which uses 36 months of data and covers areas with at least 20,000 people; and the 5-year, which uses 60 months of data and covers areas of all sizes.
 
@@ -82,23 +82,23 @@ For this API endpoint, "latest" is a shortcut that asks for the most current est
 
 You can ask for a specific release and estimate by exchanging "latest" for a release code that looks like `acs{year}_{estimate}yr`. So a call to:
 
-    http://api.censusreporter.org/1.0/data/show/acs2012_5yr?table_ids=B01001&geo_ids=16000US5367000
+    https://api.censusreporter.org/1.0/data/show/acs2012_5yr?table_ids=B01001&geo_ids=16000US5367000
 
 ... would return data for Spokane, WA, from the "Sex By Age" table, using the ACS 2012 5-year release.
 
 You can ask for multiple tables at a time by passing a comma-separated `table_ids` list:
 
-    http://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000
+    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000
 
 And you can ask for multiple geographies by passing a comma-separated `geo_ids` list:
 
-    http://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000,16000US1714000
+    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000,16000US1714000
 
 One particularly common use case is to request data for all geographies of a particular class within a particular parent geography, e.g. "compare all counties in Washington state." Identifying each county's geoID individually would be unwieldy, so we added a shortcut for this type of request. Your comma-separated list of `geo_ids` can contain one or more items that use the pipe character to describe a comparison set like this: `{child_summary_level}|{parent_geoid}`.
 
-The Census uses summary levels to identify classes of geographies (like counties or school districts or census tracts), and each one <a href="http://censusreporter.org/topics/geography/">is represented by a three-digit code</a>. For this API endpoint, "all counties in Washington state" can be represented as `050|04000US53`, so a request to:
+The Census uses summary levels to identify classes of geographies (like counties or school districts or census tracts), and each one <a href="https://censusreporter.org/topics/geography/">is represented by a three-digit code</a>. For this API endpoint, "all counties in Washington state" can be represented as `050|04000US53`, so a request to:
 
-    http://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=050|04000US53
+    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=050|04000US53
 
 ... would return "Sex By Age" data for all 39 counties in Washington. Great? Great! But hold on, let's talk about this for a second.
 
@@ -179,7 +179,7 @@ Note that Washington state's data is also included in this API response. When yo
 
 This endpoint provides basic information about a specific geography, including name, summary level, land area, and population. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000
+    https://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000
 
 This request uses the geoID for Spokane, WA, and returns this JSON:
 
@@ -205,7 +205,7 @@ This endpoint returns Tiger 2012 data for all but one class of geography: congre
 
 This endpoint takes a specific geography and provides metadata for it, along with a list of parent geographies that contain it. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000/parents
+    https://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000/parents
 
 ... which returns results that include name, geoID, summary level, geography class, and percentage of coverage:
 
@@ -253,7 +253,7 @@ This endpoint takes a specific geography and provides metadata for it, along wit
 
 This endpoint returns metadata for geographies with names that match a text string. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/geo/search?q=spo
+    https://api.censusreporter.org/1.0/geo/search?q=spo
 
 ... which returns results that include each matching geography's summary level, geoID and name:
 
@@ -285,13 +285,13 @@ This endpoint returns metadata for geographies with names that match a text stri
 
 You can limit the search to a particular set of summary levels by passing an optional, comma-separated list in a `sumlevs` argument. The Census Reporter website does this in most cases:
 
-    http://api.censusreporter.org/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
+    https://api.censusreporter.org/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
 
 ###Table search
 
 This endpoint returns metadata for tables with titles or column names that match a text string. A common call to this endpoint might look like:
 
-    http://api.censusreporter.org/1.0/table/search?q=heat
+    https://api.censusreporter.org/1.0/table/search?q=heat
 
 ... which would return metadata for matches that includes table name, table code, table universe and table topics. Column metadata is also included where they matched type is a column:
 
@@ -347,7 +347,7 @@ Profile pages
 
 Geographical profile pages provide an overview of important Census data indicators for a particular place. We've divided these data points into five categories: Demographics, Economics, Families, Housing and Social. Each category includes a mix of figures and charts that help you understand what life is like in a community. Profiles also include comparative data, so you can consider statistics from a city, for example, in the context of the metro area and state they're in.
 
-The Census Reporter website generates profile pages for geographies at the <a href="http://censusreporter.org/profiles/01000US-united-states/">national</a> and <a href="http://censusreporter.org/profiles/04000US17-illinois/">state</a> levels all the way down to <a href="http://censusreporter.org/profiles/14000US17031808702-census-tract-808702-cook-il/">census tracts</a>. If your browser supports geolocation, you can <a href="http://censusreporter.org/locate/">use your current location</a> to easily profile any of the geographies that you're currently in.
+The Census Reporter website generates profile pages for geographies at the <a href="https://censusreporter.org/profiles/01000US-united-states/">national</a> and <a href="https://censusreporter.org/profiles/04000US17-illinois/">state</a> levels all the way down to <a href="https://censusreporter.org/profiles/14000US17031808702-census-tract-808702-cook-il/">census tracts</a>. If your browser supports geolocation, you can <a href="https://censusreporter.org/locate/">use your current location</a> to easily profile any of the geographies that you're currently in.
 
 ###The profile page back end
 
@@ -443,7 +443,7 @@ The `makeCharts()` function will recognize:
 * **scaled-percentage**: Does the same things as "percentage," but also scales the chart so that the highest category value takes up the full vertical space available.
 * **dollar**: Adds a "$" character before figures in the chart. Uses "amount" in comparison sentences.
 
-`data-qualifier`: Adds a trailing line below the chart, prepended with an "*" character. This is useful when charts require a little extra context. For example, the profile page's <a href="http://censusreporter.org/profiles/16000US5367000-spokane-wa/#race">"Race & Ethnicity" column chart</a> adds this explanation: "Hispanic includes respondents of any race. Other categories are non-Hispanic."
+`data-qualifier`: Adds a trailing line below the chart, prepended with an "*" character. This is useful when charts require a little extra context. For example, the profile page's <a href="https://censusreporter.org/profiles/16000US5367000-spokane-wa/#race">"Race & Ethnicity" column chart</a> adds this explanation: "Hispanic includes respondents of any race. Other categories are non-Hispanic."
 
 ####Responsive design
 

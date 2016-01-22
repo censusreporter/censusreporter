@@ -1,7 +1,7 @@
 @import 'charts.css';
-@import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
-@import url(http://fonts.googleapis.com/css?family=Merriweather);
+@import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
 
 /*
 teals: #02aeab; #027b7a; #014948;
@@ -12,7 +12,7 @@ orange: #f55b2c
 *, *:before, *:after {
     -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
-    
+
 html,
 body {
     margin: 0;
@@ -1326,7 +1326,7 @@ form select {
     padding: 0;
 }
 .select-wrapper i.fa,
-.filter-group i.fa, 
+.filter-group i.fa,
 .item-chosen i.fa {
     position: absolute;
     top: 0;
@@ -2300,7 +2300,7 @@ dl#racial-iteration dt {
 }
 
 .twitter-typeahead,
-.twitter-typeahead .tt-query, 
+.twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
     width: 100%;
 }
@@ -2498,7 +2498,7 @@ blockquote {
     .chosen {
         margin: 0 0 1em;
     }
-    
+
 } /* END: @media only screen and (max-width: 1139px) */
 @media only screen and (max-width: 768px) {
     article,
