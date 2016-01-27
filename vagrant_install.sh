@@ -1,5 +1,4 @@
 echo "export DJANGO_SETTINGS_MODULE=config.dev.settings" >>/home/vagrant/.profile
-echo "export PYTHONPATH=/vagrant/censusreporter:/vagrant/censusreporter/apps" >>/home/vagrant/.profile
 cat <<EOF > /home/vagrant/runserver 
 #!/bin/bash
 python /vagrant/manage.py runserver 0.0.0.0:8000
