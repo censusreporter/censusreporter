@@ -42,11 +42,6 @@ Create the virtual environment for your local project, activate it and install t
     >> workon census
     >> pip install -r requirements.txt
 
-With your development environment still active, make sure it has the path settings it will need:
-
-    >> add2virtualenv ./censusreporter
-    >> add2virtualenv ./censusreporter/apps
-
 And make sure your development environment knows the proper DJANGO_SETTINGS_MODULE by creating a `postactivate` script ...
 
     >> cdvirtualenv bin

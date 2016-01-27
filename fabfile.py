@@ -29,10 +29,6 @@ def initial_config():
 
     # Create virtualenv and add our Flask app to it
     sudo('virtualenv --no-site-packages %s' % virtualenv_dir, user='www-data')
-    sudo('rm -f %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, user='www-data')
-    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter' % code_dir, use_sudo=True)
-    append('%s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir, '%s/censusreporter/apps' % code_dir, use_sudo=True)
-    sudo('chown www-data:www-data %s/lib/python2.7/site-packages/censusreporter.pth' % virtualenv_dir)
 
     # Install and set up gunicorn in the virtualenv
     with prefix('source %s/bin/activate' % virtualenv_dir):
