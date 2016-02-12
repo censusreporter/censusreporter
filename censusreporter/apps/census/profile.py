@@ -187,7 +187,6 @@ def geo_profile(geoid, acs='latest'):
 
     item_levels = api.get_parent_geoids(geoid)['parents']
     comparison_geoids = [level['geoid'] for level in item_levels]
-    comparison_geoids.append(geoid)
 
     doc = OrderedDict([('geography', OrderedDict()),
                        ('demographics', dict()),
