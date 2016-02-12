@@ -18,6 +18,8 @@ class ApiClient(object):
         data = None
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)
+        else:
+            raise Exception("Error fetching data: " + r.json().get("error"))
 
         return data
 
