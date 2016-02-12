@@ -228,8 +228,11 @@ class TableDetailView(TemplateView):
 
         for group, group_values in tables.iteritems():
             preview_table = next(group_values.iteritems())[0]
-            tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
-            tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
+            try:
+                tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
+                tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
+            except ValueError:
+                continue
 
         return tabulation_data
 
@@ -251,8 +254,7 @@ class TableDetailView(TemplateView):
         if status_code == 200:
             return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
-            raise_404_with_messages(self.request, error_data)
+            raise ValueError("No table data for that table")
         else:
             raise Http404
 
