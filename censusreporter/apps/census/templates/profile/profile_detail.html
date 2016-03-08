@@ -311,8 +311,9 @@
                 </a>
             </div>
         </section>
-
+        <p class="">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
     </div>
+
 </article>
 {% endblock %}
 
@@ -431,6 +432,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
     defaultDataRelease = '{{ geography.census_release }}',
+    releases = [defaultDataRelease],
     profileData = {{ profile_data_json }};
 
 var gracefulType = function(chartType) {
@@ -495,6 +497,9 @@ var makeCharts = function() {
             console.log("Error making chart " + chartID)
             console.log(chartstuff);
         }
+
+        // build array of releases used on this page for citations
+        if (noteRelease) { releases.push(noteRelease) }
     });
 }
 makeCharts();
@@ -574,6 +579,27 @@ if (!!parentLinkContainer) {
             $('body').trigger('glossaryUpdate', parentLinkContainer);
         });
 }
+
+// add citations for each data release used for page
+if (releases.length > 1) {
+    var explain = '<p class="explain"><em>This profile displays data from more than one ACS release. Charts not derived from ' + defaultDataRelease + ' data are noted with an *.</em></p>'
+    $('.content-container').append(explain);
+}
+var makeCitation = function(year, release) {
+    var citation = '<p class="explain"><strong>Citation:</strong> ' +
+    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
+    '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
+    'Retrieved from <em>Census Reporter Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> &lt;https://censusreporter.org{{ request.get_full_path }}&gt;</p>';
+
+    $('.content-container').append(citation);
+}
+$.each(releases, function(i, v) {
+    var bits = v.split(" "),
+        year = bits[1],
+        release = bits[2];
+        
+    makeCitation(year, release);
+});
 
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 </script>

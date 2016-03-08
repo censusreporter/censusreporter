@@ -14,9 +14,13 @@ Comparison({
 })
 
 This expects to have Underscore, D3 and jQuery.
+
+You may optionally pass in a callback function, which will be exectued
+after Comparison() retrieves data from the API. This callback should
+accept a `comparison` object.
 */
 
-function Comparison(options) {
+function Comparison(options, callback) {
 
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org';
 
@@ -64,6 +68,9 @@ function Comparison(options) {
                     comparison.data = comparison.cleanData(results);
                     comparison.addStandardMetadata();
                     comparison.makeDataDisplay();
+                    if (typeof callback === "function") {
+                        callback(comparison);
+                    }
                 })
                 .fail(function(xhr, textStatus, error) {
                     var message = $.parseJSON(xhr.responseText);

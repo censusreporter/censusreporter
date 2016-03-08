@@ -34,13 +34,24 @@ for applying things across that entire family of pages.
         </section>
     </div>
 </article>
+
+<p class="explain"><strong>Citation:</strong>
+  U.S. Census Bureau (<span id="cite-release-year">RELEASE YEAR</span>).
+  <em><span id="cite-table-name">TABLE NAME</span> American Community Survey <span id="cite-release">RELEASE</span> estimates.</em>
+  Retrieved from &lt;https://censusreporter.org{{ request.get_full_path }}&gt;
+</p>
 {% endblock %}
 
 {% block body_javascript_extra %}
 <script src="{{ STATIC_URL }}js/comparisons.js"></script>
 {% block page_specific_javascript %}{% endblock %}
 <script>
-dataView = new Comparison({
+var makeCitation = function(comparison) {
+    $('#cite-release-year').text(comparison.release.years);
+    $('#cite-table-name').text(comparison.table.title);
+    $('#cite-release').text(comparison.release.name.split(' ')[2]);
+}
+var dataView = new Comparison({
     tableID: '{{ table }}',
     dataFormat: '{{ data_format }}',
     geoIDs: '{{ geo_ids }}'.split(','),
@@ -51,7 +62,7 @@ dataView = new Comparison({
     displayWrapper: '#data-display',
     pageWrapper: '.data-view',
     dataContainer: '#data-container'
-})
+}, makeCitation);
 
 // toggle links
 $('.toggle-set a').hover(function() {
