@@ -31,16 +31,6 @@ function makeGeoSelectWidget(element) {
         minLength: 2
     }, [
     {
-      name: 'always',
-      async: false,
-      source: function(query, syncResults) {
-        syncResults([{q: query, url: '/profiles/?q=' + query}]);
-      },
-      templates: {
-        suggestion: function(a) { return '<p class="result-name"><span class="result-type">search</span><em>Don&rsquo;t see what you&rsquo;re looking for? Search all places for <strong>&ldquo;'+ a.q+'&rdquo;</strong> &hellip;</em></p>' }
-      }
-    },
-    {
         name: 'profile',
         displayKey: 'full_name',
         source: geoSelectEngine.ttAdapter(),
