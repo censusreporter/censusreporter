@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {% for item in urllist %}
+        <url>
+            <loc>{% url 'topic_detail' item %}</loc>
+        </url>
+    {% endfor %}
+    <url>
+        <loc>https://censusreporter.org/glossary/</loc>
+    </url>
+    <url>
+        <loc>https://censusreporter.org/locate/</loc>
+    </url>
+</urlset>

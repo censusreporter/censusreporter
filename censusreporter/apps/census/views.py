@@ -8,6 +8,7 @@ import gzip
 import re
 import requests
 import unicodecsv
+import topics
 
 from django.conf import settings
 from django.contrib import messages
@@ -15,7 +16,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.template import loader, TemplateDoesNotExist
+from django.template import loader, TemplateDoesNotExist, RequestContext
 from django.utils import simplejson
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
@@ -829,6 +830,41 @@ class GeoSearch(TemplateView):
         }
         tables = None
         columns = None
+
+
+class SitemapIndexView(TemplateView):
+    template_name = 'sitemap_index.xml'
+
+    """
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            'sitemaplist': ["oneoneone", "twotwotwo", "three"]
+        }
+
+        return page_context
+    """
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return self.render_to_response(context, content_type="text/xml; charset=utf-8")
+
+
+class SitemapTopicsView(TemplateView):
+    template_name = 'sitemap.xml'
+
+    def get_context_data(self, *args, **kwargs):
+        urllist = [x['slug'] for x in topics.TOPICS_LIST]
+        page_context = {
+            'urllist': urllist
+        }
+
+        return page_context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return self.render_to_response(context,
+                                       content_type="text/xml; charset=utf-8")
+
 
 def sort_topics(topic_map):
     return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
