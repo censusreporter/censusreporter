@@ -5,10 +5,4 @@
             <loc>{% url 'topic_detail' item %}</loc>
         </url>
     {% endfor %}
-    <url>
-        <loc>https://censusreporter.org/glossary/</loc>
-    </url>
-    <url>
-        <loc>https://censusreporter.org/locate/</loc>
-    </url>
 </urlset>

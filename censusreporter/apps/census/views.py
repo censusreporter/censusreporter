@@ -832,23 +832,6 @@ class GeoSearch(TemplateView):
         columns = None
 
 
-class SitemapIndexView(TemplateView):
-    template_name = 'sitemap_index.xml'
-
-    """
-    def get_context_data(self, *args, **kwargs):
-        page_context = {
-            'sitemaplist': ["oneoneone", "twotwotwo", "three"]
-        }
-
-        return page_context
-    """
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        return self.render_to_response(context, content_type="text/xml; charset=utf-8")
-
-
 class SitemapTopicsView(TemplateView):
     template_name = 'sitemap.xml'
 
@@ -857,7 +840,6 @@ class SitemapTopicsView(TemplateView):
         page_context = {
             'urllist': urllist
         }
-
         return page_context
 
     def get(self, request, *args, **kwargs):
@@ -865,6 +847,13 @@ class SitemapTopicsView(TemplateView):
         return self.render_to_response(context,
                                        content_type="text/xml; charset=utf-8")
 
+
+class SitemapProfilesView(TemplateView):
+    template_name = 'sitemap_topics.xml'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return self.render_to_response(context, content_type="text/xml; charset=utf-8")
 
 def sort_topics(topic_map):
     return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']

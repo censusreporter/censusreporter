@@ -10,7 +10,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView, SitemapIndexView, SitemapTopicsView)
+    MakeJSONView, SitemapTopicsView)
 
 admin.autodiscover()
 
@@ -148,13 +148,6 @@ urlpatterns = patterns('',
             mimetype="text/plain"
         )
     ),
-
-   url(
-       regex   = '^sitemap.xml$',
-       view    = SitemapIndexView.as_view(),
-       kwargs  = {},
-       name    = 'sitemap'
-   ),
 
     url(
         regex = '^topics/sitemap.xml$',
