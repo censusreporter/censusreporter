@@ -17,6 +17,10 @@ server {
         alias %(project_path)s/censusreporter/apps/census/static;
     }
 
+    location ~ /(sitemap.*)$ {
+        alias %(project_path)s/censusreporter/apps/census/static/sitemap/$1;
+    }
+
     access_log /var/log/nginx/%(domainname)s.access.log;
     error_log /var/log/nginx/%(domainname)s.error.log;
 }

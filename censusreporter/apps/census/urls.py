@@ -10,7 +10,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView)
+    MakeJSONView, SitemapTopicsView)
 
 admin.autodiscover()
 
@@ -147,6 +147,13 @@ urlpatterns = patterns('',
             "User-agent: *\n%s: /" % ('Disallow' if BLOCK_ROBOTS else 'Allow') ,
             mimetype="text/plain"
         )
+    ),
+
+    url(
+        regex = '^topics/sitemap.xml$',
+        view = SitemapTopicsView.as_view(),
+        kwargs = {},
+        name = 'sitemap_topics'
     ),
 
     ## LOCAL DEV VERSION OF API ##
