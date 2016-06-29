@@ -532,7 +532,7 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
     parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2014/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'http://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    tilesGeoAPI = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
@@ -597,7 +597,7 @@ $.each(releases, function(i, v) {
     var bits = v.split(" "),
         year = bits[1],
         release = bits[2];
-        
+
     makeCitation(year, release);
 });
 
