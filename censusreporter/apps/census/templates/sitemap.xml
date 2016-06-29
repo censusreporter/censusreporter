@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {% for item in urllist %}
         <url>
-            <loc>{% url 'topic_detail' item %}</loc>
+            <loc>https://censusreporter.org{% url 'topic_detail' item %}</loc>
         </url>
     {% endfor %}
 </urlset>
