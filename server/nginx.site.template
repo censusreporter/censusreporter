@@ -17,7 +17,7 @@ server {
         alias %(project_path)s/censusreporter/apps/census/static;
     }
 
-    location ~ /(sitemap.*)$ {
+    location ~ ^/(sitemap.*)$ {
         alias %(project_path)s/censusreporter/apps/census/static/sitemap/$1;
     }
 
