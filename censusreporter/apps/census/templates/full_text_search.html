@@ -55,14 +55,12 @@ $(function() {
                         if (data.results[i].type == "profile") {
                             result.push({
                                 label: data.results[i].full_name,
-                                value: data.results[i].full_name
-                                //TODO Add more fields for function below on line 73 to process
+                                value: data.results[i].sumlevel_name
                             });
                         } else if (data.results[i].type == "table") {
                             result.push({
                                 label: data.results[i].table_name,
-                                value: data.results[i].table_name
-                                //TODO Add more fields for function below on line 73 to process
+                                value: "<b>Table topics: </b>" + data.results[i].topics
                             });
                         }
                     }
