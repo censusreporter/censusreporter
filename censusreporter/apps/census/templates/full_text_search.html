@@ -1,17 +1,30 @@
 {% extends '_base.html' %}{% load humanize partition %}
 
 {% block content_container %}
+<div class="content-container clearfix">
+    <article id="full-text" class="clearfix wrapper">
+        <section class="column-full clearfix big-action">
 
-    <form>
-        <input id="query" type="text" name="query">
-        <input id="search" type="submit" value="Search">
-    </form>
+            <h1 class="article-header">Full-Text Search Testing</h1>
+            <div class="input-wrapper">
 
-    <div id="data"></div>
+                <form>
+                    <input id="query" type="text" name="query" autocomplete="off">
+                </form>
 
+            </div>
+
+        </section>
+
+        <div id="data"></div>
+    </article>
+</div>
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+        crossorigin="anonymous"></script>
 <script>
 // show 'use my current location' button
 if (Modernizr.geolocation) {
@@ -22,14 +35,47 @@ geoSelect.focus()
 </script>
 
 <script>
-
-$("form").submit(function() {
-    $.get("https://api.censusreporter.org/1.0/table/search?q=" + $("#query").val(), function(data) {
-        console.log(data);
-        //$("#div").html(data);
-    });
-    return false; // Prevent page refresh
+$(function() {
+    // Initialize autocomplete
+    $("#query").autocomplete({
+        // Grab source from ajax call
+        source: function (request, response) {
+            $.ajax({
+                // request.term is the current text in the search box.
+                url: "http://0.0.0.0:5000/2.1/full-text/search?q=" + request.term,
+                dataType: "json",
+                // Use success handler to process data before passing it to response
+                // function.
+                success: function(data) {
+                    // Format of data is {results: [ list of objects ]}
+                    var result = [];
+                    // For each returned page, prepare data for display. label and
+                    // value are defaults preferred by jQuery UI autocomplete.
+                    for (var i = 0; i < data.results.length; i++) {
+                        if (data.results[i].type == "profile") {
+                            result.push({
+                                label: data.results[i].full_name,
+                                value: data.results[i].full_name
+                                //TODO Add more fields for function below on line 73 to process
+                            });
+                        } else if (data.results[i].type == "table") {
+                            result.push({
+                                label: data.results[i].table_name,
+                                value: data.results[i].table_name
+                                //TODO Add more fields for function below on line 73 to process
+                            });
+                        }
+                    }
+                    response(result);
+                }
+            });
+        }
+    }).autocomplete("instance")._renderItem = function(ul, item) {
+        // Format autocomplete dropdown.
+        return $("<li>").append("<div>" + item.label + "<br>" + item.value + "</div>").appendTo(ul);
+    };
 });
+
 
 </script>
 

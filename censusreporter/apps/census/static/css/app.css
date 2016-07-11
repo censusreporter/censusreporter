@@ -753,7 +753,7 @@ h1.article-header-right {
     font-size: 1em;
 }
 #homepage .input-wrapper,
-#homepage .input-wrapper {
+#full_text_search .input-wrapper {
     padding-top: .25em;
     padding-left: 180px;
 }
