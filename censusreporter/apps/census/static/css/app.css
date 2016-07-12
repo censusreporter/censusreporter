@@ -2829,3 +2829,33 @@ blockquote {
         font-size: 2.2em;
     }
 }
+
+/* Full-Text Autocomplete */
+
+.ui-autocomplete {
+    background: white;
+    height: 300px;
+    overflow-y: auto;
+}
+
+#ui-id-1 {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.autocomplete-li {
+    border-bottom: 0.5px solid gray;
+    border-left: 0.5px solid gray;
+    border-right: 0.5px solid gray;
+    padding: 8px;
+}
+
+.autocomplete-label {
+    font-size: 1em;
+    font-family: "Merriweather", Georgia, serif;
+}
+
+.autocomplete-subline {
+    font-size: 0.8em;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
