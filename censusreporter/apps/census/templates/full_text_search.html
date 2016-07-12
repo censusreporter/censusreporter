@@ -16,7 +16,6 @@
 
         </section>
 
-        <div id="data"></div>
     </article>
 </div>
 {% endblock %}
@@ -73,16 +72,16 @@ $(function() {
             });
         },
         select: function(event, ui) {
-            //TODO Use this functionality instead of <a> tag?
+            console.log(ui.item.url);
+            window.location = ui.item.url;
         },
         minLength: 2
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
         return $("<li class='autocomplete-li'>")
-                .append("<a href='" + item.url + "'>" +
-                        "<div class='autocomplete-label'>" + item.label +
-                        "</div><div class='autocomplete-subline'>" + item.subline +
-                        "</div></a>").appendTo(ul);
+                .append("<div class='autocomplete-label'>" + item.label
+                        + "</div><div class='autocomplete-subline'>" 
+                        + item.subline + "</div>").appendTo(ul);
     };
 
     // Constrain autocomplete box width
@@ -90,8 +89,18 @@ $(function() {
     jQuery.ui.autocomplete.prototype._resizeMenu = function () {
         var ul = this.menu.element;
         ul.outerWidth(this.element.outerWidth());
-    }
+    };
+
+    $(document).on("mouseenter", ".autocomplete-li", function() {
+        $(this).addClass("autocomplete-selected");
+    });
+
+    $(document).on("mouseleave", ".autocomplete-li", function() {
+        $(this).removeClass("autocomplete-selected");
+    });
+
 });
+
 </script>
 
 <!--<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>-->

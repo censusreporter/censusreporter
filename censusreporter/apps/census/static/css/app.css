@@ -2833,8 +2833,13 @@ blockquote {
 /* Full-Text Autocomplete */
 
 .ui-autocomplete {
-    background: white;
-    height: 300px;
+    margin-top: 2px;
+    background: #fff;
+    border: 1px solid #ccc;
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;
+    height: 320px;
     overflow-y: auto;
 }
 
@@ -2843,11 +2848,21 @@ blockquote {
     padding-left: 0px;
 }
 
+.autocomplete-link {
+    text-decoration: none;
+}
+
 .autocomplete-li {
     border-bottom: 0.5px solid gray;
     border-left: 0.5px solid gray;
     border-right: 0.5px solid gray;
-    padding: 8px;
+    padding: 1.25em .83em .83em;
+}
+
+.autocomplete-selected {
+  color: #fff;
+  background-color: #027b7a;
+  cursor: pointer;
 }
 
 .autocomplete-label {
