@@ -10,7 +10,7 @@ $(function() {
         source: function (request, response) {
             $.ajax({
                 // request.term is the current text in the search box.
-                url: "http://0.0.0.0:5000/2.1/full-text/search?q=" + request.term,
+                url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term,
                 dataType: "json",
                 // Use success handler to process data before passing it to response
                 // function.
@@ -42,7 +42,7 @@ $(function() {
                         label: "Don't see what you're looking for?",
                         value: "Don't see what you're looking for?",
                         subline: "Click to see more results for " + request.term,
-                        url: "https://censusreporter.org" //TODO
+                        url: "http://127.0.0.1:8000" + "/search-results/" + request.term
                     });
 
                     response(result);

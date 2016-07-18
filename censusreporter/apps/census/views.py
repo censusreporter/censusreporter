@@ -8,6 +8,7 @@ import gzip
 import re
 import requests
 import unicodecsv
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -321,7 +322,12 @@ class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
     def parse_fragment(self,fragment):
-        """Given a URL, return a (geoid,slug) tuple. slug may be None. GeoIDs are not tested for structure, but are simply the part of the URL before any '-' character, also allowing for the curiosity of Vermont legislative districts. (see https://github.com/censusreporter/censusreporter/issues/50)"""
+        """Given a URL, return a (geoid,slug) tuple. slug may be None.
+        GeoIDs are not tested for structure, but are simply the part of the URL
+        before any '-' character, also allowing for the curiosity of Vermont
+        legislative districts.
+        (see https://github.com/censusreporter/censusreporter/issues/50)
+        """
         parts = fragment.split('-',1)
         if len(parts) == 1:
             return (fragment,None)
@@ -774,6 +780,34 @@ class TableSearchJson(View):
 
 class FullTextSearchView(TemplateView):
     template_name = 'full_text_search.html'
+
+class SearchResultsView(TemplateView):
+    template_name = 'search/results.html'
+
+    def dispatch(self, *args, **kwargs):
+        #TODO use settings.API_URL instead of local api server address for production
+        self.query = kwargs.get('results')
+
+        return super(SearchResultsView, self).dispatch(*args, **kwargs)
+
+    def get_data(self, query):
+        r = requests.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + query)
+        status_code = r.status_code
+
+        search_data = {}
+        if status_code == 200:
+            search_data = json.loads(r.text)
+        elif status_code == 404 or status_code == 400:
+            error_data = json.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        else:
+            raise Http404
+
+        return search_data
+
+    def get_context_data(self, **kwargs):
+        return self.get_data(self.query)
+
 
 class Elasticsearch(TemplateView):
     template_name = 'search/elasticsearch.html'

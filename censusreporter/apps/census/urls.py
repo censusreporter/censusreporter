@@ -10,7 +10,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView, FullTextSearchView)
+    MakeJSONView, FullTextSearchView, SearchResultsView)
 
 admin.autodiscover()
 
@@ -83,6 +83,13 @@ urlpatterns = patterns('',
         view = FullTextSearchView.as_view(),
         kwargs = {},
         name = 'full_text_search'
+    ),
+
+    url(
+        regex = '^search-results/(?P<results>[a-zA-Z0-9\ ]+)/$',
+        view = SearchResultsView.as_view(),
+        kwargs = {},
+        name = 'search-results'
     ),
 
     url(
