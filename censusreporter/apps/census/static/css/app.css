@@ -2848,22 +2848,25 @@ blockquote {
     padding-left: 0px;
 }
 
-.autocomplete-link {
-    text-decoration: none;
-}
-
-.autocomplete-li {
+#ui-id-1 li {
     border-bottom: 0.5px solid gray;
     border-left: 0.5px solid gray;
     border-right: 0.5px solid gray;
     padding: 1.25em .83em .83em;
 }
 
-.autocomplete-selected {
-  color: #fff;
-  background-color: #027b7a;
-  cursor: pointer;
+.autocomplete-link {
+    text-decoration: none;
 }
+
+/*
+Fix focus styling
+
+.focused-temp-TODO {
+    color: #fff;
+    background-color: #027b7a;
+}
+*/
 
 .autocomplete-label {
     font-size: 1em;
@@ -2873,4 +2876,9 @@ blockquote {
 .autocomplete-subline {
     font-size: 0.8em;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.ui-helper-hidden-accessible {
+    /* Removes accessibility text from appearing at bottom of screen */
+    display: none;
 }
