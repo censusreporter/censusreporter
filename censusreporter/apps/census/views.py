@@ -784,12 +784,6 @@ class FullTextSearchView(TemplateView):
 class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
-    def dispatch(self, *args, **kwargs):
-        #TODO use settings.API_URL instead of local api server address for production
-        self.query = kwargs.get('results')
-
-        return super(SearchResultsView, self).dispatch(*args, **kwargs)
-
     def get_data(self, query):
         r = requests.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + query)
         status_code = r.status_code
@@ -806,7 +800,8 @@ class SearchResultsView(TemplateView):
         return search_data
 
     def get_context_data(self, **kwargs):
-        return self.get_data(self.query)
+        q = self.request.GET.get('q', None)
+        return self.get_data(q)
 
 
 class Elasticsearch(TemplateView):

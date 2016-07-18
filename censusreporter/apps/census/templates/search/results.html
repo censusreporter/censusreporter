@@ -1,19 +1,35 @@
 {% extends '_base.html' %}
 
 {% block content_container %}
-<ol>
-{% for item in results %}
-    <li>
-        <ul>
-            <li><b>{{ item.full_name }}</b></li>
-            <li>{{ item.url }}</li>
-            <li>{{ item.type }}</li>
-            <li>{{ item.sumlevel_name }}</li>
-            <li>{{ item.sumlevel }}</li>
-            <li>{{ item.full_geoid }}</li>
-        </ul>
-    </li>
-{%  endfor %}
-</ol>
+<div class="content-container clearfix">
 
+<article id="full-text" class="clearfix wrapper">
+
+    <section class="column-full clearfix big-action">
+        <div class="input-wrapper">
+            <form action="http://127.0.0.1:8000/search-results">
+                <input name="q" id="search" type="text" autocomplete="off">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+    </section>
+
+    <div class="content-container wrapper clearfix">
+        {% for item in results %}
+            <div class="clearfix">
+                <ul>
+                    <li><b>{{ item.full_name }}</b></li>
+                    <li>{{ item.url }}</li>
+                    <li>{{ item.type }}</li>
+                    <li>{{ item.sumlevel_name }}</li>
+                    <li>{{ item.sumlevel }}</li>
+                    <li>{{ item.full_geoid }}</li>
+                </ul>
+            </div>
+        {%  endfor %}
+    </div>
+
+</article>
+
+</div>
 {% endblock %}

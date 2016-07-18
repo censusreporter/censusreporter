@@ -86,7 +86,7 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex = '^search-results/(?P<results>[a-zA-Z0-9\ ]+)/$',
+        regex = '^search-results/$',
         view = SearchResultsView.as_view(),
         kwargs = {},
         name = 'search-results'

@@ -42,7 +42,7 @@ $(function() {
                         label: "Don't see what you're looking for?",
                         value: "Don't see what you're looking for?",
                         subline: "Click to see more results for " + request.term,
-                        url: "http://127.0.0.1:8000" + "/search-results/" + request.term
+                        url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term
                     });
 
                     response(result);
