@@ -10,7 +10,7 @@ $(function() {
         source: function (request, response) {
             $.ajax({
                 // request.term is the current text in the search box.
-                url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term,
+                url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term + "&type=profile",
                 dataType: "json",
                 // Use success handler to process data before passing it to response
                 // function.

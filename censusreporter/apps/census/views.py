@@ -785,7 +785,8 @@ class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
     def get_data(self, query):
-        r = requests.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + query)
+        r = requests.get("http://0.0.0.0:5000" 
+            + "/2.1/full-text/search?q=" + query)
         status_code = r.status_code
 
         search_data = {}

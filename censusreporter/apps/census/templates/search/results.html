@@ -14,9 +14,9 @@
         </div>
 
         <ul class="nav nav-tabs">
-            <li class="active" role="presentation"><a data-toggle="tab" href="#all">All</a></li>
-            <li role="presentation"><a data-toggle="tab" href="#profiles">Profiles</a></li>
-            <li  ole="presentation"><a data-toggle="tab" href="#tables">Tables</a></li>
+            <li class="active" id="tab-all" role="presentation"><a data-toggle="tab" href="#all">All</a></li>
+            <li role="presentation" id="tab-profiles"><a data-toggle="tab" href="#profiles">Profiles</a></li>
+            <li  ole="presentation" id="tab-tables"><a data-toggle="tab" href="#tables">Tables</a></li>
         </ul>
 
     </section>
@@ -37,13 +37,24 @@
                 {%  endfor %}
             </div>
 
-            <div id="profiles" class="tab-pane active"></div>
-            <div id="tables" class="tab-pane active"></div>
+            <div id="profiles" class="tab-pane active">
+               <div class="clearfix"></div>
+            </div>
+            <div id="tables" class="tab-pane active">
+                <div class="clearfix"></div>
+            </div>
         </div>
 </article>
 
 </div>
-
-<script src="{{ STATIC_URL }}js/search-results.js"></script>
 {% endblock %}
 
+
+{% block body_javascript_extra %}{{ block.super }}
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous">
+    </script>
+
+    <script src="{{ STATIC_URL }}js/search-results.js"></script>
+{% endblock %}
