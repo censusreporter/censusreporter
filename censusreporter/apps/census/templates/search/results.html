@@ -12,24 +12,38 @@
                 <input type="submit" value="Search">
             </form>
         </div>
+
+        <ul class="nav nav-tabs">
+            <li class="active" role="presentation"><a data-toggle="tab" href="#all">All</a></li>
+            <li role="presentation"><a data-toggle="tab" href="#profiles">Profiles</a></li>
+            <li  ole="presentation"><a data-toggle="tab" href="#tables">Tables</a></li>
+        </ul>
+
     </section>
 
-    <div class="content-container wrapper clearfix">
-        {% for item in results %}
-            <div class="clearfix">
-                <ul>
-                    <li><b>{{ item.full_name }}</b></li>
-                    <li>{{ item.url }}</li>
-                    <li>{{ item.type }}</li>
-                    <li>{{ item.sumlevel_name }}</li>
-                    <li>{{ item.sumlevel }}</li>
-                    <li>{{ item.full_geoid }}</li>
-                </ul>
+        <div class="tab-content content-container">
+            <div id="all" class="tab-pane active">
+                {% for item in results %}
+                    <div class="clearfix">
+                        <ul>
+                            <li><b>{{ item.full_name }}</b></li>
+                            <li>{{ item.url }}</li>
+                            <li>{{ item.type }}</li>
+                            <li>{{ item.sumlevel_name }}</li>
+                            <li>{{ item.sumlevel }}</li>
+                            <li>{{ item.full_geoid }}</li>
+                        </ul>
+                    </div>
+                {%  endfor %}
             </div>
-        {%  endfor %}
-    </div>
 
+            <div id="profiles" class="tab-pane active"></div>
+            <div id="tables" class="tab-pane active"></div>
+        </div>
 </article>
 
 </div>
+
+<script src="{{ STATIC_URL }}js/search-results.js"></script>
 {% endblock %}
+

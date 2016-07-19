@@ -10,9 +10,10 @@
         <meta name="description" content="{% block head_meta_description %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_css %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
         {% block head_javascript %}
         <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
@@ -125,7 +126,8 @@
         <!--[if lte IE 9]>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
         <![endif]-->
-        <script type="text/javascript">CR_API_URL = '{{ API_URL }}';</script>        
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script type="text/javascript">CR_API_URL = '{{ API_URL }}';</script>
         <script src="{{ STATIC_URL }}js/app.js"></script>
         <script src="{{ STATIC_URL }}js/glossary.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
