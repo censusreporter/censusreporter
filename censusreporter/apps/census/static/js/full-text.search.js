@@ -15,10 +15,18 @@ $(function() {
                 // Use success handler to process data before passing it to response
                 // function.
                 success: function (data) {
-                    // Format of data is {results: [ list of objects ]}
                     var result = [];
+                    // Add to start of search results
+                    result.push({
+                        label: "Don't see what you're looking for?",
+                        value: "Don't see what you're looking for?",
+                        subline: "Click to see more results for " + request.term,
+                        url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term
+                    });
+
                     // For each returned page, prepare data for display. label and
                     // value are defaults preferred by jQuery UI autocomplete.
+                    // Format of data is {results: [ list of objects ]}
                     for (let i = 0; i < data.results.length; i++) {
                         if (data.results[i].type == "profile") {
                             result.push({
@@ -36,14 +44,6 @@ $(function() {
                             });
                         }
                     }
-
-                    // Add to end of search results
-                    result.push({
-                        label: "Don't see what you're looking for?",
-                        value: "Don't see what you're looking for?",
-                        subline: "Click to see more results for " + request.term,
-                        url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term
-                    });
 
                     response(result);
                 }
