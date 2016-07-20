@@ -2859,12 +2859,15 @@ blockquote {
     text-decoration: none;
 }
 
-/*
-.focused-temp-TODO {
-    color: #fff;
-    background-color: #027b7a;
-}
+/* This page may be of help to remove the automatic styling
+http://stackoverflow.com/questions/17200335/jquery-remove-ui-autocomplete-styles-from-dropdown-results
 */
+
+.autocomplete-hover {
+    color: #fff;
+    background: #014948;
+}
+
 
 .autocomplete-label {
     font-size: 1em;
@@ -2873,6 +2876,7 @@ blockquote {
 
 .autocomplete-subline {
     font-size: 0.8em;
+    font-style: italic;
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 

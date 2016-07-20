@@ -32,7 +32,7 @@ $(function() {
                             result.push({
                                 label: data.results[i].full_name,
                                 value: data.results[i].full_name,
-                                subline: "<i>" + data.results[i].sumlevel_name + "<i>",
+                                subline: data.results[i].sumlevel_name,
                                 url: data.results[i].url
                             });
                         } else if (data.results[i].type == "table") {
@@ -59,6 +59,17 @@ $(function() {
             + "</div><div class='autocomplete-subline'>"
             + item.subline + "</div>").appendTo(ul);
     };
+
+    $(document).on("mouseenter", ".ui-menu-item", function() {                           
+        $(this).addClass("autocomplete-hover");        
+    });
+
+    $(document).on("mouseleave", ".ui-menu-item", function() {                           
+        $(this).removeClass("autocomplete-hover");        
+    });
+
+
+
 
     // Constrain autocomplete box width
     // http://stackoverflow.com/questions/5643767/jquery-ui-autocomplete-width-not-set-correctly
