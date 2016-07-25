@@ -802,20 +802,44 @@ class SearchResultsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         q = self.request.GET.get('q', None)
-        page_context = self.get_data(q)
+        page_context = self.get_data(q) # dict with one key: "results"
 
+        # Determine if profile or table pages exist for filtering
         has_profiles = False
         has_tables = False
+        # Collect list of sumlevel names for filtering
+        sumlevel_names = {} # key: sumlevel name, value: count
+        # Collect list of topics for filtering
+        all_topics = {} # key: topic name, value: count
         for item in page_context['results']:
             if item['type'] == "profile":
+
                 has_profiles = True
                 # Capitalize first letter of sumlevel names
-                item['sumlevel_name'] = item['sumlevel_name'].capitalize()
+                capitalized = item['sumlevel_name'].capitalize()
+                item['sumlevel_name'] = capitalized
+                # Add to list of sumlevel names if not already found
+                if capitalized in sumlevel_names.keys():
+                    sumlevel_names[capitalized] += 1
+                else: # Otherwise increment count
+                    sumlevel_names[capitalized] = 1
+
+                page_context['sumlevel_names'] = sumlevel_names
             elif item['type'] == "table":
                 has_tables = True
+                # Capitalize the first letter of topics
+                topics = [x.capitalize() for x in item['topics']]
+                item['topics'] = ", ".join(topics)
+                # Add to list of topics if not already found
+                for topic in topics:
+                    if topic in all_topics.keys():
+                        all_topics[topic] += 1
+                    else: # Otherwise increment count
+                        all_topics[topic] = 1
+
+                page_context['topics'] = all_topics
 
         page_context['contains'] = {"profile":has_profiles, "table":has_tables}
-
         return page_context
 
 

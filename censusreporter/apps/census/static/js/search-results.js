@@ -19,52 +19,82 @@ function getUrlParameter(sParam) {
             return sParameterName[1] === undefined ? true : sParameterName[1];
         }
     }
-};
+}
+
+function resetFilters() {
+    // Un-bold filters
+    $("#sumlevel_names-list").children('li').each(function() {
+        $(this).children('a').css("font-weight", "initial");
+    });
+    $("#topics-list").children('li').each(function() {
+        $(this).children('a').css("font-weight", "initial");
+    });
+
+    // Un-hide results
+    $("#profiles").children("div").each(function() {
+        $(this).css("display", "initial");
+    });
+    $("#tables").children("div").each(function() {
+        $(this).css("display", "initial");
+    });
+}
 
 $(function() {
-	// Get the query string from the URL, replacing + with a space
-	var q = getUrlParameter('q').replace(/\+/g, ' ');
+    // When user clicks the tabs, reset filters
+    $("#filter-tabs li").click(function() {
+        resetFilters();
+    });
+    // When user clicks the sidebar filter options
+    $("#filter-profile").click(function() {
+        resetFilters();
+        $('#filter-tabs a[href="#profiles"]').tab('show');
+    });
 
-    // Filter results for profile pages only
-	$("#tab-profiles").click(function() {
-        // Check if data has already been loaded
-        if ($('#profiles').is(':empty')) {
-            $.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + q 
-                                        + "&type=profile",
-                function(data) {
-                    data = data['results']; // format: {results: array}
-                    for (let i = 0; i < data.length; i++) {
-                        let profile_surrounding = $("<div></div>");
-                        profile_surrounding.append("<h3><a href='" + data[i].url + "'>"
-                            + data[i].full_name + "</a></h3>");
-                        profile_surrounding.append("<p>"
-                            + data[i].sumlevel_name.capitalizeFirstLetter() + "</p>");
-                        $("#profiles").append(profile_surrounding);
-                    }
-                }
-            );
-        }
-	});
- 
-    // Filter results for table pages only
-	$("#tab-tables").click(function() {
-        // Check if data has already been loaded
-        if ($('#tables').is(':empty')) {
-            $.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + q 
-                                        + "&type=table",
-                function(data) {
-                    data = data['results']; // format: {results: array}
-                    for (let i = 0; i < data.length; i++) {
-                        let table_surrounding = $("<div></div>");
-                        table_surrounding.append("<h3><a href='" + data[i].url + "'>Table "
-                            + data[i].table_id + ": " + data[i].simple_table_name + "</a></h3>");
-                        table_surrounding.append("<p>Topics: " + data[i].topics
-                            + "<br>Subtables: " + data[i].subtables + "</p>");
-                        $("#tables").append(table_surrounding);
-                    }
-                }
-            );
-        }
-	});
+    $("#filter-table").click(function() {
+        resetFilters();
+        $('#filter-tabs a[href="#tables"]').tab('show');
+    });
 
+    $(".filter-sumlevel_names").click(function(e) {
+        // Un-bold all other options
+        resetFilters();
+        // Bold the clicked option
+        $(this).css("font-weight", "bold");
+        // Don't allow the href="#" default to go to top of page
+        e.preventDefault();
+        // Get the name of the clicked sumlevel
+        // We split the string on " (" and grab the first item because the link
+        // has a count in parenthesis after the actual sumlevel_name.
+        // Example: State (2)
+        var chosen_filter = $(e.target).text().split(" (")[0];
+
+        $("#profiles").children("div").each(function() {
+            if ($(this).attr("data-sumlevel_name") != chosen_filter) {
+                $(this).css("display", "none");
+            }
+        });
+
+        $('#filter-tabs a[href="#profiles"]').tab('show');
+    });
+
+    $(".filter-topics").click(function(e) {
+        // Un-bold all other options
+        resetFilters();
+        // Bold the clicked option
+        $(this).css("font-weight", "bold");
+        // Don't allow the href="#" default to go to top of page
+        e.preventDefault();
+        // Get the name of the clicked topic
+        var chosen_filter = $(e.target).text().split(" (")[0];
+
+        $("#tables").children("div").each(function() {
+            topics_for_this_item = $(this).attr("data-topic").split(", ");
+            // Hide result if result does not contain chosen topic
+            if (topics_for_this_item.indexOf(chosen_filter) == -1) {
+                $(this).css("display", "none");
+            }
+        });
+
+        $('#filter-tabs a[href="#tables"]').tab('show');
+    });
 });
