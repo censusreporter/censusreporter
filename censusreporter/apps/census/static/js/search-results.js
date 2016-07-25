@@ -1,3 +1,7 @@
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
 // Function to get URL parameters, i.e., ?q=something
 // Usage: getUrlParameter('q')
 // Returns true if parameter value does not exist, returns value of
@@ -29,16 +33,11 @@ $(function() {
                 function(data) {
                     data = data['results']; // format: {results: array}
                     for (let i = 0; i < data.length; i++) {
-                        //TODO Better formatting to showcase a search result
                         let profile_surrounding = $("<div></div>");
-                        let profile_params = $("<ul></ul>");
-                        profile_params.append("<li><b>" + data[i].full_name + "</b></li>");
-                        profile_params.append("<li>" + data[i].url + "</li>");
-                        profile_params.append("<li>" + data[i].type + "</li>");
-                        profile_params.append("<li>" + data[i].sumlevel_name + "</li>");
-                        profile_params.append("<li>" + data[i].sumlevel + "</li>");
-                        profile_params.append("<li>" + data[i].full_geoid + "</li>");
-                        profile_surrounding.append(profile_params);
+                        profile_surrounding.append("<h3><a href='" + data[i].url + "'>"
+                            + data[i].full_name + "</a></h3>");
+                        profile_surrounding.append("<p>"
+                            + data[i].sumlevel_name.capitalizeFirstLetter() + "</p>");
                         $("#profiles").append(profile_surrounding);
                     }
                 }

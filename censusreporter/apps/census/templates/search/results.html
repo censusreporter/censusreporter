@@ -21,25 +21,19 @@
 
     </section>
 
-        <div class="tab-content content-container">
-            <div id="all" class="tab-pane active">
-                {% for item in results %}
-                    <div>
-                        <ul>
-                            <li><b>{{ item.full_name }}</b></li>
-                            <li>{{ item.url }}</li>
-                            <li>{{ item.type }}</li>
-                            <li>{{ item.sumlevel_name }}</li>
-                            <li>{{ item.sumlevel }}</li>
-                            <li>{{ item.full_geoid }}</li>
-                        </ul>
-                    </div>
-                {%  endfor %}
-            </div>
-
-            <div id="profiles" class="tab-pane"></div>
-            <div id="tables" class="tab-pane"></div>
+    <div class="tab-content content-container">
+        <div id="all" class="tab-pane active">
+            {% for item in results %}
+                <div>
+                    <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
+                    <p>{{ item.sumlevel_name }}</p>
+                </div>
+            {%  endfor %}
         </div>
+
+        <div id="profiles" class="tab-pane"></div>
+        <div id="tables" class="tab-pane"></div>
+    </div>
 </article>
 
 </div>

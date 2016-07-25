@@ -802,7 +802,11 @@ class SearchResultsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         q = self.request.GET.get('q', None)
-        return self.get_data(q)
+        page_context = self.get_data(q)
+        for item in page_context['results']:
+            if item['type'] == "profiles":
+                item['sumlevel_name'] = item['sumlevel_name'].capitalize()
+        return page_context
 
 
 class Elasticsearch(TemplateView):

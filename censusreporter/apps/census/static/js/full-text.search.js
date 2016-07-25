@@ -52,6 +52,9 @@ $(function() {
         select: function (event, ui) {
             window.location = ui.item.url;
         },
+        focus: function(event, ui) {
+            event.preventDefault();
+        },
         minLength: 2
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
@@ -59,16 +62,6 @@ $(function() {
             + "</div><div class='autocomplete-subline'>"
             + item.subline + "</div>").appendTo(ul);
     };
-
-    $(document).on("mouseenter", ".ui-menu-item", function() {                           
-        $(this).addClass("autocomplete-hover");        
-    });
-
-    $(document).on("mouseleave", ".ui-menu-item", function() {                           
-        $(this).removeClass("autocomplete-hover");        
-    });
-
-
 
 
     // Constrain autocomplete box width
