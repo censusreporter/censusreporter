@@ -29,7 +29,8 @@ $(function() {
 	$("#tab-profiles").click(function() {
         // Check if data has already been loaded
         if ($('#profiles').is(':empty')) {
-            $.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + q + "&type=profile",
+            $.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + q 
+                                        + "&type=profile",
                 function(data) {
                     data = data['results']; // format: {results: array}
                     for (let i = 0; i < data.length; i++) {
@@ -44,12 +45,13 @@ $(function() {
             );
         }
 	});
-
+ 
     // Filter results for table pages only
 	$("#tab-tables").click(function() {
         // Check if data has already been loaded
         if ($('#tables').is(':empty')) {
-            $.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + q + "&type=table",
+            $.get("http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + q 
+                                        + "&type=table",
                 function(data) {
                     data = data['results']; // format: {results: array}
                     for (let i = 0; i < data.length; i++) {
@@ -68,4 +70,5 @@ $(function() {
             );
         }
 	});
+
 });
