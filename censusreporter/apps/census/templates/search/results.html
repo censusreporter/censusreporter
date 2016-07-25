@@ -54,10 +54,15 @@
                 {% endif %}
             </ul>
 
-            <div class="tab-content content-container">
-                <div id="all" class="tab-pane active">
-                {% for item in results %}
-                    <div>
+            <div id="all" class="content-container">
+            {% for item in results %}
+                <div data-page-type="{{ item.type }}"
+                        {% if item.type == "profile" %}
+                     data-sumlevel_name="{{ item.sumlevel_name }}"
+                        {% elif item.type == "table" %}
+                     data-topic="{{ item.topics }}"
+                        {% endif %}
+                >
                     {% if item.type == "profile" %}
                         <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
                         <p>{{ item.sumlevel_name }}</p>
@@ -65,32 +70,10 @@
                         <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
                         <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
                     {% endif %}
-                    </div>
-                {%  endfor %}
                 </div>
-
-                <div id="profiles" class="tab-pane">
-                    {% for item in results %}
-                        {% if item.type == "profile" %}
-                            <div data-sumlevel_name="{{ item.sumlevel_name }}">
-                                <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
-                                <p>{{ item.sumlevel_name }}</p>
-                            </div>
-                        {% endif %}
-                    {%  endfor %}
-                </div>
-
-                <div id="tables" class="tab-pane">
-                    {% for item in results %}
-                        {% if item.type == "table" %}
-                            <div data-topic="{{ item.topics }}">
-                                <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
-                                <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
-                            </div>
-                        {% endif %}
-                    {%  endfor %}
-                </div>
+            {%  endfor %}
             </div>
+
         </div>
     </div>
 </article>

@@ -31,32 +31,51 @@ function resetFilters() {
     });
 
     // Un-hide results
-    $("#profiles").children("div").each(function() {
+    $("#all").children("div").each(function() {
         $(this).css("display", "initial");
     });
-    $("#tables").children("div").each(function() {
-        $(this).css("display", "initial");
+}
+
+function filterPageType(type) {
+    // type - must be "profile" or "table"
+    $("#all").children("div").each(function() {
+        if ($(this).attr("data-page-type") != type) {
+            $(this).css("display", "none");
+        }
     });
 }
 
 $(function() {
     // When user clicks the tabs, reset filters
-    $("#filter-tabs li").click(function() {
+    $("#filter-tabs li").click(function(e) {
         resetFilters();
+        // Get name of tab that was clicked
+        var selected = $(this).children('a')[0].getAttribute("href").substring(1);
+        if (selected == "profiles") {
+            filterPageType("profile");
+        } else if (selected  == "tables") {
+            filterPageType("table");
+        }
     });
+
     // When user clicks the sidebar filter options
-    $("#filter-profile").click(function() {
+    $("#filter-profile").click(function(e) {
+        // Don't allow the href="#" default to go to top of page
+        e.preventDefault();
         resetFilters();
+        filterPageType("profile");
         $('#filter-tabs a[href="#profiles"]').tab('show');
     });
 
-    $("#filter-table").click(function() {
+    $("#filter-table").click(function(e) {
+        // Don't allow the href="#" default to go to top of page
+        e.preventDefault();
         resetFilters();
+        filterPageType("table");
         $('#filter-tabs a[href="#tables"]').tab('show');
     });
 
     $(".filter-sumlevel_names").click(function(e) {
-        // Un-bold all other options
         resetFilters();
         // Bold the clicked option
         $(this).css("font-weight", "bold");
@@ -68,8 +87,8 @@ $(function() {
         // Example: State (2)
         var chosen_filter = $(e.target).text().split(" (")[0];
 
-        $("#profiles").children("div").each(function() {
-            if ($(this).attr("data-sumlevel_name") != chosen_filter) {
+        $("#all").children("div").each(function() {
+            if (this.getAttribute("data-sumlevel_name") != chosen_filter) {
                 $(this).css("display", "none");
             }
         });
@@ -87,10 +106,11 @@ $(function() {
         // Get the name of the clicked topic
         var chosen_filter = $(e.target).text().split(" (")[0];
 
-        $("#tables").children("div").each(function() {
-            topics_for_this_item = $(this).attr("data-topic").split(", ");
+        $("#all").children("div").each(function() {
+            topics_for_this_item = this.getAttribute("data-topic");
             // Hide result if result does not contain chosen topic
-            if (topics_for_this_item.indexOf(chosen_filter) == -1) {
+            if (topics_for_this_item == null ||
+                topics_for_this_item.split(", ").indexOf(chosen_filter) == -1) {
                 $(this).css("display", "none");
             }
         });
