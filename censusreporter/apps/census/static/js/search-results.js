@@ -55,15 +55,11 @@ $(function() {
                 function(data) {
                     data = data['results']; // format: {results: array}
                     for (let i = 0; i < data.length; i++) {
-                        // TODO formatting
                         let table_surrounding = $("<div></div>");
-                        let table_params = $("<ul></ul>");
-                        table_params.append("<li><b>" + data[i].simple_table_name + "</b></li>");
-                        table_params.append("<li>" + data[i].url + "</li>");
-                        table_params.append("<li>" + data[i].type + "</li>");
-                        table_params.append("<li>" + data[i].topics + "</li>");
-                        table_params.append("<li>" + data[i].subtables + "</li>");
-                        table_surrounding.append(table_params);
+                        table_surrounding.append("<h3><a href='" + data[i].url + "'>Table "
+                            + data[i].table_id + ": " + data[i].simple_table_name + "</a></h3>");
+                        table_surrounding.append("<p>Topics: " + data[i].topics
+                            + "<br>Subtables: " + data[i].subtables + "</p>");
                         $("#tables").append(table_surrounding);
                     }
                 }

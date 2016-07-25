@@ -803,9 +803,19 @@ class SearchResultsView(TemplateView):
     def get_context_data(self, **kwargs):
         q = self.request.GET.get('q', None)
         page_context = self.get_data(q)
+
+        has_profiles = False
+        has_tables = False
         for item in page_context['results']:
-            if item['type'] == "profiles":
+            if item['type'] == "profile":
+                has_profiles = True
+                # Capitalize first letter of sumlevel names
                 item['sumlevel_name'] = item['sumlevel_name'].capitalize()
+            elif item['type'] == "table":
+                has_tables = True
+
+        page_context['contains'] = {"profile":has_profiles, "table":has_tables}
+
         return page_context
 
 
