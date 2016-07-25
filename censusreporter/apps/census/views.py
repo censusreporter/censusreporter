@@ -50,6 +50,14 @@ def render_json_to_response(context):
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
+def capitalize_first(str):
+    """Capitalizes only the first letter of the given string.
+
+    :param str: string to capitalize
+    :return: str with only the first letter capitalized
+    """
+    return str[0].upper() + str[1:]
+
 ### HEALTH CHECK ###
 
 class HealthcheckView(TemplateView):
@@ -813,10 +821,9 @@ class SearchResultsView(TemplateView):
         all_topics = {} # key: topic name, value: count
         for item in page_context['results']:
             if item['type'] == "profile":
-
                 has_profiles = True
                 # Capitalize first letter of sumlevel names
-                capitalized = item['sumlevel_name'].capitalize()
+                capitalized = capitalize_first(item['sumlevel_name'])
                 item['sumlevel_name'] = capitalized
                 # Add to list of sumlevel names if not already found
                 if capitalized in sumlevel_names.keys():
@@ -828,7 +835,7 @@ class SearchResultsView(TemplateView):
             elif item['type'] == "table":
                 has_tables = True
                 # Capitalize the first letter of topics
-                topics = [x.capitalize() for x in item['topics']]
+                topics = [capitalize_first(x) for x in item['topics']]
                 item['topics'] = ", ".join(topics)
                 # Add to list of topics if not already found
                 for topic in topics:
@@ -836,6 +843,8 @@ class SearchResultsView(TemplateView):
                         all_topics[topic] += 1
                     else: # Otherwise increment count
                         all_topics[topic] = 1
+                # Subtables is a list so turn it into string
+                item['subtables'] = ", ".join(item['subtables'])
 
                 page_context['topics'] = all_topics
 
