@@ -9,6 +9,7 @@ import re
 import requests
 import unicodecsv
 import topics
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -49,6 +50,15 @@ def render_json_to_response(context):
     '''
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
+
+def capitalize_first(str):
+    """Capitalizes only the first letter of the given string.
+
+    :param str: string to capitalize
+    :return: str with only the first letter capitalized
+    """
+    if str == "": return ""
+    return str[0].upper() + str[1:]
 
 ### HEALTH CHECK ###
 
@@ -322,7 +332,12 @@ class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
     def parse_fragment(self,fragment):
-        """Given a URL, return a (geoid,slug) tuple. slug may be None. GeoIDs are not tested for structure, but are simply the part of the URL before any '-' character, also allowing for the curiosity of Vermont legislative districts. (see https://github.com/censusreporter/censusreporter/issues/50)"""
+        """Given a URL, return a (geoid,slug) tuple. slug may be None.
+        GeoIDs are not tested for structure, but are simply the part of the URL
+        before any '-' character, also allowing for the curiosity of Vermont
+        legislative districts.
+        (see https://github.com/censusreporter/censusreporter/issues/50)
+        """
         parts = fragment.split('-',1)
         if len(parts) == 1:
             return (fragment,None)
@@ -771,6 +786,73 @@ class TableSearchJson(View):
             results['columns'] = list(columns)
 
         return render_json_to_response(results)
+
+
+class FullTextSearchView(TemplateView):
+    template_name = 'full_text_search.html'
+
+class SearchResultsView(TemplateView):
+    template_name = 'search/results.html'
+
+    def get_data(self, query):
+        r = requests.get("http://0.0.0.0:5000" 
+            + "/2.1/full-text/search?q=" + query)
+        status_code = r.status_code
+
+        search_data = {}
+        if status_code == 200:
+            search_data = json.loads(r.text)
+        elif status_code == 404 or status_code == 400:
+            error_data = json.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        else:
+            raise Http404
+
+        return search_data
+
+    def get_context_data(self, **kwargs):
+        q = self.request.GET.get('q', None)
+        page_context = self.get_data(q) # dict with one key: "results"
+
+        # Determine if profile or table pages exist for filtering
+        has_profiles = False
+        has_tables = False
+        # Collect list of sumlevel names for filtering
+        sumlevel_names = {} # key: sumlevel name, value: count
+        # Collect list of topics for filtering
+        all_topics = {} # key: topic name, value: count
+        for item in page_context['results']:
+            if item['type'] == "profile":
+                has_profiles = True
+                # Capitalize first letter of sumlevel names
+                capitalized = capitalize_first(item['sumlevel_name'])
+                item['sumlevel_name'] = capitalized
+                # Add to list of sumlevel names if not already found
+                if capitalized in sumlevel_names.keys():
+                    sumlevel_names[capitalized] += 1
+                else: # Otherwise increment count
+                    sumlevel_names[capitalized] = 1
+
+                page_context['sumlevel_names'] = sumlevel_names
+            elif item['type'] == "table":
+                has_tables = True
+                # Capitalize the first letter of topics
+                topics = [capitalize_first(x) for x in item['topics']]
+                item['topics'] = ", ".join(topics)
+                # Add to list of topics if not already found
+                for topic in topics:
+                    if topic in all_topics.keys():
+                        all_topics[topic] += 1
+                    else: # Otherwise increment count
+                        all_topics[topic] = 1
+                # Subtables is a list so turn it into string
+                item['subtables'] = ", ".join(item['subtables'])
+
+                page_context['topics'] = all_topics
+
+        page_context['contains'] = {"profile":has_profiles, "table":has_tables}
+        return page_context
+
 
 class Elasticsearch(TemplateView):
     template_name = 'search/elasticsearch.html'
