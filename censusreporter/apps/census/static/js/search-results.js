@@ -22,6 +22,9 @@ function getUrlParameter(sParam) {
 }
 
 function resetFilters() {
+    // Un-bold page types
+    $("#filters > a").css("font-weight", "initial");
+
     // Un-bold filters
     $("#sumlevel_names-list").children('li').each(function() {
         $(this).children('a').css("font-weight", "initial");
@@ -43,6 +46,8 @@ function filterPageType(type) {
             $(this).css("display", "none");
         }
     });
+
+    $("#filter-" + type).css("font-weight", "bold");
 }
 
 $(function() {
@@ -79,6 +84,8 @@ $(function() {
         resetFilters();
         // Bold the clicked option
         $(this).css("font-weight", "bold");
+        // Bold the profile page option
+        $("#filter-profile").css("font-weight", "bold");
         // Don't allow the href="#" default to go to top of page
         e.preventDefault();
         // Get the name of the clicked sumlevel
@@ -101,6 +108,8 @@ $(function() {
         resetFilters();
         // Bold the clicked option
         $(this).css("font-weight", "bold");
+        // Bold the table page option
+        $("#filter-table").css("font-weight", "bold");
         // Don't allow the href="#" default to go to top of page
         e.preventDefault();
         // Get the name of the clicked topic

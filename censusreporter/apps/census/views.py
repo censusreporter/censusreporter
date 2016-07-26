@@ -56,6 +56,7 @@ def capitalize_first(str):
     :param str: string to capitalize
     :return: str with only the first letter capitalized
     """
+    if str == "": return ""
     return str[0].upper() + str[1:]
 
 ### HEALTH CHECK ###

@@ -2876,11 +2876,23 @@ blockquote {
 }
 
 /* When focused: */
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
     color: #fff;
     background: #1a9d95;
+    border: none;
 }
 
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
-    border: none;
+/* Search results page */
+#filters ul {
+    list-style-type: none;
+    margin-left: -10px;
+}
+
+#filters > a {
+    font-size: 1.2em;
 }

@@ -16,28 +16,28 @@
     <div class="row">
         <div class="col-md-2">
             <div>
+                <br>
                 <h3>Filter by</h3>
                 <br>
-                <ul>
+                <div id="filters">
                 {% if contains.profile %}
-                    <li><a id="filter-profile" href="#">Profiles</a>
-                        <ul id="sumlevel_names-list">
-                        {% for name, count in sumlevel_names.items %}
-                            <li><a class="filter-sumlevel_names" href="#">{{ name }} ({{ count }})</a></li>
-                        {% endfor %}
-                        </ul>
-                    </li>
+                    <a id="filter-profile" href="#">Profiles</a>
+                    <ul id="sumlevel_names-list">
+                    {% for name, count in sumlevel_names.items %}
+                        <li><a class="filter-sumlevel_names" href="#">{{ name }} ({{ count }})</a></li>
+                    {% endfor %}
+                    </ul>
                 {% endif %}
+                <br>
                 {% if contains.table %}
-                    <li><a id="filter-table" href="#">Tables</a>
-                        <ul id="topics-list">
-                        {% for topic, count in topics.items %}
-                            <li><a class="filter-topics" href="#">{{ topic }} ({{ count }})</a></li>
-                        {% endfor %}
-                        </ul>
-                    </li>
+                    <a id="filter-table" href="#">Tables</a>
+                    <ul id="topics-list">
+                    {% for topic, count in topics.items %}
+                        <li><a class="filter-topics" href="#">{{ topic }} ({{ count }})</a></li>
+                    {% endfor %}
+                    </ul>
                 {% endif %}
-                </ul>
+                </div>
             </div>
         </div>
 
