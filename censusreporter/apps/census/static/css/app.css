@@ -2859,17 +2859,6 @@ blockquote {
     text-decoration: none;
 }
 
-/* This page may be of help to remove the automatic styling
-http://stackoverflow.com/questions/17200335/jquery-remove-ui-autocomplete-styles-from-dropdown-results
-*/
-
-/*
-.autocomplete-hover {
-    color: #fff;
-    background: #014948;
-}
-
-
 .autocomplete-label {
     font-size: 1em;
     font-family: "Merriweather", Georgia, serif;
@@ -2884,4 +2873,14 @@ http://stackoverflow.com/questions/17200335/jquery-remove-ui-autocomplete-styles
 .ui-helper-hidden-accessible {
     /* Removes accessibility text from appearing at bottom of screen */
     display: none;
+}
+
+/* When focused: */
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    color: #fff;
+    background: #1a9d95;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    border: none;
 }

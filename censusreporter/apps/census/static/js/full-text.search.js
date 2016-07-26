@@ -53,6 +53,16 @@ $(function() {
             window.location = ui.item.url;
         },
         focus: function(event, ui) {
+            $(".ui-menu-item").children('div').each(function() {
+                var selected_li = $(this).parent();
+                if ($(this).hasClass("ui-state-active")) {
+                    selected_li.css("background", "#1a9d95");
+                    selected_li.css("color", "#fff");
+                } else {
+                    selected_li.css("background", "#fff");
+                    selected_li.css("color", "#000");
+                }
+            });
             event.preventDefault();
         },
         minLength: 2
