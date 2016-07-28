@@ -247,17 +247,23 @@ class TableDetailView(TemplateView):
 
         return related_topic_pages
 
+
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
         r = requests.get(endpoint)
-        status_code = r.status_code
 
-        if status_code == 200:
+        if r.status_code == 400:
+            # Try adding an "A" to the table_code, in case an iteration exists
+            endpoint += 'A'
+            r = requests.get(endpoint)
+
+        if r.status_code == 200:
             return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-        elif status_code == 404 or status_code == 400:
+        if r.status_code == 404 or r.status_code == 400:
             raise ValueError("No table data for that table")
         else:
             raise Http404
+
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
