@@ -247,7 +247,6 @@ class TableDetailView(TemplateView):
 
         return related_topic_pages
 
-
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
         r = requests.get(endpoint)
@@ -263,7 +262,6 @@ class TableDetailView(TemplateView):
             raise ValueError("No table data for that table")
         else:
             raise Http404
-
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
