@@ -219,7 +219,15 @@ class TableDetailView(TemplateView):
         # * a grid with each table variant and which releases it's available for
         # * a list of each primary table, with its column metadata from the API
         for release in tabulation_data['tables_by_release']:
-            for table_code in tabulation_data['tables_by_release'][release]:
+            # Sort data by length to have all the PR tables at the end.
+            # Note that sorted() is guaranteed to be stable, per Python docs,
+            # meaning that keys that compare equal (are equal length) will 
+            # remain in the same relative order. Assuming they were alphabetical 
+            # before this, this is guaranteed to list tables as
+            # tableA, ... , tableI, tableAPR, ... , tableIPR.
+            sorted_data = sorted(tabulation_data['tables_by_release'][release],
+                                 key = lambda code: len(code))
+            for table_code in sorted_data:
                 # is this a B or C table?
                 letter_code = table_code.upper()[0]
                 tables[letter_code] = default_table_groups[letter_code]
@@ -242,7 +250,6 @@ class TableDetailView(TemplateView):
                     # otherwise, there are iterations for the PR tables
                     else:
                         tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[6]] + " (Puerto Rico)"
-
 
         tabulation_data['table_versions'] = tables.pop(self.table_group, None)
         tabulation_data['related_tables'] = {
