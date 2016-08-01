@@ -7,7 +7,7 @@
     <section class="column-full clearfix big-action">
         <div class="input-wrapper with-submit">
             <form action="http://127.0.0.1:8000/search-results">
-                <input name="q" id="search" type="text" autocomplete="off">
+                <input name="q" id="search" type="text" placeholder="Search for a profile, table, topic, or glossary page" autocomplete="off">
                 <input type="submit" value="Search">
             </form>
         </div>
@@ -59,11 +59,11 @@
                     <div id="all" class="content-container">
                     {% for item in results %}
                         <div data-page-type="{{ item.type }}"
-                                {% if item.type == "profile" %}
-                             data-sumlevel_name="{{ item.sumlevel_name }}"
-                                {% elif item.type == "table" %}
-                             data-topic="{{ item.topics }}"
-                                {% endif %}
+                            {% if item.type == "profile" %}
+                                data-sumlevel_name="{{ item.sumlevel_name }}"
+                            {% elif item.type == "table" %}
+                                data-topic="{{ item.topics }}"
+                            {% endif %}
                         >
                             {% if item.type == "profile" %}
                                 <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
@@ -80,12 +80,8 @@
             </div>
 
         {% else %}
-            <p>There were no results found; try a different query.</p>
+            <h2>No results found.</h2>
         {% endif %}
-    {% endif %}
-
-    {% if not has_query %}
-        <p>Type in the box to search for a place or a table!</p>
     {% endif %}
 </article>
 </div>
