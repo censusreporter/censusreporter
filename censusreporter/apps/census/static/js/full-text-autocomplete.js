@@ -19,10 +19,15 @@ $(function() {
                         url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term
                     });
 
+                    // Limit number of suggestions to 20
+                    if (data.results.length > 20) {
+                        var results_limit = 20;
+                    } else {
+                        var results_limit = data.results.length;
+                    }
                     // For each returned page, prepare data for display. label and
                     // value are defaults preferred by jQuery UI autocomplete.
                     // Format of data is {results: [ list of objects ]}
-                    var results_limit = 20;
                     for (let i = 0; i < results_limit; i++) {
                         if (data.results[i].type == "profile") {
                             result.push({
