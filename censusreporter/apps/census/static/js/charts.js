@@ -716,7 +716,7 @@ function Chart(options) {
         chart.addActionLinks();
 
         return chart;
-    }
+    };
     
     chart.addActionLinks = function() {
         chart.actionLinks = chart.chartContainer
@@ -736,25 +736,27 @@ function Chart(options) {
                 .classed("chart-show-embed", true)
                 .text("Embed")
                 .on("click", chart.showEmbedCode);
-    }
+    };
 
     chart.getEmbedKey = function() {
-     return chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1);   
-    }
+        return chart.chartDataKey.substring(chart.chartDataKey.indexOf('-') + 1);
+    };
 
     chart.getEmbedID = function() {
-        return 'cr-embed-'+chart.primaryGeoID+'-'+chart.getEmbedKey();
-    }
+        return 'cr-embed-' + chart.primaryGeoID + '-' + chart.getEmbedKey();
+    };
     
     chart.fillEmbedCode = function(textarea, align) {
         var embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720,
             embedKey = chart.getEmbedKey(),
             embedDataYear = chart.initialData.metadata.acs_release.split(' ')[1],
+            embedReleaseID = chart.initialData.metadata.acs_release.replace(/ /g,'_'),
             embedID = chart.getEmbedID(),
             embedParams = {
                 geoID: chart.primaryGeoID,
                 chartDataID: embedKey,
+                dataYear: embedDataYear,
                 releaseID: embedReleaseID,
                 chartType: chart.chartType,
                 chartHeight: 200,
@@ -767,7 +769,11 @@ function Chart(options) {
         
         var querystring = $.param(embedParams);
         var embedCode = [
-            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
+            '<iframe id="' + embedID + '" class="census-reporter-embed" ' +
+                'src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?' +
+                querystring + '" frameborder="0" width="100%" height="300" ' +
+                'style="margin: 1em; max-width: ' + embedWidth + 'px;' +
+                embedAlign + '"></iframe>',
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
@@ -776,11 +782,11 @@ function Chart(options) {
             geography: JSON.stringify(profileData['geography']),
             geo_metadata: JSON.stringify(profileData['geo_metadata']),
             chart_data: JSON.stringify(chart.initialData)
-        })
+        });
         
         textarea.html(embedCode);
         return embedCode;
-    }
+    };
 
     chart.showEmbedCode = function() {
         var lightboxWrapper = d3.select('body').append('div')
@@ -825,9 +831,17 @@ function Chart(options) {
                     d3.selectAll('.filter-list a').classed('option-selected', false);
                     d3.select(this).classed('option-selected', true);
                     
-                    embeddedCode = chart.fillEmbedCode(textarea, this.text.toLowerCase())
-                    lightbox.append('p').html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pretium rhoncus placerat. Quisque vel purus nisi. Duis rhoncus ante felis, a dignissim velit tempor ut. Nunc pulvinar felis id risus interdum, eget condimentum quam luctus. Nulla mi nisl, auctor non elementum ut, accumsan sed sem. Nam ut imperdiet enim, a interdum nulla. Etiam quis lectus id velit consequat malesuada. Curabitur feugiat tortor a tellus egestas, non tristique ante efficitur. Fusce fringilla congue varius. Mauris nunc ligula, sollicitudin non ligula eu, pellentesque elementum magna.")
-                    x = $(chart.getEmbedID())
+                    embeddedCode = chart.fillEmbedCode(textarea, this.text.toLowerCase());
+                    lightbox.append('p').html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+                        "Aliquam pretium rhoncus placerat. Quisque vel purus nisi. Duis rhoncus ante felis, " +
+                        "a dignissim velit tempor ut. Nunc pulvinar felis id risus interdum, " +
+                        "eget condimentum quam luctus. Nulla mi nisl, auctor non elementum ut, " +
+                        "accumsan sed sem. Nam ut imperdiet enim, a interdum nulla. " +
+                        "Etiam quis lectus id velit consequat malesuada. Curabitur feugiat tortor " +
+                        "a tellus egestas, non tristique ante efficitur. Fusce fringilla congue varius. " +
+                        "Mauris nunc ligula, sollicitudin non ligula eu, pellentesque elementum magna."
+                    );
+                    x = $(chart.getEmbedID());
                     x.style.float = d3.select(this).classed('option-selected', true)[0][0].innerHTML;
 
                 });
@@ -842,11 +856,8 @@ function Chart(options) {
                 .html('Learn more about Census Reporter&rsquo;s embedded charts');
 
         
-
         $(embeddedCode).appendTo(lightbox);
-        console.log(embeddedCode, "stuff here")
-
-    }
+    };
     
     // pass in data obj, get back formatted value label with MOE flag
     chart.getValueFmt = function(data, geoStr, precision) {
