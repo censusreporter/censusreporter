@@ -221,6 +221,17 @@ class TableDetailView(TemplateView):
                 if len(table_code) == 7:
                     tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[-1]]
 
+                # Puerto Rico tables have "PR" at the end; handle those names
+                if table_code[-2:] == "PR":
+                    # if it's 8 characters, there are no iterations
+                    if len(table_code) == 8:
+                        tables[letter_code][table_code]['version_name'] = "Standard Table (Puerto Rico)"
+
+                    # otherwise, there are iterations for the PR tables
+                    else:
+                        tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[6]] + " (Puerto Rico)"
+
+
         tabulation_data['table_versions'] = tables.pop(self.table_group, None)
         tabulation_data['related_tables'] = {
             'grid': tables,
