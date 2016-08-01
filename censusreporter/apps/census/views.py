@@ -155,6 +155,18 @@ class TableDetailView(TemplateView):
             return HttpResponseRedirect(
                         reverse('table_detail', args=(table_argument.upper(),))
                     )
+
+        # check if table code doesn't exist but has iterations; if so, redirect
+        # to the page for the first iteration
+        endpoint_1 = settings.API_URL + '/2.0/table/latest/%s' % table_argument
+        endpoint_2 = settings.API_URL + '/2.0/table/latest/%sA' % table_argument
+
+        if (requests.get(endpoint_1).status_code == 400 
+        and requests.get(endpoint_2).status_code == 200):
+            return HttpResponseRedirect(
+                reverse('table_detail', args = (table_argument + 'A',))
+            )
+
         self.table_code = table_argument
         self.table_group = self.table_code[0]
         self.tabulation_code = re.sub("\D", "", self.table_code)
@@ -261,11 +273,6 @@ class TableDetailView(TemplateView):
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
         r = requests.get(endpoint)
-
-        if r.status_code == 400:
-            # Try adding an "A" to the table_code, in case an iteration exists
-            endpoint += 'A'
-            r = requests.get(endpoint)
 
         if r.status_code == 200:
             return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
