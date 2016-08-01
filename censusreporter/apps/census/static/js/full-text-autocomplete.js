@@ -22,7 +22,8 @@ $(function() {
                     // For each returned page, prepare data for display. label and
                     // value are defaults preferred by jQuery UI autocomplete.
                     // Format of data is {results: [ list of objects ]}
-                    for (let i = 0; i < data.results.length; i++) {
+                    var results_limit = 20;
+                    for (let i = 0; i < results_limit; i++) {
                         if (data.results[i].type == "profile") {
                             result.push({
                                 label: data.results[i].full_name,
