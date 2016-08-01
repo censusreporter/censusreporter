@@ -806,6 +806,9 @@ class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
     def get_data(self, query):
+        if not query: 
+            return {'results': [], 'has_query': False}
+
         r = requests.get("http://0.0.0.0:5000" 
             + "/2.1/full-text/search?q=" + query)
         status_code = r.status_code
@@ -813,6 +816,7 @@ class SearchResultsView(TemplateView):
         search_data = {}
         if status_code == 200:
             search_data = json.loads(r.text)
+            search_data['has_query'] = True
         elif status_code == 404 or status_code == 400:
             error_data = json.loads(r.text)
             raise_404_with_messages(self.request, error_data)
@@ -861,7 +865,8 @@ class SearchResultsView(TemplateView):
 
                 page_context['topics'] = all_topics
 
-        page_context['contains'] = {"profile":has_profiles, "table":has_tables}
+        page_context['contains'] = {'profile':has_profiles, 'table':has_tables}
+
         return page_context
 
 
