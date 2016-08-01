@@ -799,9 +799,6 @@ class TableSearchJson(View):
         return render_json_to_response(results)
 
 
-class FullTextSearchView(TemplateView):
-    template_name = 'full_text_search.html'
-
 class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
