@@ -51,6 +51,24 @@ function filterPageType(type) {
 }
 
 $(function() {
+    // On page load, determine which tab is active
+    var profile_count = 0;
+    var table_count = 0;
+    $("#all").children("div").each(function() {
+        if ($(this).attr('data-page-type') == "profile") {
+            profile_count++;
+        } else if ($(this).attr('data-page-type') == "table") {
+            table_count++;
+        }
+    });
+    if (profile_count > table_count) {
+        $("#tab-profiles").addClass("active");
+        filterPageType("profile");
+    } else {
+        $("#tab-tables").addClass("active");
+        filterPageType("table");
+    }
+
     // When user clicks the tabs, reset filters
     $("#filter-tabs li").click(function(e) {
         resetFilters();
