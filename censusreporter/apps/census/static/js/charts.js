@@ -755,7 +755,7 @@ function Chart(options) {
             embedParams = {
                 geoID: chart.primaryGeoID,
                 chartDataID: embedKey,
-                dataYear: embedDataYear,
+                releaseID: embedReleaseID,
                 chartType: chart.chartType,
                 chartHeight: 200,
                 chartQualifier: (chart.chartQualifier || ''),
@@ -766,11 +766,17 @@ function Chart(options) {
             embedAlign = (align == 'left' || align == 'right') ? ' float: ' + align + ';' : '';
         
         var querystring = $.param(embedParams);
-        
         var embedCode = [
             '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
+        
+        $.post('/make-json/charts/', {
+            params: JSON.stringify(embedParams),
+            geography: JSON.stringify(profileData['geography']),
+            geo_metadata: JSON.stringify(profileData['geo_metadata']),
+            chart_data: JSON.stringify(chart.initialData)
+        })
         
         textarea.html(embedCode);
         return embedCode;
@@ -863,14 +869,14 @@ function Chart(options) {
         
         // make sure we're in a pristine state
         chart.dataDrawer.remove();
-        clickTargets.text('Show the data').classed("opened", false);
+        clickTargets.text('Show data').classed("opened", false);
         
         // handle the toggling
         if (hide) {
             clicked.classed("opened", false);
         } else {
             clicked.classed("opened", true);
-            clicked.text('Hide the data');
+            clicked.text('Hide data');
             
             // tell Google Analytics about the event
             chart.trackEvent('Charts', 'Show data', tableID);
@@ -919,7 +925,7 @@ function Chart(options) {
             chart.dataDrawer
                 .append("a")
                     .classed("chart-get-data opened", true)
-                    .text("Hide the data")
+                    .text("Hide data")
                     .on("click", chart.toggleDataDrawer);
         }
     }

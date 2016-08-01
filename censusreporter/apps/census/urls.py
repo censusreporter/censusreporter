@@ -9,7 +9,8 @@ from django.views.generic.base import TemplateView, RedirectView
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
-    HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch)
+    HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
+    MakeJSONView, SitemapTopicsView)
 
 admin.autodiscover()
 
@@ -39,6 +40,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(GeographySearchView.as_view()),
         kwargs  = {},
         name    = 'geography_search',
+    ),
+
+    url(
+        regex   = '^make-json/charts/$',
+        view    = MakeJSONView.as_view(),
+        kwargs  = {},
+        name    = 'make_json_charts',
     ),
 
     # e.g. /table/B01001/
@@ -139,6 +147,13 @@ urlpatterns = patterns('',
             "User-agent: *\n%s: /" % ('Disallow' if BLOCK_ROBOTS else 'Allow') ,
             mimetype="text/plain"
         )
+    ),
+
+    url(
+        regex = '^topics/sitemap.xml$',
+        view = SitemapTopicsView.as_view(),
+        kwargs = {},
+        name = 'sitemap_topics'
     ),
 
     ## LOCAL DEV VERSION OF API ##

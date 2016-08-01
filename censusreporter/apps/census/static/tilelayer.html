@@ -8,7 +8,7 @@
     <option> -- pick a summary level -- </option>
 </select>
 <div id="map" style="width: 100%; height: 100%;"></div>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 <script src="//cdn.jsdelivr.net/g/jquery@1.11.1,leaflet@0.7.3,underscorejs"></script>
 <script src="js/cr-leaflet.js"></script>
 <script type="text/javascript">
@@ -49,8 +49,8 @@
     div.style.height = (window.innerHeight - 100) + "px";
 
     var baseLayer = function() {
-        return L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://mapbox.com">Mapbox</a>',
+        return L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
                 maxZoom: 18
         });
     }
@@ -78,12 +78,12 @@
         return geojsonTileLayer;
     }
 
-    _.each(sumlevs,function(l) { 
+    _.each(sumlevs,function(l) {
         $('<option>').val(l.level).text(l.level + " - " + l.name).appendTo('#sumlev-picker');
     });
 
 
-    $("#sumlev-picker").change(function(e) { 
+    $("#sumlev-picker").change(function(e) {
         var sumlev = _.findWhere(sumlevs,{level: $(e.target).val()})
         if (sumlev) {
             if (sumlev.zoom) {
@@ -92,7 +92,7 @@
             if (typeof sumlev.layer == 'undefined') {
                 sumlev.layer = makeLayer(sumlev.level);
             }
-            _.each(sumlevs,function(sl) { 
+            _.each(sumlevs,function(sl) {
                 if (sl.layer && map.hasLayer(sl.layer)) {
                     map.removeLayer(sl.layer);
                 }

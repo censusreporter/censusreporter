@@ -5,7 +5,7 @@
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census tabulation detail: {{ table.simple_table_title }}" />
         <meta property="og:site_name" content="Census Reporter" />
-        <meta property="og:url" content="http://censusreporter.org{% url 'table_detail' table.table_id %}" />
+        <meta property="og:url" content="https://censusreporter.org{% url 'table_detail' table.table_id %}" />
         <meta property="og:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
@@ -65,10 +65,10 @@
             <div class="column-golden-wide expanded-table">
                 <h4>Columns in this table</h4>
                 <ul>{% for column_id, column_data in table.columns.items %}
-                    <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>
+                    <li class="indent-{{ column_data.indent }}" title="{{ column_id }}">{{ column_data.column_title }}</li>
                 {% endfor %}</ul>
             </div>
-            
+
             <div class="column-golden-narrow">
                 {% if related_topic_pages %}
                 <div class="sidebar-block">
@@ -85,7 +85,7 @@
                 <div class="sidebar-block preview-table">
                     <h4>{{ table_values.table_type }} table</h4>
                     <p class="explain">The Census offers a version of this table with {% if table_values.table_type == 'Collapsed' %}a simplified{% else %}an expanded{% endif %} set of columns.</p>
-                    
+
                     <h5><a href="{% url 'table_detail' table %}">Switch to Table {{ table }}</a></h5>
                     <ul>{% for column_id, column_data in table_values.columns.items %}
                         <li class="indent-{{ column_data.indent }}">{{ column_data.column_title }}</li>

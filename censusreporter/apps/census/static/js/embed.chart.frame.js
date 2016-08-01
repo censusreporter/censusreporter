@@ -20,9 +20,15 @@ function makeEmbedFrame() {
         embedFrame.trackEvent('Embedded Charts', 'Parent URL', document.referrer);
 
         embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
-        embedFrame.params.chartDataID = embedFrame.params.chartDataID.split('-');
+        embedFrame.params.chartDataPath = embedFrame.params.chartDataID.split('-');
         embedFrame.params.chartDataYearDir = (!!embedFrame.params.dataYear) ? embedFrame.params.dataYear+'/' : '';
-        embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
+
+        if (!!embedFrame.params.releaseID) {
+            embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/charts/'+embedFrame.params.releaseID+'/'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID+'.json';
+        } else {
+            // continue supporting embed code from before release-specific data storage
+            embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
+        }
         // avoid css media-query caching issues with multiple embeds on same page
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
         embedFrame.makeChartFooter();
@@ -32,11 +38,11 @@ function makeEmbedFrame() {
         $.getJSON(embedFrame.dataSource)
             .done(function(results) {
                 // allow arbitrary nesting in API data structure
-                var data = results[embedFrame.params.chartDataID[0]],
-                    drilldown = embedFrame.params.chartDataID.length - 1;
+                var data = results[embedFrame.params.chartDataPath[0]],
+                    drilldown = embedFrame.params.chartDataPath.length - 1;
                 if (drilldown >= 1) {
                     for (var i = 1; i <= drilldown; i++) {
-                        data = data[embedFrame.params.chartDataID[i]];
+                        data = data[embedFrame.params.chartDataPath[i]];
                     }
                 }
             
@@ -85,8 +91,8 @@ function makeEmbedFrame() {
             '<h3 class="chart-title">' + embedFrame.params.chartTitle + '</h3>',
             '<ul>',
             '<li><strong>This chart counts:</strong> ' + aboutData.universe + '</li>',
-            '<li>The data in this chart comes from <a href="http://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">Table ' + aboutData.table_id.toUpperCase() + '</a> in the U.S. Census Bureau&rsquo;s ' + aboutData.acs_release + ' release. The chart is from <a href="http://censusreporter.org">Census Reporter</a>, a project to make Census data easier to use and understand.</li>',
-            '<li><a href="http://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
+            '<li>The data in this chart comes from <a href="https://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">Table ' + aboutData.table_id.toUpperCase() + '</a> in the U.S. Census Bureau&rsquo;s ' + aboutData.acs_release + ' release. The chart is from <a href="https://censusreporter.org">Census Reporter</a>, a project to make Census data easier to use and understand.</li>',
+            '<li><a href="https://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
             '</ul>'
         ].join('');
     }
@@ -101,7 +107,7 @@ function makeEmbedFrame() {
 
         embedFrame.elements.footer.append('a')
             .classed('title', true)
-            .attr('href', 'http://censusreporter.org')
+            .attr('href', 'https://censusreporter.org')
             .html('<img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo12.png"> Census Reporter');
     }
 

@@ -7,18 +7,18 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" /><![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.5/leaflet.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.5/leaflet.ie.css" /><![endif]-->
 </head>
 <body>
     <div id="map" style="width: 600px; height: 400px"></div>
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.5/leaflet.js"></script>
     <script>
 
         var map = L.map('map').setView([39.6, -96.4], 5);
 
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
         }).addTo(map);
@@ -36,7 +36,7 @@
         function onMapClick(e) {
             console.log("You clicked the map at " + e.latlng.toString());
             var xhrequest = new XMLHttpRequest();
-            var url= "http://api.censusreporter.org/1.0/geo/search?lat="+e.latlng.lat+"&lon="+e.latlng.lng+"&geom=true";
+            var url= "https://api.censusreporter.org/1.0/geo/search?lat="+e.latlng.lat+"&lon="+e.latlng.lng+"&geom=true";
             xhrequest.onreadystatechange = function() {
                 if (xhrequest.readyState == 4) {
                     if (xhrequest.status == 200) {

@@ -18,14 +18,16 @@ class ApiClient(object):
         data = None
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)
+        else:
+            raise Exception("Error fetching data: " + r.json().get("error"))
 
         return data
 
     def get_parent_geoids(self, geoid):
-        return self._get('/1.0/geo/tiger2013/{}/parents'.format(geoid))
+        return self._get('/1.0/geo/tiger2014/{}/parents'.format(geoid))
 
     def get_geoid_data(self, geoid):
-        return self._get('/1.0/geo/tiger2013/{}'.format(geoid))
+        return self._get('/1.0/geo/tiger2014/{}'.format(geoid))
 
     def get_data(self, table_ids, geo_ids, acs='latest'):
         if hasattr(table_ids, '__iter__'):
@@ -185,7 +187,6 @@ def geo_profile(geoid, acs='latest'):
 
     item_levels = api.get_parent_geoids(geoid)['parents']
     comparison_geoids = [level['geoid'] for level in item_levels]
-    comparison_geoids.append(geoid)
 
     doc = OrderedDict([('geography', OrderedDict()),
                        ('demographics', dict()),

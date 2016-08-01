@@ -141,7 +141,7 @@ CensusReporter.GeoJSONLayer = CensusReporter.AjaxLayer.extend({
             this._map.addLayer(this._clipPathRectangles[clipPathId]);
 
             // Add a clip path element to the SVG defs element
-            // With a path element that has the hidden rectangle's SVG path string  
+            // With a path element that has the hidden rectangle's SVG path string
             var path = document.createElementNS(L.Path.SVG_NS, 'path');
             var pathString = this._clipPathRectangles[clipPathId].getPathString();
             path.setAttribute('d', pathString);
@@ -159,7 +159,7 @@ CensusReporter.GeoJSONLayer = CensusReporter.AjaxLayer.extend({
     // * If the options.unique function is specified, merge geometries into GeometryCollections
     // grouped by the key returned by options.unique(feature) for each GeoJSON feature
     // * If options.clipTiles is set, and the browser is using SVG, perform SVG clipping on each
-    // tile's GeometryCollection 
+    // tile's GeometryCollection
     addTileData: function (geojson, tilePoint) {
         var features = L.Util.isArray(geojson) ? geojson : geojson.features,
             i, len, feature;
@@ -298,7 +298,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
     _defaultGeojsonOptions: {
         onEachFeature: function(feature, layer) {
             // you can wire behavior to each "feature", or place outline.
-            var profileURL = 'http://censusreporter.org/profiles/' + feature.properties.geoid;
+            var profileURL = 'https://censusreporter.org/profiles/' + feature.properties.geoid;
             layer.bindPopup("<a href='" + profileURL + "'>" + feature.properties.name + "</a>");
             if (this.style && this.mouseoverStyle) {
                 layer.on('mouseover', function() {
@@ -316,7 +316,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
             throw "Unsupported or invalid summary level."
         }
 
-        var url = 'http://embed.censusreporter.org/1.0/geo/tiger2013/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+        var url = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
@@ -335,4 +335,3 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         }
     },
 });
-
