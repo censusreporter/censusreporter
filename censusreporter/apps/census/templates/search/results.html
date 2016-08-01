@@ -13,69 +13,71 @@
         </div>
     </section>
 
-    <div class="row">
-        <div class="col-md-2">
-            <div>
-                <br>
-                <h3>Filter by</h3>
-                <br>
-                <div id="filters">
-                {% if contains.profile %}
-                    <a id="filter-profile" href="#">Profiles</a>
-                    <ul id="sumlevel_names-list">
-                    {% for name, count in sumlevel_names.items %}
-                        <li><a class="filter-sumlevel_names" href="#">{{ name }} ({{ count }})</a></li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-                <br>
-                {% if contains.table %}
-                    <a id="filter-table" href="#">Tables</a>
-                    <ul id="topics-list">
-                    {% for topic, count in topics.items %}
-                        <li><a class="filter-topics" href="#">{{ topic }} ({{ count }})</a></li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-10">
-            <ul id="filter-tabs" class="nav nav-tabs">
-                <li class="active" id="tab-all" role="presentation"><a data-toggle="tab" href="#all">All</a></li>
-
-                {% if contains.profile %}
-                    <li role="presentation" id="tab-profiles"><a data-toggle="tab" href="#profiles">Profiles</a></li>
-                {% endif %}
-
-                {% if contains.table %}
-                    <li role="presentation" id="tab-tables"><a data-toggle="tab" href="#tables">Tables</a></li>
-                {% endif %}
-            </ul>
-
-            <div id="all" class="content-container">
-            {% for item in results %}
-                <div data-page-type="{{ item.type }}"
-                        {% if item.type == "profile" %}
-                     data-sumlevel_name="{{ item.sumlevel_name }}"
-                        {% elif item.type == "table" %}
-                     data-topic="{{ item.topics }}"
-                        {% endif %}
-                >
-                    {% if item.type == "profile" %}
-                        <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
-                        <p>{{ item.sumlevel_name }}</p>
-                    {% elif item.type == "table" %}
-                        <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
-                        <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
+    {% if contains.profile or contains.table %}
+        <div class="row">
+            <div class="col-md-2">
+                <div>
+                    <br>
+                    <h3>Filter by</h3>
+                    <br>
+                    <div id="filters">
+                    {% if contains.profile %}
+                        <a id="filter-profile" href="#">Profiles</a>
+                        <ul id="sumlevel_names-list">
+                        {% for name, count in sumlevel_names.items %}
+                            <li><a class="filter-sumlevel_names" href="#">{{ name }} ({{ count }})</a></li>
+                        {% endfor %}
+                        </ul>
                     {% endif %}
+                    <br>
+                    {% if contains.table %}
+                        <a id="filter-table" href="#">Tables</a>
+                        <ul id="topics-list">
+                        {% for topic, count in topics.items %}
+                            <li><a class="filter-topics" href="#">{{ topic }} ({{ count }})</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </div>
                 </div>
-            {%  endfor %}
             </div>
 
+            <div class="col-md-10">
+                <ul id="filter-tabs" class="nav nav-tabs">
+                    <li class="active" id="tab-all" role="presentation"><a data-toggle="tab" href="#all">All</a></li>
+
+                    {% if contains.profile %}
+                        <li role="presentation" id="tab-profiles"><a data-toggle="tab" href="#profiles">Profiles</a></li>
+                    {% endif %}
+
+                    {% if contains.table %}
+                        <li role="presentation" id="tab-tables"><a data-toggle="tab" href="#tables">Tables</a></li>
+                    {% endif %}
+                </ul>
+
+                <div id="all" class="content-container">
+                {% for item in results %}
+                    <div data-page-type="{{ item.type }}"
+                            {% if item.type == "profile" %}
+                         data-sumlevel_name="{{ item.sumlevel_name }}"
+                            {% elif item.type == "table" %}
+                         data-topic="{{ item.topics }}"
+                            {% endif %}
+                    >
+                        {% if item.type == "profile" %}
+                            <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
+                            <p>{{ item.sumlevel_name }}</p>
+                        {% elif item.type == "table" %}
+                            <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
+                            <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
+                        {% endif %}
+                    </div>
+                {%  endfor %}
+                </div>
+
+            </div>
         </div>
-    </div>
+    {% endif %}
 </article>
 </div>
 {% endblock %}
