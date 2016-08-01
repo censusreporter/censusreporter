@@ -860,7 +860,8 @@ class SearchResultsView(TemplateView):
                 # Subtables is a list so turn it into string
                 item['subtables'] = ", ".join(item['subtables'])
 
-                page_context['topics'] = all_topics
+                # Sort topics alphabetically
+                page_context['topics'] = OrderedDict(sorted(all_topics.items()))
 
         page_context['contains'] = {'profile':has_profiles, 'table':has_tables}
 
