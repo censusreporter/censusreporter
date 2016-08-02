@@ -830,7 +830,7 @@ class SearchResultsView(TemplateView):
         has_profiles = False
         has_tables = False
         # Collect list of sumlevel names for filtering
-        sumlevel_names = {} # key: sumlevel name, value: count
+        sumlevels = {} # key: sumlevel, value: [sumlevel_name, count]
         # Collect list of topics for filtering
         all_topics = {} # key: topic name, value: count
         for item in page_context['results']:
@@ -839,13 +839,15 @@ class SearchResultsView(TemplateView):
                 # Capitalize first letter of sumlevel names
                 capitalized = capitalize_first(item['sumlevel_name'])
                 item['sumlevel_name'] = capitalized
-                # Add to list of sumlevel names if not already found
-                if capitalized in sumlevel_names.keys():
-                    sumlevel_names[capitalized] += 1
-                else: # Otherwise increment count
-                    sumlevel_names[capitalized] = 1
+                # If sumlevel already found, increment count
+                if item['sumlevel'] in sumlevels.keys():
+                    sumlevels[item['sumlevel']][1] += 1
+                else: # Otherwise add name and initialize count
+                    sumlevels[item['sumlevel']] = [capitalized, 1]
 
-                page_context['sumlevel_names'] = sumlevel_names
+                sumlevels = OrderedDict(sorted(sumlevels.items()))
+                # Change format from { sumlevel: (sumlevel_name, count) } to { sumlevel_name: count }
+                page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
             elif item['type'] == "table":
                 has_tables = True
                 # Capitalize the first letter of topics
