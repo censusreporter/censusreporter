@@ -716,7 +716,7 @@ function Chart(options) {
         chart.addActionLinks();
 
         return chart;
-    }
+    };
     
     chart.addActionLinks = function() {
         chart.actionLinks = chart.chartContainer
@@ -736,17 +736,27 @@ function Chart(options) {
                 .classed("chart-show-embed", true)
                 .text("Embed")
                 .on("click", chart.showEmbedCode);
-    }
+    };
+
+    chart.getEmbedKey = function() {
+        return chart.chartDataKey.substring(chart.chartDataKey.indexOf('-') + 1);
+    };
+
+    chart.getEmbedID = function() {
+        return 'cr-embed-' + chart.primaryGeoID + '-' + chart.getEmbedKey();
+    };
     
     chart.fillEmbedCode = function(textarea, align) {
         var embedHeight = 300,
             embedWidth = (chart.chartType == 'pie') ? 300 : 720,
-            embedKey = chart.chartDataKey.substring(chart.chartDataKey.indexOf('-')+1),
+            embedKey = chart.getEmbedKey(),
+            embedDataYear = chart.initialData.metadata.acs_release.split(' ')[1],
             embedReleaseID = chart.initialData.metadata.acs_release.replace(/ /g,'_'),
-            embedID = 'cr-embed-'+chart.primaryGeoID+'-'+embedKey,
+            embedID = chart.getEmbedID(),
             embedParams = {
                 geoID: chart.primaryGeoID,
                 chartDataID: embedKey,
+                dataYear: embedDataYear,
                 releaseID: embedReleaseID,
                 chartType: chart.chartType,
                 chartHeight: 200,
@@ -759,7 +769,11 @@ function Chart(options) {
         
         var querystring = $.param(embedParams);
         var embedCode = [
-            '<iframe id="'+embedID+'" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?'+querystring+'" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: '+embedWidth+'px;' + embedAlign + '"></iframe>',
+            '<iframe id="' + embedID + '" class="census-reporter-embed" ' +
+                'src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?' +
+                querystring + '" frameborder="0" width="100%" height="300" ' +
+                'style="margin: 1em; max-width: ' + embedWidth + 'px;' +
+                embedAlign + '"></iframe>',
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
@@ -768,19 +782,17 @@ function Chart(options) {
             geography: JSON.stringify(profileData['geography']),
             geo_metadata: JSON.stringify(profileData['geo_metadata']),
             chart_data: JSON.stringify(chart.initialData)
-        })
+        });
         
         textarea.html(embedCode);
-    }
+        return embedCode;
+    };
 
     chart.showEmbedCode = function() {
-        var lightboxWrapper = d3.select('body').append('div')
-                .attr('id', 'lightbox');
-                
-        var lightbox = lightboxWrapper.append('div')
-                .classed('hovercard-wrapper', true)
-            .append('div')
-                .classed('hovercard', true);
+        // In order of parent to child:
+        var lightboxWrapper = d3.select('body').append('div').attr('id', 'lightbox');
+        var hovercardWrapper = lightboxWrapper.append('div').classed('hovercard-wrapper', true);
+        var lightbox = hovercardWrapper.append('div').classed('hovercard', true);
 
         lightbox.append('small')
                 .classed('close clearfix', true)
@@ -790,43 +802,69 @@ function Chart(options) {
                     d3.select('#lightbox').remove();
                 });
                 
-        lightbox.append('h2')
-                .html('Embed code for this chart');
+        lightbox.append('h2').html('Embed code for this chart');
 
-        lightbox.append('p')
-                .text('Copy the code below, then paste into your own CMS or HTML. Embedded charts are responsive to your page width, and have been tested in Firefox, Safari, Chrome, and IE8 and above.');
-                
-        var textarea = lightbox.append('textarea')
-                .on('click', function() {
-                    this.select();
-                });
+        lightbox.append('p').text('Copy the code below, then paste into your own CMS or HTML. ' +
+            'Embedded charts are responsive to your page width, and have been tested in Firefox, ' +
+            'Safari, Chrome, and IE8 and above.');
 
-        lightbox.append('p')
-                .classed('filter-list display-type', true)
+        var textarea = lightbox.append('textarea').on('click', function() {
+            this.select();
+        });
+
+        var embeddedCode = chart.fillEmbedCode(textarea);
+
+        var align_options = lightbox.append('p')
+                .classed('filter-list display-type', true) // Set class
                 .html('<strong>Align this embedded chart in text:</strong> ')
             .selectAll('a')
-                .data(['Normal', 'Left', 'Right'])
+                .data(['Normal', 'Left', 'Right']) // Make three <a> with these values
             .enter().append('a')
-                .attr('id', function(d) { return 'embed-align-' + d.toLowerCase() })
-                .text(function(d) { return d })
-                .on('click', function() {
-                    d3.event.stopPropagation();
-                    d3.selectAll('.filter-list a').classed('option-selected', false);
-                    d3.select(this).classed('option-selected', true);
-                    chart.fillEmbedCode(textarea, this.text.toLowerCase())
-                });
-                
-        d3.select('#embed-align-normal')
-            .classed('option-selected', true);
+                .attr('id', function(d) { return 'embed-align-' + d.toLowerCase() }) // Give each <a> corresponding id
+                .text(function(d) { return d }); // Populate <a> tags with names
+
+        align_options.on('click', function() {
+            d3.event.stopPropagation();
+            d3.selectAll('.filter-list a').classed('option-selected', false); // De-select other options
+            d3.select(this).classed('option-selected', true);
+
+            embeddedCode = chart.fillEmbedCode(textarea, this.text.toLowerCase()); // Change embed code to reflect option
+            x = $("#" + chart.getEmbedID());
+
+            // Change the selected option
+            d3.select(this).classed('option-selected', true);
+            // Get the selected option name from inside the <a>
+            var float_option = d3.select(this)[0][0].innerHTML.toLowerCase();
+            // Since "normal" is not a valid float property value
+            if (float_option == "normal") {
+                float_option = "initial";
+            }
+            x.css("float", float_option);
+        });
+
+        // Default option
+        d3.select('#embed-align-normal').classed('option-selected', true);
 
         lightbox.append('p').append('a')
                 .classed('display-type', true)
                 .attr('href', '/examples/embed-charts/')
                 .attr('target', '_blank')
                 .html('Learn more about Census Reporter&rsquo;s embedded charts');
-                
-        chart.fillEmbedCode(textarea);
-    }
+
+        $(embeddedCode).appendTo(lightbox);
+
+        // Example text for float comparisons
+        lightbox.append('p').html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+            "Aliquam pretium rhoncus placerat. Quisque vel purus nisi. Duis rhoncus ante felis, " +
+            "a dignissim velit tempor ut. Nunc pulvinar felis id risus interdum, " +
+            "eget condimentum quam luctus. Nulla mi nisl, auctor non elementum ut, " +
+            "accumsan sed sem. Nam ut imperdiet enim, a interdum nulla. " +
+            "Etiam quis lectus id velit consequat malesuada. Curabitur feugiat tortor " +
+            "a tellus egestas, non tristique ante efficitur. Fusce fringilla congue varius. " +
+            "Mauris nunc ligula, sollicitudin non ligula eu, pellentesque elementum magna."
+        );
+
+    };
     
     // pass in data obj, get back formatted value label with MOE flag
     chart.getValueFmt = function(data, geoStr, precision) {
