@@ -1,53 +1,82 @@
+L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
+var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>").template()
+var selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
+
 $(function() {
     // Initialize autocomplete
     $("#search").autocomplete({
         // Grab source from ajax call
         source: function (request, response) {
-            $.ajax({
-                // request.term is the current text in the search box.
-                url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term,
-                dataType: "json",
-                // Use success handler to process data before passing it to response
-                // function.
-                success: function (data) {
-                    var result = [];
-                    // Add to start of search results
-                    result.push({
-                        label: "Don't see what you're looking for?",
-                        value: "Don't see what you're looking for?",
-                        subline: "View all search results for " + request.term,
-                        url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term
-                    });
+            var results = [];
 
-                    // Limit number of suggestions to 20
-                    if (data.results.length > 20) {
-                        var results_limit = 20;
-                    } else {
-                        var results_limit = data.results.length;
-                    }
-                    // For each returned page, prepare data for display. label and
-                    // value are defaults preferred by jQuery UI autocomplete.
-                    // Format of data is {results: [ list of objects ]}
-                    for (let i = 0; i < results_limit; i++) {
-                        if (data.results[i].type == "profile") {
-                            result.push({
-                                label: data.results[i].full_name,
-                                value: data.results[i].full_name,
-                                subline: data.results[i].sumlevel_name,
-                                url: data.results[i].url
-                            });
-                        } else if (data.results[i].type == "table") {
-                            result.push({
-                                label: data.results[i].table_name,
-                                value: data.results[i].table_name,
-                                subline: "<b>Table topics: </b>" + data.results[i].topics,
-                                url: data.results[i].url
+            // Add to start of search results
+            results.push({
+                label: "Don't see what you're looking for?",
+                value: "Don't see what you're looking for?",
+                subline: "View all search results for " + request.term,
+                url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term //TODO
+            });
+
+            // Location data
+            $.when(
+                $.ajax({
+                    url: GEOCODE_URL({query: request.term, token: L.mapbox.accessToken}),
+                    success: function(data) {
+                        for (let i = 0; i < data.features.length; i++) {
+                            current_result = data.features[i];
+                            results.push({
+                                label: current_result['place_name'],
+                                value: current_result['place_name'],
+                                subline: "Address",
+                                url: selected_url({ // See corresponding template at top of file for url format
+                                    lat: current_result['center'][1], // latitude
+                                    lng: current_result['center'][0], // longitude
+                                    address: request.term
+                                })
                             });
                         }
                     }
+                }),
 
-                    response(result);
-                }
+                // Profile and Table data
+                $.ajax({
+                    // request.term is the current text in the search box.
+                    url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term, //TODO
+                    dataType: "json",
+                    // Use success handler to process data before passing it to response
+                    // function.
+                    success: function(data) {
+                        // Limit number of suggestions to 20
+                        if (data.results.length > 20) {
+                            var results_limit = 20;
+                        } else {
+                            var results_limit = data.results.length;
+                        }
+                        // For each returned page, prepare data for display. label and
+                        // value are defaults preferred by jQuery UI autocomplete.
+                        // Format of data is {results: [ list of objects ]}
+                        for (let i = 0; i < results_limit; i++) {
+                            if (data.results[i].type == "profile") {
+                                results.push({
+                                    label: data.results[i].full_name,
+                                    value: data.results[i].full_name,
+                                    subline: data.results[i].sumlevel_name,
+                                    url: data.results[i].url
+                                });
+                            } else if (data.results[i].type == "table") {
+                                results.push({
+                                    label: data.results[i].table_name,
+                                    value: data.results[i].table_name,
+                                    subline: "<b>Table topics: </b>" + data.results[i].topics,
+                                    url: data.results[i].url
+                                });
+                            }
+                        }
+
+                    }
+                })
+            ).then(function() {
+                response(results);
             });
         },
         select: function (event, ui) {

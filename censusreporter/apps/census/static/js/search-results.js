@@ -50,6 +50,7 @@ function filterPageType(type) {
     $("#filter-" + type).css("font-weight", "bold");
 }
 
+
 $(function() {
     // On page load, determine which tab is active
     var profile_count = 0;
