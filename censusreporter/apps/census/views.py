@@ -803,32 +803,44 @@ class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
     def get_data(self, query):
-        if not query: 
+        if not query:
             return {'results': [], 'has_query': False}
 
-        r = requests.get("http://0.0.0.0:5000" 
+        r = requests.get("http://0.0.0.0:5000" #TODO
             + "/2.1/full-text/search?q=" + query)
         status_code = r.status_code
 
-        search_data = {}
-        if status_code == 200:
+        mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
+        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}"
+        location_request_url = location_request_url.format(query, mapbox_accessToken)
+        r_location = requests.get(location_request_url)
+        status_code_location = r_location.status_code
+
+        search_data_all = {}
+        if status_code == 200 or status_code_location == 200:
             search_data = json.loads(r.text)
-            search_data['has_query'] = True
+            search_data_location = json.loads(r_location.text)
+            search_data_all['has_query'] = True
+            search_data_all['results'] = search_data['results'] + search_data_location['features']
         elif status_code == 404 or status_code == 400:
             error_data = json.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        elif status_code_location == 404 or status_code_location == 400:
+            error_data = json.loads(r_location.text)
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
 
-        return search_data
+        return search_data_all
 
     def get_context_data(self, **kwargs):
         q = self.request.GET.get('q', None)
         page_context = self.get_data(q) # dict with one key: "results"
 
-        # Determine if profile or table pages exist for filtering
+        # Determine if types of pages exist (used for filtering)
         has_profiles = False
         has_tables = False
+        has_locations = False
         # Collect list of sumlevel names for filtering
         sumlevels = {} # key: sumlevel, value: [sumlevel_name, count]
         # Collect list of topics for filtering
@@ -864,8 +876,17 @@ class SearchResultsView(TemplateView):
 
                 # Sort topics alphabetically
                 page_context['topics'] = OrderedDict(sorted(all_topics.items()))
-
-        page_context['contains'] = {'profile':has_profiles, 'table':has_tables}
+            elif item['type'] == "Feature": # "Feature" meaning location (mapbox's api uses the word "Feature")
+                item['type'] = "location"
+                has_locations = True
+                item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
+                    item['center'][1], item['center'][0], q
+                )
+        page_context['contains'] = {
+            'profile': has_profiles,
+            'table': has_tables,
+            'location': has_locations
+        }
 
         return page_context
 

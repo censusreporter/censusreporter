@@ -2,6 +2,21 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+function getKeyOfMaxValue(obj) {
+    // Works for values greater than 0.
+    var max_val = 0;
+    var max_key = "";
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (obj[key] > max_val) {
+                max_val = obj[key];
+                max_key = key;
+            }
+        }
+    }
+    return max_key;
+}
+
 // Function to get URL parameters, i.e., ?q=something
 // Usage: getUrlParameter('q')
 // Returns true if parameter value does not exist, returns value of
@@ -52,51 +67,44 @@ function filterPageType(type) {
 
 
 $(function() {
-    // On page load, determine which tab is active
-    var profile_count = 0;
-    var table_count = 0;
+    // On page load, determine which tab contains the most results,
+    // then make that tab active.
+    var result_counts = {
+        profile: 0,
+        table: 0,
+        location: 0
+    };
     $("#all").children("div").each(function() {
         if ($(this).attr('data-page-type') == "profile") {
-            profile_count++;
+            result_counts['profile']++;
         } else if ($(this).attr('data-page-type') == "table") {
-            table_count++;
+            result_counts['table']++;
+        } else if ($(this).attr('data-page-type') == "location") {
+            result_counts['location']++;
         }
     });
-    if (profile_count > table_count) {
-        $("#tab-profiles").addClass("active");
-        filterPageType("profile");
-    } else {
-        $("#tab-tables").addClass("active");
-        filterPageType("table");
-    }
+
+    max_count_page = getKeyOfMaxValue(result_counts);
+    console.log(max_count_page);
+    $("#tab-" + max_count_page).addClass("active");
+    filterPageType(max_count_page);
 
     // When user clicks the tabs, reset filters
     $("#filter-tabs li").click(function(e) {
         resetFilters();
         // Get name of tab that was clicked
         var selected = $(this).children('a')[0].getAttribute("href").substring(1);
-        if (selected == "profiles") {
-            filterPageType("profile");
-        } else if (selected  == "tables") {
-            filterPageType("table");
-        }
+        filterPageType(selected);
     });
 
     // When user clicks the sidebar filter options
-    $("#filter-profile").click(function(e) {
+    $("#filters > a").click(function(e) {
         // Don't allow the href="#" default to go to top of page
         e.preventDefault();
         resetFilters();
-        filterPageType("profile");
-        $('#filter-tabs a[href="#profiles"]').tab('show');
-    });
-
-    $("#filter-table").click(function(e) {
-        // Don't allow the href="#" default to go to top of page
-        e.preventDefault();
-        resetFilters();
-        filterPageType("table");
-        $('#filter-tabs a[href="#tables"]').tab('show');
+        var page_type = $(this).attr("data-filter-type")
+        filterPageType(page_type);
+        $('#filter-tabs a[href="#' + page_type + '"]').tab('show');
     });
 
     $(".filter-sumlevel_names").click(function(e) {
@@ -119,7 +127,7 @@ $(function() {
             }
         });
 
-        $('#filter-tabs a[href="#profiles"]').tab('show');
+        $('#filter-tabs a[href="#profile"]').tab('show');
     });
 
     $(".filter-topics").click(function(e) {
@@ -143,6 +151,6 @@ $(function() {
             }
         });
 
-        $('#filter-tabs a[href="#tables"]').tab('show');
+        $('#filter-tabs a[href="#table"]').tab('show');
     });
 });
