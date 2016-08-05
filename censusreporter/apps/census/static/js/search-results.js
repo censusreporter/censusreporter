@@ -72,7 +72,8 @@ $(function() {
     var result_counts = {
         profile: 0,
         table: 0,
-        location: 0
+        location: 0,
+        topic: 0
     };
     $("#all").children("div").each(function() {
         if ($(this).attr('data-page-type') == "profile") {
@@ -81,6 +82,8 @@ $(function() {
             result_counts['table']++;
         } else if ($(this).attr('data-page-type') == "location") {
             result_counts['location']++;
+        } else if ($(this).attr('data-page-type') == "topic") {
+            result_counts['topic']++;
         }
     });
 

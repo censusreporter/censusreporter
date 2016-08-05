@@ -18,12 +18,12 @@
     </section>
 
     {% if has_query %}
-        {% if contains.profile or contains.table  or contains.location %}
+        {% if contains.profile or contains.table  or contains.location or contains.topic %}
             <div class="row">
                 <div class="col-md-2">
                     <div>
                         <br>
-                        <h3>Filter by</h3>
+                        <h2>Filter by</h2>
                         <br>
                         <div id="filters">
                         {% if contains.profile %}
@@ -36,7 +36,6 @@
                         {% endif %}
 
                         {% if contains.table %}
-                            <br>
                             <a id="filter-table" data-filter-type="table" href="#">Tables</a>
                             <ul id="topics-list">
                             {% for topic, count in topics.items %}
@@ -46,8 +45,13 @@
                         {% endif %}
 
                         {% if contains.location %}
-                            <br>
                             <a id="filter-location" data-filter-type="location" href="#">Locations</a>
+                            <br><br>
+                        {% endif %}
+
+                        {% if contains.topic %}
+                            <a id="filter-topic" data-filter-type="topic" href="#">Info</a>
+                            <br><br>
                         {% endif %}
                         </div>
                     </div>
@@ -72,6 +76,12 @@
                                 <a data-toggle="tab" href="#location">Locations</a>
                             </li>
                         {% endif %}
+
+                        {% if contains.topic %}
+                            <li role="presentation" id="tab-topic">
+                                <a data-toggle="tab" href="#topic">Info</a>
+                            </li>
+                        {% endif %}
                     </ul>
 
                     <div id="all" class="content-container">
@@ -92,6 +102,9 @@
                             {% elif item.type == "location" %}
                                 <h3><a href="{{ item.url }}">{{ item.place_name }}</a></h3>
                                 <p>Latitude: {{ item.center.1 }}, Longitude: {{ item.center.0 }}</p>
+                            {% elif item.type == "topic" %}
+                                <h3><a href="{{ item.url }}">{{ item.topic_name }}</a></h3>
+                                <p>Topic page</p><!--TODO-->
                             {% endif %}
                         </div>
                     {%  endfor %}

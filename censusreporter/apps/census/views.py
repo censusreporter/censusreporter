@@ -859,6 +859,7 @@ class SearchResultsView(TemplateView):
         has_profiles = False
         has_tables = False
         has_locations = False
+        has_topics = False
         # Collect list of sumlevel names for filtering
         sumlevels = {} # key: sumlevel, value: [sumlevel_name, count]
         # Collect list of topics for filtering
@@ -880,6 +881,7 @@ class SearchResultsView(TemplateView):
                 page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
             elif item['type'] == "table":
                 has_tables = True
+                # NOTE: topics used for filtering tables, not to be confused with topic pages
                 # Capitalize the first letter of topics
                 topics = [capitalize_first(x) for x in item['topics']]
                 item['topics'] = ", ".join(topics)
@@ -900,10 +902,14 @@ class SearchResultsView(TemplateView):
                 item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
                     item['center'][1], item['center'][0], q
                 )
+            elif item['type'] == "topic":
+                has_topics = True
+
         page_context['contains'] = {
             'profile': has_profiles,
             'table': has_tables,
-            'location': has_locations
+            'location': has_locations,
+            'topic': has_topics
         }
 
         return page_context
