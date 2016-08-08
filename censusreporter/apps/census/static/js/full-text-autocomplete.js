@@ -38,7 +38,7 @@ $(function() {
                     }
                 }),
 
-                // Profile and Table data
+                // Profile, table, and topic data
                 $.ajax({
                     // request.term is the current text in the search box.
                     url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term, //TODO
@@ -68,6 +68,13 @@ $(function() {
                                     label: data.results[i].table_name,
                                     value: data.results[i].table_name,
                                     subline: "<b>Table topics: </b>" + data.results[i].topics,
+                                    url: data.results[i].url
+                                });
+                            } else if (data.results[i].type == "topic") {
+                                results.push({
+                                    label: data.results[i].topic_name,
+                                    value: data.results[i].topic_name,
+                                    subline: "Topic page",
                                     url: data.results[i].url
                                 });
                             }
