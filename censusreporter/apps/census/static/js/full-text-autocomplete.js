@@ -67,7 +67,7 @@ $(function() {
                                 results.push({
                                     label: data.results[i].table_name,
                                     value: data.results[i].table_name,
-                                    subline: "<b>Table topics: </b>" + data.results[i].topics,
+                                    subline: "<b>Table topics: </b>" + data.results[i].topics.join(", "),
                                     url: data.results[i].url
                                 });
                             } else if (data.results[i].type == "topic") {
