@@ -853,58 +853,75 @@ class SearchResultsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         q = self.request.GET.get('q', None)
-        page_context = self.get_data(q) # dict with one key: "results"
+        page_context = self.get_data(q) # format: { "results": [ ... ] }
 
         # Determine if types of pages exist (used for filtering)
         has_profiles = False
         has_tables = False
         has_locations = False
         has_topics = False
+
         # Collect list of sumlevel names for filtering
-        sumlevels = {} # key: sumlevel, value: [sumlevel_name, count]
+        sumlevels = {} # format: { sumlevel : [sumlevel_name, count] }
+
         # Collect list of topics for filtering
-        all_topics = {} # key: topic name, value: count
+        all_topics = {} # format: { topic_name: count} 
+
         for item in page_context['results']:
             if item['type'] == "profile":
                 has_profiles = True
+
                 # Capitalize first letter of sumlevel names
                 capitalized = capitalize_first(item['sumlevel_name'])
                 item['sumlevel_name'] = capitalized
-                # If sumlevel already found, increment count
+                
+                # Increment count if found, otherwise add and start count
                 if item['sumlevel'] in sumlevels.keys():
                     sumlevels[item['sumlevel']][1] += 1
-                else: # Otherwise add name and initialize count
+                else: 
                     sumlevels[item['sumlevel']] = [capitalized, 1]
 
                 sumlevels = OrderedDict(sorted(sumlevels.items()))
-                # Change format from { sumlevel: (sumlevel_name, count) } to { sumlevel_name: count }
+                
+                # Change format from { sumlevel: [sumlevel_name, count] } 
+                # to { sumlevel_name: count }
                 page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
+
             elif item['type'] == "table":
                 has_tables = True
-                # NOTE: topics used for filtering tables, not to be confused with topic pages
+
+                # Topics are used for filtering tables; should not be confused 
+                # with the 'topic' search result for topic pages
+
                 # Capitalize the first letter of topics
                 topics = [capitalize_first(x) for x in item['topics']]
                 item['topics'] = ", ".join(topics)
-                # Add to list of topics if not already found
+
+                # Increment count if found, otherwise add and start count
                 for topic in topics:
                     if topic in all_topics.keys():
                         all_topics[topic] += 1
-                    else: # Otherwise increment count
+                    else:
                         all_topics[topic] = 1
-                # Subtables is a list so turn it into string
+
+                # Subtables is a list; turn it into string
                 item['subtables'] = ", ".join(item['subtables'])
 
                 # Sort topics alphabetically
                 page_context['topics'] = OrderedDict(sorted(all_topics.items()))
-            elif item['type'] == "Feature": # "Feature" meaning location (mapbox's api uses the word "Feature")
+            
+            # "Feature" is a location; mapbox's api uses this term
+            elif item['type'] == "Feature": 
                 item['type'] = "location"
                 has_locations = True
                 item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
                     item['center'][1], item['center'][0], q
                 )
+
             elif item['type'] == "topic":
                 has_topics = True
 
+        # Include all of the 'contains' metadata in the page 
         page_context['contains'] = {
             'profile': has_profiles,
             'table': has_tables,
