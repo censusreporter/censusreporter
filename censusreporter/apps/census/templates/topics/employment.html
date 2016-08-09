@@ -63,10 +63,6 @@
 <td>Presence of Own Children by Age of Own Children by Employment Status for Females 20 to 64 Years</td>
 </tr>
 <tr>
-<td><strong><a href="{% url 'table_detail' 'B23004' %}">B23004</a><sup>‡</sup></strong></td>
-<td>Work Status by Age by Employment Status for the Civilian Population 65 Years and Over</td>
-</tr>
-<tr>
 <td><strong><a href="{% url 'table_detail' 'B23006' %}">B23006</a></strong></td>
 <td>Educational Attainment by Employment Status for the Population 25 to 64 Years</td>
 </tr>
@@ -103,10 +99,6 @@
 <td>Sex by Work Status by Usual Hours Worked Per Week by Weeks Worked for the Population 16 to 64 Years</td>
 </tr>
 <tr>
-<td><strong><a href="{% url 'table_detail' 'B23023' %}">B23023</a><sup>‡</sup></strong></td>
-<td>Sex by Disability Status by Work Status by Usual Hours Worked Per Week by Weeks Worked for the Population 16 to 64 Years</td>
-</tr>
-<tr>
 <td><strong><a href="{% url 'table_detail' 'B23024' %}">B23024</a></strong></td>
 <td>Poverty Status by Disability Status by Employment Status for the Population 20 to 64 Years</td>
 </tr>
@@ -140,7 +132,7 @@
 <p>In different tables, these groups are subdivided to varying depths. For <strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a>/<a href="{% url 'table_detail' 'B24020' %}">B24020</a></strong>, there are a total of 150 columns for each of male and female workers. These columns are nested so that some values represent the total of columns below them. If you do your own summing, Be careful not to double-count by mixing columns of different depths.</p>
 <p><strong>Important:</strong> the ACS 5-year release does not include the <strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a>/<a href="{% url 'table_detail' 'B24020' %}">B24020</a></strong> tables. To analyze occupation data for smaller geographies, you must use the <strong><a href="{% url 'table_detail' 'C24010' %}">C24010</a>/<a href="{% url 'table_detail' 'C24020' %}">C24020</a></strong> tables. These have the same five high level groups, but are broken down into only 35 columns for each of male and female workers.</p>
 <h3 id="industry">Industry</h3>
-<p>In addition to the work Americans do, the ACS counts the industries in which they do that work. In these tables, there are 13 top level categories for industries. For <strong><a href="{% url 'table_detail' 'B02030' %}">B02030</a></strong> and <strong><a href="{% url 'table_detail' 'B02040' %}">B02040</a></strong>, these are further subdivided into a total of 103 industries. For other tables, the industries generally don't go that deep. As with occupations, be careful not to double-count if you are doing your own summing.</p>
+<p>In addition to the work Americans do, the ACS counts the industries in which they do that work. In these tables, there are 13 top level categories for industries. As with occupations, be careful not to double-count if you are doing your own summing.</p>
 <p>These are the 13 top-level industries:</p>
 <ul>
 <li>Agriculture, forestry, fishing and hunting, and mining</li>
