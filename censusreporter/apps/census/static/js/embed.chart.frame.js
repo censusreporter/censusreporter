@@ -1,4 +1,5 @@
 function makeEmbedFrame() {
+    console.log('frame local')
     var embedFrame = {
         params: {},
         data: {},
@@ -64,7 +65,7 @@ function makeEmbedFrame() {
             chartHeight: embedFrame.params.chartHeight,
             chartQualifier: embedFrame.params.chartQualifier,
             chartChartTitle: embedFrame.params.chartTitle,
-            chartInitialSort: embedFrame.params.chartInitialSort,
+            chartInitialSort: embedFrame.params.initialSort,
             chartStatType: embedFrame.params.statType,
             geographyData: embedFrame.data.geographyData
         });
