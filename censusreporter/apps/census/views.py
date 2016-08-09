@@ -890,7 +890,7 @@ class SearchResultsView(TemplateView):
             elif item['type'] == "table":
                 has_tables = True
 
-                # Topics are used for filtering tables; should not be confused 
+                # NOTE: Topics are used for filtering tables; should not be confused
                 # with the 'topic' search result for topic pages
 
                 # Capitalize the first letter of topics

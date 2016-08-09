@@ -27,7 +27,7 @@ $(function() {
                             results.push({
                                 label: current_result['place_name'],
                                 value: current_result['place_name'],
-                                subline: "Address",
+                                subline: "Location",
                                 url: selected_url({ // See corresponding template at top of file for url format
                                     lat: current_result['center'][1], // latitude
                                     lng: current_result['center'][0], // longitude

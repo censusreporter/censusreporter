@@ -101,10 +101,10 @@
                                 <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
                             {% elif item.type == "location" %}
                                 <h3><a href="{{ item.url }}">{{ item.place_name }}</a></h3>
-                                <p>Latitude: {{ item.center.1 }}, Longitude: {{ item.center.0 }}</p>
+                                <p>Location</p>
                             {% elif item.type == "topic" %}
                                 <h3><a href="{{ item.url }}">{{ item.topic_name }}</a></h3>
-                                <p>Topic page</p><!--TODO-->
+                                <p>Topic page</p>
                             {% endif %}
                         </div>
                     {%  endfor %}
