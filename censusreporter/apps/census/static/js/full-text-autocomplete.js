@@ -7,24 +7,16 @@ $(function() {
     $("#search").autocomplete({
         // Grab source from ajax call
         source: function (request, response) {
-            var results = [];
-
-            // Add to start of search results
-            results.push({
-                label: "Don't see what you're looking for?",
-                value: "Don't see what you're looking for?",
-                subline: "View all search results for " + request.term,
-                url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term //TODO
-            });
-
-            // Location data
-            $.when(
-                $.ajax({
+            function locationDataRequest(request) { // First ajax call
+                return $.ajax({
                     url: GEOCODE_URL({query: request.term, token: L.mapbox.accessToken}),
-                    success: function(data) {
+                    dataFilter: function(data) {
+                        data = JSON.parse(data);
+                        var formatted = [];
+
                         for (let i = 0; i < data.features.length; i++) {
                             current_result = data.features[i];
-                            results.push({
+                            formatted.push({
                                 label: current_result['place_name'],
                                 value: current_result['place_name'],
                                 subline: "Location",
@@ -35,43 +27,49 @@ $(function() {
                                 })
                             });
                         }
-                    }
-                }),
 
-                // Profile, table, and topic data
-                $.ajax({
+                        return JSON.stringify(formatted);
+                    },
+                });
+            }
+
+            // Profile, table, and topic data
+            function fulltextDataRequest(loc_data) { // Second ajax call
+                return $.ajax({
                     // request.term is the current text in the search box.
                     url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term, //TODO
                     dataType: "json",
-                    // Use success handler to process data before passing it to response
-                    // function.
-                    success: function(data) {
+                    dataFilter: function(data) {
+                        data = JSON.parse(data);
+                        var formatted = [];
+
                         // Limit number of suggestions to 20
                         if (data.results.length > 20) {
                             var results_limit = 20;
                         } else {
                             var results_limit = data.results.length;
                         }
+
                         // For each returned page, prepare data for display. label and
                         // value are defaults preferred by jQuery UI autocomplete.
                         // Format of data is {results: [ list of objects ]}
                         for (let i = 0; i < results_limit; i++) {
                             if (data.results[i].type == "profile") {
-                                results.push({
+                                formatted.push({
                                     label: data.results[i].full_name,
                                     value: data.results[i].full_name,
                                     subline: data.results[i].sumlevel_name,
                                     url: data.results[i].url
                                 });
                             } else if (data.results[i].type == "table") {
-                                results.push({
+                                formatted.push({
                                     label: data.results[i].table_name,
                                     value: data.results[i].table_name,
                                     subline: "<b>Table topics: </b>" + data.results[i].topics.join(", "),
                                     url: data.results[i].url
                                 });
                             } else if (data.results[i].type == "topic") {
-                                results.push({
+                                formatted.push({
                                     label: data.results[i].topic_name,
                                     value: data.results[i].topic_name,
                                     subline: "Topic page",
@@ -80,11 +78,24 @@ $(function() {
                             }
                         }
 
+                        return JSON.stringify(loc_data.concat(formatted));
                     }
-                })
-            ).then(function() {
-                response(results);
-            });
+                });
+            }
+
+            function sendDataResponse(all_data) {
+                var results = [
+                    { // Add this as first result
+                        label: "Don't see what you're looking for?",
+                        value: "Don't see what you're looking for?",
+                        subline: "View all search results for " + request.term,
+                        url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term //TODO
+                    }
+                ];
+                response(results.concat(all_data));
+            }
+
+            locationDataRequest(request).then(fulltextDataRequest).then(sendDataResponse);
         },
         select: function (event, ui) {
             window.location = ui.item.url;

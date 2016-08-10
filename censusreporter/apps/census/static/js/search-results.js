@@ -55,7 +55,6 @@ function resetFilters() {
 }
 
 function filterPageType(type) {
-    // type - must be "profile" or "table"
     $("#all").children("div").each(function() {
         if ($(this).attr("data-page-type") != type) {
             $(this).css("display", "none");
@@ -88,7 +87,6 @@ $(function() {
     });
 
     max_count_page = getKeyOfMaxValue(result_counts);
-    console.log(max_count_page);
     $("#tab-" + max_count_page).addClass("active");
     filterPageType(max_count_page);
 
