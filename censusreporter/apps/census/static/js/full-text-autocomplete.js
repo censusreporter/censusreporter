@@ -7,34 +7,8 @@ $(function() {
     $("#search").autocomplete({
         // Grab source from ajax call
         source: function (request, response) {
-            function locationDataRequest(request) { // First ajax call
-                return $.ajax({
-                    url: GEOCODE_URL({query: request.term, token: L.mapbox.accessToken}),
-                    dataFilter: function(data) {
-                        data = JSON.parse(data);
-                        var formatted = [];
-
-                        for (let i = 0; i < data.features.length; i++) {
-                            current_result = data.features[i];
-                            formatted.push({
-                                label: current_result['place_name'],
-                                value: current_result['place_name'],
-                                subline: "Location",
-                                url: selected_url({ // See corresponding template at top of file for url format
-                                    lat: current_result['center'][1], // latitude
-                                    lng: current_result['center'][0], // longitude
-                                    address: current_result['place_name']
-                                })
-                            });
-                        }
-
-                        return JSON.stringify(formatted);
-                    },
-                });
-            }
-
             // Profile, table, and topic data
-            function fulltextDataRequest(loc_data) { // Second ajax call
+            function fulltextDataRequest() { // First ajax call
                 return $.ajax({
                     // request.term is the current text in the search box.
                     url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term, //TODO
@@ -78,8 +52,34 @@ $(function() {
                             }
                         }
 
-                        return JSON.stringify(loc_data.concat(formatted));
+                        return JSON.stringify(formatted);
                     }
+                });
+            }
+
+            function locationDataRequest(fulltext_data) { // Second ajax call
+                return $.ajax({
+                    url: GEOCODE_URL({query: request.term, token: L.mapbox.accessToken}),
+                    dataFilter: function(data) {
+                        data = JSON.parse(data);
+                        var formatted = [];
+
+                        for (let i = 0; i < data.features.length; i++) {
+                            current_result = data.features[i];
+                            formatted.push({
+                                label: current_result['place_name'],
+                                value: current_result['place_name'],
+                                subline: "Location",
+                                url: selected_url({ // See corresponding template at top of file for url format
+                                    lat: current_result['center'][1], // latitude
+                                    lng: current_result['center'][0], // longitude
+                                    address: current_result['place_name']
+                                })
+                            });
+                        }
+
+                        return JSON.stringify(fulltext_data.concat(formatted));
+                    },
                 });
             }
 
@@ -95,7 +95,7 @@ $(function() {
                 response(results.concat(all_data));
             }
 
-            locationDataRequest(request).then(fulltextDataRequest).then(sendDataResponse);
+            fulltextDataRequest().then(locationDataRequest).then(sendDataResponse);
         },
         select: function (event, ui) {
             window.location = ui.item.url;
