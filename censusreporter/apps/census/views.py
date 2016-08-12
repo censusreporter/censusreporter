@@ -911,11 +911,11 @@ class SearchResultsView(TemplateView):
                 page_context['topics'] = OrderedDict(sorted(all_topics.items()))
             
             # "Feature" is a location; mapbox's api uses this term
-            elif item['type'] == "Feature": 
+            elif item['type'] == "Feature":
                 item['type'] = "location"
                 has_locations = True
                 item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
-                    item['center'][1], item['center'][0], q
+                    item['center'][1], item['center'][0], item['place_name']
                 )
 
             elif item['type'] == "topic":

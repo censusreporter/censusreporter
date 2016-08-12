@@ -23,7 +23,7 @@ $(function() {
                                 url: selected_url({ // See corresponding template at top of file for url format
                                     lat: current_result['center'][1], // latitude
                                     lng: current_result['center'][0], // longitude
-                                    address: request.term
+                                    address: current_result['place_name']
                                 })
                             });
                         }
