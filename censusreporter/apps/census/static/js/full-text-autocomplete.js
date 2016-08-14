@@ -3,6 +3,7 @@ var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=qu
 var selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 
 $(function() {
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : 'https://api.censusreporter.org';
     // Initialize autocomplete
     $("#search").autocomplete({
         // Grab source from ajax call
@@ -11,7 +12,7 @@ $(function() {
             function fulltextDataRequest() { // First ajax call
                 return $.ajax({
                     // request.term is the current text in the search box.
-                    url: "http://0.0.0.0:5000" + "/2.1/full-text/search?q=" + request.term, //TODO
+                    url: API_URL + "/2.1/full-text/search?q=" + request.term, 
                     dataType: "json",
                     dataFilter: function(data) {
                         data = JSON.parse(data);

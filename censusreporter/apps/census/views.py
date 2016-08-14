@@ -171,7 +171,7 @@ class TableDetailView(TemplateView):
         endpoint_1 = settings.API_URL + '/2.0/table/latest/%s' % table_argument
         endpoint_2 = settings.API_URL + '/2.0/table/latest/%sA' % table_argument
 
-        if (requests.get(endpoint_1).status_code == 400 
+        if (requests.get(endpoint_1).status_code == 400
         and requests.get(endpoint_2).status_code == 200):
             return HttpResponseRedirect(
                 reverse('table_detail', args = (table_argument + 'A',))
@@ -231,8 +231,8 @@ class TableDetailView(TemplateView):
         for release in tabulation_data['tables_by_release']:
             # Sort data by length to have all the PR tables at the end.
             # Note that sorted() is guaranteed to be stable, per Python docs,
-            # meaning that keys that compare equal (are equal length) will 
-            # remain in the same relative order. Assuming they were alphabetical 
+            # meaning that keys that compare equal (are equal length) will
+            # remain in the same relative order. Assuming they were alphabetical
             # before this, this is guaranteed to list tables as
             # tableA, ... , tableI, tableAPR, ... , tableIPR.
             sorted_data = sorted(tabulation_data['tables_by_release'][release],
@@ -821,11 +821,11 @@ class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
     def get_data(self, query):
+        search_url = settings.API_URL + "/2.1/full-text/search?q={}"
         if not query:
             return {'results': [], 'has_query': False}
 
-        r = requests.get("http://0.0.0.0:5000" #TODO
-            + "/2.1/full-text/search?q=" + query)
+        r = requests.get(search_url.format(query))
         status_code = r.status_code
 
         mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
@@ -865,7 +865,7 @@ class SearchResultsView(TemplateView):
         sumlevels = {} # format: { sumlevel : [sumlevel_name, count] }
 
         # Collect list of topics for filtering
-        all_topics = {} # format: { topic_name: count} 
+        all_topics = {} # format: { topic_name: count}
 
         for item in page_context['results']:
             if item['type'] == "profile":
@@ -874,16 +874,16 @@ class SearchResultsView(TemplateView):
                 # Capitalize first letter of sumlevel names
                 capitalized = capitalize_first(item['sumlevel_name'])
                 item['sumlevel_name'] = capitalized
-                
+
                 # Increment count if found, otherwise add and start count
                 if item['sumlevel'] in sumlevels.keys():
                     sumlevels[item['sumlevel']][1] += 1
-                else: 
+                else:
                     sumlevels[item['sumlevel']] = [capitalized, 1]
 
                 sumlevels = OrderedDict(sorted(sumlevels.items()))
-                
-                # Change format from { sumlevel: [sumlevel_name, count] } 
+
+                # Change format from { sumlevel: [sumlevel_name, count] }
                 # to { sumlevel_name: count }
                 page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
 
@@ -909,7 +909,7 @@ class SearchResultsView(TemplateView):
 
                 # Sort topics alphabetically
                 page_context['topics'] = OrderedDict(sorted(all_topics.items()))
-            
+
             # "Feature" is a location; mapbox's api uses this term
             elif item['type'] == "Feature":
                 item['type'] = "location"
@@ -921,7 +921,7 @@ class SearchResultsView(TemplateView):
             elif item['type'] == "topic":
                 has_topics = True
 
-        # Include all of the 'contains' metadata in the page 
+        # Include all of the 'contains' metadata in the page
         page_context['contains'] = {
             'profile': has_profiles,
             'table': has_tables,
