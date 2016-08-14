@@ -10,6 +10,8 @@
         <meta name="description" content="{% block head_meta_description %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_css %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
         <script type="application/ld+json">
@@ -96,7 +98,7 @@
             {% block content %}{% endblock %}
         </div>
         {% endblock %}
-
+        
         <footer id="page-footer">
             <section class="wrapper footer-container clearfix">
                 {% block footer_content %}
@@ -133,7 +135,7 @@
         <!--[if gte IE 9]><!-->
         <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4,typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>
         <!--<![endif]-->
-
+        
         <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
         <!--[if lte IE 8]>
         <script src="{{ STATIC_URL }}js/vendor/r2d3.js" charset="utf-8"></script>
@@ -142,10 +144,14 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
         <script src="//cdn.jsdelivr.net/g/typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>
         <![endif]-->
-
+        
         <!--[if lte IE 9]>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
         <![endif]-->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+                integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+                crossorigin="anonymous"></script>
         <script type="text/javascript">CR_API_URL = '{{ API_URL }}';</script>
         <script src="{{ STATIC_URL }}js/app.js"></script>
         <script src="{{ STATIC_URL }}js/glossary.js"></script>

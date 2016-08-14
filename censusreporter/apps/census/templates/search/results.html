@@ -1,0 +1,128 @@
+{% extends '_base.html' %}
+
+{% block head_javascript_extra %}
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+{% endblock %}
+
+{% block content_container %}
+<div class="content-container clearfix">
+
+<article id="full-text" class="clearfix wrapper">
+    <section class="column-full clearfix big-action">
+        <div class="input-wrapper with-submit">
+            <form action="http://127.0.0.1:8000/search-results">
+                <input name="q" id="search" type="text" placeholder="Search for a profile, table, topic, or glossary page" autocomplete="off">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+    </section>
+
+    {% if has_query %}
+        {% if contains.profile or contains.table  or contains.location or contains.topic %}
+            <div class="row">
+                <div class="col-md-2">
+                    <div>
+                        <br>
+                        <h2>Filter by</h2>
+                        <br>
+                        <div id="filters">
+                        {% if contains.profile %}
+                            <a id="filter-profile" data-filter-type="profile" href="#">Profiles</a>
+                            <ul id="sumlevel_names-list">
+                            {% for name, count in sumlevel_names.items %}
+                                <li><a class="filter-sumlevel_names" href="#">{{ name }} ({{ count }})</a></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {% if contains.table %}
+                            <a id="filter-table" data-filter-type="table" href="#">Tables</a>
+                            <ul id="topics-list">
+                            {% for topic, count in topics.items %}
+                                <li><a class="filter-topics" href="#">{{ topic }} ({{ count }})</a></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {% if contains.location %}
+                            <a id="filter-location" data-filter-type="location" href="#">Locations</a>
+                            <br><br>
+                        {% endif %}
+
+                        {% if contains.topic %}
+                            <a id="filter-topic" data-filter-type="topic" href="#">Info</a>
+                            <br><br>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <ul id="filter-tabs" class="nav nav-tabs">
+                        {% if contains.profile %}
+                            <li role="presentation" id="tab-profile">
+                                <a data-toggle="tab" href="#profile">Profiles</a>
+                            </li>
+                        {% endif %}
+
+                        {% if contains.table %}
+                            <li role="presentation" id="tab-table">
+                                <a data-toggle="tab" href="#table">Tables</a>
+                            </li>
+                        {% endif %}
+
+                        {% if contains.location %}
+                            <li role="presentation" id="tab-location">
+                                <a data-toggle="tab" href="#location">Locations</a>
+                            </li>
+                        {% endif %}
+
+                        {% if contains.topic %}
+                            <li role="presentation" id="tab-topic">
+                                <a data-toggle="tab" href="#topic">Info</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <div id="all" class="content-container">
+                    {% for item in results %}
+                        <div data-page-type="{{ item.type }}"
+                            {% if item.type == "profile" %}
+                                data-sumlevel_name="{{ item.sumlevel_name }}"
+                            {% elif item.type == "table" %}
+                                data-topic="{{ item.topics }}"
+                            {% endif %}
+                        >
+                            {% if item.type == "profile" %}
+                                <h3><a href="{{ item.url }}">{{ item.full_name }}</a></h3>
+                                <p>{{ item.sumlevel_name }}</p>
+                            {% elif item.type == "table" %}
+                                <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
+                                <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
+                            {% elif item.type == "location" %}
+                                <h3><a href="{{ item.url }}">{{ item.place_name }}</a></h3>
+                                <p>Location</p>
+                            {% elif item.type == "topic" %}
+                                <h3><a href="{{ item.url }}">{{ item.topic_name }}</a></h3>
+                                <p>Topic page</p>
+                            {% endif %}
+                        </div>
+                    {%  endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+        {% else %}
+            <h2>No results found.</h2>
+        {% endif %}
+    {% endif %}
+</article>
+</div>
+{% endblock %}
+
+
+{% block body_javascript_extra %}{{ block.super }}
+    <script src="{{ STATIC_URL }}js/search-results.js"></script>
+    <script src="{{ STATIC_URL }}js/full-text-autocomplete.js"></script>
+{% endblock %}
