@@ -10,7 +10,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
     TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView, SitemapTopicsView)
+    MakeJSONView, SitemapTopicsView, SearchResultsView)
 
 admin.autodiscover()
 
@@ -76,6 +76,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(TableSearchView.as_view()),
         kwargs  = {},
         name    = 'table_search',
+    ),
+
+    url(
+        regex = '^search-results/$',
+        view = SearchResultsView.as_view(),
+        kwargs = {},
+        name = 'search-results'
     ),
 
     url(

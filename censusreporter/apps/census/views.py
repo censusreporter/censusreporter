@@ -9,6 +9,7 @@ import re
 import requests
 import unicodecsv
 import topics
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -49,6 +50,15 @@ def render_json_to_response(context):
     '''
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
+
+def capitalize_first(str):
+    """Capitalizes only the first letter of the given string.
+
+    :param str: string to capitalize
+    :return: str with only the first letter capitalized
+    """
+    if str == "": return ""
+    return str[0].upper() + str[1:]
 
 ### HEALTH CHECK ###
 
@@ -161,7 +171,7 @@ class TableDetailView(TemplateView):
         endpoint_1 = settings.API_URL + '/2.0/table/latest/%s' % table_argument
         endpoint_2 = settings.API_URL + '/2.0/table/latest/%sA' % table_argument
 
-        if (requests.get(endpoint_1).status_code == 400 
+        if (requests.get(endpoint_1).status_code == 400
         and requests.get(endpoint_2).status_code == 200):
             return HttpResponseRedirect(
                 reverse('table_detail', args = (table_argument + 'A',))
@@ -221,8 +231,8 @@ class TableDetailView(TemplateView):
         for release in tabulation_data['tables_by_release']:
             # Sort data by length to have all the PR tables at the end.
             # Note that sorted() is guaranteed to be stable, per Python docs,
-            # meaning that keys that compare equal (are equal length) will 
-            # remain in the same relative order. Assuming they were alphabetical 
+            # meaning that keys that compare equal (are equal length) will
+            # remain in the same relative order. Assuming they were alphabetical
             # before this, this is guaranteed to list tables as
             # tableA, ... , tableI, tableAPR, ... , tableIPR.
             sorted_data = sorted(tabulation_data['tables_by_release'][release],
@@ -351,7 +361,12 @@ class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
     def parse_fragment(self,fragment):
-        """Given a URL, return a (geoid,slug) tuple. slug may be None. GeoIDs are not tested for structure, but are simply the part of the URL before any '-' character, also allowing for the curiosity of Vermont legislative districts. (see https://github.com/censusreporter/censusreporter/issues/50)"""
+        """Given a URL, return a (geoid,slug) tuple. slug may be None.
+        GeoIDs are not tested for structure, but are simply the part of the URL
+        before any '-' character, also allowing for the curiosity of Vermont
+        legislative districts.
+        (see https://github.com/censusreporter/censusreporter/issues/50)
+        """
         parts = fragment.split('-',1)
         if len(parts) == 1:
             return (fragment,None)
@@ -800,6 +815,122 @@ class TableSearchJson(View):
             results['columns'] = list(columns)
 
         return render_json_to_response(results)
+
+
+class SearchResultsView(TemplateView):
+    template_name = 'search/results.html'
+
+    def get_data(self, query):
+        search_url = settings.API_URL + "/2.1/full-text/search?q={}"
+        if not query:
+            return {'results': [], 'has_query': False}
+
+        r = requests.get(search_url.format(query))
+        status_code = r.status_code
+
+        mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
+        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}"
+        location_request_url = location_request_url.format(query, mapbox_accessToken)
+        r_location = requests.get(location_request_url)
+        status_code_location = r_location.status_code
+
+        search_data_all = {}
+        if status_code == 200 or status_code_location == 200:
+            search_data = json.loads(r.text)
+            search_data_location = json.loads(r_location.text)
+            search_data_all['has_query'] = True
+            search_data_all['results'] = search_data['results'] + search_data_location['features']
+        elif status_code == 404 or status_code == 400:
+            error_data = json.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        elif status_code_location == 404 or status_code_location == 400:
+            error_data = json.loads(r_location.text)
+            raise_404_with_messages(self.request, error_data)
+        else:
+            raise Http404
+
+        return search_data_all
+
+    def get_context_data(self, **kwargs):
+        q = self.request.GET.get('q', None)
+        page_context = self.get_data(q) # format: { "results": [ ... ] }
+
+        # Determine if types of pages exist (used for filtering)
+        has_profiles = False
+        has_tables = False
+        has_locations = False
+        has_topics = False
+
+        # Collect list of sumlevel names for filtering
+        sumlevels = {} # format: { sumlevel : [sumlevel_name, count] }
+
+        # Collect list of topics for filtering
+        all_topics = {} # format: { topic_name: count}
+
+        for item in page_context['results']:
+            if item['type'] == "profile":
+                has_profiles = True
+
+                # Capitalize first letter of sumlevel names
+                capitalized = capitalize_first(item['sumlevel_name'])
+                item['sumlevel_name'] = capitalized
+
+                # Increment count if found, otherwise add and start count
+                if item['sumlevel'] in sumlevels.keys():
+                    sumlevels[item['sumlevel']][1] += 1
+                else:
+                    sumlevels[item['sumlevel']] = [capitalized, 1]
+
+                sumlevels = OrderedDict(sorted(sumlevels.items()))
+
+                # Change format from { sumlevel: [sumlevel_name, count] }
+                # to { sumlevel_name: count }
+                page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
+
+            elif item['type'] == "table":
+                has_tables = True
+
+                # NOTE: Topics are used for filtering tables; should not be confused
+                # with the 'topic' search result for topic pages
+
+                # Capitalize the first letter of topics
+                topics = [capitalize_first(x) for x in item['topics']]
+                item['topics'] = ", ".join(topics)
+
+                # Increment count if found, otherwise add and start count
+                for topic in topics:
+                    if topic in all_topics.keys():
+                        all_topics[topic] += 1
+                    else:
+                        all_topics[topic] = 1
+
+                # Subtables is a list; turn it into string
+                item['subtables'] = ", ".join(item['subtables'])
+
+                # Sort topics alphabetically
+                page_context['topics'] = OrderedDict(sorted(all_topics.items()))
+
+            # "Feature" is a location; mapbox's api uses this term
+            elif item['type'] == "Feature":
+                item['type'] = "location"
+                has_locations = True
+                item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
+                    item['center'][1], item['center'][0], item['place_name']
+                )
+
+            elif item['type'] == "topic":
+                has_topics = True
+
+        # Include all of the 'contains' metadata in the page
+        page_context['contains'] = {
+            'profile': has_profiles,
+            'table': has_tables,
+            'location': has_locations,
+            'topic': has_topics
+        }
+
+        return page_context
+
 
 class Elasticsearch(TemplateView):
     template_name = 'search/elasticsearch.html'
