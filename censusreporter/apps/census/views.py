@@ -196,7 +196,7 @@ class TableDetailView(TemplateView):
         r = requests.get(endpoint)
         status_code = r.status_code
 
-        # make sure we've requeste a legit tabulation code
+        # make sure we've requested a legit tabulation code
         if status_code == 200:
             tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
@@ -301,7 +301,7 @@ class TableDetailView(TemplateView):
 
         if r.status_code == 200:
             return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-        if r.status_code == 404 or r.status_code == 400:
+        if r.status_code == 400:
             raise ValueError("No table data for that table")
         else:
             raise Http404
