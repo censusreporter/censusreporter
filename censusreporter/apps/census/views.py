@@ -166,15 +166,23 @@ class TableDetailView(TemplateView):
                         reverse('table_detail', args=(table_argument.upper(),))
                     )
 
-        # check if table code doesn't exist but has iterations; if so, redirect
-        # to the page for the first iteration
+        # Check if core table doesn't exist, but has iterations; if so, 
+        # redirect to the first iteration.
+        new_table_argument = table_argument + 'A'
+
+        # If the table being requested is a PR table, and it doesn't exist
+        # but the iterations do, then we want the alternate endpoint to be 
+        # B#####APR, not B#####PRA
+        if table_argument[6:8] == 'PR':
+            new_table_argument = table_argument[:6] + 'APR'
+
         endpoint_1 = settings.API_URL + '/2.0/table/latest/%s' % table_argument
-        endpoint_2 = settings.API_URL + '/2.0/table/latest/%sA' % table_argument
+        endpoint_2 = settings.API_URL + '/2.0/table/latest/%s' % new_table_argument
 
         if (requests.get(endpoint_1).status_code == 400
         and requests.get(endpoint_2).status_code == 200):
             return HttpResponseRedirect(
-                reverse('table_detail', args = (table_argument + 'A',))
+                reverse('table_detail', args = (new_table_argument,))
             )
 
         self.table_code = table_argument
