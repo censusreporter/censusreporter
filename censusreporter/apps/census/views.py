@@ -1,8 +1,7 @@
 from __future__ import division
 from collections import OrderedDict, defaultdict
 from numpy import median
-from urllib import urlencode
-from urllib2 import unquote
+from urllib2 import unquote, quote
 import cStringIO
 import gzip
 import re
@@ -833,12 +832,12 @@ class SearchResultsView(TemplateView):
         if not query:
             return {'results': [], 'has_query': False}
 
-        r = requests.get(search_url.format(query))
+        r = requests.get(search_url.format(uniurlquote(query)))
         status_code = r.status_code
 
         mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
         location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}&country=us,pr"
-        location_request_url = location_request_url.format(query, mapbox_accessToken)
+        location_request_url = location_request_url.format(uniurlquote(query), mapbox_accessToken)
         r_location = requests.get(location_request_url)
         status_code_location = r_location.status_code
 
@@ -923,7 +922,7 @@ class SearchResultsView(TemplateView):
                 item['type'] = "location"
                 has_locations = True
                 item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
-                    item['center'][1], item['center'][0], item['place_name']
+                    item['center'][1], item['center'][0], uniurlquote(item['place_name'])
                 )
 
             elif item['type'] == "topic":
@@ -1025,3 +1024,7 @@ class SitemapProfilesView(TemplateView):
 
 def sort_topics(topic_map):
     return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
+
+def uniurlquote(s):
+    """urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""
+    return quote(s.encode('utf-8'))
