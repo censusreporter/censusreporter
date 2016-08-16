@@ -1,7 +1,7 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
-var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>").template()
-var PROXIMITY_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?proximity=<%=lon%>,<%=lat%>&access_token=<%=token%>").template()
-var REVERSE_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>").template()
+var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
+var PROXIMITY_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?proximity=<%=lon%>,<%=lat%>&access_token=<%=token%>&country=us%2Cpr").template()
+var REVERSE_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>&country=us%2Cpr").template()
 
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'https://api.censusreporter.org/1.0/geo/search';
@@ -68,7 +68,7 @@ var addressSearchEngine = new Bloodhound({
         url: GEOCODE_URL,
         replace: function (url, query) {
           if (window.browser_location) {
-            return PROXIMITY_GEOCODE_URL({query: query, token: L.mapbox.accessToken, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
+            return PROXIMITY_GEOCODE_URL({query: encodeURIComponent(query), token: L.mapbox.accessToken, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
           } else {
             return url({query: query, token: L.mapbox.accessToken});
           }
@@ -175,7 +175,7 @@ function reverseGeocode(ll,callback) {
 
 
 function geocodeAddress(query, callback) {
-    var url = GEOCODE_URL({query: query, token: L.mapbox.accessToken});
+    var url = GEOCODE_URL({query: encodeURIComponent(query), token: L.mapbox.accessToken});
     $.getJSON(url, callback);
 }
 

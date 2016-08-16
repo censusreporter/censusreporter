@@ -166,12 +166,12 @@ class TableDetailView(TemplateView):
                         reverse('table_detail', args=(table_argument.upper(),))
                     )
 
-        # Check if core table doesn't exist, but has iterations; if so, 
+        # Check if core table doesn't exist, but has iterations; if so,
         # redirect to the first iteration.
         new_table_argument = table_argument + 'A'
 
         # If the table being requested is a PR table, and it doesn't exist
-        # but the iterations do, then we want the alternate endpoint to be 
+        # but the iterations do, then we want the alternate endpoint to be
         # B#####APR, not B#####PRA
         if table_argument[6:8] == 'PR':
             new_table_argument = table_argument[:6] + 'APR'
@@ -837,7 +837,7 @@ class SearchResultsView(TemplateView):
         status_code = r.status_code
 
         mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
-        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}"
+        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}&country=us,pr"
         location_request_url = location_request_url.format(query, mapbox_accessToken)
         r_location = requests.get(location_request_url)
         status_code_location = r_location.status_code
