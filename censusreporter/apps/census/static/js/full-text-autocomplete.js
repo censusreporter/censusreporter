@@ -12,7 +12,7 @@ $(function() {
             function fulltextDataRequest() { // First ajax call
                 return $.ajax({
                     // request.term is the current text in the search box.
-                    url: API_URL + "/2.1/full-text/search?q=" + request.term, 
+                    url: API_URL + "/2.1/full-text/search?q=" + request.term,
                     dataType: "json",
                     dataFilter: function(data) {
                         data = JSON.parse(data);
@@ -90,7 +90,7 @@ $(function() {
                         label: "Don't see what you're looking for?",
                         value: "Don't see what you're looking for?",
                         subline: "View all search results for " + request.term,
-                        url: "http://127.0.0.1:8000" + "/search-results/?q=" + request.term //TODO
+                        url: "/search-results/?q=" + request.term 
                     }
                 ];
                 response(results.concat(all_data));
