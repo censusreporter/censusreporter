@@ -1,5 +1,5 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
-var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>").template()
+var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
 var selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 
 $(function() {
@@ -60,7 +60,7 @@ $(function() {
 
             function locationDataRequest(fulltext_data) { // Second ajax call
                 return $.ajax({
-                    url: GEOCODE_URL({query: request.term, token: L.mapbox.accessToken}),
+                    url: GEOCODE_URL({query: encodeURIComponent(request.term), token: L.mapbox.accessToken}),
                     dataFilter: function(data) {
                         data = JSON.parse(data);
                         var formatted = [];
@@ -90,7 +90,7 @@ $(function() {
                         label: "Don't see what you're looking for?",
                         value: "Don't see what you're looking for?",
                         subline: "View all search results for " + request.term,
-                        url: "/search-results/?q=" + request.term 
+                        url: "/search-results/?q=" + request.term
                     }
                 ];
                 response(results.concat(all_data));
