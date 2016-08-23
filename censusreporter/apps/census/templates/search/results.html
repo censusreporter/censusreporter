@@ -1,7 +1,11 @@
 {% extends '_base.html' %}
 
+{% block head_css_extra %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+{% endblock %}
 {% block head_javascript_extra %}
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {% endblock %}
 
 {% block content_container %}
