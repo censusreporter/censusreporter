@@ -10,7 +10,7 @@ var topicSelect = $('#topic-select'),
     chosenTableID,
     chosenSumlev,
     chosenSumlevPluralName,
-    chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970',
+    chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970',
     chosenSumlevAncestorOptions,
     chosenGeoID;
 
