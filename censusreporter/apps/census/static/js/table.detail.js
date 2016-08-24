@@ -6,7 +6,7 @@ function Table(options) {
         geoIDs: [],
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
-        chosenSumlevAncestorList: '010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970'
+        chosenSumlevAncestorList: '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970'
     }
 
     table.init = function(options) {

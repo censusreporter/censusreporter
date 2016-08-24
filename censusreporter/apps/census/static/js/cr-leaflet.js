@@ -324,6 +324,8 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         '230': 'Alaska native regional corporation',
         '250': 'native area',
         '251': 'tribal subdivision',
+        '252': 'native area (reservation)',
+        '254': 'native area (off-reservation trust land)',
         '256': 'tribal tract',
         '310': 'metro area (CBSA)',
         '314': 'metropolitan division',
