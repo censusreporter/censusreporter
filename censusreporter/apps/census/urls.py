@@ -79,10 +79,10 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex = '^search-results/$',
+        regex = '^search/$',
         view = SearchResultsView.as_view(),
         kwargs = {},
-        name = 'search-results'
+        name = 'search'
     ),
 
     url(

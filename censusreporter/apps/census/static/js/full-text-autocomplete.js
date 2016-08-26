@@ -90,7 +90,7 @@ $(function() {
                         label: "Don't see what you're looking for?",
                         value: "Don't see what you're looking for?",
                         subline: "View all search results for " + request.term,
-                        url: "/search-results/?q=" + request.term
+                        url: "/search/?q=" + request.term
                     }
                 ];
                 response(results.concat(all_data));
