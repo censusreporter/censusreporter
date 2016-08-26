@@ -865,7 +865,7 @@ class SearchResultsView(TemplateView):
         # Determine if types of pages exist (used for filtering)
         has_profiles = False
         has_tables = False
-        has_locations = False
+        has_addresses = False
         has_topics = False
 
         # Collect list of sumlevel names for filtering
@@ -917,10 +917,10 @@ class SearchResultsView(TemplateView):
                 # Sort topics alphabetically
                 page_context['topics'] = OrderedDict(sorted(all_topics.items()))
 
-            # "Feature" is a location; mapbox's api uses this term
+            # "Feature" is an address (Mapbox calls it a location)
             elif item['type'] == "Feature":
-                item['type'] = "location"
-                has_locations = True
+                item['type'] = "address"
+                has_addresses = True
                 item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
                     item['center'][1], item['center'][0], uniurlquote(item['place_name'])
                 )
@@ -932,7 +932,7 @@ class SearchResultsView(TemplateView):
         page_context['contains'] = {
             'profile': has_profiles,
             'table': has_tables,
-            'location': has_locations,
+            'address': has_addresses,
             'topic': has_topics
         }
 

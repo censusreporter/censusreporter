@@ -50,7 +50,7 @@
             {% endif %}
         </div>
         {% endfor %}
-        
+
         <div class="pagination">
             {% if previous_offset %}
                 <a class="action-button" href="{% url 'table_search' %}?q={{ q }}{% if topics %}&topics={{ topics }}{% endif %}&start={{ previous_offset }}"><i class="fa fa-chevron-circle-left"></i> Previous page</a>
@@ -98,7 +98,7 @@ var results = {{ results }},
 
 var showResults = function(results) {
     var resultsContainer = $('#table-results');
-    
+
     $.each(results, function(i, v){
         resultsContainer.append(tableItemTemplate(v));
     });

@@ -71,7 +71,7 @@ $(function() {
     var result_counts = {
         profile: 0,
         table: 0,
-        location: 0,
+        address: 0,
         topic: 0
     };
     $("#all").children("div").each(function() {
@@ -79,8 +79,8 @@ $(function() {
             result_counts['profile']++;
         } else if ($(this).attr('data-page-type') == "table") {
             result_counts['table']++;
-        } else if ($(this).attr('data-page-type') == "location") {
-            result_counts['location']++;
+        } else if ($(this).attr('data-page-type') == "address") {
+            result_counts['address']++;
         } else if ($(this).attr('data-page-type') == "topic") {
             result_counts['topic']++;
         }

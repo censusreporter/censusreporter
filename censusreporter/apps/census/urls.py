@@ -147,7 +147,7 @@ urlpatterns = patterns('',
         kwargs  = {},
         name    = 'healthcheck',
     ),
-    
+
     url(
         regex = '^robots.txt$',
         view = lambda r: HttpResponse(

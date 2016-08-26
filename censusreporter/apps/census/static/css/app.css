@@ -553,6 +553,16 @@ aside .action-button {
     text-align: left;
     margin-top: -.33em;
 }
+
+h3.search-result-address {
+  margin: 0 0 1em 0;
+}
+
+h3 .dingbat {
+  margin: 0 1ex;
+  color: #027b7a;
+}
+
 aside#facets {
     margin-left: 0;
 }

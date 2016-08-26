@@ -26,7 +26,7 @@
     </section>
 
     {% if has_query %}
-        {% if contains.profile or contains.table  or contains.location or contains.topic %}
+        {% if contains.profile or contains.table or contains.address or contains.topic %}
             <div class="row">
                 <div class="col-md-2">
                     <div>
@@ -52,8 +52,8 @@
                             </ul>
                         {% endif %}
 
-                        {% if contains.location %}
-                            <a id="filter-location" data-filter-type="location" href="#">Locations</a>
+                        {% if contains.address %}
+                            <a id="filter-address" data-filter-type="address" href="#">Addresses</a>
                             <br><br>
                         {% endif %}
 
@@ -79,9 +79,9 @@
                             </li>
                         {% endif %}
 
-                        {% if contains.location %}
-                            <li role="presentation" id="tab-location">
-                                <a data-toggle="tab" href="#location">Locations</a>
+                        {% if contains.address %}
+                            <li role="presentation" id="tab-address">
+                                <a data-toggle="tab" href="#address">Addresses</a>
                             </li>
                         {% endif %}
 
@@ -107,9 +107,8 @@
                             {% elif item.type == "table" %}
                                 <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
                                 <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
-                            {% elif item.type == "location" %}
-                                <h3><a href="{{ item.url }}">{{ item.place_name }}</a></h3>
-                                <p>Location</p>
+                            {% elif item.type == "address" %}
+                                <h3 class="search-result-address"><i class="fa fa-map-marker dingbat"></i> <a href="{{ item.url }}">{{ item.place_name }}</a></h3>
                             {% elif item.type == "topic" %}
                                 <h3><a href="{{ item.url }}">{{ item.topic_name }}</a></h3>
                                 <p>Topic page</p>
