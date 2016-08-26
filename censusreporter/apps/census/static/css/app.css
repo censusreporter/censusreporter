@@ -554,6 +554,10 @@ aside .action-button {
     margin-top: -.33em;
 }
 
+.search-results p {
+  font-size: smaller;
+}
+
 h3.search-result-address,h3.search-result-documentation {
   margin: 0 0 1em 0;
 }
