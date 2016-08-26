@@ -106,7 +106,8 @@
                                 <p>{{ item.sumlevel_name }}</p>
                             {% elif item.type == "table" %}
                                 <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
-                                <p>Topics: {{ item.topics }}<br>Subtables: {{ item.subtables }}</p>
+                                <!-- <p>Topics: {{ item.topics }}<br>-->
+                                  <p>Subtables: {{ item.subtables }}</p>
                             {% elif item.type == "address" %}
                                 <h3 class="search-result-address"><i class="fa fa-map-marker dingbat"></i> <a href="{{ item.url }}">{{ item.place_name }}</a></h3>
                             {% elif item.type == "topic" %}
