@@ -58,7 +58,7 @@
                         {% endif %}
 
                         {% if contains.topic %}
-                            <a id="filter-topic" data-filter-type="topic" href="#">Info</a>
+                            <a id="filter-topic" data-filter-type="topic" href="#">Documentation</a>
                             <br><br>
                         {% endif %}
                         </div>
@@ -87,7 +87,7 @@
 
                         {% if contains.topic %}
                             <li role="presentation" id="tab-topic">
-                                <a data-toggle="tab" href="#topic">Info</a>
+                                <a data-toggle="tab" href="#topic">Documentation</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -110,8 +110,7 @@
                             {% elif item.type == "address" %}
                                 <h3 class="search-result-address"><i class="fa fa-map-marker dingbat"></i> <a href="{{ item.url }}">{{ item.place_name }}</a></h3>
                             {% elif item.type == "topic" %}
-                                <h3><a href="{{ item.url }}">{{ item.topic_name }}</a></h3>
-                                <p>Topic page</p>
+                                <h3 class="search-result-documentation"><i class="fa fa-book dingbat"></i><a href="{{ item.url }}">{{ item.topic_name }}</a></h3>
                             {% endif %}
                         </div>
                     {%  endfor %}
