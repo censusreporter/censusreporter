@@ -33,21 +33,21 @@ $(function() {
                                 formatted.push({
                                     label: data.results[i].full_name,
                                     value: data.results[i].full_name,
-                                    subline: data.results[i].sumlevel_name,
+                                    subline: "<i class='fa fa-globe dingbat'></i> " + data.results[i].sumlevel_name,
                                     url: data.results[i].url
                                 });
                             } else if (data.results[i].type == "table") {
                                 formatted.push({
                                     label: data.results[i].table_name,
                                     value: data.results[i].table_name,
-                                    subline: "<b>Table topics: </b>" + data.results[i].topics.join(", "),
+                                    subline: "<i class='fa fa-table dingbat'></i> <b>Table topics: </b>" + data.results[i].topics.join(", "),
                                     url: data.results[i].url
                                 });
                             } else if (data.results[i].type == "topic") {
                                 formatted.push({
                                     label: data.results[i].topic_name,
                                     value: data.results[i].topic_name,
-                                    subline: "Topic page",
+                                    subline: "<i class='fa fa-book dingbat'></i> Documentation",
                                     url: data.results[i].url
                                 });
                             }
@@ -70,7 +70,7 @@ $(function() {
                             formatted.push({
                                 label: current_result['place_name'],
                                 value: current_result['place_name'],
-                                subline: "Location",
+                                subline: "<i class='fa fa-map-marker dingbat'></i> Map this address",
                                 url: selected_url({ // See corresponding template at top of file for url format
                                     lat: current_result['center'][1], // latitude
                                     lng: current_result['center'][0], // longitude
