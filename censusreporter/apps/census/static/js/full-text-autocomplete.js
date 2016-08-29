@@ -33,7 +33,7 @@ $(function() {
                                 formatted.push({
                                     label: data.results[i].full_name,
                                     value: data.results[i].full_name,
-                                    subline: "<i class='fa fa-globe dingbat'></i> " + data.results[i].sumlevel_name,
+                                    subline: "<i class='fa fa-bar-chart-o dingbat'></i> " + data.results[i].sumlevel_name,
                                     url: data.results[i].url
                                 });
                             } else if (data.results[i].type == "table") {
