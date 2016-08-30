@@ -23,7 +23,7 @@ from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_object_or_none,\
+from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
      SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
 from .profile import geo_profile, enhance_api_data
 from .topics import TOPICS_MAP
@@ -141,17 +141,6 @@ class TableDetailView(TemplateView):
         'three_yr': '3-Year',
         'five_yr': '5-Year',
     }
-    VARIANT_TRANSLATE_DICT = {
-        'A': 'White Alone',
-        'B': 'Black or African American Alone',
-        'C': 'American Indian and Alaska Native Alone',
-        'D': 'Asian Alone',
-        'E': 'Native Hawaiian and Other Pacific Islander Alone',
-        'F': 'Some Other Race Alone',
-        'G': 'Two or More Races',
-        'H': 'White Alone, Not Hispanic or Latino',
-        'I': 'Hispanic or Latino',
-    }
     TABLE_TYPE_TRANSLATE_DICT = {
         'B': 'Detailed',
         'C': 'Collapsed',
@@ -165,30 +154,26 @@ class TableDetailView(TemplateView):
                         reverse('table_detail', args=(table_argument.upper(),))
                     )
 
-        # Check if core table doesn't exist, but has iterations; if so,
-        # redirect to the first iteration.
-        new_table_argument = table_argument + 'A'
-
-        # If the table being requested is a PR table, and it doesn't exist
-        # but the iterations do, then we want the alternate endpoint to be
-        # B#####APR, not B#####PRA
-        if table_argument[6:8] == 'PR':
-            new_table_argument = table_argument[:6] + 'APR'
-
-        endpoint_1 = settings.API_URL + '/2.0/table/latest/%s' % table_argument
-        endpoint_2 = settings.API_URL + '/2.0/table/latest/%s' % new_table_argument
-
-        if (requests.get(endpoint_1).status_code == 400
-        and requests.get(endpoint_2).status_code == 200):
-            return HttpResponseRedirect(
-                reverse('table_detail', args = (new_table_argument,))
-            )
-
         self.table_code = table_argument
         self.table_group = self.table_code[0]
         self.tabulation_code = re.sub("\D", "", self.table_code)
 
-        return super(TableDetailView, self).dispatch(*args, **kwargs)
+        try:
+            return super(TableDetailView, self).dispatch(*args, **kwargs)
+        except Http404, e:
+            # Check if core table doesn't exist, but has iterations; if so,
+            # redirect to the first iteration.
+            if table_argument.endswith('PR'):
+                table_argument = table_argument.replace('PR', 'APR')
+            else:
+                table_argument = table_argument + 'A'
+            endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_argument
+
+            if requests.get(endpoint).status_code == 200:
+                return HttpResponseRedirect(
+                    reverse('table_detail', args = (table_argument,))
+                )
+            raise e
 
     def get_tabulation_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
@@ -246,7 +231,8 @@ class TableDetailView(TemplateView):
                                  key = lambda code: len(code))
             for table_code in sorted_data:
                 # is this a B or C table?
-                letter_code = table_code.upper()[0]
+                parsed = parse_table_id(table_code)
+                letter_code = parsed['table_type']
                 tables[letter_code] = default_table_groups[letter_code]
 
                 # keep the grids separate, track which releases a table is in
@@ -255,18 +241,13 @@ class TableDetailView(TemplateView):
                 tables[letter_code][table_code]['releases'][release] = self.RELEASE_TRANSLATE_DICT[release]
 
                 # get the variant names
-                if len(table_code) == 7:
-                    tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[-1]]
-
-                # Puerto Rico tables have "PR" at the end; handle those names
-                if table_code[-2:] == "PR":
-                    # if it's 8 characters, there are no iterations
-                    if len(table_code) == 8:
-                        tables[letter_code][table_code]['version_name'] = "Standard Table (Puerto Rico)"
-
-                    # otherwise, there are iterations for the PR tables
+                if parsed['racial']:
+                    if parsed['puerto_rico']:
+                        tables[letter_code][table_code]['version_name'] = parsed['race'] + " (Puerto Rico)"
                     else:
-                        tables[letter_code][table_code]['version_name'] = self.VARIANT_TRANSLATE_DICT[table_code.upper()[6]] + " (Puerto Rico)"
+                        tables[letter_code][table_code]['version_name'] = parsed['race']
+                elif parsed['puerto_rico']:
+                    tables[letter_code][table_code]['version_name'] = "Standard Table (Puerto Rico)"
 
         tabulation_data['table_versions'] = tables.pop(self.table_group, None)
         tabulation_data['related_tables'] = {
@@ -910,9 +891,6 @@ class SearchResultsView(TemplateView):
                         all_topics[topic] += 1
                     else:
                         all_topics[topic] = 1
-
-                # Subtables is a list; turn it into string
-                item['subtables'] = ", ".join(item['subtables'])
 
                 # Sort topics alphabetically
                 page_context['topics'] = OrderedDict(sorted(all_topics.items()))

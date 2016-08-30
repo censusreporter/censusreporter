@@ -1,10 +1,11 @@
 from __future__ import division
 from collections import OrderedDict
+import re
 
 from django.utils import simplejson
 from django.utils.functional import lazy, Promise
 from django.utils.encoding import force_unicode
-
+from django.core.urlresolvers import reverse
 
 def get_object_or_none(klass, *args, **kwargs):
     try:
@@ -17,6 +18,41 @@ class LazyEncoder(simplejson.JSONEncoder):
         if isinstance(obj, Promise):
             return force_unicode(obj)
         return obj
+
+def parse_table_id(table_id):
+    table_id = table_id.upper()
+    pat = re.compile(r'^(B|C)(\d+)([A-I])?(PR)?')
+    table_type, tabulation, race_iter, pr = pat.match(table_id).groups()
+
+    return {
+        'table_id': table_id,
+        'table_type': table_type,
+        'detailed': table_type == 'B',
+        'simplified': table_type == 'C',
+        'tabulation': tabulation,
+        'racial': race_iter is not None,
+        'race_code': race_iter,
+        'race': RACE_ITERATIONS.get(race_iter),
+        'puerto_rico': pr is not None,
+    }
+
+def generic_table_description(table_id):
+    parsed = parse_table_id(table_id)
+    if parsed['simplified']:
+        label = 'Simplified columns'
+    else:
+        label = 'Detailed columns'
+
+    if parsed['racial']:
+        label = "{} ({})".format(label, parsed['race'])
+    if parsed['puerto_rico']:
+        label = '{} for Puerto Rico'.format(label)
+
+    return label
+
+def table_link(table_code, link_text):
+    url = reverse('table_detail', args=(table_code.upper(),))
+    return "<a href='{}'>{}</a>".format(url, link_text)
 
 ## A little generator to pluck out max values ##
 def drill(item):
@@ -1124,4 +1160,16 @@ SUMMARY_LEVEL_DICT = {
         "name": "School District (Unified)",
         "plural": "school districts (unified)",
     },
+}
+
+RACE_ITERATIONS = {
+    'A': 'White alone',
+    'B': 'Black or African American Alone',
+    'C': 'American Indian and Alaska Native Alone',
+    'D': 'Asian Alone',
+    'E': 'Native Hawaiian and Other Pacific Islander Alone',
+    'F': 'Some Other Race Alone',
+    'G': 'Two or More Races',
+    'H': 'White Alone, Not Hispanic or Latino',
+    'I': 'Hispanic or Latino',
 }
