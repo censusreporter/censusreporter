@@ -2,7 +2,7 @@ CensusReporter = {
     GeoIDLayer: L.GeoJSON.extend({
         addGeoID: function(geoid) {
             var request = new XMLHttpRequest();
-            var url = this.options.api_url + "/1.0/geo/show/tiger2014?geo_ids=" + geoid;
+            var url = this.options.api_url + "/1.0/geo/show/" + this.options.release + "?geo_ids=" + geoid;
             request.open('GET', url, true);
             var self = this;
             request.onreadystatechange = function() {
@@ -37,6 +37,7 @@ CensusReporter = {
             var options = L.extend({
                 api_url: 'https://api.censusreporter.org',
                 censusreporter_url: 'https://censusreporter.org',
+                release: 'tiger2015',
                 autoclick: true
             }, options);
             if (options.autoclick) {
@@ -346,6 +347,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
 
     _defaultOptions: {
         clipTiles: true,
+        release: 'tiger2015',
         unique: function(feature) {
             return feature.properties.geoid;
         }
@@ -379,10 +381,10 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
             throw "Unsupported or invalid summary level."
         }
 
-        var url = 'https://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
-
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
+
+        var url = 'https://embed.censusreporter.org/1.0/geo/' + options.release + '/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         if (!('style' in geojsonOptions)) {
             geojsonOptions.style = this._defaultFeatureStyle;
