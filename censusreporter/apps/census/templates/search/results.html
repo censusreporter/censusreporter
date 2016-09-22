@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
+<style media="screen">
+  .racial-iteration {
+    display: none;
+  }
+</style>
 {% endblock head_css %}
 
 {% block head_javascript_extra %}
@@ -107,7 +112,7 @@
                             {% elif item.type == "table" %}
                                 <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
                                 <!-- <p>Topics: {{ item.topics }}<br>-->
-                                  <p>Variations: {{ item.subtables|format_subtables_for_results }}</p>
+                                  <p>{% if item.subtables|length > 1 %} Variations: {{ item.subtables|format_subtables_for_results }}{% endif %}</p>
                             {% elif item.type == "address" %}
                                 <h3 class="search-result-address"><i class="fa fa-map-marker dingbat"></i> <a href="{{ item.url }}">{{ item.place_name }}</a></h3>
                             {% elif item.type == "topic" %}
@@ -132,4 +137,14 @@
 {% block body_javascript_extra %}{{ block.super }}
     <script src="{{ STATIC_URL }}js/search-results.js"></script>
     <script src="{{ STATIC_URL }}js/full-text-autocomplete.js"></script>
+    <script>
+      (function(){
+        $('.toggler').click(function(){
+          var id = $(this).data('id');
+          $('span.racial-iteration').each(function(e) {
+            if ($(e).data('id') == id) { $(e).toggle(); }
+          })
+        })
+      })()
+    </script>
 {% endblock %}
