@@ -66,7 +66,7 @@ Save and close the file. Reactivate your development environment so `postactivat
 
 Hurray! Your local copy of Census Reporter will be hitting our production data sources, so you should be able to search and browse just like you would on the live website. If you'd like to go a step further, you can <a href="https://github.com/censusreporter/census-api">run the API locally</a>, and even <a href="http://censusreporter.tumblr.com/post/73727555158/easier-access-to-acs-data">load the entire Postgres database locally</a>, as well. But if you're primarily interested in adding features to the Census Reporter website or just seeing how it works, the instructions above should get you going.
 
-** Note ** for people who wish to develop for Census Reporter
+**Note** for people who wish to develop for Census Reporter
 
 If you are running the django server from within the vagrant box, provide the localhost explicitly 
 
