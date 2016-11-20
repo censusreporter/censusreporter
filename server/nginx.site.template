@@ -1,5 +1,5 @@
 server {
-    listen 80 default_server;
+    listen 1443 default_server;
     server_name %(domainname)s default_server;
 
     real_ip_header     X-Forwarded-For;
@@ -7,10 +7,6 @@ server {
     set_real_ip_from   172.16.0.0/12;
     set_real_ip_from   192.168.0.0/16;
     real_ip_recursive on;
-
-    if ($scheme = http) {
-        return 301 https://$server_name$request_uri;
-    }
 
     location / {
         include proxy_params;
@@ -31,7 +27,7 @@ server {
 
 server {
     listen 80;
-    server_name censusreporter.com www.censusreporter.com www.censusreporter.org;
+    server_name %(domainname)s censusreporter.com www.censusreporter.com www.censusreporter.org;
 
-    return 301 https://censusreporter.org$request_uri;
+    rewrite ^ https://%(domainname)s$request_uri? permanent;
 }
