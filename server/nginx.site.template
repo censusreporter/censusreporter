@@ -8,6 +8,10 @@ server {
     set_real_ip_from   192.168.0.0/16;
     real_ip_recursive on;
 
+    if ($scheme = http) {
+        return 301 https://$server_name$request_uri;
+    }
+
     location / {
         include proxy_params;
         proxy_pass http://unix:%(project_path)s/%(domainname)s.sock;
@@ -29,5 +33,5 @@ server {
     listen 80;
     server_name censusreporter.com www.censusreporter.com www.censusreporter.org;
 
-    return 301 $scheme://censusreporter.org$request_uri;
+    return 301 https://censusreporter.org$request_uri;
 }
