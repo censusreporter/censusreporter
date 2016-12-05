@@ -1,5 +1,5 @@
 server {
-    listen 80 default_server;
+    listen 1443 default_server;
     server_name %(domainname)s default_server;
 
     real_ip_header     X-Forwarded-For;
@@ -27,7 +27,7 @@ server {
 
 server {
     listen 80;
-    server_name censusreporter.com www.censusreporter.com www.censusreporter.org;
+    server_name %(domainname)s censusreporter.com www.censusreporter.com www.censusreporter.org;
 
-    return 301 $scheme://censusreporter.org$request_uri;
+    rewrite ^ https://%(domainname)s$request_uri? permanent;
 }
