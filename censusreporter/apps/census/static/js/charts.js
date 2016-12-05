@@ -20,8 +20,10 @@ function Chart(options) {
             .append("div")
                 .style("position", "relative");
         
+        chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
         chart.parentHeight = chart.getParentHeight();
         chart.chartType = options.chartType;
+        chart.chartDataKey = options.chartDataKey;
         chart.chartChartTitle = options.chartChartTitle || null;
         chart.chartQualifier = options.chartQualifier || null;
         chart.chartInitialSort = options.chartInitialSort || null;
@@ -29,19 +31,35 @@ function Chart(options) {
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
+        chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
+
+        // add a bit of geodata for links and hovercards
+        var geographyThis = options.geographyData['this'],
+            geographyParents = options.geographyData.parents;
+
         chart.comparisonNames = {
-            'this': (!!options.comparisonThisName) ? options.comparisonThisName : 'here',
-            'county': (!!options.comparisonCountyName) ? options.comparisonCountyName : 'county',
-            'state': (!!options.comparisonStateName) ? options.comparisonStateName : 'state',
-            'nation': (!!options.comparisonNationName) ? options.comparisonNationName : 'United States'
+            'this': (!!geographyThis) ? geographyThis.short_name : 'here',
+            'place': (!!geographyParents.place) ? geographyParents.place.short_name : 'place',
+            'CBSA': (!!geographyParents.CBSA) ? geographyParents.CBSA.full_name : 'CBSA',
+            'county': (!!geographyParents.county) ? geographyParents.county.short_name : 'county',
+            'state': (!!geographyParents.state) ? geographyParents.state.short_name : 'state',
+            'nation': (!!geographyParents.nation) ? geographyParents.nation.short_name : 'United States'
         }
         chart.comparisonNamePhrases = {
-            'this': (!!options.comparisonThisName) ? 'in ' + options.comparisonThisName : 'here',
-            'county': (!!options.comparisonCountyName) ? 'in ' + options.comparisonCountyName : 'countywide',
-            'state': (!!options.comparisonStateName) ? 'in ' + options.comparisonStateName : 'statewide',
-            'nation': (!!options.comparisonNationName) ? 'in ' + options.comparisonNationName : 'nationwide'
+            'this': (!!geographyThis) ? 'in ' + geographyThis.short_name : 'here',
+            'place': (!!geographyParents.place) ? 'in ' + geographyParents.place.short_name : 'placewide',
+            'CBSA': (!!geographyParents.CBSA) ? 'in the ' + geographyParents.CBSA.full_name : 'CBSA-wide',
+            'county': (!!geographyParents.county) ? 'in ' + geographyParents.county.short_name : 'countywide',
+            'state': (!!geographyParents.state) ? 'in ' + geographyParents.state.short_name : 'statewide',
+            'nation': (!!geographyParents.nation) ? 'in ' + geographyParents.nation.short_name : 'nationwide'
         }
         
+        chart.primaryGeoID = geographyThis.full_geoid;
+        chart.geoIDs = [geographyThis.full_geoid];
+        d3.values(geographyParents).forEach(function(g) {
+            chart.geoIDs.push(g.full_geoid)
+        });
+
         var dataObj,
             metadataFields = ['metadata', 'acs_release'];
         
@@ -49,13 +67,12 @@ function Chart(options) {
         chart.chartDataValues = d3.map(options.chartData);
         metadataFields.forEach(function(v) {
             chart.chartDataValues.remove(v)
-        })
+        });
 
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
-        chart.initialValues = chart.chartDataValues;
         
-        chart.chartDataValues = d3.values(chart.chartDataValues).map(function(d) {
+        chart.chartDataValues = chart.chartDataValues.values().filter(function(n){return typeof(n) != 'function'}).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
                 // data shaped for grouped-column or -bar presentation
                 dataObj = {
@@ -66,7 +83,7 @@ function Chart(options) {
                     .forEach(function(v, i) {
                         dataObj.values.push({
                             name: v,
-                            value: +d[v].values.this,
+                            value: +d[v].values['this'],
                             context: d[v]
                         })
                     })
@@ -74,7 +91,7 @@ function Chart(options) {
                 // otherwise, just grab the name and value of the data point
                 dataObj = {
                     name: d.name,
-                    value: +d.values.this,
+                    value: +d.values['this'],
                     context: d
                 }
             }
@@ -94,6 +111,10 @@ function Chart(options) {
 
         // time to make the chart
         chart.draw();
+        chart.dimensions = {
+            height: chart.chartContainer.node().offsetHeight,
+            width: chart.chartContainer.node().offsetWidth
+        }
         return chart;
     };
     
@@ -198,8 +219,8 @@ function Chart(options) {
                             bar.append("span")
                                 .classed("label", true)
                                 .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-                                .text(function(d) {
-                                    return chart.valFmt(v.value);
+                                .html(function(d) {
+                                    return chart.getValueFmt(v);
                                 });
                                 
                             // add the specific label below the bar
@@ -229,8 +250,8 @@ function Chart(options) {
                 .append("span")
                     .classed("label", true)
                     .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-                    .text(function(d) {
-                        return chart.valFmt(d.value);
+                    .html(function(d) {
+                        return chart.getValueFmt(d);
                     });
 
             // labels appear below bars
@@ -245,25 +266,19 @@ function Chart(options) {
         // now that bars are in place, capture height for hover calculations
         chart.settings.height = parseInt(chart.chartContainer.style('height'), 10);
         
-        // listen for column hovers
+        // listen for interactions
         chart.bars = chart.htmlBase.selectAll(".bar")
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.mouseover)
             .on("mouseout", chart.mouseout);
             
         chart.chartContainer
             .on("mousemove", chart.mousemove);
-
-        if (chart.chartType !== 'grouped_bar') {
-            chart.getData = chart.chartContainer
-                .append("a")
-                    .classed("chart-get-data", true)
-                    .text("Show the data")
-                    .on("click", chart.toggleDataDrawer);
-        }
         
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
 
         return chart;
     }
@@ -303,7 +318,7 @@ function Chart(options) {
             })
             .style("height", chart.settings.height + "px");
 
-        // add optional title, adjust height available height for arcs if necessary
+        // add optional title, adjust height available height for columns if necessary
         if (!!chart.chartChartTitle) {
             chart.addChartTitle(chart.htmlBase);
             chart.settings.displayHeight -= 20;
@@ -378,6 +393,9 @@ function Chart(options) {
         // add columns as <a> elements, with built-in category labels
         if (chart.chartType == 'grouped_column') {
             var g, groupValues, columnWidth, column;
+            
+            // a little extra tick padding for dual labels
+            chart.settings.tickPadding += 5;
 
             chart.chartContainer
                 .classed('grouped-column-chart', true);
@@ -394,14 +412,14 @@ function Chart(options) {
                         g.append("span")
                             .classed("x axis label", true)
                             .style("width", chart.x.rangeBand() + "px")
-                            .style("top", function(d) { return (chart.settings.displayHeight + 55) + "px"; })
+                            .style("top", function(d) { return (chart.settings.displayHeight + 51) + "px"; })
                             .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
                             .text(function(d) { return chart.capitalize(d.name); });
                             
                         groupValues.forEach(function(v, i) {
                             column = g.append("a").attr("class", "column")
                                 .style("width", columnWidth + "px")
-                                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
+                                .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
                                 .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
                                 .style("height", function(d) { 
                                     return (chart.settings.displayHeight) + "px"; 
@@ -419,22 +437,24 @@ function Chart(options) {
                                 
                             column.append("span")
                                 .classed("x axis label secondary", true)
-                                .style("bottom", "-16px")
+                                .style("top", function(d) {
+                                    return (chart.settings.displayHeight + 5) + "px";
+                                })
                                 .text(function(d) { return chart.capitalize(v.name); });
                                 
                             column.append("span")
                                 .classed("label", true)
                                 .style("bottom", function(d) {
-                                    return (chart.settings.displayHeight - chart.y(v.value) + 3) + "px";
+                                    return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                                 })
-                                .text(function(d) {
-                                    return chart.valFmt(v.value);
+                                .html(function(d) {
+                                    return chart.getValueFmt(v);
                                 });
                             });
                         });
                         
             // now that we've created all the columns in their groups,
-            // select them for hover handling
+            // select them for interaction handling
             chart.columns = chart.htmlBase.selectAll(".column");
         } else {
             chart.columns = chart.htmlBase.selectAll(".column")
@@ -442,7 +462,7 @@ function Chart(options) {
                 .enter().append("a")
                     .attr("class", "column")
                     .style("width", chart.x.rangeBand() + "px")
-                    .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
+                    .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
                     .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
                     .style("height", function(d) { return (chart.settings.displayHeight) + "px"; });
                     
@@ -452,13 +472,15 @@ function Chart(options) {
                     .style("position", "absolute")
                     .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                     .style("width", chart.x.rangeBand() + "px")
-                    .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding - 1) + "px"; })
+                    .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
                     .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
 
-            chart.columnAreas
+            chart.columnNames = chart.columns
                 .append("span")
                     .classed("x axis label", true)
-                    .style("bottom", "-16px")
+                    .style("top", function(d) {
+                        return (chart.settings.displayHeight - 10) + "px";
+                    })
                     .text(function(d) { return d.name; });
 
             chart.labels = chart.columnAreas
@@ -467,30 +489,24 @@ function Chart(options) {
                     .style("bottom", function(d) {
                         return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                     })
-                    .text(function(d) {
-                        return chart.valFmt(d.value);
+                    .html(function(d) {
+                        return chart.getValueFmt(d);
                     });
         }
 
-        // listen for column hovers
+        // listen for column interactions
         chart.columns
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.mouseover)
             .on("mouseout", chart.mouseout);
             
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        if (chart.chartType !== 'grouped_column') {
-            chart.getData = chart.chartContainer
-                .append("a")
-                    .classed("chart-get-data", true)
-                    .text("Show the data")
-                    .on("click", chart.toggleDataDrawer);
-        }
-
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
+        chart.addActionLinks();
 
         return chart;
     }
@@ -524,12 +540,12 @@ function Chart(options) {
         
         // give the chart its radius
         chart.updateSettings({
-            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.05),
+            radius: (Math.min(chart.settings.pieWidth, chart.settings.displayHeight) / 2.1),
             pieCenter: chart.settings.pieWidth / 2
         });
 
         // create array of categories specific to this chart
-        chart.chartCategories = d3.values(chart.chartDataValues).map(function(d) {
+        chart.chartCategories = chart.chartDataValues.map(function(d) {
             return d.name
         });
         
@@ -573,7 +589,7 @@ function Chart(options) {
             .style("position", "relative")
             .style("width", "0")
             .style("margin-top", -(chart.settings.displayHeight) + "px")
-            .style("height", chart.settings.displayHeight + "px");
+            .style("height", (chart.settings.displayHeight - 4) + "px");
 
         // center text group
         chart.centerGroup = chart.htmlBase.append("div")
@@ -585,20 +601,18 @@ function Chart(options) {
         // center label
         chart.centerLabel = chart.centerGroup.append("span")
             .attr("class", "label-name")
-            .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
-            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 11) + "px")
+            .style("left", (chart.settings.pieCenter - ((chart.settings.radius / 1.5) * .95)) + "px")
+            .style("bottom", ((chart.settings.displayHeight / 2) + chart.settings.margin.top + 10) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
         // center value
         chart.centerValue = chart.centerGroup.append("span")
             .attr("class", "label-value")
-            .style("left", chart.settings.pieCenter + "px")
-            .style("margin-left", -((chart.settings.radius / 1.5) * .95) + "px")
-            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 6) + "px")
+            .style("left", (chart.settings.pieCenter - ((chart.settings.radius / 1.5) * .95)) + "px")
+            .style("top", ((chart.settings.displayHeight / 2) + chart.settings.margin.top - 7) + "px")
             .style("width", ((chart.settings.radius / 1.5) * 1.9) + "px");
 
-        // hover state highlights the arc and associated legend item,
+        // interaction state highlights the arc and associated legend item,
         // and displays the data name and value in center of chart.
         // filters based on data to trigger arc/legend at same time.
         chart.arcHover = function(data) {
@@ -615,9 +629,7 @@ function Chart(options) {
                 .classed("hovered", true);
             
             chart.centerLabel.text(data.data.name);
-            chart.centerValue.text(function() {
-                return chart.valFmt(data.data.value);
-            });
+            chart.centerValue.html(chart.getValueFmt(data.data));
             
             // also trigger standard mouseover
             chart.mouseover(data.data);
@@ -631,11 +643,11 @@ function Chart(options) {
                 .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialSlice.data.name);
-            chart.centerValue.text(chart.valFmt(chart.initialSlice.data.value));
+            chart.centerValue.html(chart.getValueFmt(chart.initialSlice.data));
             
             chart.mouseout();
         }
-
+        
         // add arc paths to arc group
         chart.arcs = chart.arcGroup.selectAll(".arc")
                 .data(chart.pieData)
@@ -654,7 +666,11 @@ function Chart(options) {
                     .style("top", "1em");
         } else {
             chart.legend = chart.chartContainer.append("ul")
-                .attr("class", "legend legend-full-width");
+                .attr("class", "legend legend-full-width clearfix");
+                
+            chart.updateSettings({
+                height: parseInt(chart.settings.height) + 50
+            });
         }
 
         // add legend items
@@ -677,116 +693,337 @@ function Chart(options) {
         // add initial center label
         chart.arcReset();
 
-        // listen for arc hovers
+        // listen for arc interactions
         chart.arcs
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
         
-        // listen for legend hovers
+        // listen for legend interactions
         chart.legendItems
+            .on("click", chart.cardToggle)
             .on("mouseover", chart.arcHover)
             .on("mouseout", chart.arcReset);
 
         chart.chartContainer
             .on("mousemove", chart.mousemove);
 
-        chart.getData = chart.chartContainer
-            .append("a")
-                .classed("chart-get-data", true)
-                .text("Show the data")
-                .on("click", chart.toggleDataDrawer);
 
         // add any explanatory lines
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
-        
+        chart.addActionLinks();
+
         return chart;
+    };
+    
+    chart.addActionLinks = function() {
+        chart.actionLinks = chart.chartContainer
+            .append("div")
+            .classed("action-links", true);
+            
+        chart.getData = chart.actionLinks
+            .append("a")
+                .classed("chart-get-data", true)
+                .text("Show data")
+                .on("click", chart.toggleDataDrawer);
+            
+        chart.actionLinks.append("span").text("/");
+        
+        chart.showEmbed = chart.actionLinks
+            .append("a")
+                .classed("chart-show-embed", true)
+                .text("Embed")
+                .on("click", chart.showEmbedCode);
+    };
+
+    chart.getEmbedKey = function() {
+        return chart.chartDataKey.substring(chart.chartDataKey.indexOf('-') + 1);
+    };
+
+    chart.getEmbedID = function() {
+        return 'cr-embed-' + chart.primaryGeoID + '-' + chart.getEmbedKey();
+    };
+    
+    chart.fillEmbedCode = function(textarea, align) {
+        var embedHeight = 300,
+            embedWidth = (chart.chartType == 'pie') ? 300 : 720,
+            embedKey = chart.getEmbedKey(),
+            embedDataYear = chart.initialData.metadata.acs_release.split(' ')[1],
+            embedReleaseID = chart.initialData.metadata.acs_release.replace(/ /g,'_'),
+            embedID = chart.getEmbedID(),
+            embedParams = {
+                geoID: chart.primaryGeoID,
+                chartDataID: embedKey,
+                dataYear: embedDataYear,
+                releaseID: embedReleaseID,
+                chartType: chart.chartType,
+                chartHeight: 200,
+                chartQualifier: (chart.chartQualifier || ''),
+                chartTitle: (chart.chartChartTitle || ''),
+                initialSort: (chart.chartInitialSort || ''),
+                statType: (chart.chartStatType || '')
+            };
+            embedAlign = (align == 'left' || align == 'right') ? ' float: ' + align + ';' : '';
+        
+        var querystring = $.param(embedParams);
+        var embedCode = [
+            '<iframe id="' + embedID + '" class="census-reporter-embed" ' +
+                'src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?' +
+                querystring + '" frameborder="0" width="100%" height="300" ' +
+                'style="margin: 1em; max-width: ' + embedWidth + 'px;' +
+                embedAlign + '"></iframe>',
+            '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
+        ].join('');
+        
+        $.post('/make-json/charts/', {
+            params: JSON.stringify(embedParams),
+            geography: JSON.stringify(profileData['geography']),
+            geo_metadata: JSON.stringify(profileData['geo_metadata']),
+            chart_data: JSON.stringify(chart.initialData)
+        });
+        
+        textarea.html(embedCode);
+        return embedCode;
+    };
+
+    chart.showEmbedCode = function() {
+        // In order of parent to child:
+        var lightboxWrapper = d3.select('body').append('div').attr('id', 'lightbox');
+        var hovercardWrapper = lightboxWrapper.append('div').classed('hovercard-wrapper', true);
+        var lightbox = hovercardWrapper.append('div').classed('hovercard', true);
+
+        lightbox.append('small')
+                .classed('close clearfix', true)
+                .html('<i class="fa fa-times-circle"></i> Close')
+                .on('click', function() {
+                    d3.event.stopPropagation();
+                    d3.select('#lightbox').remove();
+                });
+                
+        lightbox.append('h2').html('Embed code for this chart');
+
+        lightbox.append('p').text('Copy the code below, then paste into your own CMS or HTML. ' +
+            'Embedded charts are responsive to your page width, and have been tested in Firefox, ' +
+            'Safari, Chrome, and IE8 and above.');
+
+        var textarea = lightbox.append('textarea').on('click', function() {
+            this.select();
+        });
+
+        var embeddedCode = chart.fillEmbedCode(textarea);
+
+        var align_options = lightbox.append('p')
+                .classed('filter-list display-type', true) // Set class
+                .html('<strong>Align this embedded chart in text:</strong> ')
+            .selectAll('a')
+                .data(['Normal', 'Left', 'Right']) // Make three <a> with these values
+            .enter().append('a')
+                .attr('id', function(d) { return 'embed-align-' + d.toLowerCase() }) // Give each <a> corresponding id
+                .text(function(d) { return d }); // Populate <a> tags with names
+
+        align_options.on('click', function() {
+            d3.event.stopPropagation();
+            d3.selectAll('.filter-list a').classed('option-selected', false); // De-select other options
+            d3.select(this).classed('option-selected', true);
+
+            embeddedCode = chart.fillEmbedCode(textarea, this.text.toLowerCase()); // Change embed code to reflect option
+            x = $("#" + chart.getEmbedID());
+
+            // Change the selected option
+            d3.select(this).classed('option-selected', true);
+            // Get the selected option name from inside the <a>
+            var float_option = d3.select(this)[0][0].innerHTML.toLowerCase();
+            // Since "normal" is not a valid float property value
+            if (float_option == "normal") {
+                float_option = "initial";
+            }
+            x.css("float", float_option);
+        });
+
+        // Default option
+        d3.select('#embed-align-normal').classed('option-selected', true);
+
+        lightbox.append('p').append('a')
+                .classed('display-type', true)
+                .attr('href', '/examples/embed-charts/')
+                .attr('target', '_blank')
+                .html('Learn more about Census Reporter&rsquo;s embedded charts');
+
+        $(embeddedCode).appendTo(lightbox);
+
+        // Example text for float comparisons
+        lightbox.append('p').html("<b>This is example text so you can see how your alignment choice might look on your page.</b> " +
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+            "Aliquam pretium rhoncus placerat. Quisque vel purus nisi. Duis rhoncus ante felis, " +
+            "a dignissim velit tempor ut. Nunc pulvinar felis id risus interdum, " +
+            "eget condimentum quam luctus. Nulla mi nisl, auctor non elementum ut, " +
+            "accumsan sed sem. Nam ut imperdiet enim, a interdum nulla. " +
+            "Etiam quis lectus id velit consequat malesuada. Curabitur feugiat tortor " +
+            "a tellus egestas, non tristique ante efficitur. Fusce fringilla congue varius. " +
+            "Mauris nunc ligula, sollicitudin non ligula eu, pellentesque elementum magna."
+        );
+
+    };
+    
+    // pass in data obj, get back formatted value label with MOE flag
+    chart.getValueFmt = function(data, geoStr, precision) {
+        var place = (!!geoStr) ? geoStr : 'this',
+            decimals = (!!precision) ? precision : 0,
+            valueText = data.context.values[place],
+            valueMOEFlag = data.context.error_ratio[place] >= 10 ? "<sup>&dagger;</sup>" : "";
+        return chart.valFmt(valueText, decimals) + valueMOEFlag;
     }
     
+    // opens drawer with tabular data under chart
     chart.toggleDataDrawer = function() {
-        var row = d3.select(chart.findAncestor(this, 'section'));
-        chart.dataDrawer = row.select("#data-drawer");
+        var row = d3.select(chart.findAncestor(this, "section")),
+            clickTargets = row.selectAll(".chart-get-data"),
+            clicked = d3.select(this),
+            hide = clicked.classed("opened"),
+            tableID = chart.capitalize(chart.initialData.metadata.table_id),
+            tableURL = '/data/table/?table='+tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+chart.geoIDs.join(',');
+        chart.dataDrawer = row.select(".data-drawer");
         
-        if (chart.dataDrawer.empty()) {
-            d3.select(this).text('Hide the data');
+        // make sure we're in a pristine state
+        chart.dataDrawer.remove();
+        clickTargets.text('Show data').classed("opened", false);
+        
+        // handle the toggling
+        if (hide) {
+            clicked.classed("opened", false);
+        } else {
+            clicked.classed("opened", true);
+            clicked.text('Hide data');
             
-            chart.chartContainer.classed("highlighted", true);
+            // tell Google Analytics about the event
+            chart.trackEvent('Charts', 'Show data', tableID);
             
             chart.dataDrawer = row.append("div")
-                    .attr("id", "data-drawer")
-                    .attr("class", "column-full");
+                    .attr("class", "data-drawer column-full");
                     
             chart.dataDrawer.append("h3")
                     .attr("class", "chart-title")
-                    .text(function() {
+                    .html(function() {
+                        var titleText;
                         if (!!chart.chartChartTitle) {
-                            return chart.chartChartTitle + " (Table " + chart.capitalize(chart.initialData.metadata.table_id) + ")"
+                            titleText = chart.chartChartTitle + " (Table " + tableID + ")";
+                        } else {
+                            titleText = "Table " + tableID;
                         }
-                        return "Table " + chart.capitalize(chart.initialData.metadata.table_id)
+                        return titleText + " <a class='smaller push-right' href='" + tableURL + "'>View table</a>"
                     });
 
             chart.dataTable = chart.dataDrawer.append("table")
                     .attr("id", "data-table")
                     .attr("class", "full-width");
                     
+            // get chart data ready for tabular format
+            var rowValues = []
+            chart.chartDataValues.forEach(function(d, i){
+                if (!!d.context) {
+                    // standard chart
+                    rowValues.push(d);
+                } else {
+                    // data shaped for grouped chart
+                    d.values.forEach(function(k, i) {
+                        k.name = d.name + ': ' + chart.capitalize(k.name);
+                        rowValues.push(k);
+                    })
+                }
+            })
+
             chart.dataTableHeader = chart.dataTable.append("thead")
                 .append("tr")
-                    .html(function() { return chart.makeDataDrawerHeader(chart.chartDataValues[0]) });
+                .call(chart.fillDataDrawerHeader, rowValues[0]);
 
             chart.tableRows = chart.dataTable.append("tbody")
-                .selectAll("tr")
-                    .data(chart.chartDataValues)
-                .enter().append("tr")
-                    .html(function(d) { return chart.makeDataDrawerRow(d) });
-        } else {
-            chart.dataDrawer.remove();
-            d3.select(this).text('Show the data');
-            chart.chartContainer.classed("highlighted", false);
+                .call(chart.fillDataDrawerRows, rowValues);
+
+            chart.dataDrawer
+                .append("a")
+                    .classed("chart-get-data opened", true)
+                    .text("Hide data")
+                    .on("click", chart.toggleDataDrawer);
         }
     }
     
-    chart.makeDataDrawerHeader = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<th class="name">Column</th>'],
-            colspan,
-            cellContents;
-            
-        places.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
-                colspan = (d.context.numerators[k] !== null) ? 2 : 1;
-                cellContents = chart.comparisonNames[k];
-                rowBits.push('<th class="name" colspan="' + colspan + '">' + cellContents + '</th>');
-            }
-        });
-        return rowBits.join('');
+    chart.DataDrawerPlaces = ['this', 'place', 'CBSA', 'county', 'state', 'nation'];
+    
+    chart.fillDataDrawerHeader = function(selection, d) {
+        var headerData = [
+            { colspan: 1, cellClass: 'name', cellContents: 'Column' }
+        ];
+
+        _.each(d.context.values, function(v, k) {
+            headerData.push({
+                colspan: (d.context.numerators[k] !== null) ? 4 : 2,
+                cellClass: 'name',
+                cellContents: chart.comparisonNames[k]
+            });
+        })
+
+        selection.selectAll("th")
+                .data(headerData)
+            .enter().append("th")
+                .attr("class", function(d) { return d.cellClass })
+                .attr("colspan", function(d) { return d.colspan })
+                .text(function(d) { return d.cellContents });
     }
     
-    chart.makeDataDrawerRow = function(d) {
-        var places = ['this', 'county', 'state', 'nation'],
-            rowBits = ['<td class="name">' + d.name + '</td>'],
-            cellContents;
-            
-        places.forEach(function(k, i) {
-            if (d.context.values[k] >= 0) {
+    chart.fillDataDrawerRows = function(selection, rowValues) {
+        rowValues.forEach(function(d) {
+            rowData = [
+                { cellClass: 'name', cellContents: d.name }
+            ];
+            _.each(d.context.values, function(v, k) {
                 // add the primary value
-                rowBits.push('<td class="value">' + chart.valFmt(d.context.values[k]) + ' (&plusmn;' + chart.valFmt(d.context.error[k]) + ')</td>');
-
+                rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
+                rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
                 // add the numerator value if it exists
                 if (d.context.numerators[k] !== null) {
-                    cellContents = chart.commaFmt(d.context.numerators[k]) + ' (&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) + ')';
-                    rowBits.push('<td class="value">' + cellContents + '</td>');
+                    rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
+                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
                 }
-            }
-        });
-        return rowBits.join('');
+            })
+            
+            selection.append("tr").selectAll("td")
+                    .data(rowData)
+                .enter().append("td")
+                    .attr("class", function(d) { return d.cellClass })
+                    .html(function(d) { return d.cellContents });
+        })
     }
     
     chart.initHovercard = function() {
         chart.hovercard = chart.chartContainer.append("div")
             .attr("class", "hovercard")
-            .style("width", "200px")
-            .style("opacity", 1e-6);
+            .style("width", function() {
+                return (browserWidth > 480) ? "200px" : "110%";
+            })
+            .style("opacity", 1e-6)
+            .on("click", function() {
+                d3.event.stopPropagation();
+                chart.mouseout();
+            });
+
+        chart.hovercard.dimensions = {
+            height: 0,
+            width: 0
+        };
+    }
+    
+    chart.cardToggle = function(data) {
+        var cardData = (chart.chartType == 'pie') ? data.data : data;
+        if (!!chart.hovercard) {
+            if (chart.hovercard.style("opacity") == 1 && chart.clicked == d) {
+                chart.mouseout();
+            } else {
+                chart.mouseover(cardData);
+                chart.clicked = d;
+            }
+        }
     }
     
     chart.fillHovercard = function(data) {
@@ -795,43 +1032,22 @@ function Chart(options) {
             phraseBits,
             compareBits,
             contextData = data.context,
-            moeFlag = contextData.error.this_ratio >= 10 ? "<sup>&dagger;</sup>" : "",
-            cardStat = chart.valFmt(contextData.values.this) + moeFlag,
+            moeFlag = contextData.error_ratio['this'] >= 10 ? "<sup>&dagger;</sup>" : "",
+            cardStat = chart.valFmt(contextData.values['this']) + moeFlag,
             cardComparison = [];
-            
-        // add cardStat MOE
-        //cardStat += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error.this) +"</span>";
-        // add cardStat ABSOLUTE VALUE
-        //if (!!contextData.numerators.this) {
-        //    cardStat += "<span class='push-right'>" + chart.valFmt(contextData.numerators.this, true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors.this, true) + "</span></span>";
-        //}
 
         d3.keys(contextData.values).forEach(function(k, i) {
-            if (k != 'this' && k.indexOf('_index') == -1) {
+            if (k != 'this') {
                 value = contextData.values[k];
-                index = contextData.values[k + '_index'];
-                moeFlag = contextData.error[k + '_ratio'] >= 10 ? "<sup>&dagger;</sup>" : "";
+                index = contextData.index[k];
+                moeFlag = contextData.error_ratio[k] >= 10 ? "<sup>&dagger;</sup>" : "";
                 
                 // generate the comparative text for this parent level
                 if (!!index) {
                     phraseBits = chart.getComparisonThreshold(index);
                     compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNamePhrases[k] + ": " + chart.valFmt(value) + moeFlag;
-
-                    // add comparison MOE
-                    //compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
-                    // add comparison ABSOLUTE VALUE
-                    //if (!!contextData.numerators[k]) {
-                    //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
-                    //}
                 } else {
                     compareBits = "<strong>" + chart.capitalize(k) + ":</strong> " + chart.valFmt(value) + moeFlag;
-                    
-                    // add comparison MOE
-                    //compareBits += "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.error[k]) +"</span>";
-                    // add comparison ABSOLUTE VALUE
-                    //if (!!contextData.numerators[k]) {
-                    //    compareBits += "<span class='push-right'>" + chart.valFmt(contextData.numerators[k], true) + moeFlag + "&nbsp;<span class='context'>&plusmn;" + chart.valFmt(contextData.numerator_errors[k], true) +"</span>";
-                    //}
                 }
                 // add comparative text to the list
                 cardComparison.push(
@@ -841,52 +1057,74 @@ function Chart(options) {
         });
         
         var card = [
-            "<h3>" + contextData.name + "</h3>",
-            "<ul><li>" + cardStat + "</li></ul>",
+            "<h3>" + contextData.name + ": <span class='normal'>" + cardStat + "</span></h3>",
             "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
         
-        var maxMOE = [];
-        d3.keys(contextData.error).forEach(function(k, v) {
-            if (k.indexOf('_ratio') != -1 && contextData.error[k]) {
-                maxMOE.push(contextData.error[k])
-            }
-        })
+        
+        var maxMOE = d3.values(contextData.error_ratio);
+        // if any MOEs get daggered, show the explanatory text
         maxMOE.sort(function(x, y) { return y - x });
         if (maxMOE[0] >= 10) {
-            card += "<div class='note'><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</div>"
+            card += "<div class='note'><sup>&dagger;</sup> Margin of error at least 10 percent of total value</div>"
         }
 
         return card
     }
     
     chart.mouseover = function(data) {
-        // ensure we have hovercard so other hover events can safely call this
+        // reset screen position to account for scrolling
+        chart.screenPosition = chart.chartContainer.node().getBoundingClientRect();
+
+        // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
             chart.hovercard
                 .html(chart.fillHovercard(data))
-                .transition()
-                .duration(200)
                 .style("opacity", 1);
+
+            chart.hovercard.dimensions = {
+                height: chart.hovercard.node().offsetHeight,
+                width: chart.hovercard.node().offsetWidth
+            }
         }
     }
 
     chart.mousemove = function() {
+        var mouseTop = d3.mouse(this)[1],
+            mouseLeft = d3.mouse(this)[0],
+            bufferTop = chart.screenPosition.top + mouseTop - chart.hovercard.dimensions.height - 10,
+            bufferRight = browserWidth - (chart.screenPosition.left + mouseLeft + chart.hovercard.dimensions.width) - 10;
+
+        chart.hovercard.position = {
+            vertical: {
+                direction: (bufferTop < 10) ? 'top' : 'bottom',
+                pixels: (bufferTop < 10) ? mouseTop + 5 : chart.dimensions.height - mouseTop + 5
+            },
+            horizontal: {
+                direction: (bufferRight < 10) ? 'right' : 'left',
+                pixels: (bufferRight < 10) ? chart.dimensions.width - mouseLeft + 5 : mouseLeft + 5
+            }
+        }
+        // asking for chart.hovercard.style("height") and chart.hovercard.style("width")
+        // gives inconsistent results because of IE box model. So we can't count on addition
+        // using hovercard height and width. Instead, we reset top/bottom and left/right
+        // (in case of flips, we don't want to hold onto the old value) and position based
+        // on proximity to screen edge.
         chart.hovercard
-            .style("left", (d3.mouse(this)[0]) + "px")
-            .style("bottom", (chart.settings.height - d3.mouse(this)[1] + 5) + "px");
+            .style("left", "auto").style("right", "auto")
+            .style(chart.hovercard.position.horizontal.direction, (chart.hovercard.position.horizontal.pixels) + "px")
+            .style("top", "auto").style("bottom", "auto")
+            .style(chart.hovercard.position.vertical.direction, (chart.hovercard.position.vertical.pixels) + "px");
     }
 
     chart.mouseout = function() {
-        // ensure we have hovercard so other hover events can safely call this
+        // ensure we have hovercard so other interactions can safely call this
         if (!!chart.hovercard) {
             chart.hovercard
-                .transition()
-                .duration(200)
                 .style("opacity", 1e-6);
         }
     }
-
+    
     chart.addChartTitle = function(container) {
         if (!!chart.chartChartTitle) {
             container.append("h3")
@@ -899,13 +1137,21 @@ function Chart(options) {
         if (!!chart.chartQualifier) {
             container.append("span")
                 .classed("chart-qualifier", true)
-                .text("* " + chart.chartQualifier)
+                .text("* " + chart.chartQualifier);
+
+            chart.updateSettings({
+                height: parseInt(chart.settings.height) + 20
+            });
         }
     }
     
     // format percentages and/or dollar signs
-    chart.valFmt = function(value, disablePct) {
-        if (!disablePct && (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage')) {
+    chart.valFmt = function(value, decimals) {
+        var precision = (!!decimals) ? decimals : 0,
+            factor = Math.pow(10, precision),
+            value = Math.round(value * factor) / factor;
+
+        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
             value += '%';
         } else if (chart.chartStatType == 'dollar') {
             value = '$' + chart.commaFmt(value);
@@ -1019,8 +1265,8 @@ function Chart(options) {
         37: ["about two-fifths", "of"],
         30: ["about one-third", "of"],
         23: ["about one-quarter", "of"],
-        17: ["about two-fifths", "of"],
-        13: ["less than two-fifths", "of"],
+        17: ["about one-fifth", "of"],
+        13: ["less than a fifth", "of"],
         8: ["about 10 percent", "of"],
         0: ["less than 10 percent", "of"],
     }
@@ -1044,6 +1290,12 @@ function Chart(options) {
         return 'figure';
     }
     
+    chart.trackEvent = function(category, action, label) {
+        // make sure we have Google Analytics function available
+        if (typeof(ga) == 'function') {
+            ga('send', 'event', category, action, label);
+        }
+    }
 
     // ready, set, go
     chart.init(options);

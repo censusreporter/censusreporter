@@ -1,0 +1,19 @@
+    {% if topic.question_images or topic.question_pdfs %}
+    <aside>
+        {% if topic.question_images %}
+            <h3>Sample survey questions on this topic</h3>
+            {% for image in topic.question_images %}
+                <a href="{{ STATIC_URL }}img/questions/{{ image }}" class="lightbox"><img src="{{ STATIC_URL }}img/questions/{{ image }}"></a><br>
+            {% endfor %}
+        {% endif %}
+        
+        {% if topic.question_pdfs %}
+            <h3>More information from the Census (PDFs)</h3>
+            <ul>
+            {% for label,link in topic.question_pdfs %}
+                <li><a href="{{ link }}">{{ label }}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </aside>
+    {% endif %}

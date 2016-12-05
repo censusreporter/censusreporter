@@ -1,0 +1,81 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <h2>Overview</h2>
+  <p>
+    The Census Bureau asks three questions specific to service in the armed forces. The tables summarizing responses to those questions are listed below. In addition to the Veteran-specific tables, there are a few other pertinent tables to know about.  
+  </p>
+  <h3>Employment</h3>
+  <p>
+    In general, the Census tables about <a href="{% url 'topic_detail' 'employment' %}">employment</a> include "Armed Forces" as a component of the labor force. So, you can use tables like <a href="{% url 'table_detail' 'B23001' %}">B23001</a> to know how many people are in active service for a given geography. (See the <a href="{% url 'table_detail' 'B23002' %}">B23002</a> series for the same data broken down in <a href="{% url 'topic_detail' 'race-hispanic' %}#topic-elsewhere">racial iterations</a>.) Table <a href="{% url 'table_detail' 'B23025' %}">B23025</a> presents employment status by industry, including active service armed forces.
+  </p>
+<h3>Social and Family Characteristics</h3>
+  <p>
+  These tables have "armed forces" broken out as a separate column:
+  <ul>
+    <li><a href="{% url 'table_detail' 'B12006' %}">B12006</a>: Marital Status by Sex by Labor Force Participation</li>
+    <li><a href="{% url 'table_detail' 'B23003' %}">B23003</a>: Presence of Own Children by Age of Children</li>
+    <li><a href="{% url 'table_detail' 'B23006' %}">B23006</a>: Educational Attainment by Employment Status</li>
+    <li><a href="{% url 'table_detail' 'B23007' %}">B23007</a>: Presence of Own Children by Family Type by Employment</li>
+    <li><a href="{% url 'table_detail' 'B23024' %}">B23024</a>: Poverty Status by Disability Status by Employment Status</li>
+  </ul>
+  </p>
+  </section>
+
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B21001' %}">B21001</a><sup>†</sup></strong></td>
+<td>Sex by Age by Veteran Status for the Civilian Population</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21002' %}">B21002</a></strong></td>
+<td>Period of Military Service for Civilian Veterans</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21003' %}">B21003</a></strong></td>
+<td>Veteran Status by Educational Attainment for the Civilian Population</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21004' %}">B21004</a></strong></td>
+<td>Median Income by Veteran Status by Sex for the Civilian Population</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B21005' %}">B21005</a><sup>‡</sup></strong></td>
+<td>Age by Veteran Status by Employment Status</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21007' %}">B21007</a><sup>‡</sup></strong></td>
+<td>Age by Veteran Status by Poverty Status in the Past 12 Months by Disability Status for the Civilian Population</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B21100' %}">B21100</a><sup>‡</sup></strong></td>
+<td>Service-connected Disability-rating Status and Ratings for Civilian Veterans</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B99211' %}">B99211</a></strong></td>
+<td>Imputation of Veteran Status for the Population</td>
+</tr><tr>
+<td><strong><a href="{% url 'table_detail' 'B99212' %}">B99212</a></strong></td>
+<td>Imputation of Period of Military Service for Civilian Veterans</td>
+</tr>
+</tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.
+            </td>
+        </tr>
+        <tr class="help-text">
+            <td colspan="2">
+              <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.
+            </td>
+          
+        </tr>
+    </tfoot>
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+<h3>Detailed Tables</h3>
+<p>The bulk of the American Community Survey is the over 1400 detailed data tables. These tables have reference codes, and knowing how the codes are structured can be helpful in knowing which table to use.</p>
+<p>Codes start with either the letter <strong>B</strong> or <strong>C</strong>, followed by two digits for the table subject, then 3 digits that uniquely identify the table. (For a small number of technical tables the unique identifier is 4 digits.) In some cases additional letters for racial iterations and Puerto Rico-specific tables.</p>
+
+<h4>Full and Collapsed Tables</h4>
+<p>Tables beginning with <strong>B</strong> have the most detailed column breakdown, while a <strong>C</strong> table for the same numbers will have fewer columns. For example, the <strong><a href="{% url 'table_detail' 'B02003' %}">B02003</a></strong> table ("Detailed Race") has 71 columns, while the "collapsed version," <strong><a href="{% url 'table_detail' 'C02003' %}">C02003</a></strong> has only 19 columns. While your instinct may be to want as much data as possible, sometimes choosing the <strong>C</strong> table can simplify your analysis.</p>
+
+<h4 id="table-subjects">Table subjects</h4>
+<p>The first two digits after <strong>B/C</strong> indicate the broad subject of a table. Note that many tables have more than one subject, but this reflects the main subject.</p>
+<dl class="dl-horizontal">
+    <dt>01</dt><dd><a href="{% url 'topic_detail' 'age-sex' %}">Age and Sex</a></dd>
+    <dt>02</dt><dd><a href="{% url 'topic_detail' 'race-latino' %}">Race</a></dd>
+    <dt>03</dt><dd><a href="{% url 'topic_detail' 'race-latino' %}">Hispanic Origin</a></dd>
+    <dt>04</dt><dd>Ancestry</dd>
+    <dt>05</dt><dd>Foreign Born; Citizenship; Year or Entry; Nativity</dd>
+    <dt>06</dt><dd>Place of Birth</dd>
+    <dt>07</dt><dd><a href="{% url 'topic_detail' 'migration' %}">Residence 1 Year Ago; Migration</a></dd>
+    <dt>08</dt><dd><a href="{% url 'topic_detail' 'commute' %}">Journey to Work; Workers' Characteristics; Commuting</a></dd>
+    <dt>09</dt><dd><a href="{% url 'topic_detail' 'children' %}">Children; Household Relationship</a></dd>
+    <dt>10</dt><dd><a href="{% url 'topic_detail' 'seniors' %}#grandparents">Grandparents; Grandchildren</a></dd>
+    <dt>11</dt><dd><a href="{% url 'topic_detail' 'families' %}">Household Type; Family Type; Subfamilies</a></dd>
+    <dt>12</dt><dd>Marital Status and History</dd>
+    <dt>13</dt><dd>Fertility</dd>
+    <dt>14</dt><dd>School Enrollment</dd>
+    <dt>15</dt><dd>Educational Attainment</dd>
+    <dt>16</dt><dd>Language Spoken at Home and Ability to Speak English</dd>
+    <dt>17</dt><dd><a href="{% url 'topic_detail' 'poverty' %}">Poverty</a></dd>
+    <dt>18</dt><dd>Disability</dd>
+    <dt>19</dt><dd>Income (Households and Families)</dd>
+    <dt>20</dt><dd>Earnings (Individuals)</dd>
+    <dt>21</dt><dd>Veteran Status</dd>
+    <dt>22</dt><dd><a href="{% url 'topic_detail' 'public-assistance' %}">Transfer Programs</a> (Public Assistance)</dd>
+    <dt>23</dt><dd><a href="{% url 'topic_detail' 'employment' %}">Employment Status; Work Experience; Labor Force</a></dd>
+    <dt>24</dt><dd>Industry; Occupation; Class of Worker</dd>
+    <dt>25</dt><dd>Housing Characteristics</dd>
+    <dt>26</dt><dd>Group Quarters</dd>
+    <dt>27</dt><dd><a href="{% url 'topic_detail' 'health-insurance' %}">Health Insurance</a></dd>
+</dl>
+
+<p>Three groups of tables reflect technical details about how the Census is administered. In general, you probably don't need to look at these too closely, but if you need to check for possible weaknesses in your data analysis, they may come into play.</p>
+<dl class="dl-horizontal">
+    <dt>00</dt><dd>Unweighted Count</dd>
+    <dt>98</dt><dd>Quality Measures</dd>
+    <dt>99</dt><dd>Imputations</dd>
+</dl>
+
+<h4>Race and Latino Origin</h4>
+<p>Many tables are provided in multiple racial tabulations. If a table code ends in a letter from <strong>A-I</strong>, that code indicates that the table universe is restricted to a subset based on responses to the race or Hispanic/Latino-origin questions. Here is a guide to those codes:</p>
+<dl class="dl-horizontal">
+    <dt>A</dt><dd>White alone</dd>
+    <dt>B</dt><dd>Black or African American Alone</dd>
+    <dt>C</dt><dd>American Indian and Alaska Native Alone</dd>
+    <dt>D</dt><dd>Asian Alone</dd>
+    <dt>E</dt><dd>Native Hawaiian and Other Pacific Islander Alone</dd>
+    <dt>F</dt><dd>Some Other Race Alone</dd>
+    <dt>G</dt><dd>Two or More Races</dd>
+    <dt>H</dt><dd>White Alone, Not Hispanic or Latino</dd>
+    <dt>I</dt><dd>Hispanic or Latino</dd>
+</dl>
+</section>
+
+<section>
+<h3>Other tables</h3>
+<p>There are a number of other ACS tables which the Census Bureau offers on <a href="http://factfinder2.census.gov/">American Fact Finder</a>, but which are not available for bulk download. Because we can't get the bulk data, these tables are not directly included in Census Reporter, but you might want to know about them.</p>
+
+<h4>DP: Data Profiles</h4>
+<p>The data profile (DP) tables provide a lot of popular statistics across subjects in a single table. The Census Reporter "Place profile" pages are modeled off of the DP tables, although we've added charts and made some alternate choices. The ACS produces the following DP tables for most geographies:</p>
+<dl class="dl-horizontal">
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/DP02/0100000US">DP02</a></dt><dd>Selected Social Characteristics in the US</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/DP02PR/0400000US72">DP02PR</a></dt><dd>Selected Social Characteristics in Puerto Rico</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/DP03/0100000US">DP03</a></dt><dd>Selected Economic Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/DP04/0100000US">DP04</a></dt><dd>Selected Housing Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/DP05/0100000US">DP05</a></dt><dd>ACS Demographic and Housing Characteristics</dd>
+</dl>
+
+<h4>S: Subject tables</h4>
+<p>The subject tables are another collection of similar top-level statistics which may be more easily digested than the full detailed tables. As with data profiles, you must use <a href="http://factfinder2.census.gov/">American Fact Finder</a> to get these tables.</p>
+    <!-- Subject tables use percentages, not absolute figures. -->
+    <!-- Can we reasonably hook up to the bookmarks like this? http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0101/1600000US1714000 -->
+<dl class="dl-horizontal">
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0101/0100000US">S0101</a></dt><dd>Age And Sex</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0102/0100000US">S0102</a></dt><dd>Population 60 Years And Over In The United States</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0103/0100000US">S0103</a></dt><dd>Population 65 Years And Over In The United States</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0201/0100000US">S0201</a></dt><dd>Selected Population Profile In The United States</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0501/0100000US">S0501</a></dt><dd>Selected Characteristics Of The Native And Foreign-born Populations</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0502/0100000US">S0502</a></dt><dd>Selected Characteristics Of The Foreign-born Population By Period Of Entry Into The United States</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0503/0100000US">S0503</a></dt><dd>Selected Characteristics Of The Foreign-born Population By Region Of Birth: Europe</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0504/0100000US">S0504</a></dt><dd>Selected Characteristics Of The Foreign-born Population By Region Of Birth: Africa, Northern America, And Oceania</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0505/0100000US">S0505</a></dt><dd>Selected Characteristics Of The Foreign-born Population By Region Of Birth: Asia</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0506/0100000US">S0506</a></dt><dd>Selected Characteristics Of The Foreign-born Population By Region Of Birth: Latin America</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0601/0100000US">S0601</a></dt><dd>Selected Characteristics Of The Total And Native Populations In The United States</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0701/0100000US">S0701</a></dt><dd>Geographic Mobility By Selected Characteristics In The United States</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0801/0100000US">S0801</a></dt><dd>Commuting Characteristics By Sex</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0802/0100000US">S0802</a></dt><dd>Means Of Transportation To Work By Selected Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0804/0100000US">S0804</a></dt><dd>Means Of Transportation To Work By Selected Characteristics For Workplace Geography</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0901/0100000US">S0901</a></dt><dd>Children Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S0902/0100000US">S0902</a></dt><dd>Characteristics Of Teenagers 15 To 19 Years Old</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1001/0100000US">S1001</a></dt><dd>Grandchildren Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1002/0100000US">S1002</a></dt><dd>Grandparents</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1101/0100000US">S1101</a></dt><dd>Households And Families</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1201/0100000US">S1201</a></dt><dd>Marital Status</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1251/0100000US">S1251</a></dt><dd>Characteristics Of People With A Marital Event In The Last 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1301/0100000US">S1301</a></dt><dd>Fertility</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1401/0100000US">S1401</a></dt><dd>School Enrollment</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1501/0100000US">S1501</a></dt><dd>Educational Attainment</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1601/0100000US">S1601</a></dt><dd>Language Spoken At Home</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1602/0100000US">S1602</a></dt><dd>No One Age 14 And Over Speaks English Only Or Speaks English Very Well</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1603/0100000US">S1603</a></dt><dd>Characteristics Of People By Language Spoken At Home</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1701/0100000US">S1701</a></dt><dd>Poverty Status In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1702/0100000US">S1702</a></dt><dd>Poverty Status In The Past 12 Months Of Families</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1703/0100000US">S1703</a></dt><dd>Selected Characteristics Of People At Specified Levels Of Poverty In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1810/0100000US">S1810</a></dt><dd>Disability Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1811/0100000US">S1811</a></dt><dd>Selected Economic Characteristics For The Civilian Noninstitutionalized Population By Disability Status</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1901/0100000US">S1901</a></dt><dd>Income In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1902/0100000US">S1902</a></dt><dd>Mean Income In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S1903/0100000US">S1903</a></dt><dd>Median Income In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2001/0100000US">S2001</a></dt><dd>Earnings In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2101/0100000US">S2101</a></dt><dd>Veteran Status</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2201/0100000US">S2201</a></dt><dd>Food Stamps/SNAP</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2301/0100000US">S2301</a></dt><dd>Employment Status</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2302/0100000US">S2302</a></dt><dd>Employment Characteristics Of Families</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2303/0100000US">S2303</a></dt><dd>Work Status In The Past 12 Months</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2401/0100000US">S2401</a></dt><dd>Occupation By Sex And Median Earnings In The Past 12 Months For The Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2402/0100000US">S2402</a></dt><dd>Occupation By Sex And Median Earnings In The Past 12 Months For Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2403/0100000US">S2403</a></dt><dd>Industry By Sex And Median Earnings In The Past 12 Months For The Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2404/0100000US">S2404</a></dt><dd>Industry By Sex And Median Earnings In The Past 12 Months For The Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2405/0100000US">S2405</a></dt><dd>Industry By Occupation For The Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2406/0100000US">S2406</a></dt><dd>Occupation By Class Of Worker For The Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2407/0100000US">S2407</a></dt><dd>Industry By Class Of Worker For The Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2408/0100000US">S2408</a></dt><dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months For The Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2409/0100000US">S2409</a></dt><dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months For The Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2501/0100000US">S2501</a></dt><dd>Occupancy Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2502/0100000US">S2502</a></dt><dd>Demographic Characteristics For Occupied Housing Units</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2503/0100000US">S2503</a></dt><dd>Financial Characteristics</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2504/0100000US">S2504</a></dt><dd>Physical Housing Characteristics For Occupied Housing Units</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2506/0100000US">S2506</a></dt><dd>Financial Characteristics For Housing Units With A Mortgage</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2507/0100000US">S2507</a></dt><dd>Financial Characteristics For Housing Units Without A Mortgage</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2701/0100000US">S2701</a></dt><dd>Health Insurance Coverage Status</dd>
+    <dt><a href="http://factfinder2.census.gov/bkmk/table/1.0/en/ACS/14_1YR/S2702/0100000US">S2702</a></dt><dd>Selected Characteristics Of The Uninsured In The United States</dd>
+</dl>
+
+<h4>GCT: Geographic Comparison</h4>
+<p>The Geographic Comparison tables take a single statistic and list its value for a number of similar geographies. For example, you can download the median monthly housing costs for major cities in the US in a single file, or you can download the same housing costs estimates for all states in the US.</p>
+<p>The American Fact Finder lists over 1200 of these files (in part because each statistic is offered in more than a dozen variations), so we don't have a list for you, but you can find them directly in the Fact Finder's "advanced search." Just go to the Topics section, and look under "Product Type."</p>
+</section>
+{% endblock %}

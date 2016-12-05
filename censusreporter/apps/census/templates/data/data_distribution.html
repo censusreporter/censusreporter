@@ -1,0 +1,16 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block head_title %}Distribution View: {{ block.super }}{% endblock %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/select2/select2.css">
+{% endblock %}
+
+{% block aside_notes %}
+<p class="hidden">Charts show how data in this table is distributed, helping identify patterns, clusters and outliers. You can <strong>click a point</strong> to lock and unlock display.</p>
+{% endblock %}
+
+{% block page_specific_javascript %}
+<script src="{{ STATIC_URL }}js/vendor/select2.min.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/chroma.min.js"></script>
+{% endblock %}

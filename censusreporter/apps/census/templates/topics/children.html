@@ -1,0 +1,234 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>The ACS tables beginning with <strong>09</strong> are about children and relationships. In the listing below, table names have been simplified in some cases. References to children and grandchildren almost always mean under 18 years old. Income is for the last 12 months, adjusted for inflation to the value of dollars in the last year of the survey period. References to poverty status/level, receipt of food stamps/SNAP, and work status are all for the last 12 months.</p>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09001' %}">B09001</a></strong></td>
+<td>Population Under 18 Years by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09002' %}">B09002</a></strong></td>
+<td>Own Children by Family Type and Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09005' %}">B09005</a></strong></td>
+<td>Household Type for Children in Households (Excluding Householders, Spouses, and Unmarried Partners)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09008' %}">B09008</a><sup>‡</sup></strong></td>
+<td>Presence of Unmarried Partner of Householder by Household Type for Children in Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09010' %}">B09010</a></strong></td>
+<td>Receipt of Supplemental Security Income (SSI), Cash Public Assistance Income, or Food Stamps/SNAP by Household Type for Children in Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09018' %}">B09018</a></strong></td>
+<td>Relationship to Householder for Children in Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09019' %}">B09019</a><sup>‡</sup></strong></td>
+<td>Household Type (Including Living Alone) by Relationship</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09020' %}">B09020</a></strong></td>
+<td>Relationship by Household Type (Including Living Alone) for the Population 65 Years and Over</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+<h2>Other ACS Tables That Include Children</h2>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B05009' %}">B05009</a></strong></td>
+<td>Age and Nativity of Own Children in Families and Subfamilies by Number and Nativity of Parents</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B05010' %}">B05010</a><sup>‡</sup></strong></td>
+<td>Ratio of Income to Poverty Level by Nativity of Children in Families and Subfamilies by Living Arrangements and Nativity of Parents</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10001' %}">B10001</a></strong></td>
+<td>Grandchildren Living With a Grandparent Householder by Age of Grandchild</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10002' %}">B10002</a></strong></td>
+<td>Grandchildren Living With a Grandparent Householder by Grandparent Responsibility and Presence of Parent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10010' %}">B10010</a></strong></td>
+<td>Median Family Income for Families With Grandparent Householders And/or Spouses Living With Own Grandchildren by Responsibility for Own Grandchildren and Presence of Parent of Grandchild</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10050' %}">B10050</a></strong></td>
+<td>Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren by Length of Time Responsible for Own Grandchildren for the Population 30 Years and Over</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10051' %}">B10051</a><sup>†</sup></strong></td>
+<td>Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren by Presence of Parent of Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10052' %}">B10052</a></strong></td>
+<td>Disability Status of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10053' %}">B10053</a></strong></td>
+<td>Nativity by Grandparents Responsible for Own Grandchildren by Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10054' %}">B10054</a></strong></td>
+<td>Language and Ability to Speak English of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10056' %}">B10056</a></strong></td>
+<td>Sex of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10057' %}">B10057</a></strong></td>
+<td>Marital Status by Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10058' %}">B10058</a></strong></td>
+<td>Employment Status of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10059' %}">B10059</a></strong></td>
+<td>Poverty Status of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10060' %}">B10060</a></strong></td>
+<td>Units in Structure of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10061' %}">B10061</a></strong></td>
+<td>Tenure of Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Age of Grandparent</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B10063' %}">B10063</a></strong></td>
+<td>Households With Grandparents Living With Own Grandchildren by Responsibility for Own Grandchildren and Presence of Parent of Grandchildren</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11003' %}">B11003</a></strong></td>
+<td>Family Type by Presence and Age of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11004' %}">B11004</a></strong></td>
+<td>Family Type by Presence and Age of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11005' %}">B11005</a><sup>‡</sup></strong></td>
+<td>Households by Presence of People by Household Type</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11013' %}">B11013</a></strong></td>
+<td>Subfamily Type by Presence of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17006' %}">B17006</a><sup>‡</sup></strong></td>
+<td>Poverty Status of Related Children by Family Type by Age of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17010' %}">B17010</a><sup>†‡</sup></strong></td>
+<td>Poverty Status of Families by Family Type by Presence of Related Children by Age of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17012' %}">B17012</a><sup>‡</sup></strong></td>
+<td>Poverty Status of Families by Household Type by Number of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17022' %}">B17022</a></strong></td>
+<td>Ratio of Income to Poverty Level of Families by Family Type by Presence of Related Children by Age of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17023' %}">B17023</a><sup>‡</sup></strong></td>
+<td>Poverty Status of Families by Household Type by Number of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19125' %}">B19125</a></strong></td>
+<td>Median Family Income by Presence of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19126' %}">B19126</a></strong></td>
+<td>Median Family Income by Family Type by Presence of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19128' %}">B19128</a></strong></td>
+<td>Aggregate Family Income by Family Type by Presence of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19131' %}">B19131</a><sup>‡</sup></strong></td>
+<td>Family Type by Presence of Own Children by Family Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22002' %}">B22002</a></strong></td>
+<td>Receipt of Food Stamps/SNAP by Presence of Children by Household Type for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23003' %}">B23003</a></strong></td>
+<td>Presence of Own Children by Age of Own Children by Employment Status for Females 20 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23007' %}">B23007</a><sup>‡</sup></strong></td>
+<td>Presence of Own Children by Family Type by Employment Status</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23008' %}">B23008</a><sup>‡</sup></strong></td>
+<td>Age of Own Children in Families and Subfamilies by Living Arrangements by Employment Status of Parents</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23009' %}">B23009</a></strong></td>
+<td>Presence of Own Children by Family Type by Number of Workers in Family</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23010' %}">B23010</a></strong></td>
+<td>Presence of Own Children in Married-couple Families by Work Experience of Householder and Spouse</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B25012' %}">B25012</a></strong></td>
+<td>Tenure by Families and Presence of Own Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B25115' %}">B25115</a></strong></td>
+<td>Tenure by Household Type and Presence and Age of Own Children</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+</section>
+{% endblock %}
+
+

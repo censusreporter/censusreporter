@@ -1,0 +1,18 @@
+{% load humanize madlibs %}
+{# to be called via `comparatives` inclusion tag #}
+<li>
+    {% if index and stat_type != 'count' %}
+    {{ index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ place_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ value|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}
+    {% if error_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
+    {% else %}
+    <strong>{{ place_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ value|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}
+    {% endif %}
+    {% if numerator %}
+        <span class="context">{% if stat_type == 'dollar' %}${% endif %}{{ numerator|floatformat|intcomma|cut:".0" }}</span>
+        {% if error %}
+            <span class="context">(&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ error|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}{% if numerator_error %} / &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ numerator_error|floatformat|intcomma|cut:".0" }}{% endif %})</span>
+        {% endif %}
+    {% elif error %}
+        <span class="context">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ error|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}</span>
+    {% endif %}
+</li>

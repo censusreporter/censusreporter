@@ -25,6 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'raven.contrib.django.raven_compat',
     'census',
 )
 
@@ -57,6 +58,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.static',
     'django.contrib.auth.context_processors.auth',
+    'census.context_processors.api_url',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -107,4 +109,11 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-API_URL = 'http://api.censusreporter.org'
+API_URL = 'https://api.censusreporter.org'
+
+import raven
+
+RAVEN_CONFIG = {
+    'dsn': os.environ.get("SENTRY_DSN"),
+    'release': raven.fetch_git_sha(os.path.dirname(__file__) + '/../../..'),
+}

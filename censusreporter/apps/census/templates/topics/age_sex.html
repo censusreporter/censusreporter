@@ -1,0 +1,57 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <h2>Overview</h2>
+    <p>Throughout the American Community Survey, data is broken down by age and sex. However, there are a few tables that are focused directly on these basic statistics.</p>
+
+    <p><em>Note:</em> do not substitute the word &ldquo;gender&rdquo; for &ldquo;sex.&rdquo; Census Bureau specifically refers to the biological sex of survey respondents, not their gender presentation.</p>
+
+    <ul>
+        <li><strong><a href="{% url 'table_detail' 'B01001' %}">B01001</a>:</strong> Sex by Age: provides the estimated count of men and women in age buckets, mostly of five years (e.g. 25 to 29 years, 30 to 34 years). Around the later teens and in the 60&rsquo;s the brackets are of differing sizes, including a column for just 20-year-olds and another for just 21-year-olds.)</li>
+        <li><strong><a href="{% url 'table_detail' 'B01002' %}">B01002</a>:</strong> Median Age: provides the estimated median age for all people in the given geography, and then also for males and females separately.</li>
+        <li><strong><a href="{% url 'table_detail' 'B01003' %}">B01003</a>:</strong> Total population: a single column with the estimated total population for the geography. This value is the same as the first column of <a href="{% url 'table_detail' 'B01001' %}">B01001</a> for a given geography.</li>
+    </ul>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B01001' %}">B01001</a><sup>&dagger;</sup><sup>&Dagger;</sup></td>
+                <td>Sex by Age</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B01002' %}">B01002</a><sup>&dagger;</sup></td>
+                <td>Median Age by Sex</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'table_detail' 'B01003' %}">B01003</a></td>
+                <td>Total Population</td>
+            </tr>
+        </tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+    <sup>&Dagger;</sup> Table also available in &ldquo;collapsed&rdquo; version: change &ldquo;B&rdquo; to &ldquo;C&rdquo; for table code. Note: There is no table <a href="{% url 'table_detail' 'C01001' %}">C01001</a>.
+            </td>
+        </tr>
+    </tfoot>
+    </table>
+
+</section>
+
+<section id="topic-elsewhere">
+    <h2>Age and Sex elsewhere in the American Community Survey</h2>
+
+    <p>Hundreds of ACS tables are tabulated by age and sex. So it&rsquo;s not worth listing them all here. If you are looking for a table and it has what you want, but is also split by age and sex, you may have some of your own work to do. These tables always have the total in the first column, so you may just want that and disregard the tabulations. There are also usually columns for all male and all female, but if you want to count by age and not by sex, you will have to sum those values.</p>
+</section>
+{% endblock %}
+
+

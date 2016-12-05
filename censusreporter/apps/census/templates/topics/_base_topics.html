@@ -1,0 +1,42 @@
+{% extends '_base.html' %}
+
+{% block head_title %}{% if topic.title %}{{ topic.title }}{% else %}Topics{% endif %} - {{ block.super }}{% endblock %}
+
+{% block content_container %}
+<div class="content-container wrapper clearfix">
+    <p id="help-feedback-solicitation" class="message message-help display-type">In addition to serving data, Census Reporter wants to help you understand how to use it. <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a> if there are topics you&rsquo;d like to see us explain.</p>
+    
+    <article id="topics{% if topic.slug %}-{{ topic.slug }}{% endif %}" class="topic">
+        <header>
+            {% if topic.slug %}<p class="display-type"><a href="{% url 'topic_list' %}">&larr; Topics</a></p>{% endif %}
+            <h1>{{ topic.title }}</h1>
+            <p>{{ topic.description }}</p>
+        </header>
+
+        {% block content %}{% endblock %}
+    </article>
+</div>
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script>
+jQuery(document).ready(function($) {
+    $(document.body).on('click', '.lightbox', function(e) {
+        e.preventDefault();
+        var lightbox = '<div id="lightbox"><div class="hovercard-wrapper"><div class="hovercard"><small class="close"><i class="fa fa-times-circle"></i> Close</small><img src="' + $(this).attr("href") +'" /></div></div></div>';
+        $('body').append(lightbox);
+    });
+    // handle dismissals of lightbox
+    $(document.body).on('keydown', function(e) {
+        if (e.which == 27) {
+            $('#lightbox').remove();
+        }
+    });
+    $(document.body).on('click', '#lightbox', function(e) {
+        $('#lightbox').remove();
+    });
+
+    Glossary.init("{% url 'glossary' %}",".glossary-term");
+});
+</script>
+{% endblock %}

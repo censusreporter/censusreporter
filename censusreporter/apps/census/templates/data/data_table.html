@@ -1,0 +1,15 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block head_title %}Grid View: {{ block.super }}{% endblock %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/Grid.css">
+{% endblock %}
+
+{% block aside_notes %}
+<p class="hidden">Add data for more places below; visualize or download this data with controls at right.</p>
+{% endblock %}
+
+{% block page_specific_javascript %}
+<script src="{{ STATIC_URL }}js/vendor/Grid.js"></script>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    <aside>
+        <h3>Should I use American Community Survey data for this?</h3>
+        <p>The ACS is only one Census product offering employment data, and may not always be the best for your purposes. Another source of data about the labor force is the <a href="http://www.bls.gov/cps/">Current Population Survey, or CPS</a>. The CPS is the official source of employment statistics that make for monthly news pegs (the "jobs numbers"). Simplistically, the CPS is better for timely data (it's reported monthly), is better for change over time (data has been collected for much longer than the ACS) and is a survey directly targeted at information about employment; meanwhile, the ACS data can be found for smaller geographies, and is more readily comparable to non-employment statistics. </p>
+        <p>The Census Bureau also partners with the U.S. states to produce the <a href="http://www.census.gov/ces/dataproducts/lehddata.html">Longitudinal Employer–Household Dynamics (LEHD)</a> data. Compared to the ACS, this data provides more direct information on changes in the workforce (hiring, quits and layoffs), and can also give insight into commuting flows.</p>
+        <ul>
+        <li>For a general introduction to using the CPS for journalism, watch <a href="http://cronkite.asu.edu/census2010#cas">this presentation by New York Times reporter Rob Gebeloff</a>. </li>
+        <li>For a general introduction to using the LEHD data for journalism, watch <a href="http://cronkite.asu.edu/census2010#lehd">this presentation by USA Today reporter Paul Overberg</a>. </li>
+        <li>For a detailed explanation of the differences between the two surveys, see this <a href="http://www.census.gov/people/laborforce/publications/ACS-CPS_Comparison_Report.pdf">Census Bureau report</a>.</li>
+        </ul>
+    </aside>
+    {% include "topics/_question_aside.html" %}    
+
+    <h2>Overview</h2>
+<p>The Census Bureau asks a number of questions about whether individuals are employed, and if they are not unemployed or retired, about their occupation and industry. Census Reporter collects these together under the tag 'employment'. There are also questions about where geographically people are employed, how they get to work, how long it takes to get to work, and similar questions, which Census Reporter collects under the tag 'commute'.</p>
+<h2 id="employment-status">Employment Status</h2>
+<p>When talking about employment status, the Census Bureau divides the population 16 years and older into two categories: <em>in the labor force</em> or <em>not in the labor force</em>. People who have never worked or who are retired are not in the labor force. People who are not currently working but have recently and would like to work are considered in the labor force, but unemployed. People who are actively working are described as either in the civilian labor force or in the armed forces. This is probably easier understood when shown as a set of nested lists:</p>
+<ul class="compact">
+  <li>Total: 
+  <ul>
+    <li>In labor force: 
+    <ul>
+      <li>Civilian labor force: 
+      <ul>
+        <li>Employed</li>
+        <li>Unemployed</li>
+      </ul></li>
+      <li>Armed Forces</li>
+    </ul></li>
+
+    <li>Not in labor force</li>
+  </ul></li>
+</ul>
+
+<p>The simplest presentation of this data is in table <strong><a href="{% url 'table_detail' 'B23025' %}">B23025</a></strong> which has simply those columns. (This table was added to the ACS in 2011 for all three releases.) For finer detail, table <strong><a href="{% url 'table_detail' 'B23001' %}">B23001</a></strong> breaks down those respondents into male and female and then within the sexes, into age brackets of varying sizes. In the ACS 1- and 3-year releases, a collapsed version of this table, <strong><a href="{% url 'table_detail' 'C23001' %}">C23001</a></strong> has the same basic structure but fewer distinct age brackets.</p>
+<p>Employment status is reported by sex, age and race in the <strong><a href="{% url 'table_detail' 'B23002' %}">B23002</a></strong> and <strong><a href="{% url 'table_detail' 'C23002' %}">C23002</a></strong> series of tables. Neither of these tables appear in a non-racial tabulation, but each is tabulated in the standard nine subsets for race and hispanic origin. The <strong><a href="{% url 'table_detail' 'C23002' %}">C23002</a></strong> tables have only two age brackets: 16-64 and 65 and older. The <strong><a href="{% url 'table_detail' 'C23002' %}">C23002</a></strong> tables are available for all releases, but the <strong><a href="{% url 'table_detail' 'B23002' %}">B23002</a></strong> tables are only offered in the ACS 1- and 3-year releases.</p>
+<p>There are dozens more tables which crosstabulate employment status with other characteristics, such as education, poverty status, disability status, veteran status and more. </p>
+
+<p>
+  In the table below, some table names have been simplified. Employment status is always only for the population 16 years and over. Questions about work status and hours worked are for the last 12 months. References to the respondent's "own children" are for children under 18 years.
+</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23001' %}">B23001</a><sup>‡</sup></strong></td>
+<td>Sex by Age by Employment Status</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23002' %}">B23002</a><sup>ª</sup></strong></td>
+<td>Sex by Age by Employment Status (racial iterations)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23003' %}">B23003</a></strong></td>
+<td>Presence of Own Children by Age of Own Children by Employment Status for Females 20 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23006' %}">B23006</a></strong></td>
+<td>Educational Attainment by Employment Status for the Population 25 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23007' %}">B23007</a><sup>‡</sup></strong></td>
+<td>Presence of Own Children by Family Type by Employment Status</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23008' %}">B23008</a><sup>‡</sup></strong></td>
+<td>Age of Own Children in Families and Subfamilies by Living Arrangements by Employment Status of Parents</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23009' %}">B23009</a></strong></td>
+<td>Presence of Own Children by Family Type by Number of Workers in Family</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23010' %}">B23010</a></strong></td>
+<td>Presence of Own Children in Married-couple Families by Work Experience of Householder and Spouse</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23013' %}">B23013</a></strong></td>
+<td>Median Age by Sex for Workers 16 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23018' %}">B23018</a></strong></td>
+<td>Aggregate Usual Hours Worked by Sex for Workers 16 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23020' %}">B23020</a></strong></td>
+<td>Mean Usual Hours Worked for Workers 16 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23022' %}">B23022</a><sup>‡</sup></strong></td>
+<td>Sex by Work Status by Usual Hours Worked Per Week by Weeks Worked for the Population 16 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23024' %}">B23024</a></strong></td>
+<td>Poverty Status by Disability Status by Employment Status for the Population 20 to 64 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23025' %}">B23025</a></strong></td>
+<td>Employment Status</td>
+</tr>
+</tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+                <sup>ª</sup>No basic table is offered–only <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iteration</a> tables.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<h2 id="industry-occupation-class-of-worker">Industry / Occupation / Class of Worker</h2>
+<p>The ACS provides some pretty detailed information about the specific kinds of work Americans do. These tables are gathered together in a series whose table codes begin with <strong>B24</strong> and <strong>C24</strong>.</p>
+<h3 id="occupation">Occupation</h3>
+<p>The "detailed occupation" tables include over 500 occupations, but are only available summarized at the national level. Below the national level, begin with tables <strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a></strong> and <strong><a href="{% url 'table_detail' 'B24020' %}">B24020</a></strong> to analyze the work people do in a place. In these and the other occupation tables, occupations are organized into five high level groups:</p>
+<ul>
+<li>Management, business, science, and arts occupations</li>
+<li>Natural resources, construction, and maintenance occupations</li>
+<li>Production, transportation, and material moving occupations</li>
+<li>Sales and office occupations</li>
+<li>Service occupations</li>
+</ul>
+<p>In different tables, these groups are subdivided to varying depths. For <strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a>/<a href="{% url 'table_detail' 'B24020' %}">B24020</a></strong>, there are a total of 150 columns for each of male and female workers. These columns are nested so that some values represent the total of columns below them. If you do your own summing, Be careful not to double-count by mixing columns of different depths.</p>
+<p><strong>Important:</strong> the ACS 5-year release does not include the <strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a>/<a href="{% url 'table_detail' 'B24020' %}">B24020</a></strong> tables. To analyze occupation data for smaller geographies, you must use the <strong><a href="{% url 'table_detail' 'C24010' %}">C24010</a>/<a href="{% url 'table_detail' 'C24020' %}">C24020</a></strong> tables. These have the same five high level groups, but are broken down into only 35 columns for each of male and female workers.</p>
+<h3 id="industry">Industry</h3>
+<p>In addition to the work Americans do, the ACS counts the industries in which they do that work. In these tables, there are 13 top level categories for industries. As with occupations, be careful not to double-count if you are doing your own summing.</p>
+<p>These are the 13 top-level industries:</p>
+<ul>
+<li>Agriculture, forestry, fishing and hunting, and mining</li>
+<li>Arts, entertainment, and recreation, and accommodation and food services</li>
+<li>Construction</li>
+<li>Educational services, and health care and social assistance</li>
+<li>Finance and insurance, and real estate and rental and leasing</li>
+<li>Information</li>
+<li>Manufacturing</li>
+<li>Other services, except public administration</li>
+<li>Professional, scientific, and management, and administrative and waste management services</li>
+<li>Public administration</li>
+<li>Retail trade</li>
+<li>Transportation and warehousing, and utilities</li>
+<li>Wholesale trade</li>
+</ul>
+<h3 id="class-of-worker">Class of Worker</h3>
+<p>These are the tabulation options for "class of worker."
+<ul class="compact">
+  <li>Private for-profit wage and salary workers:</li>
+    <ul>
+      <li>Employee of private company workers</li>
+      <li>Self-employed in own incorporated business workers</li>
+    </ul>
+  <li>Private not-for-profit wage and salary workers</li>
+  <li>Local government workers</li>
+  <li>State government workers</li>
+  <li>Federal government workers</li>
+  <li>Self-employed in own not incorporated business workers</li>
+  <li>Unpaid family workers</li>
+</ul></p>
+<p>In some cross-tabulations, the three classes of government work are collapsed into one. Also, in some cross-tabulations, "Self-employed in own not incorporated business workers" and "unpaid family workers" are combined.</p>
+<h2 id="industry-occupation-class-of-worker-table-details">Industry / Occupation / Class of Worker table details</h2>
+<p>Besides the tables in the '24' series, ACS data about commuting includes tabulations about how people get to work by industry, occupation, and class of worker.</p>
+<p>Below is a summary of all the tables that the Census Bureau includes in the "Industry / Occupation / Class of Worker" series. For the following tables, all references to employment are for the civilian population 16 years and older. Median earnings are for the last 12 months in dollars adjusted to the year of the ACS release.</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>subject</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a><sup>†‡</sup></strong></td>
+<td>Sex by Occupation</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24011' %}">B24011</a></strong></td>
+<td>Occupation by Median Earnings</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24012' %}">B24012</a></strong></td>
+<td>Sex by Occupation and Median Earnings</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24020' %}">B24020</a><sup>‡</sup></strong></td>
+<td>Sex by Occupation (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24021' %}">B24021</a></strong></td>
+<td>Occupation by Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24022' %}">B24022</a></strong></td>
+<td>Sex by Occupation and Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24030' %}">B24030</a><sup>‡</sup></strong></td>
+<td>Sex by Industry</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24031' %}">B24031</a></strong></td>
+<td>Industry by Median Earnings</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24032' %}">B24032</a></strong></td>
+<td>Sex by Industry and Median Earnings</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24040' %}">B24040</a><sup>‡</sup></strong></td>
+<td>Sex by Industry (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24041' %}">B24041</a></strong></td>
+<td>Industry by Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24042' %}">B24042</a></strong></td>
+<td>Sex by Industry and Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24050' %}">B24050</a><sup>‡</sup></strong></td>
+<td>Industry by Occupation</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24060' %}">B24060</a><sup>‡</sup></strong></td>
+<td>Occupation by Class of Worker</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24070' %}">B24070</a><sup>‡</sup></strong></td>
+<td>Industry by Class of Worker</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24080' %}">B24080</a><sup>‡</sup></strong></td>
+<td>Sex by Class of Worker</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24081' %}">B24081</a></strong></td>
+<td>Class of Worker by Median Earnings</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24082' %}">B24082</a></strong></td>
+<td>Sex by Class of Worker and Median Earnings</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24090' %}">B24090</a><sup>‡</sup></strong></td>
+<td>Sex by Class of Worker (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24091' %}">B24091</a></strong></td>
+<td>Class of Worker by Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24092' %}">B24092</a></strong></td>
+<td>Sex by Class of Worker and Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24121' %}">B24121</a><sup>∫</sup></strong></td>
+<td>Detailed Occupation by Median Earnings (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24122' %}">B24122</a><sup>∫</sup></strong></td>
+<td>Detailed Occupation by Median Earnings (Full-time, Year-round, Male only)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24123' %}">B24123</a><sup>∫</sup></strong></td>
+<td>Detailed Occupation by Median Earnings (Full-time, Year-round, Female only)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24124' %}">B24124</a><sup>∫</sup></strong></td>
+<td>Detailed Occupation (Full-time, Year-round)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24125' %}">B24125</a><sup>∫</sup></strong></td>
+<td>Detailed Occupation (Full-time, Year-round, Male only)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B24126' %}">B24126</a><sup>∫</sup></strong></td>
+<td>Detailed Occupation (Full-time, Year-round, Female only)</td>
+</tr>
+</tbody>
+<tfoot>
+    <tr class="help-text">
+        <td colspan="2">
+            <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+            <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            <sup>∫</sup>Detailed occupation tables only available at the national level.
+            
+        </td>
+    </tr>
+</tfoot>
+</table>
+
+{% endblock %}
+
+

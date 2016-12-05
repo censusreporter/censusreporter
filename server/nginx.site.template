@@ -1,0 +1,33 @@
+server {
+    listen 1443 default_server;
+    server_name %(domainname)s default_server;
+
+    real_ip_header     X-Forwarded-For;
+    set_real_ip_from   10.0.0.0/8;
+    set_real_ip_from   172.16.0.0/12;
+    set_real_ip_from   192.168.0.0/16;
+    real_ip_recursive on;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:%(project_path)s/%(domainname)s.sock;
+    }
+
+    location /static {
+        alias %(project_path)s/censusreporter/apps/census/static;
+    }
+
+    location ~ ^/(sitemap.*)$ {
+        alias %(project_path)s/censusreporter/apps/census/static/sitemap/$1;
+    }
+
+    access_log /var/log/nginx/%(domainname)s.access.log;
+    error_log /var/log/nginx/%(domainname)s.error.log;
+}
+
+server {
+    listen 80;
+    server_name %(domainname)s censusreporter.com www.censusreporter.com www.censusreporter.org;
+
+    rewrite ^ https://%(domainname)s$request_uri? permanent;
+}

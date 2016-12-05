@@ -1,26 +1,43 @@
 from __future__ import division
-import json
-import random
+from collections import OrderedDict, defaultdict
+from numpy import median
+from urllib2 import unquote, quote
+import cStringIO
+import gzip
+import re
 import requests
 import unicodecsv
-from collections import OrderedDict
-from numpy import median
-from urllib2 import unquote
+import topics
+import json
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.template import loader, TemplateDoesNotExist, RequestContext
 from django.utils import simplejson
 from django.utils.safestring import SafeString
+from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_ratio, get_object_or_none,\
-    SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
+from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
+     SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
+from .profile import geo_profile, enhance_api_data
+from .topics import TOPICS_MAP
+
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
+try:
+    from config.dev.local import AWS_KEY, AWS_SECRET
+except:
+    AWS_KEY = AWS_SECRET = None
+
 
 import logging
+logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 
@@ -33,669 +50,528 @@ def render_json_to_response(context):
     result = simplejson.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, mimetype='application/javascript')
 
-def find_key(dictionary, searchkey):
-    stack = [dictionary]
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            return d[searchkey]
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
+def capitalize_first(str):
+    """Capitalizes only the first letter of the given string.
 
-def find_keys(dictionary, searchkey):
-    stack = [dictionary]
-    values_list = []
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            values_list.append(d[searchkey])
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
+    :param str: string to capitalize
+    :return: str with only the first letter capitalized
+    """
+    if str == "": return ""
+    return str[0].upper() + str[1:]
 
-    return values_list
+### HEALTH CHECK ###
 
-def find_dicts_with_key(dictionary, searchkey):
-    stack = [dictionary]
-    dict_list = []
-    while stack:
-        d = stack.pop()
-        if searchkey in d:
-            dict_list.append(d)
-        for key, value in d.iteritems():
-            if isinstance(value, dict) or isinstance(value, OrderedDict):
-                stack.append(value)
-
-    return dict_list
+class HealthcheckView(TemplateView):
+    template_name = 'healthcheck.html'
 
 
-### DETAIL ###
+## ERRORS ##
 
-class GeographyDetailView(TemplateView):
-    template_name = 'profile/profile.html'
+def server_error(request):
+    response = render(request, "500.html")
+    response.status_code = 500
+    return response
 
-    def enhance_api_data(self, api_data):
-        dict_list = find_dicts_with_key(api_data, 'values')
-        
-        for d in dict_list:
-            values = d['values']
-            errors = d['error']
-            geo_value = values['this']
+def raise_404_with_messages(request, error_data={}):
+    ''' expects a dict containing error labels and messages for the user '''
+    for k, v in error_data.items():
+        error_text = '<strong>%s:</strong> %s' % (k.title(), v)
+        messages.error(request, error_text)
 
-            # add the context value to `values` dict
-            for sumlevel in ['county', 'state', 'nation']:
-                if sumlevel in values:
-                    values[sumlevel+'_index'] = get_ratio(geo_value, values[sumlevel])
+    raise Http404
 
-            # add the moe ratios
-            for sumlevel in ['this', 'county', 'state', 'nation']:
-                if (sumlevel in values) and (sumlevel in errors):
-                    errors[sumlevel+'_ratio'] = get_ratio(errors[sumlevel], values[sumlevel], 3)
 
-        return api_data
+### TABLES ###
+class TableSearchView(TemplateView):
+    template_name = 'table/table_search.html'
 
     def get_context_data(self, *args, **kwargs):
-        geography_id = kwargs['geography_id']
+        page_context = {}
+        q = self.request.GET.get('q', None)
+        topics = self.request.GET.get('topics', None)
+        start = self.request.GET.get('start', 0)
 
-        page_context = {
-            'state_fips_code': None,
-            'geography_fips_code': None
-        }
+        if q:
+            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
+            api_params = {
+                'q': q,
+                'topics': topics,
+                'start': start
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
 
-        if 'US' in geography_id:
-            geoIDcomponents = geography_id.split('US')
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
 
-            sumlev = geoIDcomponents[0][:3]
-            page_context['sumlev'] = sumlev
+                # if we end up powering results list with javascript ...
+                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
 
-            fips_code = geoIDcomponents[1]
-            if len(fips_code) >= 2:
-                state_fips = fips_code[:2]
-                page_context['state_fips_code'] = state_fips
-                page_context['state_geoid'] = '04000US%s' % state_fips
+                page_context = data
+                page_context['q'] = q
+                page_context['topics'] = topics
+                page_context['num_results'] = data['facets']['topics']['total']
+                if topics:
+                    page_context['filters'] = topics.split(',')
 
-            if sumlev == '050' and len(fips_code) == 5:
-                page_context['county_fips_code'] = fips_code
+                # pagination things
+                start = int(start)
+                results_page_length = len(data['results'])
+                if page_context['num_results'] > results_page_length:
+                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
+                if 'next_page' in data['links']:
+                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
+                if 'previous_page' in data['links']:
+                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
 
-        # hit our API
-        #acs_endpoint = settings.API_URL + '/1.0/%s/%s/profile' % (acs_release, kwargs['geography_id'])
-        acs_endpoint = settings.API_URL + '/1.0/latest/%s/profile' % kwargs['geography_id']
-        r = requests.get(acs_endpoint)
 
-        if r.status_code == 200:
-            profile_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-            profile_data = self.enhance_api_data(profile_data)
-            page_context.update(profile_data)
-            page_context.update({
-                'profile_data_json': SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-            })
+                page_context['q'] = q
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
+
+        return page_context
+
+class TableDetailView(TemplateView):
+    template_name = 'table/table_detail.html'
+    RELEASE_TRANSLATE_DICT = {
+        'one_yr': '1-Year',
+        'three_yr': '3-Year',
+        'five_yr': '5-Year',
+    }
+    TABLE_TYPE_TRANSLATE_DICT = {
+        'B': 'Detailed',
+        'C': 'Collapsed',
+    }
+
+    def dispatch(self, *args, **kwargs):
+        table_argument = self.kwargs.get('table', None)
+        # canonicalize
+        if table_argument and not table_argument == table_argument.upper():
+            return HttpResponseRedirect(
+                        reverse('table_detail', args=(table_argument.upper(),))
+                    )
+
+        self.table_code = table_argument
+        self.table_group = self.table_code[0]
+        self.tabulation_code = re.sub("\D", "", self.table_code)
+
+        try:
+            return super(TableDetailView, self).dispatch(*args, **kwargs)
+        except Http404, e:
+            # Check if core table doesn't exist, but has iterations; if so,
+            # redirect to the first iteration.
+            if table_argument.endswith('PR'):
+                table_argument = table_argument.replace('PR', 'APR')
+            else:
+                table_argument = table_argument + 'A'
+            endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_argument
+
+            if requests.get(endpoint).status_code == 200:
+                return HttpResponseRedirect(
+                    reverse('table_detail', args = (table_argument,))
+                )
+            raise e
+
+    def get_tabulation_data(self, table_code):
+        endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
+        r = requests.get(endpoint)
+        status_code = r.status_code
+
+        # make sure we've requested a legit tabulation code
+        if status_code == 200:
+            tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        elif status_code == 404 or status_code == 400:
+            error_data = simplejson.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
 
-        # Put this down here to make sure geoid is valid before using it
-        page_context['geoid'] = geography_id
+        # factories for organizing metadata on arbitrary sets of tables
+        def table_dict_factory():
+            return {
+                'version_name': 'Standard Table',
+                'releases': {
+                    'one_yr': '',
+                    'three_yr': '',
+                    'five_yr': '',
+                },
+            }
 
-        tiger_release = 'tiger2012'
-        geo_endpoint = settings.API_URL + '/1.0/geo/%s/%s' % (tiger_release, kwargs['geography_id'])
-        r = requests.get(geo_endpoint)
+        def table_ordereddict_factory():
+            return OrderedDict()
+
+        def table_expanded_factory():
+            return {
+                'table_metadata': self.get_table_data(table_code)
+            }
+
+        tables = OrderedDict()
+        table_grid = OrderedDict()
+        tables_expanded = OrderedDict()
+        default_table = defaultdict(table_dict_factory)
+        default_table_groups = defaultdict(table_ordereddict_factory)
+        default_table_list = defaultdict(table_ordereddict_factory)
+        default_expanded_list = defaultdict(table_ordereddict_factory)
+        default_expanded_table = defaultdict(table_expanded_factory)
+
+        # take API data and shape into dicts for:
+        # * a grid with each table variant and which releases it's available for
+        # * a list of each primary table, with its column metadata from the API
+        for release in tabulation_data['tables_by_release']:
+            # Sort data by length to have all the PR tables at the end.
+            # Note that sorted() is guaranteed to be stable, per Python docs,
+            # meaning that keys that compare equal (are equal length) will
+            # remain in the same relative order. Assuming they were alphabetical
+            # before this, this is guaranteed to list tables as
+            # tableA, ... , tableI, tableAPR, ... , tableIPR.
+            sorted_data = sorted(tabulation_data['tables_by_release'][release],
+                                 key = lambda code: len(code))
+            for table_code in sorted_data:
+                # is this a B or C table?
+                parsed = parse_table_id(table_code)
+                letter_code = parsed['table_type']
+                tables[letter_code] = default_table_groups[letter_code]
+
+                # keep the grids separate, track which releases a table is in
+                tables[letter_code] = default_table_list[letter_code]
+                tables[letter_code][table_code] = default_table[table_code]
+                tables[letter_code][table_code]['releases'][release] = self.RELEASE_TRANSLATE_DICT[release]
+
+                # get the variant names
+                if parsed['racial']:
+                    if parsed['puerto_rico']:
+                        tables[letter_code][table_code]['version_name'] = parsed['race'] + " (Puerto Rico)"
+                    else:
+                        tables[letter_code][table_code]['version_name'] = parsed['race']
+                elif parsed['puerto_rico']:
+                    tables[letter_code][table_code]['version_name'] = "Standard Table (Puerto Rico)"
+
+        tabulation_data['table_versions'] = tables.pop(self.table_group, None)
+        tabulation_data['related_tables'] = {
+            'grid': tables,
+            'preview': {},
+        }
+
+        for group, group_values in tables.iteritems():
+            preview_table = next(group_values.iteritems())[0]
+            try:
+                tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
+                tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
+            except ValueError:
+                continue
+
+        return tabulation_data
+
+    def get_topic_pages(self, table_topics):
+        related_topic_pages = []
+        for key, values in TOPICS_MAP.iteritems():
+            topics = values.get('topics', [])
+            matches = set(topics).intersection(table_topics)
+            if matches:
+                related_topic_pages.append((key, TOPICS_MAP[key]['title']))
+
+        return related_topic_pages
+
+    def get_table_data(self, table_code):
+        endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
+        r = requests.get(endpoint)
 
         if r.status_code == 200:
-            geo_metadata = simplejson.loads(r.text)['properties']
-            page_context['geo_metadata'] = geo_metadata
+            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        if r.status_code == 400:
+            raise ValueError("No table data for that table")
+        else:
+            raise Http404
 
-            # add a few last things
-            # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
-            square_miles = round(float(geo_metadata['aland']) / float(2589988), 1)
-            total_pop = page_context['geography']['this']['total_population']
-            page_context['geo_metadata']['square_miles'] = square_miles
-            page_context['geo_metadata']['population_density'] = round(float(total_pop) / float(square_miles), 1)
+    def get_context_data(self, *args, **kwargs):
+        page_context = {
+            'table': self.get_table_data(self.table_code),
+            'tabulation': self.get_tabulation_data(self.tabulation_code),
+        }
+        page_context['related_topic_pages'] = self.get_topic_pages(page_context['table']['topics'])
 
         return page_context
+
+
+### PROFILES ###
+class GeographySearchView(TemplateView):
+    template_name = 'profile/profile_search.html'
+
+    def get_context_data(self, *args, **kwargs):
+        page_context = {}
+        q = self.request.GET.get('q', None)
+        sumlevs = self.request.GET.get('sumlevs', None)
+        start = self.request.GET.get('start', 0)
+
+        if q:
+            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
+            api_params = {
+                'q': q,
+                'sumlevs': sumlevs,
+                'start': start
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
+
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+
+                # if we end up powering results list with javascript ...
+                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+                #page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
+
+                page_context = data
+                page_context['q'] = q
+                page_context['filters'] = sumlevs
+                page_context['num_results'] = data['facets']['sumlev']['total']
+
+                # pagination things
+                start = int(start)
+                results_page_length = len(data['results'])
+                if page_context['num_results'] > results_page_length:
+                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
+                if 'next_page' in data['links']:
+                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
+                if 'previous_page' in data['links']:
+                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
+
+        return page_context
+
+class GeographyDetailView(TemplateView):
+    template_name = 'profile/profile_detail.html'
+
+    def parse_fragment(self,fragment):
+        """Given a URL, return a (geoid,slug) tuple. slug may be None.
+        GeoIDs are not tested for structure, but are simply the part of the URL
+        before any '-' character, also allowing for the curiosity of Vermont
+        legislative districts.
+        (see https://github.com/censusreporter/censusreporter/issues/50)
+        """
+        parts = fragment.split('-',1)
+        if len(parts) == 1:
+            return (fragment,None)
+
+        geoid,slug = parts
+        if len(slug) == 1:
+            geoid = '{}-{}'.format(geoid,slug)
+            slug = None
+        else:
+            parts = slug.split('-')
+            if len(parts) > 1 and len(parts[0]) == 1:
+                geoid = '{}-{}'.format(geoid,parts[0])
+                slug = '-'.join(parts[1:])
+
+        return (geoid,slug)
+
+    def dispatch(self, *args, **kwargs):
+
+        self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
+
+        if self.slug is None:
+            geo = self.get_geography(self.geo_id)
+            if geo:
+                try:
+                    # if possible, redirect to slugged URL
+                    slug = slugify(geo['properties']['display_name'])
+                    fragment = '{}-{}'.format(self.geo_id, slug)
+                    return HttpResponseRedirect(
+                        reverse('geography_detail', args=(fragment,)
+                    ))
+                except Exception, e:
+                    # if we have a strange situation where there's no
+                    # display name attached to the geography, we should
+                    # go ahead and display the profile page
+                    logger.warn(e)
+                    logger.warn("Geography {} has no display_name".format(self.geo_id))
+                    pass
+            else:
+                # if we get nothing from the API, pass through for 404
+                pass
+
+        return super(GeographyDetailView, self).dispatch(*args, **kwargs)
+
+    def get_geography(self, geo_id):
+        endpoint = settings.API_URL + '/1.0/geo/tiger2014/%s' % self.geo_id
+        r = requests.get(endpoint)
+        status_code = r.status_code
+
+        if status_code == 200:
+            geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            return geo_data
+        return None
+
+    def s3_keyname(self, geo_id):
+        return '/1.0/data/profiles/2015/%s.json' % geo_id
+
+    def make_s3(self):
+        if AWS_KEY and AWS_SECRET:
+            s3 = S3Connection(AWS_KEY, AWS_SECRET)
+        else:
+            try:
+                s3 = S3Connection()
+            except:
+                s3 = None
+        return s3
+
+    def s3_profile_key(self, geo_id):
+        s3 = self.make_s3()
+
+        key = None
+        if s3:
+            bucket = s3.get_bucket('embed.censusreporter.org')
+            keyname = self.s3_keyname(geo_id)
+            key = Key(bucket, keyname)
+
+        return key
+
+    def write_profile_json(self, s3_key, data):
+        s3_key.metadata['Content-Type'] = 'application/json'
+        s3_key.metadata['Content-Encoding'] = 'gzip'
+        s3_key.storage_class = 'REDUCED_REDUNDANCY'
+
+        # create gzipped version of json in memory
+        memfile = cStringIO.StringIO()
+        #memfile.write(data)
+        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+            gzip_data.write(data)
+        memfile.seek(0)
+
+        # store static version on S3
+        s3_key.set_contents_from_file(memfile)
+
+    def get_context_data(self, *args, **kwargs):
+        geography_id = self.geo_id
+
+        try:
+            s3_key = self.s3_profile_key(geography_id)
+        except:
+            s3_key = None
+
+        if s3_key and s3_key.exists():
+            memfile = cStringIO.StringIO()
+            s3_key.get_file(memfile)
+            memfile.seek(0)
+            compressed = gzip.GzipFile(fileobj=memfile)
+
+            # Read the decompressed JSON from S3
+            profile_data_json = compressed.read()
+            # Load it into a Python dict for the template
+            profile_data = simplejson.loads(profile_data_json)
+            # Also mark it as safe for the charts on the profile
+            profile_data_json = SafeString(profile_data_json)
+        else:
+            profile_data = geo_profile(geography_id)
+
+            if profile_data:
+                profile_data = enhance_api_data(profile_data)
+
+                profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+                if s3_key is None:
+                    logger.warn("Could not save to S3 because there was no connection to S3.")
+                else:
+                    self.write_profile_json(s3_key, profile_data_json)
+
+            else:
+                raise Http404
+
+        page_context = {
+            'profile_data_json': profile_data_json
+        }
+        page_context.update(profile_data)
+
+        return page_context
+
+
+class TopicView(TemplateView):
+    template_name = 'topics/topics_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        if 'topic_slug' in kwargs:
+            topic_slug = kwargs['topic_slug']
+            try:
+                page_context = {
+                    'topic': TOPICS_MAP[topic_slug],
+                }
+                self.template_name = 'topics/%s' % TOPICS_MAP[topic_slug]['template_name']
+            except:
+                raise Http404
+        else:
+            page_context = {
+                'topic': {
+                    'title': 'Topics',
+                    'slug': '',
+                    'description': 'Pages describing the concepts and tables covered by the Census and American Community Survey.',
+                },
+                'topics_list': sort_topics(TOPICS_MAP)
+            }
+
+        return page_context
+
+
+### EXAMPLES ###
+
+class ExampleView(TemplateView):
+    '''
+    Simple router for flat example pages. A request to '/examples/slug-name/'
+    will attempt to find a corresponding template at `examples/slug_name.html`.
+    '''
+    def get_template_names(self):
+        template = 'examples/%s.html' % (self.kwargs['example_slug'].replace('-', '_'))
+        try:
+            loader.get_template(template)
+            return template
+        except TemplateDoesNotExist:
+            raise Http404
 
 
 ### COMPARISONS ###
 
-# All the basic utilities for massaging API data into comparisons.
-# Other views should inherit and override `dispatch`, for instance.
-class BaseComparisonView(TemplateView):
-    def get_api_data(self, geom=False):
-        '''
-        Retrieves data from the comparison endpoint at api.censusreporter.org.
-        '''
-        API_ENDPOINT = settings.API_URL + '/1.0/data/compare/%s/%s' % (self.release, self.table_id)
-        API_PARAMS = {
-            "within": self.parent_id,
-            "sumlevel": self.descendant_sumlev
-        }
-        if geom:
-            API_PARAMS.update({'geom': True})
+class DataView(TemplateView):
+    template_name = 'data/data_table.html'
 
-        r = requests.get(API_ENDPOINT, params=API_PARAMS)
+    def dispatch(self, *args, **kwargs):
+        self.table = self.request.GET.get('table', None)
+        self.primary_geo_id = self.request.GET.get('primary_geo_id', None)
+        self.geo_ids = self.request.GET.get('geo_ids', '01000US')
+        self.release_slug = self.request.GET.get('release', None)
+        self.release = ACS_RELEASES.get(self.release_slug, None)
 
-        if r.status_code == 200:
-            data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+        if not self.table or not self.geo_ids:
+            errors = {
+                'Missing': 'This view requires `table` and `geo_ids` parameters in the querystring.'
+            }
+            raise_404_with_messages(self.request, errors)
+
+        self.format = self.kwargs.get('format', None)
+        if self.format in ['table', 'distribution', 'map']:
+            self.template_name = 'data/data_%s.html' % self.format
         else:
             raise Http404
 
-        return data
+        return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        '''
-        The workhorse in this view. Uses the format argument to determine
-        which template to render, as well as which method to use for reshaping
-        the API response data properly for visualization.
-        '''
+        download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
+
         page_context = {
-            'parent_id': self.parent_id,
-            'release': self.release,
-            'parent_fips_code': self.parent_fips_code,
-            'descendant_sumlev': self.descendant_sumlev,
-            'format': self.format,
-            'hide_nav_compare': True,
+            'table': self.table or '',
+            'primary_geo_id': self.primary_geo_id or '',
+            'geo_ids': self.geo_ids or '',
+            'release': self.release or '',
+            'data_format': self.format,
+            'download_link_prefix': download_link_prefix,
         }
-
-        if self.format:
-            self.template_name = 'compare/comparison_%s.html' % self.format
-
-        if self.format == 'table':
-            comparison_data = self.get_api_data()
-            cleaned_table = self.clean_table(comparison_data['table'])
-            page_context.update(
-                self.generate_table_values(
-                    comparison_data['child_geographies'],
-                    cleaned_table
-                )
-            )
-
-        elif self.format == 'map':
-            comparison_data = self.get_api_data(geom=True)
-            cleaned_table = self.clean_table(comparison_data['table'])
-            page_context.update(
-                self.generate_map_values(
-                    comparison_data['child_geographies'],
-                    comparison_data['parent_geography'],
-                    cleaned_table
-                )
-            )
-
-        elif self.format == 'distribution':
-            comparison_data = self.get_api_data()
-            cleaned_table = self.clean_table(comparison_data['table'])
-            page_context.update(
-                self.generate_distribution_values(
-                    comparison_data['child_geographies'],
-                    cleaned_table
-                )
-            )
-        else:
-            # fall back to generic compare page
-            comparison_data = self.get_api_data()
-
-        # add some metadata about the comparison
-        comparison_metadata = comparison_data['comparison']
-        comparison_metadata['parent_geography'] = comparison_data['parent_geography']
-        comparison_metadata['descendant_type'] = SUMMARY_LEVEL_DICT[self.descendant_sumlev]
-
-        # all the descendants being compared
-        descendant_list = sorted(
-            [(geoid, child['geography']['name']) for (geoid, child) in comparison_data['child_geographies'].iteritems()]
-        )
-
-        self.parent_data = comparison_data['parent_geography']['data']
-
-        page_context.update({
-            'descendant_list': descendant_list,
-            'comparison_metadata': comparison_metadata,
-            'table': comparison_data['table'],
-            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
-            'topic_economic_filters': TOPIC_FILTERS['Economics'],
-            'topic_family_filters': TOPIC_FILTERS['Families'],
-            'topic_housing_filters': TOPIC_FILTERS['Housing'],
-            'topic_social_filters': TOPIC_FILTERS['Social'],
-            'sumlev_choices': SUMLEV_CHOICES,
-            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
-            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
-            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
-        })
 
         return page_context
-
-    def clean_table(self, table):
-        '''
-        Removes non-data headers that are the first field in the table,
-        which simply duplicate information from the table name.
-        '''
-        for (column_id, column) in table['columns'].iteritems():
-            if column_id.endswith('000.5'):
-                del table['columns'][column_id]
-
-        return table
-
-    def clean_child_data(self, data):
-        '''
-        Removes certain geographies from comparison data, when their sumlev
-        would include them in a way that's confusing to the user.
-
-        E.g., comparing "all states in the United States" would return
-        Puerto Rico and Washington, D.C., because, like states, they are
-        sumlev 040.
-        '''
-        _parent_id = getattr(self, 'parent_id', None)
-        _descendant_sumlev = getattr(self, 'descendant_sumlev', None)
-
-        # for map & distribution charts where user is comparing states
-        # in the United States, remove Puerto Rico and D.C.
-        if _parent_id == '01000US' and _descendant_sumlev == '040':
-            del data['04000US11']
-            del data['04000US72']
-
-        return data
-
-    def get_percentify(self, table):
-        '''
-        Determines whether a table is suitable for presenting values in
-        percentages. (E.g., tables that contain raw numbers, not medians.)
-
-        Returns the ID of the denominator column when appropriate (which
-        is truthy for boolean purposes), or an empty string if a table
-        should not be percentified (which makes sure there's an empty
-        value for javascript in the template).
-        '''
-        if table['denominator_column_id']:
-            denominator_id = table['denominator_column_id']
-            percentify = {
-                'denominator_column_id': denominator_id,
-                'denominator_column': table['columns'][denominator_id],
-            }
-            return percentify
-        return ''
-
-    def get_denominator_value(self, data, percentify=None, pop=False):
-        '''
-        Utility method that determines which field in a table represents
-        a "total" value, suitable for use in generating a percentage figure.
-        Optionally pops this value out of the data that is passed in,
-        to avoid displaying it in a percentage-based visualization.
-        '''
-        if not percentify:
-            return None
-
-        percentify_column = percentify['denominator_column_id']
-        if pop:
-            total_value = data.pop(percentify_column)
-        else:
-            total_value = data[percentify_column]
-
-        return total_value
-
-    def get_total_and_pct(self, value, denominator):
-        '''
-        Utility method that takes a data value and a denominator value,
-        then returns the value along with its percentage of the total.
-        Normalizes math for percentage-based visualizations.
-        '''
-        if value is not None and denominator is not None:
-            if denominator != 0:
-                percentage = round((value / denominator)*100, 1)
-            else:
-                percentage = 0
-        else:
-            # blanking out values here for geographies with no data.
-            # alternatively, we could provide templates with 'n/a.'
-            percentage = None
-            if not value:
-                value = None
-
-        return value, percentage
-
-    def make_table_values_by_geo(self, data, table, percentify=False):
-        '''
-        Returns a list of dicts that can be turned into a data grid,
-        where rows are geographies and columns are fields in the table.
-        '''
-        values_by_geo = []
-        for (geoid, child) in data.iteritems():
-            name = child['geography']['name']
-            total_value = self.get_denominator_value(child['data'], percentify)
-            # build item for values_by_geo
-            geo_item = {
-                'name': name,
-                'geoID': geoid,
-                'total_value': total_value,
-                'values': OrderedDict(),
-            }
-
-            for (column_id, column) in table['columns'].iteritems():
-                column_key = column_id.upper()
-
-                if '.' in column_id:
-                    geo_item['values'].update({
-                        column_key: {
-                            'value': None,
-                            'value_alt': None,
-                        }
-                    })
-                else:
-                    if percentify:
-                        value = child['data'][column_id]
-                        total, total_pct = self.get_total_and_pct(value, total_population)
-
-                        geo_item['values'].update({
-                            column_key: {
-                                'value': total_pct,
-                                'value_alt': total,
-                            }
-                        })
-                    else:
-                        geo_item['values'].update({
-                            column_key: {
-                                'value': child['data'][column_id],
-                            }
-                        })
-
-            values_by_geo.append(geo_item)
-
-        column_names = []
-        for (column_id, column) in table['columns'].iteritems():
-            name = column['name']
-            column_names.append(name)
-
-        return column_names, values_by_geo
-
-    def make_table_values_by_field(self, data, table, percentify=False):
-        '''
-        Returns a list of dicts that can be turned into a data grid,
-        where rows are fields in the table and columns are geographies.
-        '''
-        values_by_field = []
-        for (column_id, column) in table['columns'].iteritems():
-            field_item = {
-                'name': column['name'],
-                'column_id': column_id,
-                'indent': column['indent'],
-                'values': OrderedDict(),
-            }
-
-            for (geoID, values) in data.iteritems():
-                # keep the non-data headers in place for layout
-                if '.' in column_id:
-                    field_item['values'][geoID] = {
-                        'value': None,
-                        'value_alt': None,
-                    }
-                else:
-                    if percentify:
-                        total_value = self.get_denominator_value(values['data'], percentify)
-                        total, total_pct = self.get_total_and_pct(values['data'][column_id], total_value)
-
-                        field_item['values'][geoID] = {
-                            'value': total,
-                            'value_alt': total_pct,
-                        }
-                    else:
-                        field_item['values'][geoID] = {
-                            'value': values['data'][column_id],
-                        }
-
-            values_by_field.append(field_item)
-
-        geo_names = []
-        for (geoID, values) in data.iteritems():
-            name = values['geography']['name']
-            geo_names.append(name)
-
-        return geo_names, values_by_field
-
-    def generate_table_values(self, data, table):
-        '''
-        Reshapes API response data for presentation in table format.
-        '''
-        percentify = self.get_percentify(table)
-        geo_names, values_by_field = self.make_table_values_by_field(data, table, percentify)
-        table_values = {
-            'percentify': percentify,
-            'geo_names': geo_names,
-            'values_by_field': values_by_field,
-        }
-
-        return table_values
-
-        # TRANSPOSED VERSION: COLUMN NAMES ACROSS, GEO ROWS DOWN
-        #column_names, values_by_geo = self.make_table_values_by_geo(data, table)
-        #return {
-        #    'column_names': column_names,
-        #    'values_by_geo': values_by_geo,
-        #}
-
-    def enhance_table_metadata(self, table):
-        '''
-        Makes column names easier to read in isolation by prefixing names
-        based on column indent levels.
-        '''
-        prefix_pieces = OrderedDict()
-        for column in table['columns']:
-            indent = table['columns'][column]['indent']
-            name = table['columns'][column]['name']
-            table['columns'][column]['full_name'] = name
-
-            # only add prefixes for columns at an indent deep
-            if indent > 0:
-                # sometimes indents skip straight from 0 to 2, so we need
-                # to handle the potential for missing keys in `prefix_pieces`
-                prefix = ': '.join(filter(bool, [prefix_pieces.get(_indent) for _indent in range(0, indent)]))
-                if prefix:
-                    #table['columns'][column]['name'] = '%s: %s' % (prefix, name)
-                    table['columns'][column]['full_name'] = '%s: %s' % (prefix, name)
-
-            prefix_pieces[indent] = name.strip(':')
-
-        return table
-
-    def generate_map_values(self, data, parent, table):
-        '''
-        Reshapes API response data for presentation in a choropleth map.
-        '''
-        percentify = self.get_percentify(table)
-        data = self.clean_child_data(data)
-
-        data_groups = OrderedDict()
-        child_shapes = []
-        try:
-            parent_shape = parent['geography']['geometry']
-        except:
-            # maybe we don't have the parent shape
-            parent_shape = None
-
-        for (geoid, child) in data.iteritems():
-            name = child['geography']['name']
-            geoID = geoid.split('US')[1]
-
-            # add the shape to our list
-            if 'geometry' in child['geography']:
-                shape_item = child['geography']['geometry']
-                shape_item.update({
-                    'id': geoID
-                })
-                child_shapes.append(shape_item)
-
-            if percentify:
-                # only need to get total_population once, so outside loop
-                total_value = self.get_denominator_value(child['data'], percentify, pop=percentify)
-
-            for column_id, value in child['data'].iteritems():
-                if not column_id in data_groups:
-                    data_groups[column_id] = {}
-
-                # TODO This will need MOE, etc.
-                data_groups[column_id].update({
-                    geoID: {
-                        'name': name,
-                        'value': value,
-                    }
-                })
-                if percentify:
-                    value, percentage = self.get_total_and_pct(value, total_value)
-
-                    data_groups[column_id][geoID].update({
-                        'percentage': percentage,
-                    })
-
-        # improve column names, and pop the table's first column if necessary
-        table = self.enhance_table_metadata(table)
-        table_pop = self.get_denominator_value(table['columns'], percentify, pop=percentify)
-
-        map_values = {
-            'percentify': percentify,
-            'map_data': SafeString(simplejson.dumps(data_groups, cls=LazyEncoder)),
-            'table_data': SafeString(simplejson.dumps(table, cls=LazyEncoder)),
-            'parent_shape': SafeString(simplejson.dumps(parent_shape, cls=LazyEncoder)),
-            'child_shapes': SafeString(simplejson.dumps(child_shapes, cls=LazyEncoder)),
-        }
-
-        return map_values
-
-    def generate_distribution_values(self, data, table):
-        '''
-        Reshapes API response data for presentation in distribution charts,
-        aka "circles on a line."
-        '''
-        percentify = self.get_percentify(table)
-        data = self.clean_child_data(data)
-        table = self.enhance_table_metadata(table)
-
-        distribution_groups = OrderedDict()
-
-        # Create the initial list of data columns, including non-data subheads
-        for (column_id, column) in table['columns'].iteritems():
-            distribution_groups[column_id] = {
-                'column_name': table['columns'][column_id]['full_name'],
-                'column_indent': table['columns'][column_id]['indent'] - 1,
-                'group_baselines': {},
-                'group_values': {},
-            }
-            if '.' in column_id:
-                distribution_groups[column_id].update({
-                    'subhead': True,
-                })
-
-        table_pop = self.get_denominator_value(distribution_groups, percentify, pop=percentify)
-
-        # add data values from each child geography
-        # to each column's `group_values` dict
-        for (geoid, child) in data.iteritems():
-            name = child['geography']['name']
-            if percentify:
-                # Only need to get total_population once, so do this outside loop. If values
-                # will be presented as percentages, we don't need the denominator column.
-                total_value = self.get_denominator_value(child['data'], percentify, pop=percentify)
-
-            for column_id, value in child['data'].iteritems():
-                distribution_groups[column_id]['group_values'].update({
-                    geoid: {
-                        'name': name,
-                        'value': value,
-                    }
-                })
-                if percentify:
-                    # If table can be percentified, the primary value
-                    # for this type of chart should be the percentage
-                    total, total_pct = self.get_total_and_pct(value, total_value)
-                    distribution_groups[column_id]['group_values'][geoid].update({
-                        'value': total_pct,
-                        'value_alt': total,
-                    })
-
-        if percentify:
-            field_list = ['value', 'value_alt',]
-        else:
-            field_list = ['value',]
-
-        for chart, chart_values in distribution_groups.items():
-            for field in field_list:
-                # skip the non-data subheads
-                if chart_values['group_values']:
-                    values_list = [value[field] for geo, value in chart_values['group_values'].iteritems()]
-                    # get the min, max, median and range values
-                    # for this column within this group of geographies
-                    max_value = max(values_list)
-                    min_value = min(values_list)
-                    domain_range = max_value - min_value
-                    median_value = median(values_list)
-                    median_percent_of_range = ((median_value - min_value) / domain_range)*100
-                    chart_values['group_baselines']['max_%s' % field] = max_value
-                    chart_values['group_baselines']['min_%s' % field] = min_value
-                    chart_values['group_baselines']['domain_range_%s' % field] = domain_range
-                    chart_values['group_baselines']['median_%s' % field] = median_value
-                    chart_values['group_baselines']['median_percent_of_range_%s' % field] = round(median_percent_of_range,1)
-                    # add a percent of range value for plotting each point along the x axis
-                    for geo, value in chart_values['group_values'].items():
-                        if domain_range != 0:
-                            percentage = ((value[field] - min_value) / domain_range)*100
-                        else:
-                            percentage = 0
-                        value['percent_of_range_%s' % field] = round(percentage,1)
-
-        distribution_values = {
-            'percentify': percentify,
-            'distribution_groups': distribution_groups,
-        }
-
-        return distribution_values
-
-
-class ComparisonView(BaseComparisonView):
-    template_name = 'compare/comparison_table.html'
-
-    def dispatch(self, *args, **kwargs):
-        self.parent_id = self.kwargs['parent_id']
-        self.parent_fips_code = self.parent_id.split('US')[1]
-        self.descendant_sumlev = self.kwargs['descendant_sumlev']
-        self.format = self.kwargs.get('format', None)
-
-        if not self.format:
-            return HttpResponseRedirect(
-                reverse('geography_comparison_detail', args=(self.parent_id, self.descendant_sumlev, 'table'))
-            )
-
-        # sensible defaults
-        if 'release' in self.request.GET:
-            self.release = self.request.GET['release']
-        else:
-            self.release = 'acs2011_5yr'
-
-        if 'table' in self.request.GET:
-            self.table_id = self.request.GET['table']
-        else:
-            self.table_id = 'B01001'
-
-        # if we need a downloadable format, provide it straightaway
-        if self.format == 'json':
-            comparison_data = self.get_api_data()
-            return render_json_to_response(comparison_data)
-
-        elif self.format == 'csv':
-            comparison_data = self.get_api_data()
-            cleaned_table = self.clean_table(comparison_data['table'])
-            columns, rows = self.make_table_values_by_geo(
-                comparison_data['child_geographies'],
-                cleaned_table,
-                percentify=False
-            )
-            filename = '%s_%s_%s_in_%s.csv' % (self.release, self.table_id, self.descendant_sumlev, self.parent_id)
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="%s"' % filename
-
-            writer = unicodecsv.writer(response, encoding='utf-8')
-            writer.writerow(['Name','GeoID'] + columns)
-            for row in rows:
-                writer.writerow(
-                    [row['name'], row['geoID']] + [values['value'] for field, values in row['values'].items()]
-                )
-            return response
-
-        return super(ComparisonView, self).dispatch(*args, **kwargs)
 
 
 class HomepageView(TemplateView):
@@ -704,16 +580,7 @@ class HomepageView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         page_context = {
             'hide_nav_tools': True,
-            'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
-            'topic_economic_filters': TOPIC_FILTERS['Economics'],
-            'topic_family_filters': TOPIC_FILTERS['Families'],
-            'topic_housing_filters': TOPIC_FILTERS['Housing'],
-            'topic_social_filters': TOPIC_FILTERS['Social'],
-            'sumlev_choices': SUMLEV_CHOICES,
-            'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
-            'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
-            'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
+            'topics_list': sort_topics(TOPICS_MAP),
         }
 
         return page_context
@@ -737,10 +604,96 @@ class ComparisonBuilder(TemplateView):
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-            'acs_releases': ACS_RELEASES[:3],
         })
 
         return page_context
+
+class S3Conn(object):
+    def make_s3(self):
+        if AWS_KEY and AWS_SECRET:
+            s3 = S3Connection(AWS_KEY, AWS_SECRET)
+        else:
+            try:
+                s3 = S3Connection()
+            except:
+                s3 = None
+        return s3
+
+    def s3_key(self, key_name):
+        s3 = self.make_s3()
+
+        key = None
+        if s3:
+            bucket = s3.get_bucket('embed.censusreporter.org')
+            key = Key(bucket, key_name)
+        return key
+
+    def write_json(self, s3_key, data):
+        s3_key.metadata['Content-Type'] = 'application/json'
+        s3_key.metadata['Content-Encoding'] = 'gzip'
+        s3_key.storage_class = 'REDUCED_REDUNDANCY'
+
+        # create gzipped version of json in memory
+        memfile = cStringIO.StringIO()
+        #memfile.write(data)
+        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+            gzip_data.write(data)
+        memfile.seek(0)
+
+        # store static version on S3
+        s3_key.set_contents_from_file(memfile)
+
+class MakeJSONView(View):
+    def post(self, request, *args, **kwargs):
+        post_data = self.request.POST
+
+        if 'chart_data' in post_data:
+            chart_data = simplejson.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
+        if 'geography' in post_data:
+            geography = simplejson.loads(post_data['geography'], object_pairs_hook=OrderedDict)
+        if 'geo_metadata' in post_data:
+            geo_metadata = simplejson.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
+
+        if 'params' in post_data:
+            params = simplejson.loads(post_data['params'])
+
+        # for now, assume we need all these things
+        if not (chart_data and geography and geo_metadata and params):
+            return render_json_to_response({'success': 'false'})
+
+        path_to_make = params['chartDataID'].split('-')
+        data = {
+            'geography': geography,
+            'geo_metadata': geo_metadata,
+        }
+
+        # bless you, http://stackoverflow.com/a/13688108/3204984
+        def nested_set(data, keys, value):
+            for key in keys[:-1]:
+                data = data.setdefault(key, {})
+            data[keys[-1]] = value
+
+        nested_set(data, path_to_make, chart_data)
+
+        chart_data_json = SafeString(simplejson.dumps(data, cls=LazyEncoder))
+
+        key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
+        s3 = S3Conn()
+
+        try:
+            s3_key = s3.s3_key(key_name)
+        except:
+            s3_key = None
+
+        if s3_key and s3_key.exists():
+            pass
+        elif s3_key:
+            s3.write_json(s3_key, chart_data_json)
+        else:
+            logger.warn("Could not save to S3 because there was no connection to S3.")
+
+        return render_json_to_response({'success': 'true'})
+
 
 
 ## LOCAL DEV VERSION OF API ##
@@ -795,8 +748,8 @@ class TableSearchJson(View):
 
     def get(self, request, *args, **kwargs):
         results = []
-        # allow choice of release, default to 2011 1-year
-        release = self.request.GET.get('release', 'ACS 2011 1-Year')
+        # allow choice of release, default to 2012 1-year
+        release = self.request.GET.get('release', 'ACS 2012 1-Year')
 
         # comparison query builder throws a search term here,
         # so force it to look at just one release
@@ -851,41 +804,165 @@ class TableSearchJson(View):
 
         return render_json_to_response(results)
 
-class TableSearch(TemplateView):
-    template_name = 'search/table_search.html'
+
+class SearchResultsView(TemplateView):
+    template_name = 'search/results.html'
+
+    def get_data(self, query):
+        search_url = settings.API_URL + "/2.1/full-text/search?q={}"
+        if not query:
+            return {'results': [], 'has_query': False}
+
+        r = requests.get(search_url.format(uniurlquote(query)))
+        status_code = r.status_code
+
+        mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
+        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}&country=us,pr"
+        location_request_url = location_request_url.format(uniurlquote(query), mapbox_accessToken)
+        r_location = requests.get(location_request_url)
+        status_code_location = r_location.status_code
+
+        search_data_all = {}
+        if status_code == 200 or status_code_location == 200:
+            search_data = json.loads(r.text)
+            search_data_location = json.loads(r_location.text)
+            search_data_all['has_query'] = True
+            search_data_all['results'] = search_data['results'] + search_data_location['features']
+        elif status_code == 404 or status_code == 400:
+            error_data = json.loads(r.text)
+            raise_404_with_messages(self.request, error_data)
+        elif status_code_location == 404 or status_code_location == 400:
+            error_data = json.loads(r_location.text)
+            raise_404_with_messages(self.request, error_data)
+        else:
+            raise Http404
+
+        return search_data_all
+
+    def get_context_data(self, **kwargs):
+        q = self.request.GET.get('q', None)
+        page_context = self.get_data(q) # format: { "results": [ ... ] }
+
+        # Determine if types of pages exist (used for filtering)
+        has_profiles = False
+        has_tables = False
+        has_addresses = False
+        has_topics = False
+
+        # Collect list of sumlevel names for filtering
+        sumlevels = {} # format: { sumlevel : [sumlevel_name, count] }
+
+        # Collect list of topics for filtering
+        all_topics = {} # format: { topic_name: count}
+
+        for item in page_context['results']:
+            if item['type'] == "profile":
+                has_profiles = True
+
+                # Capitalize first letter of sumlevel names
+                capitalized = capitalize_first(item['sumlevel_name'])
+                item['sumlevel_name'] = capitalized
+
+                # Increment count if found, otherwise add and start count
+                if item['sumlevel'] in sumlevels.keys():
+                    sumlevels[item['sumlevel']][1] += 1
+                else:
+                    sumlevels[item['sumlevel']] = [capitalized, 1]
+
+                sumlevels = OrderedDict(sorted(sumlevels.items()))
+
+                # Change format from { sumlevel: [sumlevel_name, count] }
+                # to { sumlevel_name: count }
+                page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
+
+            elif item['type'] == "table":
+                has_tables = True
+
+                # NOTE: Topics are used for filtering tables; should not be confused
+                # with the 'topic' search result for topic pages
+
+                # Capitalize the first letter of topics
+                topics = [capitalize_first(x) for x in item['topics']]
+                item['topics'] = ", ".join(topics)
+
+                # Increment count if found, otherwise add and start count
+                for topic in topics:
+                    if topic in all_topics.keys():
+                        all_topics[topic] += 1
+                    else:
+                        all_topics[topic] = 1
+
+                # Sort topics alphabetically
+                page_context['topics'] = OrderedDict(sorted(all_topics.items()))
+
+            # "Feature" is an address (Mapbox calls it a location)
+            elif item['type'] == "Feature":
+                item['type'] = "address"
+                has_addresses = True
+                item['url'] = "/locate/?lat={0}&lng={1}&address={2}".format(
+                    item['center'][1], item['center'][0], uniurlquote(item['place_name'])
+                )
+
+            elif item['type'] == "topic":
+                has_topics = True
+
+        # Include all of the 'contains' metadata in the page
+        page_context['contains'] = {
+            'profile': has_profiles,
+            'table': has_tables,
+            'address': has_addresses,
+            'topic': has_topics
+        }
+
+        return page_context
+
+
+class Elasticsearch(TemplateView):
+    template_name = 'search/elasticsearch.html'
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
+            'release_options': ['ACS 2014 1-Year', 'ACS 2013 1-Year', 'ACS 2013 3-Year', 'ACS 2013 5-Year', 'ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
         }
         tables = None
         columns = None
+        geo_select = self.request.GET.get('g')
+        table_select = self.request.GET.get('table_select')
 
-        q = self.request.GET.get('q', None)
-        if q:
-            page_context['q'] = q
-            tables = Table.objects.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
-            columns = Column.objects.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
+        if geo_select:
+            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
+            api_params = {
+                'q': geo_select,
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
 
-        table = self.request.GET.get('table', None)
-        if table:
-            page_context['q'] = table
-            tables = Table.objects.filter(table_id = table)
-            columns = Column.objects.filter(table__table_id = table)
+            #print r.url
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                page_context['geos'] = data['results']
+                page_context['g'] = geo_select
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
+        elif table_select:
+            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
+            api_params = {
+                'q': table_select,
+            }
+            r = requests.get(api_endpoint, params=api_params)
+            status_code = r.status_code
 
-        column = self.request.GET.get('column', None)
-        if column:
-            page_context['q'] = column
-            columns = Column.objects.filter(column_id = column)
-
-        release = self.request.GET.get('release', None)
-        if release:
-            page_context['release'] = release
-            tables = tables.filter(release = release)
-            columns = columns.filter(table__release = release)
-
-        page_context['tables'] = tables
-        page_context['columns'] = columns
+            if status_code == 200:
+                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+                page_context['tables'] = data['results']
+            elif status_code == 404 or status_code == 400:
+                error_data = simplejson.loads(r.text)
+                raise_404_with_messages(self.request, error_data)
+            else:
+                raise Http404
 
         return page_context
 
@@ -894,50 +971,38 @@ class GeoSearch(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'release_options': ['ACS 2011 1-Year', 'ACS 2011 3-Year', 'ACS 2011 5-Year']
+            'release_options': ['ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
         }
         tables = None
         columns = None
 
-class LocateView(TemplateView):
-    template_name = 'locate/locate.html'
 
-    def get_api_data(self, lat, lon):
-        '''
-        Retrieves data from the comparison endpoint at api.censusreporter.org.
-        '''
-        API_ENDPOINT = settings.API_URL + '/1.0/geo/search'
-        API_PARAMS = {
-            'lat': lat,
-            'lon': lon,
-            'sumlevs': '010,020,030,040,050,060,140,160,250,310,400,500,610,620,860,950,960,970'
-        }
-
-        r = requests.get(API_ENDPOINT, params=API_PARAMS)
-
-        if r.status_code == 200:
-            data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-        else:
-            raise Http404
-
-        return data['results']
+class SitemapTopicsView(TemplateView):
+    template_name = 'sitemap.xml'
 
     def get_context_data(self, *args, **kwargs):
-        page_context = {}
-        lat = self.request.GET.get('lat', None)
-        lon = self.request.GET.get('lon', None)
-
-        if lat and lon:
-            places = self.get_api_data(lat, lon)
-            for place in places:
-                place['sumlev_name'] = SUMMARY_LEVEL_DICT[place['sumlevel']]['name']
-
-            page_context.update({
-                'location': {
-                    'lat': lat,
-                    'lon': lon
-                },
-                'places': places
-            })
-
+        urllist = [x['slug'] for x in topics.TOPICS_LIST]
+        page_context = {
+            'urllist': urllist
+        }
         return page_context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return self.render_to_response(context,
+                                       content_type="text/xml; charset=utf-8")
+
+
+class SitemapProfilesView(TemplateView):
+    template_name = 'sitemap_topics.xml'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return self.render_to_response(context, content_type="text/xml; charset=utf-8")
+
+def sort_topics(topic_map):
+    return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
+
+def uniurlquote(s):
+    """urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""
+    return quote(s.encode('utf-8'))

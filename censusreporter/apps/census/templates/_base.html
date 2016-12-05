@@ -10,11 +10,34 @@
         <meta name="description" content="{% block head_meta_description %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_css %}
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
+        <script type="application/ld+json">
+        [
+          {
+            "@context": "http://schema.org",
+            "@type": "WebSite",
+            "name": "Census Reporter",
+            "url": "https://censusreporter.org"
+          },
+          {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "name": "Census Reporter",
+            "url": "https://censusreporter.org",
+            "logo": "https://censusreporter.org/static/img/logo.png",
+            "sameAs": [
+              "http://twitter.com/censusreporter",
+              "http://censusreporter.tumblr.com"
+            ]
+          }
+
+        ]
+        </script>
         {% block head_javascript %}
-        <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
         {% block head_javascript_extra %}{% endblock %}{% endblock %}
         <!-- Begin Google Analytics -->
         <script>
@@ -25,13 +48,16 @@
 
           ga('create', 'UA-43018828-1', 'censusreporter.org');
           ga('send', 'pageview');
-
         </script>
         <!-- End Google Analytics -->
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
         <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" />
+        {% block head_facebook_tags %}{% endblock %}
+        {% block head_twitter_tags %}{% endblock %}
+        <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
     </head>
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+        {% block body %}
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -40,7 +66,7 @@
         <header id="page-header">
             <div id="page-header-title" class="wrapper clearfix">
                 {% if not hide_nav_tools %}
-                <i id="menu-toggle" class="fa fa-reorder"></i>
+                <i id="menu-toggle" class="fa fa-bars"></i>
                 {% endif %}
                 <a class="title" href="{% url 'homepage' %}">
                     <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
@@ -53,9 +79,9 @@
                     {% if not hide_nav_compare %}
                     <span class="separator">or</span>
                     <div class="tool-group">
-                        <a class="button" href="{% url 'comparison_builder' %}">
+                        <a class="button" href="{% url 'table_search' %}">
                             <i class="fa fa-chevron-circle-right"></i>
-                            Compare places
+                            Search for data
                         </a>
                     </div>
                     {% endif %}
@@ -71,54 +97,64 @@
             {% block content %}{% endblock %}
         </div>
         {% endblock %}
-        
+
         <footer id="page-footer">
             <section class="wrapper footer-container clearfix">
                 {% block footer_content %}
-                <ul class="ul-icon-list">
-                    <li class="column-quarter">
-                        <i class="fa fa-twitter"></i> <a href="http://twitter.com/CensusReporter">@CensusReporter</a>
+                <ul class="ul-icon-list column-third">
+                    <li>
+                        <i class="fa fa-th-list"></i> <a href="{% url 'glossary' %}">Census terms &amp; definitions</a>
                     </li>
-                    <li class="column-quarter">
-                        <i class="fa fa-tumblr"></i> <a href="http://censusreporter.tumblr.com">Census Reporter blog</a>
+                    <li>
+                        <i class="fa fa-github"></i> <a href="https://github.com/censusreporter/">Census Reporter on GitHub</a>
                     </li>
-                    <li class="column-quarter">
+                </ul>
+                <ul class="ul-icon-list column-third">
+                    <li>
                         <i class="fa fa-comments"></i> <a href="https://censusreporter.uservoice.com/">Help &amp; feedback</a>
                     </li>
-                    <li class="column-quarter">
+                    <li>
+                        <i class="fa fa-twitter"></i> <a href="http://twitter.com/CensusReporter">@CensusReporter</a>
+                    </li>
+                </ul>
+                <ul class="ul-icon-list column-third">
+                    <li>
                         <i class="fa fa-envelope"></i> <a href="mailto:irecensusreporter@gmail.com">Email us</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-tumblr"></i> <a href="http://censusreporter.tumblr.com">Census Reporter blog</a>
                     </li>
                 </ul>
                 {% endblock footer_content %}
             </section>
         </footer>
+        {% endblock body %}
 
         {% block body_javascript %}
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <!--[if gte IE 9]><!-->
+        <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4,typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>
+        <!--<![endif]-->
+
+        <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
+        <!--[if lte IE 8]>
+        <script src="{{ STATIC_URL }}js/vendor/r2d3.js" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="//cdn.jsdelivr.net/g/typeahead.js@0.10.2(typeahead.bundle.min.js),underscorejs@1.6,spinjs@1.3,handlebarsjs@1.3(handlebars.min.js)"></script>
+        <![endif]-->
+
+        <!--[if lte IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.1/jquery.xdomainrequest.min.js"></script>
+        <![endif]-->
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+                integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">CR_API_URL = '{{ API_URL }}';</script>
         <script src="{{ STATIC_URL }}js/app.js"></script>
-        <script src="{{ STATIC_URL }}js/vendor/typeahead.min.js"></script>
-        <script src="{{ STATIC_URL }}js/vendor/hogan-2.0.0.js"></script>
+        <script src="{{ STATIC_URL }}js/glossary.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
-        
-        <script>
-        // UserVoice
-        if (browserWidth > 480) {
-            UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/OWRzGZCkWqexoFNxy0iLg.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
-
-            UserVoice.push(['set', {
-                accent_color: '#1a9d95',
-                trigger_color: 'white',
-                trigger_background_color: '#67b3a3'
-            }]);
-
-            UserVoice.push(['addTrigger', {
-                mode: 'contact',
-                trigger_style: 'tab',
-                trigger_position: 'right'
-            }]);
-        }
-        </script>
+        <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script>
     </body>
 </html>

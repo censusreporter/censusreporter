@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US1-new-england-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US2-middle-atlantic-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US3-east-north-central-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US4-west-north-central-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US5-south-atlantic-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US6-east-south-central-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US7-west-south-central-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US8-mountain-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/03000US9-pacific-division/</loc>
+    </url>
+    
+</urlset>

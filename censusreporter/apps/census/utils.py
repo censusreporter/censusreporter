@@ -1,10 +1,11 @@
 from __future__ import division
 from collections import OrderedDict
+import re
 
 from django.utils import simplejson
 from django.utils.functional import lazy, Promise
 from django.utils.encoding import force_unicode
-
+from django.core.urlresolvers import reverse
 
 def get_object_or_none(klass, *args, **kwargs):
     try:
@@ -17,6 +18,41 @@ class LazyEncoder(simplejson.JSONEncoder):
         if isinstance(obj, Promise):
             return force_unicode(obj)
         return obj
+
+def parse_table_id(table_id):
+    table_id = table_id.upper()
+    pat = re.compile(r'^(B|C)(\d+)([A-I])?(PR)?')
+    table_type, tabulation, race_iter, pr = pat.match(table_id).groups()
+
+    return {
+        'table_id': table_id,
+        'table_type': table_type,
+        'detailed': table_type == 'B',
+        'simplified': table_type == 'C',
+        'tabulation': tabulation,
+        'racial': race_iter is not None,
+        'race_code': race_iter,
+        'race': RACE_ITERATIONS.get(race_iter),
+        'puerto_rico': pr is not None,
+    }
+
+def generic_table_description(table_id):
+    parsed = parse_table_id(table_id)
+    if parsed['simplified']:
+        label = 'Simplified columns'
+    else:
+        label = 'Detailed columns'
+
+    if parsed['racial']:
+        label = "{} ({})".format(label, parsed['race'])
+    if parsed['puerto_rico']:
+        label = '{} for Puerto Rico'.format(label)
+
+    return label
+
+def table_link(table_code, link_text):
+    url = reverse('table_detail', args=(table_code.upper(),))
+    return "<a href='{}'>{}</a>".format(url, link_text)
 
 ## A little generator to pluck out max values ##
 def drill(item):
@@ -35,6 +71,14 @@ def get_max_value(nested_dicts):
     max_value = max([item for item in drill(nested_dicts)])
     return max_value
 
+def get_division(num1, num2, precision=1):
+    '''requires ints or int-like strings'''
+    if num1 and num2:
+        if precision == -1:
+            return float(num1) / float(num2)
+        return round(float(num1) / float(num2), precision) or None
+    return None
+
 def get_ratio(num1, num2, precision=2):
     '''requires ints or int-like strings'''
     if num1 and num2:
@@ -48,6 +92,48 @@ TOPIC_FILTERS = {
     'Families': {'topics': ['children', 'families', 'family type', 'fertility', 'grandparents', 'marital status', 'roommates',]},
     'Housing': {'topics': ['costs and value', 'group quarters', 'mortgage', 'occupancy', 'physical characteristics', 'tenure',]},
     'Social': {'topics': ['ancestry', 'citizenship', 'disability', 'education', 'language', 'migration', 'place of birth', 'veterans',]},
+}
+
+SUMLEV_CHILDREN = {
+    '010': ['020','030','040','050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '020': ['030','040','050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '030': ['040','050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '040': ['050','060','140','150','160','250','310','500','610','620','860','950','960','970'],
+    '050': ['060','140','150','160','500','610','620','860','950','960','970'],
+    '060': ['140','150','160','250','310','500','610','620','860','950','960','970'],
+    '140': ['150'],
+    '150': [],
+    '160': ['140','150','860'],
+    '250': ['140','150','860'],
+    '310': ['050','060','140','150','160','860'],
+    '500': ['050','060','140','150','160','860'],
+    '610': ['050','060','140','150','160','860'],
+    '620': ['050','060','140','150','160','860'],
+    '860': ['140','150'],
+    '950': ['060','140','150','160','860'],
+    '960': ['060','140','150','160','860'],
+    '970': ['060','140','150','160','860'],
+}
+
+SUMLEV_PARENTS = {
+    '010': [],
+    '020': ['010'],
+    '030': ['010','020'],
+    '040': ['010','020','030'],
+    '050': ['010','020','030','040'],
+    '060': ['010','020','030','040','050'],
+    '140': ['010','020','030','040','050','160'],
+    '150': ['010','020','030','040','050','140','160'],
+    '160': ['010','020','030','040','050'],
+    '250': ['010','020','030','040'],
+    '310': ['010','020','030','040'],
+    '500': ['010','020','030','040'],
+    '610': ['010','020','030','040'],
+    '620': ['010','020','030','040'],
+    '860': ['010','020','030','040','050','160'],
+    '950': ['010','020','030','040','050'],
+    '960': ['010','020','030','040','050'],
+    '970': ['010','020','030','040','050'],
 }
 
 SUMLEV_CHOICES = OrderedDict()
@@ -66,7 +152,6 @@ SUMLEV_CHOICES['Legislative'] = [
     {'name': 'congressional district', 'plural_name': 'congressional districts', 'summary_level': '500', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
     {'name': 'state senate district', 'plural_name': 'state senate districts', 'summary_level': '610', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
     {'name': 'state house district', 'plural_name': 'state house districts', 'summary_level': '620', 'ancestor_sumlev_list': '010,020,030,040', 'ancestor_options': 'the United States or a State' },
-    {'name': 'voting tabulation district', 'plural_name': 'voting tabulation districts', 'summary_level': '700', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
 ]
 SUMLEV_CHOICES['Schools'] = [
     {'name': 'elementary school district', 'plural_name': 'elementary school districts', 'summary_level': '950', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
@@ -74,20 +159,28 @@ SUMLEV_CHOICES['Schools'] = [
     {'name': 'unified school district', 'plural_name': 'unified school districts', 'summary_level': '970', 'ancestor_sumlev_list': '010,020,030,040,050', 'ancestor_options': 'the United States, a State or County' },
 ]
 
-ACS_RELEASES = [
-    {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
-    {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
-    {'name': 'ACS 2011 5-Year', 'slug': 'acs2011_5yr', 'years': '2007-2011'},
-    {'name': 'ACS 2010 1-Year', 'slug': 'acs2010_1yr', 'years': '2010'},
-    {'name': 'ACS 2010 3-Year', 'slug': 'acs2010_3yr', 'years': '2008-2010'},
-    {'name': 'ACS 2010 5-Year', 'slug': 'acs2010_5yr', 'years': '2006-2010'},
-    {'name': 'ACS 2009 1-Year', 'slug': 'acs2009_1yr', 'years': '2009'},
-    {'name': 'ACS 2009 3-Year', 'slug': 'acs2009_3yr', 'years': '2007-2009'},
-    {'name': 'ACS 2008 1-Year', 'slug': 'acs2008_1yr', 'years': '2008'},
-    {'name': 'ACS 2008 3-Year', 'slug': 'acs2008_3yr', 'years': '2006-2008'},
-    {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
-    {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
-]
+ACS_RELEASES = {
+    'acs2014_5yr': {'name': 'ACS 2014 5-Year', 'slug': 'acs2014_5yr', 'years': '2010-2014'},
+    'acs2014_1yr': {'name': 'ACS 2014 1-Year', 'slug': 'acs2014_1yr', 'years': '2014'},
+    'acs2013_1yr': {'name': 'ACS 2013 1-Year', 'slug': 'acs2013_1yr', 'years': '2013'},
+    'acs2013_3yr': {'name': 'ACS 2013 3-Year', 'slug': 'acs2013_3yr', 'years': '2011-2013'},
+    'acs2013_5yr': {'name': 'ACS 2013 5-Year', 'slug': 'acs2013_5yr', 'years': '2009-2013'},
+    'acs2012_1yr': {'name': 'ACS 2012 1-Year', 'slug': 'acs2012_1yr', 'years': '2012'},
+    'acs2012_3yr': {'name': 'ACS 2012 3-Year', 'slug': 'acs2012_3yr', 'years': '2010-2012'},
+    'acs2012_5yr': {'name': 'ACS 2012 5-Year', 'slug': 'acs2012_5yr', 'years': '2008-2012'},
+    'acs2011_1yr': {'name': 'ACS 2011 1-Year', 'slug': 'acs2011_1yr', 'years': '2011'},
+    'acs2011_3yr': {'name': 'ACS 2011 3-Year', 'slug': 'acs2011_3yr', 'years': '2009-2011'},
+    'acs2011_5yr': {'name': 'ACS 2011 5-Year', 'slug': 'acs2011_5yr', 'years': '2007-2011'},
+    'acs2010_1yr': {'name': 'ACS 2010 1-Year', 'slug': 'acs2010_1yr', 'years': '2010'},
+    'acs2010_3yr': {'name': 'ACS 2010 3-Year', 'slug': 'acs2010_3yr', 'years': '2008-2010'},
+    'acs2010_5yr': {'name': 'ACS 2010 5-Year', 'slug': 'acs2010_5yr', 'years': '2006-2010'},
+    'acs2009_1yr': {'name': 'ACS 2009 1-Year', 'slug': 'acs2009_1yr', 'years': '2009'},
+    'acs2009_3yr': {'name': 'ACS 2009 3-Year', 'slug': 'acs2009_3yr', 'years': '2007-2009'},
+    'acs2008_1yr': {'name': 'ACS 2008 1-Year', 'slug': 'acs2008_1yr', 'years': '2008'},
+    'acs2008_3yr': {'name': 'ACS 2008 3-Year', 'slug': 'acs2008_3yr', 'years': '2006-2008'},
+    'acs2007_1yr': {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
+    'acs2007_3yr': {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
+}
 
 NLTK_STOPWORDS = ['i','me','my','myself','we','our','ours','ourselves','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','they','them','their','theirs','themselves','what','which','who','whom','this','that','these','those','am','is','are','was','were','be','been','being','have','has','had','having','do','does','did','doing','a','an','the','and','but','if','or','because','as','until','while','of','at','by','for','with','about','against','between','into','through','during','before','after','above','below','to','from','up','down','in','out','on','off','over','under','again','further','then','once','here','there','when','where','why','how','all','any','both','each','few','more','most','other','some','such','no','nor','not','only','own','same','so','than','too','very','s','t','can','will','just','don','should','now']
 
@@ -285,7 +378,7 @@ SUMMARY_LEVEL_DICT = {
     },
     "140": {
         "name": "Census Tract",
-        "plural": "Census tracts",
+        "plural": "census tracts",
     },
     "144": {
         "name": "Census Tract-American Indian Area/Alaska Native Area/Hawaiian Home Land",
@@ -396,19 +489,19 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "230": {
-        "name": "State-Alaska Native Regional Corporation",
-        "plural": "",
+        "name": "Alaska native regional corporation",
+        "plural": "Alaska native regional corporations",
     },
     "250": {
-        "name": "American Indian Area/Alaska Native Area/Hawaiian Home Land",
-        "plural": "",
+        "name": "Native Area",
+        "plural": "native areas",
+    },
+    "251": {
+        "name": "Tribal Subdivision",
+        "plural": "tribal subdivisions",
     },
     "252": {
         "name": "American Indian Area/Alaska Native Area (Reservation or Statistical Entity Only)",
-        "plural": "",
-    },
-    "251": {
-        "name": "American Indian Area/Alaska Native Area/Hawaiian Home Land-Tribal Subdivision/Remainder",
         "plural": "",
     },
     "253": {
@@ -424,8 +517,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "256": {
-        "name": "Specified American Indian Area-Tribal Census Tract",
-        "plural": "",
+        "name": "Tribal Census Tract",
+        "plural": "tribal census tracts",
     },
     "257": {
         "name": "Specified American Indian Area-Tribal Subdivision/Remainder-Tribal Census Tract",
@@ -600,8 +693,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "314": {
-        "name": "Metropolitan Statistical Area (MSA)/Metropolitan Division",
-        "plural": "",
+        "name": "Metropolitan Division",
+        "plural": "metropolitan divisions",
     },
     "315": {
         "name": "Metropolitan Statistical Area (MSA)/Metropolitan Division-State",
@@ -656,8 +749,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "335": {
-        "name": "Combined New England City and Town Area",
-        "plural": "",
+        "name": "Combined NECTA",
+        "plural": "combined NECTAs",
     },
     "336": {
         "name": "Combined New England City and Town Area-State",
@@ -688,7 +781,7 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "350": {
-        "name": "New England City and Town Area",
+        "name": "NECTA",
         "plural": "NECTAs",
     },
     "351": {
@@ -740,8 +833,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "364": {
-        "name": "State-New England City and Town Area (NECTA)-NECTA Division",
-        "plural": "",
+        "name": "NECTA division",
+        "plural": "NECTA divisions",
     },
     "365": {
         "name": "State-New England City and Town Area (NECTA)-NECTA Division-County",
@@ -1004,8 +1097,8 @@ SUMMARY_LEVEL_DICT = {
         "plural": "Census blocks (pl94 files)",
     },
     "795": {
-        "name": "State-Public Use Microdata Sample Area (PUMA)",
-        "plural": "",
+        "name": "PUMA",
+        "plural": "PUMAs",
     },
     "850": {
         "name": "3-digit ZIP Code Tabulation Area",
@@ -1056,15 +1149,27 @@ SUMMARY_LEVEL_DICT = {
         "plural": "",
     },
     "950": {
-        "name": "Elementary School District",
-        "plural": "elementary school districts",
+        "name": "School District (Elementary)",
+        "plural": "school districts (elementary)",
     },
     "960": {
-        "name": "Secondary School District",
-        "plural": "secondary school districts",
+        "name": "School District (Secondary)",
+        "plural": "school districts (secondary)",
     },
     "970": {
-        "name": "Unified School District",
-        "plural": "unified school districts",
+        "name": "School District (Unified)",
+        "plural": "school districts (unified)",
     },
+}
+
+RACE_ITERATIONS = {
+    'A': 'White alone',
+    'B': 'Black or African American Alone',
+    'C': 'American Indian and Alaska Native Alone',
+    'D': 'Asian Alone',
+    'E': 'Native Hawaiian and Other Pacific Islander Alone',
+    'F': 'Some Other Race Alone',
+    'G': 'Two or More Races',
+    'H': 'White Alone, Not Hispanic or Latino',
+    'I': 'Hispanic or Latino',
 }

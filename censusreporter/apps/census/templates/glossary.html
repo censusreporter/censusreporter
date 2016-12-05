@@ -1,0 +1,150 @@
+{% extends '_base.html' %}
+{% comment %}
+    <dt id="term-keyword">Keyword</dt>
+    <dd><p>
+      definition
+    </p></dd>
+{% endcomment %}
+
+{% block head_title %}Glossary - {{ block.super }}{% endblock %}
+
+{% block content %}
+<article id="glossary">
+    <header>
+        <h1>Glossary</h1>
+        <p>Brief definitions of key Census terms in plain language. Do you think we&rsquo;re missing something? <a href="http://censusreporter.uservoice.com/" data-uv-trigger>Let us know</a>. You can also consult the Census Bureau's complete <a href="http://www.census.gov/glossary/">glossary</a>.</p>
+    </header>
+
+    <section id="glossary-contents">
+        <aside>
+            <p>Here are a few key official Census sources where you can find more technical definitions.</p>
+            <ul>
+                <li><a href="http://www.census.gov/programs-surveys/acs/technical-documentation.html">ACS Documentation Home Page</a></li>
+                <li><a href="http://www.census.gov/acs/www/guidance_for_data_users/geography/">Geography and the American Community Survey</a></li>
+                <li><a href="http://www.census.gov/population/metro/">Metropolitan and Micropolitan Statistical Areas Main</a></li>
+            </ul>
+        </aside>
+
+
+        <dl class="glossary">
+
+            <dt id="term-cdp-refererence">CDP</dt>
+            <dd>
+                <p>See <a href="{% url 'glossary' %}#term-cdp">Census Designated Place</a>.</p>
+            </dd>
+
+
+            <dt id="term-ccd" data-alt-keywords="census-county-division">Census County Division (CCD)</dt>
+            <dd>
+                <p>
+                    Census County Divisions (CCDs) are a subset of <a href="{% url 'glossary' %}#term-county-subdivision">county subdivision</a> defined by the US Census Bureau, in cooperation with local officials, for states which do not have sub-county governmental units.
+                </p>
+                <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
+           </dd>
+            <dt id="term-cdp" data-alt-keywords="census-designated-place">Census Designated Place (CDP)</dt>
+            <dd>
+                <p>
+                    Census Designated Places (CDPs) are a subset of the <a href="{% url 'glossary' %}#term-place">place</a> <a href="{% url 'glossary' %}#term-summary-level">summary level</a>. CDPs have no legal status or government, but are identifiable by name. The boundaries of CDPs are usually defined in cooperation with local officials, and are subject to revision at each decennial census.
+                </p>
+                <p>For complete details on places, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Census documentation</a>.</p>
+           </dd>
+            <dt id="term-csa" data-alt-keywords="combined-statistical-area">Combined Statistical Area (CSA)</dt>
+            <dd>
+                <p>Officially specified by the Office of Management and Budget, a CSA combines adjacent <a href="{% url 'glossary' %}#term-cbsa">CBSAs</a> which have a moderate degree of social and economic ties. Ties between the component CBSAs in a CSA are not as strong as ties between the counties in any of the individual CBSAs.</p>
+            </dd>
+
+            <dt id="term-cbsa" data-alt-keywords="core-based-statistical-area">Core-Based Statistical Area (CBSA)</dt>
+            <dd>
+                <p>Officially specified by the Office of Management and Budget, the CBSA is the Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing a &ldquo;metropolitan area.&rdquo; Technically, CBSAs are either <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">metropolitan</a> or <a href="{% url 'glossary' %}#term-micropolitan-statistical-area">micropolitan statistical areas</a>—both describe a specific group of counties (or sometimes just one county) around an urban core.</p>
+                <p>While metro areas vary greatly in size, for some kinds of analysis they are better units of comparison than the single Census <a href="{% url 'glossary' %}#term-place">place</a> at the core.</p>
+            </dd>
+
+            <dt id="term-county-subdivision">County Subdivision</dt>
+            <dd>
+                <p>Because each state organizes its governments differently, there are some states where the "county subdivision" <a href="{% url 'glossary' %}#term-summary-level">summary level</a> is important, and others where it is unlikely be be used for analysis. In 12 states, most or all county subdivisions serve as local governments much like cities and towns. Specifically, those states are Connecticut, Maine, Massachusetts, Michigan, Minnesota, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, and Wisconsin. In these and 17 more states, most or all county subdivisions are legal entities, known to the Census Bureau as <em>minor civil divisions</em> (or MCDs). In the rest of the states, county subdivisions (known as <a href="{% url 'glossary' %}#term-ccd">CCDs</a>) exist for statistical purposes, but may be less important for journalists.</p>
+                <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
+            </dd>
+
+            <dt id="term-householder">Householder</dt>
+            <dd>
+                <p>The person, or one of the people, in whose name the home is owned, being bought, or rented. Two types of householders are distinguished: a family householder and a nonfamily householder. A family householder is a householder living with one or more people related to him or her by birth, marriage, or adoption. A nonfamily householder is a householder living alone or with nonrelatives only.</p>
+            </dd>
+
+            <dt id="term-margin-of-error">Margin of Error</dt>
+            <dd>
+                <p>A number describing the statistical confidence in an estimate. When the margin of error is more than 10% of the estimate, Census Reporter recommends using caution when presenting the estimate. Know your wiggle-words.</p>
+            </dd>
+
+            <dt id="term-mcd-refererence">MCD</dt>
+            <dd>
+                <p>See <a href="{% url 'glossary' %}#term-mcd">Minor Civil Division</a>.</p>
+            </dd>
+
+            <dt id="term-metropolitan-statistical-area">Metropolitan Statistical Area (MSA)</dt>
+            <dd>
+                <p>A county or counties around an urban core of population greater than 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p>
+            </dd>
+
+            <dt id="term-micropolitan-statistical-area">Micropolitan Statistical Area (μSA)</dt>
+            <dd>
+                <p>A county or counties around an urban core of population between 10,000 and 50,000. See <a href="{% url 'glossary' %}#term-cbsa">Core Based Statistical Area (CBSA)</a> for more.</p>
+            </dd>
+
+            <dt id="term-mcd" data-alt-keywords="minor-civil-division">Minor Civil Division (MCD)</dt>
+            <dd>
+                <p>
+                    Minor Civil Divisions (MCDs) are a subset of <a href="{% url 'glossary' %}#term-county-subdivision">county subdivision</a> based on official governmental/administrative boundaries. In states where counties are not divided into governmental units, the Census Bureau creates statistical areas known as <a href="{% url 'glossary' %}#term-ccd">Census County Divisions</a>.
+                </p>
+                <p>For complete details on county subdivisions, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html">Census documentation</a>.</p>
+           </dd>
+
+            <dt id="term-place">Place</dt>
+            <dd>
+                <p>A Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing officially incorporated governments such as cities, towns, villages, and boroughs. Census &ldquo;places&rdquo; also include unincorporated areas which are identifiable by name: the Census Bureau calls these CDPs, or &ldquo;Census Designated Places.&rdquo;</p>
+                <p>In some parts of the country (especially New England, New York, Wisconsin and Alaska), <a href="{% url 'glossary' %}#term-county-subdivision">county subdivisions</a> are a more appropriate unit of comparison than Census places.</p>
+                <p>For more technical details, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Census documentation on places</a>.</p>
+            </dd>
+
+            <dt id='term-release'>Release</dt>
+            <dd>
+                <p>
+                    The American Community Survey data is produced in multiple releases to satisfy different needs of timeliness and geographic accuracy. Releases are described by the number of years and/or the specific years they cover, such as the "2012 1-year release" or the "2008-12 5-year release." Estimates are made based on data collected over the specified years.
+                </p>
+                <p>
+                    Roughly, releases include geographies with a population above a given threshold: the 1-year release includes geographies with a population of 65,000 or more; the 3-year release includes geographies with a population above 20,000; and the 5-year release includes all census down to the block group level, regardless of population.
+                </p>
+
+            </dd>
+            <dt id="term-summary-level">Summary Level</dt>
+            <dd>
+                <p>The Census Bureau tabulates data for many different geographic scales. Summary Level is the generic term for a kind of geography, such as state, county, or <a href="{% url 'glossary' %}#term-place">place</a>. There are also summary levels for somewhat esoteric tabulations, such as the parts of Census tracts which are divided between places.</p>
+                <p>For more, see our <a href="{% url 'topic_detail' topic_slug='geography' %}#summary-levels">guide to summary levels</a>.</p>
+            </dd>
+
+            <dt id="term-survey">Survey</dt>
+            <dd>
+                <p>A survey is a statistical method for gathering information about a population from a sample, rather than counting every member. Surveys generate approximate estimates which are subject to a <a href="{% url 'glossary' %}#term-margin-of-error">margin of error</a>.</p>
+            </dd>
+
+
+            <dt id="term-tenure">Tenure</dt>
+            <dd>
+                <p>Tenure refers to the distinction between owner-occupied and renter-occupied housing units.</p>
+            </dd>
+
+            <dt id="term-universe">Universe</dt>
+            <dd>
+                <p>A universe is the focus of a given data tabulation. For many Census tables, the universe is all Americans, but it is not always. For example, the Census Bureau specifically constrains tables about educational attainment, employment, child bearing, and others based on age and other characteristics. Some tables focus specifically on the United States, excluding Puerto Rico, or vice versa. Be sure to take note of the universe when analyzing data and expressing findings about it.</p>
+            </dd>
+
+            <dt id="term-urban-area">Urban Area</dt>
+            <dd>
+                <p>An urban area is a Census <a href="{% url 'glossary' %}#summary-level">summary level</a>. Urban areas are based on a densely-settled core of tracts or blocks, but also include adjacent land which is developed for urban use or which connects two dense territories. Urban areas come in two types: <em>Urbanized Areas</em> (a.k.a. UAs), with 50,000+ population and <em>Urban Clusters</em> (a.k.a. UCs), with 2,500-50,000 people.</p>
+                <p>Urban areas and <a href="{% url 'glossary' %}#term-cbsa">CBSA</a>s describe similar areas, but CBSAs comprise the entirety of one or more counties, including rural land in them, while urban areas are based on population and land-use characteristics. As a point of reference, in the 2012 ACS, the <a href="/profiles/31000US16980-chicago-joliet-naperville-il-in-wi-metro-area">Chicago metropolitan statistical area</a> had almost 1,000,000 more people than the <a href="/profiles/40000US16264-chicago-il-in-urbanized-area">Chicago urbanized area</a>.</p>
+                 <p>For more information, consult the <a href="https://www.census.gov/geo/reference/ua/urban-rural-2010.html">Census Bureau's documentation</a>.</p>
+            </dd>
+
+        </dl>
+    </section>
+</article>
+{% endblock %}

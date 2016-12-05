@@ -1,0 +1,17 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <h2>The High Level</h2>
+    <p>Originally, the intention of the US Census was to count the population every ten years so that representation could be apportioned. Over time, more questions were added to the decennial census, and other completely new data collection projects were developed.</p>
+    <p>Today, the Census Bureau has four major programs: the <a href="#decennial">decennial census</a>, the <a href="#cps">Current Population Survey (CPS)</a>, the <a href="#popest">Population Estimates Program,</a> and the <a href="#acs">American Community Survey (ACS)</a>. Census Reporter (this site) only offers data from the ACS.</p>
+    <p>These programs differ in their data collection methodology, the frequency with which data is released, and the level of geographic specificity they can provide. There are a few <a href="#other-products">other Census products</a></p>
+</section>
+<section id="decennial">
+    <h2>The Decennial Census</h2>
+    <p>As its name indicates, the decennial census is run every ten years. It attempts to actually count every resident in the United States as of a specific day (April 1st of the census year, in recent decades.) Because it is a count and not a <span class="glossary-term">survey</span>, the Census can publish precise counts for much smaller geographies than the other products.</p>
+</section>
+{% endblock %}
+
+

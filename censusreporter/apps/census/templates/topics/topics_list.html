@@ -1,0 +1,14 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-list">
+    <dl class="topics">
+    {% for topic in topics_list %}
+        <dt id="topic-{{ topic.slug }}"><a href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a></dt>
+        <dd>{{ topic.description|safe|linebreaks }}</dd>
+    {% endfor %}
+    </dl>
+</section>
+{% endblock %}
+
+

@@ -1,0 +1,193 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>There are many American Community Survey tables which provide information on the income of people living in the United States. Even for releases of data collected over three or five years, income data is reported in inflation-adjusted dollars for the release year.</p>
+
+<p>Most income data is reported at the household level, but there are tables which are focused on family households, as well as some which report on individual income. There are also some tables which are particularly applicable to understanding income inequality, 
+including one, <strong><a href="{% url 'table_detail' 'B19083' %}">B19083</a></strong> which provides the <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noreferrer">Gini index</a>  for a place as its only column.</p>
+
+<p>Income is reported in a number of ways: as a median value, or as a series of medians for groups within a total population; as a number 
+
+of people or households earning in a certain bracket; as well as a few other structures.</p>
+<h2>Median Income</h2>
+<p>Median incomes are reported by household, with subsets for only family households and also for nonfamily 
+
+households. One table, <a href="{% url 'table_detail' 'B19326' %}">B19326</a> reports median income for individuals by sex.</p>
+
+<p>For all of these tables, income refers to income for "the last 12 months" prior to the survey response.</p>
+    
+
+
+<table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B19013' %}">B19013</a><sup>†</sup></strong></td>
+                <td>Median Household Income</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19019' %}">B19019</a></strong></td>
+            <td>Median Household Income by Household Size</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19049' %}">B19049</a></strong></td>
+            <td>Median Household Income by Age of Householder</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19113' %}">B19113</a><sup>†</sup></strong></td>
+            <td>Median Family Income</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19119' %}">B19119</a></strong></td>
+            <td>Median Family Income by Family Size</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19121' %}">B19121</a></strong></td>
+            <td>Median Family Income by Number of Earners in Family</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19125' %}">B19125</a></strong></td>
+            <td>Median Family Income by Presence of Own Children Under 18 Years</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19126' %}">B19126</a></strong></td>
+            <td>Median Family Income by Family Type by Presence of Own Children Under 18 Years</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19202' %}">B19202</a><sup>†</sup></strong></td>
+            <td>Median Nonfamily Household Income</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19215' %}">B19215</a></strong></td>
+            <td>Median Nonfamily Household Income by Sex of Householder by Living Alone by Age of Householder</td>
+        </tr>
+        <tr>
+            <td><strong><a href="{% url 'table_detail' 'B19326' %}">B19326</a></strong></td>
+            <td>Median Income by Sex by Work Experience in the Past 12 Months for the Population 15 Years and Over With Income</td>
+        </tr>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+            </td>
+        </tr>
+    </tfoot>
+</tbody>
+</table>
+
+<h2>Aggregate income</h2>
+
+<p>The various aggregate income tables provide the total amount of income, as well as broken down by income type, for the summary geography.</p>
+
+<p>Table <strong><a href="{% url 'table_detail' 'B19313' %}">B19313</a></strong> aggregates all income in the geography, which will produce a number somewhat higher than <strong><a href="{% url 'table_detail' 'B19025' %}">B19025</a></strong> because it includes people who live in "group quarters."</p>
+
+<p>Table <strong><a href="{% url 'table_detail' 'B19301' %}">B19301</a></strong>, "Per Capita income", is simply the value for <strong><a href="{% url 'table_detail' 'B19313' %}">B19313</a></strong> "Aggregate Income" divided by the total population estimate for the summary geography. This statistic is more or less the 'average' income. Note the potential for misunderstanding: A) the aggregate income is divided among all people, not only those who actually had income, and B) as with any average, outliers (very big earners) can have a disproportionate effect on resulting figure.</p>
+
+<p>For all of these tables, income refers to income for "the last 12 months" prior to the survey response.</p>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19025' %}">B19025</a><sup>†</sup></strong></td>
+<td>Aggregate Household Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19050' %}">B19050</a></strong></td>
+<td>Aggregate Household Income by Age of Householder</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19061' %}">B19061</a></strong></td>
+<td>Aggregate Earnings for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19062' %}">B19062</a></strong></td>
+<td>Aggregate Wage or Salary Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19063' %}">B19063</a></strong></td>
+<td>Aggregate Self-employment Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19064' %}">B19064</a></strong></td>
+<td>Aggregate Interest, Dividends, or Net Rental Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19065' %}">B19065</a></strong></td>
+<td>Aggregate Social Security Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19066' %}">B19066</a></strong></td>
+<td>Aggregate Supplemental Security Income (SSI) for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19067' %}">B19067</a></strong></td>
+<td>Aggregate Public Assistance Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19069' %}">B19069</a></strong></td>
+<td>Aggregate Retirement Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19070' %}">B19070</a></strong></td>
+<td>Aggregate Other Types of Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19127' %}">B19127</a></strong></td>
+<td>Aggregate Family Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19128' %}">B19128</a></strong></td>
+<td>Aggregate Family Income by Family Type by Presence of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19129' %}">B19129</a></strong></td>
+<td>Aggregate Family Income by Number of Workers in Family</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19130' %}">B19130</a></strong></td>
+<td>Aggregate Family Income by Family Type by Age of Householder</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19214' %}">B19214</a></strong></td>
+<td>Aggregate Nonfamily Household Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19216' %}">B19216</a></strong></td>
+<td>Aggregate Nonfamily Household Income by Sex of Householder by Living Alone by Age of Householder</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19301' %}">B19301</a><sup>†</sup></strong></td>
+<td>Per Capita Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19313' %}">B19313</a><sup>†</sup></strong></td>
+<td>Aggregate Income</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+</section>
+{% endblock %}
+
+

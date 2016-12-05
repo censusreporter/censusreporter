@@ -1,23 +1,19 @@
-{% extends '_base.html' %}{% load humanize %}
+{% extends '_base.html' %}{% load humanize partition %}
 
-{% block head_title %}{{ block.super }}{% endblock %}
+{% block head_title %}{{ block.super }}: Making Census Data Easy to Use{% endblock %}
+{% block head_meta_description %}Census Reporter provides useful facts about every place in America. Compare places using tables and maps, download data, and embed charts on your site!{% endblock %}
 {% block body_id %}homepage{% endblock %}
 
 {% block content_container %}
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
-        <section class="column-full clearfix">
-            {% comment %}<p class="explain">
-                This feature is under active development, so may occasionally appear broken.
-            </p>
-            We&rsquo;ll be at the <a href="http://journalists.org/conference/ona13/">Online News Association conference, Oct. 17-19,</a> to introduce it. Come by &ldquo;the midway&rdquo; and tell us what you think!{% endcomment %}
-            
-            <h1 class="article-header">Profile a place</h1>
-            <div id="geography-select-wrapper">
+        <section class="column-full clearfix big-action">
+            <h1 class="article-header">Profile</h1>
+            <div id="geography-select-wrapper" class="input-wrapper">
                 <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
                 <div class="geolocate-only">
                     <span class="or">or</span>
-                    <a href="{% url 'locate' %}" class="action-button"><i class="fa fa-location-arrow"></i> <span class="wide-only">Find places based on</span><span class="narrow-only">Use</span> your current location</a>
+                    <a href="{% url 'locate' %}" class="action-button"><i class="fa fa-map-marker"></i> Search by street address</a>
                 </div>
             </div>
         </section>
@@ -27,21 +23,21 @@
                     <i class="fa fa-book"></i>
                     Find facts
                 </h3>
-                <p>Populations and dollar figures that help you understand a place, broken down by category: Demographics, Economics, Families, Housing and Social.</p>
+                <p>Populations and dollar figures are broken down by category: Demographics, Economics, Families, Housing and Social.</p>
             </div>
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="fa fa-bar-chart-o"></i>
                     Visualize
                 </h3>
-                <p>We&rsquo;re continuing to build a library of charts to give you insight into data from the places you research. Look for them on profile pages.</p>
+                <p>Our library of charts gives you insight into data from the places you research. Look for them on profile pages. You can even <a href="{% url 'example_detail' 'embed-charts' %}">embed the charts</a> on your own site.</p>
             </div>
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="fa fa-refresh"></i>
                     Get context
                 </h3>
-                <p>We&rsquo;re working on pre-computed statistics to add context to each data point, so you can see how each place fits into its state, county and nation.</p>
+                <p>Pre-computed statistics are presented alongside each data point, so you can see how each place fits into a larger context.</p>
             </div>
         </section>
     </article>
@@ -50,30 +46,30 @@
 
 
 <div class="content-container clearfix">
-    <article id="compare" class="clearfix wrapper">
-        {% include "compare/_blocks/_comparison_builder_steps.html" %}
+    <article id="explore" class="clearfix wrapper">
+        {% include "data/_blocks/_data_query_builder.html" %}
 
-        <section>
+        <section id="explore-callouts">
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="fa fa-search"></i>
                     Explore
                 </h3>
-                <p>Census data is massive, and sometimes it&rsquo;s hard to find just the table you&rsquo;re looking for. Topic filtering and keyword search help you <a href="{% url 'comparison_builder' %}">easily build a query</a>.</p>
+                <p>Census data is massive, and sometimes it&rsquo;s hard to find the table you&rsquo;re looking for. Search by table and column keywords.</p>
             </div>
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="fa fa-bar-chart-o"></i>
                     Visualize
                 </h3>
-                <p>We want to help <em>you</em> tell great stories with data. Maps and distribution charts help uncover what&rsquo;s interesting, so you can take it from there.</p>
+                <p>We want to help <em>you</em> tell great stories. Maps and distribution charts help uncover what&rsquo;s interesting, so you can take it from there.</p>
             </div>
             <div class="column-third callout with-icon">
                 <h3>
                     <i class="fa fa-download"></i>
                     Download
                 </h3>
-                <p>From any comparison, save the data you&rsquo;re viewing in CSV or JSON for further analysis. We plan to add more formats soon.</p>
+                <p>From any comparison, save the data you&rsquo;re viewing in CSV, Excel or a variety of geographic data formats.</p>
             </div>
         </section>
     </article>
@@ -82,6 +78,28 @@
 
 
 <div class="content-container clearfix tan-stripe">
+    <article id="topics" class="clearfix wrapper">
+        <header class="column-full">
+            <h1 class="article-header">Topics</h1>
+            <p class="explainer">Learn more about the concepts and tables covered by the Census and American Community Survey. We&rsquo;ll be adding more of these pages in the next few months, so <a href="http://censusreporter.uservoice.com/" data-uv-trigger>let us know</a> if there are topics you&rsquo;d like to see us explain.</p>
+        </header>
+        <section class="clear clearfix">
+            {% for row in topics_list|columns:3 %}
+            <div class="column-row clearfix">
+                {% for topic in row %}
+                <div class="column-third">
+                    <h2 id="topic-{{ topic.slug }}"><a href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a></h2>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </section>
+    </article>
+</div>
+
+
+
+<div class="content-container clearfix">
     <article id="examples" class="clearfix wrapper">
         <header class="column-full">
             <h1 class="article-header">Using this site</h1>
@@ -89,27 +107,27 @@
         </header>
         <section class="card-container clearfix">
             <h2 class="column-full subhead">Examples</h2>
-            <a class="column-third card" href="/compare/01000US/040/map/?release=acs2012_1yr&table=B06011">
+            <a class="column-third card" href="/data/map/?table=B06011&geo_ids=040|01000US">
                 <img src="{{ STATIC_URL }}img/examples/us_median_income_map.png">
                 <span class="caption">How does median income compare from state to state? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/16000US0644000/">
+            <a class="column-third card" href="/profiles/16000US0644000-los-angeles-ca/#language">
                 <img src="{{ STATIC_URL }}img/examples/language_los_angeles.png">
                 <span class="caption">What languages do people speak at home in Los Angeles? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/compare/01000US/040/distribution/?release=acs2012_1yr&table=B07009">
+            <a class="column-third card" href="/data/distribution/?table=B07009&geo_ids=040|01000US">
                 <img src="{{ STATIC_URL }}img/examples/us_geographic_mobility_distribution.png">
                 <span class="caption">Where are people most mobile, and what skills do they have? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/16000US5367000/">
+            <a class="column-third card" href="/profiles/16000US5367000-spokane-wa/#poverty">
                 <img src="{{ STATIC_URL }}img/examples/poverty_spokane.png">
                 <span class="caption">How many children live in poverty in Spokane, Wash.? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/compare/01000US/040/table/?release=acs2012_1yr&table=B02001">
+            <a class="column-third card" href="/data/table/?table=B02001&geo_ids=040|01000US">
                 <img src="{{ STATIC_URL }}img/examples/us_race_table.png">
                 <span class="caption">What is the racial makeup of the U.S., and how do states compare? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/16000US3916000/">
+            <a class="column-third card" href="/profiles/16000US3916000-cleveland-oh/#educational-attainment">
                 <img src="{{ STATIC_URL }}img/examples/education_cleveland.png">
                 <span class="caption">How many people have college degrees in Cleveland? <span class="more">More &rarr;</span></span>
             </a>
@@ -127,6 +145,5 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 </script>
-<script src="{{ STATIC_URL }}js/vendor/spin.min.js"></script>
-<script src="{{ STATIC_URL }}js/comparison.builder.js"></script>
+<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
 {% endblock %}

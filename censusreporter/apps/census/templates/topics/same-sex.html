@@ -1,0 +1,28 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>The Census Bureau does not ask questions about sexual orientation. However, responses to some questions provide data about same-sex couples. This data should not be used to draw general conclusions about gay/lesbian/bisexual Americans, but when handled with appropriate care, may still be useful for reporting.</p>
+<p>
+    Table <strong><a href="{% url 'table_detail' 'B11009' %}">B11009</a></strong>, <em>Unmarried-partner Households by Sex of Partner</em>, is the only table which provides information about people who have told the Census Bureau that they live with a partner of the same sex. As explained in the Census Bureau's <a href="http://www.census.gov/hhes/samesex/files/SScplfactsheet_final.pdf">Frequently Asked Questions About Same-Sex Couple Households</a> document, responses reporting a spouse of the same sex as the house holder are changed to indicate an unmarried partner, regardless of state laws permitting same-sex marriage.
+</p>
+<p>
+    Consult the Census Bureau's documentation for more details. Specifically, <a href="http://www.census.gov/hhes/samesex/data/acs.html">American Community Survey Data on Same Sex Couples</a> provides national-level data on the household characteristics (including income, education, etc) of same-sex couples compared to married and unmarried opposite-sex couples and married couples dating back to 2005, as well as more data and methodological details.
+</p>
+<aside class="clear">
+<h3>Census Bureau Information about Same-Sex Couples</h3>
+<ul>
+<li><a href="http://www.census.gov/hhes/samesex/">Census Bureau main page for same sex couples</a></li>
+<li><a href="http://www.census.gov/hhes/samesex/data/acs.html">American Community Survey Data on Same Sex Couples</a></li>
+<li>
+<a href="http://www.census.gov/prod/2011pubs/acsbr10-03.pdf">ACS Brief: Same-Sex Couple Households</a> (September, 2011)</li>
+<li>
+<a href="http://www.census.gov/hhes/samesex/files/Krivickas-Lofquist%20PAA%202011.pdf">Demographics of Same-Sex Couple Households with Children</a> (March, 2011)</li>
+</ul>
+</aside>
+</section>
+{% endblock %}
+
+

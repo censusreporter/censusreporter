@@ -1,0 +1,178 @@
+{% extends '_base.html' %}
+
+{% block content %}
+{% comment %}
+<section class="clearfix" id="query-table-picker">
+    <h2>Find table</h2>
+    <div class="typeahead-container">
+        <form>
+            <input name="table_select" id="table-select" type="text" placeholder="Search by table or column name..." autocomplete="off"/>
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+</section>
+{% endcomment %}
+<section class="clearfix big-action" id="query-geo-picker">
+    <h1 class="article-header">Find a place</h1>
+    <div class="typeahead-container input-wrapper with-submit">
+        <form>
+            <input name="g" id="geography-select" type="text" value="{{ g }}" placeholder="Search by place name..." autocomplete="off">
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+</section>
+
+{% if tables %}
+<article id="table-results">
+    <h2>Tables</h1>
+    <table>
+        <thead class="left-align">
+            <tr>
+                <th>Table ID</th>
+                <th>Table Name</th>
+                <th>Universe</th>
+                <th>Column ID</th>
+                <th>Column Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for table in tables %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td class="nowrap">{{ table.release }} <a href="?table={{ table.table_id }}&release={{ table.release }}">{{ table.table_id }}</a></td>
+                <td>{{ table.table_title }}</td>
+                <td>{{ table.universe }}</td>
+                <td>{{ table.column_id }}</td>
+                <td>{{ table.column_title }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endif %}
+
+{% if geos %}
+<article id="table-results">
+    <h2>Geographies</h1>
+    <table>
+        <thead class="left-align">
+            <tr>
+                <th>Geo ID</th>
+                <th>Name</th>
+                <th>2013 Population Estimate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for geo in geos %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td class="nowrap"><a href="/profiles/{{geo.full_geoid}}/">{{ geo.full_geoid }}</a></td>
+                <td>{{ geo.display_name }}</td>
+                <td>{{ geo.population }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+{% endif %}
+
+{% endblock %}
+
+{% block body_javascript_extra %}{{ block.super }}
+<script type="text/javascript">
+    var topicSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 1500,
+        remote: {
+            url: CR_API_URL + '1.0/table/suggest,
+            replace: function (url, query) {
+                return url + '?q=' + query;
+            },
+            filter: function(response) {
+                var results = response.results;
+                var resultNumber = results.length;
+                if (resultNumber === 0) {
+                    results.push({
+                        table_title: 'Sorry, no matches found. Try changing your search.'
+                    });
+                }
+                _.map(results, function(item) {
+                    if (!!item['topics']) {
+                        item['topic_string'] = item['topics'].join(', ');
+                    }
+                });
+                return results;
+            }
+        }
+    });
+    topicSelectEngine.initialize();
+
+    function makeElasticSearchTopicSelectWidget(element) {
+        element.typeahead('destroy');
+        element.typeahead({
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
+            name: 'topics',
+            displayKey: 'table_id',
+            source: topicSelectEngine.ttAdapter(),
+            templates: {
+                suggestion: Handlebars.compile(
+                    [
+                        {% verbatim %}
+                        '<p class="result-name">{{table_title}}{{#if column_title}}&nbsp;&mdash;&nbsp;{{column_title}}{{/if}}</p>',
+                        {% endverbatim %}
+                    ].join('')
+                )
+            }
+        });
+    }
+
+    var geoSelectEngine = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        limit: 1500,
+        remote: {
+            url: CR_API_URL + '/1.0/geo/suggest',
+            replace: function (url, query) {
+                return url + '?q=' + query;
+            },
+            filter: function(response) {
+                var data = response.results;
+                var resultNumber = data.length;
+                if (resultNumber === 0) {
+                    data.push({
+                        table_name: 'Sorry, no matches found. Try changing your search.'
+                    });
+                }
+                return data;
+            }
+        }
+    });
+    geoSelectEngine.initialize();
+
+    function makeElasticSearchGeoSelectWidget(element) {
+        element.typeahead('destroy');
+        element.typeahead({
+            autoselect: true,
+            highlight: false,
+            hint: false,
+            minLength: 2
+        }, {
+            name: 'geo',
+            displayKey: 'geoid',
+            source: geoSelectEngine.ttAdapter(),
+            templates: {
+                suggestion: Handlebars.compile(
+                    [
+                        {% verbatim %}
+                        '<p class="result-name">{{name}}</p>',
+                        {% endverbatim %}
+                    ].join('')
+                )
+            }
+        });
+    }
+</script>
+{% endblock %}

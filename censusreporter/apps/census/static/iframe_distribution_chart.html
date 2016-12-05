@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_parent" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <link rel="stylesheet" href="https://s3.amazonaws.com/embed.censusreporter.org/1.0/css/charts.css" id="chart-styles">
+        <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-43018828-1', 'auto');
+        </script>
+        <!-- Inline these styles to defeat IE's weird CSS caching for multiple iframes at different widths -->
+        <style type="text/css">
+        .embed-footer {
+            padding: 2em 9em;
+        }
+        @media only screen and (min-width: 481px) {
+            .census-chart-embed .hovercard {
+                /* an !important is better than recalculating
+                every time the hover listener fires */
+                width: 49% !important;
+                min-width: 235px;
+                max-width: 500px;
+            }
+        }
+        @media only screen and (max-width: 640px) {
+            .chart-qualifier {
+                float: left;
+                margin: 1em 0 0;
+                display: block;
+                position: relative;
+                clear: both;
+            }
+        }
+        </style>
+        <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
+        <!--[if lte IE 8]>
+        <script src="js/vendor/r2d3.js" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <![endif]-->
+    </head>
+    <body class="census-chart-embed">
+<section class="coal-chart-container" id="coal-chart-B25040002"><h2 id="B25040002"><a href="#B25040002" class="permalink">Utility gas <i class="fa fa-link"></i></a></h2><ul class="coal-chart"><li class="tick-mark tick-mark-min"><span><b>Min:</b> 0%</span></li><li class="tick-mark" style="left:33%;"><span style=""><b>Median:</b> 17%</span></li><li class="tick-mark tick-mark-max"><span><b>Max:</b> 51.5%</span></li><li class="chart-point" style="left: 48.5%;"><a data-index="geography-05000US53001"><span class="hovercard"><span class="label-title">Adams County, WA</span><span class="value">25%<span class="context">±3.1%</span></span><span class="value">1,432<span class="context">±177</span></span></span></a></li><li class="chart-point" style="left: 95.9%;"><a data-index="geography-05000US53003"><span class="hovercard"><span class="label-title">Asotin County, WA</span><span class="value">49.4%<span class="context">±3%</span></span><span class="value">4,466<span class="context">±249</span></span></span></a></li><li class="chart-point" style="left: 29.1%;"><a data-index="geography-05000US53005" class=""><span class="hovercard"><span class="label-title">Benton County, WA</span><span class="value">15%<span class="context">±0.8%</span></span><span class="value">9,706<span class="context">±517</span></span></span></a></li><li class="chart-point" style="left: 8.7%;"><a data-index="geography-05000US53007" class=""><span class="hovercard"><span class="label-title">Chelan County, WA</span><span class="value">4.5%<span class="context">±1%</span></span><span class="value">1,218<span class="context">±269</span></span></span></a></li><li class="chart-point" style="left: 3.3%;"><a data-index="geography-05000US53009"><span class="hovercard"><span class="label-title">Clallam County, WA</span><span class="value">1.7%<span class="context">±0.6%</span></span><span class="value">513<span class="context">±171</span></span></span></a></li><li class="chart-point" style="left: 63.5%;"><a data-index="geography-05000US53011"><span class="hovercard"><span class="label-title">Clark County, WA</span><span class="value">32.7%<span class="context">±0.6%</span></span><span class="value">51,760<span class="context">±974</span></span></span></a></li><li class="chart-point" style="left: 2.3%;"><a data-index="geography-05000US53013"><span class="hovercard"><span class="label-title">Columbia County, WA</span><span class="value">1.2%<span class="context">±1.3%</span></span><span class="value">20<span class="context">±23</span></span></span></a></li><li class="chart-point" style="left: 10.3%;"><a data-index="geography-05000US53015" class=""><span class="hovercard"><span class="label-title">Cowlitz County, WA</span><span class="value">5.3%<span class="context">±0.7%</span></span><span class="value">2,092<span class="context">±278</span></span></span></a></li><li class="chart-point" style="left: 4.1%;"><a data-index="geography-05000US53017"><span class="hovercard"><span class="label-title">Douglas County, WA</span><span class="value">2.1%<span class="context">±0.7%</span></span><span class="value">298<span class="context">±104</span></span></span></a></li><li class="chart-point" style="left: 1.9%;"><a data-index="geography-05000US53019"><span class="hovercard"><span class="label-title">Ferry County, WA</span><span class="value">1%<span class="context">±0.9%</span></span><span class="value">29<span class="context">±25</span></span></span></a></li><li class="chart-point" style="left: 48.7%;"><a data-index="geography-05000US53021"><span class="hovercard"><span class="label-title">Franklin County, WA</span><span class="value">25.1%<span class="context">±1.8%</span></span><span class="value">5,730<span class="context">±397</span></span></span></a></li><li class="chart-point" style="left: 1%;"><a data-index="geography-05000US53023"><span class="hovercard"><span class="label-title">Garfield County, WA</span><span class="value">0.5%<span class="context">±0.7%</span></span><span class="value">5<span class="context">±7</span></span></span></a></li><li class="chart-point" style="left: 6.6%;"><a data-index="geography-05000US53025" class=""><span class="hovercard"><span class="label-title">Grant County, WA</span><span class="value">3.4%<span class="context">±0.9%</span></span><span class="value">1,037<span class="context">±265</span></span></span></a></li><li class="chart-point" style="left: 22.5%;"><a data-index="geography-05000US53027" class=""><span class="hovercard"><span class="label-title">Grays Harbor County, WA</span><span class="value">11.6%<span class="context">±1%</span></span><span class="value">3,250<span class="context">±277</span></span></span></a></li><li class="chart-point" style="left: 33%;"><a data-index="geography-05000US53029"><span class="hovercard"><span class="label-title">Island County, WA</span><span class="value">17%<span class="context">±1.2%</span></span><span class="value">5,657<span class="context">±370</span></span></span></a></li><li class="chart-point" style="left: 2.9%;"><a data-index="geography-05000US53031" class=""><span class="hovercard"><span class="label-title">Jefferson County, WA</span><span class="value">1.5%<span class="context">±0.7%</span></span><span class="value">212<span class="context">±100</span></span></span></a></li><li class="chart-point" style="left: 88.2%;"><a data-index="geography-05000US53033"><span class="hovercard"><span class="label-title">King County, WA</span><span class="value">45.4%<span class="context">±0.3%</span></span><span class="value">361,985<span class="context">±2,582</span></span></span></a></li><li class="chart-point" style="left: 51.1%;"><a data-index="geography-05000US53035"><span class="hovercard"><span class="label-title">Kitsap County, WA</span><span class="value">26.3%<span class="context">±0.8%</span></span><span class="value">25,698<span class="context">±710</span></span></span></a></li><li class="chart-point" style="left: 40.6%;"><a data-index="geography-05000US53037" class=""><span class="hovercard"><span class="label-title">Kittitas County, WA</span><span class="value">20.9%<span class="context">±1.9%</span></span><span class="value">3,441<span class="context">±298</span></span></span></a></li><li class="chart-point" style="left: 36.1%;"><a data-index="geography-05000US53039"><span class="hovercard"><span class="label-title">Klickitat County, WA</span><span class="value">18.6%<span class="context">±2.5%</span></span><span class="value">1,545<span class="context">±206</span></span></span></a></li><li class="chart-point" style="left: 20.4%;"><a data-index="geography-05000US53041" class=""><span class="hovercard"><span class="label-title">Lewis County, WA</span><span class="value">10.5%<span class="context">±1%</span></span><span class="value">3,104<span class="context">±297</span></span></span></a></li><li class="chart-point" style="left: 55.3%;"><a data-index="geography-05000US53043"><span class="hovercard"><span class="label-title">Lincoln County, WA</span><span class="value">28.5%<span class="context">±3.2%</span></span><span class="value">1,314<span class="context">±140</span></span></span></a></li><li class="chart-point" style="left: 11.7%;"><a data-index="geography-05000US53045" class=""><span class="hovercard"><span class="label-title">Mason County, WA</span><span class="value">6%<span class="context">±0.9%</span></span><span class="value">1,391<span class="context">±206</span></span></span></a></li><li class="chart-point" style="left: 3.7%;"><a data-index="geography-05000US53047" class=""><span class="hovercard"><span class="label-title">Okanogan County, WA</span><span class="value">1.9%<span class="context">±0.7%</span></span><span class="value">303<span class="context">±111</span></span></span></a></li><li class="chart-point" style="left: 1.9%;"><a data-index="geography-05000US53049" class=""><span class="hovercard"><span class="label-title">Pacific County, WA</span><span class="value">1%<span class="context">±0.5%</span></span><span class="value">92<span class="context">±44</span></span></span></a></li><li class="chart-point" style="left: 1.4%;"><a data-index="geography-05000US53051" class=""><span class="hovercard"><span class="label-title">Pend Oreille County, WA</span><span class="value">0.7%<span class="context">±0.6%</span></span><span class="value">39<span class="context">±31</span></span></span></a></li><li class="chart-point" style="left: 70.5%;"><a data-index="geography-05000US53053"><span class="hovercard"><span class="label-title">Pierce County, WA</span><span class="value">36.3%<span class="context">±0.6%</span></span><span class="value">108,708<span class="context">±1,772</span></span></span></a></li><li class="chart-point" style="left: 4.9%;"><a data-index="geography-05000US53055" class=""><span class="hovercard"><span class="label-title">San Juan County, WA</span><span class="value">2.5%<span class="context">±0.8%</span></span><span class="value">199<span class="context">±67</span></span></span></a></li><li class="chart-point" style="left: 87.8%;"><a data-index="geography-05000US53057"><span class="hovercard"><span class="label-title">Skagit County, WA</span><span class="value">45.2%<span class="context">±1.3%</span></span><span class="value">20,575<span class="context">±543</span></span></span></a></li><li class="chart-point" style="left: 21.6%;"><a data-index="geography-05000US53059" class=""><span class="hovercard"><span class="label-title">Skamania County, WA</span><span class="value">11.1%<span class="context">±2.2%</span></span><span class="value">484<span class="context">±94</span></span></span></a></li><li class="chart-point" style="left: 79.2%;"><a data-index="geography-05000US53061"><span class="hovercard"><span class="label-title">Snohomish County, WA</span><span class="value">40.8%<span class="context">±0.6%</span></span><span class="value">109,591<span class="context">±1,432</span></span></span></a></li><li class="chart-point" style="left: 100%;"><a data-index="geography-05000US53063"><span class="hovercard"><span class="label-title">Spokane County, WA</span><span class="value">51.5%<span class="context">±0.7%</span></span><span class="value">96,549<span class="context">±1,258</span></span></span></a></li><li class="chart-point" style="left: 44.9%;"><a data-index="geography-05000US53065"><span class="hovercard"><span class="label-title">Stevens County, WA</span><span class="value">23.1%<span class="context">±1.8%</span></span><span class="value">4,081<span class="context">±301</span></span></span></a></li><li class="chart-point" style="left: 68.7%;"><a data-index="geography-05000US53067"><span class="hovercard"><span class="label-title">Thurston County, WA</span><span class="value">35.4%<span class="context">±0.9%</span></span><span class="value">35,708<span class="context">±876</span></span></span></a></li><li class="chart-point" style="left: 0%;"><a data-index="geography-05000US53069"><span class="hovercard"><span class="label-title">Wahkiakum County, WA</span><span class="value">0%<span class="context">±0.7%</span></span><span class="value">0<span class="context">±12</span></span></span></a></li><li class="chart-point" style="left: 73%;"><a data-index="geography-05000US53071" class=""><span class="hovercard"><span class="label-title">Walla Walla County, WA</span><span class="value">37.6%<span class="context">±2.4%</span></span><span class="value">8,075<span class="context">±481</span></span></span></a></li><li class="chart-point" style="left: 84.3%;"><a data-index="geography-05000US53073"><span class="hovercard"><span class="label-title">Whatcom County, WA</span><span class="value">43.4%<span class="context">±1.2%</span></span><span class="value">34,390<span class="context">±845</span></span></span></a></li><li class="chart-point" style="left: 58.3%;"><a data-index="geography-05000US53075"><span class="hovercard"><span class="label-title">Whitman County, WA</span><span class="value">30%<span class="context">±1.8%</span></span><span class="value">4,920<span class="context">±278</span></span></span></a></li><li class="chart-point" style="left: 49.3%;"><a data-index="geography-05000US53077"><span class="hovercard"><span class="label-title">Yakima County, WA</span><span class="value">25.4%<span class="context">±1%</span></span><span class="value">20,219<span class="context">±788</span></span></span></a></li></ul></section>
+
+        <div class="embed-footer">
+            <ul><li><a id="about-trigger" href="#">About this chart</a></li></ul>
+            <a class="title" href="https://censusreporter.org"><img src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/img/logo12.png"> Census Reporter</a>
+        </div>
+
+        <!--[if gte IE 9]><!-->
+        <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
+        <!--<![endif]-->
+        <script src="js/vendor/flippant.min.js"></script>
+        <script>
+        function makeEmbedFrame() {
+            var embedFrame = {
+                params: {},
+                data: {},
+                elements: {}
+            };
+
+            embedFrame.chartSetup = function() {
+                embedFrame.trackEvent('Embedded Charts', 'Parent URL', document.referrer);
+
+                embedFrame.parentContainerID = 'cr-embed-'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID;
+                // avoid css media-query caching issues with multiple embeds on same page
+                $('#chart-styles').attr('href','https://s3.amazonaws.com/embed.censusreporter.org/1.0/css/charts.css?'+embedFrame.parentContainerID)
+            }
+
+            embedFrame.makeChartAbout = function() {
+                var aboutData = embedFrame.data.chartData.metadata;
+
+                embedFrame.elements.chartAbout = [
+                    '<h3 class="chart-title">' + embedFrame.params.chartTitle + '</h3>',
+                    '<ul>',
+                    '<li><strong>This chart counts:</strong> ' + aboutData.universe + '</li>',
+                    '<li>The data in this chart comes from <a href="https://censusreporter.org/data/table/?table=' + aboutData.table_id.toUpperCase() + '&primary_geo_id=' + embedFrame.params.geoID + '&geo_ids=' + embedFrame.params.geoID + '">Table ' + aboutData.table_id.toUpperCase() + '</a> in the U.S. Census Bureau&rsquo;s ' + aboutData.acs_release + ' release. The chart is from <a href="https://censusreporter.org">Census Reporter</a>, a project to make Census data easier to use and understand.</li>',
+                    '<li><a href="https://censusreporter.org/profiles/' + embedFrame.params.geoID + '/">See more data from ' + embedFrame.data.geographyData['this'].full_name + '</a>',
+                    '</ul>'
+                ].join('');
+            }
+
+            embedFrame.addChartListeners = function() {
+                // allow for older IE
+                var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent',
+                    eventListener = window[eventMethod],
+                    messageEvent = (eventMethod == 'attachEvent') ? 'onmessage' : 'message';
+                eventListener(messageEvent, embedFrame.handleMessage, false);
+
+                var flip = flippant.flip,
+                    back;
+
+                embedFrame.flipped = false,
+                $('.embed-footer').on('click', '#about-trigger', function(e) {
+                    e.preventDefault();
+                    if (!embedFrame.flipped) {
+                        back = flip(embedFrame.elements.container, embedFrame.elements.chartAbout)
+                        embedFrame.flipped = true;
+                    } else {
+                        back.close();
+                        embedFrame.flipped = false;
+                    }
+                    var flipText = (embedFrame.flipped) ? 'Back to chart' : 'About this chart';
+                    $(this).text(flipText);
+                    embedFrame.trackEvent('Embedded Charts', 'About pane open', embedFrame.flipped.toString());
+                });
+            }
+
+            embedFrame.trackEvent = function(category, action, label) {
+                // make sure we have Google Analytics function available
+                if (typeof(ga) == 'function') {
+                    ga('send', 'event', category, action, label);
+                }
+            }
+
+            embedFrame.chartSetup();
+            embedFrame.addChartListeners();
+        }
+
+        makeEmbedFrame();
+        </script>
+    </body>
+</html>

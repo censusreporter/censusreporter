@@ -1,0 +1,15 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block body_class %}data-builder{% endblock %}
+
+{% block header_content %}{% endblock %}
+
+{% block content %}
+<article id="explore" class="clearfix">
+    {% include "data/_blocks/_data_query_builder.html" %}
+</article>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
+{% endblock %}

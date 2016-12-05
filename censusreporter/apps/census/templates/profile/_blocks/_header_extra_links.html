@@ -1,0 +1,8 @@
+<div class="column-full header-extra-links">
+    <strong class="caption">More data:</strong>
+    <ul>
+        {% if geography.this.sumlevel in "950|960|970" %}
+        <li><a href="http://projects.propublica.org/schools/districts/{{ geography.this.short_geoid }}">ProPublica&rsquo;s Opportunity Gap profile</a></li>
+        {% endif %}
+    </ul>
+</div>

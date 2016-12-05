@@ -1,8 +1,19 @@
+jQuery.support.cors = true;
+
+// navigation menu
 $('#menu-toggle').on('click', function() {
     $('#menu').slideToggle(150);
 })
 
-window.browserWidth = document.documentElement.clientWidth,
+// make table rows highlight-able. Not ideal to attach listener to `body`
+// but we have some tables that are created by js after page load
+$('body').on('click', 'tr', function(){
+    $(this).toggleClass('highlight');
+})
+
+// attach browser dimensions for help with charts and tables
+window.browserWidth = document.documentElement.clientWidth;
+window.browserHeight = document.documentElement.clientHeight;
 
 // usage: log('inside coolFunc', this, arguments);
 // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
@@ -15,49 +26,229 @@ window.log = function(){
 // make it safe to use console.log always
 (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();)b[a]=b[a]||c})(window.console=window.console||{});
 
+// prepare ajax spinners
+$('body').append('<div id="body-spinner"></div>');
+var spinnerTarget = document.getElementById('body-spinner'),
+    spinner = new Spinner();
+$(document).ajaxSend(function(event, request, settings) {
+    spinner.spin(spinnerTarget);
+});
+$(document).ajaxComplete(function(event, request, settings) {
+    spinner.stop();
+});
+
 // standard mapping of summary level code to summary level name
 var sumlevMap = {
-    "010": "nation",
-    "020": "region",
-    "030": "division",
-    "040": "state",
-    "050": "county",
-    "060": "county subdivision",
-    "160": "place",
-    "250": "native area",
-    "310": "metro area",
-    "500": "congressional district",
-    "610": "state house (upper)",
-    "620": "state house (lower)",
-    "860": "ZIP code",
-    "950": "school district (elementary)",
-    "960": "school district (secondary)",
-    "970": "school district (unified)"
+    "010": {"name": "nation", "plural": "nations", "sumlev": "010", "size_sort": 1000,
+            "children": ['020','030','040','050','060','140','150','160','250','310','500','610','620','860','950','960','970']},
+    "020": {"name": "region", "plural": "regions", "sumlev": "020", "size_sort": 950,
+            "children": ['030','040','050','060','140','150','160','250','310','500','610','620','860','950','960','970']},
+    "030": {"name": "division", "plural": "divisions", "sumlev": "030", "size_sort": 900,
+            "children": ['040','050','060','140','150','160','250','310','500','610','620','860','950','960','970']},
+    "040": {"name": "state", "plural": "states", "sumlev": "040", "size_sort": 850,
+            "children": ['050','060','140','150','160','250','310','500','610','620','860','950','960','970']},
+    "050": {"name": "county", "plural": "counties", "sumlev": "050", "size_sort": 800,
+            "children": ['060','140','150','160','500','610','620','860','950','960','970']},
+    "060": {"name": "county subdivision", "plural": "county subdivisions", "sumlev": "060", "size_sort": 750,
+            "children": ['140','150','160','250','310','500','610','620','860','950','960','970']},
+    "140": {"name": "census tract", "plural": "census tracts", "sumlev": "140", "size_sort": 100,
+            "children": ['150']},
+    "150": {"name": "block group", "plural": "block groups", "sumlev": "150", "size_sort": 50,
+            "children": []},
+    "160": {"name": "place", "plural": "places", "sumlev": "160", "size_sort": 200,
+            "children": ['140','150','860']},
+    "170": {"name": "consolidated city", "plural": "consolidated cities", "sumlev": "170", "size_sort": 210,
+            "children": []},
+    "230": {"name": "Alaska native regional corporation", "plural": "Alaska native regional corporations", "sumlev": "230", "size_sort": 300,
+            "children": []},
+    "250": {"name": "native area", "plural": "native areas", "sumlev": "250", "size_sort": 300,
+            "children": ['140','150','252','254','860']},
+    "251": {"name": "tribal subdivision", "plural": "tribal subdivisions", "sumlev": "251", "size_sort": 290,
+            "children": []},
+    "252": {"name": "native area (reservation)", "plural": "native areas (reservation)", "sumlev": "250", "size_sort": 300,
+            "children": []},
+    "254": {"name": "native area (off-reservation trust land)", "plural": "native areas (off-reservation trust land)", "sumlev": "250", "size_sort": 300,
+            "children": []},
+    "256": {"name": "tribal tract", "plural": "tribal tracts", "sumlev": "256", "size_sort": 101,
+            "children": []},
+    "310": {"name": "metro area", "plural": "metro areas", "sumlev": "310", "size_sort": 825,
+            "children": ['050','060','140','150','160','860']},
+    "314": {"name": "metropolitan division", "plural": "metropolitan division", "sumlev": "314", "size_sort": 810,
+            "children": []},
+    "330": {"name": "combined statistical area", "plural": "combined statistical areas", "sumlev": "330", "size_sort": 845,
+            "children": []},
+    "335": {"name": "combined NECTA", "plural": "combined NECTAs", "sumlev": "335", "size_sort": 844,
+            "children": []},
+    "350": {"name": "NECTA", "plural": "NECTAs", "sumlev": "350", "size_sort": 824,
+            "children": []},
+    "364": {"name": "NECTA division", "plural": "NECTA divisions", "sumlev": "364",  "size_sort": 811,
+            "children": []},
+    "400": {"name": "urban area", "plural": "urban areas", "sumlev": "400", "size_sort": 820,
+            "children": []},
+    "500": {"name": "congressional district", "plural": "congressional districts", "sumlev": "500", "size_sort": 770,
+            "children": ['050','060','140','150','160','860']},
+    "610": {"name": "state house (upper)", "plural": "state houses (upper)", "sumlev": "610", "size_sort": 765,
+            "children": ['050','060','140','150','160','860']},
+    "620": {"name": "state house (lower)", "plural": "state houses (lower)", "sumlev": "620", "size_sort": 760,
+            "children": ['050','060','140','150','160','860']},
+    "795": {"name": "PUMA", "plural": "PUMAs", "sumlev": "795", "size_sort": 195,
+            "children": []},
+    "860": {"name": "ZIP code", "plural": "ZIP codes", "sumlev": "860", "size_sort": 125,
+            "children": ['140','150']},
+    "950": {"name": "school district (elementary)", "plural": "school districts (elementary)", "sumlev": "950", "size_sort": 145,
+            "children": ['060','140','150','160','860']},
+    "960": {"name": "school district (secondary)", "plural": "school districts (secondary)", "sumlev": "960", "size_sort": 150,
+            "children": ['060','140','150','160','860']},
+    "970": {"name": "school district (unified)", "plural": "school districts (unified)", "sumlev": "970", "size_sort": 155,
+            "children": ['060','140','150','160','860']}
 };
 
 var releaseNames = {
+    'acs2014_1yr': {'name': 'ACS 2014 1-year', 'years': '2014'},
+    'acs2013_1yr': {'name': 'ACS 2013 1-year', 'years': '2013'},
+    'acs2013_3yr': {'name': 'ACS 2013 3-year', 'years': '2011-2013'},
+    'acs2013_5yr': {'name': 'ACS 2013 5-year', 'years': '2009-2013'},
     'acs2012_1yr': {'name': 'ACS 2012 1-year', 'years': '2012'},
     'acs2012_3yr': {'name': 'ACS 2012 3-year', 'years': '2010-2012'},
-    'acs2011_1yr': {'name': 'ACS 2011 1-year', 'years': '2011'},
-    'acs2011_3yr': {'name': 'ACS 2011 3-year', 'years': '2009-2011'},
-    'acs2011_5yr': {'name': 'ACS 2011 5-year', 'years': '2007-2011'},
-    'acs2010_1yr': {'name': 'ACS 2010 1-year', 'years': '2010'},
-    'acs2010_3yr': {'name': 'ACS 2010 3-year', 'years': '2008-2010'},
-    'acs2010_5yr': {'name': 'ACS 2010 5-year', 'years': '2006-2010'},
-    'acs2009_1yr': {'name': 'ACS 2009 1-year', 'years': '2009'},
-    'acs2009_3yr': {'name': 'ACS 2009 3-year', 'years': '2007-2009'},
-    'acs2008_1yr': {'name': 'ACS 2008 1-year', 'years': '2008'},
-    'acs2008_3yr': {'name': 'ACS 2008 3-year', 'years': '2006-2008'},
-    'acs2007_1yr': {'name': 'ACS 2007 1-year', 'years': '2007'},
-    'acs2007_3yr': {'name': 'ACS 2007 3-year', 'years': '2005-2007'},
+    'acs2012_5yr': {'name': 'ACS 2012 5-year', 'years': '2008-2012'}
+};
+
+// formatting utils
+// format percentages and/or dollar signs
+var valFmt = function(value, statType, disablePct) {
+    if (value >= 0 && value !== null) {
+        if (!disablePct && statType == 'percentage') {
+            value += '%';
+        } else if (statType == 'dollar') {
+            value = '$' + commaFmt(value);
+        } else {
+            value = commaFmt(value);
+        }
+        return value;
+    }
+    return ''
+}
+
+// commas for human-friendly integers
+var commaFmt = d3.format(",");
+
+var capitalize = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// underscore.string formatters
+var escapeRegExp = function(str) {
+  if (str == null) return '';
+  return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+}
+
+var defaultToWhiteSpace = function(characters) {
+  if (characters == null)
+    return '\\s';
+  else if (characters.source)
+    return characters.source;
+  else
+    return '[' + escapeRegExp(characters) + ']';
+}
+
+var nativeTrim = String.prototype.trim;
+var trim = function(str, characters) {
+  if (str == null) return '';
+  if (!characters && nativeTrim) return nativeTrim.call(str);
+  characters = defaultToWhiteSpace(characters);
+  return String(str).replace(new RegExp('\^' + characters + '+|' + characters + '+$', 'g'), '');
+}
+
+var dasherize = function(str) {
+  return trim(str).replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
+}
+
+var slugify = function(str) {
+  if (str == null) return '';
+
+  var from = "ąàáäâãåæăćęèéëêìíïîłńòóöôõøśșțùúüûñçżź",
+      to = "aaaaaaaaaceeeeeiiiilnoooooosstuuuunczz",
+      regex = new RegExp(defaultToWhiteSpace(from), 'g');
+
+  str = String(str).toLowerCase().replace(regex, function(c){
+    var index = from.indexOf(c);
+    return to.charAt(index) || '-';
+  });
+
+  return dasherize(str.replace(/[^\w\s-]/g, ''));
 }
 
 // math utils
-function roundNumber(n) {
-    return (Math.round(n * 10) / 10);
+var calcPct = function(numerator, denominator) {
+    if (denominator == 0) {
+        return 0
+    } else if (numerator >= 0 && denominator > 0) {
+        return Math.round(((numerator / denominator) * 100) * 10) / 10
+    }
+    return null
 }
 
-function numberWithCommas(n) {
-    var parts = roundNumber(n).toString().split(".");
+var calcPctMOE = function(numerator, denominator, numerator_moe, denominator_moe) {
+    // From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
+    if (denominator == 0) {
+        return 0
+    } else if (numerator >= 0 && denominator >= 0) {
+        var estimated_ratio = (numerator / denominator),
+            to_square_root = Math.pow(numerator_moe, 2) - (Math.pow(estimated_ratio, 2) * Math.pow(denominator_moe, 2));
+            // "There are rare instances where this formula will fail—
+            // the value under the square root will be negative. If that
+            // happens, use the formula for derived ratios in the next
+            // section which will provide a conservative estimate of
+            // the MOE."
+            if (to_square_root < 0) {
+                to_square_root = Math.pow(numerator_moe, 2) + (Math.pow(estimated_ratio, 2) * Math.pow(denominator_moe, 2));
+            }
+            moe_ratio = Math.sqrt(to_square_root) / denominator;
+        return Math.round((moe_ratio * 100) * 10) / 10
+    }
+    return null
+}
+
+var roundNumber = function(value, decimals) {
+    var precision = (!!decimals) ? decimals : 0,
+        factor = Math.pow(10, precision),
+        value = Math.round(value * factor) / factor;
+    
+    return value;
+}
+
+var numberWithCommas = function(n, decimals) {
+    var parts = roundNumber(n, decimals).toString().split(".");
+
     return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
 }
+// parseParams from https://gist.github.com/kares/956897#comment-802666
+;!(function($) {
+    var re = /([^&=]+)=?([^&]*)/g;
+    var decode = function(str) {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    };
+    $.parseParams = function(query) {
+        var params = {}, e;
+        if (!query) {
+            query = window.location.search;
+        }
+        if (query.substr(0, 1) == '?') {
+            query = query.substr(1);
+        }
+
+        while (e = re.exec(query)) {
+            var k = decode(e[1]);
+            var v = decode(e[2]);
+            if (params[k] !== undefined) {
+                if (!$.isArray(params[k])) {
+                    params[k] = [params[k]];
+                }
+                params[k].push(v);
+            } else {
+                params[k] = v;
+            }
+        }
+        return params;
+    };
+})(jQuery);

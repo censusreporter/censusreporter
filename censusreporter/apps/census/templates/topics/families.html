@@ -1,0 +1,203 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>Families are a major frame through which Census data is tabulated. Many social and economic questions make more sense when framed by the family unit rather than by individuals.</p>
+
+<p>The census concept of "family" is closely related to "household," so it's worth understanding the distinction. Specifically, a family is a household where two or more people are related by birth, marriage, or adoption.
+There are also households of one person living alone, as well as households where none of the people are related to each other. Except when precision dictates otherwise, Census Reporter uses "families" to refer to all kinds of households.</p>
+
+<p>The ACS table numbers beginning with <strong>11</strong> are the primary tables about Families and Households. There are 16 tabulations in this group, along with various collapsed versions and racial iterations. </p>
+
+<p>If your research involves family, you may also be interested in a number of tables specifically about <a href="{% url 'topic_detail' 'children' %}">Children</a>.
+There are also several tabulations which include Family Type as a factor. For detailed information
+about how the Census Bureau tabulates family data, for the ACS and other products, see the <a href="http://www.census.gov/hhes/families/">Families and Living Arrangements</a> page.</p>
+
+<p>These are the primary family/household tabulations:</p>
+    
+
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11001' %}">B11001</a><sup>†</sup></strong></td>
+<td>Household Type (Including Living Alone)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11002' %}">B11002</a><sup>†</sup></strong></td>
+<td>Household Type by Relatives and Nonrelatives for Population in Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11003' %}">B11003</a></strong></td>
+<td>Family Type by Presence and Age of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11004' %}">B11004</a></strong></td>
+<td>Family Type by Presence and Age of Related Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11005' %}">B11005</a><sup>‡</sup></strong></td>
+<td>Households by Presence of People Under 18 Years by Household Type</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11006' %}">B11006</a></strong></td>
+<td>Households by Presence of People 60 Years and Over by Household Type</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11007' %}">B11007</a></strong></td>
+<td>Households by Presence of People 65 Years and Over, Household Size and Household Type</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11009' %}">B11009</a></strong></td>
+<td>Unmarried-partner Households by Sex of Partner</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11010' %}">B11010</a><sup>‡</sup></strong></td>
+<td>Nonfamily Households by Sex of Householder by Living Alone by Age of Householder</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11011' %}">B11011</a></strong></td>
+<td>Household Type by Units in Structure</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11012' %}">B11012</a></strong></td>
+<td>Household Type by Tenure</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11013' %}">B11013</a><sup>‡</sup></strong></td>
+<td>Subfamily Type by Presence of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11014' %}">B11014</a><sup>‡</sup></strong></td>
+<td>Population in Subfamilies by Subfamily Type by Relationship</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11015' %}">B11015</a></strong></td>
+<td>Households by Presence of Nonrelatives</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11016' %}">B11016</a><sup>‡</sup></strong></td>
+<td>Household Type by Household Size</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11017' %}">B11017</a></strong></td>
+<td>Multigenerational Households</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+
+<h2>Householder</h2>
+
+<h3>From the ACS online glossary:</h3>
+<br/><p>If there is no such person present, any household member 15 years old and over can serve as the householder. Two types of householders are distinguished: a family householder and a nonfamily householder.
+A family householder is a householder living with one or more people related to him or her by birth, marriage, or adoption. The householder and all people in the household related to him are family members.
+A nonfamily householder is a householder living alone or with nonrelatives only.</p>
+
+<h2>Family type</h2>
+
+<p>The tables below include "family type" as one of the factors for reporting data. Family types include "married-couple", "female householder, no husband present", and "male householder, no wife present." </p>
+
+<p>Because law and the Census Bureau's practice in collecting data on same-sex marriage and parenting are changing rapidly,
+journalists researching same-sex parents are advised to consult experts. See <a href="{% url 'topic_detail' 'same-sex' %}">Same-Sex Couples</a> for some more information and links.</p>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09002' %}">B09002</a></strong></td>
+<td>Own Children Under 18 Years by Family Type and Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11003' %}">B11003</a></strong></td>
+<td>Family Type by Presence and Age of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B11004' %}">B11004</a></strong></td>
+<td>Family Type by Presence and Age of Related Children Under 18</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17010' %}">B17010</a><sup>†‡</sup></strong></td>
+<td>Poverty Status in the Past 12 Months of Families by Family Type by Presence of Related Children Under 18 Years by Age of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17011' %}">B17011</a></strong></td>
+<td>Aggregate Income Deficit (Dollars) in the Past 12 Months for Families by Family Type</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17015' %}">B17015</a></strong></td>
+<td>Poverty Status in the Past 12 Months of Families by Family Type by Social Security Income by Supplemental Security Income (SSI) and Cash Public Assistance Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17016' %}">B17016</a></strong></td>
+<td>Poverty Status in the Past 12 Months of Families by Family Type by Work Experience of Householder and Spouse</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17022' %}">B17022</a><sup>‡</sup></strong></td>
+<td>Ratio of Income to Poverty Level in the Past 12 Months of Families by Family Type by Presence of Related Children Under 18 Years by Age of Related Children</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19119' %}">B19119</a></strong></td>
+<td>Median Family Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars) by Family Size</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19126' %}">B19126</a></strong></td>
+<td>Median Family Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars) by Family Type by Presence of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19128' %}">B19128</a></strong></td>
+<td>Aggregate Family Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars) by Family Type by Presence of Own Children Under 18 Years</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19130' %}">B19130</a></strong></td>
+<td>Aggregate Family Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars) by Family Type by Age of Householder</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19131' %}">B19131</a><sup>‡</sup></strong></td>
+<td>Family Type by Presence of Own Children Under 18 Years by Family Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22007' %}">B22007</a></strong></td>
+<td>Receipt of Food Stamps/SNAP in the Past 12 Months by Family Type by Number of Workers in Family in the Past 12 Months</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23007' %}">B23007</a><sup>‡</sup></strong></td>
+<td>Presence of Own Children Under 18 Years by Family Type by Employment Status</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B23009' %}">B23009</a></strong></td>
+<td>Presence of Own Children Under 18 Years by Family Type by Number of Workers in Family in the Past 12 Months</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+</section>
+{% endblock %}
+
+

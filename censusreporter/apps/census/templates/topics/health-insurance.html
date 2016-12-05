@@ -1,0 +1,125 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>The American Community Survey added questions about health insurance in 2008. Edits were made to the health care questions in 2009 that make direct comparison with the first year responses impossible without adjustments. In 2012, tables were added to count health insurance coverage for people aged 19 to 25.</p>
+
+<p>The simplest source for data about coverage is table <strong><a href="{% url 'table_detail' 'C27001' %}">C27001</a></strong>. This table divides males and females into three age brackets: children (under 18), senior citizens (65 and older), and adults (18-64). For each combination of sex and age, there are simply two columns: covered, or not covered. The <strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a></strong> table provides finer grained detail, with nine age brackets. These tables are also provided in the nine standard racial iterations.</p>
+
+<p>Tables <strong><a href="{% url 'table_detail' 'B27002' %}">B27002</a>/<a href="{% url 'table_detail' 'C27002' %}">C27002</a></strong> through <strong><a href="{% url 'table_detail' 'B27009' %}">B27009</a>/<a href="{% url 'table_detail' 'C27009' %}">C27009</a></strong> are structured indentically, but only count specific types of coverage. There are no racial iterations for these tables.</p>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a><sup>†‡</sup></strong></td>
+<td>Health Insurance Coverage Status by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27002' %}">B27002</a><sup>‡</sup></strong></td>
+<td>Private Health Insurance Status by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27003' %}">B27003</a><sup>‡</sup></strong></td>
+<td>Public Health Insurance Status by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27004' %}">B27004</a><sup>‡</sup></strong></td>
+<td>Employer-based Health Insurance by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27005' %}">B27005</a><sup>‡</sup></strong></td>
+<td>Direct-purchase Health Insurance by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27006' %}">B27006</a><sup>‡</sup></strong></td>
+<td>Medicare Coverage by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27007' %}">B27007</a><sup>‡</sup></strong></td>
+<td>Medicaid/Means-tested Public Coverage by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27008' %}">B27008</a><sup>‡</sup></strong></td>
+<td>Tricare/Military Health Coverage by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27009' %}">B27009</a><sup>‡</sup></strong></td>
+<td>VA Health Care by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27010' %}">B27010</a><sup>‡</sup></strong></td>
+<td>Types of Health Insurance Coverage by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27011' %}">B27011</a></strong></td>
+<td>Health Insurance Coverage Status and Type by Employment Status by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27012' %}">B27012</a><sup>‡</sup></strong></td>
+<td>Health Insurance Coverage Status and Type by Work Experience by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27013' %}">B27013</a><sup>‡</sup></strong></td>
+<td>Private Health Insurance by Work Experience by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27014' %}">B27014</a><sup>‡</sup></strong></td>
+<td>Public Health Insurance by Work Experience by Sex by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27015' %}">B27015</a></strong></td>
+<td>Health Insurance Coverage Status and Type by Household Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars)</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27016' %}">B27016</a><sup>‡</sup></strong></td>
+<td>Health Insurance Coverage Status and Type by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27017' %}">B27017</a><sup>‡</sup></strong></td>
+<td>Private Health Insurance by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27018' %}">B27018</a><sup>‡</sup></strong></td>
+<td>Public Health Insurance by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27019' %}">B27019</a></strong></td>
+<td>Health Insurance Coverage Status and Type by Age by Educational Attainment</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27020' %}">B27020</a></strong></td>
+<td>Health Insurance Coverage Status and Type by Citizenship Status</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27021' %}">B27021</a></strong></td>
+<td>Health Insurance Coverage Status and Type by Living Arrangement</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27022' %}">B27022</a></strong></td>
+<td>Health Insurance Coverage Status by Sex by Enrollment Status for Young Adults Aged 19 to 25</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B27023' %}">B27023</a></strong></td>
+<td>Private Health Insurance by Sex by Enrollment Status for Young Adults Aged 19 to 25</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+                <sup>†</sup>Tables <strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a></strong>, <strong><a href="{% url 'table_detail' 'C27001' %}">C27001</a></strong> also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+</section>
+{% endblock %}
+
+

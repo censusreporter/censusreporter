@@ -1,0 +1,101 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+{% include "topics/_question_aside.html" %}    
+<h2>Overview</h2>
+<p>These tables address the topic of public assistance.</p>
+
+<p>The ACS tables beginning with <strong>22</strong> are about public assistance. In the listing below, table names have been simplified in some cases. References to children and grandchildren almost always mean under 18 years old. Income is for the last 12 months, adjusted for inflation to the value of dollars in the last year of the survey period. References to poverty status/level, receipt of food stamps/SNAP, and work status are all for the last 12 months.</p>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22001' %}">B22001</a><sup>‡</sup></strong></td>
+<td>Receipt of Food Stamps/SNAP by Presence of People 60 Years and Over for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22002' %}">B22002</a></strong></td>
+<td>Receipt of Food Stamps/SNAP by Presence of Children by Household Type for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22003' %}">B22003</a></strong></td>
+<td>Receipt of Food Stamps/SNAP by Poverty Status for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22005' %}">B22005</a><sup>†</sup></strong></td>
+<td>Receipt of Food Stamps/SNAP by Race of Householder</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22007' %}">B22007</a></strong></td>
+<td>Receipt of Food Stamps/SNAP by Family Type by Number of Workers in Family</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22008' %}">B22008</a></strong></td>
+<td>Median Household Income by Receipt of Food Stamps/SNAP</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B22010' %}">B22010</a></strong></td>
+<td>Receipt of Food Stamps/SNAP by Disability Status for Households</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<h2>
+Other ACS tables that relate to public assistance</h2>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B09010' %}">B09010</a></strong></td>
+<td>Receipt of Supplemental Security Income (SSI), Cash Public Assistance Income, or Food Stamps/SNAP by Household Type for Children in Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B13015' %}">B13015</a></strong></td>
+<td>Women 15 to 50 Years Who Had a Birth in the Past 12 Months by Marital Status and Receipt of Public Assistance Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B17015' %}">B17015</a><sup>‡</sup></strong></td>
+<td>Poverty Status of Families by Family Type by Social Security Income by Supplemental Security Income (SSI) and Cash Public Assistance Income</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19057' %}">B19057</a></strong></td>
+<td>Public Assistance Income for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19058' %}">B19058</a></strong></td>
+<td>Public Assistance Income or Food Stamps/SNAP for Households</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B19067' %}">B19067</a></strong></td>
+<td>Aggregate Public Assistance Income for Households</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</section>
+{% endblock %}
+
+

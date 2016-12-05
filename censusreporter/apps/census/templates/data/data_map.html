@@ -1,0 +1,44 @@
+{% extends 'data/_base_data.html' %}{% load humanize %}
+
+{% block head_title %}Map View: {{ block.super }}{% endblock %}
+
+{% block head_css_extra %}
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
+{% endblock %}
+
+{% block head_javascript_extra %}
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
+{% endblock %}
+
+{% block body_class %}{{ block.super }} full-screen{% endblock %}
+
+{% block body %}
+<div id="map-controls" class="clearfix">
+    <header class="box-header">
+        <a class="title" href="{% url 'homepage' %}">
+            <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+        </a>
+    </header>
+    <div class="box-content">
+        <section class="clearfix">
+            {% include 'data/_blocks/_toggle_menu.html' %}
+            {% include 'data/_blocks/_topic_select_input.html' %}
+        </section>
+
+        <section id="data-display" class="clearfix">
+            <div id="header-container"></div>
+        </section>
+        <aside></aside>
+    </div>
+</div>
+
+<div id="slippy-map"></div>
+{% endblock %}
+
+{% block page_specific_javascript %}
+<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
+{% endblock %}

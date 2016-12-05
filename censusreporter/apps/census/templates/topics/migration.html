@@ -1,0 +1,175 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+    
+    <section id="topic-overview">
+    <aside>
+        <h3>Should I use American Community Survey data for this?</h3>
+        <p>The IRS also provides data about <a href="http://www.irs.gov/uac/SOI-Tax-Stats-Migration-Data">county-to-county migration</a>, based on aggregate information from individual tax returns. This data also includes information about When writing about this data, use caution: it does not count people who do not file tax returns, so a careless formulation might be misleading or outright wrong. However, <a href="http://www.urbanophile.com/2012/12/19/irs-cancels-then-uncancels-migration-data-program/">data analysis expert Aaron Renn says</a> "This is the best source of data available, in my opinion, because it is place to place, the data set of tax returns is so large, and income data is included. This data lets you map where people are moving from and where they are moving to at a reasonably granular level." </p>
+    </aside>
+    {% include "topics/_question_aside.html" %}
+    
+<h2>Overview</h2>
+
+<h2>Should I Use Census Data For This?</h2>
+
+
+<p>This set of tables appears very complicated, but breaks down into two major groups:</p>
+
+<ul>
+<li>Tables based on where people live now, some of whom moved in the last year</li>
+<li>Tables based on where people lived a year ago, some of whom have since moved</li>
+</ul><p>In general, geographic mobility breaks down into these groups:</p>
+
+<ul>
+<li>Total</li>
+<li>Same house 1 year ago</li>
+<li>Moved within same county</li>
+<li>Moved from different county within same state</li>
+<li>Moved from different state</li>
+<li>Moved from abroad</li>
+</ul><p>These, then are broken into (in separate tables):</p>
+
+<ul>
+<li>Age in five-year buckets</li>
+<li>Median age</li>
+<li>Sex</li>
+<li>Race (each race is in its own table)</li>
+<li>Citizenship</li>
+<li>Education</li>
+<li>Individual income</li>
+<li>Median income</li>
+<li>Poverty status</li>
+<li>Tenure, or length of time living at the same house</li>
+</ul><p>There are also a small number of tables which support analysis for different kinds of mobility, such as in and out of regions, metropolitan areas, states and counties.</p>
+
+<table>
+<thead><tr>
+<th>Code</th>
+<th>Title</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07001' %}">B07001</a><sup>‡§</sup></strong></td>
+<td>Geographical Mobility by Age — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07002' %}">B07002</a><sup>§</sup></strong></td>
+<td>Median Age by Geographical Mobility — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07003' %}">B07003</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Sex — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07004' %}">B07004</a><sup>†§ª</sup></strong></td>
+<td>Geographical Mobility (for racial iteration) — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07007' %}">B07007</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Citizenship — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07008' %}">B07008</a><sup>‡§</sup></strong></td>
+<td>Geographical Mobility by Marital Status — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07009' %}">B07009</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Educational Attainment — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07010' %}">B07010</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Individual Income — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07011' %}">B07011</a><sup>§</sup></strong></td>
+<td>Median Income by Geographical Mobility — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07012' %}">B07012</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Poverty Status — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07013' %}">B07013</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Tenure — Current Residence</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07101' %}">B07101</a></strong></td>
+<td>Movers Between Regions</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07201' %}">B07201</a><sup>‡§</sup></strong></td>
+<td>Geographical Mobility — Current Residence--Metropolitan Statistical Area Level</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07202' %}">B07202</a><sup>§</sup></strong></td>
+<td>Geographical Mobility — Current Residence--Micropolitan Statistical Area Level</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07203' %}">B07203</a><sup>§</sup></strong></td>
+<td>Geographical Mobility — Current Residence--not Metropolitan or Micropolitan Statistical Area Level</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07204' %}">B07204</a><sup>‡§</sup></strong></td>
+<td>Geographical Mobility — Current Residence--State, County and Place Level</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07401' %}">B07401</a><sup>‡§</sup></strong></td>
+<td>Geographical Mobility by Age — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07402' %}">B07402</a><sup>§</sup></strong></td>
+<td>Median Age by Geographical Mobility — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07403' %}">B07403</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Sex — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07404' %}">B07404</a><sup>†§ª</sup></strong></td>
+<td>Geographical Mobility (for racial iteration) — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07407' %}">B07407</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Citizenship — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07408' %}">B07408</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Marital Status — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07409' %}">B07409</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Educational Attainment — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07410' %}">B07410</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Individual Income — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07411' %}">B07411</a><sup>§</sup></strong></td>
+<td>Median Income by Geographical Mobility — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07412' %}">B07412</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Poverty Status — Residence 1 Year Ago</td>
+</tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B07413' %}">B07413</a><sup>§</sup></strong></td>
+<td>Geographical Mobility by Tenure — Residence 1 Year Ago</td>
+</tr>
+</tbody>
+<tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
+                <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+                <sup>§</sup>Tabulated for Puerto Rico. Add 'PR' to the table code. Column names may vary slightly from non-PR version.<br>
+                <sup>ª</sup>No basic 'B' table is offered. Only racial iterations are available.<br>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</section>
+{% endblock %}
+
+

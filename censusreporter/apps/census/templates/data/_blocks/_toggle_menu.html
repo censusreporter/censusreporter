@@ -1,0 +1,21 @@
+<div class="tool-set header-tool-set clearfix">
+    <div class="tool-group">
+        <ul id="data-view-toggles" class="toggle-set">
+            <li><a data-format="table" class="{% if data_format == 'table' %}active{% endif %}" href="{% url 'data_detail' 'table' %}?{{ request.GET.urlencode }}">Table</a></li>
+            <li><a data-format="map" class="{% if data_format == 'map' %}active{% endif %}" href="{% url 'data_detail' 'map' %}?{{ request.GET.urlencode }}">Map</a></li>
+            <li><a data-format="distribution" class="{% if data_format == 'distribution' %}active{% endif %}" href="{% url 'data_detail' 'distribution' %}?{{ request.GET.urlencode }}">Distribution</a></li>
+        </ul>
+    </div>
+    <div class="tool-group toggle-sub-group">
+        <a href="#">
+            Download data
+        </a>
+        <ul class="sub-group">
+            <li><a target="_new" href="{{ download_link_prefix }}&format=csv">CSV</a></li>
+            <li><a target="_new" href="{{ download_link_prefix }}&format=xlsx">Excel</a></li>
+            <li><a target="_new" href="{{ download_link_prefix }}&format=geojson">GeoJSON</a></li>
+            <li><a target="_new" href="{{ download_link_prefix }}&format=kml">KML</a></li>
+            <li><a target="_new" href="{{ download_link_prefix }}&format=shp">Shapefile</a></li>
+        </ul>
+    </div>
+</div>

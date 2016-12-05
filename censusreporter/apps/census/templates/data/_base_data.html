@@ -1,0 +1,78 @@
+{% extends '_base.html' %}
+
+{% comment %}
+This page provides a base for all data view templates to inherit from,
+for applying things across that entire family of pages.
+{% endcomment %}
+
+{% block head_title %}Table {% if table %}{{ table }}{% endif %} {% if release %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
+
+{% block body_class %}data-view{% endblock %}
+
+{% block header_content %}
+<div id="header-container" class="wrapper clearfix header-container">
+    {% include 'data/_blocks/_toggle_menu.html' %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% include 'data/_blocks/_topic_select_input.html' %}
+
+<article id="data-display" class="clearfix">
+    <header class="section-contents">
+        <h1>Table {{ table }}</h1>
+    </header>
+    <div class="section-container">
+        <section id="data-container" class="clearfix">
+            <h2 class="header-for-columns"></h2>
+            <aside>{% block aside_notes %}{% endblock %}</aside>
+            
+            <div id="tool-notes" class="tool-set caption-tool-set"></div>
+            <p class="caption">
+                <span id="table-universe" class="caption-group"></span>
+            </p>
+        </section>
+    </div>
+</article>
+
+<p class="explain"><strong>Citation:</strong>
+  U.S. Census Bureau (<span id="cite-release-year">RELEASE YEAR</span>).
+  <em><span id="cite-table-name">TABLE NAME</span> American Community Survey <span id="cite-release">RELEASE</span> estimates.</em>
+  Retrieved from &lt;https://censusreporter.org{{ request.get_full_path }}&gt;
+</p>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<script src="{{ STATIC_URL }}js/comparisons.js"></script>
+{% block page_specific_javascript %}{% endblock %}
+<script>
+var makeCitation = function(comparison) {
+    $('#cite-release-year').text(comparison.release.years);
+    $('#cite-table-name').text(comparison.table.title);
+    $('#cite-release').text(comparison.release.name.split(' ')[2]);
+}
+var dataView = new Comparison({
+    tableID: '{{ table }}',
+    dataFormat: '{{ data_format }}',
+    geoIDs: '{{ geo_ids }}'.split(','),
+    primaryGeoID: '{{ primary_geo_id }}',
+    topicSelect: '#topic-select',
+    topicSelectContainer: '#query-topic-picker',
+    displayHeader: '#header-container',
+    displayWrapper: '#data-display',
+    pageWrapper: '.data-view',
+    dataContainer: '#data-container'
+}, makeCitation);
+
+// toggle links
+$('.toggle-set a').hover(function() {
+    $('.toggle-set a').not(this).toggleClass('unhovered');
+    $(this).toggleClass('hovered');
+});
+
+// download submenu
+$('.toggle-sub-group').hover(function() {
+    $(this).find('.sub-group').toggle();
+});
+</script>
+{% endblock %}
