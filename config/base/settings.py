@@ -111,9 +111,9 @@ MANAGERS = ADMINS
 
 API_URL = 'https://api.censusreporter.org'
 
-import raven
+# import raven
 
-RAVEN_CONFIG = {
-    'dsn': os.environ.get("SENTRY_DSN"),
-    'release': raven.fetch_git_sha(os.path.dirname(__file__) + '/../../..'),
-}
+# RAVEN_CONFIG = {
+#     'dsn': os.environ.get("SENTRY_DSN"),
+#     'release': raven.fetch_git_sha(os.path.dirname(__file__) + '/../../..'),
+# }
