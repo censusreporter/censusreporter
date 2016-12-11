@@ -399,7 +399,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2014/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2015/%s' % self.geo_id
         r = requests.get(endpoint)
         status_code = r.status_code
 
