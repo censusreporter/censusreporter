@@ -593,7 +593,7 @@ var makeCitation = function(year, release) {
 
     $('.content-container').append(citation);
 }
-$.each(releases, function(i, v) {
+$.each($.unique(releases), function(i, v) {
     var bits = v.split(" "),
         year = bits[1],
         release = bits[2];
