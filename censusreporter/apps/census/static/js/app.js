@@ -104,6 +104,9 @@ var sumlevMap = {
 };
 
 var releaseNames = {
+    'acs2015_5yr': {'name': 'ACS 2015 5-year', 'years': '2011-2015'},
+    'acs2015_1yr': {'name': 'ACS 2015 1-year', 'years': '2015'},
+    'acs2014_5yr': {'name': 'ACS 2014 5-year', 'years': '2010-2014'},
     'acs2014_1yr': {'name': 'ACS 2014 1-year', 'years': '2014'},
     'acs2013_1yr': {'name': 'ACS 2013 1-year', 'years': '2013'},
     'acs2013_3yr': {'name': 'ACS 2013 3-year', 'years': '2011-2013'},
@@ -213,7 +216,7 @@ var roundNumber = function(value, decimals) {
     var precision = (!!decimals) ? decimals : 0,
         factor = Math.pow(10, precision),
         value = Math.round(value * factor) / factor;
-    
+
     return value;
 }
 
