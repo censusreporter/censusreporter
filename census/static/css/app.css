@@ -1,12 +1,26 @@
 @import 'charts.css';
 @import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
-@import url(https://fonts.googleapis.com/css?family=Merriweather);
+@import url(https://fonts.googleapis.com/css?family=Source Sans Pro:200,400,700);
+@import url(https://fonts.googleapis.com/css?family=Rokkitt:400,700);
 
 /*
-teals: #02aeab; #027b7a; #014948;
-tans: #f7f8f3; #eff1e9; #e0e4d4; #cad0b5;
-orange: #f55b2c
+Primary Colors:
+Dark Green: #686867;
+Light Green: #86af3f;
+Dark Blue: #032634;
+Blue Green: #216989;
+Light Blue: #6595ce;
+
+Highlight Colors:
+Orange: #d85027;
+Yellow: #f4a81d;
+
+Greyscale:
+Light Grey: #fff;
+Light Mid Grey: #ccc;
+Mid Grey: #686867;
+Darker Grey: #404041;
+Dark Grey: #0f0f10;
 */
 
 *, *:before, *:after {
@@ -17,20 +31,20 @@ html,
 body {
     margin: 0;
     padding: 0;
-    background-color: #f7f8f3;
+    background-color: #fff;
     line-height: 1.4;
     font-size: 14px;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 html {
-    background-color: #e0e4d4;
+    background-color: #ccc;
 }
 html,
 button,
 input,
 select,
 textarea {
-    color: #222;
+    color: #0f0f10;
 }
 menu,
 ol,
@@ -38,17 +52,17 @@ ul {
     padding: 0 0 0 2em;
 }
 input:focus {
-    border: 1px solid #02aeab;
+    border: 1px solid #216989;
     -webkit-box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
     -moz-box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
     box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
 }
 ::-moz-selection {
-    background: #02aeab;
+    background: #6595ce;
     text-shadow: none;
 }
 ::selection {
-    background: #02aeab;
+    background: #6595ce;
     text-shadow: none;
 }
 
@@ -84,14 +98,14 @@ textarea {
 
 /* BASIC ELEMENTS */
 a {
-    color: #014948;
+    color: #032634;
 }
 a.permalink {
     text-decoration: none;
     color: inherit;
 }
 a:hover {
-    color: #02aeab;
+    color: #216989;
 }
 a.permalink span,
 a.permalink i {
@@ -106,14 +120,14 @@ a.permalink:hover i {
     display: inherit;
 }
 p, .serif {
-    font-family: "Merriweather", Georgia, serif;
+    font-family: "Rokkitt", Georgia, serif;
     margin: 0 0 1em;
 }
 .caption {
     margin-top: .25em;
     padding-top: .25em;
     font-size: .83em;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .caption-group {
     margin-right: 1em;
@@ -121,7 +135,7 @@ p, .serif {
 
 .display-type,
 .leader {
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .leader {
     font-weight: bold;
@@ -186,21 +200,21 @@ footer ul a:hover {
     margin-bottom: .25em;
 }
 img.screenshot {
-    border: 1px solid #cad0b5;
+    border: 1px solid #686867;
     width: 100%;
 }
 
 /* LAYOUT */
 #page-header,
 .box-header {
-    background-color: #014948;
+    background-color: #032634;
 }
 #page-header .wrapper {
     padding: .5em 0;
 }
 #page-header-title a,
 .box-header a {
-    color: #f7f8f3;
+    color: #fff;
     text-decoration: none;
 }
 #page-header-title a.title {
@@ -266,7 +280,7 @@ a.action-button,
     padding: 0 9px;
     height: 2em;
     line-height: 1.9em;
-    background-color: #1a9d95;
+    background-color: #216989;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -280,7 +294,7 @@ a.action-button,
     display: none;
 }
 #menu a.button:hover {
-    background-color: #f55b2c;
+    background-color: #d85027;
 }
 #menu-toggle {
     float: right;
@@ -301,8 +315,8 @@ a.action-button,
 }
 
 #page-footer {
-    background-color: #e0e4d4;
-    border-top: 1px solid #cad0b5;
+    background-color: #ccc;
+    border-top: 1px solid #686867;
     padding: 1.5em 0 4.5em;
 }
 #page-footer ul {
@@ -344,7 +358,7 @@ header.section-contents h1 {
     font-size: 1em;
     margin: 0;
     padding: .6em 0 .55em .8em;
-    background-color: #eff1e9;
+    background-color: #f1f1f2;
     -webkit-border-top-left-radius: 4px;
     -moz-border-radius-topleft: 4px;
     border-top-left-radius: 4px;
@@ -363,19 +377,19 @@ article .section-container {
     -moz-border-radius-topleft: 0;
     border-top-left-radius: 0;
 }
-header.section-contents h1,
+/*header.section-contents h1,
 article .section-container,
 .card {
     border-top: 1px solid #e8eadf;
-    border-bottom: 1px solid #cad0b5;
-}
+    border-bottom: 1px solid #686867;
+}*/
 .card {
     display: block;
     font-size: 1.2em;
     margin: 0;
     padding: 0;
     text-decoration: none;
-    background-color: #e0e4d4;
+    background-color: #ccc;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -397,7 +411,7 @@ article .section-container,
     white-space: nowrap;
 }
 .card:hover .more {
-    color: #f55b2c;
+    color: #d85027;
 }
 .card-container .card {
     margin-bottom: 1.5em;
@@ -451,7 +465,7 @@ article .section-container,
     font-size: .83em;
     font-weight: bold;
     padding: .33em 0;
-    border-top: 1px solid #E8EADF;
+    border-top: 1px solid #f1f1f2;
 }
 
 section {
@@ -625,7 +639,7 @@ aside#facets {
 }
 .zoom-to-layer.active,
 .zoom-to-layer:hover {
-    background-color: #1a9d95;
+    background-color: #216989;
     color: #fff;
 }
 
@@ -642,7 +656,7 @@ aside#facets {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    border: 1px solid #02aeab;
+    border: 1px solid #216989;
     padding: .67em 1.25em .33em;
 }
 #cover-profile ul {
@@ -709,7 +723,7 @@ aside#facets {
     background-color: #fff;
 }
 .tan-stripe {
-    background-color: #eff1e9;
+    background-color: #f1f1f2;
 }
 h1.article-header {
     font-size: 3em;
@@ -759,7 +773,7 @@ h1.article-header-right {
     display: inline-block;
     height: 2.6em;
     font-size: 1.3em;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #profile #query-topic-picker input,
@@ -825,7 +839,7 @@ h1.article-header-right {
     font-style: italic;
 }
 .or {
-    font-family: "Merriweather", Georgia, serif;
+    font-family: "Rokkitt", Georgia, serif;
     font-size: 1.1em;
     line-height: 1;
     padding: .7em 0;
@@ -854,7 +868,7 @@ h1.article-header-right {
     font-size: 14px;
     line-height: 28px;
     color: #fff;
-    background-color: #014948;
+    background-color: #032634;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
@@ -865,12 +879,12 @@ h1.article-header-right {
 }
 .tag {
     text-transform: uppercase;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: normal;
     color: #fff;
     font-size: .8em;
     padding: .15em .33em;
-    background-color: #555c3b;
+    background-color: #f4a81d;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -1003,7 +1017,7 @@ h1.article-header-right {
     font-size: .8em;
 }
 .stat-row {
-    border-top: 1px solid #eff1e9;
+    border-top: 1px solid #f1f1f2;
     padding-top: 2em;
 }
 .stat-row.grouped-row {
@@ -1020,14 +1034,14 @@ h1.article-header-right {
     position: relative;
 }
 .svg-map .outline {
-    fill: #f7f8f3;
-    stroke: #cad0b5;
+    fill: #fff;
+    stroke: #686867;
     stroke-width: 1.5px;
 }
 .svg-map .feature,
 .svg-map .point {
     stroke: #001b1b;
-    fill: #014948;
+    fill: #032634;
 }
 .svg-map .mesh {
     fill: none;
@@ -1066,7 +1080,7 @@ h1.article-header-right {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    border: 1px solid #014948;
+    border: 1px solid #032634;
     width: 450px;
     overflow-y: auto;
 }
@@ -1158,7 +1172,7 @@ h1.article-header-right {
 }
 .leaflet-label.hovercard {
     font-size: 13px;
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: .83em 1em;
 }
 
@@ -1204,7 +1218,7 @@ thead {
     border-bottom: 1px solid #d9ddca;
 }
 th {
-    background-color: #eff1e9;
+    background-color: #f1f1f2;
     min-width: 7em;
     vertical-align: bottom;
 }
@@ -1239,7 +1253,7 @@ tr:hover td,
 tr.highlight td,
 .grid .highlight,
 .grid .hover {
-    background-color: #e0e4d4;
+    background-color: #ccc;
 }
 table .percentage, table .raw-number {
     display: block
@@ -1309,7 +1323,7 @@ select,
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    border: 1px solid #cad0b5;
+    border: 1px solid #686867;
     height: 2.2em;
     line-height: 1em;
     padding: .5em;
@@ -1405,7 +1419,7 @@ h3.item-chosen-title {
 }
 .filter-list a.option-selected {
     color: #fff;
-    background-color: #014948;
+    background-color: #032634;
 }
 .filter-list {
     list-style: none;
@@ -1454,7 +1468,7 @@ p.filter-list a {
     color: #aaa;
 }
 .select2-result:hover .topic-type {
-    color: #eee;
+    color: #ccc;
 }
 
 textarea#results {
@@ -1504,7 +1518,7 @@ textarea#results {
     text-decoration: underline;
 }
 .tool-group a:hover {
-    color: #f55b2c;
+    color: #d85027;
 }
 .tool-group .filter-list a {
     text-decoration: none;
@@ -1623,7 +1637,7 @@ ul.toggle-set li {
 .toggle-set a.active,
 .toggle-set a:hover,
 .toggle-set a.hovered {
-    background-color: #1a9d95;
+    background-color: #216989;
     color: #fff;
 }
 .toggle-set a.unhovered {
@@ -1636,7 +1650,7 @@ ul.toggle-set .toggle-sub-group a:hover {
     border-bottom-right-radius: 0;
 }
 .toggle-sub-group a:hover {
-    color: #1a9d95;
+    color: #216989;
 }
 ul.sub-group {
     display: none;
@@ -1682,8 +1696,8 @@ ul.sub-group a:hover {
     text-decoration: none;
     padding: .33em .5em;
     color: #fff;
-    background-color: #1a9d95;
-    border-color: #1a9d95;
+    background-color: #216989;
+    border-color: #216989;
 }
 
 /* CHARTS */
@@ -1695,12 +1709,12 @@ section.coal-chart-container {
 section.chart-divider {
     margin: 1em 0 0;
     padding: 0.6em 0.75em;
-    background-color: #f7f8f3;
+    background-color: #fff;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
     border-top: 1px solid #e8eadf;
-    border-bottom: 1px solid #cad0b5;
+    border-bottom: 1px solid #686867;
 }
 section.chart-divider h2 {
     margin: 0;
@@ -1727,7 +1741,7 @@ section.chart-divider h2 {
     height: 11px;
     width: 11px;
     color: #222;
-    background-color: #eff1e9;
+    background-color: #f1f1f2;
     border: 1px solid #acb58c;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -1817,12 +1831,12 @@ section.chart-divider h2 {
 .change-button,
 .go-button,
 .action-button {
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1;
     cursor: pointer;
     text-align: center;
     padding: .7em 0;
-    background-color: #1a9d95;
+    background-color: #216989;
     color: #fff;
     text-decoration: none;
     font-size: 1.2em;
@@ -1840,7 +1854,7 @@ section.chart-divider h2 {
 }
 .change-button:hover,
 .action-button:hover {
-    background-color: #f55b2c;
+    background-color: #d85027;
     color: #fff;
 }
 
@@ -1898,7 +1912,7 @@ section.chart-divider h2 {
     height: 31px;
     padding: .5em 0 0;
     background-color: #fff;
-    border: 1px solid #cad0b5;
+    border: 1px solid #686867;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -1922,15 +1936,15 @@ section.chart-divider h2 {
 #query-builder-bar .query-chosen.hovered,
 #query-builder-bar .query-chosen.go,
 .go-button {
-    border-color: #014948;
-    background-color: #014948;
+    border-color: #032634;
+    background-color: #032634;
     color: #fff;
     font-weight: 400;
 }
 #query-builder-bar .query-chosen.go,
 .go-button {
-    border-color: #f55b2c;
-    background-color: #f55b2c;
+    border-color: #d85027;
+    background-color: #d85027;
 }
 #query-builder-bar .query-chosen.go:hover,
 .go-button:hover {
@@ -2003,9 +2017,9 @@ section.chart-divider h2 {
 .release-option a {
     text-decoration: none;
     padding: .33em 1em;
-    background-color: #eff1e9;
+    background-color: #f1f1f2;
     border-top: 1px solid #e8eadf;
-    border-bottom: 1px solid #cad0b5;
+    border-bottom: 1px solid #686867;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -2018,7 +2032,7 @@ section.chart-divider h2 {
 .release-option a.disabled {
     cursor: default;
     background-color: #f0f0f0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #ccc;
     border-bottom: 1px solid #e0e0e0;
     color: #999;
 }
@@ -2081,7 +2095,7 @@ section.chart-divider h2 {
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
     border-top: 1px solid #e8eadf;
-    border-bottom: 1px solid #cad0b5;
+    border-bottom: 1px solid #686867;
 }
 #glossary aside h3,
 .topic aside h3 {
@@ -2291,7 +2305,7 @@ dl#racial-iteration dt {
     font-size: 1.2em;
     padding: .83em;
     margin-bottom: 0;
-    background-color: #014948;
+    background-color: #032634;
     color: #fff;
 }
 .tt-suggestion {
@@ -2378,7 +2392,7 @@ aside .search .result-type {
     z-index: 1001 !important;
 }
 .autocomplete-widget input[disabled] {
-    background-color: #eee !important;
+    background-color: #ccc !important;
 }
 
 .location-list {
@@ -2396,7 +2410,7 @@ aside .search .result-type {
     padding: .67em .2em;
 }
 .location-list a:hover {
-    color: #f55b2c;
+    color: #d85027;
 }
 .location-list .identifier {
     float: right;
@@ -2442,7 +2456,7 @@ aside .search .result-type {
 .message-help {
     padding: .67em 1em;
     background-color: #fff;
-    border: 1px solid #e0e4d4;
+    border: 1px solid #ccc;
 }
 blockquote {
     margin: 1em 0 2em;
@@ -2876,13 +2890,13 @@ blockquote {
 
 .autocomplete-label {
     font-size: 1em;
-    font-family: "Merriweather", Georgia, serif;
+    font-family: "Rokkitt", Georgia, serif;
 }
 
 .autocomplete-subline {
     font-size: 0.8em;
     font-style: italic;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .ui-helper-hidden-accessible {
@@ -2898,7 +2912,7 @@ a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
     color: #fff;
-    background: #1a9d95;
+    background: #216989;
     border: none;
 }
 

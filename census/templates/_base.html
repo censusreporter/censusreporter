@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% block head_title %}Census Reporter{% endblock %}</title>
+        <title>{% block head_title %}State of the Detroit Child | Data Driven Detroit{% endblock %}</title>
         <meta name="description" content="{% block head_meta_description %}{% endblock %}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block head_css %}
@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
-        <script type="application/ld+json">
+<!--         <script type="application/ld+json">
         [
           {
             "@context": "http://schema.org",
@@ -35,12 +35,12 @@
           }
 
         ]
-        </script>
+        </script> -->
         {% block head_javascript %}
         <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
         {% block head_javascript_extra %}{% endblock %}{% endblock %}
         <!-- Begin Google Analytics -->
-        <script>
+<!--         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -48,10 +48,10 @@
 
           ga('create', 'UA-43018828-1', 'censusreporter.org');
           ga('send', 'pageview');
-        </script>
+        </script> -->
         <!-- End Google Analytics -->
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
-        <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" />
+        <!-- <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" /> -->
         {% block head_facebook_tags %}{% endblock %}
         {% block head_twitter_tags %}{% endblock %}
         <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
@@ -69,7 +69,7 @@
                 <i id="menu-toggle" class="fa fa-bars"></i>
                 {% endif %}
                 <a class="title" href="{% url 'homepage' %}">
-                    <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+                    <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> State of the Detroit Child
                 </a>
                 {% if not hide_nav_tools %}
                 <div id="menu" class="tool-set clearfix">
@@ -103,26 +103,36 @@
                 {% block footer_content %}
                 <ul class="ul-icon-list column-third">
                     <li>
+                        <i class="fa fa-desktop"></i> <a href="http://datadrivendetroit.org/">D3 on the Web</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-rss"></i> <a href="http://datadrivendetroit.org/blog/">D3 blog</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope"></i> <a href="http://datadrivendetroit.org/subscribe_to_newsletter/">D3 Newsletter</a>
+                    </li>
+
+                </ul>
+                <ul class="ul-icon-list column-third">
+                    <li>
+                        <i class="fa fa-facebook"></i> <a href="https://www.facebook.com/DataDrivenDetroit">D3 on Facebook</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-twitter"></i> <a href="https://twitter.com/d3detroit">@d3detroit</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/company/data-driven-detroit">D3 on LinkedIn</a>
+                    </li>
+                </ul>
+                <ul class="ul-icon-list column-third">
+                    <li>
                         <i class="fa fa-th-list"></i> <a href="{% url 'glossary' %}">Census terms &amp; definitions</a>
                     </li>
                     <li>
+                        <i class="fa fa-laptop"></i> <a href="https://censusreporter.org/">Census Reporter on the Web</a>
+                    </li>
+                    <li>
                         <i class="fa fa-github"></i> <a href="https://github.com/censusreporter/">Census Reporter on GitHub</a>
-                    </li>
-                </ul>
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-comments"></i> <a href="https://censusreporter.uservoice.com/">Help &amp; feedback</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-twitter"></i> <a href="http://twitter.com/CensusReporter">@CensusReporter</a>
-                    </li>
-                </ul>
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-envelope"></i> <a href="mailto:irecensusreporter@gmail.com">Email us</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-tumblr"></i> <a href="http://censusreporter.tumblr.com">Census Reporter blog</a>
                     </li>
                 </ul>
                 {% endblock footer_content %}
@@ -155,6 +165,6 @@
         <script src="{{ STATIC_URL }}js/glossary.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
-        <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script>
+        <!-- <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script> -->
     </body>
 </html>

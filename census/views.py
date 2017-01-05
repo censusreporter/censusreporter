@@ -579,7 +579,7 @@ class HomepageView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'hide_nav_tools': True,
+            'hide_nav_tools': False,
             'topics_list': sort_topics(TOPICS_MAP),
         }
 
