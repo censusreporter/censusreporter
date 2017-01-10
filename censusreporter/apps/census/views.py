@@ -399,7 +399,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2014/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2015/%s' % self.geo_id
         r = requests.get(endpoint)
         status_code = r.status_code
 
@@ -409,7 +409,7 @@ class GeographyDetailView(TemplateView):
         return None
 
     def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2015/%s.json' % geo_id
+        return '/1.0/data/profiles/2015/%s.json' % geo_id.upper()
 
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:

@@ -854,7 +854,8 @@ function Chart(options) {
         $(embeddedCode).appendTo(lightbox);
 
         // Example text for float comparisons
-        lightbox.append('p').html("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+        lightbox.append('p').html("<b>This is example text so you can see how your alignment choice might look on your page.</b> " +
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
             "Aliquam pretium rhoncus placerat. Quisque vel purus nisi. Duis rhoncus ante felis, " +
             "a dignissim velit tempor ut. Nunc pulvinar felis id risus interdum, " +
             "eget condimentum quam luctus. Nulla mi nisl, auctor non elementum ut, " +
