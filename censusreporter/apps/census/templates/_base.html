@@ -73,18 +73,18 @@
                 </a>
                 {% if not hide_nav_tools %}
                 <div id="menu" class="tool-set clearfix">
-                    <div class="tool-group">
-                        <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to profile a place..." autocomplete="off">
-                    </div>
-                    {% if not hide_nav_compare %}
-                    <span class="separator">or</span>
-                    <div class="tool-group">
-                        <a class="button" href="{% url 'table_search' %}">
-                            <i class="fa fa-chevron-circle-right"></i>
-                            Search for data
-                        </a>
-                    </div>
-                    {% endif %}
+                    <form action="/search">
+                        <div class="tool-group">
+                            <input name="q" id="search" type="text" placeholder="Search for places, tables, topics, or glossaries" autocomplete="off">
+                        </div>
+                        <span class="separator"></span>
+                        <div class="tool-group">
+                            <a class="button" onClick="javascript:this.parentNode.parentNode.submit();">
+                                <i class="fa fa-chevron-circle-right"></i>
+                                Search
+                            </a>
+                        </div>
+                    </form>
                 </div>
                 {% endif %}
             </div>
@@ -156,5 +156,6 @@
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
         <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script>
+        <script src="{{ STATIC_URL }}js/full-text-results.js"></script>
     </body>
 </html>

@@ -591,10 +591,6 @@ class ComparisonBuilder(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'hide_nav_compare': True,
-        }
-
-        page_context.update({
             'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
             'topic_economic_filters': TOPIC_FILTERS['Economics'],
             'topic_family_filters': TOPIC_FILTERS['Families'],
@@ -604,7 +600,7 @@ class ComparisonBuilder(TemplateView):
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-        })
+        }
 
         return page_context
 
@@ -913,6 +909,10 @@ class SearchResultsView(TemplateView):
             'address': has_addresses,
             'topic': has_topics
         }
+
+        # Redundant to have search box in header since results page has
+        # search box
+        page_context['hide_nav_tools'] = True
 
         return page_context
 
