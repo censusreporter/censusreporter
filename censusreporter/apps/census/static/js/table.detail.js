@@ -5,7 +5,7 @@ function Table(options) {
     var table = {
         geoIDs: [],
         tableSearchAPI: API_URL + '/1.0/table/search',
-        geoSearchAPI: API_URL + '/1.0/geo/search',
+        fulltextGeoSearchAPI: API_URL + '/2.1/full-text/search',
         chosenSumlevAncestorList: '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970'
     }
 
@@ -168,15 +168,12 @@ function Table(options) {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
         remote: {
-            url: geoSearchAPI,
+            url: table.fulltextGeoSearchAPI,
             replace: function (url, query) {
-                return url += '?q=' + query + '&sumlevs=' + table.chosenSumlevAncestorList;
+                return url + '?q=' + query;
             },
             filter: function(response) {
-                var results = response.results;
-                results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
-                });
+                const results = response.results.slice(0, 25);
                 return results;
             }
         }
@@ -231,7 +228,7 @@ function Table(options) {
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlevel_name}}</span></p>'
                 )
             }
         });
@@ -278,7 +275,7 @@ function Table(options) {
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlevel_name}}</span></p>'
                 )
             }
         });

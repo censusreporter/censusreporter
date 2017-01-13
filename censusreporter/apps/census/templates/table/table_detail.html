@@ -19,6 +19,9 @@
         <meta name="twitter:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}.">
         {#}<meta name="twitter:image" content="">{#}
 {% endblock %}
+{% block head_javascript_extra %}
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+{% endblock %}
 
 {% block body_id %}table{% endblock %}
 {% block body_class %}data-view{% endblock %}
