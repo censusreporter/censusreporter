@@ -2343,8 +2343,8 @@ dl#racial-iteration dt {
     width: 100%;
     padding-left: 12em;
 }
-#query-topic-picker #topic-select,
-#topic-picker #topic-select {
+#query-topic-picker #topic-full-text,
+#topic-picker #topic-full-text {
     width: 100%;
 }
 aside .search .tt-dropdown-menu {
@@ -2798,8 +2798,8 @@ blockquote {
     h1.article-header {
         font-size: 2.2em;
     }
-    #homepage #geography-select,
-    #homepage #topic-select {
+    #homepage #geography-full-text,
+    #homepage #topic-full-text {
         font-size: 1.2em;
     }
     .callout h3 {
@@ -2858,12 +2858,14 @@ blockquote {
     overflow-y: auto;
 }
 
-#ui-id-1 {
+#ui-id-1,
+#ui-id-2 {
     list-style-type: none;
     padding-left: 0px;
 }
 
-#ui-id-1 li {
+#ui-id-1 li,
+#ui-id-2 li {
     border-bottom: 0.5px solid gray;
     border-left: 0.5px solid gray;
     border-right: 0.5px solid gray;

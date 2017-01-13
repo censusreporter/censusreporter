@@ -47,7 +47,13 @@
 
 <div class="content-container clearfix">
     <article id="explore" class="clearfix wrapper">
-        {% include "data/_blocks/_data_query_builder.html" %}
+        <section id="explore-topic-picker" class="column-full clearfix big-action">
+            <h1 class="article-header">Explore</h1>
+
+            <div id="topic-select-wrapper" class="input-wrapper">
+                <input name="topic_select" id="topic-full-text" type="text" placeholder="Find a topic by table or column name..." autocomplete="off">
+            </div>
+        </section>
 
         <section id="explore-callouts">
             <div class="column-third callout with-icon">
@@ -145,5 +151,5 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 </script>
-<script src="{{ STATIC_URL }}js/full-text-profile.js"></script>
+<script src="{{ STATIC_URL }}js/full-text-separate.js"></script>
 {% endblock %}
