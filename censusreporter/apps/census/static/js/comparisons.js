@@ -27,6 +27,7 @@ function Comparison(options, callback) {
     var comparison = {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
+        fulltextSearchAPI: API_URL + '/2.1/full-text/search',
         rootGeoAPI: API_URL + '/1.0/geo/tiger2015/',
         dataAPI: API_URL + '/1.0/data/show/latest'
     };
@@ -1075,16 +1076,14 @@ function Comparison(options, callback) {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
         remote: {
-            url: comparison.geoSearchAPI,
+            url: comparison.fulltextSearchAPI,
             replace: function (url, query) {
-                return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
+                return url + '?q=' + query;
             },
             filter: function(response) {
-                var results = response.results;
-                results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
+                return response.results.filter(function(value) {
+                    return value.type === 'profile';
                 });
-                return results;
             }
         }
     });
@@ -1165,7 +1164,7 @@ function Comparison(options, callback) {
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlevel_name}}</span></p>'
                 )
             }
         });
@@ -1228,7 +1227,7 @@ function Comparison(options, callback) {
             templates: {
                 header: '<h2>Geographies</h2>',
                 suggestion: Handlebars.compile(
-                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlev_name}}</span></p>'
+                    '<p class="result-name">{{full_name}}<span class="result-type">{{sumlevel_name}}</span></p>'
                 )
             }
         });

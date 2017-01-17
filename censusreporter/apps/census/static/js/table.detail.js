@@ -5,7 +5,7 @@ function Table(options) {
     var table = {
         geoIDs: [],
         tableSearchAPI: API_URL + '/1.0/table/search',
-        fulltextGeoSearchAPI: API_URL + '/2.1/full-text/search',
+        fulltextSearchAPI: API_URL + '/2.1/full-text/search',
         chosenSumlevAncestorList: '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970'
     }
 
@@ -168,15 +168,14 @@ function Table(options) {
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 20,
         remote: {
-            url: table.fulltextGeoSearchAPI,
+            url: table.fulltextSearchAPI,
             replace: function (url, query) {
                 return url + '?q=' + query;
             },
             filter: function(response) {
-                const results = response.results.filter(function(value) {
+                return response.results.filter(function(value) {
                     return value.type === 'profile';
-                }).slice(0, 25);
-                return results;
+                });
             }
         }
     });
