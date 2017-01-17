@@ -173,7 +173,9 @@ function Table(options) {
                 return url + '?q=' + query;
             },
             filter: function(response) {
-                const results = response.results.slice(0, 25);
+                const results = response.results.filter(function(value) {
+                    return value.type === 'profile';
+                }).slice(0, 25);
                 return results;
             }
         }
