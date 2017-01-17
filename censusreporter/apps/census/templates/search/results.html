@@ -12,10 +12,6 @@
 </style>
 {% endblock head_css %}
 
-{% block head_javascript_extra %}
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-{% endblock %}
-
 {% block content_container %}
 <div class="content-container clearfix">
 
@@ -134,8 +130,8 @@
 
 
 {% block body_javascript_extra %}{{ block.super }}
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/search-results.js"></script>
-    <script src="{{ STATIC_URL }}js/full-text-results.js"></script>
     <script>
       (function(){
         $('.toggler').click(function(){
