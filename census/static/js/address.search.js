@@ -1,13 +1,13 @@
-L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
-var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
-var PROXIMITY_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?proximity=<%=lon%>,<%=lat%>&access_token=<%=token%>&country=us%2Cpr").template()
-var REVERSE_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>&country=us%2Cpr").template()
+var gmaps_api_key = 'AIzaSyAQVmojih2QofQW7mMMFdfmI85aYF5yA9M';
+var GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?address=<%=query%>&components=administrative_area:MI|country:US&key=<%=token%>").template()
+var PROXIMITY_GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?latlng=<%=lat%>,<%=lng%>&key=<%=token%>").template()
+var REVERSE_GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?latlng=<%=lat%>,<%=lng%>&key=<%=token%>").template()
 
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'https://api.censusreporter.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
 var push_state_url_template = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
-var push_state_title_template = _.template("Census Reporter: Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");
+var push_state_title_template = _.template("Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");
 var $searchInput = $("#address-search");
 
 var lat = '',
@@ -34,6 +34,7 @@ window.onpopstate = function(event) {
 function updateLocation(lat, lng, label) {
     if (!label) {
         reverseGeocode({lat: lat, lng: lng}, function(label) {
+            console.log('label', label);
             updateLocation(lat, lng, label);
         })
     } else {
@@ -48,15 +49,17 @@ function updateLocation(lat, lng, label) {
 }
 
 function processGeocoderResults(response) {
-    var results = response.features;
-    results = _.filter(results, function(item) {
-        return item.id.indexOf('address.') == 0;
-    });
-    results = _.map(results, function(item) {
-        // Gets rid of "United States" at the end of the address
-        item.place_name = item.place_name.replace(", United States", "");
-        return item;
-    });
+    var results = response.results;
+    console.log(results);
+    // var results = response.features;
+    // results = _.filter(results, function(item) {
+    //     return item.id.indexOf('address.') == 0;
+    // });
+    // results = _.map(results, function(item) {
+    //     // Gets rid of "United States" at the end of the address
+    //     item.place_name = item.place_name.replace(", United States", "");
+    //     return item;
+    // });
     return results;
 }
 
@@ -68,9 +71,9 @@ var addressSearchEngine = new Bloodhound({
         url: GEOCODE_URL,
         replace: function (url, query) {
           if (window.browser_location) {
-            return PROXIMITY_GEOCODE_URL({query: encodeURIComponent(query), token: L.mapbox.accessToken, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
+            return PROXIMITY_GEOCODE_URL({query: encodeURIComponent(query), token: gmaps_api_key, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
           } else {
-            return url({query: query, token: L.mapbox.accessToken});
+            return url({query: query, token: gmaps_api_key});
           }
         },
         filter: processGeocoderResults
@@ -81,10 +84,11 @@ addressSearchEngine.initialize();
 function selectAddress(obj, datum) {
     $searchInput.typeahead('val', '');
     if (datum.geometry) {
-        var label = datum.place_name.replace(", United States", "");
-        if (datum.geometry.type == "Point") {
-            var lng = datum.geometry.coordinates[0];
-            var lat = datum.geometry.coordinates[1];
+        var label = datum.formatted_address.replace(", USA", "");
+        console.log(datum);
+        if (datum.geometry.location) {
+            var lng = datum.geometry.location.lng;
+            var lat = datum.geometry.location.lat;
         } else if (datum.center) {
             var lng = datum.center[0];
             var lat = datum.center[1];
@@ -110,11 +114,11 @@ function makeAddressSearchWidget(element) {
         minLength: 3
     }, {
         name: 'addresses',
-        displayKey: 'place_name',
+        displayKey: 'formatted_address',
         source: addressSearchEngine.ttAdapter(),
         templates: {
             suggestion: Handlebars.compile(
-                '<p class="result-name">{{place_name}}</p>'
+                '<p class="result-name">{{formatted_address}}</p>'
             )
         }
     });
@@ -159,12 +163,15 @@ if (navigator.geolocation) {
 }
 
 function reverseGeocode(ll,callback) {
-    var url = REVERSE_GEOCODE_URL({lat: ll.lat, lng: ll.lng, token: L.mapbox.accessToken});
+    var url = REVERSE_GEOCODE_URL({lat: ll.lat, lng: ll.lng, token: gmaps_api_key});
     $.getJSON(url, function(data, status) {
-        if (status == 'success' && data.features) {
+        console.log(data);
+        console.log(status);
+        if (status == 'success' && data.results) {
+            console.log('process');
             var results = processGeocoderResults(data);
             if (results.length > 0) {
-                var label = data.features[0].place_name.replace(", United States", "");
+                var label = data.results[0].formatted_address.replace(", USA", "");
                 callback(label, ll);
             }
         } else {
@@ -175,22 +182,22 @@ function reverseGeocode(ll,callback) {
 
 
 function geocodeAddress(query, callback) {
-    var url = GEOCODE_URL({query: encodeURIComponent(query), token: L.mapbox.accessToken});
+    var url = GEOCODE_URL({query: encodeURIComponent(query), token: gmaps_api_key});
     $.getJSON(url, callback);
 }
 
 var POLYGON_STYLE = {
     "clickable": true,
-    "fillColor": "#66c2a5",
-    "color": "#777",
-    "weight": 2,
+    "fillColor": "#d85027",
+    "color": "#686867",
+    "weight": 1,
     "opacity": 0.3,
     "fillOpacity": 0.3,
 }
 
 function makeLayer(d) {
     var layer = L.geoJson(d.geom,{style: POLYGON_STYLE})
-    layer.bindLabel(d.full_name, {noHide: true, direction: 'auto'});
+    layer.bindTooltip(d.full_name, {permanent: true, direction: 'auto'});
     layer.on('mouseover', function() {
         layer.setStyle({
             "fillOpacity": 0.5,
@@ -217,7 +224,8 @@ function findPlaces(lat,lng,address) {
         $("#address-search-message").show();
     }
     var has_map = (window.map != null);
-    params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,150,160,250,310,400,500,610,620,795,860,950,960,970', geom: has_map }
+    params = { 'lat': lat, 'lon': lng, 'sumlevs': '040,050,060,140,150,160,250,310,400,500,610,620,795,860,950,960,970', geom: has_map }
+    //params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,150,160,250,310,400,500,610,620,795,860,950,960,970', geom: has_map }
     $.getJSON(geoSearchAPI,params, function(data, status) {
         spinner.stop();
         if (status == 'success') {
@@ -283,15 +291,16 @@ function placeMarker(lat, lng, label) {
 
     if (map) {
         if (point_marker) {
-            point_marker.hideLabel();
-            point_marker.getLabel().setContent(label);
+            console.log(label);
+            point_marker.closeTooltip();
+            point_marker.setTooltipContent(label);
             point_marker.setLatLng(L.latLng(lat,lng));
         } else {
-            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
+            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#d85027", fillOpacity: 1, stroke: false, radius: 5});
             map.addLayer(point_marker);
-            point_marker.bindLabel(label, {noHide: true});
+            point_marker.bindTooltip(label, {permanent: true, direction:'right'});
         }
-        point_marker.showLabel();
+        point_marker.openTooltip();
     }
 
 }
@@ -327,13 +336,13 @@ function init_from_params(params) {
 
 // perhaps leave out the map on small viewports?
 if (!(lat && lng)) {
-    lat = '42.02';
-    lng = '-87.67';
+    lat = '42.365054';
+    lng = '-83.073021';
 }
 
 function initialize_map() {
     var map_center = new L.latLng(lat, lng);
-    window.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+    window.map = L.map('slippy-map', {
         center: map_center,
         zoom: 13,
         scrollWheelZoom: true,
@@ -344,6 +353,13 @@ function initialize_map() {
         dragging: true,
         touchZoom: true
     });
+
+    // set a tile layer
+    var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+    });
+
+    // add these tiles to our map
+    map.addLayer(tiles);
 
     map.addControl(new L.Control.Zoom({
         position: 'topright'

@@ -121,6 +121,7 @@ a.permalink:hover i {
 }
 p, .serif {
     font-family: "Rokkitt", Georgia, serif;
+    font-size: 1.2em;
     margin: 0 0 1em;
 }
 .caption {
@@ -625,9 +626,9 @@ aside#facets {
 }
 
 .zoom-to-layer {
-    background-color: #a1d0c6;
+    background-color: #f4a81d;
     text-decoration: none;
-    color: #888;
+    color: #f1f1f2;
     margin-left: .67em;
     padding: .33em .4em;
     font-size: .9em;
@@ -639,7 +640,7 @@ aside#facets {
 }
 .zoom-to-layer.active,
 .zoom-to-layer:hover {
-    background-color: #216989;
+    background-color: #d85027;
     color: #fff;
 }
 
@@ -1073,7 +1074,7 @@ h1.article-header-right {
 
 #map-controls {
     position: absolute;
-    z-index: 49;
+    z-index: 401;
     top: 10px;
     left: 10px;
     background-color: #fff;

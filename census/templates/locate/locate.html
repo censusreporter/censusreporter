@@ -1,12 +1,12 @@
 {% extends '_base.html' %}
 
 {% block head_css_extra %}
-<link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
-<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+<!-- <link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' /> -->
 {% endblock %}
 
 {% block head_javascript_extra %}
-<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 {% endblock %}
 
 {% block body_id %}locate{% endblock %}
@@ -15,7 +15,7 @@
 <div id="map-controls" class="clearfix">
     <header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
-            <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> State of the Detroit Child
         </a>
     </header>
     <div id="address-search-content" class="box-content">
@@ -44,7 +44,7 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src='{{STATIC_URL}}js/vendor/leaflet.label.js'></script>
+<!-- <script src='{{STATIC_URL}}js/vendor/leaflet.label.js'></script> -->
 <script src="{{STATIC_URL}}js/address.search.js"></script>
 <script>
 Glossary.init("{% url 'glossary' %}",".glossary-term");
