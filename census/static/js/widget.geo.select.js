@@ -1,6 +1,7 @@
 var geoSearchAPI = CR_API_URL + '/1.0/geo/search',
-    geoSelect = $('#geography-select'),
-    chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
+    geoSelect = $('.geography-select'),
+    chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
+
 
 var geoSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
@@ -9,10 +10,25 @@ var geoSelectEngine = new Bloodhound({
     remote: {
         url: geoSearchAPI,
         replace: function (url, query) {
+            chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
             return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
         },
         filter: function(response) {
-            var results = response.results;
+            var results = [];
+            // remove any non-Michigan responses
+            for (var i = response.results.length - 1; i >= 0; i--) {
+                // all Michigan results have US26 as part of their geoID
+                if (response.results[i].full_geoid.search('US26') != -1) {
+                    results.push(response.results[i]);
+                }
+                // all Michigan zip codes begin with 49 or 49
+                if (response.results[i].full_geoid.search('86000US48') != -1) {
+                    results.push(response.results[i]);
+                }
+                if (response.results[i].full_geoid.search('86000US49') != -1) {
+                    results.push(response.results[i]);
+                }
+            }
             _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
                 item['url'] = '/profiles/' + item['full_geoid'] + '-' + slugify(item['full_name']);

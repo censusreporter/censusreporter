@@ -22,15 +22,13 @@
 {% endblock %}
 
 {% block head_css_extra %}
-<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
-  <!--[if lte IE 8]>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.ie.css' rel='stylesheet' >
-  <![endif]-->
-<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/leaflet.label.css" />
 {% endblock %}
 
 {% block head_javascript_extra %}
-<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
+<script src="https://unpkg.com/leaflet@0.7.2/dist/leaflet.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 {% endblock %}
 
 {% block body_id %}profile{% endblock %}
@@ -322,7 +320,6 @@
 <!--[if gt IE 9]><!-->
 <script src="{{ STATIC_URL }}js/cr-leaflet.js"></script>
 <!--<![endif]-->
-<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
 // Allow Ajax POST requests to bypass Django's CSRF check
 // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
@@ -345,7 +342,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
     // draw a geom
-    var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+    var map = L.map('slippy-map', {
         scrollWheelZoom: false,
         zoomControl: false,
         doubleClickZoom: false,
@@ -354,6 +351,13 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
         dragging: allowMapDrag,
         touchZoom: allowMapDrag
     });
+
+    // set a tile layer
+    var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+    });
+
+    // add these tiles to our map
+    map.addLayer(tiles);
 
     if (allowMapDrag) {
         map.addControl(new L.Control.Zoom({
@@ -364,10 +368,10 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
     if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
         var defaultStyle = {
                 "clickable": true,
-                "color": "#00d",
-                "fillColor": "#ccc",
-                "weight": 1.0,
-                "opacity": 0.3,
+                "color": "#216989",
+                "fillColor": "#f1f1f2",
+                "weight": 1,
+                "opacity": 0.5,
                 "fillOpacity": 0.3,
             },
         geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
@@ -380,7 +384,9 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
                 layer.bindLabel(feature.properties.name, {direction: 'auto'});
                 layer.on('mouseover', function() {
                     layer.setStyle({
+                        "weight": 2,
                         "fillOpacity": 0.5,
+                        "fillColor": "#f4a81d",
                     });
                 });
                 layer.on('mouseout', function() {
@@ -396,8 +402,8 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
 
     var featureLayer = L.geoJson(json, {
         style: {
-            "fillColor": "#66c2a5",
-            "color": "#777",
+            "fillColor": "#d85027",
+            "color": "#686867",
             "weight": 2,
             "clickable": false
         }
@@ -549,16 +555,21 @@ if (!!parentLinkContainer) {
     // hit the /parents API endpoint
     $.getJSON(parentGeoAPI)
         .done(function(results) {
+            console.log(results);
             // filter out 'this' from the parents
+            // filter out any parents further up from state
             var parents = _.reject(results['parents'], function(p) {
-                return p.relation === 'this';
+                return p.relation === 'this' || p.relation === 'nation';
             });
+            
+
             // list of unique parent sumlev types, maintaining order
             var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));
             // collect parents into individual sumlev groups
             var parentGroups = _.groupBy(parents, function(d) {
                 return d.sumlevel;
             });
+            //console.log(parentRelations);
             // for each parent sumlev type ...
             var parentLinkSets = _.map(parentRelations, function(r) {
                 // ... compile a set of links to individual profile pages
