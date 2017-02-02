@@ -2892,6 +2892,10 @@ blockquote {
     display: none;
 }
 
+.header-autocomplete {
+    font-size: 0.8em;
+}
+
 /* When focused: */
 .ui-state-active,
 .ui-widget-content .ui-state-active,

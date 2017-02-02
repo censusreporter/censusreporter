@@ -118,9 +118,11 @@ $(function() {
         minLength: 3
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
-        return $("<li>").append("<div class='autocomplete-label'>" + item.label
+        const liItem = $("<li>").append("<div class='autocomplete-label'>" + item.label
             + "</div><div class='autocomplete-subline'>"
             + item.subline + "</div>").appendTo(ul);
+        liItem.addClass('header-autocomplete');
+        return liItem;
     };
 
 
