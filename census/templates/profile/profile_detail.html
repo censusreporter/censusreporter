@@ -381,17 +381,8 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
                 if (feature.properties.geoid == thisGeoID)
                     return;
 
-                if (thisSumlev === "040") {
-                    var invisibleStyle = {
-                        "clickable": false,
-                        "color": "#fff",
-                        "fillColor": "#fff",
-                        "weight": 0,
-                        "opacity": 0,
-                        "fillOpacity": 0,
-                    }
-                    layer.setStyle(invisibleStyle);
-                } else {
+                // filter out non-Michingan results
+                if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
                     layer.bindLabel(feature.properties.name, {direction: 'auto'});
                     layer.on('mouseover', function() {
                         layer.setStyle({
@@ -406,8 +397,17 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
                     layer.on('click', function() {
                         window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                     });
+                } else {
+                    var invisibleStyle = {
+                        "clickable": false,
+                        "color": "#fff",
+                        "fillColor": "#fff",
+                        "weight": 0,
+                        "opacity": 0,
+                        "fillOpacity": 0,
+                    }
+                    layer.setStyle(invisibleStyle);
                 }
-
 
             }
         });
