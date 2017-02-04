@@ -50,16 +50,6 @@ function updateLocation(lat, lng, label) {
 
 function processGeocoderResults(response) {
     var results = response.results;
-    console.log(results);
-    // var results = response.features;
-    // results = _.filter(results, function(item) {
-    //     return item.id.indexOf('address.') == 0;
-    // });
-    // results = _.map(results, function(item) {
-    //     // Gets rid of "United States" at the end of the address
-    //     item.place_name = item.place_name.replace(", United States", "");
-    //     return item;
-    // });
     return results;
 }
 
