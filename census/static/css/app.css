@@ -422,7 +422,7 @@ article .section-container,
     margin: 0;
 }
 .explain {
-    font-size: .83em;
+    font-size: 1em;
     padding: 0 1em;
 }
 .sidebar-block .explain {
@@ -609,6 +609,7 @@ aside#facets {
     height: 100%;
     left: 0;
     top: 0;
+    border-bottom: 1px #686867 solid;
 }
 
 #use-location {
@@ -657,7 +658,7 @@ aside#facets {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    border: 1px solid #216989;
+    border: 1px solid #686867;
     padding: .67em 1.25em .33em;
 }
 #cover-profile ul {

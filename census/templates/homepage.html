@@ -50,7 +50,7 @@
 <div class="content-container clearfix">
     <article id="explore" class="clearfix wrapper">
         <header class="column-full">
-            <h3 class="article-header">Search for facts, visualizations, data tables, and downloads!</h3>
+            <h3 class="article-header">Explore datasets and place profiles across Detroit and Michigan!</h3>
             <br>
         </header>
         {% include "data/_blocks/_data_query_builder.html" %}
@@ -59,7 +59,7 @@
         <section class="column-full clearfix big-action">
             <h1 class="article-header">Profile</h1>
             <div id="geography-select-wrapper" class="input-wrapper">
-                <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
+                <input name="geography_select" class="geography-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
                 <div class="geolocate-only">
                     <span class="or">or</span>
                     <a href="{% url 'locate' %}" class="action-button"><i class="fa fa-map-marker"></i> Search by street address</a>

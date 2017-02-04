@@ -1238,7 +1238,10 @@ function Chart(options) {
         Set2: ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'],
         // saturated version of Colorbrewer 'Set2' scheme, so the unhovered
         // state, at 80% opacity, looks like the original colorbrewer color
-        Set2S: ['#33b5b5', '#ed8b69', '#6295cc', '#dd85c0', '#8ecc23', '#fccd06', '#dbba97', '#aaaaaa']
+        Set2S: ['#33b5b5', '#ed8b69', '#6295cc', '#dd85c0', '#8ecc23', '#fccd06', '#dbba97', '#aaaaaa'],
+
+        // Kat Hartman colors
+        Kat2: ['#216989', '#86af3f', '#6595ce', '#686867', '#032634', '#22592c',  '#404041', '#0f0f10'],
         
     };
     

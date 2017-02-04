@@ -1,52 +1,77 @@
+/* label */
+/* Base styles for the element that has a label */
 .leaflet-label {
-    background: #fff;
-    background-clip: padding-box;
-    border: solid 4px #111;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    color: #111;
-    display: block;
-    position: absolute;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 6;
-    font-size: 12px;
-    line-height: 1.4em;
-    font-weight: bold;
-    padding: 1px 6px;
-}
-
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
 .leaflet-label.leaflet-clickable {
-    cursor: pointer;
-}
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-label-top:before,
+.leaflet-label-bottom:before,
+.leaflet-label-left:before,
+.leaflet-label-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
 
-.leaflet-label:before,
-.leaflet-label:after {
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    content: none;
-    position: absolute;
-    top: 5px;
-}
+/* Directions */
 
-.leaflet-label:before {
-    border-right: 6px solid black;
-    border-right-color: inherit;
-    left: -10px;
+.leaflet-label-bottom {
+	margin-top: 6px;
 }
-
-.leaflet-label:after {
-    border-left: 6px solid black;
-    border-left-color: inherit;
-    right: -10px;
+.leaflet-label-top {
+	margin-top: -6px;
 }
-
-.leaflet-label-right:before,
-.leaflet-label-left:after {
-    content: "";
+.leaflet-label-bottom:before,
+.leaflet-label-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-label-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-label-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-label-left {
+	margin-left: -6px;
 }
+.leaflet-label-right {
+	margin-left: 6px;
+}
+.leaflet-label-left:before,
+.leaflet-label-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-label-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-label-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
