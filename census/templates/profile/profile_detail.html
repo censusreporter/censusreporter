@@ -40,7 +40,7 @@
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
                 <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1>
-                {% if geography.this.sumlevel != '010' %}
+                {% if geography.this.sumlevel != '010' and geography.this.sumlevel != '040' %}
                 <p class="caption"></p>
                 {% endif %}
             </header>
@@ -381,20 +381,34 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=tr
                 if (feature.properties.geoid == thisGeoID)
                     return;
 
-                layer.bindLabel(feature.properties.name, {direction: 'auto'});
-                layer.on('mouseover', function() {
-                    layer.setStyle({
-                        "weight": 2,
-                        "fillOpacity": 0.5,
-                        "fillColor": "#f4a81d",
+                if (thisSumlev === "040") {
+                    var invisibleStyle = {
+                        "clickable": false,
+                        "color": "#fff",
+                        "fillColor": "#fff",
+                        "weight": 0,
+                        "opacity": 0,
+                        "fillOpacity": 0,
+                    }
+                    layer.setStyle(invisibleStyle);
+                } else {
+                    layer.bindLabel(feature.properties.name, {direction: 'auto'});
+                    layer.on('mouseover', function() {
+                        layer.setStyle({
+                            "weight": 2,
+                            "fillOpacity": 0.5,
+                            "fillColor": "#f4a81d",
+                        });
                     });
-                });
-                layer.on('mouseout', function() {
-                    layer.setStyle(defaultStyle);
-                });
-                layer.on('click', function() {
-                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                });
+                    layer.on('mouseout', function() {
+                        layer.setStyle(defaultStyle);
+                    });
+                    layer.on('click', function() {
+                        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                    });
+                }
+
+
             }
         });
         map.addLayer(geojsonTileLayer);
@@ -495,8 +509,10 @@ var makeCharts = function() {
             chartChartTitle: chartChartTitle,
             chartInitialSort: chartInitialSort,
             chartStatType: chartStatType,
-            geographyData: geographyData
+            geographyData: geographyData,
+            chartColorScale: 'Kat2',
         }
+        console.log(chartstuff);
         try {
             Charts[i] = Chart(chartstuff);
         } catch(e) {
