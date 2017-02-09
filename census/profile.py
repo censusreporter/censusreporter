@@ -8,6 +8,11 @@ from django.conf import settings
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 
+import logging
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+
+
 class ApiClient(object):
     def __init__(self, base_url):
         self.base_url = base_url
@@ -24,10 +29,10 @@ class ApiClient(object):
         return data
 
     def get_parent_geoids(self, geoid):
-        return self._get('/1.0/geo/tiger2014/{}/parents'.format(geoid))
+        return self._get('/1.0/geo/tiger2015/{}/parents'.format(geoid))
 
     def get_geoid_data(self, geoid):
-        return self._get('/1.0/geo/tiger2014/{}'.format(geoid))
+        return self._get('/1.0/geo/tiger2015/{}'.format(geoid))
 
     def get_data(self, table_ids, geo_ids, acs='latest'):
         if hasattr(table_ids, '__iter__'):
@@ -87,6 +92,7 @@ def value_rpn_calc(data, rpn_string):
     numerator_moe = None
 
     for token in rpn_string.split():
+
         if token in ops:
             b = stack.pop()
             b_moe = moe_stack.pop()
@@ -193,7 +199,7 @@ def geo_profile(geoid, acs='latest'):
                        ('economics', dict()),
                        ('families', dict()),
                        ('housing', dict()),
-                       ('social', dict())])
+                       ('social', dict()),])
 
     data = api.get_data('B01001', comparison_geoids, acs)
     acs_name = data['release']['name']
@@ -220,7 +226,25 @@ def geo_profile(geoid, acs='latest'):
             doc['geography']['parents'][name] = convert_geography_data(geoid_data)
             doc['geography']['parents'][name]['total_population'] = _maybe_int(data['data'][the_geoid]['B01001']['estimate']['B01001001'])
 
+
     # Demographics: Age
+    #### Adding Child Age Dict for SODC
+    child_age_dict = dict()
+    doc['demographics']['child_age'] = child_age_dict
+
+    child_cat_dict = OrderedDict()
+    child_age_dict['distribution_by_category'] = child_cat_dict
+    # this isn't the correct metadata
+    add_metadata(child_age_dict['distribution_by_category'], 'B01001', 'Total population', acs_name)
+    child_cat_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001003 B01001027 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
+    child_cat_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001004 B01001028 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
+    child_cat_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001005 B01001029 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
+    child_cat_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001006 B01001030 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
+
     age_dict = dict()
     doc['demographics']['age'] = age_dict
 
@@ -363,12 +387,116 @@ def geo_profile(geoid, acs='latest'):
     race_dict['percent_two_or_more'] = build_item('Two+', data, item_levels,
         'B03002009 B03002001 / %')
 
-#    # collapsed version of "other"
-#    race_dict['percent_other'] = build_item('Other', data, item_levels,
-#        'B03002005 B03002007 + B03002008 + B03002009 + B03002001 / %')
-
     race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
         'B03002012 B03002001 / %')
+
+    #### Race by age for youth -- SODC ####
+    data = api.get_data(['B01001A', 'B01001B', 'B01001C', 'B01001D', 'B01001E', 'B01001F', 'B01001G', 'B01001I', 'B01001'], comparison_geoids, acs)
+    acs_name = data['release']['name']
+    
+    child_race_dict = OrderedDict()
+    doc['demographics']['child_race'] = child_race_dict
+    add_metadata(child_race_dict, 'B01001A', 'Total population', acs_name)
+
+    # Race by age under 5
+    child_race_dict['percent_white_under_5'] = build_item('White Under 5', data, item_levels,
+        'B01001A003 B01001A018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_black_under_5'] = build_item('Black Under 5', data, item_levels,
+        'B01001B003 B01001B018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_native_under_5'] = build_item('Native Under 5', data, item_levels,
+        'B01001C003 B01001C018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_asian_under_5'] = build_item('Asian Under 5', data, item_levels,
+        'B01001D003 B01001D018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_islander_under_5'] = build_item('Islander Under 5', data, item_levels,
+        'B01001E003 B01001E018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_other_under_5'] = build_item('Other Under 5', data, item_levels,
+        'B01001F003 B01001F018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_two_or_more_under_5'] = build_item('Two+ Under 5', data, item_levels,
+        'B01001G003 B01001G018 + B01001003 B01001027 + / %')
+
+    child_race_dict['percent_hispanic_under_5'] = build_item('Hispanic Under 5', data, item_levels,
+        'B01001I003 B01001I018 + B01001003 B01001027 + / %')
+
+    # Race by age 5 - 9
+    child_race_dict['percent_white_5_to_9'] = build_item('White 5 to 9', data, item_levels,
+        'B01001A004 B01001A019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_black_5_to_9'] = build_item('Black 5 to 9', data, item_levels,
+        'B01001B004 B01001B019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_native_5_to_9'] = build_item('Native 5 to 9', data, item_levels,
+        'B01001C004 B01001C019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_asian_5_to_9'] = build_item('Asian 5 to 9', data, item_levels,
+        'B01001D004 B01001D019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_islander_5_to_9'] = build_item('Islander 5 to 9', data, item_levels,
+        'B01001E004 B01001E019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_other_5_to_9'] = build_item('Other 5 to 9', data, item_levels,
+        'B01001F004 B01001F019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_two_or_more_5_to_9'] = build_item('Two+ 5 to 9', data, item_levels,
+        'B01001G004 B01001G019 + B01001004 B01001028 + / %')
+
+    child_race_dict['percent_hispanic_5_to_9'] = build_item('Hispanic 5 to 9', data, item_levels,
+        'B01001I004 B01001I019 + B01001004 B01001028 + / %')
+
+    # Race by age 10 - 14
+    child_race_dict['percent_white_10_to_14'] = build_item('White 10 to 14', data, item_levels,
+        'B01001A005 B01001A020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_black_10_to_14'] = build_item('Black 10 to 14', data, item_levels,
+        'B01001B005 B01001B020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_native_10_to_14'] = build_item('Native 10 to 14', data, item_levels,
+        'B01001C005 B01001C020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_asian_10_to_14'] = build_item('Asian 10 to 14', data, item_levels,
+        'B01001D005 B01001D020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_islander_10_to_14'] = build_item('Islander 10 to 14', data, item_levels,
+        'B01001E005 B01001E020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_other_10_to_14'] = build_item('Other 10 to 14', data, item_levels,
+        'B01001F005 B01001F020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_two_or_more_10_to_14'] = build_item('Two+ 10 to 14', data, item_levels,
+        'B01001G005 B01001G020 + B01001005 B01001029 + / %')
+
+    child_race_dict['percent_hispanic_10_to_14'] = build_item('Hispanic 10 to 14', data, item_levels,
+        'B01001I005 B01001I020 + B01001005 B01001029 + / %')
+
+    # Race by age 15 - 17
+    child_race_dict['percent_white_15_to_17'] = build_item('White 15 to 17', data, item_levels,
+        'B01001A006 B01001A021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_black_15_to_17'] = build_item('Black 15 to 17', data, item_levels,
+        'B01001B006 B01001B021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_native_15_to_17'] = build_item('Native 15 to 17', data, item_levels,
+        'B01001C006 B01001C021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_asian_15_to_17'] = build_item('Asian 15 to 17', data, item_levels,
+        'B01001D006 B01001D021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_islander_15_to_17'] = build_item('Islander 15 to 17', data, item_levels,
+        'B01001E006 B01001E021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_other_15_to_17'] = build_item('Other 15 to 17', data, item_levels,
+        'B01001F006 B01001F021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_two_or_more_15_to_17'] = build_item('Two+ 15 to 17', data, item_levels,
+        'B01001G006 B01001G021 + B01001006 B01001030 + / %')
+
+    child_race_dict['percent_hispanic_15_to_17'] = build_item('Hispanic 15 to 17', data, item_levels,
+        'B01001I006 B01001I021 + B01001006 B01001030 + / %')
 
     # Economics: Per-Capita Income
     data = api.get_data('B19301', comparison_geoids, acs)

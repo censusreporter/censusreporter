@@ -47,5 +47,5 @@ Thumbs.db
 # Specific project files #
 ##########
 node_modules/
-censusreporter/config/dev/local.py
+config/dev/local.py
 .vagrant
