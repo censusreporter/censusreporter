@@ -160,6 +160,8 @@ SUMLEV_CHOICES['Schools'] = [
 ]
 
 ACS_RELEASES = {
+    'acs2015_5yr': {'name': 'ACS 2015 5-Year', 'slug': 'acs2015_5yr', 'years': '2011-2015'},
+    'acs2015_1yr': {'name': 'ACS 2015 1-Year', 'slug': 'acs2015_1yr', 'years': '2015'},
     'acs2014_5yr': {'name': 'ACS 2014 5-Year', 'slug': 'acs2014_5yr', 'years': '2010-2014'},
     'acs2014_1yr': {'name': 'ACS 2014 1-Year', 'slug': 'acs2014_1yr', 'years': '2014'},
     'acs2013_1yr': {'name': 'ACS 2013 1-Year', 'slug': 'acs2013_1yr', 'years': '2013'},
@@ -181,6 +183,7 @@ ACS_RELEASES = {
     'acs2007_1yr': {'name': 'ACS 2007 1-Year', 'slug': 'acs2007_1yr', 'years': '2007'},
     'acs2007_3yr': {'name': 'ACS 2007 3-Year', 'slug': 'acs2007_3yr', 'years': '2005-2007'},
 }
+
 
 NLTK_STOPWORDS = ['i','me','my','myself','we','our','ours','ourselves','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','they','them','their','theirs','themselves','what','which','who','whom','this','that','these','those','am','is','are','was','were','be','been','being','have','has','had','having','do','does','did','doing','a','an','the','and','but','if','or','because','as','until','while','of','at','by','for','with','about','against','between','into','through','during','before','after','above','below','to','from','up','down','in','out','on','off','over','under','again','further','then','once','here','there','when','where','why','how','all','any','both','each','few','more','most','other','some','such','no','nor','not','only','own','same','so','than','too','very','s','t','can','will','just','don','should','now']
 

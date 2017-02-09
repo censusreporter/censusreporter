@@ -9,6 +9,8 @@ import requests
 import unicodecsv
 import topics
 import json
+import boto
+import boto.s3.connection
 
 from django.conf import settings
 from django.contrib import messages
@@ -28,7 +30,7 @@ from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_i
 from .profile import geo_profile, enhance_api_data
 from .topics import TOPICS_MAP
 
-from boto.s3.connection import S3Connection
+from boto.s3.connection import S3Connection, Location
 from boto.s3.key import Key
 try:
     from config.dev.local import AWS_KEY, AWS_SECRET
@@ -399,7 +401,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2014/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2015/%s' % self.geo_id
         r = requests.get(endpoint)
         status_code = r.status_code
 
@@ -409,11 +411,14 @@ class GeographyDetailView(TemplateView):
         return None
 
     def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2015/%s.json' % geo_id
+        return '/1.0/data/profiles/2015/%s.json' % geo_id.upper()
 
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:
-            s3 = S3Connection(AWS_KEY, AWS_SECRET)
+            #s3 = S3Connection(AWS_KEY, AWS_SECRET)
+            s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+            lookup = s3.lookup('d3-sd-child')
+            logger.warn(lookup)
         else:
             try:
                 s3 = S3Connection()
@@ -425,11 +430,11 @@ class GeographyDetailView(TemplateView):
         s3 = self.make_s3()
 
         key = None
-        if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
+        if s3:  
+            bucket = s3.get_bucket('d3-sd-child')
             keyname = self.s3_keyname(geo_id)
             key = Key(bucket, keyname)
-
+        
         return key
 
     def write_profile_json(self, s3_key, data):
@@ -450,38 +455,39 @@ class GeographyDetailView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
 
-        try:
-            s3_key = self.s3_profile_key(geography_id)
-        except:
-            s3_key = None
+        # try:
+        #     s3_key = self.s3_profile_key(geography_id)
+        # except:
+        #     s3_key = None
 
-        if s3_key and s3_key.exists():
-            memfile = cStringIO.StringIO()
-            s3_key.get_file(memfile)
-            memfile.seek(0)
-            compressed = gzip.GzipFile(fileobj=memfile)
+        # if s3_key and s3_key.exists():
+        #     memfile = cStringIO.StringIO()
+        #     s3_key.get_file(memfile)
+        #     memfile.seek(0)
+        #     compressed = gzip.GzipFile(fileobj=memfile)
 
-            # Read the decompressed JSON from S3
-            profile_data_json = compressed.read()
-            # Load it into a Python dict for the template
-            profile_data = simplejson.loads(profile_data_json)
-            # Also mark it as safe for the charts on the profile
-            profile_data_json = SafeString(profile_data_json)
+        #     # Read the decompressed JSON from S3
+        #     profile_data_json = compressed.read()
+        #     # Load it into a Python dict for the template
+        #     profile_data = simplejson.loads(profile_data_json)
+        #     # Also mark it as safe for the charts on the profile
+        #     profile_data_json = SafeString(profile_data_json)
+        # else:
+        profile_data = geo_profile(geography_id)
+        logger.warn(profile_data)
+
+        if profile_data:
+            profile_data = enhance_api_data(profile_data)
+
+            profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+            # if s3_key is None:
+            #     logger.warn("Could not save to S3 because there was no connection to S3.")
+            # else:
+            #     self.write_profile_json(s3_key, profile_data_json)
+
         else:
-            profile_data = geo_profile(geography_id)
-
-            if profile_data:
-                profile_data = enhance_api_data(profile_data)
-
-                profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-
-                if s3_key is None:
-                    logger.warn("Could not save to S3 because there was no connection to S3.")
-                else:
-                    self.write_profile_json(s3_key, profile_data_json)
-
-            else:
-                raise Http404
+            raise Http404
 
         page_context = {
             'profile_data_json': profile_data_json
@@ -610,6 +616,7 @@ class ComparisonBuilder(TemplateView):
 
 class S3Conn(object):
     def make_s3(self):
+        # c = boto.s3.connect_to_region('ap-northeast-1')
         if AWS_KEY and AWS_SECRET:
             s3 = S3Connection(AWS_KEY, AWS_SECRET)
         else:
@@ -624,7 +631,7 @@ class S3Conn(object):
 
         key = None
         if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
+            bucket = s3.get_bucket('d3-sd-child', location=Location.EU)
             key = Key(bucket, key_name)
         return key
 

@@ -337,7 +337,7 @@ $.ajaxSetup({
 });
 
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2014/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2015/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -553,8 +553,8 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2014/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2014/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2015/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2015/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
@@ -620,7 +620,7 @@ var makeCitation = function(year, release) {
 
     $('.content-container').append(citation);
 }
-$.each(releases, function(i, v) {
+$.each($.unique(releases), function(i, v) {
     var bits = v.split(" "),
         year = bits[1],
         release = bits[2];
