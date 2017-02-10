@@ -226,9 +226,24 @@ def geo_profile(geoid, acs='latest'):
             doc['geography']['parents'][name] = convert_geography_data(geoid_data)
             doc['geography']['parents'][name]['total_population'] = _maybe_int(data['data'][the_geoid]['B01001']['estimate']['B01001001'])
 
+    # Demographics: Total number of Children
+    child_pop_dict = dict()
+    doc['demographics']['child_pop'] = child_pop_dict
+    child_pop_dict['total'] = build_item('Number of children under 18', data, item_levels,
+        'B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 +')
+    add_metadata(child_pop_dict['total'], 'B01001', 'Total population', acs_name)
+
+	# Demographics: Child Gender
+    child_gender_dict = OrderedDict()
+    doc['demographics']['child_gender'] = child_gender_dict
+    add_metadata(child_gender_dict, 'B01001', 'Total population', acs_name)
+    child_gender_dict['percent_male'] = build_item('Male', data, item_levels,
+        'B01001003 B01001004 + B01001005 + B01001006 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
+    child_gender_dict['percent_female'] = build_item('Female', data, item_levels,
+        'B01001027 B01001028 + B01001029 + B01001030 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
 
     # Demographics: Age
-    #### Adding Child Age Dict for SODC
+    #### SODC ####
     child_age_dict = dict()
     doc['demographics']['child_age'] = child_age_dict
 
@@ -390,113 +405,342 @@ def geo_profile(geoid, acs='latest'):
     race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
         'B03002012 B03002001 / %')
 
-    #### Race by age for youth -- SODC ####
+    #### Race by age for youth ####
+    #### SODC ####
     data = api.get_data(['B01001A', 'B01001B', 'B01001C', 'B01001D', 'B01001E', 'B01001F', 'B01001G', 'B01001I', 'B01001'], comparison_geoids, acs)
     acs_name = data['release']['name']
     
-    child_race_dict = OrderedDict()
-    doc['demographics']['child_race'] = child_race_dict
-    add_metadata(child_race_dict, 'B01001A', 'Total population', acs_name)
+    child_race_grouped_under_9 = OrderedDict()
+    doc['demographics']['child_race_grouped_under_9'] = child_race_grouped_under_9
+    add_metadata(child_race_grouped_under_9, 'B01001', 'Total population', acs_name)
 
     # Race by age under 5
-    child_race_dict['percent_white_under_5'] = build_item('White Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5'] = OrderedDict()
+    child_race_grouped_under_9['under_5']['acs_release'] = acs_name
+    child_race_grouped_under_9['under_5']['metadata'] = {
+        'universe': 'Total population',
+        'table_id': 'B01001',
+        'name': 'Under 5'
+    }
+    child_race_grouped_under_9['under_5']['white'] = build_item('White Under 5', data, item_levels,
         'B01001A003 B01001A018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_black_under_5'] = build_item('Black Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['black'] = build_item('Black Under 5', data, item_levels,
         'B01001B003 B01001B018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_native_under_5'] = build_item('Native Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['native'] = build_item('Native Under 5', data, item_levels,
         'B01001C003 B01001C018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_asian_under_5'] = build_item('Asian Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['asian'] = build_item('Asian Under 5', data, item_levels,
         'B01001D003 B01001D018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_islander_under_5'] = build_item('Islander Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['islander'] = build_item('Islander Under 5', data, item_levels,
         'B01001E003 B01001E018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_other_under_5'] = build_item('Other Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['other'] = build_item('Other Under 5', data, item_levels,
         'B01001F003 B01001F018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_two_or_more_under_5'] = build_item('Two+ Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['two+'] = build_item('Two+ Under 5', data, item_levels,
         'B01001G003 B01001G018 + B01001003 B01001027 + / %')
 
-    child_race_dict['percent_hispanic_under_5'] = build_item('Hispanic Under 5', data, item_levels,
+    child_race_grouped_under_9['under_5']['hispanic'] = build_item('Hispanic Under 5', data, item_levels,
         'B01001I003 B01001I018 + B01001003 B01001027 + / %')
 
     # Race by age 5 - 9
-    child_race_dict['percent_white_5_to_9'] = build_item('White 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9'] = OrderedDict()
+    child_race_grouped_under_9['5_to_9']['acs_release'] = acs_name
+    child_race_grouped_under_9['5_to_9']['metadata'] = {
+        'universe': 'Total population',
+        'table_id': 'B01001',
+        'name': '5 to 9'
+    }
+    child_race_grouped_under_9['5_to_9']['white'] = build_item('White 5 to 9', data, item_levels,
         'B01001A004 B01001A019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_black_5_to_9'] = build_item('Black 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['black'] = build_item('Black 5 to 9', data, item_levels,
         'B01001B004 B01001B019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_native_5_to_9'] = build_item('Native 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['native'] = build_item('Native 5 to 9', data, item_levels,
         'B01001C004 B01001C019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_asian_5_to_9'] = build_item('Asian 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['asian'] = build_item('Asian 5 to 9', data, item_levels,
         'B01001D004 B01001D019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_islander_5_to_9'] = build_item('Islander 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['islander'] = build_item('Islander 5 to 9', data, item_levels,
         'B01001E004 B01001E019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_other_5_to_9'] = build_item('Other 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['other'] = build_item('Other 5 to 9', data, item_levels,
         'B01001F004 B01001F019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_two_or_more_5_to_9'] = build_item('Two+ 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['two+'] = build_item('Two+ 5 to 9', data, item_levels,
         'B01001G004 B01001G019 + B01001004 B01001028 + / %')
 
-    child_race_dict['percent_hispanic_5_to_9'] = build_item('Hispanic 5 to 9', data, item_levels,
+    child_race_grouped_under_9['5_to_9']['hispanic'] = build_item('Hispanic 5 to 9', data, item_levels,
         'B01001I004 B01001I019 + B01001004 B01001028 + / %')
 
     # Race by age 10 - 14
-    child_race_dict['percent_white_10_to_14'] = build_item('White 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17 = OrderedDict()
+    doc['demographics']['child_race_grouped_10_to_17'] = child_race_grouped_10_to_17
+    add_metadata(child_race_grouped_10_to_17, 'B01001', 'Total population', acs_name)
+
+    child_race_grouped_10_to_17['10_to_14'] = OrderedDict()
+    child_race_grouped_10_to_17['10_to_14']['acs_release'] = acs_name
+    child_race_grouped_10_to_17['10_to_14']['metadata'] = {
+        'universe': 'Total population',
+        'table_id': 'B01001',
+        'name': '10 to 14'
+    }
+    child_race_grouped_10_to_17['10_to_14']['white'] = build_item('White 10 to 14', data, item_levels,
         'B01001A005 B01001A020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_black_10_to_14'] = build_item('Black 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['black'] = build_item('Black 10 to 14', data, item_levels,
         'B01001B005 B01001B020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_native_10_to_14'] = build_item('Native 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['native'] = build_item('Native 10 to 14', data, item_levels,
         'B01001C005 B01001C020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_asian_10_to_14'] = build_item('Asian 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['asian'] = build_item('Asian 10 to 14', data, item_levels,
         'B01001D005 B01001D020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_islander_10_to_14'] = build_item('Islander 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['islander'] = build_item('Islander 10 to 14', data, item_levels,
         'B01001E005 B01001E020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_other_10_to_14'] = build_item('Other 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['other'] = build_item('Other 10 to 14', data, item_levels,
         'B01001F005 B01001F020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_two_or_more_10_to_14'] = build_item('Two+ 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['two+'] = build_item('Two+ 10 to 14', data, item_levels,
         'B01001G005 B01001G020 + B01001005 B01001029 + / %')
 
-    child_race_dict['percent_hispanic_10_to_14'] = build_item('Hispanic 10 to 14', data, item_levels,
+    child_race_grouped_10_to_17['10_to_14']['hispanic'] = build_item('Hispanic 10 to 14', data, item_levels,
         'B01001I005 B01001I020 + B01001005 B01001029 + / %')
 
     # Race by age 15 - 17
-    child_race_dict['percent_white_15_to_17'] = build_item('White 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17'] = OrderedDict()
+    child_race_grouped_10_to_17['15_to_17']['acs_release'] = acs_name
+    child_race_grouped_10_to_17['15_to_17']['metadata'] = {
+        'universe': 'Total population',
+        'table_id': 'B01001',
+        'name': '15 to 17'
+    }
+
+    child_race_grouped_10_to_17['15_to_17']['white'] = build_item('White 15 to 17', data, item_levels,
         'B01001A006 B01001A021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_black_15_to_17'] = build_item('Black 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['black'] = build_item('Black 15 to 17', data, item_levels,
         'B01001B006 B01001B021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_native_15_to_17'] = build_item('Native 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['native'] = build_item('Native 15 to 17', data, item_levels,
         'B01001C006 B01001C021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_asian_15_to_17'] = build_item('Asian 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['asian'] = build_item('Asian 15 to 17', data, item_levels,
         'B01001D006 B01001D021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_islander_15_to_17'] = build_item('Islander 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['islander'] = build_item('Islander 15 to 17', data, item_levels,
         'B01001E006 B01001E021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_other_15_to_17'] = build_item('Other 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['other'] = build_item('Other 15 to 17', data, item_levels,
         'B01001F006 B01001F021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_two_or_more_15_to_17'] = build_item('Two+ 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['two+'] = build_item('Two+ 15 to 17', data, item_levels,
         'B01001G006 B01001G021 + B01001006 B01001030 + / %')
 
-    child_race_dict['percent_hispanic_15_to_17'] = build_item('Hispanic 15 to 17', data, item_levels,
+    child_race_grouped_10_to_17['15_to_17']['hispanic'] = build_item('Hispanic 15 to 17', data, item_levels,
         'B01001I006 B01001I021 + B01001006 B01001030 + / %')
+
+
+    # Male Children: Distribution of white male youth 
+    #### SODC ####
+    male_child_age_white_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_white_distribution'] = male_child_age_white_distribution_dict
+    add_metadata(male_child_age_white_distribution_dict, 'B01001A', 'People who are White alone', acs_name)
+
+    male_child_age_white_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001A003 B01001A003 B01001A004 + B01001A005 + B01001A006 + / %')
+
+    male_child_age_white_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001A004 B01001A003 B01001A004 + B01001A005 + B01001A006 + / %')
+
+    male_child_age_white_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001A005 B01001A003 B01001A004 + B01001A005 + B01001A006 + / %')
+
+    male_child_age_white_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001A006 B01001A003 B01001A004 + B01001A005 + B01001A006 + / %')
+
+    # Male Children: Distribution of black male youth
+    #### SODC #### 
+    male_child_age_black_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_black_distribution'] = male_child_age_black_distribution_dict
+    add_metadata(male_child_age_black_distribution_dict, 'B01001B', 'People who are Black alone', acs_name)
+
+    male_child_age_black_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001B003 B01001B003 B01001B004 + B01001B005 + B01001B006 + / %')
+
+    male_child_age_black_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001B004 B01001B003 B01001B004 + B01001B005 + B01001B006 + / %')
+
+    male_child_age_black_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001B005 B01001B003 B01001B004 + B01001B005 + B01001B006 + / %')
+
+    male_child_age_black_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001B006 B01001B003 B01001B004 + B01001B005 + B01001B006 + / %')
+
+    # Male Children: Distribution of Native male youth
+    #### SODC ####
+    male_child_age_native_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_native_distribution'] = male_child_age_native_distribution_dict
+    add_metadata(male_child_age_native_distribution_dict, 'B01001C', 'People Who Are American Indian and Alaska Native Alone', acs_name)
+
+    male_child_age_native_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001C003 B01001C003 B01001C004 + B01001C005 + B01001C006 + / %')
+
+    male_child_age_native_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001C004 B01001C003 B01001C004 + B01001C005 + B01001C006 + / %')
+
+    male_child_age_native_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001C005 B01001C003 B01001C004 + B01001C005 + B01001C006 + / %')
+
+    male_child_age_native_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001C006 B01001C003 B01001C004 + B01001C005 + B01001C006 + / %')
+
+    # Male Children: Distribution of Asian male youth
+    #### SODC ####
+    male_child_age_asian_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_asian_distribution'] = male_child_age_asian_distribution_dict
+    add_metadata(male_child_age_asian_distribution_dict, 'B01001D', 'People Who Are Asian Alone', acs_name)
+
+    male_child_age_asian_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001D003 B01001D003 B01001D004 + B01001D005 + B01001D006 + / %')
+
+    male_child_age_asian_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001D004 B01001D003 B01001D004 + B01001D005 + B01001D006 + / %')
+
+    male_child_age_asian_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001D005 B01001D003 B01001D004 + B01001D005 + B01001D006 + / %')
+
+    male_child_age_asian_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001D006 B01001D003 B01001D004 + B01001D005 + B01001D006 + / %')
+
+    # Male Children: Distribution of Islander male youth
+    #### SODC ####
+    male_child_age_islander_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_islander_distribution'] = male_child_age_islander_distribution_dict
+    add_metadata(male_child_age_islander_distribution_dict, 'B01001E', 'People Who Are Native Hawaiian and Other Pacific Islander Alone', acs_name)
+
+    male_child_age_islander_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001E003 B01001E003 B01001E004 + B01001E005 + B01001E006 + / %')
+
+    male_child_age_islander_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001E004 B01001E003 B01001E004 + B01001E005 + B01001E006 + / %')
+
+    male_child_age_islander_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001E005 B01001E003 B01001E004 + B01001E005 + B01001E006 + / %')
+
+    male_child_age_islander_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001E006 B01001E003 B01001E004 + B01001E005 + B01001E006 + / %')
+
+    # Male Children: Distribution of Other male youth
+    #### SODC ####
+    male_child_age_other_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_other_distribution'] = male_child_age_other_distribution_dict
+    add_metadata(male_child_age_other_distribution_dict, 'B01001F', 'People Who Are Some Other Race Alone', acs_name)
+
+    male_child_age_other_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001F003 B01001F003 B01001F004 + B01001F005 + B01001F006 + / %')
+
+    male_child_age_other_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001F004 B01001F003 B01001F004 + B01001F005 + B01001F006 + / %')
+
+    male_child_age_other_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001F005 B01001F003 B01001F004 + B01001F005 + B01001F006 + / %')
+
+    male_child_age_other_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001F006 B01001F003 B01001F004 + B01001F005 + B01001F006 + / %')
+
+    # Male Children: Distribution of Two or More Races male youth
+    #### SODC ####
+    male_child_age_two_or_more_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_two_or_more_distribution'] = male_child_age_two_or_more_distribution_dict
+    add_metadata(male_child_age_two_or_more_distribution_dict, 'B01001G', 'People Who Are Two or More Races', acs_name)
+
+    male_child_age_two_or_more_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001G003 B01001G003 B01001G004 + B01001G005 + B01001G006 + / %')
+
+    male_child_age_two_or_more_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001G004 B01001G003 B01001G004 + B01001G005 + B01001G006 + / %')
+
+    male_child_age_two_or_more_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001G005 B01001G003 B01001G004 + B01001G005 + B01001G006 + / %')
+
+    male_child_age_two_or_more_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001G006 B01001G003 B01001G004 + B01001G005 + B01001G006 + / %')
+
+    # Male Children: Distribution of Hispanic male youth
+    #### SODC ####
+    male_child_age_hispanic_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_hispanic_distribution'] = male_child_age_hispanic_distribution_dict
+    add_metadata(male_child_age_hispanic_distribution_dict, 'B01001I', 'People Who Are Two or More Races', acs_name)
+
+    male_child_age_hispanic_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001I003 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    male_child_age_hispanic_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001I004 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    male_child_age_hispanic_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001I005 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    male_child_age_two_or_more_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001I006 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    # Male Children: Total Distribution by Age
+    #### SODC ####
+    male_child_age_total_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_total_distribution'] = male_child_age_total_distribution_dict
+    add_metadata(male_child_age_total_distribution_dict, 'B01001', 'Total Population', acs_name)
+
+    male_child_age_total_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
+        'B01001003 B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_total_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
+        'B01001I004 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    male_child_age_total_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
+        'B01001I005 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    male_child_age_total_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
+        'B01001I006 B01001I003 B01001I004 + B01001I005 + B01001I006 + / %')
+
+    # Male Children: Distribution by Race
+    #### SODC ####
+    male_child_age_race_distribution_dict = OrderedDict()
+    doc['demographics']['male_child_age_race_distribution'] = male_child_age_race_distribution_dict
+    add_metadata(male_child_age_race_distribution_dict, 'B01001', 'Total Population', acs_name)
+
+    male_child_age_race_distribution_dict['percent_white'] = build_item('White', data, item_levels,
+        'B01001A003 B01001A004 + B01001A005 + B01001A006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_black'] = build_item('Black', data, item_levels,
+        'B01001B003 B01001B004 + B01001B005 + B01001B006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_native'] = build_item('Native', data, item_levels,
+        'B01001C003 B01001C004 + B01001C005 + B01001C006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_asian'] = build_item('Asian', data, item_levels,
+        'B01001D003 B01001D004 + B01001D005 + B01001D006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_islander'] = build_item('Islander', data, item_levels,
+        'B01001E003 B01001E004 + B01001E005 + B01001E006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_other'] = build_item('Other', data, item_levels,
+        'B01001F003 B01001F004 + B01001F005 + B01001F006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_two_or_more'] = build_item('Two+', data, item_levels,
+        'B01001G003 B01001G004 + B01001G005 + B01001G006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+    male_child_age_race_distribution_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
+        'B01001I003 B01001I004 + B01001I005 + B01001I006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+
+
 
     # Economics: Per-Capita Income
     data = api.get_data('B19301', comparison_geoids, acs)
@@ -663,6 +907,7 @@ def geo_profile(geoid, acs='latest'):
 
 
     # Families: Family Types with Children
+    #### Useful for SODC report! ####
     data = api.get_data('B09002', comparison_geoids, acs)
     acs_name = data['release']['name']
 
@@ -679,6 +924,31 @@ def geo_profile(geoid, acs='latest'):
         'B09002009 B09002001 / %')
     children_family_type_dict['female_householder'] = build_item('Female householder', data, item_levels,
         'B09002015 B09002001 / %')
+
+
+    # Families: Percent of Families with Related Children Under 18
+    #### SODC ####
+    data = api.get_data('B11004', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    families_with_children = dict()
+    doc['families']['families_with_children'] = families_with_children
+
+    families_with_children['percent_familes_with_children'] = build_item('Percent of families with related children under 18', data, item_levels, 
+    	'B11004003 B11004010 + B11004016 + B11004001 / %')
+    add_metadata(families_with_children['percent_familes_with_children'], 'B11004', 'Family Type by Presence and Age of Related Children Under 18 Years', acs_name)
+
+    # Families: Percent of Households with Children under 18
+    #### SODC ####
+    data = api.get_data('B11005', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    households_with_children = dict()
+    doc['families']['households_with_children'] = households_with_children
+    households_with_children['percent_households_with_children'] = build_item('Percent of households with children under 18', data, item_levels, 
+		'B11005002 B11005001 / %')
+    add_metadata(households_with_children['percent_households_with_children'], 'B11005', 'Households by Presence of People Under 18 Years by Household Type', acs_name)
+
 
     # Families: Birth Rate by Women's Age
     data = api.get_data('B13016', comparison_geoids, acs)
