@@ -89,9 +89,44 @@
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
 
+<article id="youth-demographics" class="clearfix">
+    <header class="section-contents">
+        <h1>Youth Demographics</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <aside></aside>
+            <div class="column-third">
+                <h2 class="header-for-columns"><a class="permalink" href="#youth-population" id="youth-population">Youth Population <i class="fa fa-link"></i></a></h2>
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='number' %}
+            </div>
+            <div class="column-third">
+                <h2 class="header-for-columns"><a class="permalink" href="#youth-gender" id="youth-gender">Youth Gender <i class="fa fa-link"></i></a></h2>
+                <div id="chart-pie-demographics-child_gender" data-stat-type="percentage" data-initial-sort="-value"></div>
+            </div>        
+            <div class="column-third">
+                <h2 class="header-for-columns"><a class="permalink" href="#youth-age" id="youth-age">Youth Age <i class="fa fa-link"></i></a></h2>
+                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-initial-sort="-value"></div>
+            </div> 
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#children-age-race" id="children-age-race">Youth Age, Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
+            <aside></aside>
+            <div class="column-full" id="chart-grouped_column-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age and race, 0 - 9 years" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+        </section>
+        <section class="clearfix stat-row">
+            <aside></aside>
+            <div class="column-full" id="chart-grouped_column-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age and race, 10 - 17 years" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+        </section>
+
+    </div>
+</article>
+
 <article id="demographics" class="clearfix">
     <header class="section-contents">
-        <h1>Demographics</h1>
+        <h1>Population Demographics</h1>
     </header>
     <div class="section-container">
 
@@ -512,10 +547,10 @@ var makeCharts = function() {
             geographyData: geographyData,
             chartColorScale: 'Kat2',
         }
-        console.log(chartstuff);
         try {
             Charts[i] = Chart(chartstuff);
         } catch(e) {
+            console.log(e);
             console.log("Error making chart " + chartID)
             console.log(chartstuff);
         }
@@ -571,7 +606,6 @@ if (!!parentLinkContainer) {
     // hit the /parents API endpoint
     $.getJSON(parentGeoAPI)
         .done(function(results) {
-            console.log(results);
             // filter out 'this' from the parents
             // filter out any parents further up from state
             var parents = _.reject(results['parents'], function(p) {
@@ -585,7 +619,6 @@ if (!!parentLinkContainer) {
             var parentGroups = _.groupBy(parents, function(d) {
                 return d.sumlevel;
             });
-            //console.log(parentRelations);
             // for each parent sumlev type ...
             var parentLinkSets = _.map(parentRelations, function(r) {
                 // ... compile a set of links to individual profile pages
