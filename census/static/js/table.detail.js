@@ -170,10 +170,25 @@ function Table(options) {
         remote: {
             url: geoSearchAPI,
             replace: function (url, query) {
+                table.chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
                 return url += '?q=' + query + '&sumlevs=' + table.chosenSumlevAncestorList;
             },
             filter: function(response) {
-                var results = response.results;
+                var results = [];
+                // remove any non-Michigan responses
+                for (var i = response.results.length - 1; i >= 0; i--) {
+                    // all Michigan results have US26 as part of their geoID
+                    if (response.results[i].full_geoid.search('US26') != -1) {
+                        results.push(response.results[i]);
+                    }
+                    // all Michigan zip codes begin with 49 or 49
+                    if (response.results[i].full_geoid.search('86000US48') != -1) {
+                        results.push(response.results[i]);
+                    }
+                    if (response.results[i].full_geoid.search('86000US49') != -1) {
+                        results.push(response.results[i]);
+                    }
+                }
                 results.map(function(item) {
                     item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
                 });

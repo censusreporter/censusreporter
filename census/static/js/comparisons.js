@@ -37,7 +37,7 @@ function Comparison(options, callback) {
         comparison.dataFormat = options.dataFormat;
         comparison.geoIDs = options.geoIDs;
         comparison.primaryGeoID = options.primaryGeoID || ((comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null);
-        comparison.chosenSumlevAncestorList = '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
+        comparison.chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
         // jQuery things
         comparison.$topicSelect = $(options.topicSelect);
         comparison.$topicSelectContainer = $(options.topicSelectContainer);
@@ -172,12 +172,20 @@ function Comparison(options, callback) {
                 // in case we're redrawing without refresh
                 comparison.map.remove();
             }
-            comparison.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+            comparison.map = L.map('slippy-map', {
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: allowMapDrag,
                 touchZoom: allowMapDrag
             });
+
+            // set a tile layer
+            var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+            });
+
+            // add these tiles to our map
+            comparison.map.addLayer(tiles);
+
             if (allowMapDrag) {
                 comparison.map.addControl(new L.Control.Zoom({
                     position: 'topright'
@@ -478,7 +486,7 @@ function Comparison(options, callback) {
 
 
         // create the legend
-        var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
+        var quintileColors = ['#D4E6EC', '#799CA9', '#487586', '#1F4E5F', '#032634'];
         var buildLegend = function(colors) {
             var scaleStops = (values.length >= 5) ? 5 : values.length;
 
@@ -545,7 +553,7 @@ function Comparison(options, callback) {
             style: styleFeature,
             onEachFeature: function(feature, layer) {
                 var label = comparison.makeMapLabel(feature, comparison.chosenColumn);
-                layer.bindLabel(label, {className: 'hovercard', direction: 'auto'});
+                layer.bindLabel(label, {className: 'hovercard', direction: 'auto', offset: [10, -38]});
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
@@ -931,7 +939,8 @@ function Comparison(options, callback) {
         })
 
         // color scale for locked chart points
-        comparison.colorScale = chroma.scale('RdYlBu').domain([0,6]);
+        comparison.colorScale = chroma.scale(['#216989', '#86af3f', '#6595ce', '#686867', '#032634', '#22592c',  '#f4a81d']).domain([0,6]);
+        console.log(comparison.colorScale);
         comparison.colorIndex = 0;
     }
 
@@ -1077,13 +1086,25 @@ function Comparison(options, callback) {
         remote: {
             url: comparison.geoSearchAPI,
             replace: function (url, query) {
+                comparison.chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
                 return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
             },
             filter: function(response) {
-                var results = response.results;
-                results.map(function(item) {
-                    item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
-                });
+                var results = [];
+                // remove any non-Michigan responses
+                for (var i = response.results.length - 1; i >= 0; i--) {
+                    // all Michigan results have US26 as part of their geoID
+                    if (response.results[i].full_geoid.search('US26') != -1) {
+                        results.push(response.results[i]);
+                    }
+                    // all Michigan zip codes begin with 49 or 49
+                    if (response.results[i].full_geoid.search('86000US48') != -1) {
+                        results.push(response.results[i]);
+                    }
+                    if (response.results[i].full_geoid.search('86000US49') != -1) {
+                        results.push(response.results[i]);
+                    }
+                }
                 return results;
             }
         }

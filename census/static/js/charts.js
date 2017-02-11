@@ -728,14 +728,16 @@ function Chart(options) {
                 .classed("chart-get-data", true)
                 .text("Show data")
                 .on("click", chart.toggleDataDrawer);
-            
-        chart.actionLinks.append("span").text("/");
+
+
+        // commeting out embeding until we update embed codes
+        // chart.actionLinks.append("span").text("/");
         
-        chart.showEmbed = chart.actionLinks
-            .append("a")
-                .classed("chart-show-embed", true)
-                .text("Embed")
-                .on("click", chart.showEmbedCode);
+        // chart.showEmbed = chart.actionLinks
+        //     .append("a")
+        //         .classed("chart-show-embed", true)
+        //         .text("Embed")
+        //         .on("click", chart.showEmbedCode);
     };
 
     chart.getEmbedKey = function() {

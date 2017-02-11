@@ -5,8 +5,8 @@
 
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
-        <meta property="og:site_name" content="Census Reporter" />
-        <meta property="og:url" content="https://censusreporter.org/profiles/{{ geography.this.full_geoid }}-{{ geography.this.full_name|slugify }}" />
+        <meta property="og:site_name" content="State of the Detroit Child" />
+        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
@@ -14,8 +14,8 @@
 
 {% block head_twitter_tags %}
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@CensusReporter">
-        <meta name="twitter:creator" content="@CensusReporter">
+        <meta name="twitter:site" content="@d3detroit">
+        <meta name="twitter:creator" content="@d3detroit">
         <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
         <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
         {#}<meta name="twitter:image" content="">{#}
@@ -96,18 +96,16 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#youth-population" id="youth-population">Youth Population, Gender &amp; Age<i class="fa fa-link"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                <h2 class="header-for-columns"><a class="permalink" href="#youth-population" id="youth-population">Youth Population <i class="fa fa-link"></i></a></h2>
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='number' %}
             </div>
             <div class="column-third">
-                <h2 class="header-for-columns"><a class="permalink" href="#youth-gender" id="youth-gender">Youth Gender <i class="fa fa-link"></i></a></h2>
-                <div id="chart-pie-demographics-child_gender" data-stat-type="percentage" data-initial-sort="-value"></div>
+                <div id="chart-pie-demographics-child_gender" data-chart-title="Distribution of youth by gender" data-stat-type="percentage" data-initial-sort="-value"></div>
             </div>        
             <div class="column-third">
-                <h2 class="header-for-columns"><a class="permalink" href="#youth-age" id="youth-age">Youth Age <i class="fa fa-link"></i></a></h2>
-                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-initial-sort="-value"></div>
+                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value"></div>
             </div> 
         </section>
 
@@ -119,6 +117,20 @@
         <section class="clearfix stat-row">
             <aside></aside>
             <div class="column-full" id="chart-grouped_column-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age and race, 10 - 17 years" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2 class="header-for-columns"><a class="permalink" href="#young-men" id="young-men">Boys &amp; Young Male Population, Age &amp; Race <i class="fa fa-link"></i></a></h2>
+            <aside></aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.male_child_pop.total stat_type='number' %}
+            </div>
+            <div class="column-third">
+                <div id="chart-pie-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="percentage" data-initial-sort="-value"></div>
+            </div>        
+            <div class="column-third">
+                <div id="chart-pie-demographics-male_child_age_race_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of male youth by race" data-initial-sort="-value"></div>
+            </div> 
         </section>
 
     </div>
@@ -176,14 +188,27 @@
         </section>
 
         <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#poverty" id="poverty">Child Poverty <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.children.Below stat_type='percentage' %}
+            </div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_receiving_public_assistance stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-histogram-economics-poverty-children_distribution_by_age" data-chart-title="Children living below the poverty line by age" data-stat-type="scaled-percentage"></div>
+        </section>
+
+        <section class="clearfix stat-row">
             <h2><a class="permalink" href="#poverty" id="poverty">Poverty <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
             </div>
-            <div class="column-third" id="chart-pie-economics-poverty-children" data-chart-title="Children (Under 18)" data-stat-type="percentage"></div>
-            <div class="column-third" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div>
+            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder"></div>
+<!--             <div class="column-quarter" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div> -->
         </section>
 
         <section class="clearfix stat-row">
@@ -649,7 +674,7 @@ var makeCitation = function(year, release) {
     var citation = '<p class="explain"><strong>Citation:</strong> ' +
     'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
     '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
-    'Retrieved from <em>Census Reporter Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> &lt;https://censusreporter.org{{ request.get_full_path }}&gt;</p>';
+    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> &lt;{{ request.build_absolute_uri }}&gt;</p>';
 
     $('.content-container').append(citation);
 }

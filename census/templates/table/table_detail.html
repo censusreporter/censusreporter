@@ -4,8 +4,8 @@
 
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census tabulation detail: {{ table.simple_table_title }}" />
-        <meta property="og:site_name" content="Census Reporter" />
-        <meta property="og:url" content="https://censusreporter.org{% url 'table_detail' table.table_id %}" />
+        <meta property="og:site_name" content="State of the Detroit Child" />
+        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
@@ -13,8 +13,8 @@
 
 {% block head_twitter_tags %}
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@CensusReporter">
-        <meta name="twitter:creator" content="@CensusReporter">
+        <meta name="twitter:site" content="@d3detroit">
+        <meta name="twitter:creator" content="@d3detroit">
         <meta name="twitter:title" content="Census tabulation detail: {{ table.simple_table_title }}">
         <meta name="twitter:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}.">
         {#}<meta name="twitter:image" content="">{#}
@@ -29,7 +29,7 @@
         <h1 class="article-header">Table {{ table.table_id }}: {{ table.simple_table_title }}</h1>
         <h2 class="help-text">Show data from this table: Choose a place or summary level</h2>
         <div id="topic-place-select-wrapper" class="input-wrapper">
-            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
+            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
             {#}<p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>{#}
         </div>
     </section>
