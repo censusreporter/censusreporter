@@ -301,7 +301,7 @@ a.action-button,
     float: right;
     font-size: 18px;
     margin-top: 2px;
-    color: #67b3a3;
+    color: #216989;
     line-height: 1;
     padding: .25em .33em .2em;
     background-color: #001716;
@@ -935,6 +935,7 @@ h1.article-header-right {
 }
 .grid .name {
     font-weight: bold;
+    line-height: 0.9em;
 }
 .grid .value {
     min-width: 7em;
@@ -1067,11 +1068,11 @@ h1.article-header-right {
     margin: .25em 0;
 }
 
-.q0 { background-color: #d9ece8; fill: #d9ece8; } /* Swans Down*/
-.q1 { background-color: #a1cfc6; fill: #a1cfc6; } /* Sinbad */
-.q2 { background-color: #68b3a3; fill: #68b3a3; } /* Tradewind */
-.q3 { background-color: #428476; fill: #428476; } /* Viridian */
-.q4 { background-color: #264b44; fill: #264b44; } /* Plantation */
+.q0 { background-color: #D4E6EC; fill: #D4E6EC; } 
+.q1 { background-color: #799CA9; fill: #799CA9; } 
+.q2 { background-color: #487586; fill: #487586; } 
+.q3 { background-color: #1F4E5F; fill: #1F4E5F; } 
+.q4 { background-color: #032634; fill: #032634; } 
 
 #map-controls {
     position: absolute;
@@ -1605,10 +1606,10 @@ ul.toggle-set li {
     position: relative;
 }
 .toggle-set a {
-    background-color: #a1d0c6;
-    border-bottom: 1px solid #67b3a3;
+    background-color: #216989;
+    border-bottom: 1px solid #216989;
     text-decoration: none;
-    color: #888;
+    color: #fff;
     margin-right: 1px;
 }
 .toggle-set a,
@@ -1639,12 +1640,12 @@ ul.toggle-set li {
 .toggle-set a.active,
 .toggle-set a:hover,
 .toggle-set a.hovered {
-    background-color: #216989;
+    background-color: #d85027;
     color: #fff;
 }
 .toggle-set a.unhovered {
-    background-color: #a1d0c6;
-    color: #888;
+    background-color: #216989;
+    color: #fff;
 }
 ul.toggle-set .toggle-sub-group a:hover {
     -webkit-border-bottom-right-radius: 0;
@@ -1727,7 +1728,7 @@ section.chart-divider h2 {
     list-style: none;
     position: relative;
     height: 10px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #404041;
     margin: 0 1.5em;
 }
 .coal-chart li {
@@ -1744,20 +1745,20 @@ section.chart-divider h2 {
     width: 11px;
     color: #222;
     background-color: #f1f1f2;
-    border: 1px solid #acb58c;
+    border: 1px solid #686867;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
 .coal-chart li .point:hover,
 .coal-chart li .point.hovered {
-    background-color: #42472e;
-    border-color: #42472e;
+    background-color: #d85027;
+    border-color: #d85027;
     z-index: 3;
 }
 .coal-chart li .point.selected {
-    background-color: #027b7a;
-    border-color: #027b7a;
+    background-color: #f4a81d;
+    border-color: #f4a81d;
     z-index: 2;
 }
 .coal-chart li .point.selected.hovered {
@@ -1773,7 +1774,7 @@ section.chart-divider h2 {
     text-align: center;
     display: none;
     padding: .5em;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #686867;
     pointer-events: auto;
 }
 .coal-chart li .point:hover .hovercard,
@@ -1786,7 +1787,7 @@ section.chart-divider h2 {
     height: 26px;
     bottom: -13px;
     margin-left: 0;
-    border-left: 1px solid #d5d5d5;
+    border-left: 1px solid #686867;
 }
 .coal-chart li.tick-mark.tick-mark-min {
     left: 0;
@@ -1798,7 +1799,7 @@ section.chart-divider h2 {
     position: relative;
     font-size: .75em;
     display: block;
-    color: #606060;
+    color: #686867;
     padding: 0;
     margin-top: 26px;
     margin-left: -50%;
@@ -2300,7 +2301,7 @@ dl#racial-iteration dt {
     *border-right-width: 2px;
     *border-bottom-width: 2px;
     -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;
-    height: 320px;
+    height: 240px;
     overflow-y: auto;
 }
 .tt-dropdown-menu h2 {
@@ -2325,7 +2326,7 @@ dl#racial-iteration dt {
 
 .tt-suggestion h5,
 .tt-suggestion p {
-    line-height: 1.5;
+    line-height: 1;
     margin: 0 0 .5em;
     font-size: 1em;
 }
