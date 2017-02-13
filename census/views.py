@@ -37,12 +37,6 @@ import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
-
-# AWS credentails
-AWS_KEY = ''
-AWS_SECRET = ''
-
-
 ### UTILS ###
 
 def render_json_to_response(context):
@@ -414,8 +408,9 @@ class GeographyDetailView(TemplateView):
 		return '/1.0/data/profiles/2015/%s.json' % geo_id.upper()
 
 	def make_s3(self):
-		if AWS_KEY and AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+		if settings.AWS_KEY and settings.AWS_SECRET:
+			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+			logger.warn(s3)
 			lookup = s3.lookup('d3-sd-child')
 		else:
 			try:
@@ -613,8 +608,9 @@ class ComparisonBuilder(TemplateView):
 
 class S3Conn(object):
 	def make_s3(self):
-		if AWS_KEY and AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+		if settings.AWS_KEY and settings.AWS_SECRET:
+			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+			logger.warn(s3)
 		else:
 			try:
 				s3 = S3Connection()
