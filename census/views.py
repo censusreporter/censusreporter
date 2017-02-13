@@ -32,15 +32,16 @@ from .topics import TOPICS_MAP
 
 from boto.s3.connection import S3Connection, Location
 from boto.s3.key import Key
-try:
-	from config.base.local import AWS_KEY, AWS_SECRET
-except:
-	AWS_KEY = AWS_SECRET = None
+
+AWS_KEY = settings.AWS_KEY
+AWS_SECRET = settings.AWS_SECRET
 
 
 import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
+
+logger.warn(AWS_KEY)
 
 
 ### UTILS ###
