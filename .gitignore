@@ -47,6 +47,5 @@ Thumbs.db
 # Specific project files #
 ##########
 node_modules/
-config/dev/local.py
-config/base/local.py
+config/base/settings.py
 .vagrant
