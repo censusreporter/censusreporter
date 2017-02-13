@@ -48,4 +48,5 @@ Thumbs.db
 ##########
 node_modules/
 config/dev/local.py
+config/base/local.py
 .vagrant
