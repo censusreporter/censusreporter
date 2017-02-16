@@ -102,7 +102,7 @@
                                      data-page-type="{{ item.type }}"
                                      data-topic="{{ item.topics }}"
                                  >
-                                    <h3><a href="{{ item.url }}">Table {{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
+                                    <h3><a href="{{ item.url }}">{{ item.table_id }}: {{ item.simple_table_name }}</a></h3>
                                     <!-- <p>Topics: {{ item.topics }}<br>-->
                                     <p>{% if item.subtables|length > 1 %} Variations: {{ item.subtables|format_subtables_for_results }}{% endif %}</p>
                                 </div>

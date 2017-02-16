@@ -34,7 +34,7 @@ const source = function (request, response) {
                         });
                     } else if (data.results[i].type == "table") {
                         formatted.push({
-                            label: data.results[i].table_name,
+                            label: data.results[i].table_id + ': ' + data.results[i].table_name,
                             value: data.results[i].table_name,
                             subline: "<i class='fa fa-table dingbat'></i> <b>Table topics: </b>" + data.results[i].topics.join(", "),
                             url: data.results[i].url
