@@ -2917,3 +2917,78 @@ a.ui-button:active,
 #filters > a {
     font-size: 1.2em;
 }
+
+#results-box {
+    margin: auto;
+    max-width: 1120px;
+    padding-top: 40px;
+}
+
+#search-result-tabs {
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+#results-sidebar-header {
+    position: relative;
+    top: 30px;
+}
+
+.tab {
+    display: inline-block;
+    height: 30px;
+    width: 110px;
+    text-align: center;
+    background-color: #eff1e9;
+    border-top: 1px solid #cad0b5;
+    border-left: 1px solid #cad0b5;
+    border-right: 1px solid #cad0b5;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+}
+
+.tab-text {
+    line-height: 30px;
+}
+
+.active-tab {
+    background-color: #fff;
+}
+
+.tab-body {
+    display: none;
+}
+
+.active-tab-body {
+    display: inline;
+}
+
+#search-results-container {
+    border-top: 0;
+}
+
+#filter-profile,
+#filter-table,
+#filter-address,
+#filter-topic {
+    font-size: 1em;
+}
+
+#filter-profile:hover,
+#filter-table:hover,
+#filter-address:hover,
+#filter-topic:hover,
+.filter-sumlevel_names:hover,
+.filter-topics:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.result-item {
+    margin-bottom: 20px;
+}
+
+.tab-bar {
+    position: relative;
+    left: 1em;
+}

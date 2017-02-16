@@ -914,6 +914,8 @@ class SearchResultsView(TemplateView):
         # search box
         page_context['hide_nav_tools'] = True
 
+        page_context['query'] = q
+
         return page_context
 
 
