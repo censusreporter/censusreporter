@@ -188,7 +188,7 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#poverty" id="poverty">Child Poverty <i class="fa fa-link"></i></a></h2>
+            <h2><a class="permalink" href="#child-poverty" id="child-poverty">Child Poverty <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
             <div class="column-quarter">
@@ -209,6 +209,16 @@
             </div>
             <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder"></div>
 <!--             <div class="column-quarter" id="chart-pie-economics-poverty-seniors" data-chart-title="Seniors (65 and over)" data-stat-type="percentage"></div> -->
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#employment" id="employment">Employment <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.unemployment_rate stat_type='percentage' %}
+            </div>
+            <div class="column-two-thirds" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force participation for 16 - 19 year olds by sex"></div>
         </section>
 
         <section class="clearfix stat-row">

@@ -865,9 +865,9 @@ def geo_profile(geoid, acs='latest'):
 		'B17018004 B17018004 B17018021 + / %')	
 	poverty_family_educational_attainment['married_couples']['HS'] = build_item('High school graduate (includes equivalency)', data, item_levels,
 		'B17018005 B17018005 B17018022 + / %')	
-	poverty_family_educational_attainment['married_couples']['-College'] = build_item('Some college, associate\'s degree', data, item_levels,
+	poverty_family_educational_attainment['married_couples']['-Coll'] = build_item('Some college, associate\'s degree', data, item_levels,
 		'B17018006 B17018006 B17018023 + / %')	
-	poverty_family_educational_attainment['married_couples']['College+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
+	poverty_family_educational_attainment['married_couples']['Coll+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
 		'B17018007 B17018007 B17018024 + / %')	
 
 	#Male Householder
@@ -882,9 +882,9 @@ def geo_profile(geoid, acs='latest'):
 		'B17018010 B17018010 B17018027 + / %')	
 	poverty_family_educational_attainment['male_householder']['HS'] = build_item('High school graduate (includes equivalency)', data, item_levels,
 		'B17018011 B17018011 B17018028 + / %')	
-	poverty_family_educational_attainment['male_householder']['-College'] = build_item('Some college, associate\'s degree', data, item_levels,
+	poverty_family_educational_attainment['male_householder']['-Coll'] = build_item('Some college, associate\'s degree', data, item_levels,
 		'B17018012 B17018012 B17018029 + / %')	
-	poverty_family_educational_attainment['male_householder']['College+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
+	poverty_family_educational_attainment['male_householder']['Coll+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
 		'B17018013 B17018013 B17018030 + / %')	
 
 	#Female Householder
@@ -899,18 +899,66 @@ def geo_profile(geoid, acs='latest'):
 		'B17018015 B17018015 B17018032 + / %')	
 	poverty_family_educational_attainment['female_householder']['HS'] = build_item('High school graduate (includes equivalency)', data, item_levels,
 		'B17018016 B17018016 B17018033 + / %')	
-	poverty_family_educational_attainment['female_householder']['-College'] = build_item('Some college, associate\'s degree', data, item_levels,
+	poverty_family_educational_attainment['female_householder']['-Coll'] = build_item('Some college, associate\'s degree', data, item_levels,
 		'B17018017 B17018017 B17018034 + / %')	
-	poverty_family_educational_attainment['female_householder']['College+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
+	poverty_family_educational_attainment['female_householder']['Coll+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
 		'B17018018 B17018018 B17018035 + / %')	
 
 
-	# Economics: Mean Travel Time to Work, Means of Transportation to Work
-	data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
+	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
+	data = api.get_data(['B23025', 'B14005', 'B08006', 'B08013'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 
 	employment_dict = dict()
 	doc['economics']['employment'] = employment_dict
+
+	employment_dict['unemployment_rate'] = build_item('Unemployment rate', data, item_levels,
+		'B23025005 B23025003 / %')
+	add_metadata(employment_dict['unemployment_rate'], 'B23025', 'Population 16 years and over', acs_name)
+
+
+
+	youth_school_employment_grouped = OrderedDict()
+	employment_dict['youth_school_employment_grouped'] = youth_school_employment_grouped
+	add_metadata(youth_school_employment_grouped, 'B14005', 'Population 16 to 19 years', acs_name)
+
+	# repeating data temporarily to develop grouped column chart format
+	youth_school_employment_grouped['enrolled'] = OrderedDict()
+	youth_school_employment_grouped['enrolled']['acs_release'] = acs_name
+	youth_school_employment_grouped['enrolled']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'C14005',
+		'name': 'Enrolled'
+	}
+	youth_school_employment_grouped['enrolled']['male'] = build_item('Male', data, item_levels,
+		'B14005003 B14005002 / %')
+	youth_school_employment_grouped['enrolled']['female'] = build_item('Female', data, item_levels,
+		'B14005017 B14005016 / %')
+
+	youth_school_employment_grouped['graduated_employed'] = OrderedDict()
+	youth_school_employment_grouped['graduated_employed']['acs_release'] = acs_name
+	youth_school_employment_grouped['graduated_employed']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'B14005',
+		'name': 'Employed; High school graduate'
+	}
+	youth_school_employment_grouped['graduated_employed']['male'] = build_item('Male', data, item_levels,
+		'B14005009 B14005002 / %')
+	youth_school_employment_grouped['graduated_employed']['female'] = build_item('Female', data, item_levels,
+		'B14005023 B14005016 / %')
+
+	youth_school_employment_grouped['not_graduated_employed'] = OrderedDict()
+	youth_school_employment_grouped['not_graduated_employed']['acs_release'] = acs_name
+	youth_school_employment_grouped['not_graduated_employed']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'B14005',
+		'name': 'Employed; Not a high school graduate'
+	}
+	youth_school_employment_grouped['not_graduated_employed']['male'] = build_item('Male', data, item_levels,
+		'B14005013 B14005002 / %')
+	youth_school_employment_grouped['not_graduated_employed']['female'] = build_item('Female', data, item_levels,
+		'B14005027 B14005016 / %')
+
 
 	employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
 		'B08013001 B08006001 B08006017 - /')
