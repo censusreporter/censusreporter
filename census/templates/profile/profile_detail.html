@@ -114,7 +114,7 @@
             <aside></aside>
             <div class="column-full" id="chart-grouped_column-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age and race, 0 - 9 years" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
         </section>
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row grouped-row">
             <aside></aside>
             <div class="column-full" id="chart-grouped_column-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age and race, 10 - 17 years" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
         </section>
@@ -215,10 +215,13 @@
             <h2><a class="permalink" href="#employment" id="employment">Employment <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.unemployment_rate stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force participation for 16 - 19 year olds by sex"></div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.nowork_rate stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force participation for 16 - 19 year olds by sex"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -299,6 +302,16 @@
         </section>
 
         <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#housing-costs" id="housing-costs">Housing Costs <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=housing.costs.median_costs stat_type='dollar' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-housing-costs-housing_costs_distribution" data-chart-title="Percent of households spending 30% or more of household income on housing by household income" data-stat-type="scaled-percentage"></div>
+        </section>
+
+        <section class="clearfix stat-row">
             <h2><a class="permalink" href="#housing-value" id="housing-value">Value <i class="fa fa-link"></i></a></h2>
             <aside>
             </aside>
@@ -341,6 +354,16 @@
                 </div>
             </div>
             <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#health-insurace" id="health-insurace">Health Insurance <i class="fa fa-link"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.health_insurace.uninsured stat_type='percentage' %}
+            </div>
+            <div class="column-three-quarters" id="chart-grouped_column-social-health_insurace-coverage_distribution" data-stat-type="scaled-percentage" data-chart-title="Percent uninsured by age group"></div>
         </section>
 
         <section class="clearfix stat-row">
