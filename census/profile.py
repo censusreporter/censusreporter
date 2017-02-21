@@ -825,16 +825,16 @@ def geo_profile(geoid, acs='latest'):
 	poverty_children_distribution_by_age['5_years'] = build_item('5', data, item_levels,
 		'B17001005 B17001019 + B17001005 B17001019 + B17001034 + B17001048 + / %')
 
-	poverty_children_distribution_by_age['6_to_11'] = build_item('6 to 11', data, item_levels,
+	poverty_children_distribution_by_age['6_to_11'] = build_item('6-11', data, item_levels,
 		'B17001006 B17001020 + B17001006 B17001020 + B17001035 + B17001049 + / %')
 
-	poverty_children_distribution_by_age['12_to_14'] = build_item('12 to 14', data, item_levels,
+	poverty_children_distribution_by_age['12_to_14'] = build_item('12-14', data, item_levels,
 		'B17001007 B17001021 + B17001007 B17001021 + B17001036 + B17001050 + / %')
 
 	poverty_children_distribution_by_age['15_years'] = build_item('15', data, item_levels,
 		'B17001008 B17001022 + B17001008 B17001022 + B17001037 + B17001051 + / %')
 
-	poverty_children_distribution_by_age['16_and_17'] = build_item('16 and 17', data, item_levels,
+	poverty_children_distribution_by_age['16_and_17'] = build_item('16-17', data, item_levels,
 		'B17001009 B17001023 + B17001009 B17001023 + B17001038 + B17001052 + / %')
 
 	# Economics: Public Assistance to households with children
@@ -865,9 +865,9 @@ def geo_profile(geoid, acs='latest'):
 		'B17018004 B17018004 B17018021 + / %')	
 	poverty_family_educational_attainment['married_couples']['HS'] = build_item('High school graduate (includes equivalency)', data, item_levels,
 		'B17018005 B17018005 B17018022 + / %')	
-	poverty_family_educational_attainment['married_couples']['-College'] = build_item('Some college, associate\'s degree', data, item_levels,
+	poverty_family_educational_attainment['married_couples']['-Coll'] = build_item('Some college, associate\'s degree', data, item_levels,
 		'B17018006 B17018006 B17018023 + / %')	
-	poverty_family_educational_attainment['married_couples']['College+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
+	poverty_family_educational_attainment['married_couples']['Coll+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
 		'B17018007 B17018007 B17018024 + / %')	
 
 	#Male Householder
@@ -882,9 +882,9 @@ def geo_profile(geoid, acs='latest'):
 		'B17018010 B17018010 B17018027 + / %')	
 	poverty_family_educational_attainment['male_householder']['HS'] = build_item('High school graduate (includes equivalency)', data, item_levels,
 		'B17018011 B17018011 B17018028 + / %')	
-	poverty_family_educational_attainment['male_householder']['-College'] = build_item('Some college, associate\'s degree', data, item_levels,
+	poverty_family_educational_attainment['male_householder']['-Coll'] = build_item('Some college, associate\'s degree', data, item_levels,
 		'B17018012 B17018012 B17018029 + / %')	
-	poverty_family_educational_attainment['male_householder']['College+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
+	poverty_family_educational_attainment['male_householder']['Coll+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
 		'B17018013 B17018013 B17018030 + / %')	
 
 	#Female Householder
@@ -899,18 +899,69 @@ def geo_profile(geoid, acs='latest'):
 		'B17018015 B17018015 B17018032 + / %')	
 	poverty_family_educational_attainment['female_householder']['HS'] = build_item('High school graduate (includes equivalency)', data, item_levels,
 		'B17018016 B17018016 B17018033 + / %')	
-	poverty_family_educational_attainment['female_householder']['-College'] = build_item('Some college, associate\'s degree', data, item_levels,
+	poverty_family_educational_attainment['female_householder']['-Coll'] = build_item('Some college, associate\'s degree', data, item_levels,
 		'B17018017 B17018017 B17018034 + / %')	
-	poverty_family_educational_attainment['female_householder']['College+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
+	poverty_family_educational_attainment['female_householder']['Coll+'] = build_item('Bachelor\'s degree or higher', data, item_levels,
 		'B17018018 B17018018 B17018035 + / %')	
 
 
-	# Economics: Mean Travel Time to Work, Means of Transportation to Work
-	data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
+	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
+	data = api.get_data(['B23025', 'B23027', 'B14005', 'B08006', 'B08013'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 
 	employment_dict = dict()
 	doc['economics']['employment'] = employment_dict
+
+	employment_dict['unemployment_rate'] = build_item('Unemployment rate', data, item_levels,
+		'B23025005 B23025003 / %')
+	add_metadata(employment_dict['unemployment_rate'], 'B23025', 'Population 16 years and over', acs_name)
+
+	employment_dict['nowork_rate'] = build_item('Persons 16-64 who have not worked in the last 12 months', data, item_levels,
+		'B23027006 B23027011 + B23027016 + B23027021 + B23027026 + B23027002 B23027007 + B23027012 + B23027017 + B23027022 + / %')
+	add_metadata(employment_dict['nowork_rate'], 'B23027', 'Population 16 years and over', acs_name)
+
+
+	youth_school_employment_grouped = OrderedDict()
+	employment_dict['youth_school_employment_grouped'] = youth_school_employment_grouped
+	add_metadata(youth_school_employment_grouped, 'B14005', 'Population 16 to 19 years', acs_name)
+
+	# repeating data temporarily to develop grouped column chart format
+	youth_school_employment_grouped['enrolled'] = OrderedDict()
+	youth_school_employment_grouped['enrolled']['acs_release'] = acs_name
+	youth_school_employment_grouped['enrolled']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'C14005',
+		'name': 'Enrolled'
+	}
+	youth_school_employment_grouped['enrolled']['male'] = build_item('Male', data, item_levels,
+		'B14005003 B14005002 / %')
+	youth_school_employment_grouped['enrolled']['female'] = build_item('Female', data, item_levels,
+		'B14005017 B14005016 / %')
+
+	youth_school_employment_grouped['graduated_employed'] = OrderedDict()
+	youth_school_employment_grouped['graduated_employed']['acs_release'] = acs_name
+	youth_school_employment_grouped['graduated_employed']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'B14005',
+		'name': 'Employed; High school graduate'
+	}
+	youth_school_employment_grouped['graduated_employed']['male'] = build_item('Male', data, item_levels,
+		'B14005009 B14005002 / %')
+	youth_school_employment_grouped['graduated_employed']['female'] = build_item('Female', data, item_levels,
+		'B14005023 B14005016 / %')
+
+	youth_school_employment_grouped['not_graduated_employed'] = OrderedDict()
+	youth_school_employment_grouped['not_graduated_employed']['acs_release'] = acs_name
+	youth_school_employment_grouped['not_graduated_employed']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'B14005',
+		'name': 'Employed; Not a high school graduate'
+	}
+	youth_school_employment_grouped['not_graduated_employed']['male'] = build_item('Male', data, item_levels,
+		'B14005013 B14005002 / %')
+	youth_school_employment_grouped['not_graduated_employed']['female'] = build_item('Female', data, item_levels,
+		'B14005027 B14005016 / %')
+
 
 	employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
 		'B08013001 B08006001 B08006017 - /')
@@ -1210,6 +1261,36 @@ def geo_profile(geoid, acs='latest'):
 	migration_distribution_dict['moved_from_abroad'] = build_item('From abroad', data, item_levels,
 		'B07003016 B07003001 / %')
 
+	# Housing: Median Costs
+	data = api.get_data('B25105', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	costs_dict = dict()
+	doc['housing']['costs'] = costs_dict
+
+	costs_dict['median_costs'] = build_item('Median Monthly Housing Costs', data, item_levels,
+		'B25105001')
+	add_metadata(costs_dict['median_costs'], 'B25105', 'Occupied housing units with monthly housing costs', acs_name)
+
+	# Housing: HOUSING COSTS AS A PERCENTAGE OF HOUSEHOLD INCOME
+	data = api.get_data('B25106', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	housing_costs_distribution = OrderedDict()
+	costs_dict['housing_costs_distribution'] = housing_costs_distribution
+	add_metadata(housing_costs_distribution, 'B25106', 'Occupied housing units', acs_name)
+
+	housing_costs_distribution['under_20'] = build_item('Under $20K', data, item_levels,
+		'B25106006 B25106028 + B25106003 B25106025 + / %')
+	housing_costs_distribution['20_to_35'] = build_item('$20K - $35K', data, item_levels,
+		'B25106010 B25106032 + B25106007 B25106029 + / %')
+	housing_costs_distribution['25_to_50'] = build_item('$35K - $50K', data, item_levels,
+		'B25106014 B25106036 + B25106011 B25106033 + / %')
+	housing_costs_distribution['50_to_75'] = build_item('$50K - $75K', data, item_levels,
+		'B25106018 B25106040 + B25106015 B25106037 + / %')
+	housing_costs_distribution['over_75'] = build_item('Over $75K', data, item_levels,
+		'B25106022 B25106044 + B25106019 B25106041 + / %')
+
 	# Housing: Median Value and Distribution of Values
 	data = api.get_data('B25077', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -1277,6 +1358,130 @@ def geo_profile(geoid, acs='latest'):
 
 	attainment_distribution_dict['post_grad_degree'] = build_item('Post-grad', data, item_levels,
 		'B15002016 B15002017 + B15002018 + B15002033 + B15002034 + B15002035 + B15002001 / %')
+
+	# Social: Health Insurance
+	data = api.get_data('B27001', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	health_insurace_dict = dict()
+	doc['social']['health_insurace'] = health_insurace_dict
+
+	health_insurace_dict['uninsured'] = build_item('Persons without health insurace', data, item_levels,
+		'B27001005 B27001008 + B27001011 + B27001014 + B27001017 + B27001020 + B27001023 + B27001026 + B27001029 + B27001033 + B27001036 + B27001039 + B27001042 + B27001045 + B27001048 + B27001051 + B27001054 + B27001057 + B27001001 / %')
+	add_metadata(health_insurace_dict['uninsured'], 'B27001', 'Civilian noninstitutionalized population', acs_name)
+
+	coverage_distribution = OrderedDict()
+	health_insurace_dict['coverage_distribution'] = coverage_distribution
+	add_metadata(coverage_distribution, 'B27001', 'Civilian noninstitutionalized population', acs_name)
+
+	# repeating data temporarily to develop grouped column chart format
+	coverage_distribution['under_6'] = OrderedDict()
+	coverage_distribution['under_6']['acs_release'] = acs_name
+	coverage_distribution['under_6']['metadata'] = {
+		'universe': 'Civilian noninstitutionalized population',
+		'table_id': 'B27001',
+		'name': 'Under 6'
+	}
+	coverage_distribution['under_6']['male'] = build_item('Male', data, item_levels,
+		'B27001005 B27001003 / %')
+	coverage_distribution['under_6']['female'] = build_item('Female', data, item_levels,
+		'B27001033 B27001031 / %')
+
+	coverage_distribution['6_17'] = OrderedDict()
+	coverage_distribution['6_17']['acs_release'] = acs_name
+	coverage_distribution['6_17']['metadata'] = {
+		'universe': 'Civilian noninstitutionalized population',
+		'table_id': 'B27001',
+		'name': '6-17'
+	}
+	coverage_distribution['6_17']['male'] = build_item('Male', data, item_levels,
+		'B27001008 B27001006 / %')
+	coverage_distribution['6_17']['female'] = build_item('Female', data, item_levels,
+		'B27001036 B27001034 / %')
+
+	coverage_distribution['18_24'] = OrderedDict()
+	coverage_distribution['18_24']['acs_release'] = acs_name
+	coverage_distribution['18_24']['metadata'] = {
+		'universe': 'Civilian noninstitutionalized population',
+		'table_id': 'B27001',
+		'name': '18-24'
+	}
+	coverage_distribution['18_24']['male'] = build_item('Male', data, item_levels,
+		'B27001011 B27001009 / %')
+	coverage_distribution['18_24']['female'] = build_item('Female', data, item_levels,
+		'B27001039 B27001037 / %')
+
+	coverage_distribution['25_34'] = OrderedDict()
+	coverage_distribution['25_34']['acs_release'] = acs_name
+	coverage_distribution['25_34']['metadata'] = {
+		'universe': 'Civilian noninstitutionalized population',
+		'table_id': 'B27001',
+		'name': '25-34'
+	}
+	coverage_distribution['25_34']['male'] = build_item('Male', data, item_levels,
+		'B27001014 B27001012 / %')
+	coverage_distribution['25_34']['female'] = build_item('Female', data, item_levels,
+		'B27001042 B27001040 / %')
+
+	coverage_distribution['35_64'] = OrderedDict()
+	coverage_distribution['35_64']['acs_release'] = acs_name
+	coverage_distribution['35_64']['metadata'] = {
+		'universe': 'Civilian noninstitutionalized population',
+		'table_id': 'B27001',
+		'name': '35-64'
+	}
+	coverage_distribution['35_64']['male'] = build_item('Male', data, item_levels,
+		'B27001017 B27001020 + B27001023 + B27001015 B27001018 + B27001021 + / %')
+	coverage_distribution['35_64']['female'] = build_item('Female', data, item_levels,
+		'B27001045 B27001048 + B27001051 + B27001043 B27001046 + B27001049 + / %')
+
+	# coverage_distribution['45_54'] = OrderedDict()
+	# coverage_distribution['45_54']['acs_release'] = acs_name
+	# coverage_distribution['45_54']['metadata'] = {
+	# 	'universe': 'Civilian noninstitutionalized population',
+	# 	'table_id': 'B27001',
+	# 	'name': '45-54'
+	# }
+	# coverage_distribution['45_54']['male'] = build_item('Male', data, item_levels,
+	# 	'B27001020 B27001018 / %')
+	# coverage_distribution['45_54']['female'] = build_item('Female', data, item_levels,
+	# 	'B27001048 B27001046 / %')
+
+	# coverage_distribution['55_64'] = OrderedDict()
+	# coverage_distribution['55_64']['acs_release'] = acs_name
+	# coverage_distribution['55_64']['metadata'] = {
+	# 	'universe': 'Civilian noninstitutionalized population',
+	# 	'table_id': 'B27001',
+	# 	'name': '55-64'
+	# }
+	# coverage_distribution['55_64']['male'] = build_item('Male', data, item_levels,
+	# 	'B27001023 B27001021 / %')
+	# coverage_distribution['55_64']['female'] = build_item('Female', data, item_levels,
+	# 	'B27001051 B27001049 / %')
+
+	coverage_distribution['over_65'] = OrderedDict()
+	coverage_distribution['over_65']['acs_release'] = acs_name
+	coverage_distribution['over_65']['metadata'] = {
+		'universe': 'Civilian noninstitutionalized population',
+		'table_id': 'B27001',
+		'name': 'Over 65'
+	}
+	coverage_distribution['over_65']['male'] = build_item('Male', data, item_levels,
+		'B27001026 B27001029 + B27001024 B27001027 + / %')
+	coverage_distribution['over_65']['female'] = build_item('Female', data, item_levels,
+		'B27001054 B27001057 + B27001052 B27001055 + / %')
+
+	# coverage_distribution['over_75'] = OrderedDict()
+	# coverage_distribution['over_75']['acs_release'] = acs_name
+	# coverage_distribution['over_75']['metadata'] = {
+	# 	'universe': 'Civilian noninstitutionalized population',
+	# 	'table_id': 'B27001',
+	# 	'name': 'Over 75'
+	# }
+	# coverage_distribution['over_75']['male'] = build_item('Male', data, item_levels,
+	# 	'B27001029 B27001027 / %')
+	# coverage_distribution['over_75']['female'] = build_item('Female', data, item_levels,
+	# 	'B27001057 B27001055 / %')
 
 	# Social: Place of Birth
 	data = api.get_data('B05002', comparison_geoids, acs)
