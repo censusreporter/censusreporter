@@ -37,6 +37,7 @@ $(document).ajaxComplete(function(event, request, settings) {
     spinner.stop();
 });
 
+
 // standard mapping of summary level code to summary level name
 var sumlevMap = {
     "010": {"name": "nation", "plural": "nations", "sumlev": "010", "size_sort": 1000,

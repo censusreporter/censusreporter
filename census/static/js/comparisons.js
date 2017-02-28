@@ -556,6 +556,11 @@ function Comparison(options, callback) {
                 layer.bindLabel(label, {className: 'hovercard', direction: 'auto', offset: [10, -38]});
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
+                     // add spinner to page load 
+                    $('body').append('<div id="body-spinner"></div>');
+                    var spinnerTarget = document.getElementById('body-spinner'),
+                        spinner = new Spinner();
+                    spinner.spin(spinnerTarget);                   
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                 });
             }
