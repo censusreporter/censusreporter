@@ -2429,9 +2429,8 @@ aside .search .result-type {
 
 #body-spinner {
     position: fixed;
-    top: 0;
-    left: 0;
-    margin: 65px 20px;
+    top: 40%;
+    left: 50%;
     height: 20px;
     width: 20px;
     z-index: 100;

@@ -133,6 +133,11 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
         if (!!chosenTableID) {
+            // add spinner to page load 
+            $('body').append('<div id="body-spinner"></div>');
+            var spinnerTarget = document.getElementById('body-spinner'),
+                spinner = new Spinner();
+            spinner.spin(spinnerTarget);
             window.location.href = '/tables/' + chosenTableID + '/'
         }
         
@@ -223,6 +228,12 @@ function makeParentSelectWidget(element) {
 }
 
 function sendToDataView(chosenTableID, chosenGeoID, chosenSumlev) {
+    // add spinner to page load 
+    console.log('make spinner');
+    $('body').append('<div id="body-spinner"></div>');
+    var spinnerTarget = document.getElementById('body-spinner'),
+        spinner = new Spinner();
+    spinner.spin(spinnerTarget);
     var theseGeoIDs = (!!chosenSumlev) ? chosenSumlev + '|' + chosenGeoID : chosenGeoID,
         targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + theseGeoIDs + '&primary_geo_id=' + chosenGeoID;
     window.location.href = targetURL;
