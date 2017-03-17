@@ -235,6 +235,7 @@ var numberWithCommas = function(n, decimals) {
     $.parseParams = function(query) {
         var params = {}, e;
         if (!query) {
+            spinner.spin(spinnerTarget);
             query = window.location.search;
         }
         if (query.substr(0, 1) == '?') {

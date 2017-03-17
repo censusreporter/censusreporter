@@ -489,6 +489,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2015/{{ geography.this.full_geoid }}?geom=tr
                     });
                     layer.on('click', function() {
                         // add spinner to page load 
+                        console.log('make spinner');
                         $('body').append('<div id="body-spinner"></div>');
                         var spinnerTarget = document.getElementById('body-spinner'),
                             spinner = new Spinner();

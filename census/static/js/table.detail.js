@@ -1,4 +1,9 @@
 function Table(options) {
+
+    $('body').append('<div id="body-spinner"></div>');
+    var spinnerTarget = document.getElementById('body-spinner'),
+        spinner = new Spinner();
+
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org'; 
 
 
@@ -142,6 +147,7 @@ function Table(options) {
         element.on('typeahead:selected', function(obj, datum) {
             table.tableID = datum['table_id'];
             if (!!table.tableID) {
+                spinner.spin(spinnerTarget);
                 window.location = '/tables/'+table.tableID;
             }
         });
@@ -274,6 +280,7 @@ function Table(options) {
                 var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs, datum['full_geoid']
                 );
+                spinner.spin(spinnerTarget);
                 window.location = url;
             }
         });
@@ -312,6 +319,7 @@ function Table(options) {
                 var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs, table.primaryGeoID
                 );
+                spinner.spin(spinnerTarget);
                 window.location = url;
             }
         });

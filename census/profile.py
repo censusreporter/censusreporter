@@ -43,6 +43,32 @@ class ApiClient(object):
 
 		return self._get('/1.0/data/show/{}'.format(acs), params=dict(table_ids=table_ids, geo_ids=geo_ids))
 
+class D3ApiClient(object):
+	def __init__(self, base_url):
+		self.base_url = base_url
+
+	def _get(self, table_id, field_name, geo_ids):
+		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
+		url = self.base_url + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=pgeojson'
+		r = requests.get(url)
+		data = None
+		if r.status_code == 200:
+			#TO DO: Figure out what to do with the data now that we have it!
+			data = r.json(object_pairs_hook=OrderedDict)
+		else:
+			raise Exception("Error fetching data: " + r.json().get("error"))
+
+		return data
+
+	def get_data(self, table_id, field_name, geo_ids):
+
+		if hasattr(geo_ids, '__iter__'):
+			geo_ids = ','.join(geo_ids)
+
+		return self._get(table_id, field_name, geo_ids)
+
+
+
 def _maybe_int(i):
 	return int(i) if i else i
 
@@ -190,9 +216,38 @@ def add_metadata(dictionary, table_id, universe, acs_release):
 
 def geo_profile(geoid, acs='latest'):
 	api = ApiClient(settings.API_URL)
+	d3_api = D3ApiClient(settings.D3_API_URL)
 
 	item_levels = api.get_parent_geoids(geoid)['parents']
 	comparison_geoids = [level['geoid'] for level in item_levels]
+
+	# for D3 Open Data Portal pulls
+	state_geoids = []
+	county_geoids = []
+	tract_geoids = []
+	city_geoids = []
+	msa_geoids = []
+	school_district_geoids = []
+	zcta_geoids = []
+	# iterate over levels and create geoids useful for d3 API
+	for level in item_levels:
+		#split geoid to remove the not useful part
+		split_geoid = level['geoid'].split('US')
+		if level['sumlevel'] == '040':
+			state_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '050':
+			county_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '140':
+			tract_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '160':
+			city_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '310':
+			msa_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '860':
+			zcta_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '950' or level['sumlevel'] == '960' or level['sumlevel'] == '970':
+			school_district_geoids.append(split_geoid[1])
+
 
 	doc = OrderedDict([('geography', OrderedDict()),
 					   ('demographics', dict()),
@@ -225,6 +280,35 @@ def geo_profile(geoid, acs='latest'):
 		else:
 			doc['geography']['parents'][name] = convert_geography_data(geoid_data)
 			doc['geography']['parents'][name]['total_population'] = _maybe_int(data['data'][the_geoid]['B01001']['estimate']['B01001001'])
+
+	# Testing out calling 
+	state_geoids = []
+	county_geoids = []
+	tract_geoids = []
+	city_geoids = []
+	msa_geoids = []
+	school_district_geoids = []
+	zcta_geoids = []
+	if state_geoids:
+		data = d3_api.get_data('Births_StateofMichigan_2014', 'StateID', state_geoids)
+
+	if county_geoids:
+		data = d3_api.get_data('Births_byCounty_2014', 'GeoID10', county_geoids)
+
+	if tract_geoids:
+		data = d3_api.get_data('Births_byTract_2014', 'GEOID10', tract_geoids)
+
+	if city_geoids:
+		data = d3_api.get_data('Births_byCity_2014', 'GeoID10_1', city_geoids)
+
+	if msa_geoids:
+		data = d3_api.get_data('Births_byMSA_2014', 'GeoID10_1', msa_geoids)
+
+	if school_district_geoids:
+	 	data = d3_api.get_data('Births_bySD_2014', 'GEOID10', school_district_geoids)
+
+	if zcta_geoids:
+		data = d3_api.get_data('Births_byZCTA_2014', 'ZCTA5CE10', zcta_geoids)
 
 	# Demographics: Total number of Children
 	child_pop_dict = dict()
