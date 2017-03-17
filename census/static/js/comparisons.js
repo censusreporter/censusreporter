@@ -22,6 +22,11 @@ accept a `comparison` object.
 
 function Comparison(options, callback) {
 
+    $('body').append('<div id="body-spinner"></div>');
+    var spinnerTarget = document.getElementById('body-spinner'),
+        spinner = new Spinner();
+
+
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org';
 
     var comparison = {
@@ -340,6 +345,7 @@ function Comparison(options, callback) {
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
 
             // update the URL
+            spinner.spin(spinnerTarget);
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -415,6 +421,7 @@ function Comparison(options, callback) {
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
 
+            spinner.spin(spinnerTarget);
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -557,9 +564,6 @@ function Comparison(options, callback) {
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
                      // add spinner to page load 
-                    $('body').append('<div id="body-spinner"></div>');
-                    var spinnerTarget = document.getElementById('body-spinner'),
-                        spinner = new Spinner();
                     spinner.spin(spinnerTarget);                   
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                 });
@@ -1070,6 +1074,7 @@ function Comparison(options, callback) {
             if (!!comparison.tableID) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
 
+                spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1215,6 +1220,7 @@ function Comparison(options, callback) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
 
                 // TODO: pushState to maintain history without page reload
+                spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1271,6 +1277,7 @@ function Comparison(options, callback) {
                 comparison.primaryGeoID = datum['full_geoid'];
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
 
+                spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1486,6 +1493,7 @@ function Comparison(options, callback) {
             var url = comparison.buildComparisonURL(
                 $(this).data('format'), comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
             );
+            spinner.spin(spinnerTarget);
             window.location = url;
         });
     }

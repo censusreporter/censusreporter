@@ -1,3 +1,7 @@
+$('body').append('<div id="body-spinner"></div>');
+var spinnerTarget = document.getElementById('body-spinner'),
+    spinner = new Spinner();
+
 var geoSearchAPI = CR_API_URL + '/1.0/geo/search',
     geoSelect = $('.geography-select'),
     chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
@@ -60,6 +64,7 @@ function makeGeoSelectWidget(element) {
     element.on('typeahead:selected', function(event, datum) {
         if (datum['url']) {
           event.stopPropagation();
+          spinner.spin(spinnerTarget);
           window.location = datum['url'];
         }
     });

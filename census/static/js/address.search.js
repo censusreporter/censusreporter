@@ -198,9 +198,6 @@ function makeLayer(d) {
     });
     layer.on('click', function() {
         // add spinner to page load 
-        $('body').append('<div id="body-spinner"></div>');
-        var spinnerTarget = document.getElementById('body-spinner'),
-            spinner = new Spinner();
         spinner.spin(spinnerTarget);
         window.location.href = '/profiles/' + d.full_geoid;
     });
