@@ -73,7 +73,7 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
         if (!!chosenTableID) {
-            spinner.spin(spinnerTarget);
+            //spinner.spin(spinnerTarget);
             window.location = '/data/table/?table=' + chosenTableID + "&geo_ids=" + thisGeoID + "&primary_geo_id=" + thisGeoID;
         }
     });

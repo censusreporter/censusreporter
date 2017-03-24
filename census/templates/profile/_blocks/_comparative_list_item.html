@@ -5,7 +5,7 @@
     {{ index|comparison_index_phrase }} the {{ stat_type|stat_type_to_number_noun }} in {{ place_name }}: {% if stat_type == 'dollar' %}${% endif %}{{ value|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}
     {% if error_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
     {% else %}
-    <strong>{{ place_name }}:</strong> {% if stat_type == 'dollar' %}${% endif %}{{ value|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}
+    {% if place_name %}<strong>{{ place_name }}:</strong>{% endif %} {% if stat_type == 'dollar' %}${% endif %}{{ value|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}
     {% endif %}
     {% if numerator %}
         <span class="context">{% if stat_type == 'dollar' %}${% endif %}{{ numerator|floatformat|intcomma|cut:".0" }}</span>

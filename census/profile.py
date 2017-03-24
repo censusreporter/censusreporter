@@ -49,11 +49,10 @@ class D3ApiClient(object):
 
 	def _get(self, table_id, field_name, geo_ids):
 		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
-		url = self.base_url + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=pgeojson'
+		url = self.base_url + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
 		r = requests.get(url)
 		data = None
 		if r.status_code == 200:
-			#TO DO: Figure out what to do with the data now that we have it!
 			data = r.json(object_pairs_hook=OrderedDict)
 		else:
 			raise Exception("Error fetching data: " + r.json().get("error"))
@@ -68,6 +67,92 @@ class D3ApiClient(object):
 		return self._get(table_id, field_name, geo_ids)
 
 
+def format_d3_data(years, table_name, title, universe, denominator_column_id, fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+		):
+	data = OrderedDict()
+	# release notes
+	data['release'] = OrderedDict()
+	data['release']['id'] = "d3_open_data"
+	data['release']['name'] = "Data Driven Detroit Open Data Portal"
+	data['release']['years'] = years
+
+	#table headings
+	data['tables'] = OrderedDict()
+	data['tables'][table_name] = OrderedDict()
+	data['tables'][table_name]['title'] = title
+	data['tables'][table_name]['universe'] = universe
+	data['tables'][table_name]['denominator_column_id'] = denominator_column_id
+
+	# column headings
+	data['tables'][table_name]['columns'] = OrderedDict()
+
+	for key, field in fields.iteritems():
+		key = 'D3-' + key
+		data['tables'][table_name]['columns'][key] = OrderedDict()
+		data['tables'][table_name]['columns'][key]['name'] = field['name']
+		data['tables'][table_name]['columns'][key]['indent'] = field['indent']
+
+	# data and geography
+	data['data'] = OrderedDict()
+	data['geography'] = OrderedDict()
+	for geo in d3_item_levels:
+		data['geography'][geo['geoid']] = OrderedDict()
+		data['geography'][geo['geoid']]['name'] = geo['display_name']
+		data['data'][geo['geoid']] = OrderedDict()
+		data['data'][geo['geoid']][table_name] = OrderedDict()
+		data['data'][geo['geoid']][table_name]['estimate'] = OrderedDict()
+		data['data'][geo['geoid']][table_name]['error'] = OrderedDict()
+		if geo['sumlevel'] == '040':
+			for feature in state_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+
+		if geo['sumlevel'] == '050':
+			for feature in county_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+
+		if geo['sumlevel'] == '060':
+			for feature in county_sd_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+
+		if geo['sumlevel'] == '140':
+			for feature in tract_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+
+		if geo['sumlevel'] == '310':
+			for feature in msa_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+
+		if geo['sumlevel'] == '860':
+			for feature in zcta_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+		
+		if geo['sumlevel'] == '950' or geo['sumlevel'] == '960' or geo['sumlevel'] == '970':
+			for feature in school_district_data['features']:
+				for key, value in feature['attributes'].iteritems():
+					key = 'D3-' + key
+					data['data'][geo['geoid']][table_name]['estimate'][key] = value
+					data['data'][geo['geoid']][table_name]['error'][key] = 0
+
+
+	return data
 
 def _maybe_int(i):
 	return int(i) if i else i
@@ -140,12 +225,13 @@ def value_rpn_calc(data, rpn_string):
 					c_moe = None
 				elif token == '/':
 					# Broken out because MOE proportion needs both MOE and estimates
-
 					# We're dealing with ratios, not pure division.
 					if a == 0 or b == 0:
 						c = 0
 						c_moe = 0
 					else:
+						a = float(a)
+						b = float(b)
 						c = ops[token](a, b)
 						c_moe = moe_proportion(a, b, a_moe, b_moe)
 					numerator = a
@@ -153,7 +239,7 @@ def value_rpn_calc(data, rpn_string):
 				else:
 					c = ops[token](a, b)
 					c_moe = moe_ops[token](a_moe, b_moe)
-		elif token.startswith('B'):
+		elif token.startswith('B') or token.startswith('D3-'):
 			c = data['estimate'][token]
 			c_moe = data['error'][token]
 		else:
@@ -224,28 +310,36 @@ def geo_profile(geoid, acs='latest'):
 	# for D3 Open Data Portal pulls
 	state_geoids = []
 	county_geoids = []
+	county_sd_geoids = []
 	tract_geoids = []
-	city_geoids = []
 	msa_geoids = []
 	school_district_geoids = []
 	zcta_geoids = []
+	d3_item_levels = []
 	# iterate over levels and create geoids useful for d3 API
 	for level in item_levels:
 		#split geoid to remove the not useful part
 		split_geoid = level['geoid'].split('US')
 		if level['sumlevel'] == '040':
+			d3_item_levels.append(level)
 			state_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '050':
+			d3_item_levels.append(level)
 			county_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '060':
+			d3_item_levels.append(level)
+			county_sd_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '140':
+			d3_item_levels.append(level)
 			tract_geoids.append(split_geoid[1])
-		if level['sumlevel'] == '160':
-			city_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '310':
+			d3_item_levels.append(level)
 			msa_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '860':
+			d3_item_levels.append(level)
 			zcta_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '950' or level['sumlevel'] == '960' or level['sumlevel'] == '970':
+			d3_item_levels.append(level)
 			school_district_geoids.append(split_geoid[1])
 
 
@@ -255,6 +349,107 @@ def geo_profile(geoid, acs='latest'):
 					   ('families', dict()),
 					   ('housing', dict()),
 					   ('social', dict()),])
+
+	# get D3 data on births
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	msa_data = []
+	school_district_data = []
+	zcta_data = []	
+	if state_geoids:
+		state_data = d3_api.get_data('Births_StateofMichigan_2014', 'StateID', state_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('Births_byCounty_2014', 'GeoID10_1', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('Births_byCity_2014', 'GeoID10_1', county_sd_geoids)
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('Births_byTract_2014', 'GEOID10', tract_geoids)
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('Births_byMSA_2014', 'GeoID10_1', msa_geoids)
+
+	if school_district_geoids:
+	 	school_district_data = d3_api.get_data('Births_bySD_2014', 'GEOID10', school_district_geoids)
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('Births_byZCTA_2014', 'ZCTA5CE10', zcta_geoids)
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict();
+	fields['TotalBirths'] = OrderedDict();
+	fields['TotalBirths']['name'] = "Total Births"
+	fields['TotalBirths']['indent'] = 0
+
+	fields['NonHispWhite'] = OrderedDict();
+	fields['NonHispWhite']['name'] = "Non-Hispanic White Births"
+	fields['NonHispWhite']['indent'] = 1
+
+	fields['NonHispBlack'] = OrderedDict();
+	fields['NonHispBlack']['name'] = "Non-Hispanic Black Births"
+	fields['NonHispBlack']['indent'] = 1
+
+	fields['NonHIspOther'] = OrderedDict();
+	fields['NonHIspOther']['name'] = "Non-Hispanic Other Race Births"
+	fields['NonHIspOther']['indent'] = 1
+
+	fields['Hispanic'] = OrderedDict();
+	fields['Hispanic']['name'] = "Hispanic Births"
+	fields['Hispanic']['indent'] = 1
+
+	fields['InadequatePrenatal'] = OrderedDict();
+	fields['InadequatePrenatal']['name'] = "Births with Inadequate Prenatal Care"
+	fields['InadequatePrenatal']['indent'] = 1
+
+	fields['LowBirthWeight'] = OrderedDict();
+	fields['LowBirthWeight']['name'] = "Low Birth Weight Births"
+	fields['LowBirthWeight']['indent'] = 1
+
+	fields['TeenMothers'] = OrderedDict();
+	fields['TeenMothers']['name'] = "Births to Teen Mothers"
+	fields['TeenMothers']['indent'] = 1
+
+	data = format_d3_data("2014", "BIRTHS", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+		)
+	births_dict = dict()
+	doc['families']['births'] = births_dict
+	births_dict['total'] = build_item('Total births', data, d3_item_levels,
+		'D3-TotalBirths')
+	add_metadata(births_dict['total'], 'D3-Birth-Dataset', 'Total births', 'D3 Open Data Portal')
+
+	births_race_distribution_dict = OrderedDict()
+	doc['families']['births']['race_distribution'] = births_race_distribution_dict
+	add_metadata(births_race_distribution_dict, 'D3-Birth-Dataset', 'Total Births', 'D3 Open Data Portal')
+
+	births_race_distribution_dict['white'] = build_item('White', data, d3_item_levels,
+		'D3-NonHispWhite D3-TotalBirths / %')
+
+	births_race_distribution_dict['black'] = build_item('Black', data, d3_item_levels,
+		'D3-NonHispBlack D3-TotalBirths / %')
+
+	births_race_distribution_dict['other'] = build_item('Other', data, d3_item_levels,
+		'D3-NonHIspOther D3-TotalBirths / %')
+
+	births_race_distribution_dict['hispanic'] = build_item('Hispanic', data, d3_item_levels,
+		'D3-Hispanic D3-TotalBirths / %')
+
+	births_by_characteristic_dict = OrderedDict()
+	doc['families']['births']['by_characteristic'] = births_by_characteristic_dict
+	add_metadata(births_by_characteristic_dict, 'D3-Birth-Dataset', 'Total Births', 'D3 Open Data Portal')	
+
+	births_by_characteristic_dict['InadequatePrenatal'] = build_item('Inadequate Prenatal Care', data, d3_item_levels,
+		'D3-InadequatePrenatal D3-TotalBirths / %')
+
+	births_by_characteristic_dict['LowBirthWeight'] = build_item('Low Birth Weight', data, d3_item_levels,
+		'D3-LowBirthWeight D3-TotalBirths / %')
+
+	births_by_characteristic_dict['TeenMothers'] = build_item('Teen Mothers', data, d3_item_levels,
+		'D3-TeenMothers D3-TotalBirths / %')
+
 
 	data = api.get_data('B01001', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -281,34 +476,6 @@ def geo_profile(geoid, acs='latest'):
 			doc['geography']['parents'][name] = convert_geography_data(geoid_data)
 			doc['geography']['parents'][name]['total_population'] = _maybe_int(data['data'][the_geoid]['B01001']['estimate']['B01001001'])
 
-	# Testing out calling 
-	state_geoids = []
-	county_geoids = []
-	tract_geoids = []
-	city_geoids = []
-	msa_geoids = []
-	school_district_geoids = []
-	zcta_geoids = []
-	if state_geoids:
-		data = d3_api.get_data('Births_StateofMichigan_2014', 'StateID', state_geoids)
-
-	if county_geoids:
-		data = d3_api.get_data('Births_byCounty_2014', 'GeoID10', county_geoids)
-
-	if tract_geoids:
-		data = d3_api.get_data('Births_byTract_2014', 'GEOID10', tract_geoids)
-
-	if city_geoids:
-		data = d3_api.get_data('Births_byCity_2014', 'GeoID10_1', city_geoids)
-
-	if msa_geoids:
-		data = d3_api.get_data('Births_byMSA_2014', 'GeoID10_1', msa_geoids)
-
-	if school_district_geoids:
-	 	data = d3_api.get_data('Births_bySD_2014', 'GEOID10', school_district_geoids)
-
-	if zcta_geoids:
-		data = d3_api.get_data('Births_byZCTA_2014', 'ZCTA5CE10', zcta_geoids)
 
 	# Demographics: Total number of Children
 	child_pop_dict = dict()

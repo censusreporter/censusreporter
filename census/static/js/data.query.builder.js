@@ -137,7 +137,7 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
         if (!!chosenTableID) {
-            spinner.spin(spinnerTarget);
+            //spinner.spin(spinnerTarget);
             window.location.href = '/tables/' + chosenTableID + '/'
         }
         
@@ -229,7 +229,7 @@ function makeParentSelectWidget(element) {
 
 function sendToDataView(chosenTableID, chosenGeoID, chosenSumlev) {
     // add spinner to page load 
-    spinner.spin(spinnerTarget);
+    //spinner.spin(spinnerTarget);
     var theseGeoIDs = (!!chosenSumlev) ? chosenSumlev + '|' + chosenGeoID : chosenGeoID,
         targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + theseGeoIDs + '&primary_geo_id=' + chosenGeoID;
     window.location.href = targetURL;

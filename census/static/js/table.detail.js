@@ -147,7 +147,7 @@ function Table(options) {
         element.on('typeahead:selected', function(obj, datum) {
             table.tableID = datum['table_id'];
             if (!!table.tableID) {
-                spinner.spin(spinnerTarget);
+                //spinner.spin(spinnerTarget);
                 window.location = '/tables/'+table.tableID;
             }
         });
@@ -280,7 +280,7 @@ function Table(options) {
                 var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs, datum['full_geoid']
                 );
-                spinner.spin(spinnerTarget);
+                //spinner.spin(spinnerTarget);
                 window.location = url;
             }
         });
@@ -319,7 +319,7 @@ function Table(options) {
                 var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs, table.primaryGeoID
                 );
-                spinner.spin(spinnerTarget);
+                //spinner.spin(spinnerTarget);
                 window.location = url;
             }
         });

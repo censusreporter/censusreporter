@@ -33,7 +33,8 @@ function Comparison(options, callback) {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
         rootGeoAPI: API_URL + '/1.0/geo/tiger2015/',
-        dataAPI: API_URL + '/1.0/data/show/latest'
+        dataAPI: API_URL + '/1.0/data/show/latest',
+        d3DataAPI: 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
     };
 
     comparison.init = function(options) {
@@ -62,25 +63,111 @@ function Comparison(options, callback) {
         return comparison;
     }
 
+    comparison.getD3Data = function(table_id, field_name, geo_ids) {
+        var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
+        console.log(url);
+        $.getJSON(url)
+            .done(function(results) {
+                console.log(results);
+                return results;
+            })
+            .fail(function(xhr, textStatus, error) {
+                var message = $.parseJSON(xhr.responseText);
+                comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
+            });
+    }
+
+    comparison.getBirthData = function() {
+        if (comparison.state_geoids.length > 0) {
+            comparison.state_data = comparison.getD3Data('Births_StateofMichigan_2014', 'StateID', comparison.state_geoids)
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.county_data = comparison.getD3Data('Births_byCounty_2014', 'GeoID10_1', comparison.county_geoids)
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.county_sd_data = comparison.getD3Data('Births_byCity_2014', 'GeoID10_1', comparison.county_sd_geoids)
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.tract_data = comparison.getD3Data('Births_byTract_2014', 'GEOID10', comparison.tract_geoids)
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.msa_data = comparison.getD3Data('Births_byMSA_2014', 'GeoID10_1', comparison.msa_geoids) 
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.school_district_data = comparison.getD3Data('Births_bySD_2014', 'GEOID10', comparison.school_district_geoids)
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.zcta_data = comparison.getD3Data('Births_byZCTA_2014', 'ZCTA5CE10', comparison.zcta_geoids)
+        }
+        console.log(comparison);
+    }
+
     comparison.getData = function() {
         if (comparison.tableID && comparison.geoIDs) {
             var params = {
                 table_ids: comparison.tableID,
                 geo_ids: comparison.geoIDs.join(',')
             }
-            $.getJSON(comparison.dataAPI, params)
-                .done(function(results) {
-                    comparison.data = comparison.cleanData(results);
-                    comparison.addStandardMetadata();
-                    comparison.makeDataDisplay();
-                    if (typeof callback === "function") {
-                        callback(comparison);
+            // D3 query
+            if (comparison.tableID.startsWith('D3-')) {
+                comparison.state_geoids = [];
+                comparison.county_geoids = [];
+                comparison.county_sd_geoids = [];
+                comparison.tract_geoids = [];
+                comparison.msa_geoids = [];
+                comparison.school_district_geoids = [];
+                comparison.zcta_geoids = [];
+
+                for (var i = comparison.geoIDs.length - 1; i >= 0; i--) {
+                    var split_geoid = comparison.geoIDs[i].split('US');
+                    if (split_geoid[0].startsWith('040')) {
+                        comparison.state_geoids.push(split_geoid[1]);
                     }
-                })
-                .fail(function(xhr, textStatus, error) {
-                    var message = $.parseJSON(xhr.responseText);
-                    comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
-                });
+                    if (split_geoid[0].startsWith('050')) {
+                        comparison.county_geoids.push(split_geoid[1]);
+                    }
+                    if (split_geoid[0].startsWith('060')) {
+                        comparison.county_sd_geoids.push(split_geoid[1]);
+                    }
+                    if (split_geoid[0].startsWith('140')) {
+                        comparison.tract_geoids.push(split_geoid[1]);
+                    }
+                    if (split_geoid[0].startsWith('310')) {
+                        comparison.msa_geoids.push(split_geoid[1]);
+                    }
+                    if (split_geoid[0].startsWith('860')) {
+                        comparison.zcta_geoids.push(split_geoid[1]);
+                    }
+                    if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
+                        comparison.school_district_geoids.push(split_geoid[1]);
+                    }
+                }
+
+
+                // what type of D3 data is this
+                if (comparison.tableID == 'D3-Birth-Dataset') {
+                    comparison.getBirthData();
+                }
+                
+
+            } else {
+                // CR query
+                $.getJSON(comparison.dataAPI, params)
+                    .done(function(results) {
+                        comparison.data = comparison.cleanData(results);
+                        comparison.addStandardMetadata();
+                        comparison.makeDataDisplay();
+                        if (typeof callback === "function") {
+                            callback(comparison);
+                        }
+                    })
+                    .fail(function(xhr, textStatus, error) {
+                        var message = $.parseJSON(xhr.responseText);
+                        comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
+                    });
+            }
+
+
         }
         return comparison;
     }
@@ -345,7 +432,7 @@ function Comparison(options, callback) {
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
 
             // update the URL
-            spinner.spin(spinnerTarget);
+            // spinner.spin(spinnerTarget);
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -421,7 +508,7 @@ function Comparison(options, callback) {
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
 
-            spinner.spin(spinnerTarget);
+            //spinner.spin(spinnerTarget);
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -564,7 +651,7 @@ function Comparison(options, callback) {
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
                      // add spinner to page load 
-                    spinner.spin(spinnerTarget);                   
+                    //spinner.spin(spinnerTarget);                   
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                 });
             }
@@ -1074,7 +1161,7 @@ function Comparison(options, callback) {
             if (!!comparison.tableID) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
 
-                spinner.spin(spinnerTarget);
+                //spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1220,7 +1307,7 @@ function Comparison(options, callback) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
 
                 // TODO: pushState to maintain history without page reload
-                spinner.spin(spinnerTarget);
+                //spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1277,7 +1364,7 @@ function Comparison(options, callback) {
                 comparison.primaryGeoID = datum['full_geoid'];
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
 
-                spinner.spin(spinnerTarget);
+                //spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1493,7 +1580,7 @@ function Comparison(options, callback) {
             var url = comparison.buildComparisonURL(
                 $(this).data('format'), comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
             );
-            spinner.spin(spinnerTarget);
+            //spinner.spin(spinnerTarget);
             window.location = url;
         });
     }
