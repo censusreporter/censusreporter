@@ -39,7 +39,7 @@ urlpatterns = patterns('',
         regex   = '^profiles/$',
         view    = RedirectView.as_view(url=reverse_lazy('search')),
         kwargs  = {},
-        name    = 'geography_search',
+        name    = 'geography_search_redirect',
     ),
 
     url(
