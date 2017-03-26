@@ -80,60 +80,6 @@ def raise_404_with_messages(request, error_data={}):
 
     raise Http404
 
-
-### TABLES ###
-class TableSearchView(TemplateView):
-    template_name = 'table/table_search.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {}
-        q = self.request.GET.get('q', None)
-        topics = self.request.GET.get('topics', None)
-        start = self.request.GET.get('start', 0)
-
-        if q:
-            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
-            api_params = {
-                'q': q,
-                'topics': topics,
-                'start': start
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-
-                # if we end up powering results list with javascript ...
-                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
-
-                page_context = data
-                page_context['q'] = q
-                page_context['topics'] = topics
-                page_context['num_results'] = data['facets']['topics']['total']
-                if topics:
-                    page_context['filters'] = topics.split(',')
-
-                # pagination things
-                start = int(start)
-                results_page_length = len(data['results'])
-                if page_context['num_results'] > results_page_length:
-                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
-                if 'next_page' in data['links']:
-                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
-                if 'previous_page' in data['links']:
-                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
-
-
-                page_context['q'] = q
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
-
-        return page_context
-
 class TableDetailView(TemplateView):
     template_name = 'table/table_detail.html'
     RELEASE_TRANSLATE_DICT = {
@@ -292,56 +238,6 @@ class TableDetailView(TemplateView):
             'tabulation': self.get_tabulation_data(self.tabulation_code),
         }
         page_context['related_topic_pages'] = self.get_topic_pages(page_context['table']['topics'])
-
-        return page_context
-
-
-### PROFILES ###
-class GeographySearchView(TemplateView):
-    template_name = 'profile/profile_search.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {}
-        q = self.request.GET.get('q', None)
-        sumlevs = self.request.GET.get('sumlevs', None)
-        start = self.request.GET.get('start', 0)
-
-        if q:
-            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
-            api_params = {
-                'q': q,
-                'sumlevs': sumlevs,
-                'start': start
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-
-                # if we end up powering results list with javascript ...
-                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
-                #page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
-
-                page_context = data
-                page_context['q'] = q
-                page_context['filters'] = sumlevs
-                page_context['num_results'] = data['facets']['sumlev']['total']
-
-                # pagination things
-                start = int(start)
-                results_page_length = len(data['results'])
-                if page_context['num_results'] > results_page_length:
-                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
-                if 'next_page' in data['links']:
-                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
-                if 'previous_page' in data['links']:
-                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
 
         return page_context
 
@@ -919,54 +815,6 @@ class SearchResultsView(TemplateView):
         return page_context
 
 
-class Elasticsearch(TemplateView):
-    template_name = 'search/elasticsearch.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {
-            'release_options': ['ACS 2014 1-Year', 'ACS 2013 1-Year', 'ACS 2013 3-Year', 'ACS 2013 5-Year', 'ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
-        }
-        tables = None
-        columns = None
-        geo_select = self.request.GET.get('g')
-        table_select = self.request.GET.get('table_select')
-
-        if geo_select:
-            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
-            api_params = {
-                'q': geo_select,
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            #print r.url
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-                page_context['geos'] = data['results']
-                page_context['g'] = geo_select
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
-        elif table_select:
-            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
-            api_params = {
-                'q': table_select,
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-                page_context['tables'] = data['results']
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
-
-        return page_context
 
 class GeoSearch(TemplateView):
     template_name = 'search/geo_search.html'

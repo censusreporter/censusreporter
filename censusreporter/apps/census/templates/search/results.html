@@ -17,7 +17,9 @@
 {% endblock %}
 
 {% block content %}
+
 <article id="data-display" class="clearfix">
+  {% if has_query %}
     <header id="results-sidebar-header" class="section-contents">
         <h1>Filter by</h1>
     </header>
@@ -39,9 +41,8 @@
             <div id="topic-tab" class="tab" data-page-type="topic"><a class="tab-text">Documentation</a></div>
         {% endif %}
     </div>
-    <div id="search-results-container" class="section-container">
-        <section id="data-container" class="clearfix">
-            {% if has_query %}
+      <div id="search-results-container" class="section-container">
+          <section id="data-container" class="clearfix">
                 {% if contains.profile or contains.table or contains.address or contains.topic %}
                     <h2 class="header-for-columns"></h2>
 
@@ -136,13 +137,12 @@
                     <h1>Searching for: {{ query }}</h1>
                     <h2>No results found.</h2>
                 {% endif %}
-            {% endif %}
-        </section>
-    </div>
+          </section>
+      </div>
 </article>
+{% endif %}
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
     <script src="{{ STATIC_URL }}js/search-results.js"></script>
 {% endblock %}
-
