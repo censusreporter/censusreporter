@@ -717,6 +717,7 @@ class SearchResultsView(TemplateView):
         search_data_all = {}
         if status_code == 200 or status_code_location == 200:
             search_data = json.loads(r.text)
+            search_data['results'] = filter(lambda x: x.get('sumlevel') not in ['140','150'], search_data['results'])
             search_data_location = json.loads(r_location.text)
             search_data_all['has_query'] = True
             search_data_all['results'] = search_data['results'] + search_data_location['features']
