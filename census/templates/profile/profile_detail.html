@@ -138,7 +138,7 @@
 
 <article id="demographics" class="clearfix">
     <header class="section-contents">
-        <h1>Population Demographics</h1>
+        <h1>Demographics</h1>
     </header>
     <div class="section-container">
 
@@ -724,17 +724,32 @@ if (releases.length > 1) {
     $('.content-container').append(explain);
 }
 var makeCitation = function(year, release) {
-    var citation = '<p class="explain"><strong>Citation:</strong> ' +
-    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
-    '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
-    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> &lt;{{ request.build_absolute_uri }}&gt;</p>';
+	if (release == 'D3 Open Data Portal') {
+		var citation = '<p class="explain"><strong>Citation:</strong> ' +
+	    'Data Driven Detroit Open Data Portal (<span id="cite-release-year">' + year + '</span>). ' +
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	} else {
+		var citation = '<p class="explain"><strong>Citation:</strong> ' +
+	    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
+	    '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	}
+
 
     $('.content-container').append(citation);
 }
+
 $.each($.unique(releases), function(i, v) {
     var bits = v.split(" "),
         year = bits[1],
         release = bits[2];
+
+    // handle exception for D3 open data portal
+    // TO DO: update releases to add year for D3 content
+    if (year == 'Open') {
+    	year = '2014';
+    	release = 'D3 Open Data Portal'
+    }
 
     makeCitation(year, release);
 });
