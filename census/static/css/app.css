@@ -110,14 +110,14 @@ a:hover {
 a.permalink span,
 a.permalink i {
     color: #777;
-    display: none;
+/*    display: none;*/
 }
 a.permalink:hover {
-    color: inherit;
+    color: #333;
 }
 a.permalink:hover span,
 a.permalink:hover i {
-    display: inherit;
+    color: #333;
 }
 p, .serif {
     font-family: "Rokkitt", Georgia, serif;
