@@ -166,6 +166,7 @@ function Comparison(options, callback) {
 
     comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
         var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
+        console.log(url);
         $.getJSON(url)
             .done(function(results) {
                 comparison[geo_key] = results;
