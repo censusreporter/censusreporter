@@ -98,35 +98,37 @@ function Comparison(options, callback) {
             split_geoid = comparison.d3_all_geoids[i].split('US');
             if (split_geoid[0].startsWith('040')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'state_data');
+                parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
             }
             if (split_geoid[0].startsWith('050')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'county_data');
+                parseData(comparison.d3_all_geoids[i], 'county_data', 'GeoID10_1');
             }
             if (split_geoid[0].startsWith('060')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'county_sd_data');
+                parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GeoID10_1');
             }
             if (split_geoid[0].startsWith('140')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'tract_data');
+                parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
             }
             if (split_geoid[0].startsWith('310')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'msa_data');
+                parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_1');
             }
             if (split_geoid[0].startsWith('860')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'zcta_data');
+                parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
             }
             if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
                 ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'school_district_data');
+                parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
             }
         }
 
-        function parseData(geo_id, geo_key) {
+        function parseData(geo_id, geo_key, geo_field) {
+            var split_geoid = geo_id.split('US');
+            
             // get geography name from CR
             var nameGeoAPI = comparison.rootGeoAPI + geo_id;
             $.getJSON(nameGeoAPI)
@@ -138,11 +140,20 @@ function Comparison(options, callback) {
                     data['data'][geo_id][comparison.d3table_name]['estimate'] = {};
                     data['data'][geo_id][comparison.d3table_name]['error'] = {};
                     for (var key in comparison[geo_key]['features']) {
-                        for (var feature_key in comparison[geo_key]['features'][key]['attributes']) {
-                            d3_feature_key = 'D3-' + feature_key;
-                            data['data'][geo_id][comparison.d3table_name]['estimate'][d3_feature_key] = comparison[geo_key]['features'][key]['attributes'][feature_key];
-                            data['data'][geo_id][comparison.d3table_name]['error'][d3_feature_key] = 0;
+                        if (comparison[geo_key]['features'][key]['attributes'][geo_field] == split_geoid[1]) {
+                            for (var feature_key in comparison[geo_key]['features'][key]['attributes']) {
+                                d3_feature_key = 'D3-' + feature_key;
+
+                                data['data'][geo_id][comparison.d3table_name]['estimate'][d3_feature_key] = comparison[geo_key]['features'][key]['attributes'][feature_key];
+                                data['data'][geo_id][comparison.d3table_name]['error'][d3_feature_key] = 0;
+
+                            }
                         }
+
+
+
+
+
                     }
 
                     ajaxGeo--;
@@ -166,7 +177,6 @@ function Comparison(options, callback) {
 
     comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
         var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
-        console.log(url);
         $.getJSON(url)
             .done(function(results) {
                 comparison[geo_key] = results;
@@ -284,7 +294,6 @@ function Comparison(options, callback) {
                         var geo_id_params = {geo_ids: comparison.geoIDs[i]};
                         $.getJSON(comparison.childGeoAPI, geo_id_params)
                             .done(function(results) {
-                                console.log(results);
                                 for (var j = results.features.length - 1; j >= 0; j--) {
                                     comparison.d3_all_geoids.push(results.features[j].properties.geoid);
                                     splitGeoID(results.features[j].properties.geoid);
@@ -348,7 +357,6 @@ function Comparison(options, callback) {
                 // CR query
                 $.getJSON(comparison.dataAPI, params)
                     .done(function(results) {
-                        console.log(results);
                         comparison.data = comparison.cleanData(results);
                         comparison.addStandardMetadata();
                         comparison.makeDataDisplay();
@@ -928,15 +936,29 @@ function Comparison(options, callback) {
             comparison.sortedPlaces.forEach(function(g) {
                 var geoID = g.geoID,
                     thisRow = comparison.values[geoID][comparison.tableID],
-                    thisValue = (comparison.valueType == 'estimate') ? thisRow.estimate[k] : thisRow.percentage[k],
-                    thisValueMOE = (comparison.valueType == 'estimate') ? thisRow.error[k] : thisRow.percentage_error[k],
+                    thisValue = null,
+                    thisValueMOE = null,
                     thisFmt = (comparison.valueType == 'percentage') ? 'percentage' : comparison.statType,
                     gridRowCol = '';
 
+
+                if (!comparison.tableID.startsWith('D3-')) {
+                    thisValue = (comparison.valueType == 'estimate') ? thisRow.estimate[k] : thisRow.percentage[k];
+                    thisValueMOE = (comparison.valueType == 'estimate') ? thisRow.error[k] : thisRow.percentage_error[k];
+                } else {
+                    if (thisRow.estimate[k] == null) {
+                        thisValue = null;
+                    } else {
+                        thisValue = (comparison.valueType == 'estimate') ? thisRow.estimate[k] : thisRow.percentage[k];
+                    }
+                }
+                
                 // add raw numbers
                 if (thisValue >= 0) {
                     gridRowCol += '<span class="value number">' + valFmt(thisValue, thisFmt) + '</span>';
-                    gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, thisFmt) + '</span>';
+                    if (!comparison.tableID.startsWith('D3-')) {
+                        gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, thisFmt) + '</span>';
+                    }
                 }
                 gridRowBits.push(gridRowCol);
             })

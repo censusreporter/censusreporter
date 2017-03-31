@@ -871,6 +871,7 @@ function Chart(options) {
     
     // pass in data obj, get back formatted value label with MOE flag
     chart.getValueFmt = function(data, geoStr, precision) {
+        
         var place = (!!geoStr) ? geoStr : 'this',
             decimals = (!!precision) ? precision : 0,
             valueText = data.context.values[place],
@@ -925,11 +926,13 @@ function Chart(options) {
             var rowValues = []
             chart.chartDataValues.forEach(function(d, i){
                 if (!!d.context) {
+                    d.context.tableID = tableID;
                     // standard chart
                     rowValues.push(d);
                 } else {
                     // data shaped for grouped chart
                     d.values.forEach(function(k, i) {
+                        k.context.tableID = tableID;
                         k.name = d.name + ': ' + chart.capitalize(k.name);
                         rowValues.push(k);
                     })
@@ -959,11 +962,21 @@ function Chart(options) {
         ];
 
         _.each(d.context.values, function(v, k) {
-            headerData.push({
-                colspan: (d.context.numerators[k] !== null) ? 4 : 2,
-                cellClass: 'name',
-                cellContents: chart.comparisonNames[k]
-            });
+            console.log(d.context.tableID);
+            if (d.context.tableID.startsWith('D3-')) {
+                headerData.push({
+                    colspan: 2,
+                    cellClass: 'name',
+                    cellContents: chart.comparisonNames[k]
+                });
+            } else {
+                headerData.push({
+                    colspan: (d.context.numerators[k] !== null) ? 4 : 2,
+                    cellClass: 'name',
+                    cellContents: chart.comparisonNames[k]
+                });               
+            }
+
         })
 
         selection.selectAll("th")
@@ -979,15 +992,25 @@ function Chart(options) {
             rowData = [
                 { cellClass: 'name', cellContents: d.name }
             ];
+            
             _.each(d.context.values, function(v, k) {
                 // add the primary value
                 rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
-                rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
-                // add the numerator value if it exists
-                if (d.context.numerators[k] !== null) {
-                    rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) });
-                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
+                if (!d.context.tableID.startsWith('D3-')) {
+                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
                 }
+
+                // add the numerator value if it exists
+                if (d.context.numerators[k] == null) {
+                    rowData.push({ cellClass: 'value', cellContents: 'Not enough data' }); 
+                } else {
+                    rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) }); 
+                    if (!d.context.tableID.startsWith('D3-')) {
+                        rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
+                    }
+                }
+
+
             })
             
             selection.append("tr").selectAll("td")
@@ -1149,16 +1172,20 @@ function Chart(options) {
     
     // format percentages and/or dollar signs
     chart.valFmt = function(value, decimals) {
-        var precision = (!!decimals) ? decimals : 0,
-            factor = Math.pow(10, precision),
-            value = Math.round(value * factor) / factor;
-
-        if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
-            value += '%';
-        } else if (chart.chartStatType == 'dollar') {
-            value = '$' + chart.commaFmt(value);
+        if (value == null) {
+            value = 'Not enough data';
         } else {
-            value = chart.commaFmt(value);
+            var precision = (!!decimals) ? decimals : 0,
+                factor = Math.pow(10, precision),
+                value = Math.round(value * factor) / factor;
+
+            if (chart.chartStatType == 'percentage' || chart.chartStatType == 'scaled-percentage') {
+                value += '%';
+            } else if (chart.chartStatType == 'dollar') {
+                value = '$' + chart.commaFmt(value);
+            } else {
+                value = chart.commaFmt(value);
+            }
         }
         return value;
     }

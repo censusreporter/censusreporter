@@ -133,7 +133,7 @@ var valFmt = function(value, statType, disablePct) {
         }
         return value;
     }
-    return ''
+    return 'Not enough data'
 }
 
 // commas for human-friendly integers
