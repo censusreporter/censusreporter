@@ -1,6 +1,8 @@
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner'),
-    spinner = new Spinner();
+var spinnerTarget = document.getElementById("body-spinner");
+if (!spinnerTarget) {
+    $('body').append('<div id="body-spinner"></div>');
+    spinnerTarget = document.getElementById('body-spinner');
+} 
 
 var tableSearchAPI = CR_API_URL + '/1.0/table/search',
     geoSearchAPI = CR_API_URL + '/1.0/geo/search';
@@ -14,7 +16,7 @@ var topicSelect = $('#topic-select'),
     chosenTableID,
     chosenSumlev,
     chosenSumlevPluralName,
-    chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970',
+    chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970',
     chosenSumlevAncestorOptions,
     chosenGeoID;
 
@@ -137,7 +139,7 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
         if (!!chosenTableID) {
-            //spinner.spin(spinnerTarget);
+            spinner.spin(spinnerTarget);
             window.location.href = '/tables/' + chosenTableID + '/'
         }
         
@@ -229,7 +231,7 @@ function makeParentSelectWidget(element) {
 
 function sendToDataView(chosenTableID, chosenGeoID, chosenSumlev) {
     // add spinner to page load 
-    //spinner.spin(spinnerTarget);
+    spinner.spin(spinnerTarget);
     var theseGeoIDs = (!!chosenSumlev) ? chosenSumlev + '|' + chosenGeoID : chosenGeoID,
         targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + theseGeoIDs + '&primary_geo_id=' + chosenGeoID;
     window.location.href = targetURL;

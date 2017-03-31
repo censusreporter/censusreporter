@@ -413,7 +413,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['TeenMothers']['name'] = "Births to Teen Mothers"
 	fields['TeenMothers']['indent'] = 1
 
-	data = format_d3_data("2014", "BIRTHS", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2014", "D3-Birth-Dataset", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
 		)
 	births_dict = dict()
 	doc['families']['births'] = births_dict

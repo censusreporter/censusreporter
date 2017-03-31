@@ -17,9 +17,11 @@ var lat = '',
     map = null;
 
 // prepare spinner
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner');
-    spinner = new Spinner();
+var spinnerTarget = document.getElementById("body-spinner");
+if (!spinnerTarget) {
+    $('body').append('<div id="body-spinner"></div>');
+    spinnerTarget = document.getElementById('body-spinner');
+} 
 
 window.onpopstate = function(event) {
     if (event.state) {
@@ -128,7 +130,7 @@ function basicLabel(lat,lng) {
 
 if (navigator.geolocation) {
   // cache current location for proximity biasing
-  navigator.geolocation.getCurrentPosition(function(position) { window.browser_location = position; }, function() {}, {timeout:10000});
+  navigator.geolocation.getCurrentPosition(function(position) { console.log(position); window.browser_location = position; }, function() {}, {timeout:10000});
 
     $("#use-location").on("click",function() {
         $("#address-search-message").hide();
@@ -138,7 +140,7 @@ if (navigator.geolocation) {
             spinner.stop();
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-            updateLocation(lat,lng)
+            updateLocation(lat,lng);
         }
 
         function noLocation() {

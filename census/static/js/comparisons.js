@@ -22,9 +22,11 @@ accept a `comparison` object.
 
 function Comparison(options, callback) {
 
-    $('body').append('<div id="body-spinner"></div>');
-    var spinnerTarget = document.getElementById('body-spinner'),
-        spinner = new Spinner();
+    var spinnerTarget = document.getElementById("body-spinner");
+    if (!spinnerTarget) {
+        $('body').append('<div id="body-spinner"></div>');
+        spinnerTarget = document.getElementById('body-spinner');
+    } 
 
 
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org';
@@ -33,6 +35,7 @@ function Comparison(options, callback) {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
         rootGeoAPI: API_URL + '/1.0/geo/tiger2015/',
+        childGeoAPI: API_URL + '/1.0/geo/show/tiger2015',
         dataAPI: API_URL + '/1.0/data/show/latest',
         d3DataAPI: 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
     };
@@ -43,7 +46,7 @@ function Comparison(options, callback) {
         comparison.dataFormat = options.dataFormat;
         comparison.geoIDs = options.geoIDs;
         comparison.primaryGeoID = options.primaryGeoID || ((comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null);
-        comparison.chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
+        comparison.chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
         // jQuery things
         comparison.$topicSelect = $(options.topicSelect);
         comparison.$topicSelectContainer = $(options.topicSelectContainer);
@@ -63,13 +66,113 @@ function Comparison(options, callback) {
         return comparison;
     }
 
-    comparison.getD3Data = function(table_id, field_name, geo_ids) {
+    comparison.formatD3Data = function() {
+
+        var data = {};
+        data['release'] = {};
+        data['release']['id'] = "d3_open_data";
+        data['release']['name'] = "Data Driven Detroit Open Data Portal";
+        data['release']['years'] = comparison.d3DataYears;
+
+        data['tables'] = {};
+        data['tables'][comparison.d3table_name] = {};
+        data['tables'][comparison.d3table_name]['title'] = comparison.d3title;
+        data['tables'][comparison.d3table_name]['universe'] = comparison.d3universe
+        data['tables'][comparison.d3table_name]['denominator_column_id'] = comparison.d3denominator_column_id;
+
+        data['tables'][comparison.d3table_name]['columns'] = {};
+
+        for (var key in comparison.d3fields) {
+            d3_key = 'D3-' + key;
+            data['tables'][comparison.d3table_name]['columns'][d3_key] = {};
+            data['tables'][comparison.d3table_name]['columns'][d3_key]['name'] = comparison.d3fields[key]['name'];
+            data['tables'][comparison.d3table_name]['columns'][d3_key]['indent'] = comparison.d3fields[key]['indent'];
+        }
+
+        data['data'] = {};
+        data['geography'] = {};
+
+        var ajaxGeo = 0;
+        var split_geoid;
+        for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+            split_geoid = comparison.d3_all_geoids[i].split('US');
+            if (split_geoid[0].startsWith('040')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'state_data');
+            }
+            if (split_geoid[0].startsWith('050')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'county_data');
+            }
+            if (split_geoid[0].startsWith('060')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'county_sd_data');
+            }
+            if (split_geoid[0].startsWith('140')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'tract_data');
+            }
+            if (split_geoid[0].startsWith('310')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'msa_data');
+            }
+            if (split_geoid[0].startsWith('860')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'zcta_data');
+            }
+            if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
+                ajaxGeo++;
+                parseData(comparison.d3_all_geoids[i], 'school_district_data');
+            }
+        }
+
+        function parseData(geo_id, geo_key) {
+            // get geography name from CR
+            var nameGeoAPI = comparison.rootGeoAPI + geo_id;
+            $.getJSON(nameGeoAPI)
+                .done(function(results) {
+                    data['geography'][geo_id] = {};
+                    data['geography'][geo_id]['name'] = results.properties.display_name;
+                    data['data'][geo_id] = {};
+                    data['data'][geo_id][comparison.d3table_name] = {};
+                    data['data'][geo_id][comparison.d3table_name]['estimate'] = {};
+                    data['data'][geo_id][comparison.d3table_name]['error'] = {};
+                    for (var key in comparison[geo_key]['features']) {
+                        for (var feature_key in comparison[geo_key]['features'][key]['attributes']) {
+                            d3_feature_key = 'D3-' + feature_key;
+                            data['data'][geo_id][comparison.d3table_name]['estimate'][d3_feature_key] = comparison[geo_key]['features'][key]['attributes'][feature_key];
+                            data['data'][geo_id][comparison.d3table_name]['error'][d3_feature_key] = 0;
+                        }
+                    }
+
+                    ajaxGeo--;
+                    if (ajaxGeo == 0) {
+                        comparison.data = comparison.cleanData(data);
+                        comparison.addStandardMetadata();
+                        comparison.makeDataDisplay();
+                        if (typeof callback === "function") {
+                            callback(comparison);
+                        }
+                    } 
+                })
+                .fail(function(xhr, textStatus, error) {
+                    var message = $.parseJSON(xhr.responseText);
+                    comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
+                });
+
+        }
+
+    }
+
+    comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
         var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
-        console.log(url);
         $.getJSON(url)
             .done(function(results) {
-                console.log(results);
-                return results;
+                comparison[geo_key] = results;
+                comparison.ajaxCount--;
+                if (comparison.ajaxCount == 0) {
+                    comparison.formatD3Data();
+                }          
             })
             .fail(function(xhr, textStatus, error) {
                 var message = $.parseJSON(xhr.responseText);
@@ -78,28 +181,78 @@ function Comparison(options, callback) {
     }
 
     comparison.getBirthData = function() {
+        // metadata specific to Births
+        comparison.d3DataYears = '2014';
+        comparison.d3table_name = 'D3-Birth-Dataset';
+        comparison.d3title = 'Births by Race and Ethnicity and Characteristic';
+        comparison.d3universe = 'Total Births';
+        comparison.d3denominator_column_id ='D3-TotalBirths';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['TotalBirths'] = {};
+        comparison.d3fields['TotalBirths']['name'] = "Total Births"
+        comparison.d3fields['TotalBirths']['indent'] = 0
+
+        comparison.d3fields['NonHispWhite'] = {};
+        comparison.d3fields['NonHispWhite']['name'] = "Non-Hispanic White Births"
+        comparison.d3fields['NonHispWhite']['indent'] = 1
+
+        comparison.d3fields['NonHispBlack'] = {};
+        comparison.d3fields['NonHispBlack']['name'] = "Non-Hispanic Black Births"
+        comparison.d3fields['NonHispBlack']['indent'] = 1
+
+        comparison.d3fields['NonHIspOther'] = {};
+        comparison.d3fields['NonHIspOther']['name'] = "Non-Hispanic Other Race Births"
+        comparison.d3fields['NonHIspOther']['indent'] = 1
+
+        comparison.d3fields['Hispanic'] = {};
+        comparison.d3fields['Hispanic']['name'] = "Hispanic Births"
+        comparison.d3fields['Hispanic']['indent'] = 1
+
+        comparison.d3fields['InadequatePrenatal'] = {};
+        comparison.d3fields['InadequatePrenatal']['name'] = "Births with Inadequate Prenatal Care"
+        comparison.d3fields['InadequatePrenatal']['indent'] = 1
+
+        comparison.d3fields['LowBirthWeight'] = {};
+        comparison.d3fields['LowBirthWeight']['name'] = "Low Birth Weight Births"
+        comparison.d3fields['LowBirthWeight']['indent'] = 1
+
+        comparison.d3fields['TeenMothers'] = {};
+        comparison.d3fields['TeenMothers']['name'] = "Births to Teen Mothers"
+        comparison.d3fields['TeenMothers']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
         if (comparison.state_geoids.length > 0) {
-            comparison.state_data = comparison.getD3Data('Births_StateofMichigan_2014', 'StateID', comparison.state_geoids)
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_StateofMichigan_2014', 'StateID', comparison.state_geoids, 'state_data');
         }
         if (comparison.county_geoids.length > 0) {
-            comparison.county_data = comparison.getD3Data('Births_byCounty_2014', 'GeoID10_1', comparison.county_geoids)
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_byCounty_2014', 'GeoID10_1', comparison.county_geoids, 'county_data')
         }
         if (comparison.county_sd_geoids.length > 0) {
-            comparison.county_sd_data = comparison.getD3Data('Births_byCity_2014', 'GeoID10_1', comparison.county_sd_geoids)
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_byCity_2014', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
         }
         if (comparison.tract_geoids.length > 0) {
-            comparison.tract_data = comparison.getD3Data('Births_byTract_2014', 'GEOID10', comparison.tract_geoids)
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_byTract_2014', 'GEOID10', comparison.tract_geoids, 'tract_data')
         }
         if (comparison.msa_geoids.length > 0) {
-            comparison.msa_data = comparison.getD3Data('Births_byMSA_2014', 'GeoID10_1', comparison.msa_geoids) 
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_byMSA_2014', 'GeoID10_1', comparison.msa_geoids, 'msa_data') 
         }
         if (comparison.school_district_geoids.length > 0) {
-            comparison.school_district_data = comparison.getD3Data('Births_bySD_2014', 'GEOID10', comparison.school_district_geoids)
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_bySD_2014', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
         }
         if (comparison.zcta_geoids.length > 0) {
-            comparison.zcta_data = comparison.getD3Data('Births_byZCTA_2014', 'ZCTA5CE10', comparison.zcta_geoids)
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_byZCTA_2014', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        console.log(comparison);
+        
     }
 
     comparison.getData = function() {
@@ -108,8 +261,10 @@ function Comparison(options, callback) {
                 table_ids: comparison.tableID,
                 geo_ids: comparison.geoIDs.join(',')
             }
+
             // D3 query
             if (comparison.tableID.startsWith('D3-')) {
+                comparison.d3_all_geoids = []
                 comparison.state_geoids = [];
                 comparison.county_geoids = [];
                 comparison.county_sd_geoids = [];
@@ -118,8 +273,44 @@ function Comparison(options, callback) {
                 comparison.school_district_geoids = [];
                 comparison.zcta_geoids = [];
 
+                var ajaxGeo2 = 0;
                 for (var i = comparison.geoIDs.length - 1; i >= 0; i--) {
-                    var split_geoid = comparison.geoIDs[i].split('US');
+                    // if a | esists in the geo_id get all of the child geographies via ajax
+                    if (comparison.geoIDs[i].indexOf('|') != -1) {
+                        // run ajax call to pull child geographies
+                        ajaxGeo2++;
+
+                        var geo_id_params = {geo_ids: comparison.geoIDs[i]};
+                        $.getJSON(comparison.childGeoAPI, geo_id_params)
+                            .done(function(results) {
+                                console.log(results);
+                                for (var j = results.features.length - 1; j >= 0; j--) {
+                                    comparison.d3_all_geoids.push(results.features[j].properties.geoid);
+                                    splitGeoID(results.features[j].properties.geoid);
+                                }
+
+                                ajaxGeo2--;
+                                if (ajaxGeo2 == 0) {
+                                    pullData();
+                                }
+
+                            })
+                            .fail(function(xhr, textStatus, error) {
+                                var message = $.parseJSON(xhr.responseText);
+                                comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
+                            });
+                    } else {
+                        comparison.d3_all_geoids.push(comparison.geoIDs[i]);
+                        splitGeoID(comparison.geoIDs[i]);
+                        if (i == 0 && ajaxGeo2 == 0) {
+                            pullData();
+                        }
+                    }
+                }
+
+                function splitGeoID(geo_id) {
+                    var split_geoid = [];
+                    split_geoid = geo_id.split('US');
                     if (split_geoid[0].startsWith('040')) {
                         comparison.state_geoids.push(split_geoid[1]);
                     }
@@ -140,20 +331,23 @@ function Comparison(options, callback) {
                     }
                     if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
                         comparison.school_district_geoids.push(split_geoid[1]);
+                    }  
+                }
+
+                function pullData() {
+                    // what type of D3 data is this
+                    if (comparison.tableID == 'D3-Birth-Dataset') {
+                        comparison.getBirthData();
                     }
                 }
 
-
-                // what type of D3 data is this
-                if (comparison.tableID == 'D3-Birth-Dataset') {
-                    comparison.getBirthData();
-                }
                 
 
             } else {
                 // CR query
                 $.getJSON(comparison.dataAPI, params)
                     .done(function(results) {
+                        console.log(results);
                         comparison.data = comparison.cleanData(results);
                         comparison.addStandardMetadata();
                         comparison.makeDataDisplay();
@@ -186,12 +380,12 @@ function Comparison(options, callback) {
         comparison.denominatorColumn = (!!comparison.table.denominator_column_id) ? jQuery.extend({id: comparison.table.denominator_column_id}, comparison.table.columns[comparison.table.denominator_column_id]) : null;
         comparison.valueType = (!!comparison.denominatorColumn) ? 'percentage' : 'estimate';
         comparison.valueType = comparison.hash.valueType || comparison.valueType;
-
         // prep the column keys and names
         if (!!comparison.denominatorColumn) {
             delete comparison.table.columns[comparison.denominatorColumn.id]
             // add percentage values to column data
             comparison.addPercentageDataValues();
+
         }
         comparison.columnKeys = _.keys(comparison.table.columns);
         comparison.prefixColumnNames(comparison.table.columns);
@@ -432,7 +626,6 @@ function Comparison(options, callback) {
             comparison.trackEvent('Map View', 'Change display column', comparison.tableID);
 
             // update the URL
-            // spinner.spin(spinnerTarget);
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -508,7 +701,6 @@ function Comparison(options, callback) {
             comparison.showChoropleth();
             comparison.trackEvent('Map View', 'Change summary level', comparison.chosenSumlev);
 
-            //spinner.spin(spinnerTarget);
             window.location = comparison.buildComparisonURL();
         });
     }
@@ -651,7 +843,7 @@ function Comparison(options, callback) {
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
                      // add spinner to page load 
-                    //spinner.spin(spinnerTarget);                   
+                    spinner.spin(spinnerTarget);                   
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                 });
             }
@@ -1161,7 +1353,6 @@ function Comparison(options, callback) {
             if (!!comparison.tableID) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Change table', comparison.tableID);
 
-                //spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1183,7 +1374,7 @@ function Comparison(options, callback) {
         remote: {
             url: comparison.geoSearchAPI,
             replace: function (url, query) {
-                comparison.chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
+                comparison.chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
                 return url += '?q=' + query + '&sumlevs=' + comparison.chosenSumlevAncestorList;
             },
             filter: function(response) {
@@ -1307,7 +1498,6 @@ function Comparison(options, callback) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography', datum['full_geoid']);
 
                 // TODO: pushState to maintain history without page reload
-                //spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1364,7 +1554,6 @@ function Comparison(options, callback) {
                 comparison.primaryGeoID = datum['full_geoid'];
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat)+' View', 'Add geography group', geoGroup);
 
-                //spinner.spin(spinnerTarget);
                 window.location = comparison.buildComparisonURL();
             }
         });
@@ -1580,7 +1769,7 @@ function Comparison(options, callback) {
             var url = comparison.buildComparisonURL(
                 $(this).data('format'), comparison.tableID, comparison.geoIDs, comparison.primaryGeoID
             );
-            //spinner.spin(spinnerTarget);
+            spinner.spin(spinnerTarget);
             window.location = url;
         });
     }
@@ -1738,6 +1927,7 @@ function Comparison(options, callback) {
     }
 
     comparison.cleanData = function(data) {
+
         // remove non-data headers that are the first field in the table,
         // which simply duplicate information from the table name.
         _.each(_.keys(data.tables[comparison.tableID]['columns']), function(k) {
@@ -1785,12 +1975,28 @@ function Comparison(options, callback) {
 
     comparison.makeSumlevMap = function() {
         var sumlevSets = {};
+        function removeA(arr) {
+            var what, a = arguments, L = a.length, ax;
+            while (L > 1 && arr.length) {
+                what = a[--L];
+                while ((ax= arr.indexOf(what)) !== -1) {
+                    arr.splice(ax, 1);
+                }
+            }
+            return arr;
+        }
+
+        if (comparison.tableID.startsWith('D3-')) {
+            removeA(comparison.geoIDs, '01000US');
+        }
+
         _.each(comparison.geoIDs, function(i) {
             var thisSumlev = i.slice(0, 3),
                 thisName;
             sumlevSets[thisSumlev] = sumlevSets[thisSumlev] || {};
             sumlevSets[thisSumlev]['selections'] = sumlevSets[thisSumlev]['selections'] || [];
 
+            
             if (i.indexOf('|') > -1) {
                 var nameBits = i.split('|');
                 thisName = comparison.capitalize(sumlevMap[nameBits[0]]['plural']) + ' in ' + comparison.data.geography[nameBits[1]]['name'];

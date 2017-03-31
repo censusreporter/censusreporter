@@ -1,8 +1,10 @@
 function Table(options) {
 
-    $('body').append('<div id="body-spinner"></div>');
-    var spinnerTarget = document.getElementById('body-spinner'),
-        spinner = new Spinner();
+    var spinnerTarget = document.getElementById("body-spinner");
+    if (!spinnerTarget) {
+        $('body').append('<div id="body-spinner"></div>');
+        spinnerTarget = document.getElementById('body-spinner');
+    } 
 
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org'; 
 
@@ -11,7 +13,7 @@ function Table(options) {
         geoIDs: [],
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
-        chosenSumlevAncestorList: '010,020,030,040,050,060,160,250,252,254,310,500,610,620,860,950,960,970'
+        chosenSumlevAncestorList: '040,050,060,250,252,254,310,500,610,620,860,950,960,970'
     }
 
     table.init = function(options) {
@@ -147,7 +149,7 @@ function Table(options) {
         element.on('typeahead:selected', function(obj, datum) {
             table.tableID = datum['table_id'];
             if (!!table.tableID) {
-                //spinner.spin(spinnerTarget);
+                spinner.spin(spinnerTarget);
                 window.location = '/tables/'+table.tableID;
             }
         });
@@ -176,7 +178,7 @@ function Table(options) {
         remote: {
             url: geoSearchAPI,
             replace: function (url, query) {
-                table.chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970';
+                table.chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
                 return url += '?q=' + query + '&sumlevs=' + table.chosenSumlevAncestorList;
             },
             filter: function(response) {
@@ -280,7 +282,7 @@ function Table(options) {
                 var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs, datum['full_geoid']
                 );
-                //spinner.spin(spinnerTarget);
+                spinner.spin(spinnerTarget);
                 window.location = url;
             }
         });
@@ -319,7 +321,7 @@ function Table(options) {
                 var url = table.buildDataURL(
                     'table', table.tableID, table.geoIDs, table.primaryGeoID
                 );
-                //spinner.spin(spinnerTarget);
+                spinner.spin(spinnerTarget);
                 window.location = url;
             }
         });

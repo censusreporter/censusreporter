@@ -502,9 +502,11 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2015/{{ geography.this.full_geoid }}?geom=tr
                     });
                     layer.on('click', function() {
                         // add spinner to page load 
-                        $('body').append('<div id="body-spinner"></div>');
-                        var spinnerTarget = document.getElementById('body-spinner'),
-                            spinner = new Spinner();
+                        var spinnerTarget = document.getElementById("body-spinner");
+                        if (!spinnerTarget) {
+                            $('body').append('<div id="body-spinner"></div>');
+                            spinnerTarget = document.getElementById('body-spinner');
+                        } 
                         spinner.spin(spinnerTarget);
                         window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                     });

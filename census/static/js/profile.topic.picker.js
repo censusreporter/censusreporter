@@ -8,9 +8,11 @@
 //     stateGeoID = '{{ geography.state.full_geoid }}',
 //     nationGeoID = '{{ geography.nation.full_geoid }}';
 
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner'),
-    spinner = new Spinner();
+var spinnerTarget = document.getElementById("body-spinner");
+if (!spinnerTarget) {
+    $('body').append('<div id="body-spinner"></div>');
+    spinnerTarget = document.getElementById('body-spinner');
+} 
 
 var theseGeoIDs = [thisGeoID, placeGeoID, CBSAGeoID, countyGeoID, stateGeoID, nationGeoID].filter(function(n){return n}),
     chosenTableID = chosenTableID || null,
@@ -73,7 +75,7 @@ function makeTopicSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenTableID = datum['table_id'];
         if (!!chosenTableID) {
-            //spinner.spin(spinnerTarget);
+            spinner.spin(spinnerTarget);
             window.location = '/data/table/?table=' + chosenTableID + "&geo_ids=" + thisGeoID + "&primary_geo_id=" + thisGeoID;
         }
     });
