@@ -1,6 +1,8 @@
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner'),
-    spinner = new Spinner();
+var spinnerTarget = document.getElementById("body-spinner");
+if (!spinnerTarget) {
+    $('body').append('<div id="body-spinner"></div>');
+    spinnerTarget = document.getElementById('body-spinner');
+} 
 
 var tableSearchAPI = CR_API_URL + '/1.0/table/search',
     geoSearchAPI = CR_API_URL + '/1.0/geo/search';
@@ -14,7 +16,7 @@ var topicSelect = $('#topic-select'),
     chosenTableID,
     chosenSumlev,
     chosenSumlevPluralName,
-    chosenSumlevAncestorList = '040,050,060,160,250,252,254,310,500,610,620,860,950,960,970',
+    chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970',
     chosenSumlevAncestorOptions,
     chosenGeoID;
 

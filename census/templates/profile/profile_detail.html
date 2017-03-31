@@ -269,13 +269,24 @@
             <h2><a class="permalink" href="#fertility" id="fertility">Fertility <i class="fa fa-link"></i></a></h2>
             <aside></aside>
             <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.births.total stat_type='number' %}
+            </div>
+            <div class="column-third">
+                <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="percentage" data-initial-sort="-value"></div>
+            </div> 
+            <div class="column-third">
+                <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic"></div>
+            </div> 
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.fertility.total stat_type='percentage' %}
             </div>
             <div class="column-two-thirds">
                 <div id="chart-column-families-fertility-by_age" data-stat-type="scaled-percentage" data-chart-title="Women who gave birth during past year, by age group" data-qualifier="Universe: {{ families.fertility.by_age.metadata.universe }}"></div>
             </div>
         </section>
-
     </div>
 </article>
 
@@ -297,6 +308,8 @@
             <div class="column-third" id="chart-pie-housing-ownership-distribution" data-stat-type="percentage" data-chart-title="Ownership of occupied units" data-initial-sort="-value"></div>
         </section>
         <section class="clearfix stat-row grouped-row">
+            <aside>
+            </aside>
             <div class="column-third" id="chart-pie-housing-units-structure_distribution" data-stat-type="percentage" data-chart-title="Types of structure" data-initial-sort="-value"></div>
             <div class="column-two-thirds" id="chart-histogram-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population"></div>
         </section>
@@ -489,10 +502,11 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2015/{{ geography.this.full_geoid }}?geom=tr
                     });
                     layer.on('click', function() {
                         // add spinner to page load 
-                        console.log('make spinner');
-                        $('body').append('<div id="body-spinner"></div>');
-                        var spinnerTarget = document.getElementById('body-spinner'),
-                            spinner = new Spinner();
+                        var spinnerTarget = document.getElementById("body-spinner");
+                        if (!spinnerTarget) {
+                            $('body').append('<div id="body-spinner"></div>');
+                            spinnerTarget = document.getElementById('body-spinner');
+                        } 
                         spinner.spin(spinnerTarget);
                         window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                     });

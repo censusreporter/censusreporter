@@ -9,14 +9,19 @@ def build_comparative_item(sumlev, stat, stat_type, geography):
     else:
         place_name = geography['parents'][sumlev]['short_name']
         
-    item_context = {
-        'place_name': place_name,
-        'stat_type': stat_type,
-        'value': stat['values'][sumlev],
-        'index': stat['index'][sumlev],
-        'error': stat['error'][sumlev],
-        'error_ratio': stat['error_ratio'][sumlev],
-        'numerator': stat['numerators'][sumlev],
-        'numerator_error': stat['numerator_errors'][sumlev],
-    }
+    try:
+        item_context = {
+            'place_name': place_name,
+            'stat_type': stat_type,
+            'value': stat['values'][sumlev],
+            'index': stat['index'][sumlev],
+            'error': stat['error'][sumlev],
+            'error_ratio': stat['error_ratio'][sumlev],
+            'numerator': stat['numerators'][sumlev],
+            'numerator_error': stat['numerator_errors'][sumlev],
+        }
+    except Exception as e:
+        item_context = {
+        }
+
     return item_context

@@ -27,9 +27,12 @@ window.log = function(){
 (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();)b[a]=b[a]||c})(window.console=window.console||{});
 
 // prepare ajax spinners
-$('body').append('<div id="body-spinner"></div>');
-var spinnerTarget = document.getElementById('body-spinner'),
-    spinner = new Spinner();
+var spinnerTarget = document.getElementById("body-spinner");
+if (!spinnerTarget) {
+    $('body').append('<div id="body-spinner"></div>');
+    spinnerTarget = document.getElementById('body-spinner');
+} 
+var spinner = new Spinner();
 $(document).ajaxSend(function(event, request, settings) {
     spinner.spin(spinnerTarget);
 });
@@ -235,7 +238,6 @@ var numberWithCommas = function(n, decimals) {
     $.parseParams = function(query) {
         var params = {}, e;
         if (!query) {
-            spinner.spin(spinnerTarget);
             query = window.location.search;
         }
         if (query.substr(0, 1) == '?') {
