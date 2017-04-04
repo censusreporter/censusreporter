@@ -68,8 +68,8 @@ class HealthcheckView(TemplateView):
 ## ERRORS ##
 
 def server_error(request):
-    response = render(request, "500.html")
-    response.status_code = 500
+    response = render(request, "404.html")
+    response.status_code = 404
     return response
 
 def raise_404_with_messages(request, error_data={}):
