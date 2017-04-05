@@ -20,7 +20,8 @@ var theseGeoIDs = [thisGeoID, placeGeoID, CBSAGeoID, countyGeoID, stateGeoID, na
 
 var tableSearchAPI = CR_API_URL + '/1.0/table/search',
     rootGeoAPI = CR_API_URL + '/1.0/geo/tiger2015/',
-    dataAPI = CR_API_URL + '/1.0/data/show/latest';
+    dataAPI = CR_API_URL + '/1.0/data/show/latest',
+    queryString;
 
 var topicSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
@@ -29,9 +30,23 @@ var topicSelectEngine = new Bloodhound({
     remote: {
         url: tableSearchAPI,
         replace: function (url, query) {
+            queryString = query;
             return url += '?q=' + query;
         },
         filter: function(response) {
+            // inject results for D3 tables here is query term matches a string
+            var re = new RegExp(queryString, 'g');
+            // births
+            var births = 'totalbirthsnonhispanicwhiteblackotherinadequateprenatalcarelowbirthweightteenmothersfertilityracehealthcare';
+            var match_births = births.match(re);
+            console.log(match_births);
+            if (match_births) {
+                // get all births tables and 
+                var d3Response = d3BirthsTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            }
+
             var resultNumber = response.length;
             if (resultNumber === 0) {
                 response.push({
@@ -48,6 +63,24 @@ var topicSelectEngine = new Bloodhound({
     }
 });
 topicSelectEngine.initialize();
+
+var d3BirthsTable = function() {
+    // state table
+    var response = {
+        'id': "D3-Births",
+        'simple_table_name': "Births by Race and Ethnicity and Characteristic",
+        'table_id': "D3-Births",
+        'table_name': "Births by Race and Ethnicity and Characteristic",
+        'topic_string': "fertility, race, health care",
+        'topics': ['fertility','race', 'health care'],
+        'type': "table",
+        'unique_key': "D3-Births",
+        'universe': "Total births"
+    }
+
+    return response;
+
+}
 
 function makeTopicSelectWidget(element) {
     element.typeahead('destroy');

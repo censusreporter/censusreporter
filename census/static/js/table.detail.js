@@ -13,7 +13,8 @@ function Table(options) {
         geoIDs: [],
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
-        chosenSumlevAncestorList: '040,050,060,250,252,254,310,500,610,620,860,950,960,970'
+        chosenSumlevAncestorList: '040,050,060,250,252,254,310,500,610,620,860,950,960,970',
+        queryString: ''
     }
 
     table.init = function(options) {
@@ -95,11 +96,25 @@ function Table(options) {
             replace: function (url, query) {
                 url += '?';
                 if (query) {
+                    table.queryString = query;
                     url += 'q=' + query;
                 }
                 return url;
             },
             filter: function(response) {
+                // inject results for D3 tables here is query term matches a string
+                var re = new RegExp(table.queryString, 'g');
+                // births
+                var births = 'totalbirthsnonhispanicwhiteblackotherinadequateprenatalcarelowbirthweightteenmothersfertilityracehealthcare';
+                var match_births = births.match(re);
+                console.log(match_births);
+                if (match_births) {
+                    // get all births tables and 
+                    var d3Response = d3BirthsTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                } 
+                               
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
                     response.push({
@@ -115,6 +130,24 @@ function Table(options) {
             }
         }
     });
+
+    var d3BirthsTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Births",
+            'simple_table_name': "Births by Race and Ethnicity and Characteristic",
+            'table_id': "D3-Births",
+            'table_name': "Births by Race and Ethnicity and Characteristic",
+            'topic_string': "fertility, race, health care",
+            'topics': ['fertility','race', 'health care'],
+            'type': "table",
+            'unique_key': "D3-Births",
+            'universe': "Total births"
+        }
+
+        return response;
+
+    }    
     
     table.makeTopicSelectWidget = function() {
         table.$displayWrapper.find('h1')
