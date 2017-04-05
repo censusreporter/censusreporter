@@ -697,49 +697,49 @@ class DataView(TemplateView):
 
 			# for Births data
 			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
-			if state_geoids and self.table == 'D3-Birth-Dataset':
+			if state_geoids and self.table == 'D3-Births':
 				table_id = 'Births_StateofMichigan_2014'
 				field_name = 'StateID'
 				if hasattr(state_geoids, '__iter__'):
 					state_geoids = ','.join(state_geoids)
 				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
 				
-			if county_geoids and self.table == 'D3-Birth-Dataset':
+			if county_geoids and self.table == 'D3-Births':
 				table_id = 'Births_byCounty_2014'
 				field_name = 'GeoID10_1'
 				if hasattr(county_geoids, '__iter__'):
 					county_geoids = ','.join(county_geoids)
 				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
 
-			if county_sd_geoids and self.table == 'D3-Birth-Dataset':
+			if county_sd_geoids and self.table == 'D3-Births':
 				table_id = 'Births_byCity_2014'
 				field_name = 'GeoID10_1'
 				if hasattr(county_sd_geoids, '__iter__'):
 					county_sd_geoids = ','.join(county_sd_geoids)
 				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
 
-			if tract_geoids and self.table == 'D3-Birth-Dataset':
+			if tract_geoids and self.table == 'D3-Births':
 				table_id = 'Births_byTract_2014'
 				field_name = 'GEOID10'
 				if hasattr(tract_geoids, '__iter__'):
 					tract_geoids = ','.join(tract_geoids)
 				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
 
-			if msa_geoids and self.table == 'D3-Birth-Dataset':
+			if msa_geoids and self.table == 'D3-Births':
 				table_id = 'Births_byMSA_2014'
 				field_name = 'GeoID10_1'
 				if hasattr(msa_geoids, '__iter__'):
 					msa_geoids = ','.join(msa_geoids)
 				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
 
-			if school_district_geoids and self.table == 'D3-Birth-Dataset':
+			if school_district_geoids and self.table == 'D3-Births':
 				table_id = 'Births_bySD_2014'
 				field_name = 'GEOID10'
 				if hasattr(school_district_geoids, '__iter__'):
 					school_district_geoids = ','.join(school_district_geoids)
 				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
 
-			if zcta_geoids and self.table == 'D3-Birth-Dataset':
+			if zcta_geoids and self.table == 'D3-Births':
 				table_id = 'Births_byZCTA_2014'
 				field_name = 'ZCTA5CE10'
 				if hasattr(zcta_geoids, '__iter__'):
