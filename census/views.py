@@ -130,6 +130,75 @@ class TableSearchView(TemplateView):
 
 		return page_context
 
+class D3TableDetailView(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailView, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Births'
+		table['table_title'] = 'Births by Race and Ethnicity and Characteristic'
+		table['simple_table_title'] = 'Births by Race and Ethnicity and Characteristic'
+		table['subject_area'] = 'Fertility'
+		table['universe'] = 'Total births'
+		table['denominator_column_id'] = 'TotalBirths'
+		table['topics'] = ["fertility", "race", "health care"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['TotalBirths'] = OrderedDict()
+		table['columns']['TotalBirths']['column_title'] = 'Total births:'
+		table['columns']['TotalBirths']['indent'] = 0
+		table['columns']['TotalBirths']['parent_column_id'] = None
+
+		table['columns']['NonHispWhite'] = OrderedDict()
+		table['columns']['NonHispWhite']['column_title'] = 'Non-hispanic white births'
+		table['columns']['NonHispWhite']['indent'] = 1
+		table['columns']['NonHispWhite']['parent_column_id'] = 'TotalBirths'
+
+		table['columns']['NonHispBlack'] = OrderedDict()
+		table['columns']['NonHispBlack']['column_title'] = 'Non-hispanic black births'
+		table['columns']['NonHispBlack']['indent'] = 1
+		table['columns']['NonHispBlack']['parent_column_id'] = 'TotalBirths'
+
+		table['columns']['NonHIspOther'] = OrderedDict()
+		table['columns']['NonHIspOther']['column_title'] = 'Non-hispanic other births'
+		table['columns']['NonHIspOther']['indent'] = 1
+		table['columns']['NonHIspOther']['parent_column_id'] = 'TotalBirths'
+
+		table['columns']['Hispanic'] = OrderedDict()
+		table['columns']['Hispanic']['column_title'] = 'Hispanic births'
+		table['columns']['Hispanic']['indent'] = 1
+		table['columns']['Hispanic']['parent_column_id'] = 'TotalBirths'
+
+		table['columns']['InadequatePrenatal'] = OrderedDict()
+		table['columns']['InadequatePrenatal']['column_title'] = 'Births with inadequate prenatal care'
+		table['columns']['InadequatePrenatal']['indent'] = 1
+		table['columns']['InadequatePrenatal']['parent_column_id'] = 'TotalBirths'
+
+		table['columns']['LowBirthWeight'] = OrderedDict()
+		table['columns']['LowBirthWeight']['column_title'] = 'Low birth weight births'
+		table['columns']['LowBirthWeight']['indent'] = 1
+		table['columns']['LowBirthWeight']['parent_column_id'] = 'TotalBirths'
+
+		table['columns']['TeenMothers'] = OrderedDict()
+		table['columns']['TeenMothers']['column_title'] = 'Births to teen mothers'
+		table['columns']['TeenMothers']['indent'] = 1
+		table['columns']['TeenMothers']['parent_column_id'] = 'TotalBirths'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
 class TableDetailView(TemplateView):
 	template_name = 'table/table_detail.html'
 	RELEASE_TRANSLATE_DICT = {
@@ -276,6 +345,7 @@ class TableDetailView(TemplateView):
 		r = requests.get(endpoint)
 
 		if r.status_code == 200:
+			print simplejson.loads(r.text, object_pairs_hook=OrderedDict)
 			return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
 		if r.status_code == 400:
 			raise ValueError("No table data for that table")
@@ -557,8 +627,140 @@ class DataView(TemplateView):
 
 		return super(DataView, self).dispatch(*args, **kwargs)
 
+	
+
 	def get_context_data(self, *args, **kwargs):
-		download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
+		if self.table.startswith('D3-'):
+			# what level are the geoids
+			state_geoids = []
+			county_geoids = []
+			county_sd_geoids = []
+			tract_geoids = []
+			msa_geoids = []
+			school_district_geoids = []
+			zcta_geoids = []
+			d3_all_geoids = []
+
+			geo_ids = self.geo_ids.split(",")  
+			for geo_id in geo_ids:
+				if geo_id.find('|') != -1:
+					childGeoAPI = settings.API_URL + '/1.0/geo/show/tiger2015'
+					api_params = {
+						'geo_ids': geo_id,
+					}
+					r = requests.get(childGeoAPI, params=api_params)
+					status_code = r.status_code
+
+					if status_code == 200:
+						data = simplejson.loads(r.text)
+						for key in data:
+							if key == 'features':
+								for value in data[key]:
+									d3_all_geoids.append(value['properties']['geoid'])
+
+					elif status_code == 404 or status_code == 400:
+						error_data = simplejson.loads(r.text)
+						raise_404_with_messages(self.request, error_data)
+					else:
+						raise Http404
+
+				else:
+					d3_all_geoids.append(geo_id)
+
+
+			# now that we have all geoids, let's group them by type
+			for geoid in d3_all_geoids:
+				split_geoid = geoid.split('US') 
+				if geoid.startswith('040'):
+					state_geoids.append(split_geoid[1])
+				if geoid.startswith('050'):
+					county_geoids.append(split_geoid[1])
+				if geoid.startswith('060'):
+					county_sd_geoids.append(split_geoid[1])
+				if geoid.startswith('140'):
+					tract_geoids.append(split_geoid[1])
+				if geoid.startswith('310'):
+					msa_geoids.append(split_geoid[1])
+				if geoid.startswith('860'):
+					zcta_geoids.append(split_geoid[1])
+				if geoid.startswith('950') or geoid.startswith('960') or geoid.startswith('970'):	
+					school_district_geoids.append(split_geoid[1])
+
+			# now that we have all of the geoids, let's set up a particulars for the table
+			d3_state_link = None
+			d3_county_link = None
+			d3_county_sd_link = None
+			d3_tract_link = None
+			d3_msa_link = None
+			d3_school_district_link = None
+			d3_zcta_link = None
+
+			# for Births data
+			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
+			if state_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_StateofMichigan_2014'
+				field_name = 'StateID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_byCounty_2014'
+				field_name = 'GeoID10_1'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_byCity_2014'
+				field_name = 'GeoID10_1'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_byTract_2014'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if msa_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_byMSA_2014'
+				field_name = 'GeoID10_1'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_bySD_2014'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-Birth-Dataset':
+				table_id = 'Births_byZCTA_2014'
+				field_name = 'ZCTA5CE10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+
+			d3_links = True
+			download_link_prefix = None
+
+		else:
+			d3_links = False
+			d3_state_link = None
+			d3_county_link = None
+			d3_county_sd_link = None
+			d3_tract_link = None
+			d3_msa_link = None
+			d3_school_district_link = None
+			d3_zcta_link = None
+			download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
 
 		page_context = {
 			'table': self.table or '',
@@ -567,6 +769,14 @@ class DataView(TemplateView):
 			'release': self.release or '',
 			'data_format': self.format,
 			'download_link_prefix': download_link_prefix,
+			'd3_state_link': d3_state_link,
+			'd3_county_link': d3_county_link,
+			'd3_county_sd_link': d3_county_sd_link,
+			'd3_tract_link': d3_tract_link,
+			'd3_msa_link': d3_msa_link,
+			'd3_school_district_link': d3_school_district_link,
+			'd3_zcta_link': d3_zcta_link,
+			'd3_links': d3_links,
 		}
 
 		return page_context

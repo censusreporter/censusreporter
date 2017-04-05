@@ -10,12 +10,38 @@
         <a href="#">
             Download data
         </a>
-        <ul class="sub-group">
-            <li><a target="_new" href="{{ download_link_prefix }}&format=csv">CSV</a></li>
-            <li><a target="_new" href="{{ download_link_prefix }}&format=xlsx">Excel</a></li>
-            <li><a target="_new" href="{{ download_link_prefix }}&format=geojson">GeoJSON</a></li>
-            <li><a target="_new" href="{{ download_link_prefix }}&format=kml">KML</a></li>
-            <li><a target="_new" href="{{ download_link_prefix }}&format=shp">Shapefile</a></li>
-        </ul>
+        {% if d3_links %}
+            <ul class="sub-group">
+                {% if d3_state_link %}
+                    <li><a target="_new" href="{{ d3_state_link }}&f=pgeojson">MI GeoJSON</a></li>
+                {% endif %}
+                {% if d3_county_link %}
+                    <li><a target="_new" href="{{ d3_county_link }}&f=pgeojson">County GeoJSON</a></li>
+                {% endif %}
+                {% if d3_county_sd_link %}
+                    <li><a target="_new" href="{{ d3_county_link }}&f=pgeojson">County Subdivision GeoJSON</a></li>
+                {% endif %}
+                {% if d3_msa_link %}
+                    <li><a target="_new" href="{{ d3_msa_link }}&f=pgeojson">MSA GeoJSON</a></li>
+                {% endif %}
+                {% if d3_tract_link %}
+                    <li><a target="_new" href="{{ d3_tract_link }}&f=pgeojson">Tract GeoJSON</a></li>
+                {% endif %}
+                {% if d3_zcta_link %}
+                    <li><a target="_new" href="{{ d3_zcta_link }}&f=pgeojson">Zip Code GeoJSON</a></li>
+                {% endif %}                
+                {% if d3_school_district_link %}
+                    <li><a target="_new" href="{{ d3_school_district_link }}&f=pgeojson">School District GeoJSON</a></li>
+                {% endif %}  
+            </ul>
+        {% else %}
+            <ul class="sub-group">
+                <li><a target="_new" href="{{ download_link_prefix }}&format=csv">CSV</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=xlsx">Excel</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=geojson">GeoJSON</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=kml">KML</a></li>
+                <li><a target="_new" href="{{ download_link_prefix }}&format=shp">Shapefile</a></li>
+            </ul>
+        {% endif %}
     </div>
 </div>

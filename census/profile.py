@@ -413,17 +413,17 @@ def geo_profile(geoid, acs='latest'):
 	fields['TeenMothers']['name'] = "Births to Teen Mothers"
 	fields['TeenMothers']['indent'] = 1
 
-	data = format_d3_data("2014", "D3-Birth-Dataset", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2014", "D3-Births", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
 		)
 	births_dict = dict()
 	doc['families']['births'] = births_dict
 	births_dict['total'] = build_item('Total births', data, d3_item_levels,
 		'D3-TotalBirths')
-	add_metadata(births_dict['total'], 'D3-Birth-Dataset', 'Total births', 'D3 Open Data Portal')
+	add_metadata(births_dict['total'], 'D3-Births', 'Total births', 'D3 Open Data Portal')
 
 	births_race_distribution_dict = OrderedDict()
 	doc['families']['births']['race_distribution'] = births_race_distribution_dict
-	add_metadata(births_race_distribution_dict, 'D3-Birth-Dataset', 'Total Births', 'D3 Open Data Portal')
+	add_metadata(births_race_distribution_dict, 'D3-Births', 'Total Births', 'D3 Open Data Portal')
 
 	births_race_distribution_dict['white'] = build_item('White', data, d3_item_levels,
 		'D3-NonHispWhite D3-TotalBirths / %')
@@ -439,7 +439,7 @@ def geo_profile(geoid, acs='latest'):
 
 	births_by_characteristic_dict = OrderedDict()
 	doc['families']['births']['by_characteristic'] = births_by_characteristic_dict
-	add_metadata(births_by_characteristic_dict, 'D3-Birth-Dataset', 'Total Births', 'D3 Open Data Portal')	
+	add_metadata(births_by_characteristic_dict, 'D3-Births', 'Total Births', 'D3 Open Data Portal')	
 
 	births_by_characteristic_dict['InadequatePrenatal'] = build_item('Inadequate Prenatal Care', data, d3_item_levels,
 		'D3-InadequatePrenatal D3-TotalBirths / %')
@@ -487,7 +487,7 @@ def geo_profile(geoid, acs='latest'):
 	# Demographics: Child Gender
 	child_gender_dict = OrderedDict()
 	doc['demographics']['child_gender'] = child_gender_dict
-	add_metadata(child_gender_dict, 'B01001', 'Total population', acs_name)
+	add_metadata(child_gender_dict, 'B01001', 'Population under 18 years of age', acs_name)
 	child_gender_dict['percent_male'] = build_item('Male', data, item_levels,
 		'B01001003 B01001004 + B01001005 + B01001006 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
 	child_gender_dict['percent_female'] = build_item('Female', data, item_levels,
@@ -501,7 +501,7 @@ def geo_profile(geoid, acs='latest'):
 	child_cat_dict = OrderedDict()
 	child_age_dict['distribution_by_category'] = child_cat_dict
 	# this isn't the correct metadata
-	add_metadata(child_age_dict['distribution_by_category'], 'B01001', 'Total population', acs_name)
+	add_metadata(child_age_dict['distribution_by_category'], 'B01001', 'Population under 18 years of age', acs_name)
 	child_cat_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
 		'B01001003 B01001027 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
 	child_cat_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
@@ -663,13 +663,13 @@ def geo_profile(geoid, acs='latest'):
 	
 	child_race_grouped_under_9 = OrderedDict()
 	doc['demographics']['child_race_grouped_under_9'] = child_race_grouped_under_9
-	add_metadata(child_race_grouped_under_9, 'B01001', 'Total population', acs_name)
+	add_metadata(child_race_grouped_under_9, 'B01001', 'Population under 5 years old and 5-9 years old', acs_name)
 
 	# Race by age under 5
 	child_race_grouped_under_9['under_5'] = OrderedDict()
 	child_race_grouped_under_9['under_5']['acs_release'] = acs_name
 	child_race_grouped_under_9['under_5']['metadata'] = {
-		'universe': 'Total population',
+		'universe': 'Population under 5 years old',
 		'table_id': 'B01001',
 		'name': 'Under 5'
 	}
@@ -732,7 +732,7 @@ def geo_profile(geoid, acs='latest'):
 	# Race by age 10 - 14
 	child_race_grouped_10_to_17 = OrderedDict()
 	doc['demographics']['child_race_grouped_10_to_17'] = child_race_grouped_10_to_17
-	add_metadata(child_race_grouped_10_to_17, 'B01001', 'Total population', acs_name)
+	add_metadata(child_race_grouped_10_to_17, 'B01001', 'Population 10-14 years old and 15-17 years old', acs_name)
 
 	child_race_grouped_10_to_17['10_to_14'] = OrderedDict()
 	child_race_grouped_10_to_17['10_to_14']['acs_release'] = acs_name
@@ -955,7 +955,7 @@ def geo_profile(geoid, acs='latest'):
 	#### SODC ####
 	male_child_age_total_distribution_dict = OrderedDict()
 	doc['demographics']['male_child_age_total_distribution'] = male_child_age_total_distribution_dict
-	add_metadata(male_child_age_total_distribution_dict, 'B01001', 'Total Population', acs_name)
+	add_metadata(male_child_age_total_distribution_dict, 'B01001', 'Population of males under 18 years of age', acs_name)
 
 	male_child_age_total_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
 		'B01001003 B01001003 B01001004 + B01001005 + B01001006 + / %')
@@ -973,7 +973,7 @@ def geo_profile(geoid, acs='latest'):
 	#### SODC ####
 	male_child_age_race_distribution_dict = OrderedDict()
 	doc['demographics']['male_child_age_race_distribution'] = male_child_age_race_distribution_dict
-	add_metadata(male_child_age_race_distribution_dict, 'B01001B', 'Total Population', acs_name)
+	add_metadata(male_child_age_race_distribution_dict, 'B01001B', 'Population of males under 18 years of age', acs_name)
 
 	male_child_age_race_distribution_dict['percent_white'] = build_item('White', data, item_levels,
 		'B01001A003 B01001A004 + B01001A005 + B01001A006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
@@ -1783,9 +1783,9 @@ def geo_profile(geoid, acs='latest'):
 	language_children = OrderedDict()
 	language_adults = OrderedDict()
 	language_dict['children'] = language_children
-	add_metadata(language_dict['children'], 'B16007', 'Population 5 years and over', acs_name)
+	add_metadata(language_dict['children'], 'B16007', 'Population 5-17 years old', acs_name)
 	language_dict['adults'] = language_adults
-	add_metadata(language_dict['adults'], 'B16007', 'Population 5 years and over', acs_name)
+	add_metadata(language_dict['adults'], 'B16007', 'Population 18 years and over', acs_name)
 
 	language_children['english'] = build_item('English only', data, item_levels,
 		'B16007003 B16007002 / %')
