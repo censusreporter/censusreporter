@@ -150,10 +150,6 @@ function Comparison(options, callback) {
                             }
                         }
 
-
-
-
-
                     }
 
                     ajaxGeo--;
@@ -194,7 +190,7 @@ function Comparison(options, callback) {
     comparison.getBirthData = function() {
         // metadata specific to Births
         comparison.d3DataYears = '2014';
-        comparison.d3table_name = 'D3-Birth-Dataset';
+        comparison.d3table_name = 'D3-Births';
         comparison.d3title = 'Births by Race and Ethnicity and Characteristic';
         comparison.d3universe = 'Total Births';
         comparison.d3denominator_column_id ='D3-TotalBirths';
@@ -288,6 +284,11 @@ function Comparison(options, callback) {
                 for (var i = comparison.geoIDs.length - 1; i >= 0; i--) {
                     // if a | esists in the geo_id get all of the child geographies via ajax
                     if (comparison.geoIDs[i].indexOf('|') != -1) {
+                        // add parent geography to array
+                        var parent_split = comparison.geoIDs[i].split('|');
+                        comparison.d3_all_geoids.push(parent_split[1]);
+                        splitGeoID(parent_split[1]);
+
                         // run ajax call to pull child geographies
                         ajaxGeo2++;
 
@@ -346,7 +347,7 @@ function Comparison(options, callback) {
 
                 function pullData() {
                     // what type of D3 data is this
-                    if (comparison.tableID == 'D3-Birth-Dataset') {
+                    if (comparison.tableID == 'D3-Births') {
                         comparison.getBirthData();
                     }
                 }
@@ -739,15 +740,24 @@ function Comparison(options, callback) {
                 var openParen = (thisIsValue) ? '(' : '',
                     closeParen = (thisIsValue) ? ')' : '';
                 pctLabel = '<span class="inline-stat">' + openParen + valFmt(thisPct, 'percentage');
-                pctLabel += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
-                pctLabel += closeParen + '</span>';
+                if (!column.startsWith('D3-')) {
+                    pctLabel += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
+                    pctLabel += closeParen + '</span>';
+                } else {
+                    pctLabel += closeParen + '</span>';
+                }
+                
             }
             if (!!thisValue) {
                 var openParen = (thisIsPct) ? '(' : '',
                     closeParen = (thisIsPct) ? ')' : '';
                 valLabel = '<span class="inline-stat">' + openParen + valFmt(thisValue, comparison.statType);
-                valLabel += '<span class="context">&plusmn;' + valFmt(thisValueMOE, comparison.statType) + '</span>';
-                valLabel += closeParen + '</span>';
+                if (!column.startsWith('D3-')) {
+                    valLabel += '<span class="context">&plusmn;' + valFmt(thisValueMOE, comparison.statType) + '</span>';
+                    valLabel += closeParen + '</span>';
+                } else {
+                    valLabel += closeParen + '</span>';
+                }
             }
 
             strLabelNumbers = (thisIsPct) ? pctLabel + valLabel : valLabel + pctLabel;
@@ -848,6 +858,7 @@ function Comparison(options, callback) {
             style: styleFeature,
             onEachFeature: function(feature, layer) {
                 var label = comparison.makeMapLabel(feature, comparison.chosenColumn);
+
                 layer.bindLabel(label, {className: 'hovercard', direction: 'auto', offset: [10, -38]});
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
@@ -1251,7 +1262,6 @@ function Comparison(options, callback) {
 
         // color scale for locked chart points
         comparison.colorScale = chroma.scale(['#216989', '#86af3f', '#6595ce', '#686867', '#032634', '#22592c',  '#f4a81d']).domain([0,6]);
-        console.log(comparison.colorScale);
         comparison.colorIndex = 0;
     }
 
@@ -1331,7 +1341,7 @@ function Comparison(options, callback) {
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
                     response.push({
-                        table_name: 'Sorry, no matches found. Try changing your search.'
+                        simple_table_name: 'Sorry, no matches found. Try changing your search.'
                     });
                 }
                 response.map(function(item) {
@@ -1641,14 +1651,23 @@ function Comparison(options, callback) {
                     .data(sumlevMap[comparison.thisSumlev]['children'])
                 .enter().append('li').append('a')
                     .attr('href', function(d) {
-                        var newGeoIDs = comparison.geoIDs.slice(0);
-                        newGeoIDs.push(d + '|' + comparison.primaryGeoID);
+                        // skip building places
+                        if (d != 160) {
+                            var newGeoIDs = comparison.geoIDs.slice(0);
+                            newGeoIDs.push(d + '|' + comparison.primaryGeoID);
 
-                        return comparison.buildComparisonURL(
-                            comparison.dataFormat, comparison.tableID, newGeoIDs, comparison.primaryGeoID
-                        )
+                            return comparison.buildComparisonURL(
+                                comparison.dataFormat, comparison.tableID, newGeoIDs, comparison.primaryGeoID
+                            )
+                        }
+
                     })
-                    .text(function(d) { return sumlevMap[d]['plural'] });
+                    .text(function(d) { 
+                        // skip building places
+                        if (d != 160) {
+                            return sumlevMap[d]['plural'] 
+                        }
+                    });
         }
         return comparison;
     }
@@ -2019,10 +2038,14 @@ function Comparison(options, callback) {
             sumlevSets[thisSumlev] = sumlevSets[thisSumlev] || {};
             sumlevSets[thisSumlev]['selections'] = sumlevSets[thisSumlev]['selections'] || [];
 
-            
             if (i.indexOf('|') > -1) {
                 var nameBits = i.split('|');
                 thisName = comparison.capitalize(sumlevMap[nameBits[0]]['plural']) + ' in ' + comparison.data.geography[nameBits[1]]['name'];
+                // add parent sumlev
+                var parentSumlev = nameBits[1].slice(0, 3);
+                sumlevSets[parentSumlev] = sumlevSets[parentSumlev] || {}
+                sumlevSets[parentSumlev]['selections'] = sumlevSets[parentSumlev]['selections'] || [];
+                sumlevSets[parentSumlev]['selections'].push({'name': thisName, 'geoID': nameBits[1], 'sumlev': parentSumlev})
             } else {
                 thisName = comparison.data.geography[i]['name'];
             }

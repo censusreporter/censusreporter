@@ -35,7 +35,7 @@ var topicSelectEngine = new Bloodhound({
             var resultNumber = response.length;
             if (resultNumber === 0) {
                 response.push({
-                    table_name: 'Sorry, no matches found. Try changing your search.'
+                    simple_table_name: 'Sorry, no matches found. Try changing your search.'
                 });
             }
             _.map(response, function(item) {

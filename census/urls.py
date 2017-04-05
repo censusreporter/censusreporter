@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailView, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView)
 
@@ -62,6 +62,13 @@ urlpatterns = patterns('',
         view    = RedirectView.as_view(url=reverse_lazy('table_detail',kwargs={'table':'C23002A'})),
         kwargs  = {},
         name    = 'redirect_C23002',
+    ),
+
+    url(
+        regex   = '^tables/D3-Births/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailView.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Births',
     ),
 
     url(

@@ -83,7 +83,7 @@
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 1500,
         remote: {
-            url: CR_API_URL + '1.0/table/suggest,
+            url: CR_API_URL + '1.0/table/suggest',
             replace: function (url, query) {
                 return url + '?q=' + query;
             },
@@ -92,7 +92,7 @@
                 var resultNumber = results.length;
                 if (resultNumber === 0) {
                     results.push({
-                        table_title: 'Sorry, no matches found. Try changing your search.'
+                        simple_table_title: 'Sorry, no matches found. Try changing your search.'
                     });
                 }
                 _.map(results, function(item) {

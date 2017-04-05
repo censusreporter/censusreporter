@@ -35,11 +35,13 @@ for applying things across that entire family of pages.
     </div>
 </article>
 
-<p class="explain"><strong>Citation:</strong>
+<div class="citation-div">
+</div>
+<!-- <p class="explain"><strong>Citation:</strong>
   U.S. Census Bureau (<span id="cite-release-year">RELEASE YEAR</span>).
   <em><span id="cite-table-name">TABLE NAME</span> American Community Survey <span id="cite-release">RELEASE</span> estimates.</em>
   Retrieved from &lt;{{ request.build_absolute_uri }}&gt;
-</p>
+</p> -->
 {% endblock %}
 
 {% block body_javascript_extra %}
@@ -47,10 +49,23 @@ for applying things across that entire family of pages.
 {% block page_specific_javascript %}{% endblock %}
 <script>
 var makeCitation = function(comparison) {
-    $('#cite-release-year').text(comparison.release.years);
-    $('#cite-table-name').text(comparison.table.title);
-    $('#cite-release').text(comparison.release.name.split(' ')[2]);
+    if (comparison.release.name == 'Data Driven Detroit Open Data Portal') {
+        var citation = '<p class="explain"><strong>Citation:</strong> '+ comparison.release.name +' (<span id="cite-release-year">' + comparison.release.years + '</span>). <em><span id="cite-table-name">'+ comparison.table.title +'</span></em>. ' +
+        'Retrieved from <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+    } else {
+        var citation = '<p class="explain"><strong>Citation:</strong> ' +
+        'U.S. Census Bureau (<span id="cite-release-year">' + comparison.release.years + '</span>). <em><span id="cite-table-name">'+ comparison.table.title +'</span></em>. ' +
+        '<em>American Community Survey <span id="cite-release">' + comparison.release.name.split(' ')[2] + '</span> estimates.</em> ' +
+        'Retrieved from <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+    }
+
+    $('.citation-div').html(citation);
 }
+// var makeCitation = function(comparison) {
+//     $('#cite-release-year').text(comparison.release.years);
+//     $('#cite-table-name').text(comparison.table.title);
+//     $('#cite-release').text(comparison.release.name.split(' ')[2]);
+// }
 var dataView = new Comparison({
     tableID: '{{ table }}',
     dataFormat: '{{ data_format }}',

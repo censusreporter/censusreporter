@@ -39,6 +39,13 @@ var geoSelectEngine = new Bloodhound({
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
                 item['url'] = '/profiles/' + item['full_geoid'] + '-' + slugify(item['full_name']);
             })
+            var resultNumber = results.length;
+            if (resultNumber === 0) {
+                results.push({
+                    full_name: 'Sorry, no matches found. Try changing your search.'
+                });
+            }
+            console.log(results);
             return results;
         }
     }
