@@ -1,7 +1,6 @@
 boto==2.27.0
 contextlib2==0.5.1
 Django==1.5.4
-django-ratelimit==1.0.1
 ecdsa==0.10
 fab==1.4.2
 Fabric==1.10.2

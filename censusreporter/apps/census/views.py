@@ -22,8 +22,6 @@ from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
-from ratelimit.mixins import RatelimitMixin
-
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
      SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
@@ -246,10 +244,7 @@ class TableDetailView(TemplateView):
 
         return page_context
 
-class GeographyDetailView(RatelimitMixin, TemplateView):
-    ratelimit_key = 'ip'
-    ratelimit_rate = '15/m'
-    ratelimit_block = True
+class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
     def parse_fragment(self,fragment):
