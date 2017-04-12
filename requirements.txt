@@ -1,9 +1,10 @@
-Django==1.5.4
-Fabric==1.10.2
 boto==2.27.0
 contextlib2==0.5.1
+Django==1.5.4
+django-ratelimit==1.0.1
 ecdsa==0.10
 fab==1.4.2
+Fabric==1.10.2
 newrelic==2.16.0.12
 numpy==1.7.0
 paramiko==1.12.0
