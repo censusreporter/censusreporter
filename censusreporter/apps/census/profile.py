@@ -14,7 +14,7 @@ class ApiClient(object):
 
     def _get(self, path, params=None):
         url = self.base_url + path
-        r = requests.get(url, params=params)
+        r = requests.get(url, params=params, headers={'User-Agent': 'censusreporter.org frontend profile builder'})
         data = None
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)

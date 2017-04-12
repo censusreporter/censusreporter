@@ -22,6 +22,8 @@ from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
+from ratelimit.mixins import RatelimitMixin
+
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
      SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
@@ -39,6 +41,9 @@ except:
 import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
+
+r_session = requests.Session()
+r_session.headers.update({'User-Agent': 'censusreporter.org frontend'})
 
 
 ### UTILS ###
@@ -115,7 +120,7 @@ class TableDetailView(TemplateView):
                 table_argument = table_argument + 'A'
             endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_argument
 
-            if requests.get(endpoint).status_code == 200:
+            if r_session.get(endpoint).status_code == 200:
                 return HttpResponseRedirect(
                     reverse('table_detail', args = (table_argument,))
                 )
@@ -123,14 +128,14 @@ class TableDetailView(TemplateView):
 
     def get_tabulation_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
-        r = requests.get(endpoint)
+        r = r_session.get(endpoint)
         status_code = r.status_code
 
         # make sure we've requested a legit tabulation code
         if status_code == 200:
-            tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            tabulation_data = r.json(object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
+            error_data = r.json()
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
@@ -223,10 +228,10 @@ class TableDetailView(TemplateView):
 
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
-        r = requests.get(endpoint)
+        r = r_session.get(endpoint)
 
         if r.status_code == 200:
-            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            return r.json(object_pairs_hook=OrderedDict)
         if r.status_code == 400:
             raise ValueError("No table data for that table")
         else:
@@ -241,7 +246,10 @@ class TableDetailView(TemplateView):
 
         return page_context
 
-class GeographyDetailView(TemplateView):
+class GeographyDetailView(RatelimitMixin, TemplateView):
+    ratelimit_key = 'ip'
+    ratelimit_rate = '15/m'
+    ratelimit_block = True
     template_name = 'profile/profile_detail.html'
 
     def parse_fragment(self,fragment):
@@ -296,11 +304,11 @@ class GeographyDetailView(TemplateView):
 
     def get_geography(self, geo_id):
         endpoint = settings.API_URL + '/1.0/geo/tiger2015/%s' % self.geo_id
-        r = requests.get(endpoint)
+        r = r_session.get(endpoint)
         status_code = r.status_code
 
         if status_code == 200:
-            geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            geo_data = r.json(object_pairs_hook=OrderedDict)
             return geo_data
         return None
 
@@ -523,7 +531,7 @@ class S3Conn(object):
     def write_json(self, s3_key, data):
         s3_key.metadata['Content-Type'] = 'application/json'
         s3_key.metadata['Content-Encoding'] = 'gzip'
-        s3_key.storage_class = 'REDUCED_REDUNDANCY'
+        s3_key.storage_class = 'STANDARD'
 
         # create gzipped version of json in memory
         memfile = cStringIO.StringIO()
@@ -705,13 +713,13 @@ class SearchResultsView(TemplateView):
         if not query:
             return {'results': [], 'has_query': False}
 
-        r = requests.get(search_url.format(uniurlquote(query)))
+        r = r_session.get(search_url.format(uniurlquote(query)))
         status_code = r.status_code
 
         mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
         location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}&country=us,pr"
         location_request_url = location_request_url.format(uniurlquote(query), mapbox_accessToken)
-        r_location = requests.get(location_request_url)
+        r_location = r_session.get(location_request_url)
         status_code_location = r_location.status_code
 
         search_data_all = {}
