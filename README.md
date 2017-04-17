@@ -79,7 +79,7 @@ Getting data from our API (the basics)
 
 As part of the Census Reporter project, we've loaded ACS data into a Postgres database to make queries significantly easier. The Census Reporter website gets information from this database using the API at api.censusreporter.org. For more extensive API documentation, <a href="https://github.com/censusreporter/census-api/blob/master/README.md">see the census-api repository and README</a>. Here is a basic introduction to the endpoints you're likely to use:
 
-###Show data
+### Show data
 This endpoint does the heavy lifting for Census Reporter's profile and comparison pages. Given a release code, a table code, and a geography, it will return American Community Survey data. A common call to this endpoint might look like:
 
     https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=16000US5367000
@@ -183,7 +183,7 @@ The entire response for the "all counties in Washington" example above <a href="
 
 Note that Washington state's data is also included in this API response. When you ask for a set of geographies&mdash;in this case, 050|04000US53&mdash;the API will automatically include the parent geography's data so you can perform comparisons.
 
-###Get geography metadata
+### Get geography metadata
 
 This endpoint provides basic information about a specific geography, including name, summary level, land area, and population. A common call to this endpoint might look like:
 
@@ -209,7 +209,7 @@ If you append a querystring paramater `geom=true` to your request, the API respo
 
 This endpoint returns Tiger 2012 data for all but one class of geography: congressional districts. Redistricting after the 2010 Decennial Census changed these boundaries, and some states gained or lost entire districts. If you request metadata for a congressional district, the API will return Tiger 2013 data <a href="http://www.census.gov/geo/maps-data/data/pdfs/tiger/How_do_I_choose_TIGER_vintage.pdf">in order to accurately represent redistricting</a>.
 
-###Get geography parents
+### Get geography parents
 
 This endpoint takes a specific geography and provides metadata for it, along with a list of parent geographies that contain it. A common call to this endpoint might look like:
 
@@ -257,7 +257,7 @@ This endpoint takes a specific geography and provides metadata for it, along wit
         ]
     }
 
-###Geography search
+### Geography search
 
 This endpoint returns metadata for geographies with names that match a text string. A common call to this endpoint might look like:
 
@@ -295,7 +295,7 @@ You can limit the search to a particular set of summary levels by passing an opt
 
     https://api.censusreporter.org/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
 
-###Table search
+### Table search
 
 This endpoint returns metadata for tables with titles or column names that match a text string. A common call to this endpoint might look like:
 
@@ -357,7 +357,7 @@ Geographical profile pages provide an overview of important Census data indicato
 
 The Census Reporter website generates profile pages for geographies at the <a href="https://censusreporter.org/profiles/01000US-united-states/">national</a> and <a href="https://censusreporter.org/profiles/04000US17-illinois/">state</a> levels all the way down to <a href="https://censusreporter.org/profiles/14000US17031808702-census-tract-808702-cook-il/">census tracts</a>. If your browser supports geolocation, you can <a href="https://censusreporter.org/locate/">use your current location</a> to easily profile any of the geographies that you're currently in.
 
-###The profile page back end
+### The profile page back end
 
 Each profile page requires queries against a few dozen Census tables. To lighten the database load, profile data has been pre-computed and stored as JSON in an Amazon S3 bucket, so most of these pages should never touch the API. When the Census Reporter app sees a profile request, the <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/views.py">`GeographyDetail`</a> view <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/views.py#L285">checks for flat JSON data</a> first, and falls back to <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/profile.py">a profile generator</a> if necessary.
 
@@ -382,15 +382,15 @@ Once this is done, `GeographyDetail` writes everything as flat JSON to an S3 buc
 
 This pattern&mdash;using a generator script to collect and shape data from multiple tables, then storing the results as flat JSON&mdash;is something that could be repeated for new Census Reporter features. We'd like to add deeper category profiles for each of the Demographics, Economics, Families, Housing and Social sections, for example, which could be done by copying and modifying the <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/profile.py#L173">`geo_profile` method</a> in `profile.py`.
 
-###The profile page front end
+### The profile page front end
 
 The skeleton of the profile page you see on the Census Reporter website is created by <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/templates/profile/profile.html">a Django template</a>. The map is filled in by one Javascript library: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/tilelayer.js">`tilelayer.js`</a>, and the charts filled in by another: <a href="https://github.com/censusreporter/censusreporter/blob/master/censusreporter/apps/census/static/js/charts.js">`charts.js`</a>.
 
-####Profile map
+#### Profile map
 
 The profile page uses Javascript to call the ["geography metadata" endpoint](#get-geography-metadata), using the `geom=true` argument to get boundary coordinates for the chosen place. A tile layer then adds shapes of nearby geographies at the same summary level, which can be used to navigate to their corresponding profile pages. The map will also do some smart centering to account for the box full of place metadata in that part of the page.
 
-####Profile charts
+#### Profile charts
 
 The Django template for the profile page creates empty slots for each chart, which are filled on load by `charts.js`. These placeholders look something like:
 
@@ -414,7 +414,7 @@ The <a href="https://github.com/censusreporter/censusreporter/blob/master/census
     chartData = profileData[chartDataID[1]]
     geographyData = profileData['geography']
 
-#####Required variables
+##### Required variables
 
 `chartDataKey`: This tells us everything we need to know to recreate this particular chart from a given set of profile data, and we'll use it to populate embed code if a user asks for it. In the example above, this value would be `histogram-demographics-age-distribution_by_decade-total`.
 
@@ -433,7 +433,7 @@ You'll note that we actually pass this value through a function called `graceful
 
 `geographyData`: We also reach into `profileData` for names and summary levels of the chosen place and its parent geographies.
 
-#####Optional variables
+##### Optional variables
 
 Placeholder containers can also use data attributes to pass optional information to the chart constructor. Our example container uses `data-stat-type` and `data-chart-title`:
 
@@ -453,7 +453,7 @@ The `makeCharts()` function will recognize:
 
 `data-qualifier`: Adds a trailing line below the chart, prepended with an "*" character. This is useful when charts require a little extra context. For example, the profile page's <a href="https://censusreporter.org/profiles/16000US5367000-spokane-wa/#race">"Race & Ethnicity" column chart</a> adds this explanation: "Hispanic includes respondents of any race. Other categories are non-Hispanic."
 
-####Responsive design
+#### Responsive design
 
 The charts on Census Reporter's profile pages are responsive to browser width. They use a combination of CSS media queries and Javascript to accommodate various screen sizes. Media queries take care of changes like column widths and legend placements, and they help arrange the interactive hovercards that provide extra data when a user mouses over or taps a chart element.
 
