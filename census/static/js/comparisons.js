@@ -71,7 +71,7 @@ function Comparison(options, callback) {
         var data = {};
         data['release'] = {};
         data['release']['id'] = "d3_open_data";
-        data['release']['name'] = "Data Driven Detroit Open Data Portal";
+        data['release']['name'] = comparison.d3DataReleaseName;
         data['release']['years'] = comparison.d3DataYears;
 
         data['tables'] = {};
@@ -189,6 +189,7 @@ function Comparison(options, callback) {
 
     comparison.getBirthData = function() {
         // metadata specific to Births
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan Office of Vital Statistics';
         comparison.d3DataYears = '2014';
         comparison.d3table_name = 'D3-Births';
         comparison.d3title = 'Births by Race and Ethnicity and Characteristic';
@@ -463,6 +464,8 @@ function Comparison(options, callback) {
             comparison.geoFeatures = json.features;
             comparison.mergeMapData();
 
+
+
             // draw the base map
             if (comparison.map) {
                 // in case we're redrawing without refresh
@@ -500,6 +503,8 @@ function Comparison(options, callback) {
         if (!!comparison.denominatorColumn) {
             comparison.addMapNumberToggle(comparison.showChoropleth);
         }
+
+
 
         return comparison;
     }
@@ -642,7 +647,6 @@ function Comparison(options, callback) {
 
     comparison.makeMapSumlevSelector = function() {
         // add the "change summary level" picker
-
         comparison.sortedSumlevList = comparison.makeSortedSumlevMap(comparison.sumlevMap);
         if (comparison.hash.sumlev && sumlevMap[comparison.hash.sumlev]) {
             comparison.chosenSumlev = comparison.hash.sumlev || comparison.sortedSumlevList[0]['sumlev'];
@@ -713,6 +717,7 @@ function Comparison(options, callback) {
 
             window.location = comparison.buildComparisonURL();
         });
+
     }
 
     comparison.changeMapControls = function() {
@@ -1344,7 +1349,6 @@ function Comparison(options, callback) {
                 // births
                 var births = 'totalbirthsnonhispanicwhiteblackotherinadequateprenatalcarelowbirthweightteenmothersfertilityracehealthcare';
                 var match_births = births.match(re);
-                console.log(match_births);
                 if (match_births) {
                     // get all births tables and 
                     var d3Response = d3BirthsTable();
@@ -1641,7 +1645,7 @@ function Comparison(options, callback) {
                         .html('Add all ' + sumlevMap[comparison.thisSumlev]['plural'] + ' in&nbsp;&hellip;');
 
                     var parents = _.reject(results['parents'], function(i) {
-                        return i.relation == 'this'
+                        return i.relation == 'this' || i.relation == 'nation'
                     })
 
                     parentOptionsContainer.append('ul')
@@ -1654,7 +1658,7 @@ function Comparison(options, callback) {
                                 newGeoIDs.push(comparison.thisSumlev + '|' + d.geoid);
 
                                 return comparison.buildComparisonURL(
-                                    comparison.dataFormat, comparison.tableID, newGeoIDs, comparison.primaryGeoID
+                                    comparison.dataFormat, comparison.tableID, newGeoIDs, comparison.primaryGeoID, comparison.thisSumlev
                                 )
                             })
                             .text(function(d) { return d.display_name });
@@ -1687,9 +1691,8 @@ function Comparison(options, callback) {
                         if (d != 160) {
                             var newGeoIDs = comparison.geoIDs.slice(0);
                             newGeoIDs.push(d + '|' + comparison.primaryGeoID);
-
                             return comparison.buildComparisonURL(
-                                comparison.dataFormat, comparison.tableID, newGeoIDs, comparison.primaryGeoID
+                                comparison.dataFormat, comparison.tableID, newGeoIDs, comparison.primaryGeoID, d
                             )
                         }
 
@@ -1741,7 +1744,8 @@ function Comparison(options, callback) {
                 })
                 .text(function(d) { return d.name });
 
-        if (geoOptions.length > 1) {
+        // TO DO: fix problmes with removing geographies from map -- this is causing errors
+        if (geoOptions.length > 1 && comparison.dataFormat != 'map') {
             var removeGeoOptions = chosenGeoOptions.append('a')
                     .classed('remove', true)
                     .attr('href', '#')
@@ -1785,6 +1789,7 @@ function Comparison(options, callback) {
     comparison.addGeographyCompareTools = function() {
         comparison.aside.selectAll('.aside-block').remove();
 
+
         // show the currently selected geographies
         comparison.makeChosenGeoList();
 
@@ -1797,6 +1802,7 @@ function Comparison(options, callback) {
             comparison.makeParentOptions();
             comparison.makeChildOptions();
         }
+
     }
 
     comparison.addNumberToggles = function(redrawFunction) {
@@ -1852,7 +1858,7 @@ function Comparison(options, callback) {
 
     // UTILITIES
 
-    comparison.buildComparisonURL = function(dataFormat, tableID, geoIDs, primaryGeoID) {
+    comparison.buildComparisonURL = function(dataFormat, tableID, geoIDs, primaryGeoID, newSumLev) {
         // pass in vars to create arbitrary destinations
         if (!!tableID) {
             // if we're changing tables, need to get rid of hash params
@@ -1873,10 +1879,14 @@ function Comparison(options, callback) {
             url += '&primary_geo_id=' + primaryGeoID
         }
 
+        if (!newSumLev) {
+            newSumLev = comparison.chosenSumlev;
+        }
+
         if (dataFormat == 'map') {
             comparison.hash = {};
             if (comparison.chosenColumn) comparison.hash.column = comparison.chosenColumn;
-            if (comparison.chosenSumlev) comparison.hash.sumlev = comparison.chosenSumlev;
+            if (newSumLev) comparison.hash.sumlev = newSumLev;
         }
 
         if (!!comparison.hash) {

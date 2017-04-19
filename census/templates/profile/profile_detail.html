@@ -722,8 +722,17 @@ if (releases.length > 1) {
     var explain = '<p class="explain"><em>This profile displays data from more than one ACS release. Charts not derived from ' + defaultDataRelease + ' data are noted with an *.</em></p>'
     $('.content-container').append(explain);
 }
+
+// polyfill for String.prototype.startsWith
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+
 var makeCitation = function(year, release) {
-	if (release == 'D3 Open Data Portal') {
+	if (release.startsWith('D3 Open Data Portal')) {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'Data Driven Detroit Open Data Portal (<span id="cite-release-year">' + year + '</span>). ' +
 	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
