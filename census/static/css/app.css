@@ -2452,7 +2452,7 @@ aside .search .result-type {
 }
 
 .message-error {
-    padding: .67em 1em;
+    padding: 0em 0.3em;
     background-color: #F5835D;
 }
 .message-help {

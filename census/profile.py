@@ -419,11 +419,11 @@ def geo_profile(geoid, acs='latest'):
 	doc['families']['births'] = births_dict
 	births_dict['total'] = build_item('Total births', data, d3_item_levels,
 		'D3-TotalBirths')
-	add_metadata(births_dict['total'], 'D3-Births', 'Total births', 'D3 Open Data Portal')
+	add_metadata(births_dict['total'], 'D3-Births', 'Total births', 'D3 Open Data Portal, State of Michigan Office of Vital Statistics')
 
 	births_race_distribution_dict = OrderedDict()
 	doc['families']['births']['race_distribution'] = births_race_distribution_dict
-	add_metadata(births_race_distribution_dict, 'D3-Births', 'Total Births', 'D3 Open Data Portal')
+	add_metadata(births_race_distribution_dict, 'D3-Births', 'Total Births', 'D3 Open Data Portal, State of Michigan Office of Vital Statistics')
 
 	births_race_distribution_dict['white'] = build_item('White', data, d3_item_levels,
 		'D3-NonHispWhite D3-TotalBirths / %')
@@ -439,7 +439,7 @@ def geo_profile(geoid, acs='latest'):
 
 	births_by_characteristic_dict = OrderedDict()
 	doc['families']['births']['by_characteristic'] = births_by_characteristic_dict
-	add_metadata(births_by_characteristic_dict, 'D3-Births', 'Total Births', 'D3 Open Data Portal')	
+	add_metadata(births_by_characteristic_dict, 'D3-Births', 'Total Births', 'D3 Open Data Portal, State of Michigan Office of Vital Statistics')	
 
 	births_by_characteristic_dict['InadequatePrenatal'] = build_item('Inadequate Prenatal Care', data, d3_item_levels,
 		'D3-InadequatePrenatal D3-TotalBirths / %')
@@ -638,13 +638,13 @@ def geo_profile(geoid, acs='latest'):
 	race_dict['percent_black'] = build_item('Black', data, item_levels,
 		'B03002004 B03002001 / %')
 
-	race_dict['percent_native'] = build_item('Native', data, item_levels,
+	race_dict['percent_native'] = build_item('Native American', data, item_levels,
 		'B03002005 B03002001 / %')
 
 	race_dict['percent_asian'] = build_item('Asian', data, item_levels,
 		'B03002006 B03002001 / %')
 
-	race_dict['percent_islander'] = build_item('Islander', data, item_levels,
+	race_dict['percent_islander'] = build_item('Pacific Islander', data, item_levels,
 		'B03002007 B03002001 / %')
 
 	race_dict['percent_other'] = build_item('Other', data, item_levels,
@@ -679,13 +679,13 @@ def geo_profile(geoid, acs='latest'):
 	child_race_grouped_under_9['under_5']['black'] = build_item('Black Under 5', data, item_levels,
 		'B01001B003 B01001B018 + B01001003 B01001027 + / %')
 
-	child_race_grouped_under_9['under_5']['native'] = build_item('Native Under 5', data, item_levels,
+	child_race_grouped_under_9['under_5']['native'] = build_item('Native American Under 5', data, item_levels,
 		'B01001C003 B01001C018 + B01001003 B01001027 + / %')
 
 	child_race_grouped_under_9['under_5']['asian'] = build_item('Asian Under 5', data, item_levels,
 		'B01001D003 B01001D018 + B01001003 B01001027 + / %')
 
-	child_race_grouped_under_9['under_5']['islander'] = build_item('Islander Under 5', data, item_levels,
+	child_race_grouped_under_9['under_5']['islander'] = build_item('Pacific Islander Under 5', data, item_levels,
 		'B01001E003 B01001E018 + B01001003 B01001027 + / %')
 
 	child_race_grouped_under_9['under_5']['other'] = build_item('Other Under 5', data, item_levels,
@@ -711,13 +711,13 @@ def geo_profile(geoid, acs='latest'):
 	child_race_grouped_under_9['5_to_9']['black'] = build_item('Black 5 to 9', data, item_levels,
 		'B01001B004 B01001B019 + B01001004 B01001028 + / %')
 
-	child_race_grouped_under_9['5_to_9']['native'] = build_item('Native 5 to 9', data, item_levels,
+	child_race_grouped_under_9['5_to_9']['native'] = build_item('Native American 5 to 9', data, item_levels,
 		'B01001C004 B01001C019 + B01001004 B01001028 + / %')
 
 	child_race_grouped_under_9['5_to_9']['asian'] = build_item('Asian 5 to 9', data, item_levels,
 		'B01001D004 B01001D019 + B01001004 B01001028 + / %')
 
-	child_race_grouped_under_9['5_to_9']['islander'] = build_item('Islander 5 to 9', data, item_levels,
+	child_race_grouped_under_9['5_to_9']['islander'] = build_item('Pacific Islander 5 to 9', data, item_levels,
 		'B01001E004 B01001E019 + B01001004 B01001028 + / %')
 
 	child_race_grouped_under_9['5_to_9']['other'] = build_item('Other 5 to 9', data, item_levels,
@@ -747,13 +747,13 @@ def geo_profile(geoid, acs='latest'):
 	child_race_grouped_10_to_17['10_to_14']['black'] = build_item('Black 10 to 14', data, item_levels,
 		'B01001B005 B01001B020 + B01001005 B01001029 + / %')
 
-	child_race_grouped_10_to_17['10_to_14']['native'] = build_item('Native 10 to 14', data, item_levels,
+	child_race_grouped_10_to_17['10_to_14']['native'] = build_item('Native American 10 to 14', data, item_levels,
 		'B01001C005 B01001C020 + B01001005 B01001029 + / %')
 
 	child_race_grouped_10_to_17['10_to_14']['asian'] = build_item('Asian 10 to 14', data, item_levels,
 		'B01001D005 B01001D020 + B01001005 B01001029 + / %')
 
-	child_race_grouped_10_to_17['10_to_14']['islander'] = build_item('Islander 10 to 14', data, item_levels,
+	child_race_grouped_10_to_17['10_to_14']['islander'] = build_item('Pacific Islander 10 to 14', data, item_levels,
 		'B01001E005 B01001E020 + B01001005 B01001029 + / %')
 
 	child_race_grouped_10_to_17['10_to_14']['other'] = build_item('Other 10 to 14', data, item_levels,
@@ -780,13 +780,13 @@ def geo_profile(geoid, acs='latest'):
 	child_race_grouped_10_to_17['15_to_17']['black'] = build_item('Black 15 to 17', data, item_levels,
 		'B01001B006 B01001B021 + B01001006 B01001030 + / %')
 
-	child_race_grouped_10_to_17['15_to_17']['native'] = build_item('Native 15 to 17', data, item_levels,
+	child_race_grouped_10_to_17['15_to_17']['native'] = build_item('Native American 15 to 17', data, item_levels,
 		'B01001C006 B01001C021 + B01001006 B01001030 + / %')
 
 	child_race_grouped_10_to_17['15_to_17']['asian'] = build_item('Asian 15 to 17', data, item_levels,
 		'B01001D006 B01001D021 + B01001006 B01001030 + / %')
 
-	child_race_grouped_10_to_17['15_to_17']['islander'] = build_item('Islander 15 to 17', data, item_levels,
+	child_race_grouped_10_to_17['15_to_17']['islander'] = build_item('Pacific Islander 15 to 17', data, item_levels,
 		'B01001E006 B01001E021 + B01001006 B01001030 + / %')
 
 	child_race_grouped_10_to_17['15_to_17']['other'] = build_item('Other 15 to 17', data, item_levels,
@@ -843,11 +843,11 @@ def geo_profile(geoid, acs='latest'):
 	# male_child_age_black_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
 	#     'B01001B006 B01001B003 B01001B004 + B01001B005 + B01001B006 + / %')
 
-	# # Male Children: Distribution of Native male youth
+	# # Male Children: Distribution of Native American male youth
 	# #### SODC ####
 	# male_child_age_native_distribution_dict = OrderedDict()
 	# doc['demographics']['male_child_age_native_distribution'] = male_child_age_native_distribution_dict
-	# add_metadata(male_child_age_native_distribution_dict, 'B01001C', 'People Who Are American Indian and Alaska Native Alone', acs_name)
+	# add_metadata(male_child_age_native_distribution_dict, 'B01001C', 'People Who Are American Indian and Alaska Native American Alone', acs_name)
 
 	# male_child_age_native_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
 	#     'B01001C003 B01001C003 B01001C004 + B01001C005 + B01001C006 + / %')
@@ -879,7 +879,7 @@ def geo_profile(geoid, acs='latest'):
 	# male_child_age_asian_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
 	#     'B01001D006 B01001D003 B01001D004 + B01001D005 + B01001D006 + / %')
 
-	# # Male Children: Distribution of Islander male youth
+	# # Male Children: Distribution of Pacific Islander male youth
 	# #### SODC ####
 	# male_child_age_islander_distribution_dict = OrderedDict()
 	# doc['demographics']['male_child_age_islander_distribution'] = male_child_age_islander_distribution_dict
@@ -981,13 +981,13 @@ def geo_profile(geoid, acs='latest'):
 	male_child_age_race_distribution_dict['percent_black'] = build_item('Black', data, item_levels,
 		'B01001B003 B01001B004 + B01001B005 + B01001B006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
-	male_child_age_race_distribution_dict['percent_native'] = build_item('Native', data, item_levels,
+	male_child_age_race_distribution_dict['percent_native'] = build_item('Native American', data, item_levels,
 		'B01001C003 B01001C004 + B01001C005 + B01001C006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
 	male_child_age_race_distribution_dict['percent_asian'] = build_item('Asian', data, item_levels,
 		'B01001D003 B01001D004 + B01001D005 + B01001D006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
-	male_child_age_race_distribution_dict['percent_islander'] = build_item('Islander', data, item_levels,
+	male_child_age_race_distribution_dict['percent_islander'] = build_item('Pacific Islander', data, item_levels,
 		'B01001E003 B01001E004 + B01001E005 + B01001E006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
 	male_child_age_race_distribution_dict['percent_other'] = build_item('Other', data, item_levels,
@@ -1802,9 +1802,9 @@ def geo_profile(geoid, acs='latest'):
 	language_adults['indoeuropean'] = build_item('Indo-European', data, item_levels,
 		'B16007011 B16007017 + B16007008 B16007014 + / %')
 
-	language_children['asian_islander'] = build_item('Asian/Islander', data, item_levels,
+	language_children['asian_islander'] = build_item('Asian/Pacific Islander', data, item_levels,
 		'B16007006 B16007002 / %')
-	language_adults['asian_islander'] = build_item('Asian/Islander', data, item_levels,
+	language_adults['asian_islander'] = build_item('Asian/Pacific Islander', data, item_levels,
 		'B16007012 B16007018 + B16007008 B16007014 + / %')
 
 	language_children['other'] = build_item('Other', data, item_levels,

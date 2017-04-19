@@ -48,8 +48,17 @@ for applying things across that entire family of pages.
 <script src="{{ STATIC_URL }}js/comparisons.js"></script>
 {% block page_specific_javascript %}{% endblock %}
 <script>
+
+// polyfill for String.prototype.startsWith
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+
 var makeCitation = function(comparison) {
-    if (comparison.release.name == 'Data Driven Detroit Open Data Portal') {
+    if (comparison.release.name.startsWith('Data Driven Detroit Open Data Portal')) {
         var citation = '<p class="explain"><strong>Citation:</strong> '+ comparison.release.name +' (<span id="cite-release-year">' + comparison.release.years + '</span>). <em><span id="cite-table-name">'+ comparison.table.title +'</span></em>. ' +
         'Retrieved from <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
     } else {
