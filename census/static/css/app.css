@@ -2433,7 +2433,7 @@ aside .search .result-type {
     left: 50%;
     height: 20px;
     width: 20px;
-    z-index: 100;
+    z-index: 10000;
 }
 
 .message {
