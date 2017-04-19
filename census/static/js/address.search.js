@@ -260,6 +260,13 @@ function findPlaces(lat,lng,address) {
                         }
                     });
                 })
+                $('.location-list li').click(function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    spinner.spin(spinnerTarget);
+                    //console.log($(this).children('a')[0]['href']);
+                    window.location.href = $(this).children('a')[0]['href'];
+                })
                 $('.zoom-to-layer').click(function(e) {
                     e.stopPropagation();
                     e.preventDefault();
