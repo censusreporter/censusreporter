@@ -173,9 +173,10 @@ function Comparison(options, callback) {
 
     comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
         var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
-        $.getJSON(url)
+        $.post(url)
             .done(function(results) {
-                comparison[geo_key] = results;
+                var resultsJson = $.parseJSON(results);
+                comparison[geo_key] = resultsJson;
                 comparison.ajaxCount--;
                 if (comparison.ajaxCount == 0) {
                     comparison.formatD3Data();
