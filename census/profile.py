@@ -50,7 +50,8 @@ class D3ApiClient(object):
 	def _get(self, table_id, field_name, geo_ids):
 		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
 		url = self.base_url + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
-		r = requests.get(url)
+		# using post
+		r = requests.post(url)
 		data = None
 		if r.status_code == 200:
 			data = r.json(object_pairs_hook=OrderedDict)
