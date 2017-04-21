@@ -1894,7 +1894,11 @@ def enhance_api_data(api_data):
 	for d in dict_list:
 		raw = {}
 		enhanced = {}
-		geo_value = d['values']['this']
+		try:
+			geo_value = d['values']['this']
+		except Exception as e:
+			geo_value = None
+
 		num_comparatives = 2
 
 		# create our containers for transformation
@@ -1915,7 +1919,11 @@ def enhance_api_data(api_data):
 			# add the index value for comparatives
 			if sumlevel in raw['values']:
 				enhanced['values'][sumlevel] = raw['values'][sumlevel]
-				enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
+				if geo_value:
+					enhanced['index'][sumlevel] = get_ratio(geo_value, raw['values'][sumlevel])
+				else:
+					enhanced['index'][sumlevel] = 0
+
 
 				# add to our list of comparatives for the template to use
 				if sumlevel != 'this':
