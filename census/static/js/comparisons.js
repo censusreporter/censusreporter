@@ -172,20 +172,31 @@ function Comparison(options, callback) {
     }
 
     comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
-        var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
-        $.post(url)
-            .done(function(results) {
-                var resultsJson = $.parseJSON(results);
-                comparison[geo_key] = resultsJson;
-                comparison.ajaxCount--;
-                if (comparison.ajaxCount == 0) {
-                    comparison.formatD3Data();
-                }          
-            })
-            .fail(function(xhr, textStatus, error) {
-                var message = $.parseJSON(xhr.responseText);
-                comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
-            });
+        // var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
+        var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query'
+        var data = {
+            outFields: '*',
+            where: field_name +' in (' + geo_ids + ')',
+            f: 'json',
+        }
+        $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+        })
+        .done(function(results) {
+            var resultsJson = $.parseJSON(results);
+            console.log(resultsJson);
+            comparison[geo_key] = resultsJson;
+            comparison.ajaxCount--;
+            if (comparison.ajaxCount == 0) {
+                comparison.formatD3Data();
+            }          
+        })
+        .fail(function(xhr, textStatus, error) {
+            var message = $.parseJSON(xhr.responseText);
+            comparison.$displayWrapper.html('<h1>Error</h1><p class="message display-type clearfix"><span class="message-error">'+message.error+'</span></p>');
+        });
     }
 
     comparison.getBirthData = function() {
