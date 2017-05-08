@@ -404,7 +404,57 @@ article .section-container,
     display: block;
     padding: .83em 1em;
     margin: 0;
+    height: 12vh;
 }
+
+@media (min-width: 481px) {
+    .card .caption {
+        height: 17vh;
+    }
+}
+
+@media (min-width: 725px) {
+    .card .caption {
+        height: 15vh;
+    }
+}
+
+@media (min-width: 768px) {
+    .card .caption {
+        height: 21vh;
+    }
+}
+
+@media (min-width: 920px) {
+    .card .caption {
+        height: 18vh;
+    }
+}
+
+@media (min-width: 1024px) {
+    .card .caption {
+        height: 15vh;
+    }
+}
+
+@media (min-width: 1140px) {
+    .card .caption {
+        height: 16vh;
+    }
+}
+
+@media (min-width: 1400px) {
+    .card .caption {
+        height: 12vh;
+    }
+}
+
+@media (min-width: 2000px) {
+    .card .caption {
+        height: 7vh;
+    }
+}
+
 .card .more {
     font-size: .83em;
     margin-left: .25em;

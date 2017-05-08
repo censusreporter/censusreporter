@@ -1,0 +1,65 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <h2>Births Data Table</h2>
+    <p>The table <a href="/tables/D3-Births/">D3-Births</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Non-Hispanic White Births</td>
+                <td>Births to mothers identified as not Hispanic and White.</td>
+            </tr>
+            <tr>
+                <td>Non-Hispanic Black Births</td>
+                <td>Births to mothers identified as not Hispanic and Black.</td>
+            </tr>
+            <tr>
+                <td>Non-Hispanic Other Race Births</td>
+                <td>Births to mothers identified as not Hispanic, Black, or White.</td>
+            </tr>
+            <tr>
+                <td>Hispanic Births</td>
+                <td>Births to mothers identified as Hispanic.</td>
+            </tr>
+            <tr>
+                <td>Births with Inadequate Prenatal Care</td>
+                <td>Inadequate prenatal care was defined as births rated “inadequate” or “intermediate” on the Kessner Index.<sup>&dagger;</sup></td>
+            </tr>
+            <tr>
+                <td>Low Birth Weight Births</td>
+                <td>Infants weighing under 2,500 grams were considered a low weight birth.</td>
+            </tr>
+            <tr>
+                <td>Births to Teen Mothers</td>
+                <td>Births to mothers under 20 years old.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2><sup>&dagger;</sup>Kessner Index</h2>
+
+    <p>The Kessner Index is a classification of prenatal care based on the month of pregnancy in which prenatal care began, the number of prenatal visits and the length of pregnancy (i.e. for shorter pregnancies, fewer prenatal visits constitute adequate care.) </p>
+
+    <h3>Kessner Index Measurement Definitions:</h3>
+
+    <p><em>Adequate:</em> Care that began within the first trimester and included an average of at least one or two additional prenatal visits per month of gestation, depending on the length of gestation.</p>
+
+    <p><em>Intermediate:</em> Care that began during the second trimester of pregnancy with correspondingly fewer visits, or began during the first trimester but with fewer visits than would be appropriate for the length of gestation.</p>
+
+    <p><em>Inadequate:</em> When no care was received or if care began during the third trimester. It is also inadequate if care began during the first or second trimester but less than five visits occurred, when the length of gestation was 34 weeks or more. When the length of gestation was less than 34 weeks, care is defined as inadequate when care began during the first or second trimester but a number of visits less that four occurred, that number depending on the actual weeks of gestation.</p>
+
+
+</section>
+
+{% endblock %}
+
+

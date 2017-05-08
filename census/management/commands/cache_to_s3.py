@@ -1,8 +1,11 @@
 from django.core.management.base import BaseCommand
 from multiprocessing import Pool
 from traceback import format_exc
+import boto
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+
+from django.conf import settings
 
 import json
 import cStringIO
@@ -11,16 +14,24 @@ import gzip
 from ...profile import geo_profile, enhance_api_data
 
 import logging
-logging.basicConfig(level=logging.WARN)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-s3 = S3Connection()
+if settings.AWS_KEY and settings.AWS_SECRET:
+	s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+	logger.warn(s3)
+	lookup = s3.lookup('d3-sd-child')
+else:
+	try:
+		s3 = S3Connection()
+	except:
+		s3 = None
 
 def s3_keyname(geoid):
-    return '/1.0/data/profiles/%s.json' % geoid
+    return '/1.0/data/profiles/2015/%s.json' % geoid
 
 def key(geoid):
-    bucket = s3.get_bucket('embed.censusreporter.org')
+    bucket = s3.get_bucket('d3-sd-child')
     keyname = s3_keyname(geoid)
     key = Key(bucket, keyname)
 
@@ -42,18 +53,18 @@ def write_profile_json(s3_key, data):
     s3_key.set_contents_from_file(memfile)
 
 def seed(geoid):
-    logger.info("Working on {}".format(geoid))
+    print "Working on {}".format(geoid)
     try:
         api_data = geo_profile(geoid)
         api_data = enhance_api_data(api_data)
 
         s3key = key(geoid)
         write_profile_json(s3key, json.dumps(api_data))
-        logger.info("Wrote to key {}".format(s3key))
+        print "Wrote to key {}".format(s3key)
     except Exception, e:
         logger.error("Problem caching {}".format(geoid))
         logger.exception(e)
-    logger.info("Done working on {}".format(geoid))
+    print "Done working on {}".format(geoid)
 
 
 class Command(BaseCommand):
@@ -64,7 +75,7 @@ class Command(BaseCommand):
             print "Please include the name of a file containing the seed geo_ids."
             return False
 
-        parallelism = 4
+        parallelism = 1
         if 'parallelism' in options:
             parallelism = int(options.get('parallelism'))
 

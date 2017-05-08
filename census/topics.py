@@ -31,6 +31,17 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Births',
+        'slug': 'births',
+        'topics': ['births', 'children', 'families'],
+        'description': 'The Michigan Department of Health and Human Services collects a number of vital statistics, including data from the birth certificates of each birth recorded in the state.  Through this data we report a variety of health indicators and demographic information related to births. If there are less fewer than 6 observations, the information is suppressed for privacy reasons.',
+        'template_name': 'births.html',
+        'question_images': [],
+        'question_pdfs': [
+        ]
+    },
+
+    {
         'title': 'Children',
         'slug': 'children',
         'topics': ['family type', 'families', 'children'],

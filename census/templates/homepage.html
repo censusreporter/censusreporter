@@ -18,29 +18,29 @@
         </header>
         <section class="card-container clearfix">
             <h2 class="column-full subhead">Critical Questions</h2>
-            <a class="column-third card" href="/data/map/?table=B01001&geo_ids=06000US2616322000,05000US26163,04000US26,01000US,140|06000US2616322000&primary_geo_id=06000US2616322000#column|B01001028,sumlev|140">
-                <img src="{{ STATIC_URL }}img/examples/5_9_year_old_girls_detroit.png">
-                <span class="caption">Where do Detroit's elementary school age girls live? <span class="more">More &rarr;</span></span>
+            <a class="column-third card" href="/data/table/?table=B11003&geo_ids=06000US2616322000&primary_geo_id=06000US2616322000#valueType|estimate">
+                <img src="{{ STATIC_URL }}img/examples/single_female_kids.png">
+                <span class="caption">How many kids in Detroit live in households headed by a single female? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#young-men">
-                <img src="{{ STATIC_URL }}img/examples/young_men_race_ethnicity_age_detroit.png">
-                <span class="caption">What is the racial/ethnic breakdown of Detroit's boys and young men? <span class="more">More &rarr;</span></span>
+            <a class="column-third card" href="/data/map/?table=B09010&geo_ids=06000US2616322000,140|06000US2616322000&primary_geo_id=06000US2616322000#column|B09010002,sumlev|140">
+                <img src="{{ STATIC_URL }}img/examples/SNAP_families_detroit.png">
+                <span class="caption">Where in Detroit do families live who are accessing food assistance programs? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#housing-costs">
-                <img src="{{ STATIC_URL }}img/examples/housing_costs_detroit.png">
-                <span class="caption">How many Detroit families spend 30% or more of income on housing? <span class="more">More &rarr;</span></span>
+            <a class="column-third card" href="/data/table/?table=B08201&geo_ids=06000US2616322000&primary_geo_id=06000US2616322000#valueType|percentage">
+                <img src="{{ STATIC_URL }}img/examples/vehicle_household_size_detroit.png">
+                <span class="caption">How many households in Detroit have no access to a vehicle? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/profiles/31000US19820-detroit-warren-dearborn-mi-metro-area/#poverty">
-                <img src="{{ STATIC_URL }}img/examples/family_poverty_by_edu_detroit_metro.png">
-                <span class="caption">How does education and household type impact poverty in the Detroit metro? <span class="more">More &rarr;</span></span>
+            <a class="column-third card" href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#fertility">
+                <img src="{{ STATIC_URL }}img/examples/low_birth_weight_detroit.png">
+                <span class="caption">How many babies in Detroit are born with low birth weight? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/data/table/?table=B27001&geo_ids=31000US19820,310|04000US26&primary_geo_id=31000US19820#valueType|percentage">
-                <img src="{{ STATIC_URL }}img/examples/health_insurance_across_mi_metros.png">
-                <span class="caption">How do Michigan metro areas compare on health insurance coverage? <span class="more">More &rarr;</span></span>
+            <a class="column-third card" href="/data/map/?table=D3-Births&geo_ids=04000US26,060|04000US26&primary_geo_id=04000US26#column|D3-InadequatePrenatal,sumlev|060">
+                <img src="{{ STATIC_URL }}img/examples/births_w_IPC.png">
+                <span class="caption">Across Michigan, in which cities are women most likely to receive inadequate prenatal care? <span class="more">More &rarr;</span></span>
             </a>
-            <a class="column-third card" href="/data/map/?table=B14005&geo_ids=04000US26,01000US,050|04000US26&primary_geo_id=04000US26#column|B14005018,sumlev|050">
-                <img src="{{ STATIC_URL }}img/examples/employed_young_women_in_high_school.png">
-                <span class="caption">Across Michigan, how many young women in high school are also employed? <span class="more">More &rarr;</span></span>
+            <a class="column-third card" href="/data/map/?table=B17023&geo_ids=06000US2616322000,140|06000US2616322000&primary_geo_id=06000US2616322000#column|B17023023,sumlev|140">
+                <img src="{{ STATIC_URL }}img/examples/maps_number_of_children.png">
+                <span class="caption">Where are households with more than one child concentrated in Detroit? <span class="more">More &rarr;</span></span>
             </a>
         </section>
     </article>
@@ -74,12 +74,7 @@
     <article id="topics" class="clearfix wrapper">
         <header class="column-full">
             <h1 class="article-header">Topics</h1>
-<!--             <p class="explainer">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+            <p class="explainer">Here you'll find a starting point to accessing Census data related to the Detroit Child. You can click on "Getting Started" for a broad overview of the American Community Survey or jump right into a topic and start exploring the data.</p>
         </header>
         <section class="clear clearfix">
             {% for row in topics_list|columns:3 %}
