@@ -180,7 +180,7 @@ function geocodeAddress(query, callback) {
 
 var POLYGON_STYLE = {
     "clickable": true,
-    "fillColor": "#d85027",
+    "fillColor": "#9C65D1",
     "color": "#686867",
     "weight": 1,
     "opacity": 0.3,
@@ -297,7 +297,7 @@ function placeMarker(lat, lng, label) {
             point_marker.setTooltipContent(label);
             point_marker.setLatLng(L.latLng(lat,lng));
         } else {
-            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#d85027", fillOpacity: 1, stroke: false, radius: 5});
+            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#9C65D1", fillOpacity: 1, stroke: false, radius: 5});
             map.addLayer(point_marker);
             point_marker.bindTooltip(label, {permanent: true, direction:'right'});
         }

@@ -12,8 +12,9 @@ Blue Green: #216989;
 Light Blue: #6595ce;
 
 Highlight Colors:
-Orange: #d85027;
+Orange: #032634;
 Yellow: #f4a81d;
+Purple: #032634;
 
 Greyscale:
 Light Grey: #fff;
@@ -226,9 +227,9 @@ img.screenshot {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    margin: 0 3px 0 0;
+    margin: 10px 3px 0 0;
     vertical-align: baseline;
-    height: 21px;
+    height: 50px;
 }
 .box-header {
     padding: .25em .5em;
@@ -254,7 +255,7 @@ img.screenshot {
     padding: 0;
 }
 #menu .tool-group {
-    margin-right: 0;
+    margin: 30px 0 0 0;
 }
 #menu .separator {
     float:left;
@@ -281,7 +282,7 @@ a.action-button,
     padding: 0 9px;
     height: 2em;
     line-height: 1.9em;
-    background-color: #216989;
+    background-color: #032634;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -295,7 +296,7 @@ a.action-button,
     display: none;
 }
 #menu a.button:hover {
-    background-color: #d85027;
+    background-color: #216989;
 }
 #menu-toggle {
     float: right;
@@ -458,11 +459,11 @@ article .section-container,
 .card .more {
     font-size: .83em;
     margin-left: .25em;
-    color: #cc4c3f;
+    color: #032634;
     white-space: nowrap;
 }
 .card:hover .more {
-    color: #d85027;
+    color: #216989;
 }
 .card-container .card {
     margin-bottom: 1.5em;
@@ -691,7 +692,7 @@ aside#facets {
 }
 .zoom-to-layer.active,
 .zoom-to-layer:hover {
-    background-color: #d85027;
+    background-color: #032634;
     color: #fff;
 }
 
@@ -1571,7 +1572,7 @@ textarea#results {
     text-decoration: underline;
 }
 .tool-group a:hover {
-    color: #d85027;
+    color: #032634;
 }
 .tool-group .filter-list a {
     text-decoration: none;
@@ -1690,7 +1691,7 @@ ul.toggle-set li {
 .toggle-set a.active,
 .toggle-set a:hover,
 .toggle-set a.hovered {
-    background-color: #d85027;
+    background-color: #032634;
     color: #fff;
 }
 .toggle-set a.unhovered {
@@ -1802,8 +1803,8 @@ section.chart-divider h2 {
 }
 .coal-chart li .point:hover,
 .coal-chart li .point.hovered {
-    background-color: #d85027;
-    border-color: #d85027;
+    background-color: #032634;
+    border-color: #032634;
     z-index: 3;
 }
 .coal-chart li .point.selected {
@@ -1889,7 +1890,7 @@ section.chart-divider h2 {
     cursor: pointer;
     text-align: center;
     padding: .7em 0;
-    background-color: #216989;
+    background-color: #032634;
     color: #fff;
     text-decoration: none;
     font-size: 1.2em;
@@ -1907,7 +1908,7 @@ section.chart-divider h2 {
 }
 .change-button:hover,
 .action-button:hover {
-    background-color: #d85027;
+    background-color: #216989;
     color: #fff;
 }
 
@@ -1996,8 +1997,8 @@ section.chart-divider h2 {
 }
 #query-builder-bar .query-chosen.go,
 .go-button {
-    border-color: #d85027;
-    background-color: #d85027;
+    border-color: #032634;
+    background-color: #032634;
 }
 #query-builder-bar .query-chosen.go:hover,
 .go-button:hover {
@@ -2463,7 +2464,7 @@ aside .search .result-type {
     padding: .67em .2em;
 }
 .location-list a:hover {
-    color: #d85027;
+    color: #032634;
 }
 .location-list .identifier {
     float: right;
