@@ -66,6 +66,17 @@ TOPICS_LIST = [
         ]
     },
 
+    {
+        'title': 'Education',
+        'slug': 'education',
+        'topics': ['education', 'children', 'families'],
+        'description': 'The Michigan Center for Educational Performance and Information (CEPI) coordinated the collection of education data for the State of Michigan. This data includes M-STEP test data, graduation, and drop out statistics. Through this data we report information related to both English Language Arts (ELA) and Math M-STEP testing that takes place during the 3rd grade, and graduation rate information. If there are fewer than 10 observations, the information is suppressed for privacy reasons.',
+        'template_name': 'education.html',
+        'question_images': [],
+        'question_pdfs': [
+        ]
+    },
+
        {
         'title': 'Families',
         'slug': 'families',

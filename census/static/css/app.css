@@ -352,14 +352,14 @@ article,
 article.column-full {
     margin-bottom: 4em;
 }
-header.section-contents {
+header.section-contents, header.section-contents-list {
     float: left;
-    width: 13em;
+    width: 16em;
 }
-header.section-contents h1 {
+header.section-contents h1, header.section-contents-list h1 {
     font-size: 1em;
     margin: 0;
-    padding: .6em 0 .55em .8em;
+    padding: .6em .8em .55em .8em;
     background-color: #f1f1f2;
     -webkit-border-top-left-radius: 4px;
     -moz-border-radius-topleft: 4px;
@@ -368,9 +368,14 @@ header.section-contents h1 {
     -moz-border-radius-bottomleft: 4px;
     border-bottom-left-radius: 4px;
 }
+
+header.section-contents-list {
+    width: auto;
+}
+
 article .section-container {
     background-color: #fff;
-    margin-left: 13em;
+    margin-left: 16em;
     padding: .6em 1.2em 1.2em;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -536,12 +541,12 @@ section {
     margin-bottom: .5em;
 }
 header.section-contents h1,
-section h2 {
+section h2, header.section-contents-list h1 {
     font-size: 1em;
     line-height: 1.3;
     margin-bottom: 1em;
 }
-header.section-contents h1 a {
+header.section-contents h1 a, header.section-contents-list h1 a {
     font-size: .83em;
     line-height: 1.6em;
     font-weight: normal;
@@ -551,8 +556,8 @@ header.section-contents h1 a {
 
 aside {
     float: left;
-    margin-left: -14.4em;
-    width: 13em;
+    margin-left: -17.4em;
+    width: 16em;
     padding: .25em .67em .67em 1.1em;
 }
 aside h3 {
@@ -2587,12 +2592,12 @@ blockquote {
     article.column-full {
         margin-bottom: 2em;
     }
-    header.section-contents {
+    header.section-contents, header.section-contents-list {
         float: none;
         width: auto;
         margin: 0;
     }
-    header.section-contents h1 {
+    header.section-contents h1, header.section-contents-list h1 {
         padding-left: 1.2em;
         margin-bottom: 0;
         border-bottom: none;

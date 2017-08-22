@@ -1,0 +1,36 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}  
+    <h2>Michigan Education Data Table</h2>
+    <p>The table <a href="/tables/D3-Education/">D3-Education</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Graduation Rate</td>
+                <td>Percentage of students who graduated in the class of 2016.</td>
+            </tr>
+            <tr>
+                <td>Percent Met ELA</td>
+                <td>Percentage of 3rd Grade students who met or exceeded expectations on the ELA M-STEP.</td>
+            </tr>
+            <tr>
+                <td>Percent Met Math</td>
+                <td>Percentage of 3rd Grade students who met or exceeded expectations on the Math M-STEP.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+
