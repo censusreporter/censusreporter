@@ -102,8 +102,9 @@
                 <header class="section-contents-list">
                     <h1>Education</h1>
                     <ul>
-                        <li><a href="#" title="">Edu 1</a></li>
-                        <li><a href="#" title="">Edu 2</a></li>
+                        <li><a href="#ela-proficiency" title="Third grade ELA proficiency">Third grade ELA proficiency</a></li>
+                        <li><a href="#math-proficiency" title="Third grade math proficiency">Third grade math proficiency</a></li>
+                        <li><a href="#graduation-rate" title="">High school graduation</a></li>                   
                         <li><a href="#educational-attainment" title="Educational attainment">Educational attainment </a></li>
                     </ul>
                 </header>
@@ -279,7 +280,35 @@
     </header>
     <div class="section-container">
 
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade ELA proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-social-ela_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of selected proficiency characteristics in ELA" data-qualifier="Universe: {{ social.ela_distribution.metadata.universe }}"></div>
+        </section>
 
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
+            </div>
+
+            <div class="column-two-thirds" id="chart-histogram-social-math_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of selected proficiency characteristics in Math" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.graduation.graduation_rate stat_type='percentage' %}
+            </div>
+        </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#educational-attainment" id="educational-attainment" title="Permalink">Educational attainment <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>

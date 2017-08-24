@@ -376,6 +376,7 @@ def geo_profile(geoid, acs='latest'):
 
 	if school_district_geoids:
 	 	school_district_data = d3_api.get_data('Births_bySD_2014', 'GEOID10', school_district_geoids)
+
 	if zcta_geoids:
 		zcta_data = d3_api.get_data('Births_byZCTA_2014', 'ZCTA5CE10', zcta_geoids)
 
@@ -450,6 +451,222 @@ def geo_profile(geoid, acs='latest'):
 
 	births_by_characteristic_dict['TeenMothers'] = build_item('Teen Mothers', data, d3_item_levels,
 		'D3-TeenMothers D3-TotalBirths / %')
+
+
+	# get D3 data on Third grade English Language Arts and Math test results
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	msa_data = []
+	school_district_data = []
+	zcta_data = []	
+	if state_geoids:
+		state_data = d3_api.get_data('StateofMichigan_ThirdGrade_ELA_MTH_Data_08032017', 'GEOID10', state_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('ThirdGrade_ELA_MTH_Data_byCounty_08032017', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('ThirdGrade_ELA_MTH_Data_byCity_08032017', 'GEOID10', county_sd_geoids)
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('ThirdGrade_ELA_MTH_Data_byTract_08032017', 'GEOID10', tract_geoids)
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('ThirdGrade_ELA_MTH_Data_byMSA_08032017', 'GeoID10_1', msa_geoids)
+
+	if school_district_geoids:
+	 	school_district_data = d3_api.get_data('ThirdGrade_ELA_MTH_Data_bySchoolDistrict_08032017', 'GEOID10', school_district_geoids)
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('ThirdGrade_ELA_MTH_Data_by_Zip_08032017', 'ZCTA5CE10', zcta_geoids)
+
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict();
+	fields['MTHTotAssessed'] = OrderedDict();
+	fields['MTHTotAssessed']['name'] = "Total students taking Math Assessment"
+	fields['MTHTotAssessed']['indent'] = 0
+
+	fields['MTHProf'] = OrderedDict();
+	fields['MTHProf']['name'] = "Number of students who were proficient in Math"
+	fields['MTHProf']['indent'] = 1
+
+	fields['MTHPartProf'] = OrderedDict();
+	fields['MTHPartProf']['name'] = "Number of students who were partially proficient in Math"
+	fields['MTHPartProf']['indent'] = 1
+
+	fields['MTHNotProf'] = OrderedDict();
+	fields['MTHNotProf']['name'] = "Number of students who were not proficient in Math"
+	fields['MTHNotProf']['indent'] = 1
+
+	fields['MTHMet'] = OrderedDict();
+	fields['MTHMet']['name'] = "Number of students who met or exceeded expectations in Math"
+	fields['MTHMet']['indent'] = 1
+
+	fields['MTHNotMet'] = OrderedDict();
+	fields['MTHNotMet']['name'] = "Number of students who did not meet expectations in Math"
+	fields['MTHNotMet']['indent'] = 1
+
+	fields['MTHAdv'] = OrderedDict();
+	fields['MTHAdv']['name'] = "Number of students who were advanced in Math"
+	fields['MTHAdv']['indent'] = 1
+
+	fields['MTHMetPct'] = OrderedDict();
+	fields['MTHMetPct']['name'] = "Percentage of students who met Math expectations"
+	fields['MTHMetPct']['indent'] = 1
+	
+	fields['ELATotAssessed'] = OrderedDict();
+	fields['ELATotAssessed']['name'] = "Total students taking ELA Assessment"
+	fields['ELATotAssessed']['indent'] = 0
+
+	fields['ELAProf'] = OrderedDict();
+	fields['ELAProf']['name'] = "Number of students who were proficient in ELA"
+	fields['ELAProf']['indent'] = 1
+
+	fields['ELAPartProf'] = OrderedDict();
+	fields['ELAPartProf']['name'] = "Number of students who were partially proficient in ELA"
+	fields['ELAPartProf']['indent'] = 1
+
+	fields['ELANotProf'] = OrderedDict();
+	fields['ELANotProf']['name'] = "Number of students who were not proficient in ELA"
+	fields['ELANotProf']['indent'] = 1
+
+	fields['ELAMet'] = OrderedDict();
+	fields['ELAMet']['name'] = "Number of students who met or exceeded expectations in ELA"
+	fields['ELAMet']['indent'] = 1
+
+	fields['ELANotMet'] = OrderedDict();
+	fields['ELANotMet']['name'] = "Number of students who did not meet expectations in ELA"
+	fields['ELANotMet']['indent'] = 1
+
+	fields['ELAAdv'] = OrderedDict();
+	fields['ELAAdv']['name'] = "Number of students who were advanced in ELA"
+	fields['ELAAdv']['indent'] = 1
+
+	fields['ELAMetPct'] = OrderedDict();
+	fields['ELAMetPct']['name'] = "Percentage of students who met ELA expectations"
+	fields['ELAMetPct']['indent'] = 1
+
+	data = format_d3_data("2017", "D3-ELA-Math", "Third Grade Proficiency in ELA and Math", "Total students taking Math Assessment", "MTHTotAssessed", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	ela_math_dict = dict()
+	doc['social']['ela_math'] = ela_math_dict
+
+	ela_math_dict['percent_met_expectaions_in_math'] = build_item('Students who met or exceeded expectations in Math', data, d3_item_levels,
+		'D3-MTHMet D3-MTHTotAssessed / %')
+	add_metadata(ela_math_dict['percent_met_expectaions_in_math'], 'D3-ELA-Math', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
+	ela_math_dict['percent_met_expectaions_in_ela'] = build_item('Students who met or exceeded expectations in ELA', data, d3_item_levels,
+		'D3-ELAMet D3-ELATotAssessed / %')
+	add_metadata(ela_math_dict['percent_met_expectaions_in_ela'], 'D3-ELA-Math', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
+
+	ela_distribution_dict = OrderedDict()
+	doc['social']['ela_distribution'] = ela_distribution_dict
+	add_metadata(ela_distribution_dict, 'D3-ELA-Math', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
+	ela_distribution_dict['ELAProf'] = build_item('Proficient', data, d3_item_levels,
+		'D3-ELAProf D3-ELATotAssessed / %')
+
+	ela_distribution_dict['ELAPartProf'] = build_item('Partially proficient', data, d3_item_levels,
+		'D3-ELAPartProf D3-ELATotAssessed / %')
+
+	ela_distribution_dict['ELANotProf'] = build_item('Not proficient', data, d3_item_levels,
+		'D3-ELANotProf D3-ELATotAssessed / %')
+
+	ela_distribution_dict['ELAMet'] = build_item('Met expectations', data, d3_item_levels,
+		'D3-ELAMet D3-ELATotAssessed / %')
+
+	ela_distribution_dict['ELANotMet'] = build_item('Not met expectations', data, d3_item_levels,
+		'D3-ELANotMet D3-ELATotAssessed / %')
+
+	ela_distribution_dict['ELAAdv'] = build_item('Advanced', data, d3_item_levels,
+		'D3-ELAAdv D3-ELATotAssessed / %')
+
+	math_distribution_dict = OrderedDict()
+	doc['social']['math_distribution'] = math_distribution_dict
+	add_metadata(math_distribution_dict, 'D3-ELA-Math', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
+	math_distribution_dict['MTHProf'] = build_item('Proficient', data, d3_item_levels,
+		'D3-MTHProf D3-MTHTotAssessed / %')
+
+	math_distribution_dict['MTHPartProf'] = build_item('Partially proficient', data, d3_item_levels,
+		'D3-MTHPartProf D3-MTHTotAssessed / %')
+
+	math_distribution_dict['MTHNotProf'] = build_item('Not proficient', data, d3_item_levels,
+		'D3-MTHNotProf D3-MTHTotAssessed / %')
+
+	math_distribution_dict['MTHMet'] = build_item('Met expectations', data, d3_item_levels,
+		'D3-MTHMet D3-MTHTotAssessed / %')
+
+	math_distribution_dict['MTHNotMet'] = build_item('Not met expectations', data, d3_item_levels,
+		'D3-MTHNotMet D3-MTHTotAssessed / %')
+
+	math_distribution_dict['MTHAdv'] = build_item('Advanced', data, d3_item_levels,
+		'D3-MTHAdv D3-MTHTotAssessed / %')
+
+
+
+	# get D3 data on Graduation Rates
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	msa_data = []
+	school_district_data = []
+	zcta_data = []	
+	if state_geoids:
+		state_data = d3_api.get_data('StateofMichigan_GraduationRate_07312017', 'GEOID10', state_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('GraduationRates_byCounty_07312017', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('GraduationRates_byCity_07312017', 'GEOID10', county_sd_geoids)
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('GraduationRates_byTract_07312017', 'GEOID10', tract_geoids)
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('GraduationRates_byMSA_07312017', 'GeoID10_1', msa_geoids)
+
+	if school_district_geoids:
+	 	school_district_data = d3_api.get_data('GraduationRates_bySchoolDistrict_07312017', 'GEOID10', school_district_geoids)
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('GraduationRates_byZip_07312017', 'ZCTA5CE10', zcta_geoids)
+
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict();
+	fields['CohortCount'] = OrderedDict();
+	fields['CohortCount']['name'] = "Number of Students"
+	fields['CohortCount']['indent'] = 0
+
+	fields['GradCount'] = OrderedDict();
+	fields['GradCount']['name'] = "Number of Graduates"
+	fields['GradCount']['indent'] = 1
+
+	fields['GradRate'] = OrderedDict();
+	fields['GradRate']['name'] = "Graduation Rate"
+	fields['GradRate']['indent'] = 1
+
+
+	data = format_d3_data("2017", "D3-GraduationRates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	graduation_dict = dict()
+	doc['social']['graduation'] = graduation_dict
+
+	graduation_dict['graduation_rate'] = build_item('Graduation Rate', data, d3_item_levels,
+		'D3-GradCount D3-CohortCount / %')
+	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rate', 'Total number of students', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
 
 
 	data = api.get_data('B01001', comparison_geoids, acs)
