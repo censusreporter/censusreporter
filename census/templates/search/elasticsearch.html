@@ -103,6 +103,34 @@
                     response.unshift(d3Response);
                 }
 
+                // Math
+                var math = 'educationtestingelamaththird3rdgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolmath';
+                var match_elamath = math.match(re);
+                if (match_elamath) {
+                    var d3Response = d3MathTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }
+
+                // ELA
+                var ela = 'educationtestingelamaththird3rdgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolelaenglishlanguagearts';
+                var match_elamath = ela.match(re);
+                if (match_elamath) {
+                    var d3Response = d3ELATable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }
+
+                // graduation rates
+                var grad = 'educationstudentschildrenschoolgraduationrateshighschoolcollegeattainmentstatisticsgradedropout';
+                var match_elamath = grad.match(re);
+                if (match_elamath) {
+                    var d3Response = d3GradTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }     
+
+
                 var results = response.results;
                 var resultNumber = results.length;
                 if (resultNumber === 0) {
@@ -138,6 +166,61 @@
         return response;
 
     }
+
+    var d3MathTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Math-Proficiency",
+            'simple_table_name': "Third Grade Proficiency in Math",
+            'table_id': "D3-Math-Proficiency",
+            'table_name': "Third Grade Proficiency in Math",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Math-Proficiency",
+            'universe': "Total students taking Math Assessment"
+        }
+    
+        return response;
+    
+    }
+    
+    var d3ELATable = function() {
+        // state table
+        var response = {
+            'id': "D3-ELA-Proficiency",
+            'simple_table_name': "Third Grade Proficiency in ELA",
+            'table_id': "D3-ELA-Proficiency",
+            'table_name': "Third Grade Proficiency in ELA",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Math-Proficiency",
+            'universe': "Total students taking ELA Assessment"
+        }
+    
+        return response;
+    
+    }
+
+    var d3GradTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Graduation-Rates",
+            'simple_table_name': "High School Graduation Rate",
+            'table_id': "D3-Graduation-Rates",
+            'table_name': "High School Graduation Rate",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Graduation-Rates",
+            'universe': "High School Graduation Rate"
+        }
+    
+        return response;
+    
+    }
+        
 
     function makeElasticSearchTopicSelectWidget(element) {
         element.typeahead('destroy');

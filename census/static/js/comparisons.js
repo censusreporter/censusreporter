@@ -94,37 +94,76 @@ function Comparison(options, callback) {
 
         var ajaxGeo = 0;
         var split_geoid;
-        for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
-            split_geoid = comparison.d3_all_geoids[i].split('US');
-            if (split_geoid[0].startsWith('040')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
-            }
-            if (split_geoid[0].startsWith('050')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'county_data', 'GeoID10_1');
-            }
-            if (split_geoid[0].startsWith('060')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GeoID10_1');
-            }
-            if (split_geoid[0].startsWith('140')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
-            }
-            if (split_geoid[0].startsWith('310')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_1');
-            }
-            if (split_geoid[0].startsWith('860')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
-            }
-            if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
-                ajaxGeo++;
-                parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
+
+        // births
+        if (comparison.d3table_name == "D3-Births") {
+            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+                split_geoid = comparison.d3_all_geoids[i].split('US');
+                if (split_geoid[0].startsWith('040')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
+                }
+                if (split_geoid[0].startsWith('050')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_data', 'GeoID10_1');
+                }
+                if (split_geoid[0].startsWith('060')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GeoID10_1');
+                }
+                if (split_geoid[0].startsWith('140')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('310')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_1');
+                }
+                if (split_geoid[0].startsWith('860')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
+                }
+                if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
+                }
             }
         }
+
+        if (comparison.d3table_name == "D3-Math-Proficiency" || comparison.d3table_name == "D3-ELA-Proficiency" || comparison.d3table_name == "D3-Graduation-Rates") {
+            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+                split_geoid = comparison.d3_all_geoids[i].split('US');
+                if (split_geoid[0].startsWith('040')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('050')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('060')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('140')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('310')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_1');
+                }
+                if (split_geoid[0].startsWith('860')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
+                }
+                if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
+                }
+            }
+        }        
+
 
         function parseData(geo_id, geo_key, geo_field) {
             var split_geoid = geo_id.split('US');
@@ -275,6 +314,205 @@ function Comparison(options, callback) {
         
     }
 
+    comparison.getMathProficiencyData = function() {
+        // metadata specific to Math
+        comparison.d3DataReleaseName = 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2017';
+        comparison.d3table_name = 'D3-Math-Proficiency';
+        comparison.d3title = 'Third Grade Proficiency in Math';
+        comparison.d3universe = 'Total students taking Math Assessment';
+        comparison.d3denominator_column_id ='D3-MTHTotAssessed';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['MTHTotAssessed'] = {};
+        comparison.d3fields['MTHTotAssessed']['name'] = "Total students taking Math Assessment"
+        comparison.d3fields['MTHTotAssessed']['indent'] = 0
+
+        comparison.d3fields['MTHProf'] = {};
+        comparison.d3fields['MTHProf']['name'] = "Number of students who were proficient in Math"
+        comparison.d3fields['MTHProf']['indent'] = 1
+
+        comparison.d3fields['MTHPartProf'] = {};
+        comparison.d3fields['MTHPartProf']['name'] = "Number of students who were partially proficient in Math"
+        comparison.d3fields['MTHPartProf']['indent'] = 1
+
+        comparison.d3fields['MTHNotProf'] = {};
+        comparison.d3fields['MTHNotProf']['name'] = "Number of students who were not proficient in Math"
+        comparison.d3fields['MTHNotProf']['indent'] = 1
+
+        comparison.d3fields['MTHMet'] = {};
+        comparison.d3fields['MTHMet']['name'] = "Number of students who met or exceeded expectations in Math"
+        comparison.d3fields['MTHMet']['indent'] = 1
+
+        comparison.d3fields['MTHNotMet'] = {};
+        comparison.d3fields['MTHNotMet']['name'] = "Number of students who did not meet expectations in Math"
+        comparison.d3fields['MTHNotMet']['indent'] = 1
+
+        comparison.d3fields['MTHAdv'] = {};
+        comparison.d3fields['MTHAdv']['name'] = "Number of students who were advanced in Math"
+        comparison.d3fields['MTHAdv']['indent'] = 1
+
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('StateofMichigan_ThirdGrade_ELA_MTH_Data_08032017', 'GEOID10', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byCounty_08032017', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byCity_08032017', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byTract_08032017', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byMSA_08032017', 'GeoID10_1', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_bySchoolDistrict_08032017', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_by_Zip_08032017', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+    comparison.getELAProficiencyData = function() {
+        // metadata specific to ELA
+        comparison.d3DataReleaseName = 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2017';
+        comparison.d3table_name = 'D3-ELA-Proficiency';
+        comparison.d3title = 'Third Grade Proficiency in ELA';
+        comparison.d3universe = 'Total students taking ELA Assessment';
+        comparison.d3denominator_column_id ='D3-ELATotAssessed';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['ELATotAssessed'] = {};
+        comparison.d3fields['ELATotAssessed']['name'] = "Total students taking ELA Assessment"
+        comparison.d3fields['ELATotAssessed']['indent'] = 0
+
+        comparison.d3fields['ELAProf'] = {};
+        comparison.d3fields['ELAProf']['name'] = "Number of students who were proficient in ELA"
+        comparison.d3fields['ELAProf']['indent'] = 1
+
+        comparison.d3fields['ELAPartProf'] = {};
+        comparison.d3fields['ELAPartProf']['name'] = "Number of students who were partially proficient in ELA"
+        comparison.d3fields['ELAPartProf']['indent'] = 1
+
+        comparison.d3fields['ELANotProf'] = {};
+        comparison.d3fields['ELANotProf']['name'] = "Number of students who were not proficient in ELA"
+        comparison.d3fields['ELANotProf']['indent'] = 1
+
+        comparison.d3fields['ELAMet'] = {};
+        comparison.d3fields['ELAMet']['name'] = "Number of students who met or exceeded expectations in ELA"
+        comparison.d3fields['ELAMet']['indent'] = 1
+
+        comparison.d3fields['ELANotMet'] = {};
+        comparison.d3fields['ELANotMet']['name'] = "Number of students who did not meet expectations in ELA"
+        comparison.d3fields['ELANotMet']['indent'] = 1
+
+        comparison.d3fields['ELAAdv'] = {};
+        comparison.d3fields['ELAAdv']['name'] = "Number of students who were advanced in ELA"
+        comparison.d3fields['ELAAdv']['indent'] = 1
+
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('StateofMichigan_ThirdGrade_ELA_MTH_Data_08032017', 'GEOID10', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byCounty_08032017', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byCity_08032017', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byTract_08032017', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_byMSA_08032017', 'GeoID10_1', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_bySchoolDistrict_08032017', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('ThirdGrade_ELA_MTH_Data_by_Zip_08032017', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+
+    comparison.getGraduationRateData = function() {
+        // metadata specific to graduaton rates
+        comparison.d3DataReleaseName = 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2017';
+        comparison.d3table_name = 'D3-Graduation-Rates';
+        comparison.d3title = 'High School Graduation Rate';
+        comparison.d3universe = 'Total students';
+        comparison.d3denominator_column_id ='D3-CohortCount';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['CohortCount'] = {};
+        comparison.d3fields['CohortCount']['name'] = "Number of Students"
+        comparison.d3fields['CohortCount']['indent'] = 0
+
+        comparison.d3fields['GradCount'] = {};
+        comparison.d3fields['GradCount']['name'] = "Number of Graduates"
+        comparison.d3fields['GradCount']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('StateofMichigan_GraduationRate_07312017', 'GEOID10', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_byCounty_07312017', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_byCity_07312017', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_byTract_07312017', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_byMSA_07312017', 'GeoID10_1', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_bySchoolDistrict_07312017', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_byZip_07312017', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
     comparison.getData = function() {
         if (comparison.tableID && comparison.geoIDs) {
             var params = {
@@ -363,6 +601,19 @@ function Comparison(options, callback) {
                     if (comparison.tableID == 'D3-Births') {
                         comparison.getBirthData();
                     }
+
+                    if (comparison.tableID == 'D3-Math-Proficiency') {
+                        comparison.getMathProficiencyData();
+                    }
+
+                    if (comparison.tableID == 'D3-ELA-Proficiency') {
+                        comparison.getELAProficiencyData();
+                    }
+
+                    if (comparison.tableID == 'D3-Graduation-Rates') {
+                        comparison.getGraduationRateData();
+                    }
+
                 }
 
                 
@@ -1368,6 +1619,33 @@ function Comparison(options, callback) {
                     response.unshift(d3Response);
                 }
 
+                // Math
+                var math = 'educationtestingelamaththird3rdgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolmath';
+                var match_elamath = math.match(re);
+                if (match_elamath) {
+                    var d3Response = d3MathTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }
+
+                // ELA
+                var ela = 'educationtestingelamaththird3rdgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolelaenglishlanguagearts';
+                var match_elamath = ela.match(re);
+                if (match_elamath) {
+                    var d3Response = d3ELATable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }
+
+                // graduation rates
+                var grad = 'educationstudentschildrenschoolgraduationrateshighschoolcollegeattainmentstatisticsgradedropout';
+                var match_elamath = grad.match(re);
+                if (match_elamath) {
+                    var d3Response = d3GradTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }               
+
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
                     response.push({
@@ -1396,6 +1674,60 @@ function Comparison(options, callback) {
             'type': "table",
             'unique_key': "D3-Births",
             'universe': "Total births"
+        }
+
+        return response;
+
+    }
+
+    var d3MathTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Math-Proficiency",
+            'simple_table_name': "Third Grade Proficiency in Math",
+            'table_id': "D3-Math-Proficiency",
+            'table_name': "Third Grade Proficiency in Math",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Math-Proficiency",
+            'universe': "Total students taking Math Assessment"
+        }
+
+        return response;
+
+    }
+
+    var d3ELATable = function() {
+        // state table
+        var response = {
+            'id': "D3-ELA-Proficiency",
+            'simple_table_name': "Third Grade Proficiency in ELA",
+            'table_id': "D3-ELA-Proficiency",
+            'table_name': "Third Grade Proficiency in ELA",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Math-Proficiency",
+            'universe': "Total students taking ELA Assessment"
+        }
+
+        return response;
+
+    }
+
+    var d3GradTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Graduation-Rates",
+            'simple_table_name': "High School Graduation Rate",
+            'table_id': "D3-Graduation-Rates",
+            'table_name': "High School Graduation Rate",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Graduation-Rates",
+            'universe': "High School Graduation Rate"
         }
 
         return response;

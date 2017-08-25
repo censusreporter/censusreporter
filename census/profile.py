@@ -550,7 +550,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['ELAMetPct']['name'] = "Percentage of students who met ELA expectations"
 	fields['ELAMetPct']['indent'] = 1
 
-	data = format_d3_data("2017", "D3-ELA-Math", "Third Grade Proficiency in ELA and Math", "Total students taking Math Assessment", "MTHTotAssessed", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Math-Proficiency", "Third Grade Proficiency in ELA and Math", "Total students taking Math Assessment", "MTHTotAssessed", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	ela_math_dict = dict()
@@ -558,16 +558,16 @@ def geo_profile(geoid, acs='latest'):
 
 	ela_math_dict['percent_met_expectaions_in_math'] = build_item('Students who met or exceeded expectations in Math', data, d3_item_levels,
 		'D3-MTHMet D3-MTHTotAssessed / %')
-	add_metadata(ela_math_dict['percent_met_expectaions_in_math'], 'D3-ELA-Math', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(ela_math_dict['percent_met_expectaions_in_math'], 'D3-Math-Proficiency', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
 
 	ela_math_dict['percent_met_expectaions_in_ela'] = build_item('Students who met or exceeded expectations in ELA', data, d3_item_levels,
 		'D3-ELAMet D3-ELATotAssessed / %')
-	add_metadata(ela_math_dict['percent_met_expectaions_in_ela'], 'D3-ELA-Math', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(ela_math_dict['percent_met_expectaions_in_ela'], 'D3-ELA-Proficiency', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
 
 
 	ela_distribution_dict = OrderedDict()
 	doc['social']['ela_distribution'] = ela_distribution_dict
-	add_metadata(ela_distribution_dict, 'D3-ELA-Math', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(ela_distribution_dict, 'D3-ELA-Proficiency', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
 
 	ela_distribution_dict['ELAProf'] = build_item('Proficient', data, d3_item_levels,
 		'D3-ELAProf D3-ELATotAssessed / %')
@@ -589,7 +589,7 @@ def geo_profile(geoid, acs='latest'):
 
 	math_distribution_dict = OrderedDict()
 	doc['social']['math_distribution'] = math_distribution_dict
-	add_metadata(math_distribution_dict, 'D3-ELA-Math', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(math_distribution_dict, 'D3-Math-Proficiency', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
 
 	math_distribution_dict['MTHProf'] = build_item('Proficient', data, d3_item_levels,
 		'D3-MTHProf D3-MTHTotAssessed / %')
@@ -657,7 +657,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['GradRate']['indent'] = 1
 
 
-	data = format_d3_data("2017", "D3-GraduationRates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Graduation-Rates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	graduation_dict = dict()
@@ -1374,6 +1374,58 @@ def geo_profile(geoid, acs='latest'):
 		'B17018018 B17018018 B17018035 + / %')	
 
 
+	# Economics: Food assistance program participation
+	data = api.get_data('B22002', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	poverty_dict['percent_receiving_food_assistance'] = build_item('Households with food/SNAP assistance in the past 12 months', data, item_levels,
+		'B22002002 B22002001 / %')
+	add_metadata(poverty_dict['percent_receiving_food_assistance'], 'B22002', 'Households', acs_name)
+
+	food_assistance_household_type = OrderedDict()
+	doc['economics']['poverty']['food_assistance_household_type'] = food_assistance_household_type
+	add_metadata(food_assistance_household_type, 'B22002', 'Households', acs_name)
+
+	# Married Couples
+	food_assistance_household_type['married_couples'] = OrderedDict()
+	food_assistance_household_type['married_couples']['acs_release'] = acs_name
+	food_assistance_household_type['married_couples']['metadata'] = {
+		'universe': 'Households',
+		'table_id': 'B22002',
+		'name': 'Married couples'
+	}
+	food_assistance_household_type['married_couples']['With Children'] = build_item('With children under 18 years', data, item_levels,
+		'B22002004 B22002001 / %')	
+	food_assistance_household_type['married_couples']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
+		'B22002010 B22002001 / %')	
+
+	#Male Householder
+	food_assistance_household_type['male_householder'] = OrderedDict()
+	food_assistance_household_type['male_householder']['acs_release'] = acs_name
+	food_assistance_household_type['male_householder']['metadata'] = {
+		'universe': 'Households',
+		'table_id': 'B22002',
+		'name': 'Male householder, no wife present'
+	}
+	food_assistance_household_type['male_householder']['With Children'] = build_item('With children under 18 years', data, item_levels,
+		'B22002006 B22002001 / %')	
+	food_assistance_household_type['male_householder']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
+		'B22002012 B22002001 / %')	
+
+	#Female Householder
+	food_assistance_household_type['female_householder'] = OrderedDict()
+	food_assistance_household_type['female_householder']['acs_release'] = acs_name
+	food_assistance_household_type['female_householder']['metadata'] = {
+		'universe': 'Households',
+		'table_id': 'B22002',
+		'name': 'Female householder, no husband present'
+	}
+	food_assistance_household_type['female_householder']['With Children'] = build_item('With children under 18 years', data, item_levels,
+		'B22002007 B22002001 / %')	
+	food_assistance_household_type['female_householder']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
+		'B22002013 B22002001 / %')	
+
+
 	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
 	data = api.get_data(['B23025', 'B23027', 'B14005', 'B08006', 'B08013'], comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -1457,6 +1509,35 @@ def geo_profile(geoid, acs='latest'):
 		'B08006016 B08006001 / %')
 	transportation_dict['worked_at_home'] = build_item('Worked at home', data, item_levels,
 		'B08006017 B08006001 / %')
+
+
+
+	# Family and Economic Security: Vehicle Avaialabilty
+	data = api.get_data(['B08006', 'B08014', 'B08015'], comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	employment_dict['mean_number_of_vehicles'] = build_item('Mean number of vehicles available', data, item_levels,
+		'B08015001 B08006002 /')
+	add_metadata(employment_dict['mean_number_of_vehicles'], 'B08006, B08015', 'Workers Whose Means of Transportation Is Car, Truck, or Van', acs_name)
+
+	vehicle_availabilty_dict = OrderedDict()
+	employment_dict['distribution_vehicle_availabilty'] = vehicle_availabilty_dict
+	add_metadata(employment_dict['distribution_vehicle_availabilty'], 'B08006', 'Workers 16 years and over', acs_name)
+
+	vehicle_availabilty_dict['No_vehicle_available'] = build_item('No vehicle available', data, item_levels,
+		'B08014002 B08014001 / %')
+	vehicle_availabilty_dict['1_vehicle_available'] = build_item('1 vehicle available', data, item_levels,
+		'B08014003 B08014001 / %')
+	vehicle_availabilty_dict['2_vehicles_available'] = build_item('2 vehicles available', data, item_levels,
+		'B08014004 B08014001 / %')
+	vehicle_availabilty_dict['3_vehicles_available'] = build_item('3 vehicles available', data, item_levels,
+		'B08014005 B08014001 / %')
+	vehicle_availabilty_dict['4_vehicles_available'] = build_item('4 vehicles available', data, item_levels,
+		'B08014006 B08014001 / %')
+	vehicle_availabilty_dict['5_or_more_vehicles_available'] = build_item('5+ vehicles available', data, item_levels,
+		'B08014007 B08014001 / %')
+
+
 
 	# Families: Marital Status by Sex
 	data = api.get_data('B12001', comparison_geoids, acs)

@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    D3TableDetailView, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView)
 
@@ -66,9 +66,30 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^tables/D3-Births/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailView.as_view()),
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewBirths.as_view()),
         kwargs  = {},
         name    = 'table_D3-Births',
+    ),
+
+    url(
+        regex   = '^tables/D3-Math-Proficiency/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewMathProficiency.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Math-Proficiency',
+    ),
+
+    url(
+        regex   = '^tables/D3-ELA-Proficiency/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewELAProficiency.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-ELA-Proficiency',
+    ),
+
+    url(
+        regex   = '^tables/D3-Graduation-Rates/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewGraduationRates.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Graduation-Rates',
     ),
 
     url(

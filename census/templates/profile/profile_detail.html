@@ -92,6 +92,7 @@
                         <li><a href="#children-age-race" title="Youth age, race &amp; ethnicity">Youth age, race &amp; ethnicity </a></li>
                         <li><a href="#young-men" title="Boys &amp; young male population, age &amp; race">Boys &amp; young male population, age &amp; race </a></li>
                         <li><a href="#households" title="Households">Households </a></li>
+                        <li><a href="#families-with-children" title="Families with children">Families with children </a></li>
                         <li><a href="#marital-status" title="Marital status">Marital status </a></li>
                         <li><a href="#fertility" title="Fertility">Fertility </a></li>
                         <li><a href="#language" title="Language">Language </a></li>
@@ -117,8 +118,10 @@
                         <li><a href="#income" title="Income">Income </a></li>
                         <li><a href="#child-poverty" title="Child poverty">Child poverty </a></li>
                         <li><a href="#poverty" title="Poverty">Poverty</a></li>
+                        <li><a href="#food-assistance" title="Food assistance program participation">Food assistance program participation</a></li>                        
                         <li><a href="#employment" title="Employment">Employment</a></li>
-                        <li><a href="#commute" title="Transportation to work">Transportation to work</a></li>        
+                        <li><a href="#commute" title="Transportation to work">Transportation to work</a></li>
+                        <li><a href="#vehicle-availability" title="Vehicle availability">Vehicle availability</a></li>
                     </ul>
                 </header>
             </div>
@@ -225,6 +228,19 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
             </div>
             <div class="column-third" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Population by household type" data-qualifier="Universe: {{ families.households.distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
+            </div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.households_with_children.percent_households_with_children stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-families-family_types-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Own Children Under 18 Years by Family Type" data-qualifier="Universe: {{ families.family_types.children.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -372,6 +388,17 @@
         </section>
 
         <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#food-assistance" id="food-assistance" title="Permalink">Food assistance program participation <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_receiving_food_assistance stat_type='percentage' %}
+            </div>
+            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-food_assistance_household_type" data-stat-type="scaled-percentage" data-chart-title="Household food/SNAP assistance participation in the past 12 months by household type" data-qualifier="Universe: {{ economics.poverty.food_assistance_household_type.metadata.universe }}"></div>
+        </section>
+
+
+        <section class="clearfix stat-row">
             <h2><a class="permalink" href="#employment" id="employment" title="Permalink">Employment <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -392,6 +419,16 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
             </div>
             <div class="column-two-thirds" id="chart-histogram-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.transportation_distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#vehicle-availability" id="vehicle-availability" title="Permalink">Vehicle availabilty <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Distribution of number of vehicles available" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
         </section>
 
     </div>

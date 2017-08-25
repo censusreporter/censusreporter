@@ -130,13 +130,13 @@ class TableSearchView(TemplateView):
 
 		return page_context
 
-class D3TableDetailView(TemplateView):
+class D3TableDetailViewBirths(TemplateView):
 	template_name = 'table/table_detail.html'
 
 	def dispatch(self, *args, **kwargs):
 
 		try:
-			return super(D3TableDetailView, self).dispatch(*args, **kwargs)
+			return super(D3TableDetailViewBirths, self).dispatch(*args, **kwargs)
 		except Http404, e:
 			raise e
 
@@ -197,6 +197,186 @@ class D3TableDetailView(TemplateView):
 		}
 
 		return page_context	
+
+
+class D3TableDetailViewMathProficiency(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewMathProficiency, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Math-Proficiency'
+		table['table_title'] = 'Third Grade Proficiency in Math'
+		table['simple_table_title'] = 'Third Grade Proficiency in Math'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Total students taking Math Assessment'
+		table['denominator_column_id'] = 'MTHTotAssessed'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['MTHTotAssessed'] = OrderedDict()
+		table['columns']['MTHTotAssessed']['column_title'] = 'Total students taking Math Assessment:'
+		table['columns']['MTHTotAssessed']['indent'] = 0
+		table['columns']['MTHTotAssessed']['parent_column_id'] = None
+
+		table['columns']['MTHProf'] = OrderedDict()
+		table['columns']['MTHProf']['column_title'] = 'Number of students who were proficient in Math'
+		table['columns']['MTHProf']['indent'] = 1
+		table['columns']['MTHProf']['parent_column_id'] = 'MTHTotAssessed'
+
+		table['columns']['MTHPartProf'] = OrderedDict()
+		table['columns']['MTHPartProf']['column_title'] = 'Number of students who were partially proficient in Math'
+		table['columns']['MTHPartProf']['indent'] = 1
+		table['columns']['MTHPartProf']['parent_column_id'] = 'MTHTotAssessed'
+
+		table['columns']['MTHNotProf'] = OrderedDict()
+		table['columns']['MTHNotProf']['column_title'] = 'Number of students who were not proficient in Math'
+		table['columns']['MTHNotProf']['indent'] = 1
+		table['columns']['MTHNotProf']['parent_column_id'] = 'MTHTotAssessed'
+
+		table['columns']['MTHMet'] = OrderedDict()
+		table['columns']['MTHMet']['column_title'] = 'Number of students who met or exceeded expectations in Math'
+		table['columns']['MTHMet']['indent'] = 1
+		table['columns']['MTHMet']['parent_column_id'] = 'MTHTotAssessed'
+
+		table['columns']['MTHNotMet'] = OrderedDict()
+		table['columns']['MTHNotMet']['column_title'] = 'Number of students who did not meet expectations in Math'
+		table['columns']['MTHNotMet']['indent'] = 1
+		table['columns']['MTHNotMet']['parent_column_id'] = 'MTHTotAssessed'
+
+		table['columns']['MTHAdv'] = OrderedDict()
+		table['columns']['MTHAdv']['column_title'] = 'Number of students who were advanced in Math'
+		table['columns']['MTHAdv']['indent'] = 1
+		table['columns']['MTHAdv']['parent_column_id'] = 'MTHTotAssessed'
+
+		table['columns']['MTHMetPct'] = OrderedDict()
+		table['columns']['MTHMetPct']['column_title'] = 'Percentage of students who met Math expectations'
+		table['columns']['MTHMetPct']['indent'] = 1
+		table['columns']['MTHMetPct']['parent_column_id'] = 'MTHTotAssessed'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+
+class D3TableDetailViewELAProficiency(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewELAProficiency, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-ELA-Proficiency'
+		table['table_title'] = 'Third Grade Proficiency in ELA'
+		table['simple_table_title'] = 'Third Grade Proficiency in ELA'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Total students taking ELA Assessment'
+		table['denominator_column_id'] = 'ELATotAssessed'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['ELATotAssessed'] = OrderedDict()
+		table['columns']['ELATotAssessed']['column_title'] = 'Total students taking ELA Assessment:'
+		table['columns']['ELATotAssessed']['indent'] = 0
+		table['columns']['ELATotAssessed']['parent_column_id'] = None
+
+		table['columns']['ELAProf'] = OrderedDict()
+		table['columns']['ELAProf']['column_title'] = 'Number of students who were proficient in ELA'
+		table['columns']['ELAProf']['indent'] = 1
+		table['columns']['ELAProf']['parent_column_id'] = 'ELATotAssessed'
+
+		table['columns']['ELAPartProf'] = OrderedDict()
+		table['columns']['ELAPartProf']['column_title'] = 'Number of students who were partially proficient in ELA'
+		table['columns']['ELAPartProf']['indent'] = 1
+		table['columns']['ELAPartProf']['parent_column_id'] = 'ELATotAssessed'
+
+		table['columns']['ELANotProf'] = OrderedDict()
+		table['columns']['ELANotProf']['column_title'] = 'Number of students who were not proficient in ELA'
+		table['columns']['ELANotProf']['indent'] = 1
+		table['columns']['ELANotProf']['parent_column_id'] = 'ELATotAssessed'
+
+		table['columns']['ELAMet'] = OrderedDict()
+		table['columns']['ELAMet']['column_title'] = 'Number of students who met or exceeded expectations in ELA'
+		table['columns']['ELAMet']['indent'] = 1
+		table['columns']['ELAMet']['parent_column_id'] = 'ELATotAssessed'
+
+		table['columns']['ELANotMet'] = OrderedDict()
+		table['columns']['ELANotMet']['column_title'] = 'Number of students who did not meet expectations in ELA'
+		table['columns']['ELANotMet']['indent'] = 1
+		table['columns']['ELANotMet']['parent_column_id'] = 'ELATotAssessed'
+
+		table['columns']['ELAAdv'] = OrderedDict()
+		table['columns']['ELAAdv']['column_title'] = 'Number of students who were advanced in ELA'
+		table['columns']['ELAAdv']['indent'] = 1
+		table['columns']['ELAAdv']['parent_column_id'] = 'ELATotAssessed'
+
+		table['columns']['ELAMetPct'] = OrderedDict()
+		table['columns']['ELAMetPct']['column_title'] = 'Percentage of students who met ELA expectations'
+		table['columns']['ELAMetPct']['indent'] = 1
+		table['columns']['ELAMetPct']['parent_column_id'] = 'ELATotAssessed'
+
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewGraduationRates(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewGraduationRates, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Graduation-Rates'
+		table['table_title'] = 'High School Graduation Rate'
+		table['simple_table_title'] = 'High School Graduation Rate'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Total students'
+		table['denominator_column_id'] = 'CohortCount'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['CohortCount'] = OrderedDict()
+		table['columns']['CohortCount']['column_title'] = 'Number of Students:'
+		table['columns']['CohortCount']['indent'] = 0
+		table['columns']['CohortCount']['parent_column_id'] = None
+
+		table['columns']['GradCount'] = OrderedDict()
+		table['columns']['GradCount']['column_title'] = 'Number of Graduates'
+		table['columns']['GradCount']['indent'] = 1
+		table['columns']['GradCount']['parent_column_id'] = 'CohortCount'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
 
 
 class TableDetailView(TemplateView):
@@ -523,33 +703,33 @@ class GeographyDetailView(TemplateView):
 		except:
 			s3_key = None
 
-		# if s3_key and s3_key.exists():
-		# 	memfile = cStringIO.StringIO()
-		# 	s3_key.get_file(memfile)
-		# 	memfile.seek(0)
-		# 	compressed = gzip.GzipFile(fileobj=memfile)
+		if s3_key and s3_key.exists():
+			memfile = cStringIO.StringIO()
+			s3_key.get_file(memfile)
+			memfile.seek(0)
+			compressed = gzip.GzipFile(fileobj=memfile)
 
-		# 	# Read the decompressed JSON from S3
-		# 	profile_data_json = compressed.read()
-		# 	# Load it into a Python dict for the template
-		# 	profile_data = simplejson.loads(profile_data_json)
-		# 	# Also mark it as safe for the charts on the profile
-		# 	profile_data_json = SafeString(profile_data_json)
-		# else:
-		profile_data = geo_profile(geography_id)
-
-		if profile_data:
-			profile_data = enhance_api_data(profile_data)
-
-			profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-
-			if s3_key is None:
-				logger.warn("Could not save to S3 because there was no connection to S3.")
-			else:
-				self.write_profile_json(s3_key, profile_data_json)
-
+			# Read the decompressed JSON from S3
+			profile_data_json = compressed.read()
+			# Load it into a Python dict for the template
+			profile_data = simplejson.loads(profile_data_json)
+			# Also mark it as safe for the charts on the profile
+			profile_data_json = SafeString(profile_data_json)
 		else:
-			raise Http404
+			profile_data = geo_profile(geography_id)
+
+			if profile_data:
+				profile_data = enhance_api_data(profile_data)
+
+				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+				if s3_key is None:
+					logger.warn("Could not save to S3 because there was no connection to S3.")
+				else:
+					self.write_profile_json(s3_key, profile_data_json)
+
+			else:
+				raise Http404
 
 		page_context = {
 			'profile_data_json': profile_data_json
@@ -741,6 +921,110 @@ class DataView(TemplateView):
 
 			if zcta_geoids and self.table == 'D3-Births':
 				table_id = 'Births_byZCTA_2014'
+				field_name = 'ZCTA5CE10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+			# for ELA and Math data
+			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/ThirdGrade_ELA_MTH_Data_bySchoolDistrict_08032017/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
+			if state_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'StateofMichigan_ThirdGrade_ELA_MTH_Data_08032017'
+				field_name = 'GEOID10'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'ThirdGrade_ELA_MTH_Data_byCounty_08032017'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'ThirdGrade_ELA_MTH_Data_byCity_08032017'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'ThirdGrade_ELA_MTH_Data_byTract_08032017'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if msa_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'ThirdGrade_ELA_MTH_Data_byMSA_08032017'
+				field_name = 'GeoID10_1'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if school_district_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'ThirdGrade_ELA_MTH_Data_bySchoolDistrict_08032017'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and (self.table == 'D3-Math-Proficiency' or self.table == 'D3-ELA-Proficiency'):
+				table_id = 'ThirdGrade_ELA_MTH_Data_by_Zip_08032017'
+				field_name = 'ZCTA5CE10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+			# for graduation data
+			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/ThirdGrade_ELA_MTH_Data_bySchoolDistrict_08032017/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
+			if state_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'StateofMichigan_GraduationRate_07312017'
+				field_name = 'GEOID10'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_byCounty_07312017'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_byCity_07312017'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_byTract_07312017'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if msa_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_byMSA_07312017'
+				field_name = 'GeoID10_1'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_bySchoolDistrict_07312017'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_byZip_07312017'
 				field_name = 'ZCTA5CE10'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
