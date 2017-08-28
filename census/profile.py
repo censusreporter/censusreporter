@@ -1913,15 +1913,15 @@ def geo_profile(geoid, acs='latest'):
 	data = api.get_data('B27001', comparison_geoids, acs)
 	acs_name = data['release']['name']
 
-	health_insurace_dict = dict()
-	doc['social']['health_insurace'] = health_insurace_dict
+	health_insurance_dict = dict()
+	doc['social']['health_insurance'] = health_insurance_dict
 
-	health_insurace_dict['uninsured'] = build_item('Persons without health insurace', data, item_levels,
+	health_insurance_dict['uninsured'] = build_item('Persons without health insurance', data, item_levels,
 		'B27001005 B27001008 + B27001011 + B27001014 + B27001017 + B27001020 + B27001023 + B27001026 + B27001029 + B27001033 + B27001036 + B27001039 + B27001042 + B27001045 + B27001048 + B27001051 + B27001054 + B27001057 + B27001001 / %')
-	add_metadata(health_insurace_dict['uninsured'], 'B27001', 'Civilian noninstitutionalized population', acs_name)
+	add_metadata(health_insurance_dict['uninsured'], 'B27001', 'Civilian noninstitutionalized population', acs_name)
 
 	coverage_distribution = OrderedDict()
-	health_insurace_dict['coverage_distribution'] = coverage_distribution
+	health_insurance_dict['coverage_distribution'] = coverage_distribution
 	add_metadata(coverage_distribution, 'B27001', 'Civilian noninstitutionalized population', acs_name)
 
 	# repeating data temporarily to develop grouped column chart format
