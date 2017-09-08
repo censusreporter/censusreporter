@@ -197,8 +197,8 @@ TOPICS_LIST = [
         'title': 'Employment',
         'slug': 'employment',
         'topics': ['income', 'employment'],
-        'description': 'While the ACS is not always the best source for employment data, it provides interesting information for small geographies that other sources don&rsquo;t cover.',
-        'short_description': 'Interesting information for small geographies that other sources don&rsquo;t cover.',
+        'description': 'While the ACS is not always the best source for employment data, it provides interesting information for small geographies that other sources do not cover.',
+        'short_description': 'Interesting information for small geographies that other sources do not cover.',
         'template_name': 'employment.html',
         'question_images': ['employment.png',],
         'question_pdfs': [

@@ -199,9 +199,9 @@ function Table(options) {
         // state table
         var response = {
             'id': "D3-ELA-Proficiency",
-            'simple_table_name': "Third Grade Proficiency in ELA",
+            'simple_table_name': "Third Grade Proficiency in English Language Arts",
             'table_id': "D3-ELA-Proficiency",
-            'table_name': "Third Grade Proficiency in ELA",
+            'table_name': "Third Grade Proficiency in English Language Arts",
             'topic_string': "education, children",
             'topics': ['education','children'],
             'type': "table",
