@@ -665,11 +665,11 @@ def geo_profile(geoid, acs='latest'):
 
 	graduation_dict['graduation_rate'] = build_item('Graduation Rate', data, d3_item_levels,
 		'D3-GradCnt D3-CohortCount / %')
-	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rate', 'Total number of students', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rates', 'Total number of students', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
 
 	graduation_chart_data = OrderedDict()
 	doc['social']['graduation_chart_data'] = graduation_chart_data
-	add_metadata(graduation_chart_data, 'D3-Graduation-Rate', 'Population 15 Total number of students and over', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(graduation_chart_data, 'D3-Graduation-Rates', 'Population 15 Total number of students and over', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
 
 	graduation_chart_data['graduated'] = build_item('Graduated', data, d3_item_levels,
 		'D3-GradCnt D3-CohortCount / %')

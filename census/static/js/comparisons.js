@@ -135,7 +135,7 @@ function Comparison(options, callback) {
                 split_geoid = comparison.d3_all_geoids[i].split('US');
                 if (split_geoid[0].startsWith('040')) {
                     ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'state_data', 'GEOID10');
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
                 }
                 if (split_geoid[0].startsWith('050')) {
                     ajaxGeo++;
@@ -143,7 +143,7 @@ function Comparison(options, callback) {
                 }
                 if (split_geoid[0].startsWith('060')) {
                     ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GeoID10_1');
                 }
                 if (split_geoid[0].startsWith('140')) {
                     ajaxGeo++;
@@ -151,7 +151,7 @@ function Comparison(options, callback) {
                 }
                 if (split_geoid[0].startsWith('310')) {
                     ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_1');
+                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_MSA');
                 }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
@@ -431,7 +431,7 @@ function Comparison(options, callback) {
 
         if (comparison.state_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_Michigan_08032017', 'GEOID10', comparison.state_geoids, 'state_data');
+            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_Michigan_08032017', 'StateID', comparison.state_geoids, 'state_data');
         }
         if (comparison.county_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -439,7 +439,7 @@ function Comparison(options, callback) {
         }
         if (comparison.county_sd_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byCities_08032017', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byCities_08032017', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
         }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -447,7 +447,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_1', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
         }
         if (comparison.school_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1713,7 +1713,7 @@ function Comparison(options, callback) {
             'topic_string': "education, children",
             'topics': ['education','children'],
             'type': "table",
-            'unique_key': "D3-Math-Proficiency",
+            'unique_key': "D3-ELA-Proficiency",
             'universe': "Total students taking ELA Assessment"
         }
 

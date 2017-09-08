@@ -136,7 +136,7 @@ var d3ELATable = function() {
         'topic_string': "education, children",
         'topics': ['education','children'],
         'type': "table",
-        'unique_key': "D3-Math-Proficiency",
+        'unique_key': "D3-ELA-Proficiency",
         'universe': "Total students taking ELA Assessment"
     }
 
