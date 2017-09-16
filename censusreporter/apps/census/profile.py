@@ -14,7 +14,7 @@ class ApiClient(object):
 
     def _get(self, path, params=None):
         url = self.base_url + path
-        r = requests.get(url, params=params)
+        r = requests.get(url, params=params, headers={'User-Agent': 'censusreporter.org frontend profile builder'})
         data = None
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)
@@ -599,7 +599,7 @@ def geo_profile(geoid, acs='latest'):
 
     households_distribution_dict = OrderedDict()
     households_dict['distribution'] = households_distribution_dict
-    add_metadata(households_dict['distribution'], 'B11001', 'Households', acs_name)
+    add_metadata(households_dict['distribution'], 'B11002', 'People in Households', acs_name)
 
     households_distribution_dict['married_couples'] = build_item('Married couples', data, item_levels,
         'B11002003 B11002001 / %')

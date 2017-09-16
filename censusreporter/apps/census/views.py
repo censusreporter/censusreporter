@@ -40,6 +40,9 @@ import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
+r_session = requests.Session()
+r_session.headers.update({'User-Agent': 'censusreporter.org frontend'})
+
 
 ### UTILS ###
 
@@ -80,60 +83,6 @@ def raise_404_with_messages(request, error_data={}):
 
     raise Http404
 
-
-### TABLES ###
-class TableSearchView(TemplateView):
-    template_name = 'table/table_search.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {}
-        q = self.request.GET.get('q', None)
-        topics = self.request.GET.get('topics', None)
-        start = self.request.GET.get('start', 0)
-
-        if q:
-            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
-            api_params = {
-                'q': q,
-                'topics': topics,
-                'start': start
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-
-                # if we end up powering results list with javascript ...
-                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
-
-                page_context = data
-                page_context['q'] = q
-                page_context['topics'] = topics
-                page_context['num_results'] = data['facets']['topics']['total']
-                if topics:
-                    page_context['filters'] = topics.split(',')
-
-                # pagination things
-                start = int(start)
-                results_page_length = len(data['results'])
-                if page_context['num_results'] > results_page_length:
-                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
-                if 'next_page' in data['links']:
-                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
-                if 'previous_page' in data['links']:
-                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
-
-
-                page_context['q'] = q
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
-
-        return page_context
-
 class TableDetailView(TemplateView):
     template_name = 'table/table_detail.html'
     RELEASE_TRANSLATE_DICT = {
@@ -169,7 +118,7 @@ class TableDetailView(TemplateView):
                 table_argument = table_argument + 'A'
             endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_argument
 
-            if requests.get(endpoint).status_code == 200:
+            if r_session.get(endpoint).status_code == 200:
                 return HttpResponseRedirect(
                     reverse('table_detail', args = (table_argument,))
                 )
@@ -177,14 +126,14 @@ class TableDetailView(TemplateView):
 
     def get_tabulation_data(self, table_code):
         endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
-        r = requests.get(endpoint)
+        r = r_session.get(endpoint)
         status_code = r.status_code
 
         # make sure we've requested a legit tabulation code
         if status_code == 200:
-            tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            tabulation_data = r.json(object_pairs_hook=OrderedDict)
         elif status_code == 404 or status_code == 400:
-            error_data = simplejson.loads(r.text)
+            error_data = r.json()
             raise_404_with_messages(self.request, error_data)
         else:
             raise Http404
@@ -277,10 +226,10 @@ class TableDetailView(TemplateView):
 
     def get_table_data(self, table_code):
         endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
-        r = requests.get(endpoint)
+        r = r_session.get(endpoint)
 
         if r.status_code == 200:
-            return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            return r.json(object_pairs_hook=OrderedDict)
         if r.status_code == 400:
             raise ValueError("No table data for that table")
         else:
@@ -292,56 +241,6 @@ class TableDetailView(TemplateView):
             'tabulation': self.get_tabulation_data(self.tabulation_code),
         }
         page_context['related_topic_pages'] = self.get_topic_pages(page_context['table']['topics'])
-
-        return page_context
-
-
-### PROFILES ###
-class GeographySearchView(TemplateView):
-    template_name = 'profile/profile_search.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {}
-        q = self.request.GET.get('q', None)
-        sumlevs = self.request.GET.get('sumlevs', None)
-        start = self.request.GET.get('start', 0)
-
-        if q:
-            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
-            api_params = {
-                'q': q,
-                'sumlevs': sumlevs,
-                'start': start
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-
-                # if we end up powering results list with javascript ...
-                #page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
-                #page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
-
-                page_context = data
-                page_context['q'] = q
-                page_context['filters'] = sumlevs
-                page_context['num_results'] = data['facets']['sumlev']['total']
-
-                # pagination things
-                start = int(start)
-                results_page_length = len(data['results'])
-                if page_context['num_results'] > results_page_length:
-                    page_context['results_count_set'] = '%s-%s' % (start+1, start+results_page_length)
-                if 'next_page' in data['links']:
-                    page_context['next_offset'] = data['links']['next_page'].split('&start=')[1]
-                if 'previous_page' in data['links']:
-                    page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
 
         return page_context
 
@@ -400,11 +299,11 @@ class GeographyDetailView(TemplateView):
 
     def get_geography(self, geo_id):
         endpoint = settings.API_URL + '/1.0/geo/tiger2015/%s' % self.geo_id
-        r = requests.get(endpoint)
+        r = r_session.get(endpoint)
         status_code = r.status_code
 
         if status_code == 200:
-            geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+            geo_data = r.json(object_pairs_hook=OrderedDict)
             return geo_data
         return None
 
@@ -591,10 +490,6 @@ class ComparisonBuilder(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         page_context = {
-            'hide_nav_compare': True,
-        }
-
-        page_context.update({
             'topic_demographic_filters': TOPIC_FILTERS['Demographics'],
             'topic_economic_filters': TOPIC_FILTERS['Economics'],
             'topic_family_filters': TOPIC_FILTERS['Families'],
@@ -604,7 +499,7 @@ class ComparisonBuilder(TemplateView):
             'sumlev_standard_choices': SUMLEV_CHOICES['Standard'],
             'sumlev_legislative_choices': SUMLEV_CHOICES['Legislative'],
             'sumlev_school_choices': SUMLEV_CHOICES['Schools'],
-        })
+        }
 
         return page_context
 
@@ -631,7 +526,7 @@ class S3Conn(object):
     def write_json(self, s3_key, data):
         s3_key.metadata['Content-Type'] = 'application/json'
         s3_key.metadata['Content-Encoding'] = 'gzip'
-        s3_key.storage_class = 'REDUCED_REDUNDANCY'
+        s3_key.storage_class = 'STANDARD'
 
         # create gzipped version of json in memory
         memfile = cStringIO.StringIO()
@@ -813,18 +708,19 @@ class SearchResultsView(TemplateView):
         if not query:
             return {'results': [], 'has_query': False}
 
-        r = requests.get(search_url.format(uniurlquote(query)))
+        r = r_session.get(search_url.format(uniurlquote(query)))
         status_code = r.status_code
 
         mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
         location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}&country=us,pr"
         location_request_url = location_request_url.format(uniurlquote(query), mapbox_accessToken)
-        r_location = requests.get(location_request_url)
+        r_location = r_session.get(location_request_url)
         status_code_location = r_location.status_code
 
         search_data_all = {}
         if status_code == 200 or status_code_location == 200:
             search_data = json.loads(r.text)
+            search_data['results'] = filter(lambda x: x.get('sumlevel') not in ['140','150'], search_data['results'])
             search_data_location = json.loads(r_location.text)
             search_data_all['has_query'] = True
             search_data_all['results'] = search_data['results'] + search_data_location['features']
@@ -914,57 +810,15 @@ class SearchResultsView(TemplateView):
             'topic': has_topics
         }
 
-        return page_context
+        # Redundant to have search box in header since results page has
+        # search box
+        page_context['hide_nav_tools'] = True
 
-
-class Elasticsearch(TemplateView):
-    template_name = 'search/elasticsearch.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {
-            'release_options': ['ACS 2014 1-Year', 'ACS 2013 1-Year', 'ACS 2013 3-Year', 'ACS 2013 5-Year', 'ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
-        }
-        tables = None
-        columns = None
-        geo_select = self.request.GET.get('g')
-        table_select = self.request.GET.get('table_select')
-
-        if geo_select:
-            api_endpoint = settings.API_URL + '/1.0/geo/elasticsearch'
-            api_params = {
-                'q': geo_select,
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            #print r.url
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-                page_context['geos'] = data['results']
-                page_context['g'] = geo_select
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
-        elif table_select:
-            api_endpoint = settings.API_URL + '/1.0/table/elasticsearch'
-            api_params = {
-                'q': table_select,
-            }
-            r = requests.get(api_endpoint, params=api_params)
-            status_code = r.status_code
-
-            if status_code == 200:
-                data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-                page_context['tables'] = data['results']
-            elif status_code == 404 or status_code == 400:
-                error_data = simplejson.loads(r.text)
-                raise_404_with_messages(self.request, error_data)
-            else:
-                raise Http404
+        page_context['query'] = q
 
         return page_context
+
+
 
 class GeoSearch(TemplateView):
     template_name = 'search/geo_search.html'

@@ -245,7 +245,7 @@ img.screenshot {
     float:left;
     color: #fff;
     font-size: .83em;
-    width: 3em;
+    width: 1em;
     text-align: center;
     height: 2em;
     padding-top: .2em;
@@ -2326,7 +2326,7 @@ dl#racial-iteration dt {
 
 #menu input,
 #menu .tt-dropdown-menu {
-    width: 240px;
+    width: 250px;
 }
 #profile .content-container {
     padding-top: .5em;
@@ -2343,8 +2343,8 @@ dl#racial-iteration dt {
     width: 100%;
     padding-left: 12em;
 }
-#query-topic-picker #topic-select,
-#topic-picker #topic-select {
+#query-topic-picker #topic-full-text,
+#topic-picker #topic-full-text {
     width: 100%;
 }
 aside .search .tt-dropdown-menu {
@@ -2798,8 +2798,8 @@ blockquote {
     h1.article-header {
         font-size: 2.2em;
     }
-    #homepage #geography-select,
-    #homepage #topic-select {
+    #homepage #geography-full-text,
+    #homepage #topic-full-text {
         font-size: 1.2em;
     }
     .callout h3 {
@@ -2858,12 +2858,14 @@ blockquote {
     overflow-y: auto;
 }
 
-#ui-id-1 {
+#ui-id-1,
+#ui-id-2 {
     list-style-type: none;
     padding-left: 0px;
 }
 
-#ui-id-1 li {
+#ui-id-1 li,
+#ui-id-2 li {
     border-bottom: 0.5px solid gray;
     border-left: 0.5px solid gray;
     border-right: 0.5px solid gray;
@@ -2890,6 +2892,10 @@ blockquote {
     display: none;
 }
 
+.header-autocomplete {
+    font-size: 0.8em;
+}
+
 /* When focused: */
 .ui-state-active,
 .ui-widget-content .ui-state-active,
@@ -2910,4 +2916,79 @@ a.ui-button:active,
 
 #filters > a {
     font-size: 1.2em;
+}
+
+#results-box {
+    margin: auto;
+    max-width: 1120px;
+    padding-top: 40px;
+}
+
+#search-result-tabs {
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+#results-sidebar-header {
+    position: relative;
+    top: 30px;
+}
+
+.tab {
+    display: inline-block;
+    height: 30px;
+    width: 110px;
+    text-align: center;
+    background-color: #eff1e9;
+    border-top: 1px solid #cad0b5;
+    border-left: 1px solid #cad0b5;
+    border-right: 1px solid #cad0b5;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+}
+
+.tab-text {
+    line-height: 30px;
+}
+
+.active-tab {
+    background-color: #fff;
+}
+
+.tab-body {
+    display: none;
+}
+
+.active-tab-body {
+    display: inline;
+}
+
+#search-results-container {
+    border-top: 0;
+}
+
+#filter-profile,
+#filter-table,
+#filter-address,
+#filter-topic {
+    font-size: 1em;
+}
+
+#filter-profile:hover,
+#filter-table:hover,
+#filter-address:hover,
+#filter-topic:hover,
+.filter-sumlevel_names:hover,
+.filter-topics:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.result-item {
+    margin-bottom: 20px;
+}
+
+.tab-bar {
+    position: relative;
+    left: 1em;
 }

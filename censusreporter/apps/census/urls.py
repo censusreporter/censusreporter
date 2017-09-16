@@ -7,14 +7,14 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
-    HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
+from .views import (HomepageView, GeographyDetailView,
+    TableDetailView, PlaceSearchJson, GeoSearch,
+    HealthcheckView, DataView, TopicView, ExampleView,
     MakeJSONView, SitemapTopicsView, SearchResultsView)
 
 admin.autodiscover()
 
-STANDARD_CACHE_TIME = 60*15 # 15-minute cache
+STANDARD_CACHE_TIME = 60*60*24 # 24-hour cache
 COMPARISON_FORMATS = 'map|table|distribution'
 BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
@@ -37,9 +37,9 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^profiles/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(GeographySearchView.as_view()),
+        view    = RedirectView.as_view(url=reverse_lazy('search')),
         kwargs  = {},
-        name    = 'geography_search',
+        name    = 'geography_search_redirect',
     ),
 
     url(
@@ -73,7 +73,7 @@ urlpatterns = patterns('',
 
     url(
         regex   = '^tables/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(TableSearchView.as_view()),
+        view    = RedirectView.as_view(url=reverse_lazy('search')),
         kwargs  = {},
         name    = 'table_search',
     ),
@@ -176,13 +176,6 @@ urlpatterns = patterns('',
         view    = GeoSearch.as_view(),
         kwargs  = {},
         name    = 'geo_search',
-    ),
-
-    url(
-        regex   = '^elasticsearch/$',
-        view    = Elasticsearch.as_view(),
-        kwargs  = {},
-        name    = 'elasticsearch',
     ),
     ## END LOCAL DEV VERSION OF API ##
 )

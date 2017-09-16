@@ -2,6 +2,7 @@
 
 {% block head_title %}{{ block.super }}: Making Census Data Easy to Use{% endblock %}
 {% block head_meta_description %}Census Reporter provides useful facts about every place in America. Compare places using tables and maps, download data, and embed charts on your site!{% endblock %}
+
 {% block body_id %}homepage{% endblock %}
 
 {% block content_container %}
@@ -10,11 +11,7 @@
         <section class="column-full clearfix big-action">
             <h1 class="article-header">Profile</h1>
             <div id="geography-select-wrapper" class="input-wrapper">
-                <input name="geography_select" id="geography-select" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
-                <div class="geolocate-only">
-                    <span class="or">or</span>
-                    <a href="{% url 'locate' %}" class="action-button"><i class="fa fa-map-marker"></i> Search by street address</a>
-                </div>
+                <input name="geography_select" id="geography-full-text" type="text" placeholder="Start typing to pick a place..." autocomplete="off">
             </div>
         </section>
         <section>
@@ -47,7 +44,13 @@
 
 <div class="content-container clearfix">
     <article id="explore" class="clearfix wrapper">
-        {% include "data/_blocks/_data_query_builder.html" %}
+        <section id="explore-topic-picker" class="column-full clearfix big-action">
+            <h1 class="article-header">Explore</h1>
+
+            <div id="topic-select-wrapper" class="input-wrapper">
+                <input name="topic_select" id="topic-full-text" type="text" placeholder="Find a topic by table or column name..." autocomplete="off">
+            </div>
+        </section>
 
         <section id="explore-callouts">
             <div class="column-third callout with-icon">
@@ -145,5 +148,4 @@ if (Modernizr.geolocation) {
 // geoSelect already defined by widget.geo.select.js
 geoSelect.focus()
 </script>
-<script src="{{ STATIC_URL }}js/data.query.builder.js"></script>
 {% endblock %}

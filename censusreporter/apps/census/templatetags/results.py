@@ -31,15 +31,27 @@ def format_subtables_for_results(table_ids):
 
     racial_label_tests = [
         ('B', 'Detailed (by race)'),
-        ('C', 'Detailed (by race)'),
+        ('C', 'Simplified (by race)'),
         ('BPR', 'Detailed (by race) for Puerto Rico'),
-        ('CPR', 'Detailed (by race) for Puerto Rico'),
+        ('CPR', 'Simplified (by race) for Puerto Rico'),
     ]
     for test, label in racial_label_tests:
         try:
-            first = deferred_racials[test][0]
-            parts.append(table_link(first['table_id'], label))
-        except: pass
+            iteration_parts = []
+
+            for table_dict in deferred_racials[test]:
+                iteration_parts.append(table_link(table_dict['table_id'], table_dict['race']))
+                group_table_id = table_dict['table_id']
+            if iteration_parts:
+                contents = ' / '.join(iteration_parts)
+                iter_wrapper = """
+<a class="toggler" data-id="{}">{}</a>
+<span data-id="{}" class='racial-iteration'>{}</span>
+
+""".format(group_table_id, label, group_table_id, contents)
+                parts.append(iter_wrapper)
+        except Exception, e:
+            parts.append(e.message)
 
 
 
