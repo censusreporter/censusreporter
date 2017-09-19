@@ -5,7 +5,7 @@
 
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
-        <meta property="og:site_name" content="State of the Child" />
+        <meta property="og:site_name" content="State of the Detroit Child" />
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
         <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
@@ -89,7 +89,7 @@
                 <option value="#youth-population">Youth &amp; family demographics</option>
                 <option value="#youth-population">Youth population, sex &amp; age</option>
                 <option value="#children-age-race">Youth age, race &amp; ethnicity</option>
-                <option value="#young-men">Boys &amp; young male population, age &amp; race</option>
+                <option value="#young-men">Boys &amp; young male population, age, race &amp; ethnicity</option>
                 <option value="#households">Households</option>
                 <option value="#families-with-children">Families with children</option>
                 <option value="#marital-status">Marital status</option>
@@ -173,7 +173,7 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age &amp; race <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.male_child_pop.total stat_type='number' %}
@@ -269,31 +269,30 @@
             <h2><a class="permalink" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram-social-ela_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of selected proficiency characteristics in ELA" data-qualifier="Universe: {{ social.ela_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-ela_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.ela_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
             </div>
-
-            <div class="column-two-thirds" id="chart-histogram-social-math_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of selected proficiency characteristics in Math" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-math_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-half" id="chart-pie-social-graduation_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.graduation_chart_data.metadata.universe }}"></div>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.graduation.graduation_rate stat_type='percentage' %}
             </div>
+            <div class="column-half" id="chart-pie-social-graduation_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.graduation_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -836,12 +835,12 @@ var makeCitation = function(year, release) {
 	if (release.startsWith('D3 Open Data Portal')) {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'Data Driven Detroit Open Data Portal (<span id="cite-release-year">' + year + '</span>). ' +
-	    'Retrieved from <em>State of the Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	} else {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
 	    '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
-	    'Retrieved from <em>State of the Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	}
 
 

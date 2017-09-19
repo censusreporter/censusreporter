@@ -225,38 +225,18 @@ class D3TableDetailViewMathProficiency(TemplateView):
 		table['columns']['MATHNumAssessed_Calc']['indent'] = 0
 		table['columns']['MATHNumAssessed_Calc']['parent_column_id'] = None
 
-		table['columns']['MATHProf'] = OrderedDict()
-		table['columns']['MATHProf']['column_title'] = 'Number of students who were proficient in Math'
-		table['columns']['MATHProf']['indent'] = 1
-		table['columns']['MATHProf']['parent_column_id'] = 'MATHNumAssessed_Calc'
-
-		table['columns']['MATHPartProf'] = OrderedDict()
-		table['columns']['MATHPartProf']['column_title'] = 'Number of students who were partially proficient in Math'
-		table['columns']['MATHPartProf']['indent'] = 1
-		table['columns']['MATHPartProf']['parent_column_id'] = 'MATHNumAssessed_Calc'
-
-		table['columns']['MATHNotProf'] = OrderedDict()
-		table['columns']['MATHNotProf']['column_title'] = 'Number of students who were not proficient in Math'
-		table['columns']['MATHNotProf']['indent'] = 1
-		table['columns']['MATHNotProf']['parent_column_id'] = 'MATHNumAssessed_Calc'
-
 		table['columns']['MATHTotalMet_Calc'] = OrderedDict()
 		table['columns']['MATHTotalMet_Calc']['column_title'] = 'Number of students who met or exceeded expectations in Math'
 		table['columns']['MATHTotalMet_Calc']['indent'] = 1
 		table['columns']['MATHTotalMet_Calc']['parent_column_id'] = 'MATHNumAssessed_Calc'
 
-		table['columns']['MATHNotMet'] = OrderedDict()
-		table['columns']['MATHNotMet']['column_title'] = 'Number of students who did not meet expectations in Math'
-		table['columns']['MATHNotMet']['indent'] = 1
-		table['columns']['MATHNotMet']['parent_column_id'] = 'MATHNumAssessed_Calc'
-
-		table['columns']['MATHAdv'] = OrderedDict()
-		table['columns']['MATHAdv']['column_title'] = 'Number of students who were advanced in Math'
-		table['columns']['MATHAdv']['indent'] = 1
-		table['columns']['MATHAdv']['parent_column_id'] = 'MATHNumAssessed_Calc'
+		table['columns']['MATHTotalNotMet_Calc'] = OrderedDict()
+		table['columns']['MATHTotalNotMet_Calc']['column_title'] = 'Number of students who did not meet expectations in Math'
+		table['columns']['MATHTotalNotMet_Calc']['indent'] = 1
+		table['columns']['MATHTotalNotMet_Calc']['parent_column_id'] = 'MATHNumAssessed_Calc'
 
 		table['columns']['MATHPctMetCalc'] = OrderedDict()
-		table['columns']['MATHPctMetCalc']['column_title'] = 'Percentage of students who met Math expectations'
+		table['columns']['MATHPctMetCalc']['column_title'] = 'Percentage of students who met or exceeded expectations in Math'
 		table['columns']['MATHPctMetCalc']['indent'] = 1
 		table['columns']['MATHPctMetCalc']['parent_column_id'] = 'MATHNumAssessed_Calc'
 
@@ -295,38 +275,18 @@ class D3TableDetailViewELAProficiency(TemplateView):
 		table['columns']['ELANumAssessed_Calc']['indent'] = 0
 		table['columns']['ELANumAssessed_Calc']['parent_column_id'] = None
 
-		table['columns']['ELAProf'] = OrderedDict()
-		table['columns']['ELAProf']['column_title'] = 'Number of students who were proficient in ELA'
-		table['columns']['ELAProf']['indent'] = 1
-		table['columns']['ELAProf']['parent_column_id'] = 'ELANumAssessed_Calc'
-
-		table['columns']['ELAPartProf'] = OrderedDict()
-		table['columns']['ELAPartProf']['column_title'] = 'Number of students who were partially proficient in ELA'
-		table['columns']['ELAPartProf']['indent'] = 1
-		table['columns']['ELAPartProf']['parent_column_id'] = 'ELANumAssessed_Calc'
-
-		table['columns']['ELANotProf'] = OrderedDict()
-		table['columns']['ELANotProf']['column_title'] = 'Number of students who were not proficient in ELA'
-		table['columns']['ELANotProf']['indent'] = 1
-		table['columns']['ELANotProf']['parent_column_id'] = 'ELANumAssessed_Calc'
-
 		table['columns']['ELATotalMet_Calc'] = OrderedDict()
 		table['columns']['ELATotalMet_Calc']['column_title'] = 'Number of students who met or exceeded expectations in ELA'
 		table['columns']['ELATotalMet_Calc']['indent'] = 1
 		table['columns']['ELATotalMet_Calc']['parent_column_id'] = 'ELANumAssessed_Calc'
 
-		table['columns']['ELANotMet'] = OrderedDict()
-		table['columns']['ELANotMet']['column_title'] = 'Number of students who did not meet expectations in ELA'
-		table['columns']['ELANotMet']['indent'] = 1
-		table['columns']['ELANotMet']['parent_column_id'] = 'ELANumAssessed_Calc'
-
-		table['columns']['ELAAdv'] = OrderedDict()
-		table['columns']['ELAAdv']['column_title'] = 'Number of students who were advanced in ELA'
-		table['columns']['ELAAdv']['indent'] = 1
-		table['columns']['ELAAdv']['parent_column_id'] = 'ELANumAssessed_Calc'
+		table['columns']['ELATotalNotMet_Calc'] = OrderedDict()
+		table['columns']['ELATotalNotMet_Calc']['column_title'] = 'Number of students who did not meet expectations in ELA'
+		table['columns']['ELATotalNotMet_Calc']['indent'] = 1
+		table['columns']['ELATotalNotMet_Calc']['parent_column_id'] = 'ELANumAssessed_Calc'
 
 		table['columns']['ELAPctMetCalc'] = OrderedDict()
-		table['columns']['ELAPctMetCalc']['column_title'] = 'Percentage of students who met ELA expectations'
+		table['columns']['ELAPctMetCalc']['column_title'] = 'Percentage of students who met or exceeded ELA expectations'
 		table['columns']['ELAPctMetCalc']['indent'] = 1
 		table['columns']['ELAPctMetCalc']['parent_column_id'] = 'ELANumAssessed_Calc'
 

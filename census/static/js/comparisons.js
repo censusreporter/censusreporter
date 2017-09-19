@@ -329,29 +329,13 @@ function Comparison(options, callback) {
         comparison.d3fields['MATHNumAssessed_Calc']['name'] = "Total students taking Math Assessment"
         comparison.d3fields['MATHNumAssessed_Calc']['indent'] = 0
 
-        comparison.d3fields['MATHProf'] = {};
-        comparison.d3fields['MATHProf']['name'] = "Number of students who were proficient in Math"
-        comparison.d3fields['MATHProf']['indent'] = 1
-
-        comparison.d3fields['MATHPartProf'] = {};
-        comparison.d3fields['MATHPartProf']['name'] = "Number of students who were partially proficient in Math"
-        comparison.d3fields['MATHPartProf']['indent'] = 1
-
-        comparison.d3fields['MATHNotProf'] = {};
-        comparison.d3fields['MATHNotProf']['name'] = "Number of students who were not proficient in Math"
-        comparison.d3fields['MATHNotProf']['indent'] = 1
-
         comparison.d3fields['MATHTotalMet_Calc'] = {};
         comparison.d3fields['MATHTotalMet_Calc']['name'] = "Number of students who met or exceeded expectations in Math"
         comparison.d3fields['MATHTotalMet_Calc']['indent'] = 1
 
-        comparison.d3fields['MATHNotMet'] = {};
-        comparison.d3fields['MATHNotMet']['name'] = "Number of students who did not meet expectations in Math"
-        comparison.d3fields['MATHNotMet']['indent'] = 1
-
-        comparison.d3fields['MATHAdv'] = {};
-        comparison.d3fields['MATHAdv']['name'] = "Number of students who were advanced in Math"
-        comparison.d3fields['MATHAdv']['indent'] = 1
+        comparison.d3fields['MATHTotalNotMet_Calc'] = {};
+        comparison.d3fields['MATHTotalNotMet_Calc']['name'] = "Number of students who did not meet expectations in Math"
+        comparison.d3fields['MATHTotalNotMet_Calc']['indent'] = 1
 
 
         comparison.ajaxCount = 0;
@@ -402,29 +386,13 @@ function Comparison(options, callback) {
         comparison.d3fields['ELANumAssessed_Calc']['name'] = "Total students taking ELA Assessment"
         comparison.d3fields['ELANumAssessed_Calc']['indent'] = 0
 
-        comparison.d3fields['ELAProf'] = {};
-        comparison.d3fields['ELAProf']['name'] = "Number of students who were proficient in ELA"
-        comparison.d3fields['ELAProf']['indent'] = 1
-
-        comparison.d3fields['ELAPartProf'] = {};
-        comparison.d3fields['ELAPartProf']['name'] = "Number of students who were partially proficient in ELA"
-        comparison.d3fields['ELAPartProf']['indent'] = 1
-
-        comparison.d3fields['ELANotProf'] = {};
-        comparison.d3fields['ELANotProf']['name'] = "Number of students who were not proficient in ELA"
-        comparison.d3fields['ELANotProf']['indent'] = 1
-
         comparison.d3fields['ELATotalMet_Calc'] = {};
         comparison.d3fields['ELATotalMet_Calc']['name'] = "Number of students who met or exceeded expectations in ELA"
         comparison.d3fields['ELATotalMet_Calc']['indent'] = 1
 
-        comparison.d3fields['ELANotMet'] = {};
-        comparison.d3fields['ELANotMet']['name'] = "Number of students who did not meet expectations in ELA"
-        comparison.d3fields['ELANotMet']['indent'] = 1
-
-        comparison.d3fields['ELAAdv'] = {};
-        comparison.d3fields['ELAAdv']['name'] = "Number of students who were advanced in ELA"
-        comparison.d3fields['ELAAdv']['indent'] = 1
+        comparison.d3fields['ELATotalNotMet_Calc'] = {};
+        comparison.d3fields['ELATotalNotMet_Calc']['name'] = "Number of students who did not meet expectations in ELA"
+        comparison.d3fields['ELATotalNotMet_Calc']['indent'] = 1
 
 
         comparison.ajaxCount = 0;
