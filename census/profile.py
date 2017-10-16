@@ -1417,7 +1417,7 @@ def geo_profile(geoid, acs='latest'):
 	youth_school_employment_grouped['graduated_employed']['metadata'] = {
 		'universe': 'Population 16 to 19 years',
 		'table_id': 'B14005',
-		'name': 'Employed; High school graduate'
+		'name': 'Employed, graduated'
 	}
 	youth_school_employment_grouped['graduated_employed']['male'] = build_item('Male', data, item_levels,
 		'B14005009 B14005002 / %')
@@ -1429,13 +1429,36 @@ def geo_profile(geoid, acs='latest'):
 	youth_school_employment_grouped['not_graduated_employed']['metadata'] = {
 		'universe': 'Population 16 to 19 years',
 		'table_id': 'B14005',
-		'name': 'Employed; Not a high school graduate'
+		'name': 'Employed, not graduated'
 	}
 	youth_school_employment_grouped['not_graduated_employed']['male'] = build_item('Male', data, item_levels,
 		'B14005013 B14005002 / %')
 	youth_school_employment_grouped['not_graduated_employed']['female'] = build_item('Female', data, item_levels,
 		'B14005027 B14005016 / %')
 
+	youth_school_employment_grouped['graduated_unemployed'] = OrderedDict()
+	youth_school_employment_grouped['graduated_unemployed']['acs_release'] = acs_name
+	youth_school_employment_grouped['graduated_unemployed']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'B14005',
+		'name': 'Unemployed or not in LF, graduated'
+	}
+	youth_school_employment_grouped['graduated_unemployed']['male'] = build_item('Male', data, item_levels,
+		'B14005014 B14005015 + B14005002 / %')
+	youth_school_employment_grouped['graduated_unemployed']['female'] = build_item('Female', data, item_levels,
+		'B14005028 B14005029 + B14005016 / %')
+
+	youth_school_employment_grouped['not_graduated_unemployed'] = OrderedDict()
+	youth_school_employment_grouped['not_graduated_unemployed']['acs_release'] = acs_name
+	youth_school_employment_grouped['not_graduated_unemployed']['metadata'] = {
+		'universe': 'Population 16 to 19 years',
+		'table_id': 'B14005',
+		'name': 'Unemployed or not in LF, not graduated'
+	}
+	youth_school_employment_grouped['not_graduated_unemployed']['male'] = build_item('Male', data, item_levels,
+		'B14005014 B14005015 + B14005002 / %')
+	youth_school_employment_grouped['not_graduated_unemployed']['female'] = build_item('Female', data, item_levels,
+		'B14005028 B14005029 + B14005016 / %')
 
 	employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
 		'B08013001 B08006001 B08006017 - /')

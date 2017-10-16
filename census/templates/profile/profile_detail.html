@@ -374,10 +374,10 @@
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.unemployment_rate stat_type='percentage' %}
             </div>
-            <div class="column-quarter">
+            {% comment %} <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.nowork_rate stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force participation for 16 - 19 year olds by sex" data-qualifier="Universe: {{ economics.employment.youth_school_employment_grouped.metadata.universe }}"></div>
+            </div> {% endcomment %}
+            <div class="column-three-quarters" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force (LF) participation for 16 - 19 year olds by sex" data-qualifier="Universe: {{ economics.employment.youth_school_employment_grouped.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
