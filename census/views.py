@@ -615,7 +615,7 @@ class GeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '/1.0/data/profiles/2015/%s.json' % geo_id.upper()
+		return '/1.0/data/profiles/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
