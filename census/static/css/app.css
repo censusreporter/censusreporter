@@ -207,6 +207,7 @@ img.screenshot {
 }
 
 /* LAYOUT */
+
 #page-header,
 .box-header {
     background-color: #032634;
@@ -247,6 +248,16 @@ img.screenshot {
 }
 .box-content section {
     margin-bottom: 0;
+}
+
+.beta-ribbon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.beta-image {
+    margin: 0 !important;
+    height: 70px !important;
 }
 
 #menu {

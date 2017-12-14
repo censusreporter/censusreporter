@@ -104,53 +104,81 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		data['data'][geo['geoid']][table_name]['estimate'] = OrderedDict()
 		data['data'][geo['geoid']][table_name]['error'] = OrderedDict()
 		if geo['sumlevel'] == '040':
-			for feature in state_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in state_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
 
 		if geo['sumlevel'] == '050':
-			for feature in county_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in county_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
 
 		if geo['sumlevel'] == '060':
-			for feature in county_sd_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in county_sd_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
 
 		if geo['sumlevel'] == '140':
-			for feature in tract_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in tract_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						#hardcode removing all data from ELA and math scores for tracts.
+						if table_name == 'D3-Math-Proficiency':
+							data['data'][geo['geoid']][table_name]['estimate'][key] = None
+							data['data'][geo['geoid']][table_name]['error'][key] = None
+						else:
+							data['data'][geo['geoid']][table_name]['estimate'][key] = value
+							data['data'][geo['geoid']][table_name]['error'][key] = 0							
+			except KeyError as e:
+				pass
 
 		if geo['sumlevel'] == '310':
-			for feature in msa_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in msa_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
 
 		if geo['sumlevel'] == '860':
-			for feature in zcta_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in zcta_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
 		
 		if geo['sumlevel'] == '950' or geo['sumlevel'] == '960' or geo['sumlevel'] == '970':
-			for feature in school_district_data['features']:
-				for key, value in feature['attributes'].iteritems():
-					key = 'D3-' + key
-					data['data'][geo['geoid']][table_name]['estimate'][key] = value
-					data['data'][geo['geoid']][table_name]['error'][key] = 0
+			try:
+				for feature in school_district_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
+
+
 
 
 	return data
@@ -241,8 +269,12 @@ def value_rpn_calc(data, rpn_string):
 					c = ops[token](a, b)
 					c_moe = moe_ops[token](a_moe, b_moe)
 		elif token.startswith('B') or token.startswith('D3-'):
-			c = data['estimate'][token]
-			c_moe = data['error'][token]
+			try:
+				c = data['estimate'][token]
+				c_moe = data['error'][token]
+			except KeyError as e:
+				c = None
+				c_moe = None
 		else:
 			c = float(token)
 			c_moe = float(token)
