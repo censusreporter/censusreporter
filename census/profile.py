@@ -142,6 +142,9 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						if table_name == 'D3-Math-Proficiency':
 							data['data'][geo['geoid']][table_name]['estimate'][key] = None
 							data['data'][geo['geoid']][table_name]['error'][key] = None
+						elif table_name == 'D3-Graduation-Rates':
+							data['data'][geo['geoid']][table_name]['estimate'][key] = None
+							data['data'][geo['geoid']][table_name]['error'][key] = None						
 						else:
 							data['data'][geo['geoid']][table_name]['estimate'][key] = value
 							data['data'][geo['geoid']][table_name]['error'][key] = 0							

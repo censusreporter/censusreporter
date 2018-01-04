@@ -62,11 +62,15 @@ var addressSearchEngine = new Bloodhound({
     remote: {
         url: GEOCODE_URL,
         replace: function (url, query) {
-          if (window.browser_location) {
-            return PROXIMITY_GEOCODE_URL({query: encodeURIComponent(query), token: gmaps_api_key, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
-          } else {
-            return url({query: query, token: gmaps_api_key});
-          }
+          // if (window.browser_location) {
+          //   return PROXIMITY_GEOCODE_URL({query: encodeURIComponent(query), token: gmaps_api_key, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
+          // } else {
+          //   return url({query: query, token: gmaps_api_key});
+          // }
+
+          // for systems with browser location turned on, addresses are never geocoded with the above code.
+          return url({query: query, token: gmaps_api_key});
+
         },
         filter: processGeocoderResults
     }
