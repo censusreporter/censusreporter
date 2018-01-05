@@ -298,7 +298,7 @@ class GeographyDetailView(TemplateView):
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2015/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2016/%s' % self.geo_id
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -334,7 +334,6 @@ class GeographyDetailView(TemplateView):
     def write_profile_json(self, s3_key, data):
         s3_key.metadata['Content-Type'] = 'application/json'
         s3_key.metadata['Content-Encoding'] = 'gzip'
-        s3_key.storage_class = 'REDUCED_REDUNDANCY'
 
         # create gzipped version of json in memory
         memfile = cStringIO.StringIO()

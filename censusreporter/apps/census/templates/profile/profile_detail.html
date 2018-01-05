@@ -336,7 +336,7 @@ $.ajaxSetup({
 });
 
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2015/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 

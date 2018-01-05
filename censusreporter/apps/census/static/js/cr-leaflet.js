@@ -37,7 +37,7 @@ CensusReporter = {
             var options = L.extend({
                 api_url: 'https://api.censusreporter.org',
                 censusreporter_url: 'https://censusreporter.org',
-                release: 'tiger2015',
+                release: 'tiger2016',
                 autoclick: true
             }, options);
             if (options.autoclick) {
