@@ -347,7 +347,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
 
     _defaultOptions: {
         clipTiles: true,
-        release: 'tiger2015',
+        release: 'tiger2016',
         unique: function(feature) {
             return feature.properties.geoid;
         }
