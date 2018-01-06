@@ -5,12 +5,18 @@ import requests
 
 from collections import OrderedDict
 from django.conf import settings
+from requests.packages.urllib3.util import Retry
+from requests.adapters import HTTPAdapter
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 
 class ApiClient(object):
     def __init__(self, base_url):
         self.base_url = base_url
+        self.retry_session = requests.Session()
+        self.retry_session.mount(self.base_url, HTTPAdapter(
+            max_retries=Retry(total=3, status_forcelist=[503])
+        ))
 
     def _get(self, path, params=None):
         url = self.base_url + path
@@ -19,7 +25,7 @@ class ApiClient(object):
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)
         else:
-            raise Exception("Error fetching data: " + r.json().get("error"))
+            raise Exception("HTTP %s error fetching data: %s" % (r.status_code, r.text))
 
         return data
 
