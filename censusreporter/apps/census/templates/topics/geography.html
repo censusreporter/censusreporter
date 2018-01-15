@@ -49,12 +49,12 @@
 </p>
 
 <p>
-    There is no clearly designated "official" list of Census summary levels, but there is <a href="http://factfinder2.census.gov/help/en/glossary/s/summary_level_code_list.htm"> a list in the American FactFinder help documentation.</a> The Missouri Census Data Center created <a href="http://mcdc2.missouri.edu/cgi-bin/browse?/pub/sasfmats/Ssumlev.sas@">a list designed for use with SAS statistical software</a>. (Even if you don't use SAS, it's easy to read and may come in handy sometimes.) It's part of their own <a href="http://mcdc.missouri.edu/allabout/sumlevs/">extensive documentation about Census summary levels</a>.
+    There is no clearly designated "official" list of Census summary levels, but there is <a href="http://factfinder2.census.gov/help/en/glossary/s/summary_level_code_list.htm"> a list in the American FactFinder help documentation.</a> The Missouri Census Data Center created <a href="http://mcdc2.missouri.edu/cgi-bin/browse?/pub/sasfmats/Ssumlev.sas@">a list designed for use with SAS statistical software</a>. (Even if you don't use SAS, it's easy to read and may come in handy sometimes.) It's part of their own <a href="http://mcdc.missouri.edu/geography/sumlevs/index.shtml">extensive documentation about Census summary levels</a>.
 </p>
 
 <h3>Your town</h3>
 <p>
-    Reporters will often want statistics for the cities and towns in their coverage area. For basic access on Census Reporter, all you need to do is search for the name of your city 
+    Reporters will often want statistics for the cities and towns in their coverage area. For basic access on Census Reporter, all you need to do is search for the name of your city
     This can be more complicated than you might first guess.
 </p>
 <h4>Places (summary level 160)</h4>
@@ -103,7 +103,7 @@
     If you've done a little work with data, you've already learned that names are difficult to use to connect data. There are many cities called Cleveland in the US, and even within a state, we've found duplicate city and school district names. Therefore, it's important that every specific geography have a unique identifier. As with summary levels, it's difficult to find a formal definition or listing from the Census Bureau, but here's how Census Reporter handles geographic identifiers, which we usually refer to as <strong>geoIDs</strong>.
 </p>
 <p>
-    The Census Bureau lists geoIDs for places as part of its <a href="http://www.census.gov/geo/maps-data/data/gazetteer2013.html">gazetteer files</a>, which are the attribute data which accompanies official <span class="glossary-term">TIGER</span> shapefiles (maps). Census geoIDs are unique among geographies at the same summary level. However, they aren't necessarily unique among all geoIDs. In order to give each row in the summary file a unique identifier that clearly identified its geography, we adapted a practice we've seen elsewhere. 
+    The Census Bureau lists geoIDs for places as part of its <a href="http://www.census.gov/geo/maps-data/data/gazetteer2013.html">gazetteer files</a>, which are the attribute data which accompanies official <span class="glossary-term">TIGER</span> shapefiles (maps). Census geoIDs are unique among geographies at the same summary level. However, they aren't necessarily unique among all geoIDs. In order to give each row in the summary file a unique identifier that clearly identified its geography, we adapted a practice we've seen elsewhere.
 </p>
 <p>
     Census Reporter geoids are, whereever possible, Census Bureau geoids prefixed with a seven-character string. The string is in the format <strong>{summary level}{geographic component}US{geoid}</strong>. In almost all cases, the <a href="#geographic-component">geographic component</a> is <strong>00</strong>, and the common summary levels are described above. For example, the is the Census Reporter geoid for the city of Chicago, Illinois is <strong>16000US1714000</strong>. It has these parts:
@@ -136,5 +136,3 @@
 
 </section>
 {% endblock %}
-
-
