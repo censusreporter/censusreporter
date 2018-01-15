@@ -273,6 +273,12 @@ class GeographyDetailView(TemplateView):
     def dispatch(self, *args, **kwargs):
 
         self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
+        parts = self.geo_id.split('US')
+        if len(parts) == 2 and len(parts[0]) == 7: # American Fact Finder style GeoID.
+            sumlevel = parts[0][:3]
+            identifier = parts[1]
+            self.geo_id = "{}00US{}".format(sumlevel, identifier)
+            self.slug = None # simple way to force a redirect
 
         if self.slug is None:
             geo = self.get_geography(self.geo_id)
