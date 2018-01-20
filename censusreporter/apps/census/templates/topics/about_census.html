@@ -2,16 +2,46 @@
 
 {% block content %}
 <section id="topic-overview">
-    {% include "topics/_question_aside.html" %}    
+    {% include "topics/_question_aside.html" %}
     <h2>The High Level</h2>
     <p>Originally, the intention of the US Census was to count the population every ten years so that representation could be apportioned. Over time, more questions were added to the decennial census, and other completely new data collection projects were developed.</p>
     <p>Today, the Census Bureau has four major programs: the <a href="#decennial">decennial census</a>, the <a href="#cps">Current Population Survey (CPS)</a>, the <a href="#popest">Population Estimates Program,</a> and the <a href="#acs">American Community Survey (ACS)</a>. Census Reporter (this site) only offers data from the ACS.</p>
     <p>These programs differ in their data collection methodology, the frequency with which data is released, and the level of geographic specificity they can provide. There are a few <a href="#other-products">other Census products</a></p>
 </section>
-<section id="decennial">
-    <h2>The Decennial Census</h2>
-    <p>As its name indicates, the decennial census is run every ten years. It attempts to actually count every resident in the United States as of a specific day (April 1st of the census year, in recent decades.) Because it is a count and not a <span class="glossary-term">survey</span>, the Census can publish precise counts for much smaller geographies than the other products.</p>
+<section id="acs">
+    <h2>The American Community Survey (ACS)</h2>
+    <p>The American Community Survey is the heart of Census Reporter. We chose to focus on it because it offers the best balance of timeliness and geographic specificity. The American Community Survey is conducted continuously, and data is released annually in two forms: the 1-year release, which is only available for geographies with a population of 65,000 or more; and the 5-year release, which is available for almost all Census geographies, block group and larger. In addition to data on age, sex, race and housing, the ACS includes data about education, income, occupation, veteran status, ancestry, and other topics.  The earliest official ACS data is for the year 2005, and one-year releases have been made continously since then. Based on that as a start date and the earliest 5-year release is for 2005-2009.  However, at this time, Census Reporter only serves data for the most recent ACS releases. To access older ACS releases, consult the <a href="https://factfinder.census.gov/">American FactFinder</a>. (People comfortable with the PostgreSQL database can <a href="http://censusreporter.tumblr.com/post/73727555158/easier-access-to-acs-data">download SQL dump files</a> of ACS data as we prepared it for use in earlier editions of Census Reporter.)
+    </p>
 </section>
+<section id="decennial">
+    <h2><a href="https://www.census.gov/programs-surveys/decennial-census.html">The Decennial Census</a></h2>
+    <p>As its name indicates, the decennial census is run every ten years. It attempts to actually count every resident in the United States as of a specific day (April 1st of the census year, in recent decades.) Because it is a count and not a <span class="glossary-term">survey</span>, the Census can publish precise counts for much smaller geographies than the other products. However, the questions asked are limited to age, sex, race, and relationships among people living in each household, as well as some related information about housing occupancy rates, and information on people living in "group quarters" (prisons, dormitories, nursing homes, and other institutional settings).</p>
+</section>
+<section id="cps">
+    <h2><a href="https://www.census.gov/programs-surveys/cps.html">The Current Population Survey (CPS)</a></h2>
+    <p>Sponsored jointly by the Census Bureau and the Bureau of Labor Statistics, the Current Population Survey (CPS) is probably the most up-to-date data published by the Census Bureau. Data is updated every month reflecting data collected 30-45 days prior. When news outlet report on employment statistics, they are usually referring to CPS data. In addition to employment statistics, the CPS also has data on other aspects of work such as occupation and class of work. The CPS also has data on personal, family and household income, and poverty status, as well as health insurance coverage. However, the trade-off for currency is geographic specificity. CPS data is only published at the state level, and for the 12 larged metropolitan areas.</p>
+</section>
+<section id="popest">
+    <h2><a href="https://www.census.gov/programs-surveys/popest.html">The Population Estimates Program (PEP)</a></h2>
+    <p>Every year the Census Bureau publishes estimated population counts for the nation, all 50 states and the District of Columbia, as well as all counties, incorporated places, towns, and townships. Topical coverage is limited to age, sex, race, hispanic status, and those breakdowns are only available for national and state estimates. However, the population estimates program is one of the easiest place to get population data over time in one download.
+    </p>
+</section>
+<section id="other-products">
+    <h2>Other Census Bureau Products</h2>
+    <p>This is a partial listing of other data products produced by the US Census Bureau. None of this data is served by Census Reporter, but we thought it might be interesting to you anyway. The Census Bureau website has a <a href="https://www.census.gov/programs-surveys/surveys-programs.html">complete list of surveys and programs</a>.</p>
+    <ul>
+      <li><a href="https://www.census.gov/programs-surveys/ahs.html">The American Housing Survey (AHS)</a></li>
+      <li><a href="https://www.bls.gov/tus/">The American Time Use Survey (ATUS)</a></li>
+      <li><a href="https://www.census.gov/govs/">Census of Governments</a></li>
+      <li><a href="https://www.bjs.gov/index.cfm?ty=dcdetail&iid=254">Census of Jails</a></li>
+      <li><a href="https://www.bjs.gov/index.cfm?ty=dcdetail&iid=255">Census of State and Federal Adult Correctional Facilities</a></li>
+      <li><a href="https://www.census.gov/programs-surveys/cbp.html">County Business Patterns (CBP)</a></li>
+      <li><a href="https://lehd.ces.census.gov/">Longitudinal Employer-Household Dynamics (LEHD)</a></li>
+      <li><a href="https://www.bjs.gov/index.cfm?ty=dcdetail&iid=245">National Crime Victimization Survey</a></li>
+      <li><a href="https://nces.ed.gov/nhes/">National Household Education Surveys (NHES)</a></li>
+      <li><a href="https://www.census.gov/sipp/">Survey of Income and Program Participation (SIPP)</a></li>
+      <li><a href="https://lehd.ces.census.gov/data/#qwi">Quarterly Workforce Indicators (QWI)</a></li>
+    </ul>
+</section>
+
 {% endblock %}
-
-

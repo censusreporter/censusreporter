@@ -25,8 +25,8 @@ TOPICS_LIST = [
         'template_name': 'age_sex.html',
         'question_images': ['age-sex.png',],
         'question_pdfs': [
-            ('Age','http://www.census.gov/acs/www/Downloads/QbyQfact/age.pdf'),
-            ('Sex','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
+            ('Age','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Age.pdf'),
+            ('Sex','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Sex.pdf')
         ]
     },
 
@@ -38,7 +38,7 @@ TOPICS_LIST = [
         'template_name': 'children.html',
         'question_images': ['relationship.png',],
         'question_pdfs': [
-            ('Questions on Family Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
+            ('Questions on Family Relationships','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Relationship.pdf'),
         ]
     },
 
@@ -50,8 +50,8 @@ TOPICS_LIST = [
         'template_name': 'commute.html',
         'question_images': ['commuting.png',],
         'question_pdfs': [
-            ('Vehicles Available','http://www.census.gov/acs/www/Downloads/QbyQfact/vehicle.pdf'),
-            ('Place of Work and Journey to Work','http://www.census.gov/acs/www/Downloads/QbyQfact/PJ_work.pdf')
+            ('Vehicles Available','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Vehicles.pdf'),
+            ('Commuting / Journey to Work','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/JourneytoWork.pdf')
         ]
     },
 
@@ -63,7 +63,7 @@ TOPICS_LIST = [
         'template_name': 'families.html',
         'question_images': ['relationship.png',],
         'question_pdfs': [
-            ('ACS Question on Householder Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
+            ('ACS Question on Householder Relationships','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Relationship.pdf'),
         ]
     },
 
@@ -82,7 +82,7 @@ TOPICS_LIST = [
         'template_name': 'health-insurance.html',
         'question_images': ['health-insurance.png',],
         'question_pdfs': [
-            ('Questions on Health Insurance Coverage','http://www.census.gov/acs/www/Downloads/QbyQfact/health_insurance.pdf'),
+            ('Questions on Health Insurance Coverage','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/HealthInsurance.pdf'),
         ]
     },
 
@@ -94,8 +94,8 @@ TOPICS_LIST = [
         'template_name': 'race_hispanic.html',
         'question_images': ['race.png',],
         'question_pdfs': [
-            ('Race','http://www.census.gov/acs/www/Downloads/QbyQfact/race.pdf'),
-            ('Hispanic or Latino Origin','http://www.census.gov/acs/www/Downloads/QbyQfact/hispanic.pdf')
+            ('Race','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Race.pdf'),
+            ('Hispanic or Latino Origin','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Hispanic.pdf')
         ]
     },
 
@@ -107,7 +107,7 @@ TOPICS_LIST = [
         'template_name': 'migration.html',
          'question_images': ['migration.png',],
         'question_pdfs': [
-            ('Questions related to Residence One Year Ago from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/residence.pdf')
+            ('Questions related to Residence One Year Ago from ACS','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Residence1YrAgo.pdf')
 
         ]
     },
@@ -120,7 +120,7 @@ TOPICS_LIST = [
         'template_name': 'poverty.html',
          'question_images': ['income.png',],
         'question_pdfs': [
-            ('Questions related to Income and Poverty from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
+            ('Questions related to Income and Poverty from ACS','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Income.pdf')
 
         ]
     },
@@ -133,8 +133,8 @@ TOPICS_LIST = [
         'template_name': 'public-assistance.html',
          'question_images': ['public-assistance.png',],
         'question_pdfs': [
-            ('Questions on Income Sources from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf'),
-            ('Question about Food Stamps from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/food_stamp.pdf')
+            ('Questions on Income Sources from ACS','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Income.pdf'),
+            ('Question about Food Stamps from ACS','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/FoodStamps.pdf')
 
         ]
     },
@@ -147,8 +147,8 @@ TOPICS_LIST = [
         'template_name': 'same-sex.html',
         'question_images': ['same-sex.png',],
         'question_pdfs': [
-            ('Questions on Relationships from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
-            ('Question on Gender from ACS','http://www.census.gov/acs/www/Downloads/QbyQfact/sex.pdf')
+            ('Questions on Relationships from ACS','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Relationship.pdf'),
+            ('Question on Gender from ACS','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Sex.pdf')
         ]
     },
 
@@ -160,7 +160,7 @@ TOPICS_LIST = [
         'template_name': 'income.html',
         'question_images': ['income.png',],
         'question_pdfs': [
-            ('All Income Questions from the Census','http://www.census.gov/acs/www/Downloads/QbyQfact/income.pdf')
+            ('All Income Questions from the Census','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Income.pdf')
         ]
     },
 
@@ -180,9 +180,11 @@ TOPICS_LIST = [
         'template_name': 'employment.html',
         'question_images': ['employment.png',],
         'question_pdfs': [
-            ('Labor Force Status','http://www.census.gov/acs/www/Downloads/QbyQfact/labor.pdf'),
-            ('Work Status','http://www.census.gov/acs/www/Downloads/QbyQfact/work_status.pdf'),
-            ('Class of Worker; Industry; Occupation','http://www.census.gov/acs/www/Downloads/QbyQfact/worker.pdf'),
+            ('Labor Force Status','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/LaborForce.pdf'),
+            ('Work Status','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/WorkStatus.pdf'),
+            ('Class of Worker','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/ClassWorker.pdf'),
+            ('Industry; Occupation','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/OccupationIndustry.pdf'),
+
         ]
     },
 
@@ -195,8 +197,8 @@ TOPICS_LIST = [
         'template_name': 'seniors.html',
         'question_images': ['seniors.png',],
         'question_pdfs': [
-            ('Age','http://www.census.gov/acs/www/Downloads/QbyQfact/age.pdf'),
-            ('Grandparents as Caregivers','http://www.census.gov/acs/www/Downloads/QbyQfact/grandparents.pdf'),
+            ('Age','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Age.pdf'),
+            ('Grandparents as Caregivers','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/Grandparents.pdf'),
         ]
     },
 
@@ -209,6 +211,14 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'About the Census',
+        'slug': 'about-census',
+        'description': "A brief overview of the many data products produced by the Census Bureau, most of which are not available through Census Reporter.",
+        'short_description': "A brief overview of the many data products produced by the Census Bureau, most of which are not available through Census Reporter.",
+        'template_name': 'about_census.html',
+    },
+
+    {
         'title': 'Veterans and Military',
         'slug': 'veterans',
         'topics': ['veterans'],
@@ -216,8 +226,7 @@ TOPICS_LIST = [
         'template_name': 'veterans.html',
         'question_images': ['veteran.png', 'veteran_period.png', 'va_rating.png'],
         'question_pdfs': [
-            ('Veteran Status and Period of Military Service','http://www.census.gov/acs/www/Downloads/QbyQfact/veteran.pdf'),
-            ('VA Service-Connected Disability Rating Status','http://www.census.gov/acs/www/Downloads/QbyQfact/VA_rating.pdf'),
+            (' Veteran Status, Period of Service and VA Service-Connected Disability Rating','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/VeteranStatus.pdf'),
             # ('The Migration of Military Spouses using the 2007-2011 5-Year American Community Survey', 'http://www.census.gov/hhes/migration/files/Military_Migration_paper_final_13-04-29.pdf')
         ]
     },
@@ -225,4 +234,3 @@ TOPICS_LIST = [
 ]
 
 TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
-

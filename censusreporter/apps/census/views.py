@@ -860,6 +860,7 @@ class SitemapProfilesView(TemplateView):
         return self.render_to_response(context, content_type="text/xml; charset=utf-8")
 
 def sort_topics(topic_map):
+    # force "getting started" to the top of the list, and serve the rest alphabetically.
     return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
 
 def uniurlquote(s):
