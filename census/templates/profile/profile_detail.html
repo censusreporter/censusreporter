@@ -100,6 +100,7 @@
                 <option value="#ela-proficiency">Education</option>
                 <option value="#ela-proficiency">Third grade english language arts (ELA) proficiency</option>
                 <option value="#math-proficiency">Third grade math proficiency</option>
+                <option value="#school-enrollment">School enrollment</option>
                 <option value="#graduation-rate">High school graduation</option>
                 <option value="#educational-attainment">Educational attainment</option>
             </optgroup>
@@ -122,6 +123,7 @@
             </optgroup> 
             <optgroup label="Health &amp; safety">
                 <option value="#health-insurance">Health &amp; safety</option>
+                <option value="#infant-mortality">Infant mortality</option>
                 <option value="#health-insurance">Health insurance</option>
             </optgroup>
             <optgroup label="Other demographics">
@@ -283,6 +285,21 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
             </div>
             <div class="column-half" id="chart-pie-social-math_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#school-enrollment" id="school-enrollment" title="Permalink">School enrollment  <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-half">
+                <div class="column-half">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.enrolled stat_type='number' %}
+                </div>
+                <div class="column-half">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.not_enrolled stat_type='number' %}
+                </div>
+            </div>
+            <div class="column-half" id="chart-grouped_column-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
         </section>
 
         <section class="clearfix stat-row">
@@ -466,6 +483,16 @@
         <h1>Health &amp; safety</h1>
     </header>
     <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#infant-mortality" id="infant-mortality" title="Permalink">Infant mortality <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.infant_mortality.infant_mortality stat_type='number' %}
+            </div>
+            <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.infant_mortality_chart_data.metadata.universe }}"></div>
+        </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#health-insurance" id="health-insurance" title="Permalink">Health insurance <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>

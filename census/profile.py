@@ -50,6 +50,7 @@ class D3ApiClient(object):
 	def _get(self, table_id, field_name, geo_ids):
 		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
 		url = self.base_url + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
+		print url
 		# using post
 		r = requests.post(url)
 		data = None
@@ -68,7 +69,7 @@ class D3ApiClient(object):
 		return self._get(table_id, field_name, geo_ids)
 
 
-def format_d3_data(years, table_name, title, universe, denominator_column_id, fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+def format_d3_data(years, table_name, title, universe, denominator_column_id, fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
 		):
 	data = OrderedDict()
 	# release notes
@@ -160,6 +161,17 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
 			except KeyError as e:
 				pass
+
+		if geo['sumlevel'] == '500' and congressional_district_data:
+			try:
+				for feature in congressional_district_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except KeyError as e:
+				pass
+
 
 		if geo['sumlevel'] == '860':
 			try:
@@ -349,8 +361,9 @@ def geo_profile(geoid, acs='latest'):
 	county_sd_geoids = []
 	tract_geoids = []
 	msa_geoids = []
-	school_district_geoids = []
+	congressional_district_geoids = []
 	zcta_geoids = []
+	school_district_geoids = []
 	d3_item_levels = []
 	# iterate over levels and create geoids useful for d3 API
 	for level in item_levels:
@@ -371,6 +384,11 @@ def geo_profile(geoid, acs='latest'):
 		if level['sumlevel'] == '310':
 			d3_item_levels.append(level)
 			msa_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '500':
+			d3_item_levels.append(level)
+			# remove the leading 26 to conform to the ODP dataset
+			cong_dist_geoid = split_geoid[1].replace("26", "", 1)
+			congressional_district_geoids.append(cong_dist_geoid)
 		if level['sumlevel'] == '860':
 			d3_item_levels.append(level)
 			zcta_geoids.append(split_geoid[1])
@@ -392,6 +410,7 @@ def geo_profile(geoid, acs='latest'):
 	county_sd_data = []
 	tract_data = []
 	msa_data = []
+	congressional_district_data = []
 	school_district_data = []
 	zcta_data = []	
 	if state_geoids:
@@ -450,7 +469,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['TeenMothers']['name'] = "Births to Teen Mothers"
 	fields['TeenMothers']['indent'] = 1
 
-	data = format_d3_data("2014", "D3-Births", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2014", "D3-Births", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
 		)
 	births_dict = dict()
 	doc['families']['births'] = births_dict
@@ -494,6 +513,7 @@ def geo_profile(geoid, acs='latest'):
 	county_sd_data = []
 	tract_data = []
 	msa_data = []
+	congressional_district_data = []
 	school_district_data = []
 	zcta_data = []	
 	if state_geoids:
@@ -553,7 +573,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['ELAPctMetCalc']['name'] = "Percentage of students who met or exceeded ELA expectations"
 	fields['ELAPctMetCalc']['indent'] = 1
 
-	data = format_d3_data("2017", "D3-Math-Proficiency", "Third Grade Proficiency in English Language Arts and Math", "Total students taking Math Assessment", "MATHNumAssessed_Calc", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Math-Proficiency", "Third Grade Proficiency in English Language Arts and Math", "Total students taking Math Assessment", "MATHNumAssessed_Calc", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	ela_math_dict = dict()
@@ -596,6 +616,7 @@ def geo_profile(geoid, acs='latest'):
 	county_sd_data = []
 	tract_data = []
 	msa_data = []
+	congressional_district_data = []
 	school_district_data = []
 	zcta_data = []	
 	if state_geoids:
@@ -636,7 +657,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['GradRate']['indent'] = 1
 
 
-	data = format_d3_data("2017", "D3-Graduation-Rates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Graduation-Rates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	graduation_dict = dict()
@@ -654,6 +675,70 @@ def geo_profile(geoid, acs='latest'):
 		'D3-GradCnt D3-CohortCount / %')
 	graduation_chart_data['not_graduated'] = build_item('Not Graduated', data, d3_item_levels,
 		'D3-CohortCount D3-GradCnt - D3-CohortCount / %')
+
+
+
+	# get D3 data on Infant Mortality
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	msa_data = []
+	congressional_district_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('MI_Statewide_InfantMort_Suppressed', 'StateID', state_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('MI_InfantMort_County_Suppressed', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('MI_InfantMort_CouSub_Suppressed', 'GEOID10', county_sd_geoids)
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('MI_USCongressionalDistrict_InfantMort_Suppressed', 'DISTRICT', congressional_district_geoids)
+
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict();
+	fields['InfantMort'] = OrderedDict();
+	fields['InfantMort']['name'] = "Total infant deaths"
+	fields['InfantMort']['indent'] = 0
+
+	fields['SafeSleep'] = OrderedDict();
+	fields['SafeSleep']['name'] = "Number of unsafe sleep related deaths"
+	fields['SafeSleep']['indent'] = 1
+
+	fields['AssaultMal'] = OrderedDict();	
+	fields['AssaultMal']['name'] = "Number of assault or maltreatment related deaths"
+	fields['AssaultMal']['indent'] = 1
+
+
+	data = format_d3_data("2017", "D3-Infant-Mortality", "Number of infant deaths", "Number of births", "InfantMort", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	infant_mortality_dict = dict()
+	doc['social']['infant_mortality'] = infant_mortality_dict
+
+	infant_mortality_dict['infant_mortality'] = build_item('Number of infant deaths', data, d3_item_levels, 
+		'D3-InfantMort')
+	add_metadata(infant_mortality_dict['infant_mortality'], 'D3-Infant-Mortality', 'Number of infant deaths', 'D3 Open Data Portal, State of Michigan Office of Vital Statistics') 
+
+	infant_mortality_chart_data = OrderedDict()
+	doc['social']['infant_mortality_chart_data'] = infant_mortality_chart_data
+	add_metadata(infant_mortality_chart_data, 'D3-Infant-Mortality', 'Number of infant deaths', 'D3 Open Data Portal, State of Michigan Office of Vital Statistics')
+
+	infant_mortality_chart_data['SafeSleep'] = build_item('Unsafe sleep', data, d3_item_levels,
+		'D3-SafeSleep D3-InfantMort / %')
+	infant_mortality_chart_data['AssaultMal'] = build_item('Assault or maltreatment', data, d3_item_levels,
+		'D3-AssaultMal D3-InfantMort / %')
+	infant_mortality_chart_data['Other'] = build_item('Other cause', data, d3_item_levels,
+		'D3-InfantMort D3-SafeSleep - D3-AssaultMal - D3-InfantMort / %')
+
+
 
 
 
@@ -1919,6 +2004,65 @@ def geo_profile(geoid, acs='latest'):
 
 	attainment_distribution_dict['post_grad_degree'] = build_item('Post-grad', data, item_levels,
 		'B15002016 B15002017 + B15002018 + B15002033 + B15002034 + B15002035 + B15002001 / %')
+
+
+	# Social: School Enrollment
+	data = api.get_data('B14003', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	enrollment_dict = dict()
+	doc['social']['enrollment'] = enrollment_dict
+
+	enrollment_dict['enrolled'] = build_item('Number of children 5 to 9 years enrolled in school', data, item_levels,
+		'B14003005 B14003014 + B14003033 + B14003042 + ')
+	add_metadata(enrollment_dict['enrolled'], 'B14003', 'Population 5 to 9 years', acs_name)
+
+	enrollment_dict['not_enrolled'] = build_item('Number of children 5 to 9 years not enrolled in school', data, item_levels,
+		'B14003023 B14003051 + ')
+	add_metadata(enrollment_dict['not_enrolled'], 'B14003', 'Population 5 to 9 years', acs_name)
+
+	youth_school_enrollment_grouped = OrderedDict()
+	enrollment_dict['youth_school_enrollment_grouped'] = youth_school_enrollment_grouped
+	add_metadata(youth_school_enrollment_grouped, 'B14005', 'Population 5 to 9 years', acs_name)
+
+	# repeating data temporarily to develop grouped column chart format
+	youth_school_enrollment_grouped['enrolled_public'] = OrderedDict()
+	youth_school_enrollment_grouped['enrolled_public']['acs_release'] = acs_name
+	youth_school_enrollment_grouped['enrolled_public']['metadata'] = {
+		'universe': 'Population 5 to 9 years',
+		'table_id': 'B14003',
+		'name': 'Enrolled, public'
+	}
+	youth_school_enrollment_grouped['enrolled_public']['male'] = build_item('Male', data, item_levels,
+		'B14003005 B14003005 B14003014 + B14003023 + / %')
+	youth_school_enrollment_grouped['enrolled_public']['female'] = build_item('Female', data, item_levels,
+		'B14003033 B14003033 B14003042 + B14003051 + / %')
+
+	youth_school_enrollment_grouped['enrolled_private'] = OrderedDict()
+	youth_school_enrollment_grouped['enrolled_private']['acs_release'] = acs_name
+	youth_school_enrollment_grouped['enrolled_private']['metadata'] = {
+		'universe': 'Population 5 to 9 years',
+		'table_id': 'B14003',
+		'name': 'Enrolled, private'
+	}
+	youth_school_enrollment_grouped['enrolled_private']['male'] = build_item('Male', data, item_levels,
+		'B14003014 B14003005 B14003014 + B14003023 + / %')
+	youth_school_enrollment_grouped['enrolled_private']['female'] = build_item('Female', data, item_levels,
+		'B14003042 B14003033 B14003042 + B14003051 + / %')
+
+	youth_school_enrollment_grouped['not_enrolled'] = OrderedDict()
+	youth_school_enrollment_grouped['not_enrolled']['acs_release'] = acs_name
+	youth_school_enrollment_grouped['not_enrolled']['metadata'] = {
+		'universe': 'Population 5 to 9 years',
+		'table_id': 'B14003',
+		'name': 'Not enrolled'
+	}
+	youth_school_enrollment_grouped['not_enrolled']['male'] = build_item('Male', data, item_levels,
+		'B14003023 B14003005 B14003014 + B14003023 + / %')
+	youth_school_enrollment_grouped['not_enrolled']['female'] = build_item('Female', data, item_levels,
+		'B14003051 B14003033 B14003042 + B14003051 + / %')
+
+
 
 	# Social: Health Insurance
 	data = api.get_data('B27001', comparison_geoids, acs)
