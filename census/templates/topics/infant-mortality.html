@@ -1,0 +1,36 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <h2>Infant Mortality Data Table</h2>
+    <p>The table <a href="/tables/D3-Infant-Mortality/">D3-Infant-Mortality</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>InfantMort</td>
+                <td>Total number of infant deaths.</td>
+            </tr>
+            <tr>
+                <td>SafeSleep</td>
+                <td>Number of unsafe sleep related deaths.</td>
+            </tr>
+            <tr>
+                <td>AssaultMal</td>
+                <td>Number of assault or maltreatment related deaths.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

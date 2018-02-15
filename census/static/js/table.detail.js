@@ -142,7 +142,16 @@ function Table(options) {
                     response.unshift(d3Response);
                 }     
 
+                // infant mortality
+                var infantmortality = 'infantmortalitydeathschildrensleepsafeunsafeassultmaltreatmentbirth';
+                var match_im = infantmortality.match(re);
+                if (match_im) {
+                    var d3Response = d3InfantMortalityTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }               
 
+                
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
                     response.push({
@@ -230,6 +239,25 @@ function Table(options) {
         return response;
     
     }
+
+    var d3InfantMortalityTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Infant-Mortality",
+            'simple_table_name': "Infant Mortality",
+            'table_id': "D3-Infant-Mortality",
+            'table_name': "Infant Mortality",
+            'topic_string': "health care, children",
+            'topics': ['health care','children'],
+            'type': "table",
+            'unique_key': "D3-Infant-Mortality",
+            'universe': "Number of infant deaths"
+        }
+    
+        return response;
+    
+    }
+
     
     table.makeTopicSelectWidget = function() {
         table.$displayWrapper.find('h1')
