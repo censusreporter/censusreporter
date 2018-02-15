@@ -109,6 +109,17 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Infant Mortality',
+        'slug': 'infant-mortality',
+        'topics': ['births', 'children', 'families', 'health care'],
+        'description': 'Data on the number of infant deaths, unsafe sleep related infant deaths, and infant deaths due to assault or maltreatment collected by the State of Michigan Office of Vital Statistics at the state, county, county subdivision, and congressional district levels in Michigan.',
+        'template_name': 'infant-mortality.html',
+        'question_images': [],
+        'question_pdfs': [
+        ]
+    },
+
+    {
         'title': 'Race and Hispanic Origin',
         'slug': 'race-hispanic',
         'topics': ['race',],

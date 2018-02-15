@@ -338,6 +338,49 @@ class D3TableDetailViewGraduationRates(TemplateView):
 		return page_context	
 
 
+class D3TableDetailViewInfantMortality(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewInfantMortality, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Infant-Mortality'
+		table['table_title'] = 'Infant Mortality'
+		table['simple_table_title'] = 'Infant Mortality'
+		table['subject_area'] = 'Health care'
+		table['universe'] = 'Number of infant deaths'
+		table['denominator_column_id'] = 'InfantMort'
+		table['topics'] = ["health care", "children", "fertilty"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['InfantMort'] = OrderedDict()
+		table['columns']['InfantMort']['column_title'] = 'Total infant deaths:'
+		table['columns']['InfantMort']['indent'] = 0
+		table['columns']['InfantMort']['parent_column_id'] = None
+
+		table['columns']['SafeSleep'] = OrderedDict()
+		table['columns']['SafeSleep']['column_title'] = 'Number of unsafe sleep related deaths'
+		table['columns']['SafeSleep']['indent'] = 1
+		table['columns']['SafeSleep']['parent_column_id'] = 'InfantMort'
+
+		table['columns']['AssaultMal'] = OrderedDict()
+		table['columns']['AssaultMal']['column_title'] = 'Number of assault or maltreatment related deaths'
+		table['columns']['AssaultMal']['indent'] = 1
+		table['columns']['AssaultMal']['parent_column_id'] = 'InfantMort'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
 
 class TableDetailView(TemplateView):
 	template_name = 'table/table_detail.html'
@@ -777,6 +820,7 @@ class DataView(TemplateView):
 			county_sd_geoids = []
 			tract_geoids = []
 			msa_geoids = []
+			congressional_district_geoids = []
 			school_district_geoids = []
 			zcta_geoids = []
 			d3_all_geoids = []
@@ -821,6 +865,9 @@ class DataView(TemplateView):
 					tract_geoids.append(split_geoid[1])
 				if geoid.startswith('310'):
 					msa_geoids.append(split_geoid[1])
+				if geoid.startswith('500'):
+					cong_dist_geoid = split_geoid[1].replace("26", "", 1)
+					congressional_district_geoids.append(cong_dist_geoid)				
 				if geoid.startswith('860'):
 					zcta_geoids.append(split_geoid[1])
 				if geoid.startswith('950') or geoid.startswith('960') or geoid.startswith('970'):	
@@ -832,6 +879,7 @@ class DataView(TemplateView):
 			d3_county_sd_link = None
 			d3_tract_link = None
 			d3_msa_link = None
+			d3_congressional_district_link = None
 			d3_school_district_link = None
 			d3_zcta_link = None
 
@@ -991,6 +1039,35 @@ class DataView(TemplateView):
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
 
 
+			# for infant mortality data
+			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/MI_USCongressionalDistrict_InfantMort_Suppressed/FeatureServer/0/query?outFields=*&where=DISTRICT%20in%20(13)&f=json
+			if state_geoids and self.table == 'D3-Infant-Mortality':
+				table_id = 'MI_Statewide_InfantMort_Suppressed'
+				field_name = 'StateID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-Infant-Mortality':
+				table_id = 'MI_InfantMort_County_Suppressed'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-Infant-Mortality':
+				table_id = 'MI_InfantMort_CouSub_Suppressed'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if congressional_district_geoids and self.table == 'D3-Infant-Mortality':
+				table_id = 'MI_USCongressionalDistrict_InfantMort_Suppressed'
+				field_name = 'DISTRICT'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'
 
 			d3_links = True
 			download_link_prefix = None
@@ -1002,6 +1079,7 @@ class DataView(TemplateView):
 			d3_county_sd_link = None
 			d3_tract_link = None
 			d3_msa_link = None
+			d3_congressional_district_link = None
 			d3_school_district_link = None
 			d3_zcta_link = None
 			download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
@@ -1018,6 +1096,7 @@ class DataView(TemplateView):
 			'd3_county_sd_link': d3_county_sd_link,
 			'd3_tract_link': d3_tract_link,
 			'd3_msa_link': d3_msa_link,
+			'd3_congressional_district_link': d3_congressional_district_link,
 			'd3_school_district_link': d3_school_district_link,
 			'd3_zcta_link': d3_zcta_link,
 			'd3_links': d3_links,

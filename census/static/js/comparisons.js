@@ -162,7 +162,30 @@ function Comparison(options, callback) {
                     parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
                 }
             }
-        }        
+        } 
+        
+        // infant mortality
+        if (comparison.d3table_name == "D3-Infant-Mortality") {
+            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+                split_geoid = comparison.d3_all_geoids[i].split('US');
+                if (split_geoid[0].startsWith('040')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
+                }
+                if (split_geoid[0].startsWith('050')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('060')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('500')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'DISTRICT');
+                }
+            }
+        }
 
 
         function parseData(geo_id, geo_key, geo_field) {
@@ -481,6 +504,50 @@ function Comparison(options, callback) {
         
     }
 
+    comparison.getInfantMortalityData = function() {
+        // metadata specific to graduaton rates
+        comparison.d3DataReleaseName = 'D3 Open Data Portal, State of Michigan Office of Vital Statistics';
+        comparison.d3DataYears = '2017';
+        comparison.d3table_name = 'D3-Infant-Mortality';
+        comparison.d3title = 'Infant Mortality';
+        comparison.d3universe = 'Number of infant deaths';
+        comparison.d3denominator_column_id ='D3-InfantMort';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['InfantMort'] = {};
+        comparison.d3fields['InfantMort']['name'] = "Total infant deaths"
+        comparison.d3fields['InfantMort']['indent'] = 0
+
+        comparison.d3fields['SafeSleep'] = {};
+        comparison.d3fields['SafeSleep']['name'] = "Number of unsafe sleep related deaths"
+        comparison.d3fields['SafeSleep']['indent'] = 1
+
+        comparison.d3fields['AssaultMal'] = {};
+        comparison.d3fields['AssaultMal']['name'] = "Number of assault or maltreatment related deaths"
+        comparison.d3fields['AssaultMal']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('MI_Statewide_InfantMort_Suppressed', 'StateID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('MI_InfantMort_County_Suppressed', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('MI_InfantMort_CouSub_Suppressed', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('MI_USCongressionalDistrict_InfantMort_Suppressed', 'DISTRICT', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        
+    }
+
     comparison.getData = function() {
         if (comparison.tableID && comparison.geoIDs) {
             var params = {
@@ -496,6 +563,7 @@ function Comparison(options, callback) {
                 comparison.county_sd_geoids = [];
                 comparison.tract_geoids = [];
                 comparison.msa_geoids = [];
+                comparison.congressional_district_geoids = [];
                 comparison.school_district_geoids = [];
                 comparison.zcta_geoids = [];
 
@@ -556,6 +624,10 @@ function Comparison(options, callback) {
                     if (split_geoid[0].startsWith('310')) {
                         comparison.msa_geoids.push(split_geoid[1]);
                     }
+                    if (split_geoid[0].startsWith('500')) {
+                        var cong_dist_geoid = split_geoid[1].replace("26", "");
+                        comparison.congressional_district_geoids.push(cong_dist_geoid);
+                    }
                     if (split_geoid[0].startsWith('860')) {
                         comparison.zcta_geoids.push(split_geoid[1]);
                     }
@@ -580,6 +652,10 @@ function Comparison(options, callback) {
 
                     if (comparison.tableID == 'D3-Graduation-Rates') {
                         comparison.getGraduationRateData();
+                    }
+
+                    if (comparison.tableID == 'D3-Infant-Mortality') {
+                        comparison.getInfantMortalityData();
                     }
 
                 }
@@ -1612,12 +1688,22 @@ function Comparison(options, callback) {
 
                 // graduation rates
                 var grad = 'educationstudentschildrenschoolgraduationrateshighschoolcollegeattainmentstatisticsgradedropout';
-                var match_elamath = grad.match(re);
-                if (match_elamath) {
+                var match_grad = grad.match(re);
+                if (match_grad) {
                     var d3Response = d3GradTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
                 }               
+
+                // infant mortality
+                var infantmortality = 'infantmortalitydeathschildrensleepsafeunsafeassultmaltreatmentbirth';
+                var match_im = infantmortality.match(re);
+                if (match_im) {
+                    var d3Response = d3InfantMortalityTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }               
+
 
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
@@ -1701,6 +1787,25 @@ function Comparison(options, callback) {
             'type': "table",
             'unique_key': "D3-Graduation-Rates",
             'universe': "High School Graduation Rate"
+        }
+
+        return response;
+
+    }
+
+
+    var d3InfantMortalityTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Infant-Mortality",
+            'simple_table_name': "Infant Mortality",
+            'table_id': "D3-Infant-Mortality",
+            'table_name': "Infant Mortality",
+            'topic_string': "health care, children",
+            'topics': ['health care','children'],
+            'type': "table",
+            'unique_key': "D3-Infant-Mortality",
+            'universe': "Number of infant deaths"
         }
 
         return response;
