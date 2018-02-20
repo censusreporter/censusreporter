@@ -181,6 +181,7 @@ function Comparison(options, callback) {
                     parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
                 }
                 if (split_geoid[0].startsWith('500')) {
+                    console.log(comparison.d3_all_geoids[i]);
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'DISTRICT');
                 }
@@ -190,6 +191,11 @@ function Comparison(options, callback) {
 
         function parseData(geo_id, geo_key, geo_field) {
             var split_geoid = geo_id.split('US');
+
+            // for infant mortality data by congressional district, remove the leading 26 from split_geoid[1]
+            if (geo_field == 'DISTRICT') {
+                split_geoid[1] = split_geoid[1].replace("26", "");
+            }
             
             // get geography name from CR
             var nameGeoAPI = comparison.rootGeoAPI + geo_id;

@@ -2023,7 +2023,7 @@ def geo_profile(geoid, acs='latest'):
 
 	youth_school_enrollment_grouped = OrderedDict()
 	enrollment_dict['youth_school_enrollment_grouped'] = youth_school_enrollment_grouped
-	add_metadata(youth_school_enrollment_grouped, 'B14005', 'Population 5 to 9 years', acs_name)
+	add_metadata(youth_school_enrollment_grouped, 'B14003', 'Population 5 to 9 years', acs_name)
 
 	# repeating data temporarily to develop grouped column chart format
 	youth_school_enrollment_grouped['enrolled_public'] = OrderedDict()
