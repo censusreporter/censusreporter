@@ -177,11 +177,12 @@ function Comparison(options, callback) {
                     parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
                 }
                 if (split_geoid[0].startsWith('060')) {
+                    console.log(comparison.d3_all_geoids[i]);
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
                 }
                 if (split_geoid[0].startsWith('500')) {
-                    console.log(comparison.d3_all_geoids[i]);
+                    //console.log(comparison.d3_all_geoids[i]);
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'DISTRICT');
                 }
@@ -242,6 +243,8 @@ function Comparison(options, callback) {
     comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
         // var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
         var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query'
+        console.log(url);
+        console.log(geo_ids);       
         var data = {
             outFields: '*',
             where: field_name +' in (' + geo_ids + ')',
@@ -523,7 +526,7 @@ function Comparison(options, callback) {
         comparison.d3fields = {};
         comparison.d3fields['InfantMort'] = {};
         comparison.d3fields['InfantMort']['name'] = "Total infant deaths"
-        comparison.d3fields['InfantMort']['indent'] = 0
+        comparison.d3fields['InfantMort']['indent'] = 1
 
         comparison.d3fields['SafeSleep'] = {};
         comparison.d3fields['SafeSleep']['name'] = "Number of unsafe sleep related deaths"
@@ -545,7 +548,7 @@ function Comparison(options, callback) {
         }
         if (comparison.county_sd_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('MI_InfantMort_CouSub_Suppressed', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
+            comparison.getD3Data('MI_InfantMort_CouSub_Suppressed', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
