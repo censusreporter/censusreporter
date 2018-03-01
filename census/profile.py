@@ -111,7 +111,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 		if geo['sumlevel'] == '050':
@@ -121,7 +121,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 		if geo['sumlevel'] == '060':
@@ -131,7 +131,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 		if geo['sumlevel'] == '140':
@@ -149,7 +149,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						else:
 							data['data'][geo['geoid']][table_name]['estimate'][key] = value
 							data['data'][geo['geoid']][table_name]['error'][key] = 0							
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 		if geo['sumlevel'] == '310':
@@ -159,7 +159,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 		if geo['sumlevel'] == '500' and congressional_district_data:
@@ -169,7 +169,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 
@@ -180,7 +180,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 		
 		if geo['sumlevel'] == '950' or geo['sumlevel'] == '960' or geo['sumlevel'] == '970':
@@ -190,7 +190,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
-			except KeyError as e:
+			except Exception as e:
 				pass
 
 
@@ -2023,7 +2023,7 @@ def geo_profile(geoid, acs='latest'):
 
 	youth_school_enrollment_grouped = OrderedDict()
 	enrollment_dict['youth_school_enrollment_grouped'] = youth_school_enrollment_grouped
-	add_metadata(youth_school_enrollment_grouped, 'B14005', 'Population 5 to 9 years', acs_name)
+	add_metadata(youth_school_enrollment_grouped, 'B14003', 'Population 5 to 9 years', acs_name)
 
 	# repeating data temporarily to develop grouped column chart format
 	youth_school_enrollment_grouped['enrolled_public'] = OrderedDict()
