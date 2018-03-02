@@ -1107,11 +1107,11 @@ class DataView(TemplateView):
 
 class HomepageView(TemplateView):
 	template_name = 'homepage.html'
-
 	def get_context_data(self, *args, **kwargs):
+		excluded_topics = ('getting-started', 'topic-codes')
 		page_context = {
 			'hide_nav_tools': False,
-			'topics_list': sort_topics(TOPICS_MAP),
+			'topics_list': sort_topics(TOPICS_MAP, excluded_topics),
 		}
 
 		return page_context
@@ -1532,8 +1532,10 @@ class SitemapProfilesView(TemplateView):
 		context = self.get_context_data()
 		return self.render_to_response(context, content_type="text/xml; charset=utf-8")
 
-def sort_topics(topic_map):
-	return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
+def sort_topics(topic_map, exclude_topics=()):
+	if 'gettin-started' in topic_map:
+		return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
+	return [v for k, v in sorted(topic_map.items()) if k not in exclude_topics]
 
 def uniurlquote(s):
 	"""urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""

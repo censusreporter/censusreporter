@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="37px" viewBox="0 0 26 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Fill 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-390.000000, -5726.000000)">
+        <g id="explore" transform="translate(-15.000000, 4927.000000)" fill="#FFFFFF">
+            <g id="street-address-button" transform="translate(352.000000, 756.000000)">
+                <g id="icon" transform="translate(53.089154, 43.168490)">
+                    <path d="M12.5971236,16.6185766 C10.1021699,16.6185766 8.0802822,14.6384102 8.0802822,12.1964025 C8.0802822,9.75439481 10.1021699,7.77541408 12.5971236,7.77541408 C15.0920773,7.77541408 17.1151765,9.75439481 17.1151765,12.1964025 C17.1151765,14.6384102 15.0920773,16.6185766 12.5971236,16.6185766 M12.5971236,0 C5.64044887,0 0,5.51956577 0,12.3297969 C0,19.1394352 12.5971236,36.7231947 12.5971236,36.7231947 C12.5971236,36.7231947 25.1948529,19.1394352 25.1948529,12.3297969 C25.1948529,5.51956577 19.5544041,0 12.5971236,0" id="Fill-1"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
