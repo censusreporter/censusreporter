@@ -121,6 +121,8 @@ nav .container {
     margin: 0 auto;
 }
 
+
+
 .c-intro-panel .beta-button {
     margin-right: 90px;
 }
@@ -129,7 +131,9 @@ nav .container {
     margin-left: -240px;
 }
 
-
+.c-intro-panel .body-text-large:first-of-type {
+    margin-bottom: 70px;
+}
 
 .c-intro-panel .navigation-icon-holder .navigation-icon {
     position: fixed;
@@ -445,6 +449,7 @@ nav .container {
 .c-additional-resources-panel li img {
     max-width: 160px;
     margin-right: 50px;
+    max-height: 200px;
 }
 
 .c-additional-resources-panel li p {
@@ -457,6 +462,10 @@ footer {
     padding: 85px 0 65px 0;
     width: 75%;
     margin: 0 auto;
+}
+
+footer .l-flex-space-between {
+    align-items: flex-start;
 }
 
 footer p {
@@ -520,7 +529,7 @@ footer .designed-by span {
 
 .c-arrow {
     width: 108px;
-    margin-bottom: -40px;
+    margin-bottom: -60px;
 }
 
 .c-huge-rounded-button {
@@ -588,7 +597,6 @@ footer .designed-by span {
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
-        z-index: -1;
     }
     nav a {
         font-size: 12px;
@@ -615,6 +623,9 @@ footer .designed-by span {
     .c-intro-panel .navigation-icon {
         width: 38px;
     }
+    .c-intro-panel .body-text-large:first-of-type {
+        margin-bottom: 30px;
+    }
     .c-intro-panel .state-of-detroit-child {
         display: none;
     }
@@ -623,6 +634,7 @@ footer .designed-by span {
     }
     .c-our-goal-panel img {
         width: 220px;
+        height: 71.2px;
     }
     .c-partnership-panel {
         padding: 40px 0;
@@ -656,6 +668,7 @@ footer .designed-by span {
     .c-critical-questions-panel .section-main-image {
         padding: 45px 0;
         width: 206px;
+        height: 165px;
     }
     .c-critical-questions-panel ul {
         padding-bottom: 10px;
@@ -676,6 +689,7 @@ footer .designed-by span {
     .c-explore-panel .section-main-image {
         padding: 45px 0;
         width: 218px;
+        height: 160px;
     }
     .c-explore-panel h1 {
         width: 80%;
@@ -688,7 +702,6 @@ footer .designed-by span {
         width: 90%;
     }
     .c-explore-panel button {
-        /* SEARCH BY STREET ADD: */
         margin-bottom: 50px;
         font-size: 13px;
         letter-spacing: 0.91px;
@@ -698,9 +711,33 @@ footer .designed-by span {
         width: 9px;
         margin-right: 5px;
     }
+    .c-explore-panel .twitter-typeahead .tt-menu{
+        width: 90%;
+        margin-top: -40px;
+        left: auto !important;
+        border-radius: 7.2px;
+        font-size: 12px;
+    }
+
+    .c-topics-panel .twitter-typeahead .tt-menu {
+        width: 85%;
+    }
+
+    .c-explore-panel .twitter-typeahead .tt-menu .tt-dataset-profile p {
+        padding: 15px 13px;
+        font-size: 12px !important;
+        color: #fff;
+    }
+
+    .c-topics-panel .twitter-typeahead .tt-menu .tt-dataset-topics h5 {
+        padding: 15px 13px;
+        font-size: 12px !important;
+        color: #fff;
+    }
     .c-topics-panel .section-main-image {
         width: 218px;
         padding: 45px 0;
+        height: 160px;
     }
     .c-topics-panel p {
         font-size: 12px;
@@ -717,6 +754,7 @@ footer .designed-by span {
     .c-topics-panel .button-group {
         width: 85%;
         margin: 50px 0;
+        flex-direction: column;
     }
     .c-topics-panel .button-group button {
         margin-bottom: 25px;
@@ -734,6 +772,7 @@ footer .designed-by span {
 
     .c-additional-resources-panel .section-main-image {
         width: 206px;
+        height: 165px;
         padding: 45px 0;
     }
     .c-additional-resources-panel .l-flex-space-between {
@@ -767,8 +806,14 @@ footer .designed-by span {
     footer .body-text-32 {
         text-align: center;
     }
+
+    footer .body-text-32:first-of-type {
+        width: 60%;
+        margin: 0 auto;
+    }
     footer .l-flex-space-between {
         flex-direction: column;
+        align-items: center;
     }
     footer .divider {
         margin: 20px 0;
@@ -783,6 +828,9 @@ footer .designed-by span {
     }
     footer .c-social-media .social-icons {
         width: 15px;
+    }
+    footer .body-text {
+        text-align: center;
     }
     footer .skillman img {
         width: 172px;
@@ -809,6 +857,7 @@ footer .designed-by span {
     }
     .c-arrow {
         width: 37px;
+        height: 37px;
         margin-bottom: -15px;
     }
 }
