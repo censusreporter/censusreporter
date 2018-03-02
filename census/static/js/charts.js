@@ -1270,7 +1270,7 @@ function Chart(options) {
         Set2S: ['#33b5b5', '#ed8b69', '#6295cc', '#dd85c0', '#8ecc23', '#fccd06', '#dbba97', '#aaaaaa'],
 
         // Kat Hartman colors
-        Kat2: ['#216989', '#86af3f', '#6595ce', '#686867', '#032634', '#22592c',  '#f4a81d', '#9C65D1'],
+        Kat2: ['#76AFF2', '#74B73C', '#A975D7', '#979797', '#4F80BA', '#F8E71C',  '#F7AB1E', '#7E4BAB'],
         
     };
     

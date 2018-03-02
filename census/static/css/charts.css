@@ -304,7 +304,7 @@ uncomment for separate inclusion into embed iframes */
     padding-top: 1em;
 }
 .embed-footer a {
-    color: #68b3a3;
+    color: #032634;
     text-decoration: none;
 }
 .embed-footer a.title {
@@ -314,7 +314,7 @@ uncomment for separate inclusion into embed iframes */
 }
 .embed-footer a:hover {
     color: #014948;
-    border-color: #68b3a3;
+    border-color: #032634;
 }
 .embed-footer img {
     height: 12px;
@@ -343,14 +343,14 @@ uncomment for separate inclusion into embed iframes */
 }
 .action-links {
     float: right;
-    color: #68b3a3;
+    color: #032634;
 }
 .action-links a {
     cursor: pointer;
-    color: #68b3a3;
+    color: #032634;
 }
 .action-links a:hover {
-    color: #014948;
+    color: #4F80BA;
 }
 .action-links span {
     margin: 0 .33em;
@@ -508,8 +508,8 @@ section.chart-divider h2 {
     z-index: 3;
 }
 .coal-chart li .point.selected {
-    background-color: #027b7a;
-    border-color: #027b7a;
+    background-color: #A8D94E;
+    border-color: #A8D94E;
     z-index: 2;
 }
 .coal-chart li .pointz.selected.hovered {
