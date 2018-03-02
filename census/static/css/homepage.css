@@ -324,6 +324,7 @@ nav .container {
 }
 
 .c-explore-panel .twitter-typeahead .tt-menu .tt-dataset-profile .tt-suggestion {
+    cursor: pointer;
     border-radius: 7.2px;
 }
 
@@ -422,6 +423,7 @@ nav .container {
 }
 
 .c-topics-panel .twitter-typeahead .tt-menu .tt-dataset-topics h5:hover {
+    cursor: pointer;
     background: #87AF3F;;
 }
 
@@ -447,7 +449,7 @@ nav .container {
 }
 
 .c-additional-resources-panel li img {
-    max-width: 160px;
+    width: 160px;
     margin-right: 50px;
     max-height: 200px;
 }
