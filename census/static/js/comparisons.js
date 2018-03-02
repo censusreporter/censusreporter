@@ -1112,7 +1112,7 @@ function Comparison(options, callback) {
 
 
         // create the legend
-        var quintileColors = ['#D4E6EC', '#799CA9', '#487586', '#1F4E5F', '#032634'];
+        var quintileColors = ['#D4E6EC', '#799CA9', '#487586', '#1F4E5F', '#4F80BA'];
         var buildLegend = function(colors) {
             var scaleStops = (values.length >= 5) ? 5 : values.length;
 
@@ -1582,7 +1582,7 @@ function Comparison(options, callback) {
         })
 
         // color scale for locked chart points
-        comparison.colorScale = chroma.scale(['#216989', '#86af3f', '#6595ce', '#686867', '#032634', '#22592c',  '#f4a81d']).domain([0,6]);
+        comparison.colorScale = chroma.scale(['#76AFF2', '#86af3f', '#6595ce', '#686867', '#4F80BA', '#22592c',  '#f4a81d']).domain([0,6]);
         comparison.colorIndex = 0;
     }
 

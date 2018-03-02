@@ -69,7 +69,7 @@
                 <i id="menu-toggle" class="fa fa-bars"></i>
                 {% endif %}
                 <a class="title" href="{% url 'homepage' %}">
-                    <img src="{{ STATIC_URL }}img/State_of_the_Child_Logo_v3.png">
+                    <img src="{{ STATIC_URL }}img/state-of-detroit-child.png">
                 </a>
                 {% if not hide_nav_tools %}
                 <div id="menu" class="tool-set clearfix">
@@ -87,9 +87,9 @@
                     {% endif %} -->
                 </div>
                 {% endif %}
-                <div class="beta-ribbon">
+                <!-- <div class="beta-ribbon">
                     <img class="beta-image" src="{{ STATIC_URL }}img/beta.png">
-                </div>
+                </div> -->
             </div>
         </header>
         {% block header_content %}{% endblock header_content %}
