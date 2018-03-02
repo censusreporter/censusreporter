@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="116px" height="109px" viewBox="0 0 116 109" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>menu icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-1213.000000, -112.000000)">
+        <g id="intro">
+            <g id="menu-icon" transform="translate(1213.000000, 112.000000)">
+                <circle id="Oval" fill="#F8E71C" cx="49" cy="49" r="49"></circle>
+                <path d="M65.5,106 C91.7335256,106 113,84.7335256 113,58.5 C113,50.7339862 111.136289,43.4032654 107.831728,36.9306976 C99.9735109,21.5389889 83.9675118,11 65.5,11 C39.2664744,11 18,32.2664744 18,58.5 C18,84.7335256 39.2664744,106 65.5,106 Z" id="Oval" stroke="#000000" stroke-width="5" fill="#A975D7"></path>
+                <g id="Group" transform="translate(39.000000, 37.000000)" fill="#FFFFFF">
+                    <rect id="Rectangle-4" x="0" y="0" width="54" height="8" rx="4"></rect>
+                    <rect id="Rectangle-4-Copy" x="0" y="18" width="54" height="8" rx="4"></rect>
+                    <rect id="Rectangle-4-Copy-2" x="0" y="36" width="54" height="8" rx="4"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
