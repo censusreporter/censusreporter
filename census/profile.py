@@ -949,7 +949,8 @@ def geo_profile(geoid, acs='latest'):
 
 	#### Race by age for youth ####
 	#### SODC ####
-	data = api.get_data(['B01001A', 'B01001B', 'B01001C', 'B01001D', 'B01001E', 'B01001F', 'B01001G', 'B01001I', 'B01001'], comparison_geoids, acs)
+	#data = api.get_data(['B01001A', 'B01001B', 'B01001C', 'B01001D', 'B01001E', 'B01001F', 'B01001G', 'B01001I', 'B01001'], comparison_geoids, acs)
+	data = api.get_data(['B01001A', 'B01001'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 	
 	child_race_grouped_under_9 = OrderedDict()
@@ -964,29 +965,6 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B01001',
 		'name': 'Under 5'
 	}
-	child_race_grouped_under_9['under_5']['white'] = build_item('White Under 5', data, item_levels,
-		'B01001A003 B01001A018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['black'] = build_item('Black Under 5', data, item_levels,
-		'B01001B003 B01001B018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['native'] = build_item('Native American Under 5', data, item_levels,
-		'B01001C003 B01001C018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['asian'] = build_item('Asian Under 5', data, item_levels,
-		'B01001D003 B01001D018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['islander'] = build_item('Pacific Islander Under 5', data, item_levels,
-		'B01001E003 B01001E018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['other'] = build_item('Other Under 5', data, item_levels,
-		'B01001F003 B01001F018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['two+'] = build_item('Two+ Under 5', data, item_levels,
-		'B01001G003 B01001G018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['under_5']['hispanic'] = build_item('Hispanic Under 5', data, item_levels,
-		'B01001I003 B01001I018 + B01001003 B01001027 + / %')
 
 	# Race by age 5 - 9
 	child_race_grouped_under_9['5_to_9'] = OrderedDict()
@@ -996,29 +974,6 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B01001',
 		'name': '5 to 9'
 	}
-	child_race_grouped_under_9['5_to_9']['white'] = build_item('White 5 to 9', data, item_levels,
-		'B01001A004 B01001A019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['black'] = build_item('Black 5 to 9', data, item_levels,
-		'B01001B004 B01001B019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['native'] = build_item('Native American 5 to 9', data, item_levels,
-		'B01001C004 B01001C019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['asian'] = build_item('Asian 5 to 9', data, item_levels,
-		'B01001D004 B01001D019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['islander'] = build_item('Pacific Islander 5 to 9', data, item_levels,
-		'B01001E004 B01001E019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['other'] = build_item('Other 5 to 9', data, item_levels,
-		'B01001F004 B01001F019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['two+'] = build_item('Two+ 5 to 9', data, item_levels,
-		'B01001G004 B01001G019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_under_9['5_to_9']['hispanic'] = build_item('Hispanic 5 to 9', data, item_levels,
-		'B01001I004 B01001I019 + B01001004 B01001028 + / %')
 
 	# Race by age 10 - 14
 	child_race_grouped_10_to_17 = OrderedDict()
@@ -1032,29 +987,6 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B01001',
 		'name': '10 to 14'
 	}
-	child_race_grouped_10_to_17['10_to_14']['white'] = build_item('White 10 to 14', data, item_levels,
-		'B01001A005 B01001A020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['black'] = build_item('Black 10 to 14', data, item_levels,
-		'B01001B005 B01001B020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['native'] = build_item('Native American 10 to 14', data, item_levels,
-		'B01001C005 B01001C020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['asian'] = build_item('Asian 10 to 14', data, item_levels,
-		'B01001D005 B01001D020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['islander'] = build_item('Pacific Islander 10 to 14', data, item_levels,
-		'B01001E005 B01001E020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['other'] = build_item('Other 10 to 14', data, item_levels,
-		'B01001F005 B01001F020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['two+'] = build_item('Two+ 10 to 14', data, item_levels,
-		'B01001G005 B01001G020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['hispanic'] = build_item('Hispanic 10 to 14', data, item_levels,
-		'B01001I005 B01001I020 + B01001005 B01001029 + / %')
 
 	# Race by age 15 - 17
 	child_race_grouped_10_to_17['15_to_17'] = OrderedDict()
@@ -1065,29 +997,68 @@ def geo_profile(geoid, acs='latest'):
 		'name': '15 to 17'
 	}
 
+	child_race_grouped_under_9['under_5']['white'] = build_item('White Under 5', data, item_levels,
+		'B01001A003 B01001A018 + B01001003 B01001027 + / %')
+
+	child_race_grouped_under_9['5_to_9']['white'] = build_item('White 5 to 9', data, item_levels,
+		'B01001A004 B01001A019 + B01001004 B01001028 + / %')
+
+	child_race_grouped_10_to_17['10_to_14']['white'] = build_item('White 10 to 14', data, item_levels,
+		'B01001A005 B01001A020 + B01001005 B01001029 + / %')
+
 	child_race_grouped_10_to_17['15_to_17']['white'] = build_item('White 15 to 17', data, item_levels,
 		'B01001A006 B01001A021 + B01001006 B01001030 + / %')
+
+
+
+	data = api.get_data(['B01001B', 'B01001'], comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	child_race_grouped_under_9['under_5']['black'] = build_item('Black Under 5', data, item_levels,
+		'B01001B003 B01001B018 + B01001003 B01001027 + / %')
+
+	child_race_grouped_under_9['5_to_9']['black'] = build_item('Black 5 to 9', data, item_levels,
+		'B01001B004 B01001B019 + B01001004 B01001028 + / %')
+	
+	child_race_grouped_10_to_17['10_to_14']['black'] = build_item('Black 10 to 14', data, item_levels,
+		'B01001B005 B01001B020 + B01001005 B01001029 + / %')
 
 	child_race_grouped_10_to_17['15_to_17']['black'] = build_item('Black 15 to 17', data, item_levels,
 		'B01001B006 B01001B021 + B01001006 B01001030 + / %')
 
-	child_race_grouped_10_to_17['15_to_17']['native'] = build_item('Native American 15 to 17', data, item_levels,
-		'B01001C006 B01001C021 + B01001006 B01001030 + / %')
+
+
+	data = api.get_data(['B01001D', 'B01001'], comparison_geoids, acs)
+	acs_name = data['release']['name']		
+
+	child_race_grouped_under_9['under_5']['asian'] = build_item('Asian Under 5', data, item_levels,
+		'B01001D003 B01001D018 + B01001003 B01001027 + / %')
+
+	child_race_grouped_under_9['5_to_9']['asian'] = build_item('Asian 5 to 9', data, item_levels,
+		'B01001D004 B01001D019 + B01001004 B01001028 + / %')
+
+	child_race_grouped_10_to_17['10_to_14']['asian'] = build_item('Asian 10 to 14', data, item_levels,
+		'B01001D005 B01001D020 + B01001005 B01001029 + / %')
 
 	child_race_grouped_10_to_17['15_to_17']['asian'] = build_item('Asian 15 to 17', data, item_levels,
 		'B01001D006 B01001D021 + B01001006 B01001030 + / %')
 
-	child_race_grouped_10_to_17['15_to_17']['islander'] = build_item('Pacific Islander 15 to 17', data, item_levels,
-		'B01001E006 B01001E021 + B01001006 B01001030 + / %')
 
-	child_race_grouped_10_to_17['15_to_17']['other'] = build_item('Other 15 to 17', data, item_levels,
-		'B01001F006 B01001F021 + B01001006 B01001030 + / %')
+	data = api.get_data(['B01001I', 'B01001'], comparison_geoids, acs)
+	acs_name = data['release']['name']	
 
-	child_race_grouped_10_to_17['15_to_17']['two+'] = build_item('Two+ 15 to 17', data, item_levels,
-		'B01001G006 B01001G021 + B01001006 B01001030 + / %')
+	child_race_grouped_under_9['under_5']['hispanic'] = build_item('Hispanic Under 5', data, item_levels,
+		'B01001I003 B01001I018 + B01001003 B01001027 + / %')
+
+	child_race_grouped_under_9['5_to_9']['hispanic'] = build_item('Hispanic 5 to 9', data, item_levels,
+		'B01001I004 B01001I019 + B01001004 B01001028 + / %')
+
+	child_race_grouped_10_to_17['10_to_14']['hispanic'] = build_item('Hispanic 10 to 14', data, item_levels,
+		'B01001I005 B01001I020 + B01001005 B01001029 + / %')
 
 	child_race_grouped_10_to_17['15_to_17']['hispanic'] = build_item('Hispanic 15 to 17', data, item_levels,
 		'B01001I006 B01001I021 + B01001006 B01001030 + / %')
+
 
 
 	# Male Children: Total number of male youth
@@ -1500,7 +1471,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
-	data = api.get_data(['B23025', 'B23027', 'B14005', 'B08006', 'B08013'], comparison_geoids, acs)
+	data = api.get_data(['B23025', 'B23027'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 
 	employment_dict = dict()
@@ -1514,6 +1485,8 @@ def geo_profile(geoid, acs='latest'):
 		'B23027006 B23027011 + B23027016 + B23027021 + B23027026 + B23027002 B23027007 + B23027012 + B23027017 + B23027022 + / %')
 	add_metadata(employment_dict['nowork_rate'], 'B23027', 'Population 16 years and over', acs_name)
 
+	data = api.get_data(['B14005'], comparison_geoids, acs)
+	acs_name = data['release']['name']
 
 	youth_school_employment_grouped = OrderedDict()
 	employment_dict['youth_school_employment_grouped'] = youth_school_employment_grouped
@@ -1579,6 +1552,9 @@ def geo_profile(geoid, acs='latest'):
 		'B14005014 B14005015 + B14005002 / %')
 	youth_school_employment_grouped['not_graduated_unemployed']['female'] = build_item('Female', data, item_levels,
 		'B14005028 B14005029 + B14005016 / %')
+
+	data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
+	acs_name = data['release']['name']
 
 	employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
 		'B08013001 B08006001 B08006017 - /')
