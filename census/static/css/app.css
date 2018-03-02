@@ -1,20 +1,26 @@
 @import 'charts.css';
 @import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-@import url(https://fonts.googleapis.com/css?family=Source Sans Pro:200,400,700);
-@import url(https://fonts.googleapis.com/css?family=Rokkitt:400,700);
+/* @import url(https://fonts.googleapis.com/css?family=Source Sans Pro:200,400,700);
+@import url(https://fonts.googleapis.com/css?family=Rokkitt:400,700); */
+
+
+@font-face {
+    font-family: 'Quicksand-Medium';
+    src: url("../img/fonts/Quicksand-Medium.ttf") format("truetype");
+}
 
 /*
 Primary Colors:
 Dark Green: #686867;
 Light Green: #86af3f;
-Dark Blue: #032634;
-Blue Green: #216989;
+Dark Blue: #4F80BA;
+Blue Green: #76AFF2;
 Light Blue: #6595ce;
 
 Highlight Colors:
-Orange: #032634;
+Orange: #4F80BA;
 Yellow: #f4a81d;
-Purple: #032634;
+Purple: #4F80BA;
 
 Greyscale:
 Light Grey: #fff;
@@ -35,7 +41,7 @@ body {
     background-color: #fff;
     line-height: 1.4;
     font-size: 14px;
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 html {
     background-color: #ccc;
@@ -53,7 +59,7 @@ ul {
     padding: 0 0 0 2em;
 }
 input:focus {
-    border: 1px solid #216989;
+    border: 1px solid #76AFF2;
     -webkit-box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
     -moz-box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
     box-shadow: 0px 0px 2px rgba(1, 73, 72, 0.5);
@@ -106,7 +112,7 @@ a.permalink {
     color: inherit;
 }
 a:hover {
-    color: #216989;
+    color: #4F80BA;
 }
 a.permalink span,
 a.permalink i {
@@ -121,7 +127,7 @@ a.permalink:hover i {
     color: #333;
 }
 p, .serif {
-    font-family: "Rokkitt", Georgia, serif;
+    font-family: "Quicksand-Medium", Georgia, serif;
     font-size: 1.2em;
     margin: 0 0 1em;
 }
@@ -129,7 +135,7 @@ p, .serif {
     margin-top: .25em;
     padding-top: .25em;
     font-size: .83em;
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .caption-group {
     margin-right: 1em;
@@ -137,7 +143,7 @@ p, .serif {
 
 .display-type,
 .leader {
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .leader {
     font-weight: bold;
@@ -210,7 +216,7 @@ img.screenshot {
 
 #page-header,
 .box-header {
-    background-color: #032634;
+    background-color: #A8D94E;
 }
 #page-header .wrapper {
     padding: .5em 0;
@@ -230,7 +236,7 @@ img.screenshot {
     border-radius: 0;
     margin: 10px 3px 0 0;
     vertical-align: baseline;
-    height: 50px;
+    height: 80px;
 }
 .box-header {
     padding: .25em .5em;
@@ -266,7 +272,7 @@ img.screenshot {
     padding: 0;
 }
 #menu .tool-group {
-    margin: 30px 0 0 0;
+    margin: 55px 0 0 0;
 }
 #menu .separator {
     float:left;
@@ -293,7 +299,7 @@ a.action-button,
     padding: 0 9px;
     height: 2em;
     line-height: 1.9em;
-    background-color: #032634;
+    background-color: #4F80BA;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -307,13 +313,13 @@ a.action-button,
     display: none;
 }
 #menu a.button:hover {
-    background-color: #216989;
+    background-color: #76AFF2;
 }
 #menu-toggle {
     float: right;
     font-size: 18px;
     margin-top: 2px;
-    color: #216989;
+    color: #76AFF2;
     line-height: 1;
     padding: .25em .33em .2em;
     background-color: #001716;
@@ -475,11 +481,11 @@ article .section-container,
 .card .more {
     font-size: .83em;
     margin-left: .25em;
-    color: #032634;
+    color: #4F80BA;
     white-space: nowrap;
 }
 .card:hover .more {
-    color: #216989;
+    color: #76AFF2;
 }
 .card-container .card {
     margin-bottom: 1.5em;
@@ -646,7 +652,7 @@ h3.search-result-address,h3.search-result-documentation {
 
 h3 .dingbat {
   margin: 0 1ex;
-  color: #027b7a;
+  color: #A8D94E;
 }
 
 aside#facets {
@@ -708,7 +714,7 @@ aside#facets {
 }
 .zoom-to-layer.active,
 .zoom-to-layer:hover {
-    background-color: #032634;
+    background-color: #4F80BA;
     color: #fff;
 }
 
@@ -842,7 +848,7 @@ h1.article-header-right {
     display: inline-block;
     height: 2.6em;
     font-size: 1.3em;
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #profile #query-topic-picker input,
@@ -908,7 +914,7 @@ h1.article-header-right {
     font-style: italic;
 }
 .or {
-    font-family: "Rokkitt", Georgia, serif;
+    font-family: "Quicksand-Medium", Georgia, serif;
     font-size: 1.1em;
     line-height: 1;
     padding: .7em 0;
@@ -937,7 +943,7 @@ h1.article-header-right {
     font-size: 14px;
     line-height: 28px;
     color: #fff;
-    background-color: #032634;
+    background-color: #4F80BA;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
@@ -948,7 +954,7 @@ h1.article-header-right {
 }
 .tag {
     text-transform: uppercase;
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: normal;
     color: #fff;
     font-size: .8em;
@@ -1111,7 +1117,7 @@ h1.article-header-right {
 .svg-map .feature,
 .svg-map .point {
     stroke: #001b1b;
-    fill: #032634;
+    fill: #4F80BA;
 }
 .svg-map .mesh {
     fill: none;
@@ -1139,7 +1145,7 @@ h1.article-header-right {
 .q1 { background-color: #799CA9; fill: #799CA9; } 
 .q2 { background-color: #487586; fill: #487586; } 
 .q3 { background-color: #1F4E5F; fill: #1F4E5F; } 
-.q4 { background-color: #032634; fill: #032634; } 
+.q4 { background-color: #4F80BA; fill: #4F80BA; } 
 
 #map-controls {
     position: absolute;
@@ -1150,7 +1156,7 @@ h1.article-header-right {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    border: 1px solid #032634;
+    border: 1px solid #4F80BA;
     width: 450px;
     overflow-y: auto;
 }
@@ -1242,7 +1248,7 @@ h1.article-header-right {
 }
 .leaflet-label.hovercard {
     font-size: 13px;
-    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Quicksand-Medium","Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: .83em 1em;
 }
 
@@ -1489,7 +1495,7 @@ h3.item-chosen-title {
 }
 .filter-list a.option-selected {
     color: #fff;
-    background-color: #032634;
+    background-color: #4F80BA;
 }
 .filter-list {
     list-style: none;
@@ -1588,7 +1594,7 @@ textarea#results {
     text-decoration: underline;
 }
 .tool-group a:hover {
-    color: #032634;
+    color: #4F80BA;
 }
 .tool-group .filter-list a {
     text-decoration: none;
@@ -1673,8 +1679,8 @@ ul.toggle-set li {
     position: relative;
 }
 .toggle-set a {
-    background-color: #216989;
-    border-bottom: 1px solid #216989;
+    background-color: #76AFF2;
+    border-bottom: 1px solid #76AFF2;
     text-decoration: none;
     color: #fff;
     margin-right: 1px;
@@ -1707,11 +1713,11 @@ ul.toggle-set li {
 .toggle-set a.active,
 .toggle-set a:hover,
 .toggle-set a.hovered {
-    background-color: #032634;
+    background-color: #4F80BA;
     color: #fff;
 }
 .toggle-set a.unhovered {
-    background-color: #216989;
+    background-color: #76AFF2;
     color: #fff;
 }
 ul.toggle-set .toggle-sub-group a:hover {
@@ -1720,7 +1726,7 @@ ul.toggle-set .toggle-sub-group a:hover {
     border-bottom-right-radius: 0;
 }
 .toggle-sub-group a:hover {
-    color: #216989;
+    color: #76AFF2;
 }
 ul.sub-group {
     display: none;
@@ -1766,8 +1772,8 @@ ul.sub-group a:hover {
     text-decoration: none;
     padding: .33em .5em;
     color: #fff;
-    background-color: #216989;
-    border-color: #216989;
+    background-color: #76AFF2;
+    border-color: #76AFF2;
 }
 
 /* CHARTS */
@@ -1819,8 +1825,8 @@ section.chart-divider h2 {
 }
 .coal-chart li .point:hover,
 .coal-chart li .point.hovered {
-    background-color: #032634;
-    border-color: #032634;
+    background-color: #4F80BA;
+    border-color: #4F80BA;
     z-index: 3;
 }
 .coal-chart li .point.selected {
@@ -1901,12 +1907,12 @@ section.chart-divider h2 {
 .change-button,
 .go-button,
 .action-button {
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1;
     cursor: pointer;
     text-align: center;
     padding: .7em 0;
-    background-color: #032634;
+    background-color: #4F80BA;
     color: #fff;
     text-decoration: none;
     font-size: 1.2em;
@@ -1924,7 +1930,7 @@ section.chart-divider h2 {
 }
 .change-button:hover,
 .action-button:hover {
-    background-color: #216989;
+    background-color: #76AFF2;
     color: #fff;
 }
 
@@ -2006,15 +2012,15 @@ section.chart-divider h2 {
 #query-builder-bar .query-chosen.hovered,
 #query-builder-bar .query-chosen.go,
 .go-button {
-    border-color: #032634;
-    background-color: #032634;
+    border-color: #4F80BA;
+    background-color: #4F80BA;
     color: #fff;
     font-weight: 400;
 }
 #query-builder-bar .query-chosen.go,
 .go-button {
-    border-color: #032634;
-    background-color: #032634;
+    border-color: #4F80BA;
+    background-color: #4F80BA;
 }
 #query-builder-bar .query-chosen.go:hover,
 .go-button:hover {
@@ -2382,7 +2388,7 @@ dl#racial-iteration dt {
     font-size: 1.2em;
     padding: .83em;
     margin-bottom: 0;
-    background-color: #032634;
+    background-color: #4F80BA;
     color: #fff;
 }
 .tt-suggestion {
@@ -2394,7 +2400,7 @@ dl#racial-iteration dt {
 
 .tt-suggestion.tt-cursor {
   color: #fff;
-  background-color: #027b7a;
+  background-color: #A8D94E;
   cursor: pointer;
 }
 
@@ -2487,7 +2493,7 @@ aside .search .result-type {
     padding: .67em .2em;
 }
 .location-list a:hover {
-    color: #032634;
+    color: #4F80BA;
 }
 .location-list .identifier {
     float: right;
@@ -2966,13 +2972,13 @@ blockquote {
 
 .autocomplete-label {
     font-size: 1em;
-    font-family: "Rokkitt", Georgia, serif;
+    font-family: "Quicksand-Medium", Georgia, serif;
 }
 
 .autocomplete-subline {
     font-size: 0.8em;
     font-style: italic;
-    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .ui-helper-hidden-accessible {
@@ -2988,7 +2994,7 @@ a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
     color: #fff;
-    background: #216989;
+    background: #76AFF2;
     border: none;
 }
 

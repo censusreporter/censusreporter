@@ -596,7 +596,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=tr
     if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
         var defaultStyle = {
                 "clickable": true,
-                "color": "#216989",
+                "color": "#76AFF2",
                 "fillColor": "#f1f1f2",
                 "weight": 1,
                 "opacity": 0.5,
@@ -615,8 +615,8 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=tr
                     layer.on('mouseover', function() {
                         layer.setStyle({
                             "weight": 2,
-                            "fillOpacity": 0.5,
-                            "fillColor": "#f4a81d",
+                            "fillOpacity": 0.4,
+                            "fillColor": "#76AFF2",
                         });
                     });
                     layer.on('mouseout', function() {
@@ -651,7 +651,8 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=tr
 
     var featureLayer = L.geoJson(json, {
         style: {
-            "fillColor": "#9C65D1",
+            "fillColor": "#A975D7",
+            "fillOpacity": 0.5,
             "color": "#686867",
             "weight": 2,
             "clickable": false

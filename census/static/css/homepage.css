@@ -280,6 +280,11 @@ nav .container {
     background: #7E4BAB;
 }
 
+.c-explore-panel input[type='text']::placeholder {
+    color: #FFFFFF;
+}
+
+
 .c-explore-panel input[type='text']:focus {
     background: #A8D94E;
     border: 1.5px solid black;
@@ -359,7 +364,6 @@ nav .container {
     border-radius: 7.2px;
     padding: 30px 50px;
     background: #DBDBDB;
-    color: #fff;
     width: 72%;
 }
 
@@ -866,7 +870,7 @@ footer .designed-by span {
 
 @font-face {
     font-family: 'Quicksand-Regular';
-    src: url("../img/Quicksand-Regular.ttf") format("truetype");
+    src: url("../img/fonts/Quicksand-Regular.ttf") format("truetype");
 }
 
 @font-face {
