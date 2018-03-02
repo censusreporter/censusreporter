@@ -15,28 +15,6 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}css/homepage.css">
         {% block head_css_extra %}{% endblock %}{% endblock head_css %}
-<!--         <script type="application/ld+json">
-        [
-          {
-            "@context": "http://schema.org",
-            "@type": "WebSite",
-            "name": "Census Reporter",
-            "url": "https://censusreporter.org"
-          },
-          {
-            "@context": "http://schema.org",
-            "@type": "Organization",
-            "name": "Census Reporter",
-            "url": "https://censusreporter.org",
-            "logo": "https://censusreporter.org/static/img/logo.png",
-            "sameAs": [
-              "http://twitter.com/censusreporter",
-              "http://censusreporter.tumblr.com"
-            ]
-          }
-
-        ]
-        </script> -->
         {% block head_javascript %}
         <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
         {% block head_javascript_extra %}{% endblock %}{% endblock %}
@@ -64,35 +42,7 @@
         <![endif]-->
 
         {% block header %}
-        <!-- <header id="page-header">
-            <div id="page-header-title" class="wrapper clearfix">
-                {% if not hide_nav_tools %}
-                <i id="menu-toggle" class="fa fa-bars"></i>
-                {% endif %}
-                <a class="title" href="{% url 'homepage' %}">
-                    <img src="{{ STATIC_URL }}img/State_of_the_Child_Logo_v3.png">
-                </a>
-                {% if not hide_nav_tools %}
-                <div id="menu" class="tool-set clearfix">
-                    <div class="tool-group">
-                        <input name="geography_select" class="geography-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
-                    </div>
-                    {% if not hide_nav_compare %}
-                    <span class="separator">or</span>
-                    <div class="tool-group">
-                        <a class="button" href="{% url 'table_search' %}">
-                            <i class="fa fa-chevron-circle-right"></i>
-                            Search for data
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-                {% endif %}
-                <div class="beta-ribbon">
-                    <img class="beta-image" src="{{ STATIC_URL }}img/beta.png">
-                </div>
-            </div>
-        </header> -->
+
         <!-- {% block header_content %}{% endblock header_content %}
         {% endblock %} -->
 
@@ -100,48 +50,8 @@
         <div class="content-container wrapper clearfix">
             {% block content %}{% endblock %}
         </div>
-        {% endblock %} -->
+        {% endblock %}
 
-        <!-- <footer id="page-footer">
-            <section class="wrapper footer-container clearfix">
-                {% block footer_content %}
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-desktop"></i> <a href="http://datadrivendetroit.org/">D3 on the Web</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-rss"></i> <a href="http://datadrivendetroit.org/blog/">D3 blog</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope"></i> <a href="http://datadrivendetroit.org/subscribe_to_newsletter/">D3 Newsletter</a>
-                    </li>
-
-                </ul>
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-facebook"></i> <a href="https://www.facebook.com/DataDrivenDetroit">D3 on Facebook</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-twitter"></i> <a href="https://twitter.com/d3detroit">@d3detroit</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/company/data-driven-detroit">D3 on LinkedIn</a>
-                    </li>
-                </ul>
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-th-list"></i> <a href="{% url 'glossary' %}">Census terms &amp; definitions</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-laptop"></i> <a href="https://censusreporter.org/">Census Reporter on the Web</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-github"></i> <a href="https://github.com/censusreporter/">Census Reporter on GitHub</a>
-                    </li>
-                </ul>
-                {% endblock footer_content %}
-            </section>
-        </footer> -->
         {% endblock body %}
 
         {% block body_javascript %}
@@ -166,9 +76,9 @@
                 crossorigin="anonymous"></script>
         <script type="text/javascript">CR_API_URL = '{{ API_URL }}';</script>
         <script src="{{ STATIC_URL }}js/app.js"></script>
+        <script src="{{ STATIC_URL }}js/homepage.js"></script>        
         <script src="{{ STATIC_URL }}js/glossary.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
         {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
-        <!-- <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script> -->
     </body>
 </html>
