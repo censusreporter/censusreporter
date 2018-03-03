@@ -217,6 +217,7 @@ img.screenshot {
 #page-header,
 .box-header {
     background-color: #A8D94E;
+    border-bottom: 2px solid black;
 }
 #page-header .wrapper {
     padding: .5em 0;
@@ -273,7 +274,7 @@ img.screenshot {
 }
 #menu .tool-group {
     margin: 55px 0 0 0;
-}
+} 
 #menu .separator {
     float:left;
     color: #fff;
@@ -284,7 +285,7 @@ img.screenshot {
     padding-top: .2em;
 }
 #menu input {
-    border: 0;
+    border: 1px solid black;
     margin-left: 0;
     padding: 2px 6px 0;
     height: 2em;

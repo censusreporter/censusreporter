@@ -37,8 +37,8 @@
         <div class="main-container">
                 <div class="c-intro-panel">
         <header>
-            <a class='nav-link' href="">
-                <img class="beta-button" src="{{ STATIC_URL }}img/beta-button.svg" />
+            <a class='nav-link' href="#">
+                <img class="beta-button" src="{{ STATIC_URL }}img/beta-button.svg" title="We’re live in Beta mode. But you can make us better.  The tool – with your use – will continue to evolve and improve from its Beta mode. This year alone we’ll add additional youth-focused data sources and trend information.  We’ll also hold user-testing sessions, outreach and training."/>
             </a>
             <img class="state-of-detroit-child" src="{{ STATIC_URL }}img/state-of-detroit-child.png" />
             <div class="navigation-icon-holder">
@@ -66,9 +66,7 @@
     </div>
     <div class="c-goal-panel">
         <div class="l-flex-center">
-            <p class="body-text">The goal of the State of the Detroit Child platform is to provide reliable, timely data to improve the well-being
-                of Detroit’s kids by driving informed deision making and advocacy at every level, from community leaders, policymakers,
-                and nonprofit organizations to individuals and families.</p>
+            <p class="body-text">The goal of the State of the Detroit Child platform is to provide reliable, timely data to improve the well-being of Detroit’s kids by driving informed decision making and advocacy at every level, from community leaders, policymakers, and nonprofit organizations to individuals and families.</p>
         </div>
         <div class="l-flex-center">
             <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
@@ -85,7 +83,7 @@
             </li>
             <li>
                 <img class="checkmark" src="{{ STATIC_URL }}img/checkmark.svg" />
-                <p class="body-text">Data from the granular (census tract and zip code) for anywhere in the state of Michigan</p>
+                <p class="body-text">Data from the granular (census tract and zip code)  to the large-scale (city and congressional district) for anywhere in the state of Michigan</p>
             </li>
             <li>
                 <img class="checkmark" src="{{ STATIC_URL }}img/checkmark.svg" />
@@ -303,7 +301,9 @@
     </div>
     <footer>
         <div class="l-flex-space-between">
-            <img class="company-logo" src="{{ STATIC_URL }}img/DataDrivenDetroit-LogoColor.svg" />
+            <a href="http://datadrivendetroit.org/">
+                <img class="company-logo" src="{{ STATIC_URL }}img/DataDrivenDetroit-LogoColor.svg" />
+            </a>
             <div class="details">
                 <p class="body-text-32">Suggestions? We’d love to hear them! Contact us at
                     <a href="mailto:askd3@datadrivendetroit.org" target="_top">
@@ -311,48 +311,51 @@
                     </a>
                 </p>
                 <div class="divider"></div>
-                <div class="newsletter">
-                    <p class="body-text-32 light-green">Newsletter</p>
-                    <p class="body-text body-text-ligher">
-                        <a href="http://datadrivendetroit.org/subscribe_to_newsletter/">
-                            <span class="light-blue">Sign Up</span>
-                        </a>for our newsletter to stay up to date!
-                    </p>
-                </div>
-                &nbsp;
                 <div class="c-social-media">
                     <ul>
                         <li class="l-flex-align-center">
-                            <img class="social-icons" src="{{ STATIC_URL }}img/facebook.png"/>
+                            <a href="https://www.facebook.com/DataDrivenDetroit">
+                                <img class="social-icons" src="{{ STATIC_URL }}img/facebook.png"/>
+                            </a>
                             <a class="hyperlink-bold-small" href="https://www.facebook.com/DataDrivenDetroit">D3 on Facebook</a>
                         </li>
                         <li class="l-flex-align-center">
-                            <img class="social-icons" src="{{ STATIC_URL }}img/twitter.png"/>
+                            <a href="https://twitter.com/d3detroit">
+                                <img class="social-icons" src="{{ STATIC_URL }}img/twitter.png"/>
+                            </a>
                             <a class="hyperlink-bold-small" href="https://twitter.com/d3detroit">D3 on Twitter</a>
                         </li>
                         <li class="l-flex-align-center">
-                            <img class="social-icons" src="{{ STATIC_URL }}img/linkedin.png"/>
+                            <a href="https://www.linkedin.com/company/data-driven-detroit">
+                                <img class="social-icons" src="{{ STATIC_URL }}img/linkedin.png"/>
+                            </a>
                             <a class="hyperlink-bold-small" href="https://www.linkedin.com/company/data-driven-detroit">D3 on LinkedIn</a>
                         </li>
                     </ul>
                     <ul>
                         <li class="l-flex-align-center">
-                            <img class="social-icons" src="{{ STATIC_URL }}img/web.png"/>
+                            <a class="hyperlink-bold-small" href="https://censusreporter.org/">
+                                <img class="social-icons" src="{{ STATIC_URL }}img/web.png"/>
+                            </a>
                             <a class="hyperlink-bold-small" href="https://censusreporter.org/">Census Reporter on the Web</a>
                         </li>
                         <li class="l-flex-align-center">
-                            <img class="social-icons" src="{{ STATIC_URL }}img/github.png"/>
+                            <a class="hyperlink-bold-small" href="https://github.com/censusreporter/">
+                                <img class="social-icons" src="{{ STATIC_URL }}img/github.png"/>
+                            </a>
                             <a class="hyperlink-bold-small" href="https://github.com/censusreporter/">Census Reporter on Github</a>
                         </li>
                     </ul>
                 </div>
                 <div class="divider"> </div>
-                <div class="skillman">
-                    <div class="l-flex-align-flex-end">
-                        <img src="{{ STATIC_URL }}img/SkillmanFoundation-Logo.png" />
-                        <p>Supported by The Skillman Foundation</p>
+                <a href="http://www.skillman.org/">
+                    <div class="skillman">
+                        <div class="l-flex-align-flex-end">
+                            <img src="{{ STATIC_URL }}img/SkillmanFoundation-Logo.png" />
+                            <p>Supported by The Skillman Foundation</p>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <p class="designed-by">Site built and designed by <a href="http://nijel.org/"><span>NiJeL</span></a>, based on <a href="https://censusreporter.org/"><span>Census Reporter</span></a>. </a> Homepage designed by <a href="http://gooddonedaily.com/"><span>gdd</span></a>.
                 </p>
             </div>
