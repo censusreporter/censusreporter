@@ -277,7 +277,7 @@ nav .container {
     padding: 30px 50px;
     font-size: 24px;
     color: #FFFFFF;
-    background: #7E4BAB;
+    background: #A8D94E;
 }
 
 .c-explore-panel input[type='text']::placeholder {
@@ -925,3 +925,4 @@ input {
     flex-direction: column;
     align-items: center;
 } */
+

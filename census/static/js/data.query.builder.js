@@ -269,7 +269,7 @@ function makeTopicSelectWidget(element) {
         templates: {
             suggestion: Handlebars.compile(
                 [
-                    '{{#if table_id}}<h5 class="result-type">{{#if column_name}}Column in {{/if}}Table {{table_id}}</h5>{{/if}}',
+                    '{{#if table_id}}<h5 class="result-type">{{#if column_name}}Column in {{/if}}Table {{table_id}}: {{simple_table_name}}</h5>{{/if}}',
                     '<p class="result-name">{{simple_table_name}}</p>',
                     '{{#if column_name}}<p class="caption"><strong>Column name:</strong> {{column_name}}</p>{{/if}}',
                     '{{#if topic_string}}<p class="caption"><strong>Table topics:</strong> {{topic_string}}</p>{{/if}}'
