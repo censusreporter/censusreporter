@@ -37,9 +37,7 @@
         <div class="main-container">
                 <div class="c-intro-panel">
         <header>
-            <a class='nav-link' href="#">
-                <img class="beta-button" src="{{ STATIC_URL }}img/beta-button.svg" title="We’re live in Beta mode. But you can make us better.  The tool – with your use – will continue to evolve and improve from its Beta mode. This year alone we’ll add additional youth-focused data sources and trend information.  We’ll also hold user-testing sessions, outreach and training."/>
-            </a>
+             <img class="beta-button" src="{{ STATIC_URL }}img/beta-button.svg" title="We’re live in Beta mode. But you can make us better.  The tool – with your use – will continue to evolve and improve from its Beta mode. This year alone we’ll add additional youth-focused data sources and trend information.  We’ll also hold user-testing sessions, outreach and training."/>
             <img class="state-of-detroit-child" src="{{ STATIC_URL }}img/state-of-detroit-child.png" />
             <div class="navigation-icon-holder">
                 <img class="navigation-icon" src="{{ STATIC_URL }}img/navigation-icon.svg" id="navigationIcon" />
@@ -211,7 +209,7 @@
         </div>
         <div class="l-flex-space-between">
             {% for row in topics_list|columns:7 %}
-                <ul>
+                <ul class="topics-column">
                     {% for topic in row %}
                         <li>
                             <a class="hyperlink-regular" id="topic-{{ topic.slug }}"
@@ -224,7 +222,16 @@
             {% endfor %}
         </div>
         <div class="l-flex-center">
-            <div class="dropdown"></div>
+            <div class="dropdown">
+                <button>Topics &or;</button>
+                <div class="topics-dropdown-content">
+                    {% for row in topics_list|columns:7 %}
+                        {% for topic in row %}
+                            <a href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         <div class="l-flex-center">
             <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
