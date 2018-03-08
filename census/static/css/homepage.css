@@ -58,7 +58,7 @@ body {
 }
 
 nav {
-    display: none;
+    display: block;
     background: #F8E71C;
     text-transform: uppercase;
     padding: 60px 0;
