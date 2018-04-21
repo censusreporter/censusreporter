@@ -728,9 +728,7 @@ class SearchResultsView(TemplateView):
             search_data['results'] = filter(lambda x: x.get('sumlevel') not in ['140','150'], search_data['results'])
             search_data_location = json.loads(r_location.text)
             search_data_all['has_query'] = True
-            search_data_all['results'] =
-                (search_data.get('results') or []) +
-                (search_data_location.get('features') or [])
+            search_data_all['results'] = (search_data.get('results') or []) + (search_data_location.get('features') or [])
         elif status_code == 404 or status_code == 400:
             error_data = json.loads(r.text)
             raise_404_with_messages(self.request, error_data)
