@@ -12,10 +12,12 @@ var geoSearchAPI = CR_API_URL + '/1.0/geo/search',
 var geoSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    limit: 20,
+    limit: 500,
     remote: {
         url: geoSearchAPI,
         replace: function (url, query) {
+            var latitude = 42.3487;
+            var longitude = -83.0587;
             chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
             return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
         },
@@ -24,6 +26,7 @@ var geoSelectEngine = new Bloodhound({
             // remove any non-Michigan responses
             for (var i = response.results.length - 1; i >= 0; i--) {
                 // all Michigan results have US26 as part of their geoID
+                console.log(response.results[i]);
                 if (response.results[i].full_geoid.search('US26') != -1) {
                     results.push(response.results[i]);
                 }
