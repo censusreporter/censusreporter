@@ -12,6 +12,7 @@ from django.conf import settings
 import json
 import cStringIO
 import gzip
+import time
 
 from ...profile import immunization_data, enhance_api_data
 
@@ -79,6 +80,7 @@ def seed(geoid):
         logger.error("Problem caching {}".format(geoid))
         logger.exception(e)
     print "Done working on {}".format(geoid)
+    time.sleep(2)
 
 
 class Command(BaseCommand):
