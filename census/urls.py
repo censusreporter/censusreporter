@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, GeographySearchView,
-    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView)
 
@@ -97,6 +97,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewInfantMortality.as_view()),
         kwargs  = {},
         name    = 'table_D3-Infant-Mortality',
+    ),
+
+    url(
+        regex   = '^tables/D3-Immunization/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewImmunization.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Immunization',
     ),
 
     url(

@@ -151,6 +151,15 @@ function Table(options) {
                     response.unshift(d3Response);
                 }               
 
+                // immunization
+                var immunization = 'immunizationvaccinationvaccinechildrenshotspreventablediseasedtappoliommrhibhepbvaricellapcvhepavaccinations';
+                var match_imm = immunization.match(re);
+                if (match_imm) {
+                    var d3Response = d3ImmunizationTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                } 
+
                 
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
@@ -258,6 +267,24 @@ function Table(options) {
     
     }
 
+    var d3ImmunizationTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Immunization",
+            'simple_table_name': "Immunizations",
+            'table_id': "D3-Immunization",
+            'table_name': "Immunizations",
+            'topic_string': "health care, children",
+            'topics': ['health care','children'],
+            'type': "table",
+            'unique_key': "D3-Immunization",
+            'universe': "Number of people immunized"
+        }
+    
+        return response;
+    
+    }
+    
     
     table.makeTopicSelectWidget = function() {
         table.$displayWrapper.find('h1')

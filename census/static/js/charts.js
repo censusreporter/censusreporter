@@ -871,7 +871,6 @@ function Chart(options) {
     
     // pass in data obj, get back formatted value label with MOE flag
     chart.getValueFmt = function(data, geoStr, precision) {
-        
         var place = (!!geoStr) ? geoStr : 'this',
             decimals = (!!precision) ? precision : 0,
             valueText = data.context.values[place],
