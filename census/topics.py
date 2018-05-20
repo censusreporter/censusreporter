@@ -120,6 +120,17 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Immunization',
+        'slug': 'immunization',
+        'topics': ['public health', 'children', 'families', 'health care'],
+        'description': 'Data on the number of fully or partially immunized people collected by the State of Michigan Office of Vital Statistics at the county, county subdivision (in Wayne County, congressional district, State House district, State Senate district, and Census tract levels in Michigan. For this analysis, MDHHS determined immunization status using a National Immunization Survey (NIS) - like methodology, which is a count of both valid and invalid doses. This allows for comparisons with other states. Full immunization, denoted as "fully immunized," includes 4 DTaP, 3 Polio, 1 MMR, 3 Hib, 3 HepB, 1 Varicella, 4 PCV, and 2 HepA vaccinations. Partial immunization, minus HepA and minus PCV, lack HepA and/or PCV vaccinations, respectively. ',
+        'template_name': 'immunization.html',
+        'question_images': [],
+        'question_pdfs': [
+        ]
+    },
+
+    {
         'title': 'Race and Hispanic Origin',
         'slug': 'race-hispanic',
         'topics': ['race',],

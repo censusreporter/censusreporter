@@ -1,0 +1,40 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <h2>Immunization Data Table</h2>
+    <p>The table <a href="/tables/D3-Immunization/">D3-Immunization</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Immunization_Population</td>
+                <td>Number of people immunized.</td>
+            </tr>
+            <tr>
+                <td>Fully_Immunized_43133142</td>
+                <td>Number fully immunized.</td>
+            </tr>
+            <tr>
+                <td>Partially_Immunized_431331</td>
+                <td>Number partially immunized (minus HepA).</td>
+            </tr>
+            <tr>
+                <td>Partially_Immunized_4313314</td>
+                <td>Number partially immunized (minus PCV).</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

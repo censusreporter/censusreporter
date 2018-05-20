@@ -19,6 +19,8 @@ class ApiClient(object):
 
 	def _get(self, path, params=None):
 		url = self.base_url + path
+		print url
+		print params
 		r = requests.get(url, params=params)
 		data = None
 		if r.status_code == 200:
@@ -69,7 +71,7 @@ class D3ApiClient(object):
 		return self._get(table_id, field_name, geo_ids)
 
 
-def format_d3_data(years, table_name, title, universe, denominator_column_id, fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
+def format_d3_data(years, table_name, title, universe, denominator_column_id, fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		):
 	data = OrderedDict()
 	# release notes
@@ -165,6 +167,26 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '500' and congressional_district_data:
 			try:
 				for feature in congressional_district_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except Exception as e:
+				pass
+
+		if geo['sumlevel'] == '610' and state_senate_data:
+			try:
+				for feature in state_senate_data['features']:
+					for key, value in feature['attributes'].iteritems():
+						key = 'D3-' + key
+						data['data'][geo['geoid']][table_name]['estimate'][key] = value
+						data['data'][geo['geoid']][table_name]['error'][key] = 0
+			except Exception as e:
+				pass
+
+		if geo['sumlevel'] == '620' and state_house_data:
+			try:
+				for feature in state_house_data['features']:
 					for key, value in feature['attributes'].iteritems():
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
@@ -362,6 +384,8 @@ def geo_profile(geoid, acs='latest'):
 	tract_geoids = []
 	msa_geoids = []
 	congressional_district_geoids = []
+	state_senate_geoids = []
+	state_house_geoids = []
 	zcta_geoids = []
 	school_district_geoids = []
 	d3_item_levels = []
@@ -389,6 +413,16 @@ def geo_profile(geoid, acs='latest'):
 			# remove the leading 26 to conform to the ODP dataset
 			cong_dist_geoid = split_geoid[1].replace("26", "", 1)
 			congressional_district_geoids.append(cong_dist_geoid)
+		if level['sumlevel'] == '610':
+			d3_item_levels.append(level)
+			state_senate_geoid = split_geoid[1].replace("260", "", 1)
+			state_senate_geoid = state_senate_geoid.lstrip("0")
+			state_senate_geoids.append(state_senate_geoid)
+		if level['sumlevel'] == '620':
+			d3_item_levels.append(level)
+			state_house_geoid = split_geoid[1].replace("260", "", 1)
+			state_house_geoid = state_house_geoid.lstrip("0")
+			state_house_geoids.append(state_house_geoid)
 		if level['sumlevel'] == '860':
 			d3_item_levels.append(level)
 			zcta_geoids.append(split_geoid[1])
@@ -411,6 +445,8 @@ def geo_profile(geoid, acs='latest'):
 	tract_data = []
 	msa_data = []
 	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
 	school_district_data = []
 	zcta_data = []	
 	if state_geoids:
@@ -469,7 +505,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['TeenMothers']['name'] = "Births to Teen Mothers"
 	fields['TeenMothers']['indent'] = 1
 
-	data = format_d3_data("2014", "D3-Births", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2014", "D3-Births", "Births by Race and Ethnicity and Characteristic", "Total Births", "TotalBirths", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 	births_dict = dict()
 	doc['families']['births'] = births_dict
@@ -514,6 +550,8 @@ def geo_profile(geoid, acs='latest'):
 	tract_data = []
 	msa_data = []
 	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
 	school_district_data = []
 	zcta_data = []	
 	if state_geoids:
@@ -573,7 +611,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['ELAPctMetCalc']['name'] = "Percentage of students who met or exceeded ELA expectations"
 	fields['ELAPctMetCalc']['indent'] = 1
 
-	data = format_d3_data("2017", "D3-Math-Proficiency", "Third Grade Proficiency in English Language Arts and Math", "Total students taking Math Assessment", "MATHNumAssessed_Calc", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Math-Proficiency", "Third Grade Proficiency in English Language Arts and Math", "Total students taking Math Assessment", "MATHNumAssessed_Calc", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	ela_math_dict = dict()
@@ -617,6 +655,8 @@ def geo_profile(geoid, acs='latest'):
 	tract_data = []
 	msa_data = []
 	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
 	school_district_data = []
 	zcta_data = []	
 	if state_geoids:
@@ -657,7 +697,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['GradRate']['indent'] = 1
 
 
-	data = format_d3_data("2017", "D3-Graduation-Rates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Graduation-Rates", "Graduation Rate", "Total Students", "CohortCount", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	graduation_dict = dict()
@@ -685,6 +725,8 @@ def geo_profile(geoid, acs='latest'):
 	tract_data = []
 	msa_data = []
 	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
 	school_district_data = []
 	zcta_data = []	
 
@@ -717,7 +759,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['AssaultMal']['indent'] = 1
 
 
-	data = format_d3_data("2017", "D3-Infant-Mortality", "Number of infant deaths", "Number of births", "InfantMort", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Infant-Mortality", "Number of infant deaths", "Number of births", "InfantMort", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	infant_mortality_dict = dict()
@@ -739,6 +781,76 @@ def geo_profile(geoid, acs='latest'):
 		'D3-InfantMort D3-SafeSleep - D3-AssaultMal - D3-InfantMort / %')
 
 
+	# get D3 data on Immunizations
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('Immunization_2015_US_Congress', 'DISTRICT', congressional_district_geoids)
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('Immunization_2015_US_Senate', 'DISTRICT', state_senate_geoids)
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('Immunization_2015_State_House', 'DISTRICT', state_house_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('Immunization_2015_Counties', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('Immunization_2015_WayneCo_Sub', 'GEOID10', county_sd_geoids)
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('Immunization2015_SuppressedCENSUSTRACTS', 'GEOID10', tract_geoids)
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict();
+	fields['Immunization_Population'] = OrderedDict();
+	fields['Immunization_Population']['name'] = "Number of people immunized"
+	fields['Immunization_Population']['indent'] = 0
+
+	fields['Fully_Immunized_43133142'] = OrderedDict();
+	fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
+	fields['Fully_Immunized_43133142']['indent'] = 1
+
+	fields['Partially_Immunized_431331'] = OrderedDict();	
+	fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
+	fields['Partially_Immunized_431331']['indent'] = 1
+
+	fields['Partially_Immunized_4313314'] = OrderedDict();	
+	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus PCV)"
+	fields['Partially_Immunized_4313314']['indent'] = 1
+
+
+	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Number of people immunized", "Immunization_Population", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	immunization_dict = dict()
+	doc['social']['immunization'] = immunization_dict
+
+	immunization_dict['immunization'] = build_item('Persons fully immunized', data, d3_item_levels, 
+		'D3-Fully_Immunized_43133142')
+	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services') 
+
+	immunization_chart_data = OrderedDict()
+	doc['social']['immunization']['immunization_chart_data'] = immunization_chart_data
+	add_metadata(immunization_chart_data, 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+
+	immunization_chart_data['Fully_Immunized_43133142'] = build_item('Fully immunized', data, d3_item_levels,
+		'D3-Fully_Immunized_43133142 D3-Immunization_Population / %')
+	immunization_chart_data['Partially_Immunized_431331'] = build_item('Partially immunized (minus HepA)', data, d3_item_levels,
+		'D3-Partially_Immunized_431331 D3-Immunization_Population / %')
+	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus PCV)', data, d3_item_levels,
+		'D3-Partially_Immunized_4313314 D3-Immunization_Population / %')
 
 
 
@@ -2152,6 +2264,141 @@ def geo_profile(geoid, acs='latest'):
 		doc['geo_metadata']['population_density'] = population_density
 
 	return doc
+
+def immunization_data(geoid, acs='latest'):
+	api = ApiClient(settings.API_URL)
+	d3_api = D3ApiClient(settings.D3_API_URL)
+
+	item_levels = api.get_parent_geoids(geoid)['parents']
+	comparison_geoids = [level['geoid'] for level in item_levels]
+
+	# for D3 Open Data Portal pulls
+	state_geoids = []
+	county_geoids = []
+	county_sd_geoids = []
+	tract_geoids = []
+	msa_geoids = []
+	congressional_district_geoids = []
+	state_senate_geoids = []
+	state_house_geoids = []
+	zcta_geoids = []
+	school_district_geoids = []
+	d3_item_levels = []
+	# iterate over levels and create geoids useful for d3 API
+	for level in item_levels:
+		#split geoid to remove the not useful part
+		split_geoid = level['geoid'].split('US')
+		if level['sumlevel'] == '040':
+			d3_item_levels.append(level)
+			state_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '050':
+			d3_item_levels.append(level)
+			county_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '060':
+			d3_item_levels.append(level)
+			county_sd_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '140':
+			d3_item_levels.append(level)
+			tract_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '310':
+			d3_item_levels.append(level)
+			msa_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '500':
+			d3_item_levels.append(level)
+			# remove the leading 26 to conform to the ODP dataset
+			cong_dist_geoid = split_geoid[1].replace("26", "", 1)
+			congressional_district_geoids.append(cong_dist_geoid)
+		if level['sumlevel'] == '610':
+			d3_item_levels.append(level)
+			state_senate_geoid = split_geoid[1].replace("260", "", 1)
+			state_senate_geoid = state_senate_geoid.lstrip("0")
+			state_senate_geoids.append(state_senate_geoid)
+		if level['sumlevel'] == '620':
+			d3_item_levels.append(level)
+			state_house_geoid = split_geoid[1].replace("260", "", 1)
+			state_house_geoid = state_house_geoid.lstrip("0")
+			state_house_geoids.append(state_house_geoid)
+		if level['sumlevel'] == '860':
+			d3_item_levels.append(level)
+			zcta_geoids.append(split_geoid[1])
+		if level['sumlevel'] == '950' or level['sumlevel'] == '960' or level['sumlevel'] == '970':
+			d3_item_levels.append(level)
+			school_district_geoids.append(split_geoid[1])
+
+
+	# get D3 data on Immunizations
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('Immunization_2015_US_Congress', 'DISTRICT', congressional_district_geoids)
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('Immunization_2015_US_Senate', 'DISTRICT', state_senate_geoids)
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('Immunization_2015_State_House', 'DISTRICT', state_house_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('Immunization_2015_Counties', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('Immunization_2015_WayneCo_Sub', 'GEOID10', county_sd_geoids)
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('Immunization2015_SuppressedCENSUSTRACTS', 'GEOID10', tract_geoids)
+		
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict();
+	fields['Immunization_Population'] = OrderedDict();
+	fields['Immunization_Population']['name'] = "Number of people immunized"
+	fields['Immunization_Population']['indent'] = 0
+
+	fields['Fully_Immunized_43133142'] = OrderedDict();
+	fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
+	fields['Fully_Immunized_43133142']['indent'] = 1
+
+	fields['Partially_Immunized_431331'] = OrderedDict();	
+	fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
+	fields['Partially_Immunized_431331']['indent'] = 1
+
+	fields['Partially_Immunized_4313314'] = OrderedDict();	
+	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus PCV)"
+	fields['Partially_Immunized_4313314']['indent'] = 1
+
+
+	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Number of people immunized", "Immunization_Population", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	immunization_dict = dict()
+	# doc['social']['immunization'] = immunization_dict
+
+	immunization_dict['immunization'] = build_item('Persons fully immunized', data, d3_item_levels, 
+		'D3-Fully_Immunized_43133142')
+	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services') 
+
+	immunization_chart_data = OrderedDict()
+	immunization_dict['immunization_chart_data'] = immunization_chart_data
+	add_metadata(immunization_chart_data, 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+
+	immunization_chart_data['Fully_Immunized_43133142'] = build_item('Fully immunized', data, d3_item_levels,
+		'D3-Fully_Immunized_43133142 D3-Immunization_Population / %')
+	immunization_chart_data['Partially_Immunized_431331'] = build_item('Partially immunized (minus HepA)', data, d3_item_levels,
+		'D3-Partially_Immunized_431331 D3-Immunization_Population / %')
+	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus PCV)', data, d3_item_levels,
+		'D3-Partially_Immunized_4313314 D3-Immunization_Population / %')
+
+	return immunization_dict
+
 
 def find_dicts_with_key(dictionary, searchkey):
 	stack = [dictionary]

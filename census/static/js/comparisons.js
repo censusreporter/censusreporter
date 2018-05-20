@@ -189,14 +189,62 @@ function Comparison(options, callback) {
             }
         }
 
+        // infant mortality
+        if (comparison.d3table_name == "D3-Immunization") {
+            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+                split_geoid = comparison.d3_all_geoids[i].split('US');
+                // if (split_geoid[0].startsWith('040')) {
+                //     ajaxGeo++;
+                //     parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
+                // }
+                if (split_geoid[0].startsWith('050')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('060')) {
+                    console.log(comparison.d3_all_geoids[i]);
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('140')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('500')) {
+                    //console.log(comparison.d3_all_geoids[i]);
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'DISTRICT');
+                }
+                if (split_geoid[0].startsWith('610')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_senate_data', 'DISTRICT');
+                }
+                if (split_geoid[0].startsWith('620')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_house_data', 'DISTRICT');
+                }
+            }
+        }
+
 
         function parseData(geo_id, geo_key, geo_field) {
             var split_geoid = geo_id.split('US');
 
             // for infant mortality data by congressional district, remove the leading 26 from split_geoid[1]
-            if (geo_field == 'DISTRICT') {
+            if (geo_key == 'congressional_district_data') {
                 split_geoid[1] = split_geoid[1].replace("26", "");
             }
+
+            if (geo_key == 'state_senate_data') {
+                split_geoid[1] = split_geoid[1].replace("260", "");
+                split_geoid[1] = +split_geoid[1]
+            } 
+            
+            if (geo_key == 'state_house_data') {
+                split_geoid[1] = split_geoid[1].replace("260", "");
+                split_geoid[1] = +split_geoid[1]
+            } 
+            
             
             // get geography name from CR
             var nameGeoAPI = comparison.rootGeoAPI + geo_id;
@@ -557,6 +605,63 @@ function Comparison(options, callback) {
         
     }
 
+    comparison.getImmunizationData = function() {
+        // metadata specific to immunization data
+        comparison.d3DataReleaseName = 'D3 Open Data Portal, Michigan Department of Health and Human Services';
+        comparison.d3DataYears = '2015';
+        comparison.d3table_name = 'D3-Immunization';
+        comparison.d3title = 'Immunizations';
+        comparison.d3universe = 'Number of people immunized';
+        comparison.d3denominator_column_id ='D3-Immunization_Population';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['Immunization_Population'] = {};
+        comparison.d3fields['Immunization_Population']['name'] = "Number of people immunized"
+        comparison.d3fields['Immunization_Population']['indent'] = 0
+
+        comparison.d3fields['Fully_Immunized_43133142'] = {};
+        comparison.d3fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
+        comparison.d3fields['Fully_Immunized_43133142']['indent'] = 1
+
+        comparison.d3fields['Partially_Immunized_431331'] = {};
+        comparison.d3fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
+        comparison.d3fields['Partially_Immunized_431331']['indent'] = 1
+
+        comparison.d3fields['Partially_Immunized_4313314'] = {};
+        comparison.d3fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus PCV)"
+        comparison.d3fields['Partially_Immunized_4313314']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization2015_SuppressedCENSUSTRACTS', 'GEOID10', comparison.tract_geoids, 'tract_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization_2015_Counties', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization_2015_WayneCo_Sub', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization_2015_US_Congress', 'DISTRICT', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization_2015_US_Senate', 'DISTRICT', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization_2015_State_House', 'DISTRICT', comparison.state_house_geoids, 'state_house_data')
+        }
+
+    }
+
+
     comparison.getData = function() {
         if (comparison.tableID && comparison.geoIDs) {
             var params = {
@@ -573,6 +678,8 @@ function Comparison(options, callback) {
                 comparison.tract_geoids = [];
                 comparison.msa_geoids = [];
                 comparison.congressional_district_geoids = [];
+                comparison.state_senate_geoids = []
+                comparison.state_house_geoids = []
                 comparison.school_district_geoids = [];
                 comparison.zcta_geoids = [];
 
@@ -637,6 +744,16 @@ function Comparison(options, callback) {
                         var cong_dist_geoid = split_geoid[1].replace("26", "");
                         comparison.congressional_district_geoids.push(cong_dist_geoid);
                     }
+                    if (split_geoid[0].startsWith('610')) {
+                        var state_senate_geoid = split_geoid[1].replace("260", "");
+                        state_senate_geoid = +state_senate_geoid;
+                        comparison.state_senate_geoids.push(state_senate_geoid);
+                    }
+                    if (split_geoid[0].startsWith('620')) {
+                        var state_house_geoid = split_geoid[1].replace("260", "");
+                        state_house_geoid = +state_house_geoid;
+                        comparison.state_house_geoids.push(state_house_geoid);
+                    }
                     if (split_geoid[0].startsWith('860')) {
                         comparison.zcta_geoids.push(split_geoid[1]);
                     }
@@ -665,6 +782,10 @@ function Comparison(options, callback) {
 
                     if (comparison.tableID == 'D3-Infant-Mortality') {
                         comparison.getInfantMortalityData();
+                    }
+
+                    if (comparison.tableID == 'D3-Immunization') {
+                        comparison.getImmunizationData();
                     }
 
                 }
@@ -1713,6 +1834,15 @@ function Comparison(options, callback) {
                     response.unshift(d3Response);
                 }               
 
+                // immunization
+                var immunization = 'immunizationvaccinationvaccinechildrenshotspreventablediseasedtappoliommrhibhepbvaricellapcvhepavaccinations';
+                var match_imm = immunization.match(re);
+                if (match_imm) {
+                    var d3Response = d3ImmunizationTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                } 
+
 
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
@@ -1815,6 +1945,24 @@ function Comparison(options, callback) {
             'type': "table",
             'unique_key': "D3-Infant-Mortality",
             'universe': "Number of infant deaths"
+        }
+
+        return response;
+
+    }
+
+    var d3ImmunizationTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Immunization",
+            'simple_table_name': "Immunizations",
+            'table_id': "D3-Immunization",
+            'table_name': "Immunizations",
+            'topic_string': "health care, children",
+            'topics': ['health care','children'],
+            'type': "table",
+            'unique_key': "D3-Immunization",
+            'universe': "Number of people immunized"
         }
 
         return response;
@@ -2505,6 +2653,10 @@ function Comparison(options, callback) {
             removeA(comparison.geoIDs, '01000US');
         }
 
+        if (comparison.tableID == "D3-Immunization") {
+            removeA(comparison.geoIDs, '04000US26');
+        }
+
         _.each(comparison.geoIDs, function(i) {
             var thisSumlev = i.slice(0, 3),
                 thisName;
@@ -2520,6 +2672,8 @@ function Comparison(options, callback) {
                 sumlevSets[parentSumlev]['selections'] = sumlevSets[parentSumlev]['selections'] || [];
                 sumlevSets[parentSumlev]['selections'].push({'name': thisName, 'geoID': nameBits[1], 'sumlev': parentSumlev})
             } else {
+                console.log(comparison.data);
+                console.log(i);
                 thisName = comparison.data.geography[i]['name'];
             }
             sumlevSets[thisSumlev]['selections'].push({'name': thisName, 'geoID': i, 'sumlev': thisSumlev})

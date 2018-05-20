@@ -382,6 +382,56 @@ class D3TableDetailViewInfantMortality(TemplateView):
 		return page_context	
 
 
+class D3TableDetailViewImmunization(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewImmunization, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Immunization'
+		table['table_title'] = 'Immunizations'
+		table['simple_table_title'] = 'Immunizations'
+		table['subject_area'] = 'Health care'
+		table['universe'] = 'Number of people immunized'
+		table['denominator_column_id'] = 'Immunization_Population'
+		table['topics'] = ["health care", "public health"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['Immunization_Population'] = OrderedDict()
+		table['columns']['Immunization_Population']['column_title'] = 'Number of people immunized:'
+		table['columns']['Immunization_Population']['indent'] = 0
+		table['columns']['Immunization_Population']['parent_column_id'] = None
+
+		table['columns']['Fully_Immunized_43133142'] = OrderedDict()
+		table['columns']['Fully_Immunized_43133142']['column_title'] = 'Number fully immunized'
+		table['columns']['Fully_Immunized_43133142']['indent'] = 1
+		table['columns']['Fully_Immunized_43133142']['parent_column_id'] = 'Immunization_Population'
+
+		table['columns']['Partially_Immunized_431331'] = OrderedDict()
+		table['columns']['Partially_Immunized_431331']['column_title'] = 'Number partially immunized (minus HepA)'
+		table['columns']['Partially_Immunized_431331']['indent'] = 1
+		table['columns']['Partially_Immunized_431331']['parent_column_id'] = 'Immunization_Population'
+
+		table['columns']['Partially_Immunized_4313314'] = OrderedDict()
+		table['columns']['Partially_Immunized_4313314']['column_title'] = 'Number partially immunized (minus PCV)'
+		table['columns']['Partially_Immunized_4313314']['indent'] = 1
+		table['columns']['Partially_Immunized_4313314']['parent_column_id'] = 'Immunization_Population'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+
 class TableDetailView(TemplateView):
 	template_name = 'table/table_detail.html'
 	RELEASE_TRANSLATE_DICT = {
@@ -716,6 +766,7 @@ class GeographyDetailView(TemplateView):
 			profile_data_json = compressed.read()
 			# Load it into a Python dict for the template
 			profile_data = simplejson.loads(profile_data_json)
+			print profile_data['social']['immunization']
 			# Also mark it as safe for the charts on the profile
 			profile_data_json = SafeString(profile_data_json)
 		else:
@@ -821,6 +872,8 @@ class DataView(TemplateView):
 			tract_geoids = []
 			msa_geoids = []
 			congressional_district_geoids = []
+			state_senate_geoids = []
+			state_house_geoids = []
 			school_district_geoids = []
 			zcta_geoids = []
 			d3_all_geoids = []
@@ -867,7 +920,15 @@ class DataView(TemplateView):
 					msa_geoids.append(split_geoid[1])
 				if geoid.startswith('500'):
 					cong_dist_geoid = split_geoid[1].replace("26", "", 1)
-					congressional_district_geoids.append(cong_dist_geoid)				
+					congressional_district_geoids.append(cong_dist_geoid)
+				if geoid.startswith('610'):
+					state_senate_geoid = split_geoid[1].replace("260", "", 1)
+					state_senate_geoid = state_senate_geoid.lstrip("0")
+					state_senate_geoids.append(state_senate_geoid)
+				if geoid.startswith('620'):
+					state_house_geoid = split_geoid[1].replace("260", "", 1)
+					state_house_geoid = state_house_geoid.lstrip("0")
+					state_house_geoids.append(state_house_geoid)
 				if geoid.startswith('860'):
 					zcta_geoids.append(split_geoid[1])
 				if geoid.startswith('950') or geoid.startswith('960') or geoid.startswith('970'):	
@@ -880,6 +941,8 @@ class DataView(TemplateView):
 			d3_tract_link = None
 			d3_msa_link = None
 			d3_congressional_district_link = None
+			d3_state_senate_link = None
+			d3_state_house_link = None
 			d3_school_district_link = None
 			d3_zcta_link = None
 
@@ -1068,6 +1131,50 @@ class DataView(TemplateView):
 				if hasattr(congressional_district_geoids, '__iter__'):
 					congressional_district_geoids = ','.join(congressional_district_geoids)
 				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'
+
+			# for immunization data
+			if congressional_district_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_US_Congress'
+				field_name = 'DISTRICT'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'				
+
+			if state_senate_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_US_Senate'
+				field_name = 'DISTRICT'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'				
+			
+			if state_house_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_State_House'
+				field_name = 'DISTRICT'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'				
+
+			if county_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_Counties'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_WayneCo_Sub'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization2015_SuppressedCENSUSTRACTS'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
 
 			d3_links = True
 			download_link_prefix = None
