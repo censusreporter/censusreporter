@@ -636,7 +636,7 @@ function Comparison(options, callback) {
 
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Immunization2015_SuppressedCENSUSTRACTS', 'GEOID10', comparison.tract_geoids, 'tract_data');
+            comparison.getD3Data('Immunization_2015_Census_Tract', 'GEOID10', comparison.tract_geoids, 'tract_data');
         }
         if (comparison.county_geoids.length > 0) {
             comparison.ajaxCount++;

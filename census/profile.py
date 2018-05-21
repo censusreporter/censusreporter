@@ -809,7 +809,7 @@ def geo_profile(geoid, acs='latest'):
 		county_sd_data = d3_api.get_data('Immunization_2015_WayneCo_Sub', 'GEOID10', county_sd_geoids)
 
 	if tract_geoids:
-		tract_data = d3_api.get_data('Immunization2015_SuppressedCENSUSTRACTS', 'GEOID10', tract_geoids)
+		tract_data = d3_api.get_data('Immunization_2015_Census_Tract', 'GEOID10', tract_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -2354,7 +2354,7 @@ def immunization_data(geoid, acs='latest'):
 		county_sd_data = d3_api.get_data('Immunization_2015_WayneCo_Sub', 'GEOID10', county_sd_geoids)
 
 	if tract_geoids:
-		tract_data = d3_api.get_data('Immunization2015_SuppressedCENSUSTRACTS', 'GEOID10', tract_geoids)
+		tract_data = d3_api.get_data('Immunization_2015_Census_Tract', 'GEOID10', tract_geoids)
 		
 	# take D3 ODP data and create structure like census_reporter structure
 
