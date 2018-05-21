@@ -1169,7 +1169,7 @@ class DataView(TemplateView):
 				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
 
 			if tract_geoids and self.table == 'D3-Immunization':
-				table_id = 'Immunization2015_SuppressedCENSUSTRACTS'
+				table_id = 'Immunization_2015_Census_Tract'
 				field_name = 'GEOID10'
 				if hasattr(tract_geoids, '__iter__'):
 					tract_geoids = ','.join(tract_geoids)
