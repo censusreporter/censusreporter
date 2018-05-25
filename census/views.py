@@ -1133,6 +1133,13 @@ class DataView(TemplateView):
 				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'
 
 			# for immunization data
+			if state_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_StateofMichigan'
+				field_name = 'STATEFP'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+
 			if congressional_district_geoids and self.table == 'D3-Immunization':
 				table_id = 'Immunization_2015_US_Congress'
 				field_name = 'DISTRICT'

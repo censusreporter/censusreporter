@@ -793,6 +793,9 @@ def geo_profile(geoid, acs='latest'):
 	school_district_data = []
 	zcta_data = []	
 
+	if state_geoids:
+		state_data = d3_api.get_data('Immunization_2015_StateofMichigan', 'STATEFP', state_geoids)
+
 	if congressional_district_geoids:
 		congressional_district_data = d3_api.get_data('Immunization_2015_US_Congress', 'DISTRICT', congressional_district_geoids)
 
@@ -2337,6 +2340,9 @@ def immunization_data(geoid, acs='latest'):
 	state_house_data = []
 	school_district_data = []
 	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('Immunization_2015_StateofMichigan', 'STATEFP', state_geoids)
 
 	if congressional_district_geoids:
 		congressional_district_data = d3_api.get_data('Immunization_2015_US_Congress', 'DISTRICT', congressional_district_geoids)
