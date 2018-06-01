@@ -398,13 +398,13 @@ class D3TableDetailViewImmunization(TemplateView):
 		table['table_title'] = 'Immunizations'
 		table['simple_table_title'] = 'Immunizations'
 		table['subject_area'] = 'Health care'
-		table['universe'] = 'Number of people immunized'
+		table['universe'] = 'Immunized children aged 19-35 months'
 		table['denominator_column_id'] = 'Immunization_Population'
 		table['topics'] = ["health care", "public health"]
 
 		table['columns'] = OrderedDict()
 		table['columns']['Immunization_Population'] = OrderedDict()
-		table['columns']['Immunization_Population']['column_title'] = 'Number of people immunized:'
+		table['columns']['Immunization_Population']['column_title'] = 'Immunized children aged 19-35 months:'
 		table['columns']['Immunization_Population']['indent'] = 0
 		table['columns']['Immunization_Population']['parent_column_id'] = None
 
@@ -419,7 +419,7 @@ class D3TableDetailViewImmunization(TemplateView):
 		table['columns']['Partially_Immunized_431331']['parent_column_id'] = 'Immunization_Population'
 
 		table['columns']['Partially_Immunized_4313314'] = OrderedDict()
-		table['columns']['Partially_Immunized_4313314']['column_title'] = 'Number partially immunized (minus PCV)'
+		table['columns']['Partially_Immunized_4313314']['column_title'] = 'Number partially immunized (minus HepA and PCV)'
 		table['columns']['Partially_Immunized_4313314']['indent'] = 1
 		table['columns']['Partially_Immunized_4313314']['parent_column_id'] = 'Immunization_Population'
 
@@ -1133,6 +1133,13 @@ class DataView(TemplateView):
 				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'
 
 			# for immunization data
+			if state_geoids and self.table == 'D3-Immunization':
+				table_id = 'Immunization_2015_StateofMichigan'
+				field_name = 'GEOID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+
 			if congressional_district_geoids and self.table == 'D3-Immunization':
 				table_id = 'Immunization_2015_US_Congress'
 				field_name = 'DISTRICT'

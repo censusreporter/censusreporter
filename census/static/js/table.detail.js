@@ -278,7 +278,7 @@ function Table(options) {
             'topics': ['health care','children'],
             'type': "table",
             'unique_key': "D3-Immunization",
-            'universe': "Number of people immunized"
+            'universe': "Immunized children aged 19-35 months"
         }
     
         return response;

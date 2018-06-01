@@ -193,10 +193,10 @@ function Comparison(options, callback) {
         if (comparison.d3table_name == "D3-Immunization") {
             for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
                 split_geoid = comparison.d3_all_geoids[i].split('US');
-                // if (split_geoid[0].startsWith('040')) {
-                //     ajaxGeo++;
-                //     parseData(comparison.d3_all_geoids[i], 'state_data', 'StateID');
-                // }
+                if (split_geoid[0].startsWith('040')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'GEOID');
+                }
                 if (split_geoid[0].startsWith('050')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
@@ -607,17 +607,17 @@ function Comparison(options, callback) {
 
     comparison.getImmunizationData = function() {
         // metadata specific to immunization data
-        comparison.d3DataReleaseName = 'D3 Open Data Portal, Michigan Department of Health and Human Services';
+        comparison.d3DataReleaseName = 'D3 Open Data Portal, Michigan Care Improvement Agency';
         comparison.d3DataYears = '2015';
         comparison.d3table_name = 'D3-Immunization';
         comparison.d3title = 'Immunizations';
-        comparison.d3universe = 'Number of people immunized';
+        comparison.d3universe = 'Immunized children aged 19-35 months';
         comparison.d3denominator_column_id ='D3-Immunization_Population';
 
         // table columns
         comparison.d3fields = {};
         comparison.d3fields['Immunization_Population'] = {};
-        comparison.d3fields['Immunization_Population']['name'] = "Number of people immunized"
+        comparison.d3fields['Immunization_Population']['name'] = "Immunized children aged 19-35 months"
         comparison.d3fields['Immunization_Population']['indent'] = 0
 
         comparison.d3fields['Fully_Immunized_43133142'] = {};
@@ -629,11 +629,15 @@ function Comparison(options, callback) {
         comparison.d3fields['Partially_Immunized_431331']['indent'] = 1
 
         comparison.d3fields['Partially_Immunized_4313314'] = {};
-        comparison.d3fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus PCV)"
+        comparison.d3fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
         comparison.d3fields['Partially_Immunized_4313314']['indent'] = 1
 
         comparison.ajaxCount = 0;
 
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Immunization_2015_StateofMichigan', 'GEOID', comparison.state_geoids, 'state_data');
+        }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
             comparison.getD3Data('Immunization_2015_Census_Tract', 'GEOID10', comparison.tract_geoids, 'tract_data');
@@ -1962,7 +1966,7 @@ function Comparison(options, callback) {
             'topics': ['health care','children'],
             'type': "table",
             'unique_key': "D3-Immunization",
-            'universe': "Number of people immunized"
+            'universe': "Immunized children aged 19-35 months"
         }
 
         return response;
@@ -2651,10 +2655,6 @@ function Comparison(options, callback) {
 
         if (comparison.tableID.startsWith('D3-')) {
             removeA(comparison.geoIDs, '01000US');
-        }
-
-        if (comparison.tableID == "D3-Immunization") {
-            removeA(comparison.geoIDs, '04000US26');
         }
 
         _.each(comparison.geoIDs, function(i) {
