@@ -195,7 +195,7 @@ function Comparison(options, callback) {
                 split_geoid = comparison.d3_all_geoids[i].split('US');
                 if (split_geoid[0].startsWith('040')) {
                     ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'state_data', 'STATEFP');
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'GEOID');
                 }
                 if (split_geoid[0].startsWith('050')) {
                     ajaxGeo++;
@@ -636,7 +636,7 @@ function Comparison(options, callback) {
 
         if (comparison.state_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Immunization_2015_StateofMichigan', 'STATEFP', comparison.state_geoids, 'state_data');
+            comparison.getD3Data('Immunization_2015_StateofMichigan', 'GEOID', comparison.state_geoids, 'state_data');
         }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
