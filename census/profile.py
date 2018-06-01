@@ -818,7 +818,7 @@ def geo_profile(geoid, acs='latest'):
 
 	fields = OrderedDict();
 	fields['Immunization_Population'] = OrderedDict();
-	fields['Immunization_Population']['name'] = "Number of people immunized"
+	fields['Immunization_Population']['name'] = "Immunized children aged 19-35 months"
 	fields['Immunization_Population']['indent'] = 0
 
 	fields['Fully_Immunized_43133142'] = OrderedDict();
@@ -830,29 +830,29 @@ def geo_profile(geoid, acs='latest'):
 	fields['Partially_Immunized_431331']['indent'] = 1
 
 	fields['Partially_Immunized_4313314'] = OrderedDict();	
-	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus PCV)"
+	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
 	fields['Partially_Immunized_4313314']['indent'] = 1
 
 
-	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Number of people immunized", "Immunization_Population", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Immunized children aged 19-35 months", "Immunization_Population", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	immunization_dict = dict()
 	doc['social']['immunization'] = immunization_dict
 
-	immunization_dict['immunization'] = build_item('Persons fully immunized', data, d3_item_levels, 
+	immunization_dict['immunization'] = build_item('Fully immunized children aged 19-35 months', data, d3_item_levels, 
 		'D3-Fully_Immunized_43133142')
-	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services') 
+	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency') 
 
 	immunization_chart_data = OrderedDict()
 	doc['social']['immunization']['immunization_chart_data'] = immunization_chart_data
-	add_metadata(immunization_chart_data, 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(immunization_chart_data, 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency')
 
 	immunization_chart_data['Fully_Immunized_43133142'] = build_item('Fully immunized', data, d3_item_levels,
 		'D3-Fully_Immunized_43133142 D3-Immunization_Population / %')
 	immunization_chart_data['Partially_Immunized_431331'] = build_item('Partially immunized (minus HepA)', data, d3_item_levels,
 		'D3-Partially_Immunized_431331 D3-Immunization_Population / %')
-	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus PCV)', data, d3_item_levels,
+	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus HepA and PCV)', data, d3_item_levels,
 		'D3-Partially_Immunized_4313314 D3-Immunization_Population / %')
 
 
@@ -2366,7 +2366,7 @@ def immunization_data(geoid, acs='latest'):
 
 	fields = OrderedDict();
 	fields['Immunization_Population'] = OrderedDict();
-	fields['Immunization_Population']['name'] = "Number of people immunized"
+	fields['Immunization_Population']['name'] = "Immunized children aged 19-35 months"
 	fields['Immunization_Population']['indent'] = 0
 
 	fields['Fully_Immunized_43133142'] = OrderedDict();
@@ -2378,29 +2378,29 @@ def immunization_data(geoid, acs='latest'):
 	fields['Partially_Immunized_431331']['indent'] = 1
 
 	fields['Partially_Immunized_4313314'] = OrderedDict();	
-	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus PCV)"
+	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
 	fields['Partially_Immunized_4313314']['indent'] = 1
 
 
-	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Number of people immunized", "Immunization_Population", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Immunized children aged 19-35 months", "Immunization_Population", fields, state_data, county_data, tract_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	immunization_dict = dict()
 	# doc['social']['immunization'] = immunization_dict
 
-	immunization_dict['immunization'] = build_item('Persons fully immunized', data, d3_item_levels, 
+	immunization_dict['immunization'] = build_item('Fully immunized children aged 19-35 months', data, d3_item_levels, 
 		'D3-Fully_Immunized_43133142')
-	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services') 
+	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency') 
 
 	immunization_chart_data = OrderedDict()
 	immunization_dict['immunization_chart_data'] = immunization_chart_data
-	add_metadata(immunization_chart_data, 'D3-Immunization', 'Number of people immunized', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(immunization_chart_data, 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency')
 
 	immunization_chart_data['Fully_Immunized_43133142'] = build_item('Fully immunized', data, d3_item_levels,
 		'D3-Fully_Immunized_43133142 D3-Immunization_Population / %')
 	immunization_chart_data['Partially_Immunized_431331'] = build_item('Partially immunized (minus HepA)', data, d3_item_levels,
 		'D3-Partially_Immunized_431331 D3-Immunization_Population / %')
-	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus PCV)', data, d3_item_levels,
+	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus HepA and PCV)', data, d3_item_levels,
 		'D3-Partially_Immunized_4313314 D3-Immunization_Population / %')
 
 	return immunization_dict
