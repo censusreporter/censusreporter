@@ -12,18 +12,18 @@
         <li>For a detailed explanation of the differences between the two surveys, see this <a href="http://www.census.gov/people/laborforce/publications/ACS-CPS_Comparison_Report.pdf">Census Bureau report</a>.</li>
         </ul>
     </aside>
-    {% include "topics/_question_aside.html" %}    
+    {% include "topics/_question_aside.html" %}
 
     <h2>Overview</h2>
-<p>The Census Bureau asks a number of questions about whether individuals are employed, and if they are not unemployed or retired, about their occupation and industry. Census Reporter collects these together under the tag 'employment'. There are also questions about where geographically people are employed, how they get to work, how long it takes to get to work, and similar questions, which Census Reporter collects under the tag 'commute'.</p>
+<p>The Census Bureau asks a number of questions about whether individuals are employed, and if they are not unemployed or retired, about their occupation and industry. Census Reporter collects these together under the tag 'employment'. There are also questions about where geographically people are employed, how they get to work, how long it takes to get to work, and similar questions, which Census Reporter collects under the tag <a href="{% url 'topic_detail' 'commute'  %}">'commute'</a>.</p>
 <h2 id="employment-status">Employment Status</h2>
 <p>When talking about employment status, the Census Bureau divides the population 16 years and older into two categories: <em>in the labor force</em> or <em>not in the labor force</em>. People who have never worked or who are retired are not in the labor force. People who are not currently working but have recently and would like to work are considered in the labor force, but unemployed. People who are actively working are described as either in the civilian labor force or in the armed forces. This is probably easier understood when shown as a set of nested lists:</p>
 <ul class="compact">
-  <li>Total: 
+  <li>Total:
   <ul>
-    <li>In labor force: 
+    <li>In labor force:
     <ul>
-      <li>Civilian labor force: 
+      <li>Civilian labor force:
       <ul>
         <li>Employed</li>
         <li>Unemployed</li>
@@ -291,12 +291,10 @@
             <sup>†</sup>Also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.<br>
             <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
             <sup>∫</sup>Detailed occupation tables only available at the national level.
-            
+
         </td>
     </tr>
 </tfoot>
 </table>
 
 {% endblock %}
-
-

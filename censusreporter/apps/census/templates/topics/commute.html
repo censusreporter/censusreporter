@@ -2,10 +2,10 @@
 
 {% block content %}
 <section id="topic-overview">
-{% include "topics/_question_aside.html" %}    
+{% include "topics/_question_aside.html" %}
 <h2>Overview</h2>
-<p>The ACS asks questions about where Americans work, how they get to work, and how long their commute takes.</p>
-<h2>Travel Time to Work</h2>    
+<p>The ACS asks questions about where Americans work, how they get to work, and how long their commute takes. For information about whether or not people are employed and the kind of work they do, see our documentation about <a href="{% url 'topic_detail' 'employment'  %}">'employment'.</a></p>
+<h2>Travel Time to Work</h2>
 
 <table>
 <thead><tr>
@@ -115,7 +115,7 @@
 
 <h2>Place of Work</h2>
 
-<p>Tables about place of work can be used to determine to some extent how far people travel for their jobs. Columns do not refer to time or distance, but rather to whether or not people work in the same geography that they live in.</p>
+<p>Tables about place of work can be used to determine to some extent how far people travel for their jobs. Columns do not refer to time or distance, but rather to whether or not people work in the same geography that they live in. While the "total" column for any of these could be used to know how many people work in a given census geography, that information is most easily found in table <a href="{% url 'table_detail' 'B08604' %}">B08604</a>. (Note that B08604 data is not tabulated at the Census tract level.)</p>
 
 <table>
 <thead><tr>
@@ -147,6 +147,11 @@
 <td><strong><a href="{% url 'table_detail' 'B08018' %}">B08018</a></strong></td>
 <td>Place of Work for Workers 16 Years and Over--not Metropolitan or Micropolitan Statistical Area Level</td>
 </tr>
+<tr>
+<td><strong><a href="{% url 'table_detail' 'B08604' %}">B08604</a></strong></td>
+<td>Worker Population for Workplace Geography</td>
+</tr>
+
 </tbody>
 <tfoot>
          <tr class="help-text">
@@ -355,5 +360,3 @@
 
 </section>
 {% endblock %}
-
-
