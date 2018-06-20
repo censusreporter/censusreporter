@@ -2,6 +2,7 @@ import json
 import math
 import operator
 import requests
+import time
 
 from collections import OrderedDict
 from django.conf import settings
@@ -19,10 +20,12 @@ class ApiClient(object):
 
 	def _get(self, path, params=None):
 		url = self.base_url + path
-		print url
-		print params
+		# print url
+		# print params
 		r = requests.get(url, params=params)
 		data = None
+		# print r
+		time.sleep(1)
 		if r.status_code == 200:
 			data = r.json(object_pairs_hook=OrderedDict)
 		else:
