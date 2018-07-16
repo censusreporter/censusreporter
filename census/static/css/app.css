@@ -686,11 +686,21 @@ aside#facets {
     border-bottom: 1px #686867 solid;
 }
 
-#use-location {
-    display: inline-block;
-    font-size: .9em;
+.use-location {
+    display: inline-block !important;
+    font-size: .9em !important;
+    padding: 0 9px;
+    margin-right: .33em;  
+}
+
+.use-location-draw {
+    display: inline-block !important;
+    font-size: .9em !important;
     padding: 0 9px;
     margin-right: .33em;
+    position: absolute;
+    right: 14px;
+    top: 44px;  
 }
 
 #address-search-message { display: none; margin-top: 1em;}
@@ -2059,7 +2069,10 @@ section.chart-divider h2 {
 #query-builder-bar  .disabled.hovered,
 .comparison-builder .disabled,
 .comparison-builder .disabled:hover,
-.comparison-builder .disabled.hovered {
+.comparison-builder .disabled.hovered,
+.action-button      .disabled,
+.action-button      .disabled:hover,
+.action-button      .disabled.hovered {
     cursor: default;
     border-color: #baccc9;
     background-color: #baccc9;
