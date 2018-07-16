@@ -184,6 +184,13 @@ urlpatterns = patterns('',
     ),
 
     url(
+        regex   = '^draw/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw.html")),
+        kwargs  = {},
+        name    = 'draw',
+    ),
+
+    url(
         regex   = '^healthcheck$',
         view    = HealthcheckView.as_view(),
         kwargs  = {},

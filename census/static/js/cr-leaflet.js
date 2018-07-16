@@ -377,6 +377,8 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
     },
 
     initialize: function (summary_level, options, geojsonOptions) {
+        console.log(summary_level);
+        console.log(this.summary_levels);
         if (typeof(this.summary_levels[summary_level]) == "undefined") {
             throw "Unsupported or invalid summary level."
         }
