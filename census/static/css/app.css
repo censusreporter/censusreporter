@@ -1169,7 +1169,7 @@ h1.article-header-right {
     border-radius: 3px;
     border: 1px solid #4F80BA;
     width: 450px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 #locate #map-controls {
     overflow-y: visible;
@@ -1220,7 +1220,9 @@ h1.article-header-right {
 }
 #map-controls #comparison-add-header,
 #map-controls #query-topic-picker h1,
-#map-controls #address-search-wrapper h1 {
+#map-controls #address-search-wrapper h1,
+#map-controls .draw-tools h1
+ {
     font-size: 1.3em;
 }
 #map-controls #map-legend,
@@ -1238,6 +1240,18 @@ h1.article-header-right {
 #map-controls .caption {
     margin: .25em 0 0;
 }
+
+#map-controls .draw-tools {
+    margin-bottom: 20px;
+}
+
+#map-controls .draw-tools select,
+#map-controls .draw-tools a
+{
+   display: inline-block;
+   width: auto;
+}
+
 #map-legend,
 #map-select {
     width: 50%;
@@ -1931,6 +1945,19 @@ section.chart-divider h2 {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+.action-button.disabled,
+.action-button.disabled:hover,
+.action-button.disabled.hovered {
+    pointer-events: none;
+    cursor: default;
+    border-color: #baccc9;
+    background-color: #baccc9;
+    color: #fff;
+}
+.action-button.active {
+    background-color: #76AFF2;
+}
+
 .change-button {
     font-size: 1em;
     position: absolute;
@@ -2069,10 +2096,7 @@ section.chart-divider h2 {
 #query-builder-bar  .disabled.hovered,
 .comparison-builder .disabled,
 .comparison-builder .disabled:hover,
-.comparison-builder .disabled.hovered,
-.action-button      .disabled,
-.action-button      .disabled:hover,
-.action-button      .disabled.hovered {
+.comparison-builder .disabled.hovered{
     cursor: default;
     border-color: #baccc9;
     background-color: #baccc9;
@@ -2504,7 +2528,7 @@ aside .search .result-type {
     background-color: #fff;
     display: block;
     font-weight: bold;
-    padding: .67em .2em;
+    padding: .3em .2em;
 }
 .location-list a:hover {
     color: #4F80BA;

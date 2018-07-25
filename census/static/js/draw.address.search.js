@@ -346,6 +346,12 @@ if (!(lat && lng)) {
     lng = '-83.073021';
 }
 
+var regularBackgroundTiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+});
+
+var drawBackgroundTiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+});
+
 function initialize_map() {
     var map_center = new L.latLng(lat, lng);
     window.map = L.map('slippy-map', {
@@ -360,12 +366,8 @@ function initialize_map() {
         touchZoom: true
     });
 
-    // set a tile layer
-    var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
-    });
-
     // add these tiles to our map
-    map.addLayer(tiles);
+    map.addLayer(regularBackgroundTiles);
 
     map.addControl(new L.Control.Zoom({
         position: 'topright'

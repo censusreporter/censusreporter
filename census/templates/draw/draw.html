@@ -22,25 +22,31 @@
             <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> State of the Detroit Child
         </a>
     </header>
+    <div class="box-content">
+        <section class="clearfix header-container draw-tools">
+            <h1>Draw a shape to create a custom data dashboard</h1>
+            <select id="sumlev-picker">
+                <option>Select Geographic Building Blocks </option>
+            </select>
+            <a id="draw-on-map" class="action-button disabled"><i class="fa fa-pencil-square"></i> Draw on Map</a>
+        </section>
+        <section id="map-action-buttons" class="clearfix draw-tools hidden">
+            <a id="clear-map" class="action-button">Clear Map</a>
+            <a id="make-dashboard" class="action-button">Make Dashboard</a>
+        </section>
+    </div>
     <div id="address-search-content" class="box-content">
+        <div class="tool-set header-tool-set draw-tools clearfix">
+            <h1>OR</h1>
+            <h1>Select a location to view an existing dashboard</h1>
+            <a id="use-location" class="use-location action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
+            <span class="no-map-hide">or double-click to place a marker</span>
+        </div>
         <section class="clearfix header-container" id="address-search-wrapper">
             <input type="text" id="address-search" placeholder="Search for an address">
-            <a id="use-location" class="use-location-draw action-button"><i class="fa fa-location-arrow"></i></a>
+            <h2 id="address-search-message" class="hidden bottom"></h2>
+            <aside id="data-display" class="clearfix"></aside>
         </section>
-    </div>
-    <div class="box-content">
-        <section class="clearfix header-container">
-            <select id="sumlev-picker" style="width: 100%;">
-                <option> Select Geography </option>
-            </select>
-        </section>
-    </div>
-    <div class="box-content">
-        <section class="clearfix header-container">
-            <a id="draw-on-map" class="disabled action-button">Draw on Map <i class="fa fa-pencil-square"></i></a>
-        </section>
-        <h2 id="address-search-message" class="hidden bottom"></h2>
-        <aside id="data-display" class="clearfix"></aside>
     </div>
 </div>
 <div id="slippy-map"></div>
@@ -114,11 +120,11 @@ var selectedStyle = {
     "fillOpacity": 0.3,
 }
 
-var makeLayer = function(thisSumlev) {
+
+var makeTileLayer = function(thisSumlev) {
 
     var geojsonTileLayer;
 
-    console.log(thisSumlev);
     if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
         geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
             {
@@ -126,27 +132,7 @@ var makeLayer = function(thisSumlev) {
             onEachFeature: function(feature, layer) {
                 // filter out non-Michingan results
                 if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
-                    layer.bindLabel(feature.properties.name, {direction: 'auto'});
-                    layer.on('mouseover', function() {
-                        layer.setStyle({
-                            "weight": 2,
-                            "fillOpacity": 0.4,
-                            "fillColor": "#76AFF2",
-                        });
-                    });
-                    layer.on('mouseout', function() {
-                        layer.setStyle(defaultStyle);
-                    });
-                    layer.on('click', function() {
-                        // add spinner to page load 
-                        var spinnerTarget = document.getElementById("body-spinner");
-                        if (!spinnerTarget) {
-                            $('body').append('<div id="body-spinner"></div>');
-                            spinnerTarget = document.getElementById('body-spinner');
-                        } 
-                        spinner.spin(spinnerTarget);
-                        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                    });
+                    setDefault(feature, layer);
                 } else {
                     var invisibleStyle = {
                         "clickable": false,
@@ -161,7 +147,6 @@ var makeLayer = function(thisSumlev) {
             }
         });
     } 
-    enabledLayer = geojsonTileLayer;
     return geojsonTileLayer;
 }
 
@@ -178,8 +163,13 @@ $("#sumlev-picker").change(function(e) {
             map.setZoom(sumlev.zoom);
         }
         */
+
+        // Enable the draw button
+        $("#draw-on-map").removeClass('disabled');
+
         if (typeof sumlev.layer == 'undefined') {
-            sumlev.layer = makeLayer(sumlev.level);
+            sumlev.layer = makeTileLayer(sumlev.level);
+            enabledLayer = sumlev.layer;
         }
         _.each(sumlevs,function(sl) {
             if (sl.layer && map.hasLayer(sl.layer)) {
@@ -187,7 +177,28 @@ $("#sumlev-picker").change(function(e) {
             }
         })
         map.addLayer(sumlev.layer);
+
+        // remove point_marker, hover shapes, message and list of geograpies if they exist
+        if (point_marker) {
+            point_marker.hideLabel();
+            point_marker.setLatLng(L.latLng(0,0));
+            _(PLACE_LAYERS).each(function(v,k) {
+                map.removeLayer(v);
+            });
+            $("#address-search-message").hide();
+            $("#data-display").html("");
+        }
+    } else {
+        // Disable draw button
+        $("#draw-on-map").addClass('disabled');
+        _.each(sumlevs,function(sl) {
+            if (sl.layer && map.hasLayer(sl.layer)) {
+                map.removeLayer(sl.layer);
+            }
+        })
     }
+    // always hide clear and make dashboard buttons
+    $("#map-action-buttons").addClass("hidden");
 });
 
 
@@ -216,14 +227,105 @@ $("#draw-on-map").click(function() {
         new L.Draw.Polygon(map, drawControl.options.polygon).enable();
         drawToggle = true;
     }
+    // set up map for draw mode
+    $("#draw-on-map").addClass("active");
+    map.removeLayer(regularBackgroundTiles);
+    map.addLayer(drawBackgroundTiles);
 });
 
+$("#clear-map").click(function() {
+    // hide clear and make dashboard buttons
+    $("#map-action-buttons").addClass("hidden");
+    // loop through each layer and reset style and event listeners
+    enabledLayer.geojsonLayer.eachLayer(function(layer) {
+        setDefault(layer.feature, layer);
+    });
+});
+
+var setDefault = function(feature, layer) {
+    layer.removeEventListener();
+    layer.setStyle(defaultStyle);
+    layer.bindLabel(feature.properties.name, {direction: 'auto'});
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "weight": 2,
+            "fillOpacity": 0.4,
+            "fillColor": "#76AFF2",
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(defaultStyle);
+    });
+    layer.on('click', function() {
+        // add spinner to page load 
+        // var spinnerTarget = document.getElementById("body-spinner");
+        // if (!spinnerTarget) {
+        //    $('body').append('<div id="body-spinner"></div>');
+        //    spinnerTarget = document.getElementById('body-spinner');
+        // } 
+        // spinner.spin(spinnerTarget);
+        // window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+    });
+}
+
+var setSelected = function(layer) {
+    layer.removeEventListener();
+    layer.setStyle(selectedStyle);
+    // update label
+    layer.unbindLabel();
+    layer.bindLabel("Remove " + layer.feature.properties.name + " from selection.", {direction: 'auto'});
+    // set up new listeners
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "weight": 2,
+            "fillOpacity": 0.4,
+            "fillColor": "#6828A6",
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(selectedStyle);
+    });
+    layer.on('click', function() {
+        setDeselected(layer);
+    });
+}
+
+var setDeselected = function(layer) {
+    layer.removeEventListener();
+    layer.setStyle(defaultStyle);
+    // update label
+    layer.unbindLabel();
+    layer.bindLabel("Add " + layer.feature.properties.name + " to selection.", {direction: 'auto'});
+    // set up new listeners
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "weight": 2,
+            "fillOpacity": 0.4,
+            "fillColor": "#76AFF2",
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(defaultStyle);
+    });
+    layer.on('click', function() {
+        setSelected(layer);   
+    });
+}
+
 map.on('draw:created', function (e) {
+    // take map out of draw mode
+    $("#draw-on-map").removeClass("active");
+    map.removeLayer(drawBackgroundTiles);
+    map.addLayer(regularBackgroundTiles);
+
+    // show clear and make dashboard buttons
+    $("#map-action-buttons").removeClass("hidden");
+
     var drawnLayer = e.layer;
     //map.addLayer(drawnLayer);
     var drawnGeojson = drawnLayer.toGeoJSON();
     // loop through added geojson tiles
-    console.log(enabledLayer.geojsonLayer);
+    // console.log(enabledLayer.geojsonLayer);
     enabledLayer.geojsonLayer.eachLayer(function(layer) {
         //console.log(layer);
         var tileGeojson = layer.toGeoJSON();
@@ -231,15 +333,9 @@ map.on('draw:created', function (e) {
         var intersection = turf.intersect(drawnGeojson, tileGeojson.geometry.geometries[0]);
         //console.log(intersection);
         if (intersection) {
-            layer.setStyle(selectedStyle);
-            layer.on('mouseover', function() {
-                layer.setStyle(selectedStyle);
-            });
-            layer.on('mouseout', function() {
-                layer.setStyle(selectedStyle);
-            });
-            layer.on('click', function() {
-            });
+            setSelected(layer);
+        } else {
+            setDeselected(layer);
         }
         
     });
