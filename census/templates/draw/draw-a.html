@@ -63,7 +63,7 @@
 
 {% block body_javascript_extra %}
 <!-- <script src='{{STATIC_URL}}js/vendor/leaflet.label.js'></script> -->
-<script src="{{STATIC_URL}}js/draw.address.search.js"></script>
+<script src="{{STATIC_URL}}js/draw-a.address.search.js"></script>
 <script src="{{ STATIC_URL }}js/cr-leaflet.js"></script>
 <script>
 Glossary.init("{% url 'glossary' %}",".glossary-term");
@@ -325,7 +325,7 @@ map.on('draw:created', function (e) {
     //map.addLayer(drawnLayer);
     var drawnGeojson = drawnLayer.toGeoJSON();
     // loop through added geojson tiles
-    // console.log(enabledLayer.geojsonLayer);
+    console.log(enabledLayer.geojsonLayer.getLayers());
     enabledLayer.geojsonLayer.eachLayer(function(layer) {
         //console.log(layer);
         var tileGeojson = layer.toGeoJSON();

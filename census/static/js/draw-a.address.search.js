@@ -6,7 +6,7 @@ var REVERSE_GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?l
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'https://api.censusreporter.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
-var push_state_url_template = _.template("/draw/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
+var push_state_url_template = _.template("/draw-a/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var push_state_title_template = _.template("Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");
 var $searchInput = $("#address-search");
 

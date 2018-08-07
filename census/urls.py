@@ -184,10 +184,17 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^draw/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw.html")),
+        regex   = '^draw-a/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw-a.html")),
         kwargs  = {},
-        name    = 'draw',
+        name    = 'draw-a',
+    ),
+
+    url(
+        regex   = '^draw-b/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw-b.html")),
+        kwargs  = {},
+        name    = 'draw-b',
     ),
 
     url(
