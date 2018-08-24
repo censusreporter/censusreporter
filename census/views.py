@@ -792,6 +792,155 @@ class GeographyDetailView(TemplateView):
 
 		return page_context
 
+class CustomGeographyDetailView(TemplateView):
+	template_name = 'profile/profile_detail.html'
+
+	def parse_fragment(self,fragment):
+		"""Given a URL, return a (geoid,slug) tuple. slug may be None.
+		GeoIDs are not tested for structure, but are simply the part of the URL
+		before any '-' character, also allowing for the curiosity of Vermont
+		legislative districts.
+		(see https://github.com/censusreporter/censusreporter/issues/50)
+		"""
+		parts = fragment.split('-',1)
+		if len(parts) == 1:
+			return (fragment,None)
+
+		geoid,slug = parts
+		if len(slug) == 1:
+			geoid = '{}-{}'.format(geoid,slug)
+			slug = None
+		else:
+			parts = slug.split('-')
+			if len(parts) > 1 and len(parts[0]) == 1:
+				geoid = '{}-{}'.format(geoid,parts[0])
+				slug = '-'.join(parts[1:])
+
+		return (geoid,slug)
+
+	def dispatch(self, *args, **kwargs):
+
+		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
+
+		if self.slug is None:
+			geo = self.get_geography(self.geo_id)
+			if geo:
+				try:
+					# if possible, redirect to slugged URL
+					slug = slugify(geo['properties']['display_name'])
+					fragment = '{}-{}'.format(self.geo_id, slug)
+					return HttpResponseRedirect(
+						reverse('geography_detail', args=(fragment,)
+					))
+				except Exception, e:
+					# if we have a strange situation where there's no
+					# display name attached to the geography, we should
+					# go ahead and display the profile page
+					logger.warn(e)
+					logger.warn("Geography {} has no display_name".format(self.geo_id))
+					pass
+			else:
+				# if we get nothing from the API, pass through for 404
+				pass
+
+		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
+
+	def get_geography(self, geo_id):
+		endpoint = settings.API_URL + '/1.0/geo/tiger2016/%s' % self.geo_id
+		r = requests.get(endpoint)
+		status_code = r.status_code
+
+		if status_code == 200:
+			geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+			return geo_data
+		return None
+
+	def s3_keyname(self, geo_id):
+		return '/1.0/data/profiles/%s.json' % geo_id.upper()
+
+	def make_s3(self):
+		if settings.AWS_KEY and settings.AWS_SECRET:
+			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+			logger.warn(s3)
+			lookup = s3.lookup('d3-sd-child')
+		else:
+			try:
+				s3 = S3Connection()
+			except:
+				s3 = None
+		return s3
+
+	def s3_profile_key(self, geo_id):
+		s3 = self.make_s3()
+
+		key = None
+		if s3:  
+			bucket = s3.get_bucket('d3-sd-child')
+			keyname = self.s3_keyname(geo_id)
+			key = Key(bucket, keyname)
+		
+		return key
+
+	def write_profile_json(self, s3_key, data):
+		s3_key.metadata['Content-Type'] = 'application/json'
+		s3_key.metadata['Content-Encoding'] = 'gzip'
+		s3_key.storage_class = 'REDUCED_REDUNDANCY'
+
+		# create gzipped version of json in memory
+		memfile = cStringIO.StringIO()
+		#memfile.write(data)
+		with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data)
+		memfile.seek(0)
+
+		# store static version on S3
+		s3_key.set_contents_from_file(memfile)
+
+	def get_context_data(self, *args, **kwargs):
+		geography_id = self.geo_id
+
+		try:
+			s3_key = self.s3_profile_key(geography_id)
+		except:
+			s3_key = None
+
+		if s3_key and s3_key.exists():
+			memfile = cStringIO.StringIO()
+			s3_key.get_file(memfile)
+			memfile.seek(0)
+			compressed = gzip.GzipFile(fileobj=memfile)
+
+			# Read the decompressed JSON from S3
+			profile_data_json = compressed.read()
+			# Load it into a Python dict for the template
+			profile_data = simplejson.loads(profile_data_json)
+			print profile_data['social']['immunization']
+			# Also mark it as safe for the charts on the profile
+			profile_data_json = SafeString(profile_data_json)
+		else:
+			profile_data = geo_profile(geography_id)
+
+			if profile_data:
+				profile_data = enhance_api_data(profile_data)
+
+				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+				if s3_key is None:
+					logger.warn("Could not save to S3 because there was no connection to S3.")
+				else:
+					self.write_profile_json(s3_key, profile_data_json)
+
+			else:
+				raise Http404
+
+		page_context = {
+			'profile_data_json': profile_data_json
+		}
+		page_context.update(profile_data)
+
+		return page_context
+
+
 
 class TopicView(TemplateView):
 	template_name = 'topics/topics_list.html'
