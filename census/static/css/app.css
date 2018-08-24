@@ -3058,7 +3058,7 @@ a.ui-button:active,
 
 .ui-widget-header {
     background: #fff;
-    border-bottom: 1px #dddddd solid;
+    border-bottom: 1px #aaaaaa solid;
     border-left: none;
     border-right: none;
     border-top: none;
@@ -3073,6 +3073,7 @@ a.ui-button:active,
     display: flex;
     flex-grow: 100;
     flex-direction: row;
+    margin: 1px 5px 0;
 }
 
 .ui-tabs .ui-tabs-nav .ui-tabs-anchor {
@@ -3097,4 +3098,12 @@ a.ui-button:active,
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     background-color: #4f80ba;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 0;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 0;
 }

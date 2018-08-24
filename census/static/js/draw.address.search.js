@@ -128,7 +128,6 @@ $("#clear-map").click(function() {
     enabledLayer.geojsonLayer.eachLayer(function(layer) {
         setDefault(layer.feature, layer);
     });
-    
 });
 
 $("#make-dashboard").click(function() {
@@ -141,6 +140,15 @@ $("#make-dashboard").click(function() {
     console.log(dashboard_geoids);
 
     // TO DO: Strategy is to fill out a hidden form field with geoids and a placeholder name and store that in the database, perhaps with a url slug. After that form is saved, trigger the custom profile generation with a post_save signal (https://docs.djangoproject.com/en/dev/topics/signals/)
+
+    // submit hidden form
+    $('#create-dashboard').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!")  // sanity check
+        createDahsboard();
+    });
+
+
 
 
     // add spinner to page load 
@@ -164,17 +172,27 @@ var clearLocate = function() {
         });
         $("#address-search-message").hide();
         $("#data-display").html("");
-    }    
+    }
+    // turn off map double click listener
+    map.off("dblclick", doubleClickMap);    
 }
 
 var clearDraw = function() {
+    // reset dropdown menu
+    $("#sumlev-picker")[0].selectedIndex = 0;
+    // disable the draw on map buttons
     $("#draw-on-map").addClass('disabled');
+    // hide clear and make dashboard buttons
+    $("#map-action-buttons").addClass("hidden");
+    // remove map layers
     _.each(sumlevs,function(sl) {
         if (sl.layer && map.hasLayer(sl.layer)) {
             map.removeLayer(sl.layer);
         }
     })
-}
+    // turn on map double click listener
+    map.on("dblclick", doubleClickMap);
+}   
 
 var setDefault = function(feature, layer) {
     layer.removeEventListener();
@@ -192,14 +210,14 @@ var setDefault = function(feature, layer) {
         layer.setStyle(defaultStyle);
     });
     layer.on('click', function() {
-        // add spinner to page load 
-        // var spinnerTarget = document.getElementById("body-spinner");
-        // if (!spinnerTarget) {
-        //    $('body').append('<div id="body-spinner"></div>');
-        //    spinnerTarget = document.getElementById('body-spinner');
-        // } 
-        // spinner.spin(spinnerTarget);
-        // window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+        //add spinner to page load 
+        var spinnerTarget = document.getElementById("body-spinner");
+        if (!spinnerTarget) {
+           $('body').append('<div id="body-spinner"></div>');
+           spinnerTarget = document.getElementById('body-spinner');
+        } 
+        spinner.spin(spinnerTarget);
+        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
     });
 }
 
@@ -269,9 +287,6 @@ var makeTileLayer = function(thisSumlev) {
     } 
     return geojsonTileLayer;
 }
-
-
-
 
 
 // prepare spinner
@@ -577,6 +592,11 @@ function setMap(lat, lng) {
     }
 }
 
+function doubleClickMap(evt) {
+    var lat = evt.latlng.lat, lng = evt.latlng.lng;
+    updateLocation(lat, lng);
+}
+
 function init_from_params(params) {
     var lat = params.lat || '';
     var lng = params.lng || params.lon || '';
@@ -632,10 +652,7 @@ function initialize_map() {
         position: 'topright'
     }));
 
-    map.on("dblclick",function(evt) {
-        var lat = evt.latlng.lat, lng = evt.latlng.lng;
-        updateLocation(lat, lng);
-    })
+    map.on("dblclick", doubleClickMap);
 
     // adding draw tools
     drawnItems = new L.FeatureGroup();
@@ -686,8 +703,9 @@ function initialize_map() {
     
         drawToggle = false;
     });
-    
 
+    spinner.stop();
+    
 }
 var should_show_map = true; // eventually base on viewport or similar
 if (should_show_map) {
