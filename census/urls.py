@@ -7,7 +7,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import (HomepageView, GeographyDetailView, GeographySearchView,
+from .views import (HomepageView, GeographyDetailView, CustomGeographyDetailView, GeographySearchView,
     D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView)
@@ -33,6 +33,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
+    ),
+
+    url(
+        regex   = '^custom-profiles/(?P<fragment>[a-zA-Z0-9\-]+)/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(CustomGeographyDetailView.as_view()),
+        kwargs  = {},
+        name    = 'custom_geography_detail',
     ),
 
     url(
@@ -184,17 +191,10 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^draw-a/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw-a.html")),
+        regex   = '^draw/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw.html")),
         kwargs  = {},
-        name    = 'draw-a',
-    ),
-
-    url(
-        regex   = '^draw-b/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="draw/draw-b.html")),
-        kwargs  = {},
-        name    = 'draw-b',
+        name    = 'draw',
     ),
 
     url(

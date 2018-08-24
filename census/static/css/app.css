@@ -2992,7 +2992,7 @@ blockquote {
     overflow-y: auto;
 }
 
-#ui-id-1 {
+/* #ui-id-1 {
     list-style-type: none;
     padding-left: 0px;
 }
@@ -3002,7 +3002,7 @@ blockquote {
     border-left: 0.5px solid gray;
     border-right: 0.5px solid gray;
     padding: 1.25em .83em .83em;
-}
+} */
 
 .autocomplete-link {
     text-decoration: none;
@@ -3044,4 +3044,57 @@ a.ui-button:active,
 
 #filters > a {
     font-size: 1.2em;
+}
+
+
+/* Tabs for locate and draw tools */
+.ui-widget-content, .ui-widget.ui-widget-content {
+    border: none;
+}
+
+.ui-widget {
+    font-family: inherit;
+}
+
+.ui-widget-header {
+    background: #fff;
+    border-bottom: 1px #dddddd solid;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+.ui-tabs .ui-tabs-nav {
+    display: flex;
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    display: flex;
+    flex-grow: 100;
+    flex-direction: row;
+}
+
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 100;
+    text-align: center;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+    background-color: #76aff2;
+    color: #fff;
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited, a.ui-button, a:link.ui-button, a:visited.ui-button, .ui-button {
+    color: #fff;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
+    background-color: #4f80ba;
 }

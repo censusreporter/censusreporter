@@ -1,0 +1,101 @@
+{% extends '_base.html' %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/leaflet.label.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+{% endblock %}
+
+{% block head_javascript_extra %}
+<script src="https://unpkg.com/leaflet@0.7.2/dist/leaflet.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+{% endblock %}
+
+{% block body_id %}draw{% endblock %}
+
+{% block content %}
+<div id="map-controls" class="clearfix">
+    <header class="box-header">
+        <a class="title" href="{% url 'homepage' %}">
+            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> State of the Detroit Child
+        </a>
+    </header>
+    <div class="box-content">
+        <div id="tabs">
+            <ul>
+                <li id="locate-tab"><a href="#tabs-1">Locate</a></li>
+                <li id="draw-tab"><a href="#tabs-2">Draw</a></li>
+            </ul>
+            <div id="tabs-1">
+                <div id="address-search-content">
+                    <div class="tool-set header-tool-set draw-tools clearfix">
+                        <h1>Select a location to view an existing dashboard</h1>
+                        <a id="use-location" class="use-location action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
+                        <span class="no-map-hide">or double-click to place a marker</span>
+                    </div>
+                    <section class="clearfix header-container" id="address-search-wrapper">
+                        <input type="text" id="address-search" placeholder="Search for an address">
+                        <h2 id="address-search-message" class="hidden bottom"></h2>
+                        <aside id="data-display" class="clearfix"></aside>
+                    </section>
+                </div>
+            </div>
+            <div id="tabs-2">
+                <section class="clearfix header-container draw-tools">
+                    <h1>Draw a shape to create a custom data dashboard</h1>
+                    <select id="sumlev-picker">
+                        <option>Select Geographic Building Blocks </option>
+                    </select>
+                    <a id="draw-on-map" class="action-button disabled"><i class="fa fa-pencil-square"></i> Draw on Map</a>
+                </section>
+                <section id="map-action-buttons" class="clearfix draw-tools hidden">
+                    <a id="clear-map" class="action-button">Clear Map</a>
+                    <a id="make-dashboard" class="action-button">Make Dashboard</a>
+                </section>
+            </div>
+        </div>        
+
+    </div>
+</div>
+<div id="slippy-map"></div>
+<script id="place-result-template" type="text/template">
+    <li data-geoid="<%= full_geoid %>">
+        <a href="/profiles/<%= full_geoid %>">
+            <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
+            <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
+            <%= full_name %>
+        </a>
+    </li>
+</script>
+{% endblock %}
+
+{% block body_javascript_extra %}
+<!-- <script src='{{STATIC_URL}}js/vendor/leaflet.label.js'></script> -->
+<script src="{{STATIC_URL}}js/draw.address.search.js"></script>
+<script src="{{ STATIC_URL }}js/cr-leaflet.js"></script>
+<script>
+$(function() {
+    $( "#tabs" ).tabs();
+});
+
+Glossary.init("{% url 'glossary' %}",".glossary-term");
+
+// Allow Ajax POST requests to bypass Django's CSRF check
+// https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
+var csrftoken = '{{ csrf_token }}';
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+</script>
+{% endblock %}

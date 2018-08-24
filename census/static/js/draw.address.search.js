@@ -6,7 +6,7 @@ var REVERSE_GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?l
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'https://api.censusreporter.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
-var push_state_url_template = _.template("/draw-a/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
+var push_state_url_template = _.template("/draw/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var push_state_title_template = _.template("Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");
 var $searchInput = $("#address-search");
 
@@ -14,7 +14,265 @@ var lat = '',
     lng = '',
     address = '',
     point_marker = null,
-    map = null;
+    map = null,
+    enabledLayer = null,
+    drawnItems = null,
+    drawControl = null,
+    drawToggle = false
+    mode = 'locate';
+
+var sumlevs = [
+    { 'level': '150', 'name': 'Census Block Group', zoom: 15 },
+    { 'level': '140', 'name': 'Census Tract', zoom: 10 },
+    { 'level': '860', 'name': 'ZIP Code', zoom: 12  },
+    { 'level': '950', 'name': 'School District (Elementary)', zoom: 10  },
+    { 'level': '970', 'name': 'School District (Unified)', zoom: 10  },
+    { 'level': '060', 'name': 'County Subdivision', zoom: 7 },
+    { 'level': '500', 'name': 'Congressional District', zoom: 7 },
+    { 'level': '610', 'name': 'State House (Upper)', zoom: 7 },
+    { 'level': '620', 'name': 'State House (Lower)', zoom: 7 },
+    { 'level': '400', 'name': 'Urban Area', zoom: 7 },
+    { 'level': '050', 'name': 'County', zoom: 7 },
+    { 'level': '310', 'name': 'Metro (CBSA) area', zoom: 7 }
+]
+
+var invisibleStyle = {
+    "color": "#fff",
+    "fillColor": "#fff",
+    "weight": 0,
+    "opacity": 0,
+    "fillOpacity": 0,
+}
+
+var defaultStyle = {
+    "color": "#76AFF2",
+    "fillColor": "#f1f1f2",
+    "weight": 1,
+    "opacity": 0.5,
+    "fillOpacity": 0.3,
+};
+
+var selectedStyle = {
+    "fillColor": "#9C65D1",
+    "color": "#686867",
+    "weight": 1,
+    "opacity": 0.3,
+    "fillOpacity": 0.3,
+}
+
+_.each(sumlevs,function(l) {
+    $('<option>').val(l.level).text(l.name).appendTo('#sumlev-picker');
+});
+
+// tab listeners to clear selections
+$("#locate-tab").click(function(){
+    // check to see if active
+    if (mode == 'draw') {
+        clearDraw();
+        mode = 'locate'; 
+    }
+});
+
+$("#draw-tab").click(function(){
+    // check to see if active
+    if (mode == 'locate') {
+        clearLocate();  
+        mode = 'draw'; 
+    }
+});
+
+$("#sumlev-picker").change(function(e) {
+    var sumlev = _.findWhere(sumlevs,{level: $(e.target).val()})
+    if (sumlev) {
+
+        // Enable the draw button
+        $("#draw-on-map").removeClass('disabled');
+
+        if (typeof sumlev.layer == 'undefined') {
+            sumlev.layer = makeTileLayer(sumlev.level);
+            enabledLayer = sumlev.layer;
+        }
+        _.each(sumlevs,function(sl) {
+            if (sl.layer && map.hasLayer(sl.layer)) {
+                map.removeLayer(sl.layer);
+            }
+        })
+        map.addLayer(sumlev.layer);
+
+        clearLocate();
+
+    } else {
+        clearDraw();
+    }
+    // always hide clear and make dashboard buttons
+    $("#map-action-buttons").addClass("hidden");
+});
+
+$("#draw-on-map").click(function() {
+    if (!drawToggle) {
+        new L.Draw.Polygon(map, drawControl.options.polygon).enable();
+        drawToggle = true;
+    }
+    // set up map for draw mode
+    $("#draw-on-map").addClass("active");
+    map.removeLayer(regularBackgroundTiles);
+    map.addLayer(drawBackgroundTiles);
+});
+
+$("#clear-map").click(function() {
+    // hide clear and make dashboard buttons
+    $("#map-action-buttons").addClass("hidden");
+    // set drawToggle to false
+    drawToggle = false;
+    // loop through each layer and reset style and event listeners
+    enabledLayer.geojsonLayer.eachLayer(function(layer) {
+        setDefault(layer.feature, layer);
+    });
+    
+});
+
+$("#make-dashboard").click(function() {
+    var dashboard_geoids = [];
+    enabledLayer.geojsonLayer.eachLayer(function(layer) {
+        if (layer.selected) {
+            dashboard_geoids.push(layer.feature.properties.geoid);
+        }
+    });
+    console.log(dashboard_geoids);
+
+    // TO DO: Strategy is to fill out a hidden form field with geoids and a placeholder name and store that in the database, perhaps with a url slug. After that form is saved, trigger the custom profile generation with a post_save signal (https://docs.djangoproject.com/en/dev/topics/signals/)
+
+
+    // add spinner to page load 
+    // var spinnerTarget = document.getElementById("body-spinner");
+    // if (!spinnerTarget) {
+    //     $('body').append('<div id="body-spinner"></div>');
+    //     spinnerTarget = document.getElementById('body-spinner');
+    // } 
+    // spinner.spin(spinnerTarget);
+    // window.location.href = '/custom-profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+    
+});
+
+var clearLocate = function() {
+    // remove point_marker, hover shapes, message and list of geograpies if they exist
+    if (point_marker) {
+        point_marker.hideLabel();
+        point_marker.setLatLng(L.latLng(0,0));
+        _(PLACE_LAYERS).each(function(v,k) {
+            map.removeLayer(v);
+        });
+        $("#address-search-message").hide();
+        $("#data-display").html("");
+    }    
+}
+
+var clearDraw = function() {
+    $("#draw-on-map").addClass('disabled');
+    _.each(sumlevs,function(sl) {
+        if (sl.layer && map.hasLayer(sl.layer)) {
+            map.removeLayer(sl.layer);
+        }
+    })
+}
+
+var setDefault = function(feature, layer) {
+    layer.removeEventListener();
+    layer.selected = false;
+    layer.setStyle(defaultStyle);
+    layer.bindLabel(feature.properties.name, {direction: 'auto'});
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "weight": 2,
+            "fillOpacity": 0.4,
+            "fillColor": "#76AFF2",
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(defaultStyle);
+    });
+    layer.on('click', function() {
+        // add spinner to page load 
+        // var spinnerTarget = document.getElementById("body-spinner");
+        // if (!spinnerTarget) {
+        //    $('body').append('<div id="body-spinner"></div>');
+        //    spinnerTarget = document.getElementById('body-spinner');
+        // } 
+        // spinner.spin(spinnerTarget);
+        // window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+    });
+}
+
+var setSelected = function(layer) {
+    layer.removeEventListener();
+    layer.selected = true;
+    layer.setStyle(selectedStyle);
+    // update label
+    layer.unbindLabel();
+    layer.bindLabel("Remove " + layer.feature.properties.name + " from selection.", {direction: 'auto'});
+    // set up new listeners
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "weight": 2,
+            "fillOpacity": 0.4,
+            "fillColor": "#6828A6",
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(selectedStyle);
+    });
+    layer.on('click', function() {
+        setDeselected(layer);
+    });
+}
+
+var setDeselected = function(layer) {
+    layer.removeEventListener();
+    layer.selected = false;
+    layer.setStyle(defaultStyle);
+    // update label
+    layer.unbindLabel();
+    layer.bindLabel("Add " + layer.feature.properties.name + " to selection.", {direction: 'auto'});
+    // set up new listeners
+    layer.on('mouseover', function() {
+        layer.setStyle({
+            "weight": 2,
+            "fillOpacity": 0.4,
+            "fillColor": "#76AFF2",
+        });
+    });
+    layer.on('mouseout', function() {
+        layer.setStyle(defaultStyle);
+    });
+    layer.on('click', function() {
+        setSelected(layer);   
+    });
+}
+
+var makeTileLayer = function(thisSumlev) {
+
+    var geojsonTileLayer;
+
+    if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
+        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
+            {
+            style: defaultStyle,
+            onEachFeature: function(feature, layer) {
+                // filter out non-Michingan results
+                if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
+                    setDefault(feature, layer);
+                } else {
+                    layer.setStyle(invisibleStyle);
+                }
+            }
+        });
+    } 
+    return geojsonTileLayer;
+}
+
+
+
+
 
 // prepare spinner
 var spinnerTarget = document.getElementById("body-spinner");
@@ -209,6 +467,7 @@ function makeLayer(d) {
     });
     return layer;
 }
+
 function findPlaces(lat,lng,address) {
     spinner.spin(spinnerTarget);
     $(".location-list").hide();
@@ -377,6 +636,58 @@ function initialize_map() {
         var lat = evt.latlng.lat, lng = evt.latlng.lng;
         updateLocation(lat, lng);
     })
+
+    // adding draw tools
+    drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    drawControl = new L.Control.Draw({
+        draw: {
+            polyline: false,
+            polygon: true,
+            rectangle: false,
+            circle: false,
+            marker: false,
+            circlemarker: false,
+        },
+        edit: {
+            featureGroup: drawnItems,
+            edit: true
+        }
+    });
+
+    map.on('draw:created', function (e) {
+        // take map out of draw mode
+        $("#draw-on-map").removeClass("active");
+        map.removeLayer(drawBackgroundTiles);
+        map.addLayer(regularBackgroundTiles);
+    
+        // show clear and make dashboard buttons
+        $("#map-action-buttons").removeClass("hidden");
+    
+        var drawnLayer = e.layer;
+        //map.addLayer(drawnLayer);
+        var drawnGeojson = drawnLayer.toGeoJSON();
+        // loop through added geojson tiles
+        console.log(enabledLayer.geojsonLayer.getLayers());
+        enabledLayer.geojsonLayer.eachLayer(function(layer) {
+            //console.log(layer);
+            var tileGeojson = layer.toGeoJSON();
+            //console.log(tileGeojson.geometry.geometries[0]);
+            var intersection = turf.intersect(drawnGeojson, tileGeojson.geometry.geometries[0]);
+            //console.log(intersection);
+            if (intersection) {
+                setSelected(layer);
+            } else {
+                setDeselected(layer);
+            }
+            
+        });
+    
+        drawToggle = false;
+    });
+    
+
 }
 var should_show_map = true; // eventually base on viewport or similar
 if (should_show_map) {
