@@ -1,0 +1,47 @@
+{% load humanize madlibs comparatives %}
+{% if not stat_wrapper == 'false' %}<a class="stat {{ stat_type }}{% if wrapper_class %} {{ wrapper_class }}{% endif %}">{% endif %}
+    <span class="{% if stat_class %}{{ stat_class }}{% else %}primary{% endif %}">
+        <span class="value">
+            {% if not stat.values.this %}
+                N/A
+            {% else %}
+                {% if stat_type == 'dollar' %}${% endif %}{{ stat.values.this|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
+                {% if stat.error.this_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
+            {% endif %}
+
+            {% if not stat_class == 'secondary' %}
+                {% if stat.error.this %}
+                    <span class="context moe">&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}</span>
+                {% endif %}
+
+                {% if stat.numerators.this %}
+                    <span class="context">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma|cut:".0" }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma|cut:".0" }})</span>
+                {% endif %}
+            {% endif %}
+        </span>
+        <span class="name">{{ stat.name }}</span>
+        {% if stat.metadata.acs_release != geography.census_release %}
+            <span class="small">* {{ stat.metadata.acs_release }} data</span>
+        {% endif %}
+        
+        {% if stat_class == 'secondary' %}
+            <span class="context">
+                {% if stat.error.this %}
+                    &plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.error.this|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}
+                {% endif %}
+
+                {% if stat.numerators.this %}
+                    <span class="push-right">({% if stat_type == 'dollar' %}${% endif %}{{ stat.numerators.this|floatformat|intcomma|cut:".0" }}&nbsp;&nbsp;&plusmn;{% if stat_type == 'dollar' %}${% endif %}{{ stat.numerator_errors.this|floatformat|intcomma|cut:".0" }})</span>
+                {% endif %}
+            </span>
+        {% endif %}
+    </span>
+
+    {% if geography.comparatives and stat.values.this and not stat_class == 'secondary' %}
+    <ul class="context-phrases">
+        {% for sumlev in geography.comparatives %}
+            {% build_comparative_item sumlev stat stat_type geography %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% if not stat_wrapper == 'false' %}</a>{% endif %}

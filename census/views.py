@@ -24,7 +24,7 @@ from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
-from .models import Geography, Table, Column, SummaryLevel
+from .models import Geography, Table, Column, SummaryLevel, Dashboards
 from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
 	 SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
 from .profile import geo_profile, enhance_api_data
@@ -793,7 +793,7 @@ class GeographyDetailView(TemplateView):
 		return page_context
 
 class CustomGeographyDetailView(TemplateView):
-	template_name = 'profile/profile_detail.html'
+	template_name = 'profile/custom_profile_detail.html'
 
 	def parse_fragment(self,fragment):
 		"""Given a URL, return a (geoid,slug) tuple. slug may be None.
@@ -1803,3 +1803,21 @@ def sort_topics(topic_map, exclude_topics=()):
 def uniurlquote(s):
 	"""urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""
 	return quote(s.encode('utf-8'))
+
+
+def make_dashboard(request):
+	if request.method == 'POST':
+		dashboard_geoids = request.POST.get('dashboard_geoids')
+		dashboard_name = request.POST.get('dashboard_name')
+		
+		dashboard = Dashboards(dashboard_geoids=dashboard_geoids, dashboard_name=dashboard_name)
+		dashboard.save()
+		return HttpResponse(
+            json.dumps({"this": "worked"}),
+            content_type="application/json"
+        )
+	else:
+		return HttpResponse(
+			json.dumps({"nothing to see": "this isn't happening"}),
+			content_type="application/json"
+		)

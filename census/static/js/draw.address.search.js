@@ -18,14 +18,16 @@ var lat = '',
     enabledLayer = null,
     drawnItems = null,
     drawControl = null,
-    drawToggle = false
-    mode = 'locate';
+    drawToggle = false,
+    mode = 'locate',
+    dialog = '',
+    form = '',
+    dashboard_geoids = [];
 
 var sumlevs = [
     { 'level': '150', 'name': 'Census Block Group', zoom: 15 },
     { 'level': '140', 'name': 'Census Tract', zoom: 10 },
     { 'level': '860', 'name': 'ZIP Code', zoom: 12  },
-    { 'level': '950', 'name': 'School District (Elementary)', zoom: 10  },
     { 'level': '970', 'name': 'School District (Unified)', zoom: 10  },
     { 'level': '060', 'name': 'County Subdivision', zoom: 7 },
     { 'level': '500', 'name': 'Congressional District', zoom: 7 },
@@ -117,6 +119,9 @@ $("#draw-on-map").click(function() {
     $("#draw-on-map").addClass("active");
     map.removeLayer(regularBackgroundTiles);
     map.addLayer(drawBackgroundTiles);
+    enabledLayer.geojsonLayer.eachLayer(function(layer) {
+        setDeselected(layer.feature, layer);
+    });    
 });
 
 $("#clear-map").click(function() {
@@ -130,8 +135,28 @@ $("#clear-map").click(function() {
     });
 });
 
+dialog = $("#dialog-form").dialog({
+    autoOpen: false,
+    height: "auto",
+    width: 350,
+    modal: true,
+    close: function() {
+      form[ 0 ].reset();
+      allFields.removeClass( "ui-state-error" );
+    }
+});
+
+$("#submit-custom-geo").click(function() {
+    dialog.find("form").submit();
+});
+
+form = dialog.find( "form" ).on( "submit", function( event ) {
+    event.preventDefault();
+    makeDashboard();
+});
+
 $("#make-dashboard").click(function() {
-    var dashboard_geoids = [];
+    dashboard_geoids = [];
     enabledLayer.geojsonLayer.eachLayer(function(layer) {
         if (layer.selected) {
             dashboard_geoids.push(layer.feature.properties.geoid);
@@ -139,14 +164,9 @@ $("#make-dashboard").click(function() {
     });
     console.log(dashboard_geoids);
 
-    // TO DO: Strategy is to fill out a hidden form field with geoids and a placeholder name and store that in the database, perhaps with a url slug. After that form is saved, trigger the custom profile generation with a post_save signal (https://docs.djangoproject.com/en/dev/topics/signals/)
+    dialog.dialog("open");
 
-    // submit hidden form
-    $('#create-dashboard').on('submit', function(event){
-        event.preventDefault();
-        console.log("form submitted!")  // sanity check
-        createDahsboard();
-    });
+    // TO DO: Strategy is to fill out a hidden form field with geoids and a placeholder name and store that in the database, perhaps with a url slug. After that form is saved, trigger the custom profile generation with a post_save signal (https://docs.djangoproject.com/en/dev/topics/signals/)
 
 
 
@@ -161,6 +181,34 @@ $("#make-dashboard").click(function() {
     // window.location.href = '/custom-profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
     
 });
+
+var makeDashboard = function() {
+    var geoids_string = dashboard_geoids.join(",")
+    // submit with ajax
+    $.ajax({
+        type:"POST",
+        url:"/make_dashboard/",
+        data: {
+            'dashboard_geoids': geoids_string,
+            'dashboard_name': $('#dashboard-name').val()
+        },
+        success: function(){
+            $('#dashboard_name').val('');
+            dialog.dialog("close");
+            alert("Temporary alert to flag that dashboard data was saved correctly.");
+        },
+        error: function(e){
+            console.log(e);
+            dialog.dialog("close");
+            alert("Temporary alert to flag a problem with saving dashboard data.");
+        },
+    });
+    return false; 
+}
+
+
+
+
 
 var clearLocate = function() {
     // remove point_marker, hover shapes, message and list of geograpies if they exist

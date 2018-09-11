@@ -131,4 +131,8 @@ class Geography(models.Model):
 
     def __unicode__(self):
         return '%s' % self.full_name
-    
+
+
+class Dashboards(models.Model):
+    dashboard_name = models.TextField(blank=True)
+    dashboard_geoids = models.TextField(blank=True)

@@ -56,7 +56,6 @@
                 </section>
             </div>
         </div>        
-
     </div>
 </div>
 <div id="slippy-map"></div>
@@ -69,10 +68,19 @@
         </a>
     </li>
 </script>
-<!-- Hidden form to save geoids -->
-<!-- <form action="#"  method="POST" id="create-dashboard">
 
-</form> -->
+<!-- Modal for savign name of selected geography -->
+<div id="dialog-form" title="Name your custom geography">
+    <form>
+      <fieldset>
+        <label for="dashboard-name">Name</label>
+        <input type="text" name="name" id="dashboard-name" class="text ui-widget-content ui-corner-all"> 
+        <a id="submit-custom-geo" class="action-button" style="display: inline-block">Save</a> 
+      </fieldset>
+    </form>
+</div>
+
+
 
 
 
