@@ -160,6 +160,7 @@ SUMLEV_CHOICES['Schools'] = [
 ]
 
 ACS_RELEASES = {
+    'acs2017_1yr': {'name': 'ACS 2017 1-Year', 'slug': 'acs2017_1yr', 'years': '2017'},
     'acs2016_5yr': {'name': 'ACS 2016 5-Year', 'slug': 'acs2016_5yr', 'years': '2012-2016'},
     'acs2016_1yr': {'name': 'ACS 2016 1-Year', 'slug': 'acs2016_1yr', 'years': '2016'},
     'acs2015_5yr': {'name': 'ACS 2015 5-Year', 'slug': 'acs2015_5yr', 'years': '2011-2015'},

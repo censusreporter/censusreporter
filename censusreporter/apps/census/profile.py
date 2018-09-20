@@ -30,10 +30,10 @@ class ApiClient(object):
         return data
 
     def get_parent_geoids(self, geoid):
-        return self._get('/1.0/geo/tiger2016/{}/parents'.format(geoid))
+        return self._get('/1.0/geo/tiger2017/{}/parents'.format(geoid))
 
     def get_geoid_data(self, geoid):
-        return self._get('/1.0/geo/tiger2016/{}'.format(geoid))
+        return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
 
     def get_data(self, table_ids, geo_ids, acs='latest'):
         if hasattr(table_ids, '__iter__'):
