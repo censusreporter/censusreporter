@@ -87,7 +87,7 @@
     <div class="typeahead-container">
         <select name="select_section" onchange="location = this.value;" style="width: 100%;">
             {% comment %} <option value="#">Jump to a section: </option> {% endcomment %}
-            <optgroup label="Youth &amp; family demographics">
+            <optgroup label="Youth &amp; Family Demographics">
                 <option value="#youth-population">Youth &amp; family demographics</option>
                 <option value="#youth-population">Youth population, sex &amp; age</option>
                 <option value="#children-age-race">Youth age, race &amp; ethnicity</option>
@@ -106,7 +106,7 @@
                 <option value="#graduation-rate">High school graduation</option>
                 <option value="#educational-attainment">Educational attainment</option>
             </optgroup>
-            <optgroup label="Family &amp; economic security">
+            <optgroup label="Family &amp; Economic Security">
                 <option value="#income">Family &amp; economic security</option>
                 <option value="#income">Income</option>
                 <option value="#child-poverty">Child poverty</option>
@@ -123,13 +123,13 @@
                 <option value="#housing-value">Housing value</option>
                 <option value="#geographical-mobility">Geographical mobility</option>
             </optgroup> 
-            <optgroup label="Health &amp; safety">
+            <optgroup label="Health &amp; Safety">
                 <option value="#health-insurance">Health &amp; safety</option>
                 <option value="#infant-mortality">Infant mortality</option>
                 <option value="#immunizations">Immunizations</option>
                 <option value="#health-insurance">Health insurance</option>
             </optgroup>
-            <optgroup label="Other demographics">
+            <optgroup label="Other Demographics">
                 <option value="#place-of-birth">Other demographics</option>
                 <option value="#place-of-birth">Place of birth</option>
                 <option value="#veteran-status">Veteran status</option>
@@ -149,7 +149,7 @@
 
 <article id="youth-demographics" class="clearfix">
     <header class="section-contents">
-        <h1>Youth &amp; family demographics</h1>
+        <h1>Youth &amp; Family Demographics</h1>
     </header>
     <div class="section-container">
 
@@ -555,13 +555,6 @@
 
 </article>
 
-<!-- Add sticky buttons for time series vers one year views -->
-<div class="sticky-time-series-buttons">
-    <a id="one-year" class='action-button active' href="#">One year</a>
-    <a id="over-time" class='action-button' href="#">Over time</a>
-</div>
-
-
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
@@ -706,11 +699,20 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=tr
 })
 
 // Create all the charts
+//var Charts = {},
+//    chartContainers = $('[id^=chart-]'),
+//    profileData = {{ profile_data_json_current_year }},
+//    defaultDataRelease = profileData.geography.census_release,
+//    releases = [defaultDataRelease];
+
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
     defaultDataRelease = '{{ geography.census_release }}',
     releases = [defaultDataRelease],
-    profileData = {{ profile_data_json }};
+    profileData = {{ profile_data_json_current_year }};
+
+    console.log(defaultDataRelease);
+    console.log(profileData);
 
 var gracefulType = function(chartType) {
     // convert certain chart types to more readable versions at narrow widths
