@@ -24,7 +24,7 @@ from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
-from .models import Geography, Table, Column, SummaryLevel
+from .models import Geography, Table, Column, SummaryLevel, Dashboards
 from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
 	 SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
 from .profile import geo_profile, enhance_api_data
@@ -793,7 +793,7 @@ class GeographyDetailView(TemplateView):
 		return page_context
 
 class CustomGeographyDetailView(TemplateView):
-	template_name = 'profile/profile_detail.html'
+	template_name = 'profile/custom_profile_detail.html'
 
 	def parse_fragment(self,fragment):
 		"""Given a URL, return a (geoid,slug) tuple. slug may be None.
@@ -821,6 +821,8 @@ class CustomGeographyDetailView(TemplateView):
 	def dispatch(self, *args, **kwargs):
 
 		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
+		self.current_year = 2016
+		self.past_year = 2011
 
 		if self.slug is None:
 			geo = self.get_geography(self.geo_id)
@@ -855,8 +857,8 @@ class CustomGeographyDetailView(TemplateView):
 			return geo_data
 		return None
 
-	def s3_keyname(self, geo_id):
-		return '/1.0/data/profiles/%s.json' % geo_id.upper()
+	def s3_keyname(self, year, geo_id):
+		return '/1.0/data/profiles/%s/%s.json' % (year, geo_id.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -870,13 +872,13 @@ class CustomGeographyDetailView(TemplateView):
 				s3 = None
 		return s3
 
-	def s3_profile_key(self, geo_id):
+	def s3_profile_key(self, year, geo_id):
 		s3 = self.make_s3()
 
 		key = None
 		if s3:  
 			bucket = s3.get_bucket('d3-sd-child')
-			keyname = self.s3_keyname(geo_id)
+			keyname = self.s3_keyname(year, geo_id)
 			key = Key(bucket, keyname)
 		
 		return key
@@ -896,11 +898,15 @@ class CustomGeographyDetailView(TemplateView):
 		# store static version on S3
 		s3_key.set_contents_from_file(memfile)
 
+
 	def get_context_data(self, *args, **kwargs):
 		geography_id = self.geo_id
+		current_year = self.current_year
+		past_year = self.past_year
 
+		# current year
 		try:
-			s3_key = self.s3_profile_key(geography_id)
+			s3_key = self.s3_profile_key(current_year, geography_id)
 		except:
 			s3_key = None
 
@@ -914,7 +920,51 @@ class CustomGeographyDetailView(TemplateView):
 			profile_data_json = compressed.read()
 			# Load it into a Python dict for the template
 			profile_data = simplejson.loads(profile_data_json)
-			print profile_data['social']['immunization']
+			# print profile_data['social']['immunization']
+			# Also mark it as safe for the charts on the profile
+			profile_data_json = SafeString(profile_data_json)
+			geography_context = profile_data['geography']
+		else:
+			profile_data = geo_profile(geography_id)
+
+			if profile_data:
+				profile_data = enhance_api_data(profile_data)
+				geography_context = profile_data['geography']
+
+				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+				if s3_key is None:
+					logger.warn("Could not save to S3 because there was no connection to S3.")
+				else:
+					self.write_profile_json(s3_key, profile_data_json)
+
+			else:
+				raise Http404
+
+
+		page_context_current_year = {
+			'profile_data_json_current_year': profile_data_json
+		}
+		page_context_current_year.update(profile_data)
+ 
+
+		# past year
+		try:
+			s3_key = self.s3_profile_key(past_year, geography_id)
+		except:
+			s3_key = None
+
+		if s3_key and s3_key.exists():
+			memfile = cStringIO.StringIO()
+			s3_key.get_file(memfile)
+			memfile.seek(0)
+			compressed = gzip.GzipFile(fileobj=memfile)
+
+			# Read the decompressed JSON from S3
+			profile_data_json = compressed.read()
+			# Load it into a Python dict for the template
+			profile_data = simplejson.loads(profile_data_json)
+			# print profile_data['social']['immunization']
 			# Also mark it as safe for the charts on the profile
 			profile_data_json = SafeString(profile_data_json)
 		else:
@@ -933,10 +983,20 @@ class CustomGeographyDetailView(TemplateView):
 			else:
 				raise Http404
 
-		page_context = {
-			'profile_data_json': profile_data_json
+
+		page_context_past_year = {
+			'profile_data_json_past_year': profile_data_json
 		}
-		page_context.update(profile_data)
+		page_context_past_year.update(profile_data)
+
+
+		page_context = {
+			'profile_data_json_current_year': page_context_current_year['profile_data_json_current_year'],
+			'profile_data_json_past_year': page_context_past_year['profile_data_json_past_year'],
+			'geography': geography_context
+		}
+
+		# page_context = page_context_current_year
 
 		return page_context
 
@@ -1803,3 +1863,21 @@ def sort_topics(topic_map, exclude_topics=()):
 def uniurlquote(s):
 	"""urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""
 	return quote(s.encode('utf-8'))
+
+
+def make_dashboard(request):
+	if request.method == 'POST':
+		dashboard_geoids = request.POST.get('dashboard_geoids')
+		dashboard_name = request.POST.get('dashboard_name')
+		
+		dashboard = Dashboards(dashboard_geoids=dashboard_geoids, dashboard_name=dashboard_name)
+		dashboard.save()
+		return HttpResponse(
+            json.dumps({"this": "worked"}),
+            content_type="application/json"
+        )
+	else:
+		return HttpResponse(
+			json.dumps({"nothing to see": "this isn't happening"}),
+			content_type="application/json"
+		)

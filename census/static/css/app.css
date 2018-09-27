@@ -300,7 +300,7 @@ a.action-button,
     padding: 0 9px;
     height: 2em;
     line-height: 1.9em;
-    background-color: #4F80BA;
+    background-color: #76AFF2;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -1937,7 +1937,7 @@ section.chart-divider h2 {
     cursor: pointer;
     text-align: center;
     padding: .7em 0;
-    background-color: #4F80BA;
+    background-color: #76AFF2;
     color: #fff;
     text-decoration: none;
     font-size: 1.2em;
@@ -1949,13 +1949,13 @@ section.chart-divider h2 {
 .action-button.disabled:hover,
 .action-button.disabled.hovered {
     pointer-events: none;
-    cursor: default;
+    cursor: not-allowed;
     border-color: #baccc9;
     background-color: #baccc9;
     color: #fff;
 }
 .action-button.active {
-    background-color: #76AFF2;
+    background-color: #4F80BA;
 }
 
 .change-button {
@@ -1968,7 +1968,7 @@ section.chart-divider h2 {
 }
 .change-button:hover,
 .action-button:hover {
-    background-color: #76AFF2;
+    background-color: #4F80BA;
     color: #fff;
 }
 
@@ -3088,7 +3088,7 @@ a.ui-button:active,
 }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
-    background-color: #76aff2;
+    background-color: #baccc9;
     color: #fff;
 }
 
@@ -3098,6 +3098,7 @@ a.ui-button:active,
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     background-color: #4f80ba;
+    color: #fff;
 }
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
@@ -3106,4 +3107,18 @@ a.ui-button:active,
 
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0;
+}
+
+.ui-dialog {
+    border: 1px solid #4F80BA !important;
+}
+
+.sticky-time-series-buttons {
+    position: sticky;
+    bottom: 30px;
+    float: right;
+}
+
+.sticky-time-series-buttons a {
+    display: inline-block;
 }

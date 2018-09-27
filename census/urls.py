@@ -10,7 +10,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, CustomGeographyDetailView, GeographySearchView,
     D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView, SitemapTopicsView, SearchResultsView)
+    MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard)
 
 admin.autodiscover()
 
@@ -241,4 +241,14 @@ urlpatterns = patterns('',
         name    = 'elasticsearch',
     ),
     ## END LOCAL DEV VERSION OF API ##
+
+    ## post to shave dashboards
+    url(
+        regex   = '^make_dashboard/$',
+        view    = make_dashboard,
+        kwargs  = {},
+        name    = 'make_dashboard',
+    ),
+
+
 )

@@ -475,36 +475,36 @@ def geo_profile(geoid, acs='latest'):
 
 	# take D3 ODP data and create structure like census_reporter structure
 
-	fields = OrderedDict();
-	fields['TotalBirths'] = OrderedDict();
+	fields = OrderedDict()
+	fields['TotalBirths'] = OrderedDict()
 	fields['TotalBirths']['name'] = "Total Births"
 	fields['TotalBirths']['indent'] = 0
 
-	fields['NonHispWhite'] = OrderedDict();
+	fields['NonHispWhite'] = OrderedDict()
 	fields['NonHispWhite']['name'] = "Non-Hispanic White Births"
 	fields['NonHispWhite']['indent'] = 1
 
-	fields['NonHispBlack'] = OrderedDict();
+	fields['NonHispBlack'] = OrderedDict()
 	fields['NonHispBlack']['name'] = "Non-Hispanic Black Births"
 	fields['NonHispBlack']['indent'] = 1
 
-	fields['NonHIspOther'] = OrderedDict();
+	fields['NonHIspOther'] = OrderedDict()
 	fields['NonHIspOther']['name'] = "Non-Hispanic Other Race Births"
 	fields['NonHIspOther']['indent'] = 1
 
-	fields['Hispanic'] = OrderedDict();
+	fields['Hispanic'] = OrderedDict()
 	fields['Hispanic']['name'] = "Hispanic Births"
 	fields['Hispanic']['indent'] = 1
 
-	fields['InadequatePrenatal'] = OrderedDict();
+	fields['InadequatePrenatal'] = OrderedDict()
 	fields['InadequatePrenatal']['name'] = "Births with Inadequate Prenatal Care"
 	fields['InadequatePrenatal']['indent'] = 1
 
-	fields['LowBirthWeight'] = OrderedDict();
+	fields['LowBirthWeight'] = OrderedDict()
 	fields['LowBirthWeight']['name'] = "Low Birth Weight Births"
 	fields['LowBirthWeight']['indent'] = 1
 
-	fields['TeenMothers'] = OrderedDict();
+	fields['TeenMothers'] = OrderedDict()
 	fields['TeenMothers']['name'] = "Births to Teen Mothers"
 	fields['TeenMothers']['indent'] = 1
 
@@ -581,36 +581,36 @@ def geo_profile(geoid, acs='latest'):
 
 	# take D3 ODP data and create structure like census_reporter structure
 
-	fields = OrderedDict();
-	fields['MATHNumAssessed_Calc'] = OrderedDict();
+	fields = OrderedDict()
+	fields['MATHNumAssessed_Calc'] = OrderedDict()
 	fields['MATHNumAssessed_Calc']['name'] = "Total students taking Math Assessment"
 	fields['MATHNumAssessed_Calc']['indent'] = 0
 
-	fields['MATHTotalMet_Calc'] = OrderedDict();
+	fields['MATHTotalMet_Calc'] = OrderedDict()
 	fields['MATHTotalMet_Calc']['name'] = "Number of students who met or exceeded expectations in Math"
 	fields['MATHTotalMet_Calc']['indent'] = 1
 
-	fields['MATHTotalNotMet_Calc'] = OrderedDict();
+	fields['MATHTotalNotMet_Calc'] = OrderedDict()
 	fields['MATHTotalNotMet_Calc']['name'] = "Number of students who did not meet expectations in Math"
 	fields['MATHTotalNotMet_Calc']['indent'] = 1
 
-	fields['MATHPctMetCalc'] = OrderedDict();
+	fields['MATHPctMetCalc'] = OrderedDict()
 	fields['MATHPctMetCalc']['name'] = "Percentage of students who met or exceeded expectations in Math"
 	fields['MATHPctMetCalc']['indent'] = 1
 	
-	fields['ELANumAssessed_Calc'] = OrderedDict();
+	fields['ELANumAssessed_Calc'] = OrderedDict()
 	fields['ELANumAssessed_Calc']['name'] = "Total students taking ELA Assessment"
 	fields['ELANumAssessed_Calc']['indent'] = 0
 
-	fields['ELATotalMet_Calc'] = OrderedDict();
+	fields['ELATotalMet_Calc'] = OrderedDict()
 	fields['ELATotalMet_Calc']['name'] = "Number of students who met or exceeded expectations in ELA"
 	fields['ELATotalMet_Calc']['indent'] = 1
 
-	fields['ELATotalNotMet_Calc'] = OrderedDict();
+	fields['ELATotalNotMet_Calc'] = OrderedDict()
 	fields['ELATotalNotMet_Calc']['name'] = "Number of students who did not meet expectations in ELA"
 	fields['ELATotalNotMet_Calc']['indent'] = 1
 
-	fields['ELAPctMetCalc'] = OrderedDict();
+	fields['ELAPctMetCalc'] = OrderedDict()
 	fields['ELAPctMetCalc']['name'] = "Percentage of students who met or exceeded ELA expectations"
 	fields['ELAPctMetCalc']['indent'] = 1
 
@@ -686,16 +686,16 @@ def geo_profile(geoid, acs='latest'):
 
 	# take D3 ODP data and create structure like census_reporter structure
 
-	fields = OrderedDict();
-	fields['CohortCount'] = OrderedDict();
+	fields = OrderedDict()
+	fields['CohortCount'] = OrderedDict()
 	fields['CohortCount']['name'] = "Number of Students"
 	fields['CohortCount']['indent'] = 0
 
-	fields['GradCnt'] = OrderedDict();
+	fields['GradCnt'] = OrderedDict()
 	fields['GradCnt']['name'] = "Number of Graduates"
 	fields['GradCnt']['indent'] = 1
 
-	fields['GradRate'] = OrderedDict();
+	fields['GradRate'] = OrderedDict()
 	fields['GradRate']['name'] = "Graduation Rate"
 	fields['GradRate']['indent'] = 1
 
@@ -748,16 +748,16 @@ def geo_profile(geoid, acs='latest'):
 
 	# take D3 ODP data and create structure like census_reporter structure
 
-	fields = OrderedDict();
-	fields['InfantMort'] = OrderedDict();
+	fields = OrderedDict()
+	fields['InfantMort'] = OrderedDict()
 	fields['InfantMort']['name'] = "Total infant deaths"
 	fields['InfantMort']['indent'] = 0
 
-	fields['SafeSleep'] = OrderedDict();
+	fields['SafeSleep'] = OrderedDict()
 	fields['SafeSleep']['name'] = "Number of unsafe sleep related deaths"
 	fields['SafeSleep']['indent'] = 1
 
-	fields['AssaultMal'] = OrderedDict();	
+	fields['AssaultMal'] = OrderedDict()
 	fields['AssaultMal']['name'] = "Number of assault or maltreatment related deaths"
 	fields['AssaultMal']['indent'] = 1
 
@@ -819,20 +819,20 @@ def geo_profile(geoid, acs='latest'):
 
 	# take D3 ODP data and create structure like census_reporter structure
 
-	fields = OrderedDict();
-	fields['Immunization_Population'] = OrderedDict();
+	fields = OrderedDict()
+	fields['Immunization_Population'] = OrderedDict()
 	fields['Immunization_Population']['name'] = "Immunized children aged 19-35 months"
 	fields['Immunization_Population']['indent'] = 0
 
-	fields['Fully_Immunized_43133142'] = OrderedDict();
+	fields['Fully_Immunized_43133142'] = OrderedDict()
 	fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
 	fields['Fully_Immunized_43133142']['indent'] = 1
 
-	fields['Partially_Immunized_431331'] = OrderedDict();	
+	fields['Partially_Immunized_431331'] = OrderedDict()	
 	fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
 	fields['Partially_Immunized_431331']['indent'] = 1
 
-	fields['Partially_Immunized_4313314'] = OrderedDict();	
+	fields['Partially_Immunized_4313314'] = OrderedDict()	
 	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
 	fields['Partially_Immunized_4313314']['indent'] = 1
 
@@ -2367,20 +2367,20 @@ def immunization_data(geoid, acs='latest'):
 		
 	# take D3 ODP data and create structure like census_reporter structure
 
-	fields = OrderedDict();
-	fields['Immunization_Population'] = OrderedDict();
+	fields = OrderedDict()
+	fields['Immunization_Population'] = OrderedDict()
 	fields['Immunization_Population']['name'] = "Immunized children aged 19-35 months"
 	fields['Immunization_Population']['indent'] = 0
 
-	fields['Fully_Immunized_43133142'] = OrderedDict();
+	fields['Fully_Immunized_43133142'] = OrderedDict()
 	fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
 	fields['Fully_Immunized_43133142']['indent'] = 1
 
-	fields['Partially_Immunized_431331'] = OrderedDict();	
+	fields['Partially_Immunized_431331'] = OrderedDict()	
 	fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
 	fields['Partially_Immunized_431331']['indent'] = 1
 
-	fields['Partially_Immunized_4313314'] = OrderedDict();	
+	fields['Partially_Immunized_4313314'] = OrderedDict()	
 	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
 	fields['Partially_Immunized_4313314']['indent'] = 1
 
