@@ -1,13 +1,13 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize madlibs %}
 
-{% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
-{% block head_meta_description %}Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %}
+{% block head_title %}{% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %} - {{ block.super }}{% endblock %}
+{% block head_meta_description %}Census data for {{ profile_data_current_year.geography.this.full_name }} (pop. {{ profile_data_current_year.geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %}
 
 {% block head_facebook_tags %}
-        <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
+        <meta property="og:title" content="Census profile: {% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}" />
         <meta property="og:site_name" content="State of the Detroit Child" />
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-        <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
+        <meta property="og:description" content="Census data for {{ profile_data_current_year.geography.this.full_name }} (pop. {{ profile_data_current_year.geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
 {% endblock %}
@@ -16,8 +16,8 @@
         <meta name="twitter:card" content="summary">
         <meta name="twitter:site" content="@d3detroit">
         <meta name="twitter:creator" content="@d3detroit">
-        <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
-        <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
+        <meta name="twitter:title" content="Census profile: {% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}">
+        <meta name="twitter:description" content="Census data for {{ profile_data_current_year.geography.this.full_name }} (pop. {{ profile_data_current_year.geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
         {#}<meta name="twitter:image" content="">{#}
 {% endblock %}
 
@@ -39,42 +39,40 @@
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
-                <h1 class="title">My Neighborhood <i id="dashboard-name" class="fa fa-pencil" aria-hidden="true"></i>
-                </h1>
-                {% comment %} <h1 class="title">{% firstof geography.this.full_name geography.this.short_name %}</h1> {% endcomment %}
-                {% if geography.this.sumlevel != '010' and geography.this.sumlevel != '040' %}
-                <!-- <p class="caption"></p> -->
+                <h1 class="title">{% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}</h1>
+                {% if profile_data_current_year.geography.this.sumlevel != '010' and profile_data_current_year.geography.this.sumlevel != '040' %}
+                <p class="caption"></p>
                 {% endif %}
             </header>
             <div class="column-half">
                 <div class="stat">
                     <span class="primary">
-                        <span class="value">{{ geography.this.total_population|intcomma }}</span>
+                        <span class="value">{{ profile_data_current_year.geography.this.total_population|intcomma }}</span>
                         <span class="name">Population</span>
                     </span>
                 </div>
             </div>
-            {% if geo_metadata.square_miles or geo_metadata.population_density %}
+            {% if profile_data_current_year.geo_metadata.square_miles or profile_data_current_year.geo_metadata.population_density %}
             <div class="column-half">
                 <div class="stat">
                     <span class="secondary">
-                        <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
+                        <span class="value">{% if profile_data_current_year.geo_metadata.square_miles < .1 %}{{ profile_data_current_year.geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ profile_data_current_year.geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
                         <span class="name"> square miles</span>
                     </span>
                     <span class="secondary">
-                        <span class="value">{{ geo_metadata.population_density|floatformat|intcomma }}</span>
+                        <span class="value">{{ profile_data_current_year.geo_metadata.population_density|floatformat|intcomma }}</span>
                         <span class="name"> people per square mile</span>
                     </span>
                 </div>
             </div>
             {% endif %}
 
-            {% if geography.this.show_extra_links %}
+            {% if profile_data_current_year.geography.this.show_extra_links %}
                 {% include "profile/_blocks/_header_extra_links.html" %}
             {% endif %}
 
             <div class="column-full">
-                <p class="caption"><strong>Census data:</strong> {{ geography.census_release }} unless noted</p>
+                <p class="caption"><strong>Census data:</strong> {{ profile_data_current_year.geography.census_release }} unless noted</p>
             </div>
         </article>
     </div>
@@ -157,35 +155,35 @@
             <h2 class="header-for-columns"><a class="permalink" href="#youth-population" id="youth-population" title="Permalink">Youth population, sex &amp; age <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {{ profile_data_current_year.demographics.child_pop.total }}
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=demographics.child_pop.total stat_type='number' %}
+                <div id="chart-column_timeseries-demographics-child_pop" data-stat-type="number" data-chart-title="Number of children under 18" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_pop.total.metadata.universe }}"></div>
+                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=profile_data_current_year.demographics.child_pop.total past_stat=profile_data_past_year.demographics.child_pop.total stat_type='number' %} {% endcomment %}
             </div>
             <div class="column-third">
-                <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
+                <div id="chart-column_timeseries-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_sex.metadata.universe }}"></div>
             </div>        
             <div class="column-third">
-                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
+                <div id="chart-column_timeseries-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_age.distribution_by_category.metadata.universe }}"></div>
             </div> 
         </section>
 
         <section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#children-age-race" id="children-age-race" title="Permalink">Youth age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
-            <div class="column-half" id="chart-grouped_column-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 0 - 9 years" data-qualifier="Universe: {{ demographics.child_race_grouped_under_9.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-            <div class="column-half" id="chart-grouped_column-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 10 - 17 years" data-qualifier="Universe: {{ demographics.child_race_grouped_10_to_17.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+            <div class="column-half" id="chart-column_time_series_group-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 0 - 9 years" data-qualifier="Universe: {{ demographics.child_race_grouped_under_9.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+            <div class="column-half" id="chart-column_time_series_group-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 10 - 17 years" data-qualifier="Universe: {{ demographics.child_race_grouped_10_to_17.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
         </section>
 
         <section class="clearfix stat-row">
             <h2 class="header-for-columns"><a class="permalink" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=demographics.male_child_pop.total stat_type='number' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=demographics.male_child_pop.total stat_type='number' %}
             </div>
             <div class="column-third">
-                <div id="chart-pie-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_total_distribution.metadata.universe }}"></div>
+                <div id="chart-column_timeseries-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_total_distribution.metadata.universe }}"></div>
             </div>        
             <div class="column-third">
-                <div id="chart-pie-demographics-male_child_age_race_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of male youth by race" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+                <div id="chart-column_timeseries-demographics-male_child_age_race_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of male youth by race" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
             </div> 
         </section>
 
@@ -194,12 +192,12 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=families.households.number_of_households stat_type='count' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.households.number_of_households stat_type='count' %}
             </div>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.households.persons_per_household stat_type='number' %}
             </div>
-            <div class="column-third" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Population by household type" data-qualifier="Universe: {{ families.households.distribution.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-families-households-distribution" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Population by household type" data-qualifier="Universe: {{ families.households.distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -207,42 +205,42 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
             </div>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=families.households_with_children.percent_households_with_children stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.households_with_children.percent_households_with_children stat_type='percentage' %}
             </div>
-            <div class="column-third" id="chart-pie-families-family_types-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Own Children Under 18 Years by Family Type" data-qualifier="Universe: {{ families.family_types.children.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-families-family_types-children" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Own Children Under 18 Years by Family Type" data-qualifier="Universe: {{ families.family_types.children.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#marital-status" id="marital-status" title="Permalink">Marital status <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third" id="chart-pie-families-marital_status" data-stat-type="percentage" data-qualifier="Universe: {{ families.marital_status.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-grouped_column-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Marital status, by sex" data-qualifier="Universe: {{ families.marital_status_grouped.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-families-marital_status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ families.marital_status.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_time_series_group-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Marital status, by sex" data-qualifier="Universe: {{ families.marital_status_grouped.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink" href="#births" id="births" title="Permalink">Births <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=families.births.total stat_type='number' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.births.total stat_type='number' %}
             </div>
             <div class="column-third">
-                <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+                <div id="chart-column_timeseries-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
             </div> 
             <div class="column-third">
-                <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ families.births.by_characteristic.metadata.universe }}"></div>
+                <div id="chart-column_timeseries-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ families.births.by_characteristic.metadata.universe }}"></div>
             </div> 
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=families.fertility.total stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.fertility.total stat_type='percentage' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column-families-fertility-by_age" data-stat-type="scaled-percentage" data-chart-title="Women who gave birth during past year, by age group" data-qualifier="Universe: {{ families.fertility.by_age.metadata.universe }}"></div>
+                <div id="chart-column_timeseries-families-fertility-by_age" data-stat-type="scaled-percentage" data-chart-title="Women who gave birth during past year, by age group" data-qualifier="Universe: {{ families.fertility.by_age.metadata.universe }}"></div>
             </div>
         </section>
 
@@ -251,10 +249,10 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.language.percent_non_english_at_home stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.language.percent_non_english_at_home stat_type='percentage' %}
             </div>
-            <div class="column-third" id="chart-pie-social-language-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ social.language.children.metadata.universe }}"></div>
-            <div class="column-third" id="chart-pie-social-language-adults" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ social.language.adults.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-social-language-children" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ social.language.children.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-social-language-adults" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ social.language.adults.metadata.universe }}"></div>
         </section>
 
     </div>
@@ -269,23 +267,23 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-pie-social-ela_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.ela_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-ela_distribution" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.ela_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-pie-social-math_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-math_distribution" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -294,23 +292,23 @@
             </aside>
             <div class="column-half">
                 <div class="column-half">
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.enrollment.enrolled stat_type='number' %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.enrollment.enrolled stat_type='number' %}
                 </div>
                 <div class="column-half">
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.enrollment.not_enrolled stat_type='number' %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.enrollment.not_enrolled stat_type='number' %}
                 </div>
             </div>
-            <div class="column-half" id="chart-grouped_column-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-column_time_series_group-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.graduation.graduation_rate stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.graduation.graduation_rate stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-pie-social-graduation_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.graduation_chart_data.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-graduation_chart_data" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.graduation_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -319,10 +317,10 @@
             </aside>
             <div class="column-half">
                 <div class="column-half">
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.educational_attainment.percent_high_school_grad_or_higher stat_type='percentage' %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.educational_attainment.percent_high_school_grad_or_higher stat_type='percentage' %}
                 </div>
                 <div class="column-half">
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
                 </div>
             </div>
             <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
@@ -343,10 +341,10 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
             </div>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.income.median_household_income stat_type='dollar' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.income.median_household_income stat_type='dollar' %}
             </div>
             <div class="column-half" id="chart-histogram-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.income.household_distribution.metadata.universe }}"></div>
         </section>
@@ -356,10 +354,10 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.poverty.children.Below stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.poverty.children.Below stat_type='percentage' %}
             </div>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.poverty.percent_receiving_public_assistance stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.poverty.percent_receiving_public_assistance stat_type='percentage' %}
             </div>
             <div class="column-half" id="chart-histogram-economics-poverty-children_distribution_by_age" data-chart-title="Children living below the poverty line by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.poverty.children_distribution_by_age.metadata.universe }}"></div>
         </section>
@@ -369,9 +367,9 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
             </div>
-            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder" data-qualifier="Universe: {{ economics.poverty.poverty_family_educational_attainment.metadata.universe }}"></div>
+            <div class="column-three-quarters" id="chart-column_time_series_group-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder" data-qualifier="Universe: {{ economics.poverty.poverty_family_educational_attainment.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -379,9 +377,9 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.poverty.percent_receiving_food_assistance stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.poverty.percent_receiving_food_assistance stat_type='percentage' %}
             </div>
-            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-food_assistance_household_type" data-stat-type="scaled-percentage" data-chart-title="Household food/SNAP assistance participation in the past 12 months by household type" data-qualifier="Universe: {{ economics.poverty.food_assistance_household_type.metadata.universe }}"></div>
+            <div class="column-three-quarters" id="chart-column_time_series_group-economics-poverty-food_assistance_household_type" data-stat-type="scaled-percentage" data-chart-title="Household food/SNAP assistance participation in the past 12 months by household type" data-qualifier="Universe: {{ economics.poverty.food_assistance_household_type.metadata.universe }}"></div>
         </section>
 
 
@@ -390,12 +388,12 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.employment.unemployment_rate stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.employment.unemployment_rate stat_type='percentage' %}
             </div>
             {% comment %} <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.employment.nowork_rate stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.employment.nowork_rate stat_type='percentage' %}
             </div> {% endcomment %}
-            <div class="column-three-quarters" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force (LF) participation for 16 - 19 year olds by sex" data-qualifier="Universe: {{ economics.employment.youth_school_employment_grouped.metadata.universe }}"></div>
+            <div class="column-three-quarters" id="chart-column_time_series_group-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force (LF) participation for 16 - 19 year olds by sex" data-qualifier="Universe: {{ economics.employment.youth_school_employment_grouped.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -403,7 +401,7 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
             </div>
             <div class="column-two-thirds" id="chart-histogram-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.transportation_distribution.metadata.universe }}"></div>
         </section>
@@ -413,7 +411,7 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
             </div>
             <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
         </section>
@@ -433,15 +431,15 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=housing.units.number stat_type='count' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.units.number stat_type='count' %}
             </div>
-            <div class="column-third" id="chart-pie-housing-units-occupancy_distribution" data-stat-type="percentage" data-chart-title="Occupied vs. Vacant" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.occupancy_distribution.metadata.universe }}"></div>
-            <div class="column-third" id="chart-pie-housing-ownership-distribution" data-stat-type="percentage" data-chart-title="Ownership of occupied units" data-initial-sort="-value" data-qualifier="Universe: {{ housing.ownership.distribution.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-housing-units-occupancy_distribution" data-stat-type="scaled-percentage" data-chart-title="Occucolumnd vs. Vacant" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.occupancy_distribution.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-housing-ownership-distribution" data-stat-type="scaled-percentage" data-chart-title="Ownership of occucolumnd units" data-initial-sort="-value" data-qualifier="Universe: {{ housing.ownership.distribution.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside>
             </aside>
-            <div class="column-third" id="chart-pie-housing-units-structure_distribution" data-stat-type="percentage" data-chart-title="Types of structure" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.structure_distribution.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-housing-units-structure_distribution" data-stat-type="scaled-percentage" data-chart-title="Types of structure" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.structure_distribution.metadata.universe }}"></div>
             <div class="column-two-thirds" id="chart-histogram-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population" data-qualifier="Universe: {{ housing.length_of_tenure.metadata.universe }}"></div>
         </section>
 
@@ -450,7 +448,7 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=housing.costs.median_costs stat_type='dollar' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.costs.median_costs stat_type='dollar' %}
             </div>
             <div class="column-two-thirds" id="chart-histogram-housing-costs-housing_costs_distribution" data-chart-title="Percent of households spending 30% or more of household income on housing by household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.costs.housing_costs_distribution.metadata.universe }}"></div>
         </section>
@@ -460,9 +458,9 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=housing.ownership.median_value stat_type='dollar' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.ownership.median_value stat_type='dollar' %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram-housing-ownership-value_distribution" data-chart-title="Value of owner-occupied housing units" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.ownership.value_distribution.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-histogram-housing-ownership-value_distribution" data-chart-title="Value of owner-occucolumnd housing units" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.ownership.value_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -470,7 +468,7 @@
             <aside>
             </aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=housing.migration.moved_since_previous_year stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.migration.moved_since_previous_year stat_type='percentage' %}
             </div>
             <div class="column-two-thirds" id="chart-histogram-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year" data-qualifier="Universe: {{ housing.migration_distribution.metadata.universe }}"></div>
         </section>
@@ -490,9 +488,9 @@
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.infant_mortality.infant_mortality stat_type='number' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.infant_mortality.infant_mortality stat_type='number' %}
             </div>
-            <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.infant_mortality_chart_data.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-infant_mortality_chart_data" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.infant_mortality_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -500,9 +498,9 @@
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.immunization.immunization stat_type='number' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.immunization.immunization stat_type='number' %}
             </div>
-            <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.immunization.immunization_chart_data.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.immunization.immunization_chart_data.metadata.universe }}"></div>
         </section>
 
 
@@ -511,9 +509,9 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.health_insurance.uninsured stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.health_insurance.uninsured stat_type='percentage' %}
             </div>
-            <div class="column-three-quarters" id="chart-grouped_column-social-health_insurance-coverage_distribution" data-stat-type="scaled-percentage" data-chart-title="Percent uninsured by age group" data-qualifier="Universe: {{ social.health_insurance.coverage_distribution.metadata.universe }}"></div>
+            <div class="column-three-quarters" id="chart-column_time_series_group-social-health_insurance-coverage_distribution" data-stat-type="scaled-percentage" data-chart-title="Percent uninsured by age group" data-qualifier="Universe: {{ social.health_insurance.coverage_distribution.metadata.universe }}"></div>
         </section>
 
     </div>
@@ -530,9 +528,9 @@
             <h2><a class="permalink" href="#place-of-birth" id="place-of-birth" title="Permalink">Place of birth <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.place_of_birth.percent_foreign_born stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.place_of_birth.percent_foreign_born stat_type='percentage' %}
             </div>
-            <div class="column-three-quarters" id="chart-column-social-place_of_birth-distribution" data-chart-title="Place of birth for foreign-born population" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.place_of_birth.distribution.metadata.universe }}"></div>
+            <div class="column-three-quarters" id="chart-column_timeseries-social-place_of_birth-distribution" data-chart-title="Place of birth for foreign-born population" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.place_of_birth.distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -540,14 +538,14 @@
             <aside>
             </aside>
             <div class="column-quarter">
-                {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.veterans.percentage stat_type='percentage' %}
+                {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.veterans.percentage stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-column-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service" data-qualifier="Universe: {{ social.veterans.wartime_service.metadata.universe }}; Civilian veterans who served during wartime only"></div>
+            <div class="column-half" id="chart-column_timeseries-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service" data-qualifier="Universe: {{ social.veterans.wartime_service.metadata.universe }}; Civilian veterans who served during wartime only"></div>
             <div class="column-quarter">
                 <a class="stat number">
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.veterans.number stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.veterans.sex.male stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                    {% include 'profile/_blocks/_custom_stat_list.html' with stat=social.veterans.sex.female stat_type='number' stat_class='secondary' stat_wrapper="false" %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.veterans.number stat_type='number' stat_class='secondary' stat_wrapper="false" %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.veterans.sex.male stat_type='number' stat_class='secondary' stat_wrapper="false" %}
+                    {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.veterans.sex.female stat_type='number' stat_class='secondary' stat_wrapper="false" %}
                 </a>
             </div>
         </section>
@@ -561,8 +559,8 @@
 {% block sticky_buttons %}
 <!-- Add sticky buttons for time series vers one year views -->
 <div class="sticky-time-series-buttons">
-    <button id="one-year" class='action-button active'>One year</button>
-    <button id="over-time" class='action-button'>Over time</button>
+    <a id="one-year" class='action-button' href="#">One year</a>
+    <a id="over-time" class='action-button active' href="#">Over time</a>
 </div>
 {% endblock %}
 
@@ -588,7 +586,7 @@ $.ajaxSetup({
 });
 
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ profile_data_current_year.geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -708,30 +706,22 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2016/{{ geography.this.full_geoid }}?geom=tr
 })
 
 // Create all the charts
-//var Charts = {},
-//    chartContainers = $('[id^=chart-]'),
-//    profileData = {{ profile_data_json_current_year }},
-//    defaultDataRelease = profileData.geography.census_release,
-//    releases = [defaultDataRelease];
-
 var Charts = {},
     chartContainers = $('[id^=chart-]'),
-    defaultDataRelease = '{{ geography.census_release }}',
+    defaultDataRelease = '{{ profile_data_current_year.geography.census_release }}',
     releases = [defaultDataRelease],
     profileData = {{ profile_data_json_current_year }},
     profileDataPastYear = {{ profile_data_json_past_year }},
-    timeSeries = false;
-
-    console.log(defaultDataRelease);
-    console.log("2016 data: ",  profileData);
-    console.log("2011 data: ",  profileDataPastYear);
+    years = [];
+    years[0] = '{{ past_year }}';
+    years[1] = '{{ current_year }}';
 
 var gracefulType = function(chartType) {
     // convert certain chart types to more readable versions at narrow widths
     if (browserWidth <= 640) {
         if (chartType == 'column' || chartType == 'histogram') {
             return 'bar'
-        } else if (chartType == 'grouped_column') {
+        } else if (chartType == 'column_time_series_group') {
             return 'grouped_bar'
         }
     }
@@ -739,13 +729,6 @@ var gracefulType = function(chartType) {
 }
 
 var makeCharts = function() {
-    // check to see if time series or one year
-    if (timeSeries) {
-        console.log('over-time');
-    } else {
-        console.log('over-time');
-    }
-
     $.each(chartContainers, function(i, obj) {
         $(obj).empty();
         var chartID = $(this).prop('id'),
@@ -753,6 +736,7 @@ var makeCharts = function() {
             chartDataID = chartDataKey.split('-'),
             chartType = gracefulType(chartDataID[0]),
             chartData = profileData[chartDataID[1]],
+            chartDataPastYear = profileDataPastYear[chartDataID[1]],
             chartChartTitle = $(this).data('chart-title'),
             chartChartShowYAxis = $(this).data('chart-show-y-axis'),
             chartInitialSort = $(this).data('initial-sort'),
@@ -760,19 +744,27 @@ var makeCharts = function() {
             chartQualifier = $(this).data('qualifier') || null,
             geographyData = profileData['geography'];
 
+
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
         if (drilldown >= 2) {
             for (var n = 2; n <= drilldown; n++) {
-                chartData = chartData[chartDataID[n]]
+                chartData = chartData[chartDataID[n]];
+                chartDataPastYear = chartDataPastYear[chartDataID[n]];
             }
         }
 
         // determine whether data point is from anything other
         // than the primary ACS release for this page
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
-        var thisRelease = chartData[key]['acs_release'],
-            noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
+        if (chartData[key]['acs_release'] && chartData[key]['acs_release'] == 'ACS 2016 5-Year') {
+            var thisRelease = "ACS 2011 and 2016 5-year";
+        } else if (chartData[key]['acs_release']) {
+            var thisRelease = chartData[key]['acs_release'];
+        } else {
+            var thisRelease = "ACS 2011 and 2016 5-year";
+        }
+        var noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
@@ -783,6 +775,7 @@ var makeCharts = function() {
             chartType: chartType,
             chartHeight: 160,
             chartData: chartData,
+            chartDataPastYear: chartDataPastYear,
             chartQualifier: chartQualifier,
             chartChartTitle: chartChartTitle,
             chartInitialSort: chartInitialSort,
@@ -802,6 +795,7 @@ var makeCharts = function() {
         if (noteRelease) { releases.push(noteRelease) }
     });
 }
+makeCharts();
 
 // listen for resize, redraw charts to new dimensions
 var lazyRedrawCharts = _.debounce(function() {
@@ -818,18 +812,18 @@ var flaggedMOE = $('.stat-row sup'),
 flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
 
 // Enable the single-table topic picker
-var thisSumlev = '{{ geography.this.sumlevel }}',
-    thisGeoShortName = '{{ geography.this.short_name }}',
-    thisGeoID = '{{ geography.this.full_geoid }}',
-    placeGeoID = '{{ geography.parents.place.full_geoid }}',
-    CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
-    countyGeoID = '{{ geography.parents.county.full_geoid }}',
-    stateGeoID = '{{ geography.parents.state.full_geoid }}',
-    nationGeoID = '{{ geography.parents.nation.full_geoid }}';
+var thisSumlev = '{{ profile_data_current_year.geography.this.sumlevel }}',
+    thisGeoShortName = '{{ profile_data_current_year.geography.this.short_name }}',
+    thisGeoID = '{{ profile_data_current_year.geography.this.full_geoid }}',
+    placeGeoID = '{{ profile_data_current_year.geography.parents.place.full_geoid }}',
+    CBSAGeoID = '{{ profile_data_current_year.geography.parents.CBSA.full_geoid }}',
+    countyGeoID = '{{ profile_data_current_year.geography.parents.county.full_geoid }}',
+    stateGeoID = '{{ profile_data_current_year.geography.parents.state.full_geoid }}',
+    nationGeoID = '{{ profile_data_current_year.geography.parents.nation.full_geoid }}';
 
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
-    parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
+    parentLinksPrefix = '<span class="glossary-term">{{ profile_data_current_year.geography.this.sumlevel_name|capfirst }}</span> in: ',
     parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2016/' + thisGeoID + '/parents',
     tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2016/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
@@ -848,7 +842,6 @@ if (!!parentLinkContainer) {
     // hit the /parents API endpoint
     $.getJSON(parentGeoAPI)
         .done(function(results) {
-            console.log(results);
             // filter out 'this' from the parents
             // filter out any parents further up from state
             var parents = _.reject(results['parents'], function(p) {
@@ -901,12 +894,12 @@ var makeCitation = function(year, release) {
 	if (release.startsWith('D3 Open Data Portal')) {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'Data Driven Detroit Open Data Portal (<span id="cite-release-year">' + year + '</span>). ' +
-	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	} else {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
 	    '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
-	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	}
 
 
@@ -920,7 +913,6 @@ $.each($.unique(releases), function(i, v) {
 
     // handle exception for D3 open data portal
     // TO DO: update releases to add year for D3 content
-    console.log(year);
     if (year == 'Open' || year == 'data') {
     	year = '2014';
     	release = 'D3 Open Data Portal'
@@ -931,20 +923,7 @@ $.each($.unique(releases), function(i, v) {
 
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 
-// action button listeners to create time series or one year 
-$('.action-button').on('click', function() {
-    $('.action-button').removeClass('active');
-    $(this).addClass('active');
-    if (this.id === "one-year") {
-        timeSeries = false;
-    } else {
-        timeSeries = true;
-    }
-    makeCharts();
-});
-
-// draw inittial charts
-makeCharts();
+// set up dropdown menu listeners
 
 
 </script>
