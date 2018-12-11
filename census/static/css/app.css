@@ -1932,18 +1932,17 @@ section.chart-divider h2 {
 .change-button,
 .go-button,
 .action-button {
-    font-family: "Quicksand-Medium", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1;
-    cursor: pointer;
-    text-align: center;
-    padding: .7em 0;
-    background-color: #76AFF2;
     color: #fff;
-    text-decoration: none;
-    font-size: 1.2em;
+    display: inline-block;
+    margin-top: 0;
+    padding: 0 9px;
+    height: 2em;
+    line-height: 1.9em;
+    background-color: #76AFF2;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    border: none;
 }
 .action-button.disabled,
 .action-button.disabled:hover,
@@ -3116,9 +3115,11 @@ a.ui-button:active,
 .sticky-time-series-buttons {
     position: sticky;
     bottom: 30px;
+    right: 10px;
     float: right;
 }
 
 .sticky-time-series-buttons a {
     display: inline-block;
+    text-decoration: none;
 }

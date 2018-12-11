@@ -7,7 +7,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
-from .views import (HomepageView, GeographyDetailView, CustomGeographyDetailView, GeographySearchView,
+from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, GeographySearchView,
     D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard)
@@ -33,6 +33,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
+    ),
+
+    url(
+        regex   = '^time-series-profiles/(?P<fragment>[a-zA-Z0-9\-]+)/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(TimeSeriesGeographyDetailView.as_view()),
+        kwargs  = {},
+        name    = 'time_series_geography_detail',
     ),
 
     url(
