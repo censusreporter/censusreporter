@@ -1857,7 +1857,7 @@ def geo_profile(geoid, acs='latest'):
 	costs_dict = dict()
 	doc['housing']['costs'] = costs_dict
 
-	costs_dict['median_costs'] = build_item('Median Monthly Housing Costs', data, item_levels,
+	costs_dict['median_costs'] = build_item('Median monthly housing costs', data, item_levels,
 		'B25105001')
 	add_metadata(costs_dict['median_costs'], 'B25105', 'Occupied housing units with monthly housing costs', acs_name)
 
