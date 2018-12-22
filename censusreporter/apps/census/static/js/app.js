@@ -104,6 +104,7 @@ var sumlevMap = {
 };
 
 var releaseNames = {
+    'acs2017_5yr': {'name': 'ACS 2017 5-year', 'years': '2013-2017'},
     'acs2017_1yr': {'name': 'ACS 2017 1-year', 'years': '2017'},
     'acs2016_5yr': {'name': 'ACS 2016 5-year', 'years': '2012-2016'},
     'acs2016_1yr': {'name': 'ACS 2016 1-year', 'years': '2016'},
