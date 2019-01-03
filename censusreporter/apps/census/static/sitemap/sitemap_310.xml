@@ -647,6 +647,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/31000US48940-wilmington-oh-micro-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31000US48980-wilson-nc-micro-area/</loc>
     </url>
     
@@ -727,7 +731,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US34860-nacogdoches-tx-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US34900-napa-ca-metro-area/</loc>
     </url>
     
     <url>
@@ -1051,6 +1055,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/31000US38540-pocatello-id-metro-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31000US38580-point-pleasant-wvoh-micro-area/</loc>
     </url>
     
@@ -1119,11 +1127,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US39420-pullman-wa-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US39460-punta-gorda-fl-metro-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US39460-punta-gorda-fl-metro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US39500-quincy-ilmo-micro-area/</loc>
     </url>
     
     <url>
@@ -1208,6 +1216,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/31000US10900-allentownbethlehemeaston-panj-metro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US11140-americus-ga-micro-area/</loc>
     </url>
     
     <url>
@@ -1311,15 +1323,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US19820-detroitwarrendearborn-mi-metro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US19980-dodge-city-ks-micro-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US19860-dickinson-nd-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US20020-dothan-al-metro-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US19940-dixon-il-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US20060-douglas-ga-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US20100-dover-de-metro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US20140-dublin-ga-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US20180-dubois-pa-micro-area/</loc>
     </url>
     
     <url>
@@ -1328,6 +1352,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/31000US20260-duluth-mnwi-metro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US20580-eagle-pass-tx-micro-area/</loc>
     </url>
     
     <url>
@@ -1423,7 +1451,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US31420-macon-ga-metro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US31420-maconbibb-county-ga-metro-area/</loc>
     </url>
     
     <url>
@@ -1492,10 +1520,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/31000US32020-marion-oh-micro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US32100-marquette-mi-micro-area/</loc>
     </url>
     
     <url>
@@ -1803,7 +1827,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US21420-enid-ok-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US21420-enid-ok-metro-area/</loc>
     </url>
     
     <url>
@@ -2495,10 +2519,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US28860-kirksville-mo-micro-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/31000US28900-klamath-falls-or-micro-area/</loc>
     </url>
     
@@ -2512,6 +2532,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/31000US29060-laconia-nh-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US29100-la-crosseonalaska-wimn-metro-area/</loc>
     </url>
     
     <url>
@@ -2707,7 +2731,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/31000US13020-bay-city-mi-metro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US13060-bay-city-tx-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US13100-beatrice-ne-micro-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31000US13140-beaumontport-arthur-tx-metro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US13180-beaver-dam-wi-micro-area/</loc>
     </url>
     
     <url>
@@ -3299,6 +3339,70 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/31000US10760-alexander-city-al-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US12120-atmore-al-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US14300-bonham-tx-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US15140-brownsville-tn-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US16140-carroll-ia-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US16420-central-city-ky-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US21640-eufaula-alga-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US21860-fairmont-mn-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US22840-fort-payne-al-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US24330-grand-rapids-mn-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US26260-hope-ar-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US27660-jennings-la-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US37800-pella-ia-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US40760-ruidoso-nm-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US41260-st-marys-pa-micro-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31000US48500-west-point-ms-micro-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31000US40340-rochester-mn-metro-area/</loc>
     </url>
     
@@ -3423,6 +3527,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/31000US48220-weatherford-ok-micro-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31000US48260-weirtonsteubenville-wvoh-metro-area/</loc>
     </url>
     
@@ -3483,10 +3591,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US48940-wilmington-oh-micro-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/31000US47920-washington-court-house-oh-micro-area/</loc>
     </url>
     
@@ -3523,11 +3627,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US48220-weatherford-ok-micro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US34900-napa-ca-metro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US34860-nacogdoches-tx-micro-area/</loc>
     </url>
     
     <url>
@@ -3559,11 +3659,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US38540-pocatello-id-metro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US39500-quincy-ilmo-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US39420-pullman-wa-micro-area/</loc>
     </url>
     
     <url>
@@ -3571,23 +3667,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US19980-dodge-city-ks-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US19820-detroitwarrendearborn-mi-metro-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US20020-dothan-al-metro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US19860-dickinson-nd-micro-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US20060-douglas-ga-micro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US20100-dover-de-metro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US20140-dublin-ga-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US19940-dixon-il-micro-area/</loc>
     </url>
     
     <url>
@@ -3604,14 +3692,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/31000US11100-amarillo-tx-metro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US11140-americus-ga-micro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US20180-dubois-pa-micro-area/</loc>
     </url>
     
     <url>
@@ -3643,7 +3723,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US20580-eagle-pass-tx-micro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US32100-marquette-mi-micro-area/</loc>
     </url>
     
     <url>
@@ -3667,7 +3747,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31000US29100-la-crosseonalaska-wimn-metro-area/</loc>
+        <loc>https://censusreporter.org/profiles/31000US28860-kirksville-mo-micro-area/</loc>
     </url>
     
     <url>
@@ -3700,22 +3780,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/31000US12980-battle-creek-mi-metro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US13020-bay-city-mi-metro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US13060-bay-city-tx-micro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US13100-beatrice-ne-micro-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31000US13180-beaver-dam-wi-micro-area/</loc>
     </url>
     
 </urlset>

@@ -3,10 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/23000US0203950-arctic-slope-alaska-native-regional-corporation/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/23000US0209040-bristol-bay-alaska-native-regional-corporation/</loc>
     </url>
     
@@ -48,6 +44,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/23000US0267940-sealaska-alaska-native-regional-corporation/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/23000US0203950-arctic-slope-alaska-native-regional-corporation/</loc>
     </url>
     
 </urlset>

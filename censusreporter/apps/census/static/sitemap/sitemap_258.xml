@@ -3,18 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1110T00700A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1110T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1110T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US1185T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -103,15 +91,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4200T00400B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2030T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0585T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3940T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0585T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3940T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -183,122 +171,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00900C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00700A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1880T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1880T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1880T00200B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3625T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2560T00400A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0605T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1880T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3665T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2255T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2555T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2560T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00500B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00200D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0990T00100D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0010T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0360T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0400T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3585T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2715T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1250T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0010T00100C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0855T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0855T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2030T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2030T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3940T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3940T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4200T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -307,7 +179,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US1880T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US4200T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1880T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1880T00200B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -327,59 +211,67 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4015T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0435T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2460T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1880T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2475T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4200T00400B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3400T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0585T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1700T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0585T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2495T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2810T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4700T00200B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0305T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3010T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4580T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2505T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2560T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2535T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3625T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0110T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3665T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1250T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3000T00600F-tribal-block-group-f/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1250T00300A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2560T00400A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3010T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0605T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2555T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0010T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -388,6 +280,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US2625T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2685T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0010T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -411,10 +311,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0760T00300C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US3100T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -423,23 +319,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0760T00200B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0760T00200C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US3100T00200B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3680T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2685T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -459,7 +339,83 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0855T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0855T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2030T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4015T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0120T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3400T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1700T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US1625T00100C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3010T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0350T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0360T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0400T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3520T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3010T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2460T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2475T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0760T00300C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0760T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0760T00200C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3680T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -468,6 +424,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US4015T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0020T00500B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0080T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -503,19 +467,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0350T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US0415T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0080T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0435T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2495T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -523,15 +479,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0080T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2505T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2205T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2535T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2205T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2715T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1250T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0990T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -551,31 +515,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4700T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0080T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0120T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2205T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2205T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US3000T00700C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3000T00600F-tribal-block-group-f/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0990T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0990T00200B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0250T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -603,6 +555,26 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US3370T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0110T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1250T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1250T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0990T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US3370T00100B-tribal-block-group-b/</loc>
     </url>
     
@@ -611,15 +583,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3370T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3000T00600E-tribal-block-group-e/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3445T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3735T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -631,6 +595,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US3000T00600E-tribal-block-group-e/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US1110T00500A-tribal-block-group-a/</loc>
     </url>
     
@@ -639,11 +607,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US1110T00700A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1110T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1110T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US1110T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2820T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4700T00100C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4700T00200C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -671,7 +655,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4700T00100D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2680T00100D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -687,7 +671,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00400B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2900T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1140T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -707,7 +695,35 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2835T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2430T01400B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T01500B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02700B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T01500C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02800A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02500B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02800B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3445T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -719,7 +735,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3520T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2430T00800B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02600B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02600A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -735,15 +759,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2900T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1140T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3735T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2430T02900B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -767,7 +783,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4255T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0020T00400B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -788,10 +804,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US2635T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00200E-tribal-block-group-e/</loc>
     </url>
     
     <url>
@@ -831,54 +843,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T01400B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T01500B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02700B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T01500C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02800A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02500B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02800B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T00800B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02600B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02600A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02900B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US2270T00100B-tribal-block-group-b/</loc>
     </url>
     
@@ -891,11 +855,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3635T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0735T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4700T00100D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -911,6 +871,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0020T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US0020T00300B-tribal-block-group-b/</loc>
     </url>
     
@@ -919,7 +883,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US4290T00400A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US0020T00700C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3635T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2910T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2985T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -931,7 +911,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4290T00400A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0735T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -955,18 +935,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1110T00400A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2910T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2985T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US0305T00200A-tribal-block-group-a/</loc>
     </url>
     
@@ -983,11 +951,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4595T00300A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4595T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US3030T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4595T00300A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -996,10 +968,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US4595T00300B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4595T00200B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -1012,6 +980,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US1110T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1110T00400A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1035,15 +1007,15 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US4595T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US1110T00600B-tribal-block-group-b/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US1110T00600C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0290T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1115,15 +1087,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00300C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1555T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US4595T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4595T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -1135,7 +1103,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1515T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2115T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1143,11 +1111,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00500B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00400B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1560T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1155,7 +1119,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1640T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1690T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1163,15 +1127,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1690T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2115T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2240T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3070T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1183,7 +1139,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US3085T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00500A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0290T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US2190T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2240T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2255T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1192,14 +1168,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US2445T00400B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2315T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2320T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1223,6 +1191,26 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0290T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2315T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2320T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4700T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3925T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US4700T00200A-tribal-block-group-a/</loc>
     </url>
     
@@ -1235,7 +1223,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4700T00200C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3925T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0010T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1515T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1247,22 +1243,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1555T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1560T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3070T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3085T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US1575T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -1271,7 +1251,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00500A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1640T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1280,6 +1260,18 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US1670T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00300C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00500B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00400B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -1299,15 +1291,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0990T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00200D-tribal-block-group-d/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2680T00100G-tribal-block-group-g/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0990T00100D-tribal-block-group-d/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US3000T00700A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0990T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2375T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1316,6 +1316,34 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US3000T00400A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0080T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4610T00400C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4610T00400D-tribal-block-group-d/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4610T00600B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1815T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1280T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1280T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -1339,19 +1367,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0080T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4255T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US3585T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0080T00200B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3585T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0080T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0265T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1371,11 +1399,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2445T00100G-tribal-block-group-g/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1070T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4255T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2560T00300D-tribal-block-group-d/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2445T00100G-tribal-block-group-g/</loc>
     </url>
     
     <url>
@@ -1395,7 +1427,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1070T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2680T00100G-tribal-block-group-g/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1490T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1490T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -1455,11 +1495,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1775T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4255T00200B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1830T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1467,7 +1503,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US1850T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US0110T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1775T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0305T00300E-tribal-block-group-e/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0305T00300D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -1479,51 +1531,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2330T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0080T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2340T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4345T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4345T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4470T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1830T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1850T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4470T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4545T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4545T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00500D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00300C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0510T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1543,15 +1555,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00300B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3265T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00300A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00200B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3280T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1563,15 +1571,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00200A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4140T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0305T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4140T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -1587,7 +1591,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00800A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2330T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2340T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1615,27 +1623,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3265T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3280T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4140T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4140T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4140T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3370T00100D-tribal-block-group-d/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00400A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00400B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1651,19 +1655,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00400C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00900B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00600A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00900A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1687,19 +1679,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00300A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4665T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T01000A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00400C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4680T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1719,27 +1703,39 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3370T00100D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00800A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00400A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00400C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00400B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00900B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00200A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00900A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00600A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2375T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T01000A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00300A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1755,23 +1751,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2990T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2990T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US1475T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US4170T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2375T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1783,11 +1767,35 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US2375T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2375T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2990T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2990T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4635T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US2560T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US2560T00300B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4610T00400A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1803,7 +1811,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2560T00300D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4610T00500A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1815T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2490T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2490T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -1835,19 +1855,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0720T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US2510T00200B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3235T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3235T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -1867,11 +1875,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3000T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1980T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0750T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2055T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1911,7 +1919,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00400A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2075T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1923,15 +1931,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US3235T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3235T00100C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3000T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4375T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US1963T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US1970T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1980T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -1947,23 +1967,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4375T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2055T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2075T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4430T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0265T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2680T00100E-tribal-block-group-e/</loc>
     </url>
     
     <url>
@@ -1987,11 +1995,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1490T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1490T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2680T00100F-tribal-block-group-f/</loc>
     </url>
     
     <url>
@@ -2011,6 +2015,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US1400T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US4300T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -2023,7 +2031,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4290T00400B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4930T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2031,15 +2039,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1125T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1125T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2925T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4690T00300D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -2079,10 +2079,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0080T00100C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US3415T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -2099,11 +2095,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2925T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0510T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00200B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -2139,7 +2131,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4290T00500A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0820T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00600A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4610T00600A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0705T00100G-tribal-block-group-g/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0705T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2151,7 +2159,31 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US4290T00500A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4290T00400B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4045T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US4290T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3925T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3925T00200C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2430T02100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -2159,23 +2191,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2570T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1125T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00500C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1125T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00400B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2810T00400A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0525T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2191,7 +2215,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3855T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2925T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2570T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00500C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -2199,11 +2231,35 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3860T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2810T00400B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2925T00200B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2810T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00400A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00900C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00700A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4130T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4940T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0140T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2235,23 +2291,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3925T00200B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3925T00200C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T02100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US1125T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00500C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2820T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2263,7 +2307,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0290T00100B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2835T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2275,11 +2319,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00100D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4255T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3925T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00200E-tribal-block-group-e/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3855T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US3860T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2925T00200B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -2287,19 +2343,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2925T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00500D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4545T00100C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2680T00100D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2150T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2323,15 +2367,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3925T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0010T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4000T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2925T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2925T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -2343,7 +2387,39 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4255T00200A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4255T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4345T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4345T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4470T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4470T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4545T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4545T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00500D-tribal-block-group-d/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00300C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -2359,7 +2435,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2150T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2810T00300B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4255T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4255T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4255T00100C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00200B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2810T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2379,11 +2479,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0305T00300E-tribal-block-group-e/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3495T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0305T00300D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -2391,11 +2491,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3495T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00400C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1860T00300D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00500C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -2403,7 +2503,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00300D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00100D-tribal-block-group-d/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00500D-tribal-block-group-d/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4545T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -2459,15 +2567,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0155T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1770T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US3495T00200D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0200T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2519,15 +2623,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0155T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US0165T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0215T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0200T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0225T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0215T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2539,11 +2647,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0225T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US0240T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0250T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US3000T00100B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00200C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -2559,15 +2679,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0525T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2680T00100E-tribal-block-group-e/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2680T00100F-tribal-block-group-f/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0825T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2639,10 +2751,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1400T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4390T00300B-tribal-block-group-b/</loc>
     </url>
     
@@ -2675,7 +2783,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1770T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1770T00100D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -2711,14 +2819,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2375T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00400C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4345T00200B-tribal-block-group-b/</loc>
     </url>
     
@@ -2735,15 +2835,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00400D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00600B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1860T00300D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -2767,18 +2859,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1815T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1280T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1280T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US2850T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -2787,7 +2867,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1770T00100D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4610T00300A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2831,27 +2911,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00300A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4665T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4680T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00300A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4708T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00200B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US1610T00600B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -2879,6 +2943,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US2560T00500B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US0560T00100A-tribal-block-group-a/</loc>
     </url>
     
@@ -2887,15 +2955,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2560T00500B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US0620T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0635T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0020T00400A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2927,15 +2991,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0690T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00600A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00600A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0720T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2975,11 +3031,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0705T00100G-tribal-block-group-g/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0635T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0705T00200A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0690T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US0750T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00400A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1610T00200A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -2999,11 +3067,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4045T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4060T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4060T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4455T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -3019,15 +3087,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4130T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4445T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4455T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -3047,47 +3107,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4580T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4635T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00400A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4610T00500A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US1815T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2490T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2490T00100B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4930T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US3320T00100B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4940T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0140T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0020T00800B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -3095,15 +3119,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00600B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0825T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00400F-tribal-block-group-f/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US2595T00700B-tribal-block-group-b/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US1860T00300C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2695T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4690T00100A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4690T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
@@ -3167,11 +3203,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1610T00200C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00200E-tribal-block-group-e/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00400F-tribal-block-group-f/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2595T00500C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00600C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2595T00900E-tribal-block-group-e/</loc>
     </url>
     
     <url>
@@ -3199,31 +3243,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00200E-tribal-block-group-e/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2695T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00100A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00100C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00500C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00600C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US2595T00900E-tribal-block-group-e/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3000T00400B-tribal-block-group-b/</loc>
     </url>
     
     <url>
@@ -3235,6 +3255,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US0020T00300A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US1860T00100C-tribal-block-group-c/</loc>
     </url>
     
@@ -3243,11 +3267,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US1860T00300C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2980T00100A-tribal-block-group-a/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2980T00100A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US0020T00800A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -3275,14 +3299,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US3000T00400B-tribal-block-group-b/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US3000T00500C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US3000T00200B-tribal-block-group-b/</loc>
     </url>
     
@@ -3291,23 +3307,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00800B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US3000T00500C-tribal-block-group-c/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25800US3000T00500D-tribal-block-group-d/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00300A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00800A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US0020T00400A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -3591,11 +3595,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00500A-tribal-block-group-a/</loc>
+        <loc>https://censusreporter.org/profiles/25800US2430T00100C-tribal-block-group-c/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2430T00100C-tribal-block-group-c/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4690T00500A-tribal-block-group-a/</loc>
     </url>
     
     <url>
@@ -3619,11 +3623,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00200D-tribal-block-group-d/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4690T00400B-tribal-block-group-b/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00400B-tribal-block-group-b/</loc>
+        <loc>https://censusreporter.org/profiles/25800US4690T00200A-tribal-block-group-a/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US4690T00200D-tribal-block-group-d/</loc>
     </url>
     
     <url>
@@ -3639,14 +3647,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25800US2680T00100C-tribal-block-group-c/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25800US4690T00200A-tribal-block-group-a/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25800US4690T00400C-tribal-block-group-c/</loc>
     </url>
     
@@ -3659,7 +3659,15 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25800US2680T00100C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25800US4690T00200C-tribal-block-group-c/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25800US2147T00100A-tribal-block-group-a/</loc>
     </url>
     
 </urlset>

@@ -103,18 +103,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/tables/B02005/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/tables/B02006/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/tables/B02007/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/tables/B02008/</loc>
     </url>
     
@@ -1119,6 +1107,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/tables/B09021/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/tables/B10001/</loc>
     </url>
     
@@ -1200,14 +1192,6 @@
     
     <url>
         <loc>https://censusreporter.org/tables/B10059/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/tables/B10060/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/tables/B10061/</loc>
     </url>
     
     <url>
@@ -1327,10 +1311,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/tables/B11012/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/tables/B11013/</loc>
     </url>
     
@@ -1395,10 +1375,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/tables/B12005/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/tables/B12006/</loc>
     </url>
     
@@ -1460,10 +1436,6 @@
     
     <url>
         <loc>https://censusreporter.org/tables/B12505/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/tables/B13001/</loc>
     </url>
     
     <url>
@@ -2391,6 +2363,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/tables/B19122/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/tables/B19125/</loc>
     </url>
     
@@ -2656,6 +2632,10 @@
     
     <url>
         <loc>https://censusreporter.org/tables/B20017I/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B20018/</loc>
     </url>
     
     <url>
@@ -3195,6 +3175,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/tables/B25031/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/tables/B25032/</loc>
     </url>
     
@@ -3619,6 +3603,230 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/tables/B26101/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26102/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103A/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103B/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103C/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103D/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103E/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103F/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103G/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103H/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26103I/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26104/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26105/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26106/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26107/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26108/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26109/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26109PR/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26110/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26113/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26114/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26115/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26117/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26118/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26119/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26120/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26201/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26202/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203A/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203B/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203C/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203D/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203E/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203F/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203G/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203H/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26203I/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26204/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26205/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26206/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26207/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26208/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26209/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26210/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26211/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26212/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26213/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26214/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26215/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26216/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26217/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26218/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26219/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B26220/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/tables/B27001/</loc>
     </url>
     
@@ -3812,6 +4020,30 @@
     
     <url>
         <loc>https://censusreporter.org/tables/B28009I/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B28010/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B28011/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B29001/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B29002/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B29003/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/B29004/</loc>
     </url>
     
     <url>
@@ -4663,6 +4895,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/tables/C16002/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/tables/C16003/</loc>
     </url>
     
@@ -5244,6 +5480,10 @@
     
     <url>
         <loc>https://censusreporter.org/tables/C27018/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/tables/C27021/</loc>
     </url>
     
 </urlset>

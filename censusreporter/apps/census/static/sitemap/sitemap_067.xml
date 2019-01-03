@@ -3,6 +3,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969330080-gandul-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969359788-parque-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720110263721884-cuartel-primero-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720110263721888-cuartel-segundo-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969374580-sagrado-corazn-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969334520-herrera-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969302350-alto-del-cabro-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969353638-miramar-subbarrio/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/06700US721278407984771-valencia-subbarrio/</loc>
     </url>
     
@@ -11,35 +43,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720230981864776-pueblo-norte-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721273407007398-bella-vista-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720230981865005-pueblo-sud-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721277969309565-buenos-aires-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720230981864819-pueblo-nuevo-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US720050078856736-nuevo-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969317590-chcharo-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US720050078877633-santa-brbara-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721276472985737-venezuela-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721273407078880-santa-rita-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277681251455-marina-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969376840-san-juan-moderno-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969348355-machuchal-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721277969311675-campo-alegre-subbarrio/</loc>
     </url>
     
     <url>
@@ -60,6 +84,62 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/06700US721277969379830-seboruco-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721273407039714-la-37-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277681276042-san-francisco-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720532800764752-pueblo-este-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721273398468265-quintana-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721273398428656-floral-park-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720130341153940-monserrate-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720230981864776-pueblo-norte-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720230981865005-pueblo-sud-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720230981864819-pueblo-nuevo-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969317590-chcharo-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277681251455-marina-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969348355-machuchal-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720130341172325-rosario-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720130341175888-san-felipe-subbarrio/</loc>
     </url>
     
     <url>
@@ -87,75 +167,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969359788-parque-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US720955230264763-pueblo-este-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720050078834633-higey-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US720955230264970-pueblo-oeste-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721230117520315-coqu-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721257621064975-pueblo-oriental-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720110263721884-cuartel-primero-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US720150397064955-pueblo-oeste-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720110263721888-cuartel-segundo-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721230117501185-aguirre-rural-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969374580-sagrado-corazn-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721278407904475-auxilio-mutuo-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969334520-herrera-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969302350-alto-del-cabro-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969328373-figueroa-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277681215355-catedral-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277681276042-san-francisco-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720050078856736-nuevo-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720050078877633-santa-brbara-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969336680-isla-grande-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721273407039714-la-37-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969377204-san-mateo-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969351625-martn-pea-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969353638-miramar-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721257621064735-pueblo-central-subbarrio/</loc>
     </url>
     
     <url>
@@ -183,18 +219,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969330080-gandul-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721273398468265-quintana-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721273398428656-floral-park-subbarrio/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/06700US721273407035708-hyde-park-subbarrio/</loc>
     </url>
     
@@ -207,6 +231,14 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969377204-san-mateo-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969351625-martn-pea-subbarrio/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/06700US720975247451470-marina-septentrional-subbarrio/</loc>
     </url>
     
@@ -215,31 +247,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969345180-la-zona-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721273402751618-martn-pea-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721217358764805-pueblo-norte-subbarrio/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/06700US720351553764782-pueblo-norte-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720955230264763-pueblo-este-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720955230264970-pueblo-oeste-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721257621064975-pueblo-oriental-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721257621064735-pueblo-central-subbarrio/</loc>
     </url>
     
     <url>
@@ -255,15 +267,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721217358765010-pueblo-sud-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721277969345180-la-zona-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721273407007398-bella-vista-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721277969336680-isla-grande-subbarrio/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969309565-buenos-aires-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US721273402751618-martn-pea-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721276472985737-venezuela-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969376840-san-juan-moderno-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US720050078834633-higey-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721230117520315-coqu-subbarrio/</loc>
     </url>
     
     <url>
@@ -299,6 +327,18 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/06700US721277969328373-figueroa-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721277681215355-catedral-subbarrio/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/06700US721217358765010-pueblo-sud-subbarrio/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/06700US721273398443950-las-monjas-subbarrio/</loc>
     </url>
     
@@ -323,7 +363,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721217358764805-pueblo-norte-subbarrio/</loc>
+        <loc>https://censusreporter.org/profiles/06700US720030065910962-california-subbarrio/</loc>
     </url>
     
     <url>
@@ -347,10 +387,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US720532800764752-pueblo-este-subbarrio/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/06700US720532800764788-pueblo-norte-subbarrio/</loc>
     </url>
     
@@ -363,23 +399,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/06700US721273407078880-santa-rita-subbarrio/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/06700US720915019564983-pueblo-saliente-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720130341153940-monserrate-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720130341172325-rosario-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720130341175888-san-felipe-subbarrio/</loc>
     </url>
     
     <url>
@@ -396,22 +416,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/06700US721277969380140-shanghai-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720150397064955-pueblo-oeste-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721230117501185-aguirre-rural-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721278407904475-auxilio-mutuo-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US720030065910962-california-subbarrio/</loc>
     </url>
     
     <url>
@@ -432,10 +436,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/06700US721277969319900-condadito-subbarrio/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/06700US721277969311675-campo-alegre-subbarrio/</loc>
     </url>
     
     <url>
