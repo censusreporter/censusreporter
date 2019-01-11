@@ -698,7 +698,7 @@ class GeographyDetailView(TemplateView):
 		return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def get_geography(self, geo_id):
-		endpoint = settings.API_URL + '/1.0/geo/tiger2016/%s' % self.geo_id
+		endpoint = settings.API_URL + '/1.0/geo/tiger2017/%s' % self.geo_id
 		r = requests.get(endpoint)
 		status_code = r.status_code
 
@@ -756,34 +756,34 @@ class GeographyDetailView(TemplateView):
 		except:
 			s3_key = None
 
-		if s3_key and s3_key.exists():
-			memfile = cStringIO.StringIO()
-			s3_key.get_file(memfile)
-			memfile.seek(0)
-			compressed = gzip.GzipFile(fileobj=memfile)
+		# if s3_key and s3_key.exists():
+		# 	memfile = cStringIO.StringIO()
+		# 	s3_key.get_file(memfile)
+		# 	memfile.seek(0)
+		# 	compressed = gzip.GzipFile(fileobj=memfile)
 
-			# Read the decompressed JSON from S3
-			profile_data_json = compressed.read()
-			# Load it into a Python dict for the template
-			profile_data = simplejson.loads(profile_data_json)
-			print profile_data['social']['immunization']
-			# Also mark it as safe for the charts on the profile
-			profile_data_json = SafeString(profile_data_json)
+		# 	# Read the decompressed JSON from S3
+		# 	profile_data_json = compressed.read()
+		# 	# Load it into a Python dict for the template
+		# 	profile_data = simplejson.loads(profile_data_json)
+		# 	print profile_data['social']['immunization']
+		# 	# Also mark it as safe for the charts on the profile
+		# 	profile_data_json = SafeString(profile_data_json)
+		# else:
+		profile_data = geo_profile(geography_id)
+
+		if profile_data:
+			profile_data = enhance_api_data(profile_data)
+
+			profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+
+			# if s3_key is None:
+			# 	logger.warn("Could not save to S3 because there was no connection to S3.")
+			# else:
+			# 	self.write_profile_json(s3_key, profile_data_json)
+
 		else:
-			profile_data = geo_profile(geography_id)
-
-			if profile_data:
-				profile_data = enhance_api_data(profile_data)
-
-				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
-
-				if s3_key is None:
-					logger.warn("Could not save to S3 because there was no connection to S3.")
-				else:
-					self.write_profile_json(s3_key, profile_data_json)
-
-			else:
-				raise Http404
+			raise Http404
 
 		page_context = {
 			'profile_data_json': profile_data_json
@@ -848,7 +848,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		return super(TimeSeriesGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def get_geography(self, geo_id):
-		endpoint = settings.API_URL + '/1.0/geo/tiger2016/%s' % self.geo_id
+		endpoint = settings.API_URL + '/1.0/geo/tiger2017/%s' % self.geo_id
 		r = requests.get(endpoint)
 		status_code = r.status_code
 
@@ -1053,7 +1053,7 @@ class CustomGeographyDetailView(TemplateView):
 		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def get_geography(self, geo_id):
-		endpoint = settings.API_URL + '/1.0/geo/tiger2016/%s' % self.geo_id
+		endpoint = settings.API_URL + '/1.0/geo/tiger2017/%s' % self.geo_id
 		r = requests.get(endpoint)
 		status_code = r.status_code
 
@@ -1294,7 +1294,7 @@ class DataView(TemplateView):
 			geo_ids = self.geo_ids.split(",")  
 			for geo_id in geo_ids:
 				if geo_id.find('|') != -1:
-					childGeoAPI = settings.API_URL + '/1.0/geo/show/tiger2016'
+					childGeoAPI = settings.API_URL + '/1.0/geo/show/tiger2017'
 					api_params = {
 						'geo_ids': geo_id,
 					}

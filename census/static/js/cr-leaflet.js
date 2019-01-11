@@ -37,7 +37,7 @@ CensusReporter = {
             var options = L.extend({
                 api_url: 'https://api.censusreporter.org',
                 censusreporter_url: 'https://censusreporter.org',
-                release: 'tiger2016',
+                release: 'tiger2017',
                 autoclick: true
             }, options);
             if (options.autoclick) {
@@ -347,7 +347,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
 
     _defaultOptions: {
         clipTiles: true,
-        release: 'tiger2016',
+        release: 'tiger2017',
         unique: function(feature) {
             return feature.properties.geoid;
         }
