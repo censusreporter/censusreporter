@@ -34,10 +34,10 @@ class ApiClient(object):
 		return data
 
 	def get_parent_geoids(self, geoid):
-		return self._get('/1.0/geo/tiger2016/{}/parents'.format(geoid))
+		return self._get('/1.0/geo/tiger2017/{}/parents'.format(geoid))
 
 	def get_geoid_data(self, geoid):
-		return self._get('/1.0/geo/tiger2016/{}'.format(geoid))
+		return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
 
 	def get_data(self, table_ids, geo_ids, acs='latest'):
 		if hasattr(table_ids, '__iter__'):
@@ -1857,7 +1857,7 @@ def geo_profile(geoid, acs='latest'):
 	costs_dict = dict()
 	doc['housing']['costs'] = costs_dict
 
-	costs_dict['median_costs'] = build_item('Median Monthly Housing Costs', data, item_levels,
+	costs_dict['median_costs'] = build_item('Median monthly housing costs', data, item_levels,
 		'B25105001')
 	add_metadata(costs_dict['median_costs'], 'B25105', 'Occupied housing units with monthly housing costs', acs_name)
 

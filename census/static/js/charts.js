@@ -31,6 +31,7 @@ function Chart(options) {
         chart.chartChartShowYAxis = options.chartChartShowYAxis || (chart.chartStatType == "percentage" ? true : false);
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
+        chart.chartPrecision = options.chartPrecision || null;
         chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
 
         // add a bit of geodata for links and hovercards
@@ -65,13 +66,25 @@ function Chart(options) {
             metadataFields = ['metadata', 'acs_release', 'name'];
 
         // merge timeseries datasets 
+        //console.log(options.chartDataPastYear);
         if (options.chartDataPastYear) {
+            // if we're down to the level of values (i.e the key 'error' exists), add a key called count and move the object into that key/value pair
+            if (options.chartDataPastYear.error) {
+                const countPastYear = options.chartDataPastYear;
+                options.chartDataPastYear = {};
+                options.chartDataPastYear.count = countPastYear;
+                const countCurrentYear = options.chartData;
+                options.chartData = {};
+                options.chartData.count = countCurrentYear;           
+            }
+
             var keys = Object.keys(options.chartDataPastYear);
             for (var i = 0; i < keys.length; i++) {
                 if (keys[i] != 'metadata') {
                     mergeTimeSeriesDatasets[keys[i]] = {};
                     mergeTimeSeriesDatasets[keys[i]][years[1]] = options.chartData[keys[i]];
                     mergeTimeSeriesDatasets[keys[i]][years[0]] = options.chartDataPastYear[keys[i]];
+
                     if (options.chartDataPastYear.metadata) {
                         mergeTimeSeriesDatasets[keys[i]].acs_release = options.chartDataPastYear.metadata.acs_release;
                         mergeTimeSeriesDatasets[keys[i]].metadata = options.chartDataPastYear.metadata;
@@ -83,7 +96,9 @@ function Chart(options) {
                         mergeTimeSeriesDatasets[keys[i]].metadata = {}
                     }
 
-                    if (options.chartDataPastYear[keys[i]].name) {
+                    if (options.chartDataPastYear.name) {
+                        mergeTimeSeriesDatasets[keys[i]].name = options.chartDataPastYear.name;
+                    } else if (options.chartDataPastYear[keys[i]].name) {
                         mergeTimeSeriesDatasets[keys[i]].name = options.chartDataPastYear[keys[i]].name;
                     } else if (options.chartDataPastYear[keys[i]].metadata.name) {
                         mergeTimeSeriesDatasets[keys[i]].name = options.chartDataPastYear[keys[i]].metadata.name;
@@ -96,7 +111,7 @@ function Chart(options) {
             }
 
             chart.chartDataValues = d3.map(mergeTimeSeriesDatasets);
-            console.log(chart.chartDataValues);
+            //console.log(chart.chartDataValues);
         } else {
             chart.chartDataValues = d3.map(options.chartData);
         }
@@ -147,19 +162,35 @@ function Chart(options) {
                 // data shaped for grouped-column or -bar presentation
                 dataObj = {
                     name: d.name,
-                    values: []
+                    groups: [],
                 }
                 d3.keys(d).filter(function(v) { return chart.exclude(metadataFields, v) })
                     .forEach(function(v, i) {
-                        //console.log(d[v]);
-                        d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
-                            .forEach(function(z, i) {
-                            //console.log(d[v][z]);
-                            dataObj.values.push({
-                                name: d[v][z].name,
-                                value: +d[v][z].values['this'],
-                                context: d[v][z]
+
+                        if (dataObj.groups.length === 0) {
+                            d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
+                            .forEach(function(z) {
+                                dataObj.groups.push({
+                                    name: d[v][z].name,
+                                    values: []
+                                })
                             })
+                        }
+
+                        //console.log(dataObj);
+
+                        d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
+                            .forEach(function(z) {
+                            //console.log(d[v][z]);
+                            for (let k = 0; k < dataObj.groups.length; k++) {
+                                if (dataObj.groups[k].name === d[v][z].name) {
+                                    dataObj.groups[k].values.push({
+                                        name: v,
+                                        value: +d[v][z].values['this'],
+                                        context: d[v][z]
+                                    })
+                                }
+                            }
                         })
                     })
             } else {
@@ -170,11 +201,11 @@ function Chart(options) {
                     context: d
                 }
             }
-            console.log(dataObj);
+            //console.log(dataObj);
             return dataObj
         });
 
-        console.log(chart.chartDataValues);
+        //console.log(chart.chartDataValues);
 
         
         // set base chart dimensions
@@ -208,12 +239,13 @@ function Chart(options) {
             chart.makeColumnChart();
         } else if (chart.chartType == 'bar' || chart.chartType == 'grouped_bar') {
             chart.makeBarChart();
-        } else if (chart.chartType == 'column_timeseries') {
+        } else if (chart.chartType == 'column_timeseries' || chart.chartType == 'column_time_series_group' || chart.chartType == 'histogram_time_series') {
             chart.makeTimeseriesColumnChart();
         } else if (chart.chartType == 'bar_timeseries') {
             chart.makeTimeseriesBarChart();
         }
         return chart;
+
     }
 
     chart.makeBarChart = function() {
@@ -303,7 +335,11 @@ function Chart(options) {
                                 .classed("label", true)
                                 .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
                                 .html(function(d) {
-                                    return chart.getValueFmt(v);
+                                    if (chart.chartPrecision) {
+                                        return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                    } else {
+                                        return chart.getValueFmt(v);
+                                    }
                                 });
                                 
                             // add the specific label below the bar
@@ -334,7 +370,11 @@ function Chart(options) {
                     .classed("label", true)
                     .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
                     .html(function(d) {
-                        return chart.getValueFmt(d);
+                        if (chart.chartPrecision) {
+                            return chart.getValueFmt(d, 'this', chart.chartPrecision);
+                        } else {
+                            return chart.getValueFmt(d);
+                        }
                     });
 
             // labels appear below bars
@@ -531,7 +571,11 @@ function Chart(options) {
                                     return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                                 })
                                 .html(function(d) {
-                                    return chart.getValueFmt(v);
+                                    if (chart.chartPrecision) {
+                                        return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                    } else {
+                                        return chart.getValueFmt(v);
+                                    }
                                 });
                             });
                         });
@@ -575,7 +619,11 @@ function Chart(options) {
                         return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                     })
                     .html(function(d) {
-                        return chart.getValueFmt(d);
+                        if (chart.chartPrecision) {
+                            return chart.getValueFmt(d, 'this', chart.chartPrecision);
+                        } else {
+                            return chart.getValueFmt(d);
+                        }
                     });
         }
 
@@ -638,14 +686,14 @@ function Chart(options) {
         }
 
         // narrow padding for histograms
-        if (chart.chartType == 'histogram') {
+        if (chart.chartType == 'histogram_time_series') {
             chart.updateSettings({
                 columnPadding: .025
             });
         }
 
         // extra padding between groups for grouped columns
-        if (chart.chartType == 'grouped_column') {
+        if (chart.chartType == 'column_time_series_group') {
             chart.updateSettings({
                 columnPadding: .2,
             });
@@ -654,28 +702,43 @@ function Chart(options) {
 
         // x scale, axis and labels
         chart.x = d3.scale.ordinal()
-            .rangeRoundBands([0, chart.settings.displayWidth], chart.settings.columnPadding, chart.settings.outerColumnPadding)
-            .domain(chart.chartDataValues.map(function(d) { 
-                return d.name; 
-            }));
+            .rangeRoundBands([0, chart.settings.displayWidth], chart.settings.columnPadding, chart.settings.outerColumnPadding);
+
+        if (chart.chartType == 'column_time_series_group') {
+            chart.x.domain(chart.chartDataValues.map(function(d) { 
+                    d.groups.map(function(v, i) {
+                        console.log(v.name);
+                        return v.name; 
+                    })
+                }));
+        } else {
+            chart.x.domain(chart.chartDataValues.map(function(d) { 
+                    return d.name; 
+                }));
+        }
+
+        console.log(chart.x('White 5 to 9'));
+
 
         // y scale and axis, account for raw number vs. percentages
         if (chart.chartStatType == 'percentage') {
             var yDomain = [0, 100],
                 yTickRange = d3.range(0, 101, 25);
         } else {
-            if (chart.chartType == 'grouped_column') {
+            if (chart.chartType == 'column_timeseries') {
                 var yValues = [];
                 chart.chartDataValues.forEach(function(d, i) {
                     d3.values(d.values).forEach(function(v, i) {
                         yValues.push(v.value)
                     });
                 });
-            } else if (chart.chartType == 'column_timeseries') {
+            } else if (chart.chartType == 'column_time_series_group') {
                 var yValues = [];
                 chart.chartDataValues.forEach(function(d, i) {
-                    d3.values(d.values).forEach(function(v, i) {
-                        yValues.push(v.value)
+                    d.groups.forEach(function(f, j) {
+                        d3.values(f.values).forEach(function(v, i) {
+                            yValues.push(v.value)
+                        });
                     });
                 });
             } else {
@@ -713,7 +776,7 @@ function Chart(options) {
         }
         
         // add columns as <a> elements, with built-in category labels
-        // if (chart.chartType == 'grouped_column') {
+        if (chart.chartType == 'column_time_series_group') {
             var g, groupValues, columnWidth, column;
             
             // a little extra tick padding for dual labels
@@ -727,9 +790,96 @@ function Chart(options) {
                     .data(chart.chartDataValues)
                 .enter().append("div")
                     .attr("class", "column-group")
-                    .each(function(d, i) {
-                        console.log(d);
+                    .each(function(k) {
+                        //console.log(d);
                         g = d3.select(this);
+                        d3.keys(k).filter(function(v) { return chart.exclude(['name'], v) }).forEach(function(j, i) {
+                            for (let i = 0; i < k[j].length; i++) {
+                               //console.log(d[k][i].values);
+
+                               groupValues = d3.values(k[j][i].values);
+                            
+                               columnWidth = Math.floor(chart.x.rangeBand() / k[j].length);
+                               
+                               console.log(k[j][i].name);
+                               console.log(chart.x(k[j][i].name));
+
+                               g.append("span")
+                                   .classed("x axis label", true)
+                                   .style("width", chart.x.rangeBand() + "px")
+                                   .style("top", function(d) { return (chart.settings.displayHeight + 51) + "px"; })
+                                   .style("left", function(d) { return (chart.x(k[j][i].name) + chart.settings.margin.left) + "px"; })
+                                   .text(function(d) { return chart.capitalize(k[j][i].name); });
+                                   
+                               groupValues.forEach(function(v, i) {
+                                   console.log(v);
+                                   column = g.append("a").attr("class", "column")
+                                       .style("width", columnWidth + "px")
+                                       .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
+                                       .style("left", function(d) { return (chart.x(d[k].name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
+                                       .style("height", function(d) { 
+                                           return (chart.settings.displayHeight) + "px"; 
+                                       })
+                                       .datum(function (d) { return v });
+       
+                                   column.append("span").attr("class", "area")
+                                       .style("position", "absolute")
+                                       .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
+                                       .style("width", columnWidth + "px")
+                                       .style("bottom", "0")
+                                       .style("height", function(d) { 
+                                           return (chart.settings.displayHeight - chart.y(v.value)) + "px";
+                                       });
+                                       
+                                   column.append("span")
+                                       .classed("x axis label secondary", true)
+                                       .style("top", function(d) {
+                                           return (chart.settings.displayHeight + 5) + "px";
+                                       })
+                                       .text(function(d) { return chart.capitalize(v.name); });
+                                       
+                                   column.append("span")
+                                       .classed("label", true)
+                                       .style("bottom", function(d) {
+                                           return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
+                                       })
+                                       .html(function(d) {
+                                           if (chart.chartPrecision) {
+                                               return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                           } else {
+                                               return chart.getValueFmt(v);
+                                           }
+                                       });
+                                   });
+                               
+
+                            }
+
+
+                        });
+
+                    });
+                        
+            // now that we've created all the columns in their groups,
+            // select them for interaction handling
+            chart.columns = chart.htmlBase.selectAll(".column");
+        } else {
+            var g, groupValues, columnWidth, column;
+            
+            // a little extra tick padding for dual labels
+            chart.settings.tickPadding += 5;
+
+            chart.chartContainer
+                .classed('grouped-column-chart', true);
+              
+            //console.log(chart.chartDataValues);
+            chart.columnGroups = chart.htmlBase.selectAll(".column-group")
+                    .data(chart.chartDataValues)
+                .enter().append("div")
+                    .attr("class", "column-group")
+                    .each(function(d, i) {
+                        g = d3.select(this);
+                        console.log(d);
                         groupValues = d3.values(d.values);
                         columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
                         
@@ -772,7 +922,11 @@ function Chart(options) {
                                     return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
                                 })
                                 .html(function(d) {
-                                    return chart.getValueFmt(v);
+                                    if (chart.chartPrecision) {
+                                        return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                    } else {
+                                        return chart.getValueFmt(v);
+                                    }
                                 });
                             });
                         });
@@ -780,45 +934,8 @@ function Chart(options) {
             // now that we've created all the columns in their groups,
             // select them for interaction handling
             chart.columns = chart.htmlBase.selectAll(".column");
-        // } else {
-            // chart.columns = chart.htmlBase.selectAll(".column")
-            //         .data(chart.chartDataValues)
-            //     .enter().append("a")
-            //         .attr("class", "column")
-            //         .style("width", chart.x.rangeBand() + "px")
-            //         .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
-            //         .style("left", function(d) { return (chart.x(d.name) + chart.settings.margin.left) + "px"; })
-            //         .style("height", function(d) { return (chart.settings.displayHeight) + "px"; });
-                    
-            // chart.columnAreas = chart.columns
-            //     .append("span")
-            //         .attr("class", "area")
-            //         .style("position", "absolute")
-            //         .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
-            //         .style("width", chart.x.rangeBand() + "px")
-            //         .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
-            //         .style("height", function(d) { return (chart.settings.displayHeight - chart.y(d.value)) + "px"; });
 
-            // chart.columnNames = chart.columns
-            //     .append("span")
-            //         .classed("x axis label", true)
-            //         .style("top", function(d) {
-            //             return (chart.settings.displayHeight - 10) + "px";
-            //         })
-            //         .text(function(d) { 
-            //             return d.name; 
-            //         });
-
-            // chart.labels = chart.columnAreas
-            //     .append("span")
-            //         .classed("label", true)
-            //         .style("bottom", function(d) {
-            //             return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
-            //         })
-            //         .html(function(d) {
-            //             return chart.getValueFmt(d);
-            //         });
-        //}
+        }
 
         // listen for column interactions
         chart.columns
@@ -956,7 +1073,13 @@ function Chart(options) {
                 .classed("hovered", true);
             
             chart.centerLabel.text(data.data.name);
-            chart.centerValue.html(chart.getValueFmt(data.data));
+            chart.centerValue.html(function(d) {
+                if (chart.chartPrecision) {
+                    return chart.getValueFmt(data.data, 'this', chart.chartPrecision);
+                } else {
+                    return chart.getValueFmt(data.data);
+                }
+            });
             
             // also trigger standard mouseover
             chart.mouseover(data.data);
@@ -970,7 +1093,13 @@ function Chart(options) {
                 .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialSlice.data.name);
-            chart.centerValue.html(chart.getValueFmt(chart.initialSlice.data));
+            chart.centerValue.html(function(d) {
+                if (chart.chartPrecision) {
+                    return chart.getValueFmt(chart.initialSlice.data, 'this', chart.chartPrecision);
+                } else {
+                    return chart.getValueFmt(chart.initialSlice.data);
+                }                
+            });
             
             chart.mouseout();
         }
@@ -1323,7 +1452,7 @@ function Chart(options) {
                 // add the primary value
                 rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
                 if (!d.context.tableID.startsWith('D3-')) {
-                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
+                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], k, 1) });
                 }
 
                 // add the numerator value if it exists
@@ -1378,7 +1507,9 @@ function Chart(options) {
     }
     
     chart.fillHovercard = function(data) {
-        var value,
+        console.log(data);
+        var year,
+            value,
             index,
             phraseBits,
             compareBits,
@@ -1406,9 +1537,15 @@ function Chart(options) {
                 );
             }
         });
-        
+
+        if (!isNaN(data.name)) {
+            year = " (" + data.name + ")";
+        } else {
+            year = "";
+        }
+
         var card = [
-            "<h3>" + contextData.name + ": <span class='normal'>" + cardStat + "</span></h3>",
+            "<h3>" + contextData.name + year + ": <span class='normal'>" + cardStat + "</span></h3>",
             "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
         
