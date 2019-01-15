@@ -1507,7 +1507,8 @@ function Chart(options) {
     }
     
     chart.fillHovercard = function(data) {
-        var year = data.name,
+        console.log(data);
+        var year,
             value,
             index,
             phraseBits,
@@ -1536,9 +1537,15 @@ function Chart(options) {
                 );
             }
         });
-        
+
+        if (!isNaN(data.name)) {
+            year = " (" + data.name + ")";
+        } else {
+            year = "";
+        }
+
         var card = [
-            "<h3>" + contextData.name + " (" + year + "): <span class='normal'>" + cardStat + "</span></h3>",
+            "<h3>" + contextData.name + year + ": <span class='normal'>" + cardStat + "</span></h3>",
             "<ul>" + cardComparison.join('') + "</ul>"
         ].join('');
         
