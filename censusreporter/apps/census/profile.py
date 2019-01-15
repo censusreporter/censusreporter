@@ -805,6 +805,8 @@ def geo_profile(geoid, acs='latest'):
     foreign_dict['distribution'] = place_of_birth_dict
     add_metadata(place_of_birth_dict, 'B05006', 'Foreign-born population', acs_name)
 
+    # Note that minor changes to B05006 will throw this off. We've been bitten twice.
+    # https://github.com/censusreporter/censusreporter/issues/87
     place_of_birth_dict['europe'] = build_item('Europe', data, item_levels,
         'B05006002 B05006001 / %')
     place_of_birth_dict['asia'] = build_item('Asia', data, item_levels,
@@ -812,11 +814,11 @@ def geo_profile(geoid, acs='latest'):
     place_of_birth_dict['africa'] = build_item('Africa', data, item_levels,
         'B05006091 B05006001 / %')
     place_of_birth_dict['oceania'] = build_item('Oceania', data, item_levels,
-        'B05006116 B05006001 / %')
+        'B05006117 B05006001 / %')
     place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
-        'B05006123 B05006001 / %')
+        'B05006124 B05006001 / %')
     place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
-        'B05006159 B05006001 / %')
+        'B05006160 B05006001 / %')
 
     # Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
     data = api.get_data('B16001', comparison_geoids, acs)
