@@ -94,7 +94,6 @@
                 <option value="#families-with-children">Families with children</option>
                 <option value="#marital-status">Marital status</option>
                 <option value="#births">Births</option>
-                <option value="#child-care">Child Care</option>
                 <option value="#language">Language</option>
             </optgroup>
             <optgroup label="Education">
@@ -104,6 +103,7 @@
                 <option value="#school-enrollment">School enrollment</option>
                 <option value="#graduation-rate">High school graduation</option>
                 <option value="#educational-attainment">Educational attainment</option>
+                <option value="#child-care">Child care</option>
                 <option value="#school-lunch">Free and reduced school lunch</option>   
                 <option value="#college-enrollment-readiness">College enrollment and readiness</option> 
             </optgroup>
@@ -128,7 +128,7 @@
                 <option value="#health-insurance">Health &amp; safety</option>
                 <option value="#infant-mortality">Infant mortality</option>
                 <option value="#immunizations">Immunizations</option>
-                <option value="#hospitalization">Hospitalization</option>
+                <option value="#hospitalization">Hospital visits through Medicaid</option>
                 <option value="#health-insurance">Health insurance</option>
             </optgroup>
             <optgroup label="Other Demographics">
@@ -248,27 +248,6 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#child-care" id="child-care" title="Permalink">Child Care <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='number' %}
-            </div>
-            <div class="column-two-thirds">
-                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="number" data-chart-title="Number of child care facilities by type" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
-            </div> 
-        </section>
-
-        <section class="clearfix stat-row grouped-row">
-            <aside></aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='number' %}
-            </div>
-            <div class="column-two-thirds">
-                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="number" data-chart-title="Capacity of child care facilities by type" data-qualifier="Universe: {{ families.child_care.cchild_care_capacity_chart_data.metadata.universe }}"></div>
-            </div> 
-        </section>
-
-        <section class="clearfix stat-row">
             <h2><a class="permalink" href="#language" id="language" title="Permalink">Language <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -348,6 +327,30 @@
                 </div>
             </div>
             <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#child-care" id="child-care" title="Permalink">Child care <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside></aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='number' %}
+            </div>
+            <div class="column-third">
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="number" data-chart-title="Number of child care facilities by type" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
+            </div>
+            <div class="column-third">
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="number" data-chart-title="Number of child care programs by type" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
+            </div> 
+        </section>
+
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='number' %}
+            </div>
+            <div class="column-two-thirds">
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="number" data-chart-title="Capacity of Head Start and GSRP facilities, by type" data-qualifier="Universe: {{ families.child_care.cchild_care_capacity_chart_data.metadata.universe }}"></div>
+            </div> 
         </section>
 
         <section class="clearfix stat-row">
@@ -556,14 +559,14 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink" href="#hospitalization" id="hospitalization" title="Permalink">Hospitalization <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink" href="#hospitalization" id="hospitalization" title="Permalink">Hospital visits through Medicaid <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.medicaid.child_er stat_type='percentage' %}
             </div>
-            <div class="column-third" id="chart-column-social-medicaid-er_chart_data" data-chart-title="Percent of children who visited the emergency room by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.er_chart_data.metadata.universe }}"></div>
-            <div class="column-third" id="chart-column-social-medicaid-condition_chart_data" data-chart-title="Percent of children who visited the emergency room by condition" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.condition_chart_data.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column-social-medicaid-er_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room or urgent care by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.er_chart_data.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column-social-medicaid-condition_chart_data" data-chart-title="Percent of hospital visits by condition" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.condition_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
