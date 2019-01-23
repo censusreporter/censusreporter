@@ -21,6 +21,10 @@
         {#}<meta name="twitter:image" content="">{#}
 {% endblock %}
 
+{% block canonical_url %}
+<link rel="canonical" href="{{ canonical_url }}" />
+{% endblock %}
+
 {% block head_css_extra %}
 <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
   <!--[if lte IE 8]>
