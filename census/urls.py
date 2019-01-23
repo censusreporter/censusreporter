@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, GeographySearchView,
-    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard)
 
@@ -118,6 +118,41 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewImmunization.as_view()),
         kwargs  = {},
         name    = 'table_D3-Immunization',
+    ),
+
+    url(
+        regex   = '^tables/D3-Medicaid/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewMedicaid.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Medicaid',
+    ),
+
+    url(
+        regex   = '^tables/D3-Child-Care-Centers/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewChildCareCenters.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Child-Care-Centers',
+    ),
+
+    url(
+        regex   = '^tables/D3-School-Lunch/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewFreeReducedLunch.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-School-Lunch',
+    ),
+
+    url(
+        regex   = '^tables/D3-College-Readiness/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewCollegeReadiness.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-College-Readiness',
+    ),
+
+    url(
+        regex   = '^tables/D3-College-Enrollment/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewCollegeEnrollment.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-College-Enrollment',
     ),
 
     url(
