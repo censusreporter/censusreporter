@@ -464,7 +464,7 @@ def geo_profile(geoid, acs='latest'):
 		state_data = d3_api.get_data('Births_StateOfMichigan_2016', 'StateID', state_geoids)
 
 	if county_geoids:
-		county_data = d3_api.get_data('Births_by_County_2016', 'GEOID10 ', county_geoids)
+		county_data = d3_api.get_data('Births_by_County_2016', 'GEOID10', county_geoids)
 
 	if county_sd_geoids:
 		county_sd_data = d3_api.get_data('Births_by_CountySubdivision_2016', 'GEOID10', county_sd_geoids)
@@ -473,10 +473,10 @@ def geo_profile(geoid, acs='latest'):
 		tract_data = d3_api.get_data('Births_by_Tract_2016', 'GEOID10', tract_geoids)
 
 	if block_group_geoids:
-		block_group_data = d3_api.get_data('Births_by_Tract_2016', 'GEOID10', tract_geoids)
+		block_group_data = d3_api.get_data('Births_by_BlockGroup_2016', 'GEOID10', tract_geoids)
 
-	# if msa_geoids:
-	# 	msa_data = d3_api.get_data('Births_byMSA_2014', 'GeoID10_1', msa_geoids)
+	if msa_geoids:
+		msa_data = d3_api.get_data('Births_by_MSA_2016', 'GeoID10_MSA', msa_geoids)
 
 	if congressional_district_geoids:
 		congressional_district_data = d3_api.get_data('Births_by_CongressionalDistricts_2016', 'GEOID', congressional_district_geoids)
@@ -953,55 +953,68 @@ def geo_profile(geoid, acs='latest'):
 	# take D3 ODP data and create structure like census_reporter structure
 
 	fields = OrderedDict()
+
+	fields['Under18_Tot'] = OrderedDict()	
+	fields['Under18_Tot']['name'] = "Total number of hospital or ER visits through Medicaid for children (under 18)"
+	fields['Under18_Tot']['indent'] = 0
+
 	fields['Under5_Tot'] = OrderedDict()
-	fields['Under5_Tot']['name'] = "Number of total children under 5"
+	fields['Under5_Tot']['name'] = "Total number of hospital or ER visits through Medicaid for children under 5"
 	fields['Under5_Tot']['indent'] = 0
 
 	fields['Under5_ER'] = OrderedDict()
-	fields['Under5_ER']['name'] = "Number of total children over 5 who visited the ER in 2017"
+	fields['Under5_ER']['name'] = "Total number of ER visits through Medicaid for children under 5"
 	fields['Under5_ER']['indent'] = 1
 
+	fields['Under5_Hosp'] = OrderedDict()
+	fields['Under5_Hosp']['name'] = "Total number of hospital visits through Medicaid for children under 5"
+	fields['Under5_Hosp']['indent'] = 1
+
 	fields['FivePlus_Tot'] = OrderedDict()	
-	fields['FivePlus_Tot']['name'] = "Number of total children from ages 5 to 18 years old"
+	fields['FivePlus_Tot']['name'] = "Total number of hospital or ER visits through Medicaid for children over 5"
 	fields['FivePlus_Tot']['indent'] = 0
 
 	fields['FivePlus_ER'] = OrderedDict()	
-	fields['FivePlus_ER']['name'] = "Number of total children from ages 5 to 18 years old who visted the ER in 2017"
+	fields['FivePlus_ER']['name'] = "Total number of ER visits through Medicaid for children over 5"
 	fields['FivePlus_ER']['indent'] = 1
 
-	fields['Under18_Tot'] = OrderedDict()	
-	fields['Under18_Tot']['name'] = "Number of total children under 18 years old"
-	fields['Under18_Tot']['indent'] = 0
+	fields['Tot_ER_Visits'] = OrderedDict()	
+	fields['Tot_ER_Visits']['name'] = "Total number of ER visits through Medicaid for children (under 18)"
+	fields['Tot_ER_Visits']['indent'] = 1
+
+	fields['Tot_Hosp_Visits'] = OrderedDict()	
+	fields['Tot_Hosp_Visits']['name'] = "Total number of hospital visits through Medicaid for children under 18"
+	fields['Tot_Hosp_Visits']['indent'] = 1
 
 	fields['AsthmaCt'] = OrderedDict()	
-	fields['AsthmaCt']['name'] = "Number of children under 18 years olf with asthma-related hospital visits"
+	fields['AsthmaCt']['name'] = "Total number of hospital or ER visits for children through Medicaid related to Asthma"
 	fields['AsthmaCt']['indent'] = 1
 
 	fields['Diabetes1Ct'] = OrderedDict()	
-	fields['Diabetes1Ct']['name'] = ""
+	fields['Diabetes1Ct']['name'] = "Total number of hospital or ER visits for children through Medicaid related to Type 1 Diabetes"
 	fields['Diabetes1Ct']['indent'] = 1
 
 	fields['Diabetes2Ct'] = OrderedDict()	
-	fields['Diabetes2Ct']['name'] = ""
+	fields['Diabetes2Ct']['name'] = "Total number of hospital or ER visits for children through Medicaid related to Type 2 Diabetes"
 	fields['Diabetes2Ct']['indent'] = 1
 
 	fields['DiabetesOtherCt'] = OrderedDict()	
-	fields['DiabetesOtherCt']['name'] = ""
+	fields['DiabetesOtherCt']['name'] = "Total number of hospital or ER visits for children through Medicaid related to other types of Diabetes (excluding Type 1 and 2)"
 	fields['DiabetesOtherCt']['indent'] = 1
 
-	data = format_d3_data("2017", "D3-Medicaid", "Total population under 18 years of age", "Total population under 18 years of age", "", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-Medicaid", "Total number of hospital or ER visits through Medicaid for children (under 18)", "Total number of hospital or ER visits through Medicaid for children (under 18)", "", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	medicaid_dict = dict()
 	doc['social']['medicaid'] = medicaid_dict
 
-	medicaid_dict['child_er'] = build_item('Percent hospital visits by children on Medicaid to an emergency room or urgent care', data, d3_item_levels, 
+	medicaid_dict['child_er'] = build_item('Percent of total children who visited the emergency room or urgent care through Medicaid', data, d3_item_levels, 
 		'D3-Under5_ER D3-FivePlus_ER + D3-Under18_Tot / %')
-	add_metadata(medicaid_dict['child_er'], 'D3-Medicaid', 'Total population under 18 years of age', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(medicaid_dict['child_er'], 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
 
 	er_chart_data = OrderedDict()
 	doc['social']['medicaid']['er_chart_data'] = er_chart_data
-	add_metadata(er_chart_data, 'D3-Medicaid', 'Total population under 18 years of age', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(er_chart_data, 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
 
 	er_chart_data['Under5_ER'] = build_item('Under 5 years old', data, d3_item_levels,
 		'D3-Under5_ER D3-Under5_Tot / %')
@@ -1010,7 +1023,7 @@ def geo_profile(geoid, acs='latest'):
 
 	condition_chart_data = OrderedDict()
 	doc['social']['medicaid']['condition_chart_data'] = condition_chart_data
-	add_metadata(condition_chart_data, 'D3-Medicaid', 'Total population under 18 years of age', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(condition_chart_data, 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
 
 	condition_chart_data['Asthma'] = build_item('Asthma', data, d3_item_levels,
 		'D3-AsthmaCt D3-Under18_Tot / %')
@@ -1056,7 +1069,7 @@ def geo_profile(geoid, acs='latest'):
 		state_senate_data = d3_api.get_data('LicensedChildCenters_by_MISenate_20180920', 'GEOID', state_senate_geoids)
 
 	if state_house_geoids:
-		state_house_data = d3_api.get_data('LicensedChildCenters_by_MISenate_20180920', 'GEOID', state_house_geoids)
+		state_house_data = d3_api.get_data('LicensedChildCenters_by_MIHouseOfReps_20180920', 'GEOID', state_house_geoids)
 
 	if school_district_geoids:
 		school_district_data = d3_api.get_data('LicensedChildCenters_by_SchoolDistricts_20180920', 'GEOID10', school_district_geoids)
@@ -1112,7 +1125,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['CapHS']['indent'] = 2
 
 
-	data = format_d3_data("2018", "D3-Child-Care-Centers", "Number of licensed child care centers", "Number of licensed child care centers", "Centers", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2018", "D3-Child-Care-Centers", "Number of licensed child care facilities", "Number of licensed child care facilities", "Centers", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	child_care_dict = dict()
@@ -1128,7 +1141,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
-	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Number of licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
+	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality')
 
 	child_care_center_chart_data['LicCenCnt'] = build_item('Licensed child care centers', data, d3_item_levels,
 		'D3-LicCenCnt')
@@ -1139,7 +1152,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_program_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
-	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Centers', 'Number of licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
+	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Centers', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
 
 	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
 		'D3-EarlyHSCnt')
@@ -1150,7 +1163,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_capacity_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_capacity_chart_data'] = child_care_capacity_chart_data
-	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Centers', 'Number of licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
+	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Centers', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
 
 	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Capacity of Early Head Start programs', data, d3_item_levels,
 		'D3-CapEarlyHS')
@@ -1211,23 +1224,23 @@ def geo_profile(geoid, acs='latest'):
 
 	fields = OrderedDict()
 	fields['Total'] = OrderedDict()
-	fields['Total']['name'] = "Total Number of Student Counts Grade K-12, Including Ungraded"
+	fields['Total']['name'] = "Total number of student counts grade K-12, including ungraded"
 	fields['Total']['indent'] = 0
 
 	fields['FreeEligible'] = OrderedDict()
-	fields['FreeEligible']['name'] = "Number of Students who Records Indicate That They are Eligible for the Free Lunch Program, are Migrant or Homeless Students, or Identified via Direct Certification Process"
+	fields['FreeEligible']['name'] = "Number of students who records indicate that they are eligible for the free lunch program, are migrant or homeless students, or identified via direct certification process"
 	fields['FreeEligible']['indent'] = 1
 
 	fields['ReducedEligible'] = OrderedDict()
-	fields['ReducedEligible']['name'] = "Number of Students Who Records Indicate That They are Eligible for the Reduced Price Lunch Program and are Not a Migrant or Homeless Student and Were Not Identified via the Direct Certification Process"
+	fields['ReducedEligible']['name'] = "Number of students who records indicate that they are eligible for the reduced price lunch program and are not a migrant or homeless students, or were not identified via direct certification process"
 	fields['ReducedEligible']['indent'] = 1
 
 	fields['NotEligible'] = OrderedDict()
-	fields['NotEligible']['name'] = "Student Records Indicate They are Not Eligible for Free or Reduced Lunch Programs."
+	fields['NotEligible']['name'] = "Student records indicate they are not eligible for free or reduced lunch programs"
 	fields['NotEligible']['indent'] = 1
 
 	fields['FreeReducedEligible'] = OrderedDict()	
-	fields['FreeReducedEligible']['name'] = "The Number of Students Eligible for Free or Reduced Lunches as Measured Above"
+	fields['FreeReducedEligible']['name'] = "The number of students eligible for free or reduced lunches as measured above"
 	fields['FreeReducedEligible']['indent'] = 1
 
 	data = format_d3_data("2017", "D3-School-Lunch", "Total number of student counts grade K-12, including ungraded", "Total number of student counts grade K-12, including ungraded", "Total", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
@@ -1304,40 +1317,41 @@ def geo_profile(geoid, acs='latest'):
 
 	fields = OrderedDict()
 	fields['AllSbjtNumAssessed'] = OrderedDict()
-	fields['AllSbjtNumAssessed']['name'] = "The Number of Students Who Took the SAT Assessment in All Subjects."
+	fields['AllSbjtNumAssessed']['name'] = "The number of students who took the SAT assessment in all subjects"
 	fields['AllSbjtNumAssessed']['indent'] = 0
 
 	fields['AllSbjtNumReady'] = OrderedDict()
-	fields['AllSbjtNumReady']['name'] = "The Number of Students Who Scored at or Above College Readiness Proficiency on the SAT Test in All Subjects"
+	fields['AllSbjtNumReady']['name'] = "The number of students who scored at or above college readiness proficiency on the SAT test in all subjects"
 	fields['AllSbjtNumReady']['indent'] = 1
 
 	fields['MathNumAssessed'] = OrderedDict()
-	fields['MathNumAssessed']['name'] = "The Number of Students Who Took the Math SAT Assessment"
+	fields['MathNumAssessed']['name'] = "The number of students who took the math SAT assessment"
 	fields['MathNumAssessed']['indent'] = 1
 
 	fields['MathNumReady'] = OrderedDict()
-	fields['MathNumReady']['name'] = "The Number of Students Who Scored at or Above College Readiness Proficiency on the SAT Test in Math."
+	fields['MathNumReady']['name'] = "The number of students who scored at or above college readiness proficiency on the SAT test in math"
 	fields['MathNumReady']['indent'] = 2
 
 	fields['EBRWNumAssessed'] = OrderedDict()	
-	fields['EBRWNumAssessed']['name'] = "The Number of Students Who Took the Evidenced-Based Reading and Writing SAT Assessment"
+	fields['EBRWNumAssessed']['name'] = "The number of students who took the evidenced-based reading and writing SAT assessment"
 	fields['EBRWNumAssessed']['indent'] = 1
 
 	fields['EBRWNumReady'] = OrderedDict()
-	fields['EBRWNumReady']['name'] = "The Number of Students Who Scored at or Above College Readiness Proficiency on the SAT Test in Evidenced-Based Reading and Writing"
+	fields['EBRWNumReady']['name'] = "The number of students who scored at or above college readiness proficiency on the SAT test in evidenced-based reading and writing"
 	fields['EBRWNumReady']['indent'] = 2
 
+	fields['FinalAllSbjtAveScore'] = OrderedDict()	
+	fields['FinalAllSbjtAveScore']['name'] = "The average of all the SAT scores"
+	fields['FinalAllSbjtAveScore']['indent'] = 0
+
 	fields['FinalMathAveScore'] = OrderedDict()	
-	fields['FinalMathAveScore']['name'] = "The Average of All the Math SAT Scores"
-	fields['FinalMathAveScore']['indent'] = 1
+	fields['FinalMathAveScore']['name'] = "The average of all the math SAT scores"
+	fields['FinalMathAveScore']['indent'] = 0
 
 	fields['FinalEWBRWAveScore'] = OrderedDict()	
-	fields['FinalEWBRWAveScore']['name'] = "The Average of All the SAT Scores"
-	fields['FinalEWBRWAveScore']['indent'] = 1
+	fields['FinalEWBRWAveScore']['name'] = "The average of all the evidenced-based reading and writing SAT scores"
+	fields['FinalEWBRWAveScore']['indent'] = 0
 
-	fields['FinalAllSbjtAveScore'] = OrderedDict()	
-	fields['FinalAllSbjtAveScore']['name'] = "The Average of All the Evidenced-Based Reading and Writing SAT Scores"
-	fields['FinalAllSbjtAveScore']['indent'] = 1
 
 	data = format_d3_data("2018", "D3-College-Readiness", "The number of students who took the SAT Assessment in all subjects", "The number of students who took the SAT Assessment in all subjects.", "AllSbjtNumAssessed", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
@@ -1365,11 +1379,11 @@ def geo_profile(geoid, acs='latest'):
 	doc['social']['college_readiness']['sat_score_chart_data'] = sat_score_chart_data
 	add_metadata(sat_score_chart_data, 'D3-College-Readiness', 'The number of students who took the SAT Assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
 
-	sat_score_chart_data['FinalEWBRWAveScore'] = build_item('All subjects', data, d3_item_levels,
-		'D3-FinalEWBRWAveScore')
+	sat_score_chart_data['FinalAllSbjtAveScore'] = build_item('All subjects', data, d3_item_levels,
+		'D3-FinalAllSbjtAveScore')
 	sat_score_chart_data['FinalMathAveScore'] = build_item('Math', data, d3_item_levels,
 		'D3-FinalMathAveScore')
-	sat_score_chart_data['FinalAllSbjtAveScore'] = build_item('Evidenced-Based Reading and Writing', data, d3_item_levels,
+	sat_score_chart_data['FinalEWBRWAveScore'] = build_item('Evidenced-Based Reading and Writing', data, d3_item_levels,
 		'D3-FinalEWBRWAveScore')
 
 	
@@ -1428,7 +1442,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['TotGradCalc']['indent'] = 0
 
 	fields['TotEnrlCalc'] = OrderedDict()
-	fields['TotEnrlCalc']['name'] = "Number of public high school graduates who have enrolled in college"
+	fields['TotEnrlCalc']['name'] = "Number of public high school graduates who have enrolled in college within 6 months of graduation"
 	fields['TotEnrlCalc']['indent'] = 1
 
 
@@ -1438,7 +1452,7 @@ def geo_profile(geoid, acs='latest'):
 	college_enrollment_dict = dict()
 	doc['social']['college_enrollment'] = college_enrollment_dict
 
-	college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within...', data, d3_item_levels, 
+	college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within 6 months of graduation', data, d3_item_levels, 
 		'D3-TotEnrlCalc D3-TotGradCalc / %')
 	add_metadata(college_enrollment_dict['percent_enrolled'], 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
 
