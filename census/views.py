@@ -431,6 +431,346 @@ class D3TableDetailViewImmunization(TemplateView):
 		return page_context	
 
 
+class D3TableDetailViewMedicaid(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewMedicaid, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Medicaid'
+		table['table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
+		table['simple_table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
+		table['subject_area'] = 'Health care'
+		table['universe'] = 'Patients under 18 years of age'
+		table['denominator_column_id'] = 'Under18_Tot'
+		table['topics'] = ["health care", "public health"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['Under18_Tot'] = OrderedDict()
+		table['columns']['Under18_Tot']['column_title'] = 'Total number of hospital or ER visits through Medicaid for children (under 18):'
+		table['columns']['Under18_Tot']['indent'] = 0
+		table['columns']['Under18_Tot']['parent_column_id'] = None
+
+		table['columns']['Under5_Tot'] = OrderedDict()
+		table['columns']['Under5_Tot']['column_title'] = 'Total number of hospital or ER visits through Medicaid for children under 5:'
+		table['columns']['Under5_Tot']['indent'] = 0
+		table['columns']['Under5_Tot']['parent_column_id'] = None
+
+		table['columns']['Under5_ER'] = OrderedDict()
+		table['columns']['Under5_ER']['column_title'] = 'Total number of ER visits through Medicaid for children under 5'
+		table['columns']['Under5_ER']['indent'] = 1
+		table['columns']['Under5_ER']['parent_column_id'] = 'Under5_Tot'
+
+		table['columns']['Under5_Hosp'] = OrderedDict()
+		table['columns']['Under5_Hosp']['column_title'] = 'Total number of hospital visits through Medicaid for children under 5'
+		table['columns']['Under5_Hosp']['indent'] = 1
+		table['columns']['Under5_Hosp']['parent_column_id'] = 'Under5_Tot'
+
+		table['columns']['FivePlus_Tot'] = OrderedDict()
+		table['columns']['FivePlus_Tot']['column_title'] = 'Total number of hospital or ER visits through Medicaid for children over 5:'
+		table['columns']['FivePlus_Tot']['indent'] = 0
+		table['columns']['FivePlus_Tot']['parent_column_id'] = None
+
+		table['columns']['FivePlus_ER'] = OrderedDict()
+		table['columns']['FivePlus_ER']['column_title'] = 'Total number of ER visits through Medicaid for children over 5'
+		table['columns']['FivePlus_ER']['indent'] = 1
+		table['columns']['FivePlus_ER']['parent_column_id'] = 'FivePlus_Tot'
+
+		table['columns']['Tot_ER_Visits'] = OrderedDict()
+		table['columns']['Tot_ER_Visits']['column_title'] = 'Total number of ER visits through Medicaid for children (under 18)'
+		table['columns']['Tot_ER_Visits']['indent'] = 1
+		table['columns']['Tot_ER_Visits']['parent_column_id'] = 'Under18_Tot'
+
+		table['columns']['Tot_Hosp_Visits'] = OrderedDict()
+		table['columns']['Tot_Hosp_Visits']['column_title'] = 'Total number of hospital visits through Medicaid for children under 18'
+		table['columns']['Tot_Hosp_Visits']['indent'] = 1
+		table['columns']['Tot_Hosp_Visits']['parent_column_id'] = 'Under18_Tot'
+
+		table['columns']['AsthmaCt'] = OrderedDict()
+		table['columns']['AsthmaCt']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to Asthma'
+		table['columns']['AsthmaCt']['indent'] = 1
+		table['columns']['AsthmaCt']['parent_column_id'] = 'Under18_Tot'
+
+		table['columns']['Diabetes1Ct'] = OrderedDict()
+		table['columns']['Diabetes1Ct']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to Type 1 Diabetes'
+		table['columns']['Diabetes1Ct']['indent'] = 1
+		table['columns']['Diabetes1Ct']['parent_column_id'] = 'Under18_Tot'
+
+		table['columns']['Diabetes2Ct'] = OrderedDict()
+		table['columns']['Diabetes2Ct']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to Type 2 Diabetes'
+		table['columns']['Diabetes2Ct']['indent'] = 1
+		table['columns']['Diabetes2Ct']['parent_column_id'] = 'Under18_Tot'
+
+		table['columns']['DiabetesOtherCt'] = OrderedDict()
+		table['columns']['DiabetesOtherCt']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to other types of Diabetes (excluding Type 1 and 2)'
+		table['columns']['DiabetesOtherCt']['indent'] = 1
+		table['columns']['DiabetesOtherCt']['parent_column_id'] = 'Under18_Tot'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewChildCareCenters(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewChildCareCenters, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Child-Care-Centers'
+		table['table_title'] = 'Licensed child care facilities'
+		table['simple_table_title'] = 'Licensed child care facilities'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of licensed child care facilities'
+		table['denominator_column_id'] = 'Centers'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['Centers'] = OrderedDict()
+		table['columns']['Centers']['column_title'] = 'Number of licensed child care facilities:'
+		table['columns']['Centers']['indent'] = 0
+		table['columns']['Centers']['parent_column_id'] = None
+
+		table['columns']['GrpHmeCnt'] = OrderedDict()
+		table['columns']['GrpHmeCnt']['column_title'] = 'Number of group homes'
+		table['columns']['GrpHmeCnt']['indent'] = 1
+		table['columns']['GrpHmeCnt']['parent_column_id'] = 'Centers'
+
+		table['columns']['FamHmeCnt'] = OrderedDict()
+		table['columns']['FamHmeCnt']['column_title'] = 'Number of family homes'
+		table['columns']['FamHmeCnt']['indent'] = 1
+		table['columns']['FamHmeCnt']['parent_column_id'] = 'Centers'
+
+		table['columns']['LicCenCnt'] = OrderedDict()
+		table['columns']['LicCenCnt']['column_title'] = 'Number of licensed child care centers:'
+		table['columns']['LicCenCnt']['indent'] = 1
+		table['columns']['LicCenCnt']['parent_column_id'] = 'Centers'
+
+		table['columns']['EarlyHSCnt'] = OrderedDict()
+		table['columns']['EarlyHSCnt']['column_title'] = 'Number of early head start programs'
+		table['columns']['EarlyHSCnt']['indent'] = 2
+		table['columns']['EarlyHSCnt']['parent_column_id'] = 'LicCenCnt'
+
+		table['columns']['GSRPCnt'] = OrderedDict()
+		table['columns']['GSRPCnt']['column_title'] = 'Number of GSRP programs'
+		table['columns']['GSRPCnt']['indent'] = 2
+		table['columns']['GSRPCnt']['parent_column_id'] = 'LicCenCnt'
+
+		table['columns']['HSCnt'] = OrderedDict()
+		table['columns']['HSCnt']['column_title'] = 'Number of Head Start programs'
+		table['columns']['HSCnt']['indent'] = 2
+		table['columns']['HSCnt']['parent_column_id'] = 'LicCenCnt'
+
+		table['columns']['Capacity'] = OrderedDict()
+		table['columns']['Capacity']['column_title'] = 'Capacity of licensed child care facilities:'
+		table['columns']['Capacity']['indent'] = 0
+		table['columns']['Capacity']['parent_column_id'] = None
+
+		table['columns']['CapEarlyHS'] = OrderedDict()
+		table['columns']['CapEarlyHS']['column_title'] = 'Capacity of early head start programs'
+		table['columns']['CapEarlyHS']['indent'] = 1
+		table['columns']['CapEarlyHS']['parent_column_id'] = 'Capacity'
+
+		table['columns']['CapGSRP'] = OrderedDict()
+		table['columns']['CapGSRP']['column_title'] = 'Capacity of GSRP programs'
+		table['columns']['CapGSRP']['indent'] = 1
+		table['columns']['CapGSRP']['parent_column_id'] = 'Capacity'
+
+		table['columns']['CapHS'] = OrderedDict()
+		table['columns']['CapHS']['column_title'] = 'Capacity of Head Start programs'
+		table['columns']['CapHS']['indent'] = 1
+		table['columns']['CapHS']['parent_column_id'] = 'Capacity'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewFreeReducedLunch(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewFreeReducedLunch, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-School-Lunch'
+		table['table_title'] = 'Free and reduced school lunch eligibility'
+		table['simple_table_title'] = 'Free and reduced school lunch eligibility'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Total number of student counts grade K-12, including ungraded'
+		table['denominator_column_id'] = 'Total'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['Total'] = OrderedDict()
+		table['columns']['Total']['column_title'] = 'Total number of student counts grade K-12, including ungraded:'
+		table['columns']['Total']['indent'] = 0
+		table['columns']['Total']['parent_column_id'] = None
+
+		table['columns']['FreeEligible'] = OrderedDict()
+		table['columns']['FreeEligible']['column_title'] = 'Number of students who records indicate that they are eligible for the free lunch program, are migrant or homeless students, or identified via direct certification process'
+		table['columns']['FreeEligible']['indent'] = 1
+		table['columns']['FreeEligible']['parent_column_id'] = 'Total'
+
+		table['columns']['ReducedEligible'] = OrderedDict()
+		table['columns']['ReducedEligible']['column_title'] = 'Number of students who records indicate that they are eligible for the reduced price lunch program and are not a migrant or homeless students, or were not identified via direct certification process'
+		table['columns']['ReducedEligible']['indent'] = 1
+		table['columns']['ReducedEligible']['parent_column_id'] = 'Total'
+
+		table['columns']['NotEligible'] = OrderedDict()
+		table['columns']['NotEligible']['column_title'] = 'Student records indicate they are not eligible for free or reduced lunch programs'
+		table['columns']['NotEligible']['indent'] = 1
+		table['columns']['NotEligible']['parent_column_id'] = 'Total'
+
+		table['columns']['FreeReducedEligible'] = OrderedDict()
+		table['columns']['FreeReducedEligible']['column_title'] = 'The number of students eligible for free or reduced lunches as measured above'
+		table['columns']['FreeReducedEligible']['indent'] = 1
+		table['columns']['FreeReducedEligible']['parent_column_id'] = 'Total'
+
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewCollegeReadiness(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewCollegeReadiness, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-College-Readiness'
+		table['table_title'] = 'Student college readiness assessment'
+		table['simple_table_title'] = 'Student college readiness assessment'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'The number of students who took the SAT assessment in all subjects'
+		table['denominator_column_id'] = 'AllSbjtNumAssessed'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['AllSbjtNumAssessed'] = OrderedDict()
+		table['columns']['AllSbjtNumAssessed']['column_title'] = 'The number of students who took the SAT assessment in all subjects:'
+		table['columns']['AllSbjtNumAssessed']['indent'] = 0
+		table['columns']['AllSbjtNumAssessed']['parent_column_id'] = None
+
+		table['columns']['AllSbjtNumReady'] = OrderedDict()
+		table['columns']['AllSbjtNumReady']['column_title'] = 'The number of students who scored at or above college readiness proficiency on the SAT test in all subjects'
+		table['columns']['AllSbjtNumReady']['indent'] = 1
+		table['columns']['AllSbjtNumReady']['parent_column_id'] = 'AllSbjtNumAssessed'
+
+		table['columns']['MathNumAssessed'] = OrderedDict()
+		table['columns']['MathNumAssessed']['column_title'] = 'The number of students who took the math SAT assessment'
+		table['columns']['MathNumAssessed']['indent'] = 1
+		table['columns']['MathNumAssessed']['parent_column_id'] = 'AllSbjtNumAssessed'
+
+		table['columns']['MathNumReady'] = OrderedDict()
+		table['columns']['MathNumReady']['column_title'] = 'The number of students who scored at or above college readiness proficiency on the SAT test in math'
+		table['columns']['MathNumReady']['indent'] = 2
+		table['columns']['MathNumReady']['parent_column_id'] = 'MathNumAssessed'
+
+		table['columns']['EBRWNumAssessed'] = OrderedDict()
+		table['columns']['EBRWNumAssessed']['column_title'] = 'The number of students who took the evidenced-based reading and writing SAT assessment'
+		table['columns']['EBRWNumAssessed']['indent'] = 1
+		table['columns']['EBRWNumAssessed']['parent_column_id'] = 'AllSbjtNumAssessed'
+		
+		table['columns']['EBRWNumReady'] = OrderedDict()
+		table['columns']['EBRWNumReady']['column_title'] = 'The number of students who scored at or above college readiness proficiency on the SAT test in evidenced-based reading and writing'
+		table['columns']['EBRWNumReady']['indent'] = 2
+		table['columns']['EBRWNumReady']['parent_column_id'] = 'EBRWNumAssessed'
+
+		table['columns']['FinalAllSbjtAveScore'] = OrderedDict()
+		table['columns']['FinalAllSbjtAveScore']['column_title'] = 'The average of all the SAT scores'
+		table['columns']['FinalAllSbjtAveScore']['indent'] = 0
+		table['columns']['FinalAllSbjtAveScore']['parent_column_id'] = None
+
+		table['columns']['FinalMathAveScore'] = OrderedDict()
+		table['columns']['FinalMathAveScore']['column_title'] = 'The average of all the math SAT scores'
+		table['columns']['FinalMathAveScore']['indent'] = 0
+		table['columns']['FinalMathAveScore']['parent_column_id'] = None
+
+		table['columns']['FinalEWBRWAveScore'] = OrderedDict()
+		table['columns']['FinalEWBRWAveScore']['column_title'] = 'The average of all the evidenced-based reading and writing SAT scores'
+		table['columns']['FinalEWBRWAveScore']['indent'] = 0
+		table['columns']['FinalEWBRWAveScore']['parent_column_id'] = None
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewCollegeEnrollment(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewCollegeEnrollment, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-College-Enrollment'
+		table['table_title'] = 'College enrollment'
+		table['simple_table_title'] = 'College enrollment'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of public high school graduates who received a diploma during the high school graduation year'
+		table['denominator_column_id'] = 'TotGradCalc'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['TotGradCalc'] = OrderedDict()
+		table['columns']['TotGradCalc']['column_title'] = 'Number of public high school graduates who received a diploma during the high school graduation year:'
+		table['columns']['TotGradCalc']['indent'] = 0
+		table['columns']['TotGradCalc']['parent_column_id'] = None
+
+		table['columns']['TotEnrlCalc'] = OrderedDict()
+		table['columns']['TotEnrlCalc']['column_title'] = 'Number of public high school graduates who have enrolled in college within 6 months of graduation'
+		table['columns']['TotEnrlCalc']['indent'] = 1
+		table['columns']['TotEnrlCalc']['parent_column_id'] = 'TotGradCalc'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
 
 class TableDetailView(TemplateView):
 	template_name = 'table/table_detail.html'
@@ -1283,6 +1623,7 @@ class DataView(TemplateView):
 			county_geoids = []
 			county_sd_geoids = []
 			tract_geoids = []
+			block_group_geoids = []
 			msa_geoids = []
 			congressional_district_geoids = []
 			state_senate_geoids = []
@@ -1329,6 +1670,8 @@ class DataView(TemplateView):
 					county_sd_geoids.append(split_geoid[1])
 				if geoid.startswith('140'):
 					tract_geoids.append(split_geoid[1])
+				if geoid.startswith('150'):
+					block_group_geoids.append(split_geoid[1])
 				if geoid.startswith('310'):
 					msa_geoids.append(split_geoid[1])
 				if geoid.startswith('500'):
@@ -1347,11 +1690,12 @@ class DataView(TemplateView):
 				if geoid.startswith('950') or geoid.startswith('960') or geoid.startswith('970'):	
 					school_district_geoids.append(split_geoid[1])
 
-			# now that we have all of the geoids, let's set up a particulars for the table
+			# now that we have all of the geoids, let's set up particulars for the table
 			d3_state_link = None
 			d3_county_link = None
 			d3_county_sd_link = None
 			d3_tract_link = None
+			d3_block_group_link = None
 			d3_msa_link = None
 			d3_congressional_district_link = None
 			d3_state_senate_link = None
@@ -1362,50 +1706,78 @@ class DataView(TemplateView):
 			# for Births data
 			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
 			if state_geoids and self.table == 'D3-Births':
-				table_id = 'Births_StateofMichigan_2014'
+				table_id = 'Births_StateOfMichigan_2016'
 				field_name = 'StateID'
 				if hasattr(state_geoids, '__iter__'):
 					state_geoids = ','.join(state_geoids)
 				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
 				
 			if county_geoids and self.table == 'D3-Births':
-				table_id = 'Births_byCounty_2014'
-				field_name = 'GeoID10_1'
+				table_id = 'Births_by_County_2016'
+				field_name = 'GEOID10'
 				if hasattr(county_geoids, '__iter__'):
 					county_geoids = ','.join(county_geoids)
 				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
 
 			if county_sd_geoids and self.table == 'D3-Births':
-				table_id = 'Births_byCity_2014'
-				field_name = 'GeoID10_1'
+				table_id = 'Births_by_CountySubdivision_2016'
+				field_name = 'GEOID10'
 				if hasattr(county_sd_geoids, '__iter__'):
 					county_sd_geoids = ','.join(county_sd_geoids)
 				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
 
 			if tract_geoids and self.table == 'D3-Births':
-				table_id = 'Births_byTract_2014'
+				table_id = 'Births_by_Tract_2016'
 				field_name = 'GEOID10'
 				if hasattr(tract_geoids, '__iter__'):
 					tract_geoids = ','.join(tract_geoids)
 				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
 
+			if block_group_geoids and self.table == 'D3-Births':
+				table_id = 'Births_by_BlockGroup_2016'
+				field_name = 'GEOID10'
+				if hasattr(block_group_geoids, '__iter__'):
+					block_group_geoids = ','.join(block_group_geoids)
+				d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
+
 			if msa_geoids and self.table == 'D3-Births':
-				table_id = 'Births_byMSA_2014'
-				field_name = 'GeoID10_1'
+				table_id = 'Births_by_MSA_2016'
+				field_name = 'GeoID10_MSA'
 				if hasattr(msa_geoids, '__iter__'):
 					msa_geoids = ','.join(msa_geoids)
 				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
 
+			if congressional_district_geoids and self.table == 'D3-Births':
+				table_id = 'Births_by_CongressionalDistricts_2016'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-Births':
+				table_id = 'Births_by_MISenateDistrict_2016'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-Births':
+				table_id = 'Births_by_MIHouseOfRepDistrict_2016'
+				field_name = 'GEOID'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
 			if school_district_geoids and self.table == 'D3-Births':
-				table_id = 'Births_bySD_2014'
+				table_id = 'Births_by_SchoolDistrict_2016'
 				field_name = 'GEOID10'
 				if hasattr(school_district_geoids, '__iter__'):
 					school_district_geoids = ','.join(school_district_geoids)
 				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
 
 			if zcta_geoids and self.table == 'D3-Births':
-				table_id = 'Births_byZCTA_2014'
-				field_name = 'ZCTA5CE10'
+				table_id = 'Births_by_ZIP_2016'
+				field_name = 'GEOID10'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
@@ -1466,50 +1838,71 @@ class DataView(TemplateView):
 			# for graduation data
 			#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/ThirdGrade_ELA_Math_Scores_bySchoolDistrict_08032017/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=pgeojson
 			if state_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRate_Michigan_08312017'
+				table_id = 'GraduationRate_2016_2017_StateOfMichigan__20181009'
 				field_name = 'StateID'
 				if hasattr(state_geoids, '__iter__'):
 					state_geoids = ','.join(state_geoids)
 				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
 				
 			if county_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRates_byCounty_08312017'
+				table_id = 'GraduationRates_2016_2017_byCounty__20181019'
 				field_name = 'GEOID10'
 				if hasattr(county_geoids, '__iter__'):
 					county_geoids = ','.join(county_geoids)
 				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
 
 			if county_sd_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRates_byCity_08312017'
-				field_name = 'GeoID10_1'
+				table_id = 'GraduationRates_2016_2017_byCountySubdivision__20181019'
+				field_name = 'GEOID10'
 				if hasattr(county_sd_geoids, '__iter__'):
 					county_sd_geoids = ','.join(county_sd_geoids)
 				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
 
-			if tract_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRates_byTract_08312017'
-				field_name = 'GEOID10'
-				if hasattr(tract_geoids, '__iter__'):
-					tract_geoids = ','.join(tract_geoids)
-				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+			# if tract_geoids and self.table == 'D3-Graduation-Rates':
+			# 	table_id = 'GraduationRates_byTract_08312017'
+			# 	field_name = 'GEOID10'
+			# 	if hasattr(tract_geoids, '__iter__'):
+			# 		tract_geoids = ','.join(tract_geoids)
+			# 	d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
 
 			if msa_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRates_byMSA_08312017'
+				table_id = 'GraduationRates_2016_2017_byMSA__20181019'
 				field_name = 'GeoID10_MSA'
 				if hasattr(msa_geoids, '__iter__'):
 					msa_geoids = ','.join(msa_geoids)
 				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
 
+			if congressional_district_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_2016_2017_byCongressionalDistrict__20181019'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_2016_2017_byMIStateSenate__20181019'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-Graduation-Rates':
+				table_id = 'GraduationRates_2016_2017_byHouseOfReps__20181019'
+				field_name = 'GEOID10'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
 			if school_district_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRates_bySchoolDistrict_08312017'
+				table_id = 'GraduationRates_2016_2017_bySchoolDistrict__20181019'
 				field_name = 'GEOID10'
 				if hasattr(school_district_geoids, '__iter__'):
 					school_district_geoids = ','.join(school_district_geoids)
 				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
 
 			if zcta_geoids and self.table == 'D3-Graduation-Rates':
-				table_id = 'GraduationRates_byZip_08312017'
-				field_name = 'ZCTA5CE10'
+				table_id = 'GraduationRates_2016_2017_byZip__20181019'
+				field_name = 'GEOID10'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
@@ -1596,6 +1989,401 @@ class DataView(TemplateView):
 				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
 
 
+			# for Medicaid CY2017 data
+			if state_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_StateOfMichigan_20181106'
+				field_name = 'StateID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byCounty_20181106'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byCountySub_20181106'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byTract_20181106'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if block_group_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byBlockGroup_20181106'
+				field_name = 'GEOID10'
+				if hasattr(block_group_geoids, '__iter__'):
+					block_group_geoids = ','.join(block_group_geoids)
+				d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
+
+			if msa_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byMSA_20181106'
+				field_name = 'GEOIDMSA'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if congressional_district_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byMICongressionalDistrict_20181106'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byMISenateDistrict_20181106'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byMIHouseOfRepDistrict_20181106'
+				field_name = 'GEOID'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_bySchDist_20181106'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-Medicaid':
+				table_id = 'Medicaid_CY2017_byZIP_20181106'
+				field_name = 'GEOID10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+			# for Child Care Centers
+			if state_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_StateOfMichigan_20180920'
+				field_name = 'GEOID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_County_20180920'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_CountySubdivision_20180920'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_Tracts_20180920'
+				field_name = 'GEOID10_Tract'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			# if block_group_geoids and self.table == 'D3-Child-Care-Centers':
+			# 	table_id = ''
+			# 	field_name = 'GEOID10'
+			# 	if hasattr(block_group_geoids, '__iter__'):
+			# 		block_group_geoids = ','.join(block_group_geoids)
+			# 	d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
+
+			if msa_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_MSA_20180920'
+				field_name = 'GeoID10_MSA'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if congressional_district_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_MICongressionalDistrict_20180920'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_MISenate_20180920'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_MIHouseOfReps_20180920'
+				field_name = 'GEOID'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_SchoolDistricts_20180920'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-Child-Care-Centers':
+				table_id = 'LicensedChildCenters_by_ZIP_20180920'
+				field_name = 'GEOID10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+			# for Free and Reduced Lunch
+			if state_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_StateOfMichigan_20181105'
+				field_name = 'GEOID10'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByCounty_20181105'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByCountySub_20181105'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByTract_20181105'
+				field_name = 'GEOID10_Tract'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if block_group_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByBlockGroup_20181105'
+				field_name = 'GEOID10'
+				if hasattr(block_group_geoids, '__iter__'):
+					block_group_geoids = ','.join(block_group_geoids)
+				d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
+
+			if msa_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByMSA_20181105'
+				field_name = 'GEOID10'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if congressional_district_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByCongressionalDistrict_20181105'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByMISenateDist_20181105'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByMIHouseOfRepsDist_20181105'
+				field_name = 'GEOID'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_BySchoolDistrict_20181105'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-School-Lunch':
+				table_id = 'FreeAndReducedLunch_Fall207_ByZIP_20181105'
+				field_name = 'GEOID10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+			# for College Readiness
+			if state_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_StateOfMichigan_20181107'
+				field_name = 'GEOID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byCnty_20181107'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byCntySub_20181107'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byTract_20181107'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if block_group_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byBlockGroup_20181107'
+				field_name = 'GEOID10'
+				if hasattr(block_group_geoids, '__iter__'):
+					block_group_geoids = ','.join(block_group_geoids)
+				d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
+
+			if msa_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byMSA_20181107'
+				field_name = 'GEOID10'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if congressional_district_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byCongDist_20181107'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byMISenate_20181107'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byMIHouseOrRep_20181107'
+				field_name = 'GEOID'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_bySchoolDistrict_20181107'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-College-Readiness':
+				table_id = 'CollegeReadiness_2017_2018_byZip_20181107'
+				field_name = 'GEOID10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
+			# for College Enrollment
+			if state_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_StateOfMichigan_20181106'
+				field_name = 'GEOID'
+				if hasattr(state_geoids, '__iter__'):
+					state_geoids = ','.join(state_geoids)
+				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
+				
+			if county_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byCounty_20181106'
+				field_name = 'GEOID10'
+				if hasattr(county_geoids, '__iter__'):
+					county_geoids = ','.join(county_geoids)
+				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
+
+			if county_sd_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byCountySub_20181106'
+				field_name = 'GEOID10'
+				if hasattr(county_sd_geoids, '__iter__'):
+					county_sd_geoids = ','.join(county_sd_geoids)
+				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
+
+			if tract_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byTract_20181106'
+				field_name = 'GEOID10'
+				if hasattr(tract_geoids, '__iter__'):
+					tract_geoids = ','.join(tract_geoids)
+				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
+
+			if block_group_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byBlockGroup_20181106'
+				field_name = 'GEOID10'
+				if hasattr(block_group_geoids, '__iter__'):
+					block_group_geoids = ','.join(block_group_geoids)
+				d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
+
+			if msa_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byMSA_20181106'
+				field_name = 'GeoID10_MSA'
+				if hasattr(msa_geoids, '__iter__'):
+					msa_geoids = ','.join(msa_geoids)
+				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
+
+			if congressional_district_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byMICongressionalDistrict_20181106'
+				field_name = 'GEOID'
+				if hasattr(congressional_district_geoids, '__iter__'):
+					congressional_district_geoids = ','.join(congressional_district_geoids)
+				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
+
+			if state_senate_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byMISenateDistrict_20181106'
+				field_name = 'GEOID'
+				if hasattr(state_senate_geoids, '__iter__'):
+					state_senate_geoids = ','.join(state_senate_geoids)
+				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
+
+			if state_house_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byMIHouseOfRepDistrict_20181106'
+				field_name = 'GEOID'
+				if hasattr(state_house_geoids, '__iter__'):
+					state_house_geoids = ','.join(state_house_geoids)
+				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
+
+			if school_district_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2016_2017_bySchDist__20181106'
+				field_name = 'GEOID10'
+				if hasattr(school_district_geoids, '__iter__'):
+					school_district_geoids = ','.join(school_district_geoids)
+				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
+
+			if zcta_geoids and self.table == 'D3-College-Enrollment':
+				table_id = 'CollegeEnrollment_2017_byZip_20181106'
+				field_name = 'GEOID10'
+				if hasattr(zcta_geoids, '__iter__'):
+					zcta_geoids = ','.join(zcta_geoids)
+				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
+
+
 			d3_links = True
 			download_link_prefix = None
 
@@ -1622,6 +2410,7 @@ class DataView(TemplateView):
 			'd3_county_link': d3_county_link,
 			'd3_county_sd_link': d3_county_sd_link,
 			'd3_tract_link': d3_tract_link,
+			'd3_block_group_link': d3_block_group_link,
 			'd3_msa_link': d3_msa_link,
 			'd3_congressional_district_link': d3_congressional_district_link,
 			'd3_school_district_link': d3_school_district_link,
