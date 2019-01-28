@@ -336,10 +336,10 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='number' %}
             </div>
             <div class="column-third">
-                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="number" data-chart-title="Number of child care facilities by type" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
             </div>
             <div class="column-third">
-                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="number" data-chart-title="Number of child care programs by type" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
             </div> 
         </section>
 
@@ -349,7 +349,7 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='number' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="number" data-chart-title="Capacity of Head Start and GSRP facilities, by type" data-qualifier="Universe: {{ families.child_care.cchild_care_capacity_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
             </div> 
         </section>
 
@@ -367,18 +367,28 @@
             <h2><a class="permalink" href="#college-enrollment-readiness" id="college-enrollment-readiness" title="Permalink">College enrollment and readiness<i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-half">
+            <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.college_enrollment.percent_enrolled stat_type='percentage' %}
             </div>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.percent_proficient stat_type='percentage' %}
+            <div class="column-two-thirds">
+                <div class="column-third">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_all_subject stat_type='number' %}
+                </div>
+                <div class="column-third">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_math stat_type='number' %}
+                </div>
+                <div class="column-third">
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_reading_writing stat_type='number' %}
+                </div>
             </div>
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside>
             </aside>
-            <div class="column-half" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.school_lunch.college_readiness_chart_data.metadata.universe }}"></div>
-            <div class="column-half" id="chart-column-social-college_readiness-sat_score_chart_data" data-chart-title="Average SAT scores by subject" data-stat-type="number" data-qualifier="Universe: {{ social.school_lunch.sat_score_chart_data.metadata.universe }}"></div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.percent_proficient stat_type='percentage' %}
+            </div>
+            <div class="column-two-thirds" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
         </section>
 
     </div>
