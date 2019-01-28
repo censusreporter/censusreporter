@@ -1008,7 +1008,7 @@ def geo_profile(geoid, acs='latest'):
 	medicaid_dict = dict()
 	doc['social']['medicaid'] = medicaid_dict
 
-	medicaid_dict['child_er'] = build_item('Percent of total children who visited the emergency room or urgent care through Medicaid', data, d3_item_levels, 
+	medicaid_dict['child_er'] = build_item('of hospital visits by children on Medicaid were to an emergency room or urgent care', data, d3_item_levels, 
 		'D3-Under5_ER D3-FivePlus_ER + D3-Under18_Tot / %')
 	add_metadata(medicaid_dict['child_er'], 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
 
@@ -1139,38 +1139,44 @@ def geo_profile(geoid, acs='latest'):
 		'D3-Capacity')
 	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Centers', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 
 
+	graduation_chart_data['not_graduated'] = build_item('Not Graduated', data, d3_item_levels,
+		'D3-CohortCnt D3-GradCnt - D3-CohortCnt / %')
+	
+	
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
 	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality')
 
 	child_care_center_chart_data['LicCenCnt'] = build_item('Licensed child care centers', data, d3_item_levels,
-		'D3-LicCenCnt')
+		'D3-LicCenCnt D3-Centers / %')
 	child_care_center_chart_data['GrpHmeCnt'] = build_item('Group homes', data, d3_item_levels,
-		'D3-GrpHmeCnt')
+		'D3-GrpHmeCnt D3-Centers / %')
 	child_care_center_chart_data['FamHmeCnt'] = build_item('Family homes', data, d3_item_levels,
-		'D3-FamHmeCnt')
+		'D3-FamHmeCnt D3-Centers / %')
 
 	child_care_program_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
 	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Centers', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
 
 	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
-		'D3-EarlyHSCnt')
+		'D3-EarlyHSCnt D3-LicCenCnt / %')
 	child_care_program_chart_data['GSRPCnt'] = build_item('GSRP', data, d3_item_levels,
-		'D3-GSRPCnt')
+		'D3-GSRPCnt D3-LicCenCnt / %')
 	child_care_program_chart_data['HSCnt'] = build_item('Head Start', data, d3_item_levels,
-		'D3-HSCnt')
+		'D3-HSCnt D3-LicCenCnt / %')
 
 	child_care_capacity_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_capacity_chart_data'] = child_care_capacity_chart_data
 	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Centers', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
 
-	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Capacity of Early Head Start programs', data, d3_item_levels,
-		'D3-CapEarlyHS')
-	child_care_capacity_chart_data['CapHS'] = build_item('Capacity of Head Start programs', data, d3_item_levels,
-		'D3-CapHS')
-	child_care_capacity_chart_data['CapGSRP'] = build_item('Capacity of GSRP programs', data, d3_item_levels,
-		'D3-CapGSRP')
+	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Early Head Start programs', data, d3_item_levels,
+		'D3-CapEarlyHS D3-Capacity / %')
+	child_care_capacity_chart_data['CapHS'] = build_item('Head Start programs', data, d3_item_levels,
+		'D3-CapHS D3-Capacity / %')
+	child_care_capacity_chart_data['CapGSRP'] = build_item('GSRP programs', data, d3_item_levels,
+		'D3-CapGSRP D3-Capacity / %')
+	child_care_capacity_chart_data['OtherGSRP'] = build_item('Other programs', data, d3_item_levels,
+		'D3-Capacity D3-CapGSRP - D3-CapEarlyHS - D3-CapHS - D3-Capacity / %')
 
 
 
@@ -1353,40 +1359,40 @@ def geo_profile(geoid, acs='latest'):
 	fields['FinalEWBRWAveScore']['indent'] = 0
 
 
-	data = format_d3_data("2018", "D3-College-Readiness", "The number of students who took the SAT Assessment in all subjects", "The number of students who took the SAT Assessment in all subjects.", "AllSbjtNumAssessed", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2018", "D3-College-Readiness", "The number of students who took the SAT assessment in all subjects", "The number of students who took the SAT assessment in all subjects", "AllSbjtNumAssessed", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	college_readiness_dict = dict()
 	doc['social']['college_readiness'] = college_readiness_dict
 
-	college_readiness_dict['percent_proficient'] = build_item('Percent of students who scored at or above college readiness proficiency on the SAT test in all subjects', data, d3_item_levels, 
+	college_readiness_dict['percent_proficient'] = build_item('Percent of students who scored at or above college readiness proficiency on the SAT assessment in all subjects', data, d3_item_levels, 
 		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
-	add_metadata(college_readiness_dict['percent_proficient'], 'D3-College-Readiness', 'The number of students who took the SAT Assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+	add_metadata(college_readiness_dict['percent_proficient'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
 
 
 	college_readiness_chart_data = OrderedDict()
 	doc['social']['college_readiness']['college_readiness_chart_data'] = college_readiness_chart_data
-	add_metadata(college_readiness_chart_data, 'D3-College-Readiness', 'The number of students who took the SAT Assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
+	add_metadata(college_readiness_chart_data, 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
 
-	college_readiness_chart_data['AllSbjtNumReady'] = build_item('All Subjects', data, d3_item_levels,
+	college_readiness_chart_data['AllSbjtNumReady'] = build_item('All subjects', data, d3_item_levels,
 		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
 	college_readiness_chart_data['MathNumReady'] = build_item('Math', data, d3_item_levels,
 		'D3-MathNumReady D3-MathNumAssessed / %')
-	college_readiness_chart_data['EBRWNumReady'] = build_item('Evidenced-Based Reading and Writing', data, d3_item_levels,
+	college_readiness_chart_data['EBRWNumReady'] = build_item('Evidenced-based reading and writing', data, d3_item_levels,
 		'D3-EBRWNumReady D3-EBRWNumAssessed / %')
 
-	sat_score_chart_data = OrderedDict()
-	doc['social']['college_readiness']['sat_score_chart_data'] = sat_score_chart_data
-	add_metadata(sat_score_chart_data, 'D3-College-Readiness', 'The number of students who took the SAT Assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
-
-	sat_score_chart_data['FinalAllSbjtAveScore'] = build_item('All subjects', data, d3_item_levels,
+	college_readiness_dict['sat_all_subject'] = build_item('Average SAT score in all subjects', data, d3_item_levels, 
 		'D3-FinalAllSbjtAveScore')
-	sat_score_chart_data['FinalMathAveScore'] = build_item('Math', data, d3_item_levels,
-		'D3-FinalMathAveScore')
-	sat_score_chart_data['FinalEWBRWAveScore'] = build_item('Evidenced-Based Reading and Writing', data, d3_item_levels,
-		'D3-FinalEWBRWAveScore')
+	add_metadata(college_readiness_dict['sat_all_subject'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
 
-	
+	college_readiness_dict['sat_math'] = build_item('Average SAT score in math', data, d3_item_levels, 
+		'D3-FinalMathAveScore')
+	add_metadata(college_readiness_dict['sat_math'], 'D3-College-Readiness', 'The number of students who took the math SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
+
+	college_readiness_dict['sat_reading_writing'] = build_item('Average SAT score in evidenced-based reading and writing', data, d3_item_levels, 
+		'D3-FinalEWBRWAveScore')
+	add_metadata(college_readiness_dict['sat_reading_writing'], 'D3-College-Readiness', 'The number of students who took the evidenced-based reading and writing SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
+
 
 	# get D3 data on College Enrollment
 	state_data = []
