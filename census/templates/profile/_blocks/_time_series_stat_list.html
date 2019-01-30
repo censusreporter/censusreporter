@@ -6,7 +6,7 @@
                 N/A
             {% else %}
                 {% if stat_type == 'dollar' %}${% endif %}{{ current_stat.values.this|floatformat|intcomma|cut:".0" }}{% if stat_type == 'percentage' %}%{% endif %}{% if stat_suffix %} <span class="stat-suffix">{{ stat_suffix }}</span>{% endif %}
-                <small>{% if "2011" in current_stat.metadata.acs_release %}(2011){% else %}(2016){% endif %}</small>
+                <small>{% if "2012" in current_stat.metadata.acs_release %}(2012){% else %}(2017){% endif %}</small>
                 {% if current_stat.error.this_ratio >= 10 %}<sup>&dagger;</sup>{% endif %}
             {% endif %}
 

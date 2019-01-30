@@ -355,7 +355,7 @@
                     {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %} {% endcomment %}
                 </div>
             </div>
-            <div class="column-half" id="chart-histogram_timeseries-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
         </section>
 
     </div>
@@ -380,7 +380,7 @@
                 <div id="chart-column_timeseries-economics-income-median_household_income" data-stat-type="dollar" data-chart-title="Median household income" data-qualifier="Universe: {{ profile_data_current_year.economics.income.median_household_income.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.income.median_household_income stat_type='dollar' %} {% endcomment %}
             </div>
-            <div class="column-half" id="chart-histogram_timeseries-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.income.household_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.income.household_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -395,7 +395,7 @@
                 <div id="chart-column_timeseries-economics-poverty-percent_receiving_public_assistance" data-stat-type="scaled-percentage" data-chart-title="Households with children (under 18) receiving SSI, cash or food/SNAP assistance" data-qualifier="Universe: {{ profile_data_current_year.economics.poverty.percent_receiving_public_assistance.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.poverty.percent_receiving_public_assistance stat_type='percentage' %} {% endcomment %}
             </div>
-            <div class="column-half" id="chart-histogram_timeseries-economics-poverty-children_distribution_by_age" data-chart-title="Children living below the poverty line by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.poverty.children_distribution_by_age.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-economics-poverty-children_distribution_by_age" data-chart-title="Children living below the poverty line by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.poverty.children_distribution_by_age.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -443,7 +443,7 @@
                 <div id="chart-column_timeseries-economics-employment-mean_travel_time" data-stat-type="number" data-chart-title="Mean travel time to work (in minutes)" data-qualifier="Universe: {{ profile_data_current_year.economics.employment.mean_travel_time.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram_timeseries-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.transportation_distribution.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.transportation_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -454,7 +454,7 @@
                 <div id="chart-column_timeseries-economics-employment-mean_number_of_vehicles" data-stat-type="number" data-precision='1' data-chart-title="Mean number of vehicles available" data-qualifier="Universe: {{ profile_data_current_year.economics.employment.mean_number_of_vehicles.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram_timeseries-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
         </section>
 
     </div>
@@ -482,7 +482,7 @@
             <aside>
             </aside>
             <div class="column-third" id="chart-column_timeseries-housing-units-structure_distribution" data-stat-type="scaled-percentage" data-chart-title="Types of structure" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.structure_distribution.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-histogram_timeseries-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population" data-qualifier="Universe: {{ housing.length_of_tenure.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population" data-qualifier="Universe: {{ housing.length_of_tenure.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -493,7 +493,7 @@
                 <div id="chart-column_timeseries-housing-costs-median_costs" data-stat-type="dollar" data-chart-title="Median monthly housing costs" data-qualifier="Universe: {{ profile_data_current_year.housing.units.number.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.costs.median_costs stat_type='dollar' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram_timeseries-housing-costs-housing_costs_distribution" data-chart-title="Percent of households spending 30% or more of household income on housing by household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.costs.housing_costs_distribution.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-housing-costs-housing_costs_distribution" data-chart-title="Percent of households spending 30% or more of household income on housing by household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.costs.housing_costs_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -504,7 +504,7 @@
                 <div id="chart-column_timeseries-housing-ownership-median_value" data-stat-type="dollar" data-chart-title="Median value of owner-occupied housing units" data-qualifier="Universe: {{ profile_data_current_year.housing.ownership.median_value.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.ownership.median_value stat_type='dollar' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram_timeseries-housing-ownership-value_distribution" data-chart-title="Value of owner-occupied housing units" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.ownership.value_distribution.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-housing-ownership-value_distribution" data-chart-title="Value of owner-occupied housing units" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.ownership.value_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -515,7 +515,7 @@
                 <div id="chart-column_timeseries-housing-migration-moved_since_previous_year" data-stat-type="scaled-percentage" data-chart-title="Moved since previous year" data-qualifier="Universe: {{ profile_data_current_year.housing.migration.moved_since_previous_year.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=housing.migration.moved_since_previous_year stat_type='percentage' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram_timeseries-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year" data-qualifier="Universe: {{ housing.migration_distribution.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year" data-qualifier="Universe: {{ housing.migration_distribution.metadata.universe }}"></div>
         </section>
 
     </div>
