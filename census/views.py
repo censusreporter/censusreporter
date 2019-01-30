@@ -1161,8 +1161,8 @@ class TimeSeriesGeographyDetailView(TemplateView):
 	def dispatch(self, *args, **kwargs):
 
 		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
-		self.current_year = 2016
-		self.past_year = 2011
+		self.current_year = 2017
+		self.past_year = 2012
 
 		if self.slug is None:
 			geo = self.get_geography(self.geo_id)
@@ -1366,8 +1366,8 @@ class CustomGeographyDetailView(TemplateView):
 	def dispatch(self, *args, **kwargs):
 
 		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
-		self.current_year = 2016
-		self.past_year = 2011
+		self.current_year = 2017
+		self.past_year = 2012
 
 		if self.slug is None:
 			geo = self.get_geography(self.geo_id)

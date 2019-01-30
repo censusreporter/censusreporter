@@ -66,7 +66,6 @@ function Chart(options) {
             metadataFields = ['metadata', 'acs_release', 'name'];
 
         // merge timeseries datasets 
-        //console.log(options.chartDataPastYear);
         if (options.chartDataPastYear) {
             // if we're down to the level of values (i.e the key 'error' exists), add a key called count and move the object into that key/value pair
             if (options.chartDataPastYear.error) {
@@ -111,7 +110,6 @@ function Chart(options) {
             }
 
             chart.chartDataValues = d3.map(mergeTimeSeriesDatasets);
-            //console.log(chart.chartDataValues);
         } else {
             chart.chartDataValues = d3.map(options.chartData);
         }
@@ -150,7 +148,6 @@ function Chart(options) {
                 }
                 d3.keys(d).filter(function(v) { return chart.exclude(metadataFields, v) })
                     .forEach(function(v, i) {
-                        //console.log(d[v]);
                         dataObj.values.push({
                             name: v,
                             value: +d[v].values['this'],
@@ -158,8 +155,8 @@ function Chart(options) {
                         })
                     })
             } else if (chart.chartType.indexOf('_time_series_group') != -1) {
-                //console.log(d);
                 // data shaped for grouped-column or -bar presentation
+                let sub_name = '';
                 dataObj = {
                     name: d.name,
                     groups: [],
@@ -170,20 +167,29 @@ function Chart(options) {
                         if (dataObj.groups.length === 0) {
                             d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
                             .forEach(function(z) {
+                                // add substring to name if it doesn't exist
+                                if (d[v][z].name.indexOf(d.name) !== -1) {
+                                    sub_name = d[v][z].name;
+                                } else {
+                                    sub_name = d[v][z].name + ' ' + d.name;
+                                }
                                 dataObj.groups.push({
-                                    name: d[v][z].name,
+                                    name: sub_name,
                                     values: []
                                 })
                             })
                         }
 
-                        //console.log(dataObj);
-
                         d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
                             .forEach(function(z) {
-                            //console.log(d[v][z]);
+                            if (d[v][z].name.indexOf(d.name) !== -1) {
+                                sub_name = d[v][z].name;
+                            } else {
+                                sub_name = d[v][z].name + ' ' + d.name;
+                                d[v][z].name = sub_name;
+                            }
                             for (let k = 0; k < dataObj.groups.length; k++) {
-                                if (dataObj.groups[k].name === d[v][z].name) {
+                                if (dataObj.groups[k].name === sub_name) {
                                     dataObj.groups[k].values.push({
                                         name: v,
                                         value: +d[v][z].values['this'],
@@ -201,12 +207,8 @@ function Chart(options) {
                     context: d
                 }
             }
-            //console.log(dataObj);
             return dataObj
         });
-
-        //console.log(chart.chartDataValues);
-
         
         // set base chart dimensions
         chart.settings = {
@@ -705,19 +707,22 @@ function Chart(options) {
             .rangeRoundBands([0, chart.settings.displayWidth], chart.settings.columnPadding, chart.settings.outerColumnPadding);
 
         if (chart.chartType == 'column_time_series_group') {
-            chart.x.domain(chart.chartDataValues.map(function(d) { 
-                    d.groups.map(function(v, i) {
-                        console.log(v.name);
-                        return v.name; 
-                    })
-                }));
+            let x_domain = [];
+            let x_name = '';
+            chart.chartDataValues.forEach(d => {
+                console.log(d);
+                for (let i = 0; i < d.groups.length; i++) {
+                    x_name = d.groups[i].name;
+                    x_domain.push(x_name);
+                }                
+            });
+            console.log(x_domain);
+            chart.x.domain(x_domain);
         } else {
             chart.x.domain(chart.chartDataValues.map(function(d) { 
                     return d.name; 
                 }));
         }
-
-        console.log(chart.x('White 5 to 9'));
 
 
         // y scale and axis, account for raw number vs. percentages
@@ -786,23 +791,20 @@ function Chart(options) {
                 .classed('grouped-column-chart', true);
               
             console.log(chart.chartDataValues);
+
             chart.columnGroups = chart.htmlBase.selectAll(".column-group")
                     .data(chart.chartDataValues)
                 .enter().append("div")
                     .attr("class", "column-group")
                     .each(function(k) {
-                        //console.log(d);
                         g = d3.select(this);
-                        d3.keys(k).filter(function(v) { return chart.exclude(['name'], v) }).forEach(function(j, i) {
+                        d3.keys(k).filter(function(v) { return chart.exclude(['name'], v) }).forEach(function(j) {
+                            console.log(k[j]);
                             for (let i = 0; i < k[j].length; i++) {
-                               //console.log(d[k][i].values);
 
                                groupValues = d3.values(k[j][i].values);
                             
-                               columnWidth = Math.floor(chart.x.rangeBand() / k[j].length);
-                               
-                               console.log(k[j][i].name);
-                               console.log(chart.x(k[j][i].name));
+                               columnWidth = Math.floor(chart.x.rangeBand() / k[j][i].values.length);
 
                                g.append("span")
                                    .classed("x axis label", true)
@@ -812,11 +814,10 @@ function Chart(options) {
                                    .text(function(d) { return chart.capitalize(k[j][i].name); });
                                    
                                groupValues.forEach(function(v, i) {
-                                   console.log(v);
                                    column = g.append("a").attr("class", "column")
                                        .style("width", columnWidth + "px")
                                        .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
-                                       .style("left", function(d) { return (chart.x(d[k].name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
+                                       .style("left", function(d) { return (chart.x(v.context.name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
                                        .style("height", function(d) { 
                                            return (chart.settings.displayHeight) + "px"; 
                                        })
@@ -872,14 +873,12 @@ function Chart(options) {
             chart.chartContainer
                 .classed('grouped-column-chart', true);
               
-            //console.log(chart.chartDataValues);
             chart.columnGroups = chart.htmlBase.selectAll(".column-group")
                     .data(chart.chartDataValues)
                 .enter().append("div")
                     .attr("class", "column-group")
                     .each(function(d, i) {
                         g = d3.select(this);
-                        console.log(d);
                         groupValues = d3.values(d.values);
                         columnWidth = Math.floor(chart.x.rangeBand() / groupValues.length);
                         
@@ -1417,7 +1416,6 @@ function Chart(options) {
         ];
 
         _.each(d.context.values, function(v, k) {
-            console.log(d.context.tableID);
             if (d.context.tableID.startsWith('D3-')) {
                 headerData.push({
                     colspan: 2,
@@ -1507,7 +1505,6 @@ function Chart(options) {
     }
     
     chart.fillHovercard = function(data) {
-        console.log(data);
         var year,
             value,
             index,
