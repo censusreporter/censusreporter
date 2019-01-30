@@ -128,6 +128,7 @@
                 <option value="#health-insurance">Health &amp; safety</option>
                 <option value="#infant-mortality">Infant mortality</option>
                 <option value="#immunizations">Immunizations</option>
+                <option value="#blood-lead">Elevated blood lead levels</option>
                 <option value="#hospitalization">Hospital visits through Medicaid</option>
                 <option value="#health-insurance">Health insurance</option>
             </optgroup>
@@ -566,6 +567,16 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.immunization.immunization stat_type='number' %}
             </div>
             <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.immunization.immunization_chart_data.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <h2><a class="permalink" href="#blood-lead" id="blood-lead" title="Permalink">Elevated blood lead levels <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.blood_lead.percent_elevated stat_type='percent' %}
+            </div>
+            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals, under 6 years of age, with an elevated blood lead level (defined as > 4.5 &#181;g/dL), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
