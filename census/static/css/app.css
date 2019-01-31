@@ -9,6 +9,11 @@
     src: url("../img/fonts/Quicksand-Medium.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: 'Quicksand-Regular';
+    src: url("../img/fonts/Quicksand-Regular.ttf") format("truetype");
+}
+
 /*
 Primary Colors:
 Dark Green: #686867;

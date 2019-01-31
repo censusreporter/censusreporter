@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import math
 import operator
@@ -1137,11 +1138,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_dict['child_care_capacity'] = build_item('Capacity of licensed child care facilities', data, d3_item_levels, 
 		'D3-Capacity')
-	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Centers', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 
-
-	graduation_chart_data['not_graduated'] = build_item('Not Graduated', data, d3_item_levels,
-		'D3-CohortCnt D3-GradCnt - D3-CohortCnt / %')
-	
+	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Centers', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 	
 	
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
@@ -1517,7 +1514,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['CntTested']['indent'] = 0
 
 	fields['EBLL'] = OrderedDict()
-	fields['EBLL']['name'] = "Number of individuals with an elevated blood lead level, defined as > 4.5 &#181;g/dL"
+	fields['EBLL']['name'] = "Number of individuals with an elevated blood lead level, defined as > 4.5 µg/dL"
 	fields['EBLL']['indent'] = 1
 
 	fields['Under6CntTested'] = OrderedDict()
@@ -1525,7 +1522,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Under6CntTested']['indent'] = 1
 
 	fields['Under6EBLL'] = OrderedDict()
-	fields['Under6EBLL']['name'] = "Number of individuals, under 6 years of age, with an elevated blood lead level, defined as > 4.5 &#181;g/dL"
+	fields['Under6EBLL']['name'] = "Number of individuals, under 6 years of age, with an elevated blood lead level, defined as > 4.5 µg/dL"
 	fields['Under6EBLL']['indent'] = 2
 
 	fields['Under18CntTested'] = OrderedDict()
@@ -1533,7 +1530,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Under18CntTested']['indent'] = 1
 
 	fields['Under18EBLL'] = OrderedDict()
-	fields['Under18EBLL']['name'] = "Number of individuals, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 &#181;g/dL"
+	fields['Under18EBLL']['name'] = "Number of individuals, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 µg/dL"
 	fields['Under18EBLL']['indent'] = 2
 
 
@@ -1543,7 +1540,7 @@ def geo_profile(geoid, acs='latest'):
 	blood_lead_dict = dict()
 	doc['social']['blood_lead'] = blood_lead_dict
 
-	blood_lead_dict['percent_elevated'] = build_item('Percent of individuals with an elevated blood lead level (defined as > 4.5 &#181;g/dL)', data, d3_item_levels, 
+	blood_lead_dict['percent_elevated'] = build_item('Percent of individuals with an elevated blood lead level (defined as > 4.5 µg/dL)', data, d3_item_levels, 
 		'D3-EBLL D3-CntTested / %')
 	add_metadata(blood_lead_dict['percent_elevated'], 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services')
 
@@ -1551,9 +1548,9 @@ def geo_profile(geoid, acs='latest'):
 	doc['social']['blood_lead']['blood_lead_chart_data'] = blood_lead_chart_data
 	add_metadata(blood_lead_chart_data, 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services')
 
-	blood_lead_chart_data['Under6EBLL'] = build_item('Under 6', data, d3_item_levels,
+	blood_lead_chart_data['Under6EBLL'] = build_item('Under 6 years of age', data, d3_item_levels,
 		'D3-Under6EBLL D3-Under6CntTested / %')
-	blood_lead_chart_data['Under18EBLL'] = build_item('Under 18', data, d3_item_levels,
+	blood_lead_chart_data['Under18EBLL'] = build_item('Under 18 years of age', data, d3_item_levels,
 		'D3-Under18EBLL D3-Under18CntTested / %')
 
 
