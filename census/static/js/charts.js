@@ -110,6 +110,7 @@ function Chart(options) {
             }
 
             chart.chartDataValues = d3.map(mergeTimeSeriesDatasets);
+            console.log(chart.chartDataValues);
         } else {
             chart.chartDataValues = d3.map(options.chartData);
         }
@@ -171,7 +172,7 @@ function Chart(options) {
                                 if (d[v][z].name.indexOf(d.name) !== -1) {
                                     sub_name = d[v][z].name;
                                 } else {
-                                    sub_name = d[v][z].name + ' ' + d.name;
+                                    sub_name = d[v][z].name + '; ' + d.name;
                                 }
                                 dataObj.groups.push({
                                     name: sub_name,
@@ -185,7 +186,7 @@ function Chart(options) {
                             if (d[v][z].name.indexOf(d.name) !== -1) {
                                 sub_name = d[v][z].name;
                             } else {
-                                sub_name = d[v][z].name + ' ' + d.name;
+                                sub_name = d[v][z].name + '; ' + d.name;
                                 d[v][z].name = sub_name;
                             }
                             for (let k = 0; k < dataObj.groups.length; k++) {
@@ -241,7 +242,7 @@ function Chart(options) {
             chart.makeColumnChart();
         } else if (chart.chartType == 'bar' || chart.chartType == 'grouped_bar') {
             chart.makeBarChart();
-        } else if (chart.chartType == 'column_timeseries' || chart.chartType == 'column_time_series_group' || chart.chartType == 'histogram_time_series') {
+        } else if (chart.chartType == 'stat_timeseries' || chart.chartType == 'column_timeseries' || chart.chartType == 'column_time_series_group' || chart.chartType == 'histogram_time_series') {
             chart.makeTimeseriesColumnChart();
         } else if (chart.chartType == 'bar_timeseries') {
             chart.makeTimeseriesBarChart();
@@ -565,7 +566,7 @@ function Chart(options) {
                                 .style("top", function(d) {
                                     return (chart.settings.displayHeight + 5) + "px";
                                 })
-                                .text(function(d) { return chart.capitalize(v.name); });
+                                .text(function(d) { console.log(v); return chart.capitalize(v.name); });
                                 
                             column.append("span")
                                 .classed("label", true)
@@ -730,7 +731,7 @@ function Chart(options) {
             var yDomain = [0, 100],
                 yTickRange = d3.range(0, 101, 25);
         } else {
-            if (chart.chartType == 'column_timeseries') {
+            if (chart.chartType == 'stat_timeseries' || chart.chartType == 'column_timeseries') {
                 var yValues = [];
                 chart.chartDataValues.forEach(function(d, i) {
                     d3.values(d.values).forEach(function(v, i) {
@@ -799,8 +800,10 @@ function Chart(options) {
                     .each(function(k) {
                         g = d3.select(this);
                         d3.keys(k).filter(function(v) { return chart.exclude(['name'], v) }).forEach(function(j) {
-                            console.log(k[j]);
+                            let x_axis_sub_label = '';
                             for (let i = 0; i < k[j].length; i++) {
+
+                               let x_axis_label = [];
 
                                groupValues = d3.values(k[j][i].values);
                             
@@ -811,7 +814,24 @@ function Chart(options) {
                                    .style("width", chart.x.rangeBand() + "px")
                                    .style("top", function(d) { return (chart.settings.displayHeight + 51) + "px"; })
                                    .style("left", function(d) { return (chart.x(k[j][i].name) + chart.settings.margin.left) + "px"; })
-                                   .text(function(d) { return chart.capitalize(k[j][i].name); });
+                                   .text(function(d) { 
+                                       x_axis_label = k[j][i].name.split('; ');
+                                       return chart.capitalize(x_axis_label[0]); 
+                                    });
+
+                                if (x_axis_sub_label !== x_axis_label[1]) {
+                                    x_axis_sub_label = x_axis_label[1];
+                                    g.append("span")
+                                        .classed("x axis label", true)
+                                        .style("width", (chart.x.rangeBand() * 2) + "px")
+                                        .style("top", function(d) { return (chart.settings.displayHeight + 66) + "px"; })
+                                        .style("left", function(d) { return (chart.x(k[j][i].name) + chart.settings.margin.left + columnWidth/3) + "px"; })
+                                        .text(function(d) { 
+                                            return chart.capitalize(x_axis_sub_label); 
+                                        });
+                                }
+
+
                                    
                                groupValues.forEach(function(v, i) {
                                    column = g.append("a").attr("class", "column")
@@ -948,7 +968,9 @@ function Chart(options) {
         if (!!chart.chartQualifier) {
             chart.addChartQualifier(chart.chartContainer);
         }
-        chart.addActionLinks();
+        if (chart.chartType != 'stat_timeseries') {
+            chart.addActionLinks();
+        }
 
         return chart;
     }
