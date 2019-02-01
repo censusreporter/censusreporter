@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 import math
 import operator
@@ -1504,7 +1503,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('LeadBloodLevels_2017_bySchoolDistrict_20181129', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('CollegeEnroLeadBloodLevels_2017_byZip_20181129llment_2017_byZip_20181106', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('LeadBloodLevels_2017_byZip_20181129', 'GEOID10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1514,7 +1513,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['CntTested']['indent'] = 0
 
 	fields['EBLL'] = OrderedDict()
-	fields['EBLL']['name'] = "Number of individuals with an elevated blood lead level, defined as > 4.5 µg/dL"
+	fields['EBLL']['name'] = "Number of individuals with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
 	fields['EBLL']['indent'] = 1
 
 	fields['Under6CntTested'] = OrderedDict()
@@ -1522,7 +1521,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Under6CntTested']['indent'] = 1
 
 	fields['Under6EBLL'] = OrderedDict()
-	fields['Under6EBLL']['name'] = "Number of individuals, under 6 years of age, with an elevated blood lead level, defined as > 4.5 µg/dL"
+	fields['Under6EBLL']['name'] = "Number of individuals, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
 	fields['Under6EBLL']['indent'] = 2
 
 	fields['Under18CntTested'] = OrderedDict()
@@ -1530,7 +1529,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Under18CntTested']['indent'] = 1
 
 	fields['Under18EBLL'] = OrderedDict()
-	fields['Under18EBLL']['name'] = "Number of individuals, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 µg/dL"
+	fields['Under18EBLL']['name'] = "Number of individuals, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter"
 	fields['Under18EBLL']['indent'] = 2
 
 
@@ -1540,7 +1539,7 @@ def geo_profile(geoid, acs='latest'):
 	blood_lead_dict = dict()
 	doc['social']['blood_lead'] = blood_lead_dict
 
-	blood_lead_dict['percent_elevated'] = build_item('Percent of individuals with an elevated blood lead level (defined as > 4.5 µg/dL)', data, d3_item_levels, 
+	blood_lead_dict['percent_elevated'] = build_item('Percent of individuals with an elevated blood lead level (defined as > 4.5 micrograms per deciliter)', data, d3_item_levels, 
 		'D3-EBLL D3-CntTested / %')
 	add_metadata(blood_lead_dict['percent_elevated'], 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services')
 
