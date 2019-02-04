@@ -473,7 +473,7 @@ def geo_profile(geoid, acs='latest'):
 		tract_data = d3_api.get_data('Births_by_Tract_2016', 'GEOID10', tract_geoids)
 
 	if block_group_geoids:
-		block_group_data = d3_api.get_data('Births_by_BlockGroup_2016', 'GEOID10', tract_geoids)
+		block_group_data = d3_api.get_data('Births_by_BlockGroup_2016', 'GEOID10', block_group_geoids)
 
 	if msa_geoids:
 		msa_data = d3_api.get_data('Births_by_MSA_2016', 'GeoID10_MSA', msa_geoids)
@@ -491,7 +491,7 @@ def geo_profile(geoid, acs='latest'):
 	 	school_district_data = d3_api.get_data('Births_by_SchoolDistrict_2016', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('Births_by_ZIP_2016', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('Births_by_ZIP_2016', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -724,7 +724,7 @@ def geo_profile(geoid, acs='latest'):
 	 	school_district_data = d3_api.get_data('GraduationRates_2016_2017_bySchoolDistrict__20181019', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('GraduationRates_2016_2017_byZip__20181019', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('GraduationRates_2016_2017_byZip__20181019', 'ZCTA5CE10', zcta_geoids)
 
 
 	# take D3 ODP data and create structure like census_reporter structure
@@ -948,7 +948,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('Medicaid_CY2017_bySchDist_20181106', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('Medicaid_CY2017_byZIP_20181106', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('Medicaid_CY2017_byZIP_20181106', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1075,7 +1075,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('LicensedChildCenters_by_SchoolDistricts_20180920', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('LicensedChildCenters_by_ZIP_20180920', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1220,7 +1220,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('FreeAndReducedLunch_Fall207_BySchoolDistrict_20181105', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('FreeAndReducedLunch_Fall207_ByZIP_20181105', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('FreeAndReducedLunch_Fall207_ByZIP_20181105', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1313,7 +1313,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('CollegeReadiness_2017_2018_bySchoolDistrict_20181107', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('CollegeReadiness_2017_2018_byZip_20181107', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1434,7 +1434,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('CollegeEnrollment_2016_2017_bySchDist__20181106', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('CollegeEnrollment_2017_byZip_20181106', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1503,7 +1503,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('LeadBloodLevels_2017_bySchoolDistrict_20181129', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('LeadBloodLevels_2017_byZip_20181129', 'GEOID10', zcta_geoids)
+		zcta_data = d3_api.get_data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA5CE10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1513,7 +1513,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['CntTested']['indent'] = 0
 
 	fields['EBLL'] = OrderedDict()
-	fields['EBLL']['name'] = "Number of individuals with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+	fields['EBLL']['name'] = "Number of individuals tested with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
 	fields['EBLL']['indent'] = 1
 
 	fields['Under6CntTested'] = OrderedDict()
@@ -1521,7 +1521,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Under6CntTested']['indent'] = 1
 
 	fields['Under6EBLL'] = OrderedDict()
-	fields['Under6EBLL']['name'] = "Number of individuals, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+	fields['Under6EBLL']['name'] = "Number of individuals tested, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
 	fields['Under6EBLL']['indent'] = 2
 
 	fields['Under18CntTested'] = OrderedDict()
@@ -1529,7 +1529,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Under18CntTested']['indent'] = 1
 
 	fields['Under18EBLL'] = OrderedDict()
-	fields['Under18EBLL']['name'] = "Number of individuals, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter"
+	fields['Under18EBLL']['name'] = "Number of individuals tested, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter"
 	fields['Under18EBLL']['indent'] = 2
 
 
