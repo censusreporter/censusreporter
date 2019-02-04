@@ -321,9 +321,9 @@ function Comparison(options, callback) {
     comparison.getBirthData = function() {
         // metadata specific to Births
         comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan Office of Vital Statistics';
-        comparison.d3DataYears = '2014';
+        comparison.d3DataYears = '2016';
         comparison.d3table_name = 'D3-Births';
-        comparison.d3title = 'Births by Race and Ethnicity and Characteristic';
+        comparison.d3title = 'Births by race, ethnicity and characteristic';
         comparison.d3universe = 'Total Births';
         comparison.d3denominator_column_id ='D3-TotalBirths';
 
@@ -333,63 +333,83 @@ function Comparison(options, callback) {
         comparison.d3fields['TotalBirths']['name'] = "Total Births"
         comparison.d3fields['TotalBirths']['indent'] = 0
 
-        comparison.d3fields['NonHispWhite'] = {};
-        comparison.d3fields['NonHispWhite']['name'] = "Non-Hispanic White Births"
-        comparison.d3fields['NonHispWhite']['indent'] = 1
+        comparison.d3fields['WhiteNonHispanic'] = {};
+        comparison.d3fields['WhiteNonHispanic']['name'] = "Non-Hispanic White Births"
+        comparison.d3fields['WhiteNonHispanic']['indent'] = 1
 
-        comparison.d3fields['NonHispBlack'] = {};
-        comparison.d3fields['NonHispBlack']['name'] = "Non-Hispanic Black Births"
-        comparison.d3fields['NonHispBlack']['indent'] = 1
+        comparison.d3fields['BlackNonHispanic'] = {};
+        comparison.d3fields['BlackNonHispanic']['name'] = "Non-Hispanic Black Births"
+        comparison.d3fields['BlackNonHispanic']['indent'] = 1
 
-        comparison.d3fields['NonHIspOther'] = {};
-        comparison.d3fields['NonHIspOther']['name'] = "Non-Hispanic Other Race Births"
-        comparison.d3fields['NonHIspOther']['indent'] = 1
+        comparison.d3fields['OtherNonHispanic'] = {};
+        comparison.d3fields['OtherNonHispanic']['name'] = "Non-Hispanic Other Race Births"
+        comparison.d3fields['OtherNonHispanic']['indent'] = 1
 
         comparison.d3fields['Hispanic'] = {};
         comparison.d3fields['Hispanic']['name'] = "Hispanic Births"
         comparison.d3fields['Hispanic']['indent'] = 1
 
-        comparison.d3fields['InadequatePrenatal'] = {};
-        comparison.d3fields['InadequatePrenatal']['name'] = "Births with Inadequate Prenatal Care"
-        comparison.d3fields['InadequatePrenatal']['indent'] = 1
+        comparison.d3fields['InadequatePrenatalCare'] = {};
+        comparison.d3fields['InadequatePrenatalCare']['name'] = "Births with Inadequate Prenatal Care (defined as births rated \"Intermediate\" or \"Inadequate\" on the Kessner Scale)"
+        comparison.d3fields['InadequatePrenatalCare']['indent'] = 1
 
         comparison.d3fields['LowBirthWeight'] = {};
-        comparison.d3fields['LowBirthWeight']['name'] = "Low Birth Weight Births"
+        comparison.d3fields['LowBirthWeight']['name'] = "Low Birth Weight Births (defined as infants weighing under 2,500 grams)"
         comparison.d3fields['LowBirthWeight']['indent'] = 1
 
+        comparison.d3fields['PreTerm'] = {};
+        comparison.d3fields['PreTerm']['name'] = "Pre-Term Births (defined as births occuring at less than 37 weeks of gestation)"
+        comparison.d3fields['PreTerm']['indent'] = 1
+
         comparison.d3fields['TeenMothers'] = {};
-        comparison.d3fields['TeenMothers']['name'] = "Births to Teen Mothers"
+        comparison.d3fields['TeenMothers']['name'] = "Births to Teen Mothers (under the age of 20 years)"
         comparison.d3fields['TeenMothers']['indent'] = 1
 
         comparison.ajaxCount = 0;
 
         if (comparison.state_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_StateofMichigan_2014', 'StateID', comparison.state_geoids, 'state_data');
+            comparison.getD3Data('Births_StateOfMichigan_2016', 'StateID', comparison.state_geoids, 'state_data');
         }
         if (comparison.county_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_byCounty_2014', 'GeoID10_1', comparison.county_geoids, 'county_data')
+            comparison.getD3Data('Births_by_County_2016', 'GeoID10_1', comparison.county_geoids, 'county_data')
         }
         if (comparison.county_sd_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_byCity_2014', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
+            comparison.getD3Data('Births_by_CountySubdivision_2016', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
         }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_byTract_2014', 'GEOID10', comparison.tract_geoids, 'tract_data')
+            comparison.getD3Data('Births_by_Tract_2016', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_by_BlockGroup_2016', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_byMSA_2014', 'GeoID10_1', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('Births_by_MSA_2016', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_by_CongressionalDistricts_2016', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_by_MISenateDistrict_2016', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Births_by_MIHouseOfRepDistrict_2016', 'GEOID', comparison.state_house_geoids, 'state_house_data')
         }
         if (comparison.school_district_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_bySD_2014', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+            comparison.getD3Data('Births_by_SchoolDistrict_2016', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
         }
         if (comparison.zcta_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_byZCTA_2014', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+            comparison.getD3Data('Births_by_ZIP_2016', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
         
     }
@@ -514,49 +534,65 @@ function Comparison(options, callback) {
         comparison.d3DataReleaseName = 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information';
         comparison.d3DataYears = '2017';
         comparison.d3table_name = 'D3-Graduation-Rates';
-        comparison.d3title = 'High School Graduation Rate';
+        comparison.d3title = 'High school graduation rate';
         comparison.d3universe = 'Total students';
-        comparison.d3denominator_column_id ='D3-CohortCount';
+        comparison.d3denominator_column_id ='D3-CohortCnt';
 
         // table columns
         comparison.d3fields = {};
-        comparison.d3fields['CohortCount'] = {};
-        comparison.d3fields['CohortCount']['name'] = "Number of Students"
-        comparison.d3fields['CohortCount']['indent'] = 0
+        comparison.d3fields['CohortCnt'] = {};
+        comparison.d3fields['CohortCnt']['name'] = "Number of students in the class that were on schedule to graduate in 2017"
+        comparison.d3fields['CohortCnt']['indent'] = 0
 
         comparison.d3fields['GradCnt'] = {};
-        comparison.d3fields['GradCnt']['name'] = "Number of Graduates"
+        comparison.d3fields['GradCnt']['name'] = "Number of students in the class that graduated in 2017"
         comparison.d3fields['GradCnt']['indent'] = 1
 
         comparison.ajaxCount = 0;
 
         if (comparison.state_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRate_Michigan_08312017', 'StateID', comparison.state_geoids, 'state_data');
+            comparison.getD3Data('GraduationRate_2016_2017_StateOfMichigan__20181009', 'StateID', comparison.state_geoids, 'state_data');
         }
         if (comparison.county_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_byCounty_08312017', 'GEOID10', comparison.county_geoids, 'county_data')
+            comparison.getD3Data('GraduationRates_2016_2017_byCounty__20181019', 'GEOID10', comparison.county_geoids, 'county_data')
         }
         if (comparison.county_sd_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_byCity_08312017', 'GeoID10_1', comparison.county_sd_geoids, 'county_sd_data')
+            comparison.getD3Data('GraduationRates_2016_2017_byCountySubdivision__20181019', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
         }
-        if (comparison.tract_geoids.length > 0) {
-            comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_byTract_08312017', 'GEOID10', comparison.tract_geoids, 'tract_data')
-        }
+        // if (comparison.tract_geoids.length > 0) {
+        //     comparison.ajaxCount++;
+        //     comparison.getD3Data('GraduationRates_2016_2017_byTract__20181019', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        // }
+        // if (comparison.block_group_geoids.length > 0) {
+        //     comparison.ajaxCount++;
+        //     comparison.getD3Data('GraduationRates_2016_2017_byBlockGroup__20181108', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        // }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_byMSA_08312017', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('GraduationRates_2016_2017_byMSA__20181019', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_2016_2017_byCongressionalDistrict__20181019', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_2016_2017_byMIStateSenate__20181019', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('GraduationRates_2016_2017_byHouseOfReps__20181019', 'GEOID10', comparison.state_house_geoids, 'state_house_data')
         }
         if (comparison.school_district_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_bySchoolDistrict_08312017', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+            comparison.getD3Data('GraduationRates_2016_2017_bySchoolDistrict__20181019', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
         }
         if (comparison.zcta_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_byZip_08312017', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+            comparison.getD3Data('GraduationRates_2016_2017_byZip__20181019', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
         
     }
@@ -666,6 +702,553 @@ function Comparison(options, callback) {
     }
 
 
+    comparison.getMedicaidData = function() {
+        // metadata specific to Medicaid
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, Michigan Department of Health and Human Services';
+        comparison.d3DataYears = '2017';
+        comparison.d3table_name = 'D3-Medicaid';
+        comparison.d3title = 'Hospital or ER visits through Medicaid for children (under 18)';
+        comparison.d3universe = 'Total number of hospital or ER visits through Medicaid for children (under 18)';
+        comparison.d3denominator_column_id ='D3-Under18_Tot';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['Under18_Tot'] = {};
+        comparison.d3fields['Under18_Tot']['name'] = "Total number of hospital or ER visits through Medicaid for children (under 18)"
+        comparison.d3fields['Under18_Tot']['indent'] = 0
+
+        comparison.d3fields['Under5_Tot'] = {};
+        comparison.d3fields['Under5_Tot']['name'] = "Total number of hospital or ER visits through Medicaid for children under 5"
+        comparison.d3fields['Under5_Tot']['indent'] = 0
+
+        comparison.d3fields['Under5_ER'] = {};
+        comparison.d3fields['Under5_ER']['name'] = "Total number of ER visits through Medicaid for children under 5"
+        comparison.d3fields['Under5_ER']['indent'] = 1
+
+        comparison.d3fields['Under5_Hosp'] = {};
+        comparison.d3fields['Under5_Hosp']['name'] = "Total number of hospital visits through Medicaid for children under 5"
+        comparison.d3fields['Under5_Hosp']['indent'] = 1
+
+        comparison.d3fields['FivePlus_Tot'] = {};
+        comparison.d3fields['FivePlus_Tot']['name'] = "Total number of hospital or ER visits through Medicaid for children over 5"
+        comparison.d3fields['FivePlus_Tot']['indent'] = 0
+
+        comparison.d3fields['FivePlus_ER'] = {};
+        comparison.d3fields['FivePlus_ER']['name'] = "Total number of ER visits through Medicaid for children over 5"
+        comparison.d3fields['FivePlus_ER']['indent'] = 1
+
+        comparison.d3fields['Tot_ER_Visits'] = {};
+        comparison.d3fields['Tot_ER_Visits']['name'] = "Total number of ER visits through Medicaid for children (under 18)"
+        comparison.d3fields['Tot_ER_Visits']['indent'] = 1
+
+        comparison.d3fields['Tot_Hosp_Visits'] = {};
+        comparison.d3fields['Tot_Hosp_Visits']['name'] = "Total number of hospital visits through Medicaid for children under 18"
+        comparison.d3fields['Tot_Hosp_Visits']['indent'] = 1
+
+        comparison.d3fields['AsthmaCt'] = {};
+        comparison.d3fields['AsthmaCt']['name'] = "Total number of hospital or ER visits for children through Medicaid related to Asthma"
+        comparison.d3fields['AsthmaCt']['indent'] = 1
+
+        comparison.d3fields['Diabetes1Ct'] = {};
+        comparison.d3fields['Diabetes1Ct']['name'] = "Total number of hospital or ER visits for children through Medicaid related to Type 1 Diabetes"
+        comparison.d3fields['Diabetes1Ct']['indent'] = 1
+
+        comparison.d3fields['Diabetes2Ct'] = {};
+        comparison.d3fields['Diabetes2Ct']['name'] = "Total number of hospital or ER visits for children through Medicaid related to Type 2 Diabetes"
+        comparison.d3fields['Diabetes2Ct']['indent'] = 1
+
+        comparison.d3fields['DiabetesOtherCt'] = {};
+        comparison.d3fields['DiabetesOtherCt']['name'] = "Total number of hospital or ER visits for children through Medicaid related to other types of Diabetes (excluding Type 1 and 2)"
+        comparison.d3fields['DiabetesOtherCt']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_StateOfMichigan_20181106', 'StateID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byCounty_20181106', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byCountySub_20181106', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byTract_20181106', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byBlockGroup_20181106', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byMSA_20181106', 'GEOIDMSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byMICongressionalDistrict_20181106', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byMISenateDistrict_20181106', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byMIHouseOfRepDistrict_20181106', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_bySchDist_20181106', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Medicaid_CY2017_byZIP_20181106', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+
+    comparison.getChildCareData = function() {
+        // metadata specific to Child Care Centers
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, Great Start to Quality';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-Child-Care-Centers';
+        comparison.d3title = 'Child care facilities';
+        comparison.d3universe = 'Number of licensed child care facilities';
+        comparison.d3denominator_column_id ='D3-Centers';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['Centers'] = {};
+        comparison.d3fields['Centers']['name'] = "Number of licensed child care facilities"
+        comparison.d3fields['Centers']['indent'] = 0
+
+        comparison.d3fields['Capacity'] = {};
+        comparison.d3fields['Capacity']['name'] = "Capacity of licensed child care facilities"
+        comparison.d3fields['Capacity']['indent'] = 1
+
+        comparison.d3fields['GrpHmeCnt'] = {};
+        comparison.d3fields['GrpHmeCnt']['name'] = "Number of group homes"
+        comparison.d3fields['GrpHmeCnt']['indent'] = 1
+
+        comparison.d3fields['FamHmeCnt'] = {};
+        comparison.d3fields['FamHmeCnt']['name'] = "Number of family homes"
+        comparison.d3fields['FamHmeCnt']['indent'] = 1
+
+        comparison.d3fields['LicCenCnt'] = {};
+        comparison.d3fields['LicCenCnt']['name'] = "Number of licensed child care centers"
+        comparison.d3fields['LicCenCnt']['indent'] = 1
+
+        comparison.d3fields['EarlyHSCnt'] = {};
+        comparison.d3fields['EarlyHSCnt']['name'] = "Number of early head start programs"
+        comparison.d3fields['EarlyHSCnt']['indent'] = 1
+
+        comparison.d3fields['CapEarlyHS'] = {};
+        comparison.d3fields['CapEarlyHS']['name'] = "Capacity of early head start programs"
+        comparison.d3fields['CapEarlyHS']['indent'] = 2
+
+        comparison.d3fields['GSRPCnt'] = {};
+        comparison.d3fields['GSRPCnt']['name'] = "Number of GSRP programs"
+        comparison.d3fields['GSRPCnt']['indent'] = 1
+
+        comparison.d3fields['CapGSRP'] = {};
+        comparison.d3fields['CapGSRP']['name'] = "Capacity of GSRP programs"
+        comparison.d3fields['CapGSRP']['indent'] = 2
+
+        comparison.d3fields['HSCnt'] = {};
+        comparison.d3fields['HSCnt']['name'] = "Number of Head Start programs"
+        comparison.d3fields['HSCnt']['indent'] = 1
+
+        comparison.d3fields['CapHS'] = {};
+        comparison.d3fields['CapHS']['name'] = "Capacity of Head Start programs"
+        comparison.d3fields['CapHS']['indent'] = 2
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_StateOfMichigan_20180920', 'GEOID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_County_20180920', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_CountySubdivision_20180920', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        // if (comparison.block_group_geoids.length > 0) {
+        //     comparison.ajaxCount++;
+        //     comparison.getD3Data('', '', comparison.block_group_geoids, 'block_group_data')
+        // }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MICongressionalDistrict_20180920', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MISenate_20180920', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MIHouseOfReps_20180920', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_SchoolDistricts_20180920', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+
+    
+    comparison.getFreeReducedLunchData = function() {
+        // metadata specific to Free and Reduced Lunch
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Center for Educational Performance and Information';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-School-Lunch';
+        comparison.d3title = 'Eligibility for free or reduced price school lunches';
+        comparison.d3universe = 'Total number of student counts grade K-12, including ungraded';
+        comparison.d3denominator_column_id ='D3-Total';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['Total'] = {};
+        comparison.d3fields['Total']['name'] = "Total number of student counts grade K-12, including ungraded"
+        comparison.d3fields['Total']['indent'] = 0
+
+        comparison.d3fields['FreeEligible'] = {};
+        comparison.d3fields['FreeEligible']['name'] = "Number of students who records indicate that they are eligible for the free lunch program, are migrant or homeless students, or identified via direct certification process"
+        comparison.d3fields['FreeEligible']['indent'] = 1
+
+        comparison.d3fields['ReducedEligible'] = {};
+        comparison.d3fields['ReducedEligible']['name'] = "Number of students who records indicate that they are eligible for the reduced price lunch program and are not a migrant or homeless students, or were not identified via direct certification process"
+        comparison.d3fields['ReducedEligible']['indent'] = 1
+
+        comparison.d3fields['NotEligible'] = {};
+        comparison.d3fields['NotEligible']['name'] = "Student records indicate they are not eligible for free or reduced lunch programs"
+        comparison.d3fields['NotEligible']['indent'] = 1
+
+        comparison.d3fields['FreeReducedEligible'] = {};
+        comparison.d3fields['FreeReducedEligible']['name'] = "The number of students eligible for free or reduced lunches as measured above"
+        comparison.d3fields['FreeReducedEligible']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_StateOfMichigan_20181105', 'GEOID10', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByCounty_20181105', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByCountySub_20181105', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByTract_20181105', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByBlockGroup_20181105', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByMSA_20181105', 'GEOID10', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByCongressionalDistrict_20181105', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByMISenateDist_20181105', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByMIHouseOfRepsDist_20181105', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_BySchoolDistrict_20181105', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByZIP_20181105', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+    
+
+    comparison.getCollegeReadinessData = function() {
+        // metadata specific to College Readiness
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Center for Educational Performance and Information';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-College-Readiness';
+        comparison.d3title = 'College readiness';
+        comparison.d3universe = 'The number of students who took the SAT assessment in all subjects';
+        comparison.d3denominator_column_id ='D3-AllSbjtNumAssessed';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['AllSbjtNumAssessed'] = {};
+        comparison.d3fields['AllSbjtNumAssessed']['name'] = "The number of students who took the SAT assessment in all subjects"
+        comparison.d3fields['AllSbjtNumAssessed']['indent'] = 0
+
+        comparison.d3fields['AllSbjtNumReady'] = {};
+        comparison.d3fields['AllSbjtNumReady']['name'] = "The number of students who scored at or above college readiness proficiency on the SAT test in all subjects"
+        comparison.d3fields['AllSbjtNumReady']['indent'] = 1
+
+        comparison.d3fields['MathNumAssessed'] = {};
+        comparison.d3fields['MathNumAssessed']['name'] = "The number of students who took the math SAT assessment"
+        comparison.d3fields['MathNumAssessed']['indent'] = 1
+
+        comparison.d3fields['MathNumReady'] = {};
+        comparison.d3fields['MathNumReady']['name'] = "The number of students who scored at or above college readiness proficiency on the SAT test in math"
+        comparison.d3fields['MathNumReady']['indent'] = 2
+
+        comparison.d3fields['EBRWNumAssessed'] = {};
+        comparison.d3fields['EBRWNumAssessed']['name'] = "The number of students who took the evidenced-based reading and writing SAT assessment"
+        comparison.d3fields['EBRWNumAssessed']['indent'] = 1
+
+        comparison.d3fields['EBRWNumReady'] = {};
+        comparison.d3fields['EBRWNumReady']['name'] = "The number of students who scored at or above college readiness proficiency on the SAT test in evidenced-based reading and writing"
+        comparison.d3fields['EBRWNumReady']['indent'] = 2
+
+        comparison.d3fields['FinalAllSbjtAveScore'] = {};
+        comparison.d3fields['FinalAllSbjtAveScore']['name'] = "The average of all the SAT scores"
+        comparison.d3fields['FinalAllSbjtAveScore']['indent'] = 0
+
+        comparison.d3fields['FinalMathAveScore'] = {};
+        comparison.d3fields['FinalMathAveScore']['name'] = "The average of all the math SAT scores"
+        comparison.d3fields['FinalMathAveScore']['indent'] = 0
+
+        comparison.d3fields['FinalEWBRWAveScore'] = {};
+        comparison.d3fields['FinalEWBRWAveScore']['name'] = "The average of all the evidenced-based reading and writing SAT scores"
+        comparison.d3fields['FinalEWBRWAveScore']['indent'] = 0
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_StateOfMichigan_20181107', 'GEOID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byCnty_20181107', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byCntySub_20181107', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byTract_20181107', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byBlockGroup_20181107', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byMSA_20181107', 'GEOID10', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byCongDist_20181107', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byMISenate_20181107', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byMIHouseOrRep_20181107', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_bySchoolDistrict_20181107', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+
+    comparison.getCollegeEnrollmentData = function() {
+        // metadata specific to College Enrollment
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Center for Educational Performance and Information';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-College-Enrollment';
+        comparison.d3title = 'College enrollment';
+        comparison.d3universe = 'Number of public high school graduates who received a diploma during the high school graduation year';
+        comparison.d3denominator_column_id ='D3-TotGradCalc';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['TotGradCalc'] = {};
+        comparison.d3fields['TotGradCalc']['name'] = "Number of public high school graduates who received a diploma during the high school graduation year"
+        comparison.d3fields['TotGradCalc']['indent'] = 0
+
+        comparison.d3fields['TotEnrlCalc'] = {};
+        comparison.d3fields['TotEnrlCalc']['name'] = "Number of public high school graduates who have enrolled in college within 6 months of graduation"
+        comparison.d3fields['TotEnrlCalc']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_StateOfMichigan_20181106', 'GEOID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byCounty_20181106', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byCountySub_20181106', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byTract_20181106', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byBlockGroup_20181106', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byMSA_20181106', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byMICongressionalDistrict_20181106', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byMISenateDistrict_20181106', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byMIHouseOfRepDistrict_20181106', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2016_2017_bySchDist__20181106', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+
+    comparison.getBloodLeadLevelsData = function() {
+        // metadata specific to Blood Lead Levels
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Department of Heath and Human Services';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-Blood-Lead';
+        comparison.d3title = 'Blood lead levels';
+        comparison.d3universe = 'Number of individuals who were tested';
+        comparison.d3denominator_column_id ='D3-CntTested';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['CntTested'] = {};
+        comparison.d3fields['CntTested']['name'] = "Number of individuals who were tested"
+        comparison.d3fields['CntTested']['indent'] = 0
+
+        comparison.d3fields['EBLL'] = {};
+        comparison.d3fields['EBLL']['name'] = "Number of individuals tested with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+        comparison.d3fields['EBLL']['indent'] = 1
+
+        comparison.d3fields['Under6CntTested'] = {};
+        comparison.d3fields['Under6CntTested']['name'] = "Number of individuals, under 6 years of age, who were tested"
+        comparison.d3fields['Under6CntTested']['indent'] = 1
+
+        comparison.d3fields['Under6EBLL'] = {};
+        comparison.d3fields['Under6EBLL']['name'] = "Number of individuals tested, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+        comparison.d3fields['Under6EBLL']['indent'] = 2
+
+        comparison.d3fields['Under18CntTested'] = {};
+        comparison.d3fields['Under18CntTested']['name'] = "Number of individuals, under 18 years of age, who were tested"
+        comparison.d3fields['Under18CntTested']['indent'] = 1
+
+        comparison.d3fields['Under18EBLL'] = {};
+        comparison.d3fields['Under18EBLL']['name'] = "Number of individuals tested, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter"
+        comparison.d3fields['Under18EBLL']['indent'] = 2
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_Michigan_20181129', 'StateID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byCnty_20181129', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byCntySub_20181129', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byTract_20181129', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byBG_20181129', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byMSA_20181129', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byCongDist_20181129', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byMISenate_20181129', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byMIHouse_20181129', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_bySchoolDistrict_20181129', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+
     comparison.getData = function() {
         if (comparison.tableID && comparison.geoIDs) {
             var params = {
@@ -741,6 +1324,9 @@ function Comparison(options, callback) {
                     if (split_geoid[0].startsWith('140')) {
                         comparison.tract_geoids.push(split_geoid[1]);
                     }
+                    if (split_geoid[0].startsWith('150')) {
+                        comparison.block_group_geoids.push(split_geoid[1]);
+                    }
                     if (split_geoid[0].startsWith('310')) {
                         comparison.msa_geoids.push(split_geoid[1]);
                     }
@@ -790,6 +1376,30 @@ function Comparison(options, callback) {
 
                     if (comparison.tableID == 'D3-Immunization') {
                         comparison.getImmunizationData();
+                    }
+
+                    if (comparison.tableID == 'D3-Medicaid') {
+                        comparison.getMedicaidData();
+                    }
+
+                    if (comparison.tableID == 'D3-Child-Care-Centers') {
+                        comparison.getChildCareData();
+                    }
+
+                    if (comparison.tableID == 'D3-School-Lunch') {
+                        comparison.getFreeReducedLunchData();
+                    }
+
+                    if (comparison.tableID == 'D3-College-Readiness') {
+                        comparison.getCollegeReadinessData();
+                    }
+
+                    if (comparison.tableID == 'D3-College-Enrollment') {
+                        comparison.getCollegeEnrollmentData();
+                    }
+
+                    if (comparison.tableID == 'D3-Blood-Lead') {
+                        comparison.getBloodLeadLevelsData();
                     }
 
                 }
