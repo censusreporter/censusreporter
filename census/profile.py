@@ -1075,7 +1075,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('LicensedChildCenters_by_SchoolDistricts_20180920', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA5CE10', zcta_geoids)
+		zcta_data = d3_api.get_data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1313,7 +1313,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('CollegeReadiness_2017_2018_bySchoolDistrict_20181107', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA5CE10', zcta_geoids)
+		zcta_data = d3_api.get_data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1434,7 +1434,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('CollegeEnrollment_2016_2017_bySchDist__20181106', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA5CE10', zcta_geoids)
+		zcta_data = d3_api.get_data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
@@ -1503,7 +1503,7 @@ def geo_profile(geoid, acs='latest'):
 		school_district_data = d3_api.get_data('LeadBloodLevels_2017_bySchoolDistrict_20181129', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA5CE10', zcta_geoids)
+		zcta_data = d3_api.get_data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 

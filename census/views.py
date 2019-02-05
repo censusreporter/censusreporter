@@ -2200,7 +2200,7 @@ class DataView(TemplateView):
 
 			if zcta_geoids and self.table == 'D3-Child-Care-Centers':
 				table_id = 'LicensedChildCenters_by_ZIP_20180920'
-				field_name = 'ZCTA5CE10'
+				field_name = 'ZCTA'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
@@ -2358,7 +2358,7 @@ class DataView(TemplateView):
 
 			if zcta_geoids and self.table == 'D3-College-Readiness':
 				table_id = 'CollegeReadiness_2017_2018_byZip_20181107'
-				field_name = 'ZCTA5CE10'
+				field_name = 'ZCTA'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
@@ -2437,7 +2437,7 @@ class DataView(TemplateView):
 
 			if zcta_geoids and self.table == 'D3-College-Enrollment':
 				table_id = 'CollegeEnrollment_2017_byZip_20181106'
-				field_name = 'ZCTA5CE10'
+				field_name = 'ZCTA'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'
@@ -2515,7 +2515,7 @@ class DataView(TemplateView):
 
 			if zcta_geoids and self.table == 'D3-Blood-Lead':
 				table_id = 'LeadBloodLevels_2017_byZip_20181129'
-				field_name = 'ZCTA5CE10'
+				field_name = 'ZCTA'
 				if hasattr(zcta_geoids, '__iter__'):
 					zcta_geoids = ','.join(zcta_geoids)
 				d3_zcta_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ zcta_geoids +')'

@@ -910,7 +910,7 @@ function Comparison(options, callback) {
         }
         if (comparison.zcta_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+            comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
         
     }
@@ -1089,7 +1089,7 @@ function Comparison(options, callback) {
         }
         if (comparison.zcta_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+            comparison.getD3Data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
         
     }
@@ -1158,7 +1158,7 @@ function Comparison(options, callback) {
         }
         if (comparison.zcta_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+            comparison.getD3Data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
         
     }
@@ -1243,7 +1243,7 @@ function Comparison(options, callback) {
         }
         if (comparison.zcta_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
+            comparison.getD3Data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
         
     }
