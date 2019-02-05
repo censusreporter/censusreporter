@@ -177,17 +177,22 @@ class D3TableDetailViewBirths(TemplateView):
 		table['columns']['Hispanic']['parent_column_id'] = 'TotalBirths'
 
 		table['columns']['InadequatePrenatal'] = OrderedDict()
-		table['columns']['InadequatePrenatal']['column_title'] = 'Births with inadequate prenatal care'
+		table['columns']['InadequatePrenatal']['column_title'] = 'Births with inadequate prenatal care (defined as births rated \"Intermediate\" or \"Inadequate\" on the Kessner scale)'
 		table['columns']['InadequatePrenatal']['indent'] = 1
 		table['columns']['InadequatePrenatal']['parent_column_id'] = 'TotalBirths'
 
 		table['columns']['LowBirthWeight'] = OrderedDict()
-		table['columns']['LowBirthWeight']['column_title'] = 'Low birth weight births'
+		table['columns']['LowBirthWeight']['column_title'] = 'Low birth weight births (defined as infants weighing under 2,500 grams)'
 		table['columns']['LowBirthWeight']['indent'] = 1
 		table['columns']['LowBirthWeight']['parent_column_id'] = 'TotalBirths'
 
+		table['columns']['PreTerm'] = OrderedDict()
+		table['columns']['PreTerm']['column_title'] = 'Pre-term births (defined as births occuring at less than 37 weeks of gestation)'
+		table['columns']['PreTerm']['indent'] = 1
+		table['columns']['PreTerm']['parent_column_id'] = 'TotalBirths'
+
 		table['columns']['TeenMothers'] = OrderedDict()
-		table['columns']['TeenMothers']['column_title'] = 'Births to teen mothers'
+		table['columns']['TeenMothers']['column_title'] = 'Births to teen mothers (under the age of 20 years)'
 		table['columns']['TeenMothers']['indent'] = 1
 		table['columns']['TeenMothers']['parent_column_id'] = 'TotalBirths'
 
@@ -447,7 +452,7 @@ class D3TableDetailViewMedicaid(TemplateView):
 		table['table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
 		table['simple_table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
 		table['subject_area'] = 'Health care'
-		table['universe'] = 'Patients under 18 years of age'
+		table['universe'] = 'Total number of hospital or ER visits through Medicaid for children (under 18)'
 		table['denominator_column_id'] = 'Under18_Tot'
 		table['topics'] = ["health care", "public health"]
 
@@ -484,32 +489,32 @@ class D3TableDetailViewMedicaid(TemplateView):
 
 		table['columns']['Tot_ER_Visits'] = OrderedDict()
 		table['columns']['Tot_ER_Visits']['column_title'] = 'Total number of ER visits through Medicaid for children (under 18)'
-		table['columns']['Tot_ER_Visits']['indent'] = 1
+		table['columns']['Tot_ER_Visits']['indent'] = 0
 		table['columns']['Tot_ER_Visits']['parent_column_id'] = 'Under18_Tot'
 
 		table['columns']['Tot_Hosp_Visits'] = OrderedDict()
 		table['columns']['Tot_Hosp_Visits']['column_title'] = 'Total number of hospital visits through Medicaid for children under 18'
-		table['columns']['Tot_Hosp_Visits']['indent'] = 1
+		table['columns']['Tot_Hosp_Visits']['indent'] = 0
 		table['columns']['Tot_Hosp_Visits']['parent_column_id'] = 'Under18_Tot'
 
 		table['columns']['AsthmaCt'] = OrderedDict()
 		table['columns']['AsthmaCt']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to Asthma'
-		table['columns']['AsthmaCt']['indent'] = 1
+		table['columns']['AsthmaCt']['indent'] = 0
 		table['columns']['AsthmaCt']['parent_column_id'] = 'Under18_Tot'
 
 		table['columns']['Diabetes1Ct'] = OrderedDict()
 		table['columns']['Diabetes1Ct']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to Type 1 Diabetes'
-		table['columns']['Diabetes1Ct']['indent'] = 1
+		table['columns']['Diabetes1Ct']['indent'] = 0
 		table['columns']['Diabetes1Ct']['parent_column_id'] = 'Under18_Tot'
 
 		table['columns']['Diabetes2Ct'] = OrderedDict()
 		table['columns']['Diabetes2Ct']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to Type 2 Diabetes'
-		table['columns']['Diabetes2Ct']['indent'] = 1
+		table['columns']['Diabetes2Ct']['indent'] = 0
 		table['columns']['Diabetes2Ct']['parent_column_id'] = 'Under18_Tot'
 
 		table['columns']['DiabetesOtherCt'] = OrderedDict()
 		table['columns']['DiabetesOtherCt']['column_title'] = 'Total number of hospital or ER visits for children through Medicaid related to other types of Diabetes (excluding Type 1 and 2)'
-		table['columns']['DiabetesOtherCt']['indent'] = 1
+		table['columns']['DiabetesOtherCt']['indent'] = 0
 		table['columns']['DiabetesOtherCt']['parent_column_id'] = 'Under18_Tot'
 
 		page_context = {
@@ -576,6 +581,35 @@ class D3TableDetailViewChildCareCenters(TemplateView):
 		table['columns']['HSCnt']['indent'] = 2
 		table['columns']['HSCnt']['parent_column_id'] = 'LicCenCnt'
 
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewChildCareCapacity(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewChildCareCapacity, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Child-Care-Capacity'
+		table['table_title'] = 'Capacity of licensed child care facilities'
+		table['simple_table_title'] = 'Capacity of licensed child care facilities'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Capacity of licensed child care facilities'
+		table['denominator_column_id'] = 'Capacity'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
 		table['columns']['Capacity'] = OrderedDict()
 		table['columns']['Capacity']['column_title'] = 'Capacity of licensed child care facilities:'
 		table['columns']['Capacity']['indent'] = 0
@@ -602,6 +636,7 @@ class D3TableDetailViewChildCareCenters(TemplateView):
 		}
 
 		return page_context	
+
 
 
 class D3TableDetailViewFreeReducedLunch(TemplateView):
@@ -709,21 +744,6 @@ class D3TableDetailViewCollegeReadiness(TemplateView):
 		table['columns']['EBRWNumReady']['column_title'] = 'The number of students who scored at or above college readiness proficiency on the SAT test in evidenced-based reading and writing'
 		table['columns']['EBRWNumReady']['indent'] = 2
 		table['columns']['EBRWNumReady']['parent_column_id'] = 'EBRWNumAssessed'
-
-		table['columns']['FinalAllSbjtAveScore'] = OrderedDict()
-		table['columns']['FinalAllSbjtAveScore']['column_title'] = 'The average of all the SAT scores'
-		table['columns']['FinalAllSbjtAveScore']['indent'] = 0
-		table['columns']['FinalAllSbjtAveScore']['parent_column_id'] = None
-
-		table['columns']['FinalMathAveScore'] = OrderedDict()
-		table['columns']['FinalMathAveScore']['column_title'] = 'The average of all the math SAT scores'
-		table['columns']['FinalMathAveScore']['indent'] = 0
-		table['columns']['FinalMathAveScore']['parent_column_id'] = None
-
-		table['columns']['FinalEWBRWAveScore'] = OrderedDict()
-		table['columns']['FinalEWBRWAveScore']['column_title'] = 'The average of all the evidenced-based reading and writing SAT scores'
-		table['columns']['FinalEWBRWAveScore']['indent'] = 0
-		table['columns']['FinalEWBRWAveScore']['parent_column_id'] = None
 
 		page_context = {
 			'table': table,

@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, GeographySearchView,
-    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard)
 
@@ -135,6 +135,13 @@ urlpatterns = patterns('',
     ),
 
     url(
+        regex   = '^tables/D3-Child-Care-Capacity/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewChildCareCapacity.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Child-Care-Capacity',
+    ),
+
+    url(
         regex   = '^tables/D3-School-Lunch/$',
         view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewFreeReducedLunch.as_view()),
         kwargs  = {},
@@ -153,6 +160,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewCollegeEnrollment.as_view()),
         kwargs  = {},
         name    = 'table_D3-College-Enrollment',
+    ),
+
+    url(
+        regex   = '^tables/D3-Blood-Lead/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewLeadBloodLevels.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Blood-Lead',
     ),
 
     url(
