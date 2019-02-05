@@ -1137,7 +1137,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_dict['child_care_capacity'] = build_item('Capacity of licensed child care facilities', data, d3_item_levels, 
 		'D3-Capacity')
-	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Centers', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 	
+	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 	
 	
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
@@ -1163,7 +1163,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_capacity_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_capacity_chart_data'] = child_care_capacity_chart_data
-	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Centers', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
+	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018')
 
 	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Early Head Start programs', data, d3_item_levels,
 		'D3-CapEarlyHS D3-Capacity / %')

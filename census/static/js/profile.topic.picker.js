@@ -92,6 +92,64 @@ var topicSelectEngine = new Bloodhound({
                 response.unshift(d3Response);
             } 
 
+            // medicaid
+            var medicaid = 'hospitalervisitsmedicaidchildrenurgentcarehealthcareasthmadiabetestype1type2other';
+            var match_medicaid = medicaid.match(re);
+            if (match_medicaid) {
+                var d3Response = d3MedicaidTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            } 
+ 
+            // child care
+            var childcare = 'licensedchildcarefacilitiesgrouphomefamilyhomeschildcarecentersearlyheadstartprogramsGSRPcapacity';
+            var match_childcare = childcare.match(re);
+            if (match_childcare) {
+                var d3Response = d3ChildCareCenterTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+                d3Response = d3ChildCareCapacityTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            } 
+
+            // school lunch
+            var lunch = 'eligibilityfreereducedpriceschoollunchmigranthomelessstudentsdirectcertificationprocess';
+            var match_lunch = lunch.match(re);
+            if (match_lunch) {
+                var d3Response = d3FreeReducedLunchTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            } 
+
+            // college readiness
+            var collegereadiness = 'studentssatassessmentallsubjectsmathcollegereadinessproficiencyevidencedbasedreadingwriting';
+            var match_collegereadiness = collegereadiness.match(re);
+            if (match_collegereadiness) {
+                var d3Response = d3CollegeReadinessTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            } 
+
+            // college enrollment
+            var collegeenrollment = 'publichighschoolgraduatesreceiveddiplomagraduationenrolledcollege6sixmonthsgraduationenrollment';
+            var match_collegeenrollment = collegeenrollment.match(re);
+            if (match_collegeenrollment) {
+                var d3Response = d3CollegeEnrollmentTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            } 
+
+            // blood lead levels
+            var bloodlead = 'individualstestedelevatedbloodleadleveldefined4.5microgramsperdeciliter';
+            var match_bloodlead = bloodlead.match(re);
+            if (match_bloodlead) {
+                var d3Response = d3BloodLeadLevelsTable();
+                // insert response into the reponse
+                response.unshift(d3Response);
+            } 
+           
+
             var resultNumber = response.length;
             if (resultNumber === 0) {
                 response.push({
@@ -216,6 +274,134 @@ var d3ImmunizationTable = function() {
     return response;
 
 }
+
+var d3MedicaidTable = function() {
+    // state table
+    var response = {
+        'id': "D3-Medicaid",
+        'simple_table_name': "Hospital or ER visits through Medicaid for children (under 18)",
+        'table_id': "D3-Medicaid",
+        'table_name': "Hospital or ER visits through Medicaid for children (under 18)",
+        'topic_string': "health care, children",
+        'topics': ['health care','children'],
+        'type': "table",
+        'unique_key': "D3-Medicaid",
+        'universe': "Total number of hospital or ER visits through Medicaid for children (under 18)"
+    }
+
+    return response;
+
+}
+
+var d3ChildCareCenterTable = function() {
+    // state table
+    var response = {
+        'id': "D3-Child-Care-Centers",
+        'simple_table_name': "Child care facilities",
+        'table_id': "D3-Child-Care-Centers",
+        'table_name': "Child care facilities",
+        'topic_string': "health care, children",
+        'topics': ['child care','children'],
+        'type': "table",
+        'unique_key': "D3-Child-Care-Centers",
+        'universe': "Number of licensed child care facilities"
+    }
+
+    return response;
+
+}
+
+var d3ChildCareCapacityTable = function() {
+    // state table
+    var response = {
+        'id': "D3-Child-Care-Capacity",
+        'simple_table_name': "Capacity of licensed child care facilities",
+        'table_id': "D3-Child-Care-Capacity",
+        'table_name': "Capacity of licensed child care facilities",
+        'topic_string': "health care, children",
+        'topics': ['child care','children'],
+        'type': "table",
+        'unique_key': "D3-Child-Care-Capacity",
+        'universe': "Capacity of licensed child care facilities"
+    }
+
+    return response;
+
+}
+
+var d3FreeReducedLunchTable = function() {
+    // state table
+    var response = {
+        'id': "D3-School-Lunch",
+        'simple_table_name': "Eligibility for free or reduced price school lunches",
+        'table_id': "D3-School-Lunch",
+        'table_name': "Eligibility for free or reduced price school lunches",
+        'topic_string': "education, children",
+        'topics': ['education','children'],
+        'type': "table",
+        'unique_key': "D3-School-Lunch",
+        'universe': "Total number of student counts grade K-12, including ungraded"
+    }
+
+    return response;
+
+}
+
+var d3CollegeReadinessTable = function() {
+    // state table
+    var response = {
+        'id': "D3-College-Readiness",
+        'simple_table_name': "College readiness",
+        'table_id': "D3-College-Readiness",
+        'table_name': "College readiness",
+        'topic_string': "education, children",
+        'topics': ['education','children'],
+        'type': "table",
+        'unique_key': "D3-College-Readiness",
+        'universe': "The number of students who took the SAT assessment in all subjects"
+    }
+
+    return response;
+
+}
+
+var d3CollegeEnrollmentTable = function() {
+    // state table
+    var response = {
+        'id': "D3-College-Enrollment",
+        'simple_table_name': "College enrollment",
+        'table_id': "D3-College-Enrollment",
+        'table_name': "College enrollment",
+        'topic_string': "education, children",
+        'topics': ['education','children'],
+        'type': "table",
+        'unique_key': "D3-College-Enrollment",
+        'universe': "Number of public high school graduates who received a diploma during the high school graduation year"
+    }
+
+    return response;
+
+}
+
+var d3BloodLeadLevelsTable = function() {
+    // state table
+    var response = {
+        'id': "D3-Blood-Lead",
+        'simple_table_name': "Blood lead levels",
+        'table_id': "D3-Blood-Lead",
+        'table_name': "Blood lead levels",
+        'topic_string': "health care, children",
+        'topics': ['health care','children'],
+        'type': "table",
+        'unique_key': "D3-Blood-Lead",
+        'universe': "Number of individuals who were tested"
+    }
+
+    return response;
+
+}
+
+
 
 
 
