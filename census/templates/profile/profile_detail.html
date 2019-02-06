@@ -252,11 +252,11 @@
             <h2><a class="permalink" href="#language" id="language" title="Permalink">Language <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            {% comment %} <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.language.percent_non_english_at_home stat_type='percentage' %}
-            </div>
-            <div class="column-third" id="chart-pie-social-language-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ social.language.children.metadata.universe }}"></div>
-            <div class="column-third" id="chart-pie-social-language-adults" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ social.language.adults.metadata.universe }}"></div>
+            </div> {% endcomment %}
+            <div class="column-half" id="chart-pie-social-language-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ social.language.children.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-language-adults" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ social.language.adults.metadata.universe }}"></div>
         </section>
 
     </div>

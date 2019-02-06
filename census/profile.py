@@ -2966,18 +2966,20 @@ def geo_profile(geoid, acs='latest'):
 	time.sleep(5)
 
 	# Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
-	data = api.get_data('B16001', comparison_geoids, acs)
-	acs_name = data['release']['name']
+	#### For some reason, thi svariable is no longer available at many geographies
+	# data = api.get_data('B16001', comparison_geoids, acs)
+	# print data
+	# acs_name = data['release']['name']
 
-	language_dict = dict()
-	doc['social']['language'] = language_dict
+	# language_dict = dict()
+	# doc['social']['language'] = language_dict
 
-	language_dict['percent_non_english_at_home'] = build_item('Persons with language other than English spoken at home', data, item_levels,
-		'B16001001 B16001002 - B16001001 / %')
-	add_metadata(language_dict['percent_non_english_at_home'], 'B16001', 'Population 5 years and over', acs_name)
+	# language_dict['percent_non_english_at_home'] = build_item('Persons with language other than English spoken at home', data, item_levels,
+	# 	'B16001001 B16001002 - B16001001 / %')
+	# add_metadata(language_dict['percent_non_english_at_home'], 'B16001', 'Population 5 years and over', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+	# # pause between CR data API requests to limit traffic to API
+	# time.sleep(5)
 
 	data = api.get_data('B16007', comparison_geoids, acs)
 	acs_name = data['release']['name']
