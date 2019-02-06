@@ -1082,6 +1082,7 @@ h1.article-header-right {
     #slippy-map {
         height: 50%;
         top: 6%;
+        z-index: 5;
     }
     #address-search {
         top: 0;
@@ -1158,7 +1159,7 @@ h1.article-header-right {
 #map-controls aside {
     padding: .67em 1em;
     margin: 0;
-    height: 76%;
+    height: 85%;
     overflow-y: scroll;
     width: 100%;
 }

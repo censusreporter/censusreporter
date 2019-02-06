@@ -34,8 +34,8 @@ var initState = {
     modalDirection: "down",
     "map-controls-height": $('#map-controls').css("height"), 
     "data-display-height": $('#data-display').css("height"), 
-    
 }
+
 
 
 function controlModalSize(state) {
@@ -43,16 +43,22 @@ function controlModalSize(state) {
     if (state.modalDirection == "up") {
         console.log("was up, bringing down");
         state.modalDirection = "down"
-
+        $('#map-controls').css("height", initState["map-controls-height"])
+        $('#data-display').css("height", initState["data-display-height"])
+        $('#slippy-map').css('z-index', 5)
+        $('.fa-angle-up').css("transform", "rotate(0deg)")
     } else {
         console.log("was down, bringing up");
         state.modalDirection = "up"
+        $('#map-controls, #data-display').css("height", "94%")
+        $('#slippy-map').css('z-index', 0)
+        $('.fa-angle-up').css("transform", "rotate(180deg)")
     }
 
     
 }
 
-$('.modal-control').click(() => controlModalSize(direction))
+$('.modal-control').click(() => controlModalSize(initState))
 
 
 var lat = '',
