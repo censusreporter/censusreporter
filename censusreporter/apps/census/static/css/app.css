@@ -515,7 +515,6 @@ aside ul.search-filter-list .remove {
 }
 aside li {
     margin-bottom: .25em;
-    border:;
 }
 aside ul.sumlev-list li,
 aside ul.search-filter-list li {
@@ -1072,7 +1071,7 @@ h1.article-header-right {
     overflow-y: auto;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 768px) {
     #map-controls {
         bottom: 0;
         left: 0;
