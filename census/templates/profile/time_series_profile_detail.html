@@ -1072,6 +1072,7 @@ Glossary.init("{% url 'glossary' %}",".glossary-term");
 $(function () {
     let currentHash = "#";
     currentURL = window.location.href.split('time-series-profiles');
+    $('#one-year').attr("href", currentURL[0] + "profiles" + currentURL[1]);
     $(document).scroll(function () {
         $('.section').each(function () {
             const top = window.pageYOffset;
