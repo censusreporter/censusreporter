@@ -110,7 +110,6 @@ function Chart(options) {
             }
 
             chart.chartDataValues = d3.map(mergeTimeSeriesDatasets);
-            console.log(chart.chartDataValues);
         } else {
             chart.chartDataValues = d3.map(options.chartData);
         }
@@ -170,7 +169,7 @@ function Chart(options) {
                             .forEach(function(z) {
                                 // add substring to name if it doesn't exist
                                 if (d[v][z].name.indexOf(d.name) !== -1) {
-                                    sub_name = d[v][z].name;
+                                    sub_name = d[v][z].name.replace(' ' + d.name, '; ' + d.name);
                                 } else {
                                     sub_name = d[v][z].name + '; ' + d.name;
                                 }
@@ -184,7 +183,7 @@ function Chart(options) {
                         d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
                             .forEach(function(z) {
                             if (d[v][z].name.indexOf(d.name) !== -1) {
-                                sub_name = d[v][z].name;
+                                sub_name = d[v][z].name.replace(' ' + d.name, '; ' + d.name);
                             } else {
                                 sub_name = d[v][z].name + '; ' + d.name;
                                 d[v][z].name = sub_name;
@@ -210,6 +209,22 @@ function Chart(options) {
             }
             return dataObj
         });
+
+        // prepare data drawer table
+        chart.chartDataValues.forEach(function(d, i){
+            if (!!d.groups) {
+                d.groups.forEach(function(k, i) {
+                    k.values.forEach(function(l, j) {
+                        l.original_name = l.name;
+                    })
+                })
+            } else {
+                // data shaped for grouped chart
+                d.values.forEach(function(k, i) {
+                    k.original_name = k.name;
+                })
+            }
+        })
         
         // set base chart dimensions
         chart.settings = {
@@ -711,13 +726,11 @@ function Chart(options) {
             let x_domain = [];
             let x_name = '';
             chart.chartDataValues.forEach(d => {
-                console.log(d);
                 for (let i = 0; i < d.groups.length; i++) {
                     x_name = d.groups[i].name;
                     x_domain.push(x_name);
                 }                
             });
-            console.log(x_domain);
             chart.x.domain(x_domain);
         } else {
             chart.x.domain(chart.chartDataValues.map(function(d) { 
@@ -790,8 +803,6 @@ function Chart(options) {
 
             chart.chartContainer
                 .classed('grouped-column-chart', true);
-              
-            console.log(chart.chartDataValues);
 
             chart.columnGroups = chart.htmlBase.selectAll(".column-group")
                     .data(chart.chartDataValues)
@@ -810,34 +821,73 @@ function Chart(options) {
                                columnWidth = Math.floor(chart.x.rangeBand() / k[j][i].values.length);
 
                                g.append("span")
-                                   .classed("x axis label", true)
+                                   .classed("x axis label secondary", true)
                                    .style("width", chart.x.rangeBand() + "px")
                                    .style("top", function(d) { return (chart.settings.displayHeight + 51) + "px"; })
                                    .style("left", function(d) { return (chart.x(k[j][i].name) + chart.settings.margin.left) + "px"; })
                                    .text(function(d) { 
-                                       x_axis_label = k[j][i].name.split('; ');
-                                       return chart.capitalize(x_axis_label[0]); 
+                                        x_axis_label = k[j][i].name.split('; ');
+                                        if (x_axis_label[0] === "Bachelor's degree or higher") {
+                                            x_axis_label[0] = "Coll+";
+                                        }
+                                        if (x_axis_label[0] === "Some college, associate's degree") {
+                                            x_axis_label[0] = "-Coll";
+                                        }
+                                        if (x_axis_label[0] === "High school graduate (includes equivalency)") {
+                                            x_axis_label[0] = "HS";
+                                        }
+                                        if (x_axis_label[0] === "Less than high school graduate") {
+                                            x_axis_label[0] = "-HS";
+                                        }
+                                        if (x_axis_label[0] === "With children under 18 years") {
+                                            x_axis_label[0] = "With children";
+                                        }
+                                        if (x_axis_label[0] === "No children under 18 years") {
+                                            x_axis_label[0] = "W/O children";
+                                        }
+                                        
+                                        return chart.capitalize(x_axis_label[0]); 
                                     });
 
                                 if (x_axis_sub_label !== x_axis_label[1]) {
                                     x_axis_sub_label = x_axis_label[1];
+                                    let print_sub_label = x_axis_sub_label;
                                     g.append("span")
                                         .classed("x axis label", true)
-                                        .style("width", (chart.x.rangeBand() * 2) + "px")
-                                        .style("top", function(d) { return (chart.settings.displayHeight + 66) + "px"; })
+                                        .style("width", function(d) { 
+                                            return (chart.x.rangeBand() * d.groups.length) + "px"
+                                        })
+                                        .style("top", function(d) { return (chart.settings.displayHeight + 64) + "px"; })
                                         .style("left", function(d) { return (chart.x(k[j][i].name) + chart.settings.margin.left + columnWidth/3) + "px"; })
-                                        .text(function(d) { 
-                                            return chart.capitalize(x_axis_sub_label); 
+                                        .text(function(d) {
+                                            if (x_axis_sub_label === 'Unemployed or not in LF, graduated') {
+                                                print_sub_label = "Unemployed, graduated";
+                                            } 
+                                            if (x_axis_sub_label === 'Unemployed or not in LF, not graduated') {
+                                                print_sub_label = "Unemployed, not graduated";
+                                            } 
+                                            return chart.capitalize(print_sub_label); 
                                         });
                                 }
 
 
                                    
                                groupValues.forEach(function(v, i) {
+                                   let sub_name = '';
                                    column = g.append("a").attr("class", "column")
                                        .style("width", columnWidth + "px")
                                        .style("bottom", function(d) { return (chart.settings.margin.bottom + chart.settings.tickPadding) + "px"; })
-                                       .style("left", function(d) { return (chart.x(v.context.name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; })
+                                       .style("left", function(d) {
+
+                                            if (v.context.name.indexOf('; ' + d.name) !== -1) {
+                                                sub_name = v.context.name;
+                                            } else if (v.context.name.indexOf(d.name) !== -1) {
+                                                sub_name = v.context.name.replace(' ' + d.name, '; ' + d.name);
+                                            } else {
+                                                sub_name = d[v][z].name + '; ' + d.name;
+                                            }
+                                           return (chart.x(sub_name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; 
+                                        })
                                        .style("height", function(d) { 
                                            return (chart.settings.displayHeight) + "px"; 
                                        })
@@ -1405,11 +1455,23 @@ function Chart(options) {
                     d.context.tableID = tableID;
                     // standard chart
                     rowValues.push(d);
+                } else if (!!d.groups) {
+                    d.groups.forEach(function(k, i) {
+                        k.values.forEach(function(l, j) {
+                            l.context.tableID = tableID;
+                            if (l.name !== (k.name + ': ' + chart.capitalize(l.original_name))) {
+                                l.name = k.name + ': ' + chart.capitalize(l.original_name);
+                            }                            
+                            rowValues.push(l);                            
+                        })
+                    })
                 } else {
                     // data shaped for grouped chart
                     d.values.forEach(function(k, i) {
                         k.context.tableID = tableID;
-                        k.name = d.name + ': ' + chart.capitalize(k.name);
+                        if (k.name !== (d.name + ': ' + chart.capitalize(k.original_name))) {
+                            k.name = d.name + ': ' + chart.capitalize(k.original_name);
+                        }
                         rowValues.push(k);
                     })
                 }

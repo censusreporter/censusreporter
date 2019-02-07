@@ -2549,6 +2549,7 @@ class DataView(TemplateView):
 			d3_county_link = None
 			d3_county_sd_link = None
 			d3_tract_link = None
+			d3_block_group_link = None
 			d3_msa_link = None
 			d3_congressional_district_link = None
 			d3_school_district_link = None

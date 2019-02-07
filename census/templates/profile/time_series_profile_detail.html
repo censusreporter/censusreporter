@@ -274,14 +274,8 @@
             <h2><a class="permalink" href="#language" id="language" title="Permalink">Language <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-quarter">
-                <div id="chart-stat_timeseries-social-language-percent_non_english_at_home" data-stat-type="scaled-percentage" data-chart-title="Persons with language other than English spoken at home" data-qualifier="Universe: {{ profile_data_current_year.social.language.percent_non_english_at_home.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.language.percent_non_english_at_home stat_type='percentage' %} {% endcomment %}
-            </div>
-            <div class="column-three-quarters">
-                <div class="column-half" id="chart-column_timeseries-social-language-children" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ profile_data_current_year.social.language.children.metadata.universe }}"></div>
-                <div class="column-half" id="chart-column_timeseries-social-language-adults" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ profile_data_current_year.social.language.adults.metadata.universe }}"></div>
-            </div>
+            <div class="column-half" id="chart-column_timeseries-social-language-children" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ profile_data_current_year.social.language.children.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-language-adults" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ profile_data_current_year.social.language.adults.metadata.universe }}"></div>
 
         </section>
 
@@ -907,12 +901,12 @@ var makeCharts = function() {
         // determine whether data point is from anything other
         // than the primary ACS release for this page
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
-        if (chartData[key]['acs_release'] && chartData[key]['acs_release'] == 'ACS 2016 5-Year') {
-            var thisRelease = "ACS 2011 and 2016 5-year";
+        if (chartData[key]['acs_release'] && chartData[key]['acs_release'] == 'ACS 2017 5-Year') {
+            var thisRelease = "ACS 2012 and 2017 5-year";
         } else if (chartData[key]['acs_release']) {
             var thisRelease = chartData[key]['acs_release'];
         } else {
-            var thisRelease = "ACS 2011 and 2016 5-year";
+            var thisRelease = "ACS 2012 and 2017 5-year";
         }
         var noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
