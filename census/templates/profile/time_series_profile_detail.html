@@ -1070,17 +1070,17 @@ Glossary.init("{% url 'glossary' %}",".glossary-term");
 
 // set up scroll listener to change the linked locaiton to one year data
 $(function () {
-    let currentHash = "#";
-    currentURL = window.location.href.split('time-series-profiles');
-    $('#one-year').attr("href", currentURL[0] + "profiles" + currentURL[1]);
+    let currentHash = '#';
+    const currentURL = window.location.href.split('time-series-profiles');
+    const minusHash = currentURL[1].split('#');
+    $('#one-year').attr("href", currentURL[0] + "profiles" + minusHash[0]);
     $(document).scroll(function () {
         $('.section').each(function () {
             const top = window.pageYOffset;
             const distance = top - $(this).offset().top;
             const hash = $(this).attr('href');
-
             if (distance < 30 && distance > -30 && currentHash != hash) {
-                $('#one-year').attr("href", currentURL[0] + "profiles" + currentURL[1] + hash);
+                $('#one-year').attr("href", currentURL[0] + "profiles" + minusHash[0] + hash);
                 currentHash = hash;
             }
         });
