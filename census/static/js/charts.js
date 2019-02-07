@@ -218,7 +218,8 @@ function Chart(options) {
                         l.original_name = l.name;
                     })
                 })
-            } else {
+            } 
+            if (!!d.values) {
                 // data shaped for grouped chart
                 d.values.forEach(function(k, i) {
                     k.original_name = k.name;
@@ -581,7 +582,7 @@ function Chart(options) {
                                 .style("top", function(d) {
                                     return (chart.settings.displayHeight + 5) + "px";
                                 })
-                                .text(function(d) { console.log(v); return chart.capitalize(v.name); });
+                                .text(function(d) { return chart.capitalize(v.name); });
                                 
                             column.append("span")
                                 .classed("label", true)
