@@ -40,6 +40,15 @@
     text-align: center;
 }
 
+.body-text-UC {
+    font-weight: bold;
+    font-size: 26px;
+    color: #ffffff;
+    line-height: 32px;
+    text-align: center;
+    margin: 0 100px 50px;
+}
+
 .hyperlink-regular {
     font-weight: bold;
     font-size: 29px;
