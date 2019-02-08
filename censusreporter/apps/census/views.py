@@ -246,7 +246,7 @@ class TableDetailView(TemplateView):
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
-
+    
     def parse_fragment(self,fragment):
         """Given a URL, return a (geoid,slug) tuple. slug may be None.
         GeoIDs are not tested for structure, but are simply the part of the URL
@@ -273,23 +273,37 @@ class GeographyDetailView(TemplateView):
     def dispatch(self, *args, **kwargs):
 
         self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
+        
+        # checking geoid 
+        geography_info = self.get_geography(self.geo_id)
+        if (geography_info == None):
+            raise Http404
+
+        # checking slug
+        calculated_slug = self.make_slug(geography_info)
+        if self.slug != calculated_slug:
+            fragment = '{}-{}'.format(self.geo_id, calculated_slug)
+            path = reverse('geography_detail', args=(fragment,))
+            self.canonical_url = self.request.build_absolute_uri(path)
+            return HttpResponseRedirect(
+                        path
+                    )
+        # formatting geo_id
         parts = self.geo_id.split('US')
         if len(parts) == 2 and len(parts[0]) == 7: # American Fact Finder style GeoID.
             sumlevel = parts[0][:3]
             identifier = parts[1]
             self.geo_id = "{}00US{}".format(sumlevel, identifier)
             self.slug = None # simple way to force a redirect
+            
+        self.canonical_url = self.request.build_absolute_uri()
+        return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
-        if self.slug is None:
-            geo = self.get_geography(self.geo_id)
-            if geo:
+    def  make_slug(self, geo):
+        if geo:
                 try:
-                    # if possible, redirect to slugged URL
-                    slug = slugify(geo['properties']['display_name'])
-                    fragment = '{}-{}'.format(self.geo_id, slug)
-                    return HttpResponseRedirect(
-                        reverse('geography_detail', args=(fragment,)
-                    ))
+                    # get slug from geo
+                    return slugify(geo['properties']['display_name'])
                 except Exception, e:
                     # if we have a strange situation where there's no
                     # display name attached to the geography, we should
@@ -297,12 +311,13 @@ class GeographyDetailView(TemplateView):
                     logger.warn(e)
                     logger.warn("Geography {} has no display_name".format(self.geo_id))
                     pass
-            else:
-                # if we get nothing from the API, pass through for 404
-                pass
+        else:
+            pass
 
-        return super(GeographyDetailView, self).dispatch(*args, **kwargs)
+    def make_canonical_url(self, geo_id):
+        pass
 
+        
     def get_geography(self, geo_id):
         endpoint = settings.API_URL + '/1.0/geo/tiger2017/%s' % self.geo_id
         r = r_session.get(endpoint)
@@ -353,7 +368,7 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
-
+        
         try:
             s3_key = self.s3_profile_key(geography_id)
         except:
@@ -388,10 +403,10 @@ class GeographyDetailView(TemplateView):
                 raise Http404
 
         page_context = {
-            'profile_data_json': profile_data_json
+            'profile_data_json': profile_data_json,
+            'canonical_url': self.canonical_url
         }
         page_context.update(profile_data)
-
         return page_context
 
 

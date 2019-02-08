@@ -6,10 +6,11 @@
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
         <meta property="og:site_name" content="Census Reporter" />
-        <meta property="og:url" content="https://censusreporter.org/profiles/{{ geography.this.full_geoid }}-{{ geography.this.full_name|slugify }}" />
+        <meta property="og:url" content="{{ canonical_url }}" />
         <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
+        <link rel="canonical" href="{{ canonical_url }}" />
 {% endblock %}
 
 {% block head_twitter_tags %}
@@ -20,6 +21,8 @@
         <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
         {#}<meta name="twitter:image" content="">{#}
 {% endblock %}
+
+
 
 {% block head_css_extra %}
 <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
@@ -588,7 +591,7 @@ var makeCitation = function(year, release) {
     var citation = '<p class="explain"><strong>Citation:</strong> ' +
     'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
     '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
-    'Retrieved from <em>Census Reporter Profile page for {% firstof geography.this.full_name|escapejs geography.this.short_name|escapejs %}</em> &lt;https://censusreporter.org{{ request.get_full_path }}&gt;</p>';
+    'Retrieved from <em>Census Reporter Profile page for {% firstof geography.this.full_name|escapejs geography.this.short_name|escapejs %}</em> &lt;{{ canonical_url }}&gt;</p>';
 
     $('.content-container').append(citation);
 }
