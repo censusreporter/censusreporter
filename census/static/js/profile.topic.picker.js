@@ -108,6 +108,9 @@ var topicSelectEngine = new Bloodhound({
                 var d3Response = d3ChildCareCenterTable();
                 // insert response into the reponse
                 response.unshift(d3Response);
+                d3Response = d3ChildCareProgramsTable();
+                // insert response into the reponse
+                response.unshift(d3Response);                
                 d3Response = d3ChildCareCapacityTable();
                 // insert response into the reponse
                 response.unshift(d3Response);
@@ -305,6 +308,24 @@ var d3ChildCareCenterTable = function() {
         'type': "table",
         'unique_key': "D3-Child-Care-Centers",
         'universe': "Number of licensed child care facilities"
+    }
+
+    return response;
+
+}
+
+var d3ChildCareProgramsTable = function() {
+    // state table
+    var response = {
+        'id': "D3-Child-Care-Programs",
+        'simple_table_name': "Child care facilities",
+        'table_id': "D3-Child-Care-Programs",
+        'table_name': "Child care facilities",
+        'topic_string': "child care, children",
+        'topics': ['child care','children'],
+        'type': "table",
+        'unique_key': "D3-Child-Care-Programs",
+        'universe': "Number of licensed child care centers"
     }
 
     return response;

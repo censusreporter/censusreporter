@@ -562,23 +562,57 @@ class D3TableDetailViewChildCareCenters(TemplateView):
 		table['columns']['FamHmeCnt']['parent_column_id'] = 'Centers'
 
 		table['columns']['LicCenCnt'] = OrderedDict()
-		table['columns']['LicCenCnt']['column_title'] = 'Number of licensed child care centers:'
+		table['columns']['LicCenCnt']['column_title'] = 'Number of licensed child care centers'
 		table['columns']['LicCenCnt']['indent'] = 1
 		table['columns']['LicCenCnt']['parent_column_id'] = 'Centers'
 
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewChildCarePrograms(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewChildCarePrograms, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Child-Care-Programs'
+		table['table_title'] = 'Child care programs'
+		table['simple_table_title'] = 'Child care programs'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of licensed child care centers'
+		table['denominator_column_id'] = 'LicCenCnt'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['LicCenCnt'] = OrderedDict()
+		table['columns']['LicCenCnt']['column_title'] = 'Number of licensed child care centers:'
+		table['columns']['LicCenCnt']['indent'] = 0
+		table['columns']['LicCenCnt']['parent_column_id'] = None
+
 		table['columns']['EarlyHSCnt'] = OrderedDict()
 		table['columns']['EarlyHSCnt']['column_title'] = 'Number of early head start programs'
-		table['columns']['EarlyHSCnt']['indent'] = 2
+		table['columns']['EarlyHSCnt']['indent'] = 1
 		table['columns']['EarlyHSCnt']['parent_column_id'] = 'LicCenCnt'
 
 		table['columns']['GSRPCnt'] = OrderedDict()
 		table['columns']['GSRPCnt']['column_title'] = 'Number of GSRP programs'
-		table['columns']['GSRPCnt']['indent'] = 2
+		table['columns']['GSRPCnt']['indent'] = 1
 		table['columns']['GSRPCnt']['parent_column_id'] = 'LicCenCnt'
 
 		table['columns']['HSCnt'] = OrderedDict()
 		table['columns']['HSCnt']['column_title'] = 'Number of Head Start programs'
-		table['columns']['HSCnt']['indent'] = 2
+		table['columns']['HSCnt']['indent'] = 1
 		table['columns']['HSCnt']['parent_column_id'] = 'LicCenCnt'
 
 		page_context = {
@@ -587,6 +621,7 @@ class D3TableDetailViewChildCareCenters(TemplateView):
 		}
 
 		return page_context	
+
 
 
 class D3TableDetailViewChildCareCapacity(TemplateView):
@@ -2148,77 +2183,77 @@ class DataView(TemplateView):
 
 
 			# for Child Care Centers
-			if state_geoids and self.table == 'D3-Child-Care-Centers':
+			if state_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_StateOfMichigan_20180920'
 				field_name = 'GEOID'
 				if hasattr(state_geoids, '__iter__'):
 					state_geoids = ','.join(state_geoids)
 				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
 				
-			if county_geoids and self.table == 'D3-Child-Care-Centers':
+			if county_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_County_20180920'
 				field_name = 'GEOID10'
 				if hasattr(county_geoids, '__iter__'):
 					county_geoids = ','.join(county_geoids)
 				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
 
-			if county_sd_geoids and self.table == 'D3-Child-Care-Centers':
+			if county_sd_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_CountySubdivision_20180920'
 				field_name = 'GEOID10'
 				if hasattr(county_sd_geoids, '__iter__'):
 					county_sd_geoids = ','.join(county_sd_geoids)
 				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
 
-			if tract_geoids and self.table == 'D3-Child-Care-Centers':
+			if tract_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_Tracts_20180920'
 				field_name = 'GEOID10_Tract'
 				if hasattr(tract_geoids, '__iter__'):
 					tract_geoids = ','.join(tract_geoids)
 				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
 
-			# if block_group_geoids and self.table == 'D3-Child-Care-Centers':
+			# if block_group_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 			# 	table_id = ''
 			# 	field_name = 'GEOID10'
 			# 	if hasattr(block_group_geoids, '__iter__'):
 			# 		block_group_geoids = ','.join(block_group_geoids)
 			# 	d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
 
-			if msa_geoids and self.table == 'D3-Child-Care-Centers':
+			if msa_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MSA_20180920'
 				field_name = 'GeoID10_MSA'
 				if hasattr(msa_geoids, '__iter__'):
 					msa_geoids = ','.join(msa_geoids)
 				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
 
-			if congressional_district_geoids and self.table == 'D3-Child-Care-Centers':
+			if congressional_district_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MICongressionalDistrict_20180920'
 				field_name = 'GEOID'
 				if hasattr(congressional_district_geoids, '__iter__'):
 					congressional_district_geoids = ','.join(congressional_district_geoids)
 				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
 
-			if state_senate_geoids and self.table == 'D3-Child-Care-Centers':
+			if state_senate_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MISenate_20180920'
 				field_name = 'GEOID'
 				if hasattr(state_senate_geoids, '__iter__'):
 					state_senate_geoids = ','.join(state_senate_geoids)
 				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
 
-			if state_house_geoids and self.table == 'D3-Child-Care-Centers':
+			if state_house_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MIHouseOfReps_20180920'
 				field_name = 'GEOID'
 				if hasattr(state_house_geoids, '__iter__'):
 					state_house_geoids = ','.join(state_house_geoids)
 				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
 
-			if school_district_geoids and self.table == 'D3-Child-Care-Centers':
+			if school_district_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_SchoolDistricts_20180920'
 				field_name = 'GEOID10'
 				if hasattr(school_district_geoids, '__iter__'):
 					school_district_geoids = ','.join(school_district_geoids)
 				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
 
-			if zcta_geoids and self.table == 'D3-Child-Care-Centers':
+			if zcta_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_ZIP_20180920'
 				field_name = 'ZCTA'
 				if hasattr(zcta_geoids, '__iter__'):

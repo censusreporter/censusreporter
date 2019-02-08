@@ -1152,7 +1152,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_program_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
-	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Centers', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
+	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
 
 	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
 		'D3-EarlyHSCnt D3-LicCenCnt / %')
