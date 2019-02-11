@@ -315,9 +315,9 @@ var d3ChildCareProgramsTable = function() {
     // state table
     var response = {
         'id': "D3-Child-Care-Programs",
-        'simple_table_name': "Child care facilities",
+        'simple_table_name': "Child care programs",
         'table_id': "D3-Child-Care-Programs",
-        'table_name': "Child care facilities",
+        'table_name': "Child care programs",
         'topic_string': "child care, children",
         'topics': ['child care','children'],
         'type': "table",

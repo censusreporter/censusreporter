@@ -183,7 +183,7 @@ function Table(options) {
                     // insert response into the reponse
                     response.unshift(d3Response);
                 } 
-                
+
                 // school lunch
                 var lunch = 'eligibilityfreereducedpriceschoollunchmigranthomelessstudentsdirectcertificationprocess';
                 var match_lunch = lunch.match(re);
@@ -385,18 +385,18 @@ function Table(options) {
         // state table
         var response = {
             'id': "D3-Child-Care-Programs",
-            'simple_table_name': "Child care facilities",
+            'simple_table_name': "Child care programs",
             'table_id': "D3-Child-Care-Programs",
-            'table_name': "Child care facilities",
+            'table_name': "Child care programs",
             'topic_string': "child care, children",
             'topics': ['child care','children'],
             'type': "table",
             'unique_key': "D3-Child-Care-Programs",
             'universe': "Number of licensed child care centers"
         }
-    
+
         return response;
-    
+
     }
     
     var d3ChildCareCapacityTable = function() {
