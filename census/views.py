@@ -2190,70 +2190,70 @@ class DataView(TemplateView):
 					state_geoids = ','.join(state_geoids)
 				d3_state_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_geoids +')'
 				
-			if county_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if county_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_County_20180920'
 				field_name = 'GEOID10'
 				if hasattr(county_geoids, '__iter__'):
 					county_geoids = ','.join(county_geoids)
 				d3_county_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_geoids +')'
 
-			if county_sd_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if county_sd_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_CountySubdivision_20180920'
 				field_name = 'GEOID10'
 				if hasattr(county_sd_geoids, '__iter__'):
 					county_sd_geoids = ','.join(county_sd_geoids)
 				d3_county_sd_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ county_sd_geoids +')'
 
-			if tract_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if tract_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_Tracts_20180920'
 				field_name = 'GEOID10_Tract'
 				if hasattr(tract_geoids, '__iter__'):
 					tract_geoids = ','.join(tract_geoids)
 				d3_tract_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ tract_geoids +')'
 
-			# if block_group_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			# if block_group_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 			# 	table_id = ''
 			# 	field_name = 'GEOID10'
 			# 	if hasattr(block_group_geoids, '__iter__'):
 			# 		block_group_geoids = ','.join(block_group_geoids)
 			# 	d3_block_group_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ block_group_geoids +')'
 
-			if msa_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if msa_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MSA_20180920'
 				field_name = 'GeoID10_MSA'
 				if hasattr(msa_geoids, '__iter__'):
 					msa_geoids = ','.join(msa_geoids)
 				d3_msa_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ msa_geoids +')'	
 
-			if congressional_district_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if congressional_district_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MICongressionalDistrict_20180920'
 				field_name = 'GEOID'
 				if hasattr(congressional_district_geoids, '__iter__'):
 					congressional_district_geoids = ','.join(congressional_district_geoids)
 				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'	
 
-			if state_senate_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if state_senate_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MISenate_20180920'
 				field_name = 'GEOID'
 				if hasattr(state_senate_geoids, '__iter__'):
 					state_senate_geoids = ','.join(state_senate_geoids)
 				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'	
 
-			if state_house_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if state_house_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_MIHouseOfReps_20180920'
 				field_name = 'GEOID'
 				if hasattr(state_house_geoids, '__iter__'):
 					state_house_geoids = ','.join(state_house_geoids)
 				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
 
-			if school_district_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if school_district_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_SchoolDistricts_20180920'
 				field_name = 'GEOID10'
 				if hasattr(school_district_geoids, '__iter__'):
 					school_district_geoids = ','.join(school_district_geoids)
 				d3_school_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ school_district_geoids +')'	
 
-			if zcta_geoids (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
+			if zcta_geoids and (self.table == 'D3-Child-Care-Centers' or self.table == 'D3-Child-Care-Programs' or self.table == 'D3-Child-Care-Capacity'):
 				table_id = 'LicensedChildCenters_by_ZIP_20180920'
 				field_name = 'ZCTA'
 				if hasattr(zcta_geoids, '__iter__'):
