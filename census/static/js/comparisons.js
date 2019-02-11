@@ -343,7 +343,7 @@ function Comparison(options, callback) {
         }
 
 
-        if (comparison.d3table_name == "D3-Child-Care-Centers" || comparison.d3table_name == "D3-Child-Care-Capacity") {
+        if (comparison.d3table_name == "D3-Child-Care-Centers" || comparison.d3table_name == "D3-Child-Care-Capacity" || comparison.d3table_name == "D3-Child-Care-Programs") {
             for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
                 split_geoid = comparison.d3_all_geoids[i].split('US');
                 if (split_geoid[0].startsWith('040')) {
@@ -1207,6 +1207,70 @@ function Comparison(options, callback) {
         comparison.d3fields['LicCenCnt']['name'] = "Number of licensed child care centers"
         comparison.d3fields['LicCenCnt']['indent'] = 1
 
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_StateOfMichigan_20180920', 'GEOID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_County_20180920', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_CountySubdivision_20180920', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        // if (comparison.block_group_geoids.length > 0) {
+        //     comparison.ajaxCount++;
+        //     comparison.getD3Data('', '', comparison.block_group_geoids, 'block_group_data')
+        // }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MICongressionalDistrict_20180920', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MISenate_20180920', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_MIHouseOfReps_20180920', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_SchoolDistricts_20180920', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+    comparison.getChildCareProgramsData = function() {
+        // metadata specific to Child Care Centers
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, Great Start to Quality';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-Child-Care-Programs';
+        comparison.d3title = 'Child care programs';
+        comparison.d3universe = 'Number of licensed child care centers';
+        comparison.d3denominator_column_id ='D3-LicCenCnt';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['LicCenCnt'] = {};
+        comparison.d3fields['LicCenCnt']['name'] = "Number of licensed child care centers"
+        comparison.d3fields['LicCenCnt']['indent'] = 0
+
         comparison.d3fields['EarlyHSCnt'] = {};
         comparison.d3fields['EarlyHSCnt']['name'] = "Number of early Head Start programs"
         comparison.d3fields['EarlyHSCnt']['indent'] = 1
@@ -1800,6 +1864,10 @@ function Comparison(options, callback) {
 
                     if (comparison.tableID == 'D3-Child-Care-Centers') {
                         comparison.getChildCareCentersData();
+                    }
+
+                    if (comparison.tableID == 'D3-Child-Care-Programs') {
+                        comparison.getChildCareProgramsData();
                     }
 
                     if (comparison.tableID == 'D3-Child-Care-Capacity') {

@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, GeographySearchView,
-    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCarePrograms, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard)
 
@@ -132,6 +132,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewChildCareCenters.as_view()),
         kwargs  = {},
         name    = 'table_D3-Child-Care-Centers',
+    ),
+
+    url(
+        regex   = '^tables/D3-Child-Care-Programs/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewChildCarePrograms.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Child-Care-Programs',
     ),
 
     url(
