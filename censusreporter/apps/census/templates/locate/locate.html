@@ -8,6 +8,13 @@
 {% block body_id %}locate{% endblock %}
 
 {% block content %}
+<div id="location-search-wrapper">
+    <input type="text" id="address-search" placeholder="Search for an address">
+    <div>
+        <a id="use-location" class="action-button"><i class="fa fa-location-arrow"></i><span>Use your current location</span></a>
+        <span class="no-map-hide">or double-click to place the marker</span>
+    </div>
+</div>
 <div id="map-controls" class="clearfix">
     <div class="modal-control"><i class="fa fa-angle-up fa-3"></i></div>
     <header class="box-header">
@@ -16,13 +23,6 @@
         </a>
     </header>
     <div id="address-search-content" class="box-content">
-        <div id="location-search-wrapper">
-            <input type="text" id="address-search" placeholder="Search for an address">
-            <div class="tool-set header-tool-set clearfix">
-                <a id="use-location" class="action-button"><i class="fa fa-location-arrow"></i><span>Use your current location</span></a>
-                <span class="no-map-hide">or double-click to place the marker</span>
-            </div>
-        </div>
         <section class="clearfix header-container" id="address-search-wrapper">
             <h2 id="address-search-message" class="hidden bottom"></h2>
             <aside id="data-display" class="clearfix"></aside>

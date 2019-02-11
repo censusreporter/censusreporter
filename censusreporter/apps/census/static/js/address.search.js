@@ -23,12 +23,19 @@ console.log(isMobile);
 if (isMobile) {
     $('.tool-set header-tool-set, .box-header, .no-map-hide').hide()
     $('#use-location > span').remove()
+    $('#slippy-map').css({
+        height: "50%",
+        top: '5%',
+        'z-index': 5
+    })
+    $('header').css({
+        "position": "absolute",
+        "width": "100%",
+        "z-index": 99,
+    })
     // $('#address-search-wrapper >  #address-search').hide()
 }
 
-// #data-display height: 95%
-// #map-controls .header-container height: 100%
-// slippy-map z-index 0
 
 var initState = {
     modalDirection: "down",
@@ -43,16 +50,19 @@ function controlModalSize(state) {
     if (state.modalDirection == "up") {
         console.log("was up, bringing down");
         state.modalDirection = "down"
-        $('#map-controls').css("height", initState["map-controls-height"])
+        $('#map-controls').animate({"height": initState["map-controls-height"]})
         $('#data-display').css("height", initState["data-display-height"])
+        // $('#location-search-wrapper').animate({"top": "-98%"})
         $('#slippy-map').css('z-index', 5)
         $('.fa-angle-up').css("transform", "rotate(0deg)")
     } else {
         console.log("was down, bringing up");
         state.modalDirection = "up"
-        $('#map-controls, #data-display').css("height", "94%")
+        $('#map-controls').animate({"height": "75%"})
+        $('#data-display').animate({"height": "94%"})
+        // $('#location-search-wrapper').animate({"top": "-15%"})
         $('#slippy-map').css('z-index', 0)
-        $('.fa-angle-up').css("transform", "rotate(180deg)")
+        $('.fa-angle-up').css({"transform": "rotate(180deg)"})
     }
 
     
