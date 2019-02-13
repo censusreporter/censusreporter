@@ -449,8 +449,8 @@ class D3TableDetailViewMedicaid(TemplateView):
 	def get_context_data(self, *args, **kwargs):
 		table = OrderedDict()
 		table['table_id'] = 'D3-Medicaid'
-		table['table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
-		table['simple_table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
+		table['table_title'] = 'Hospital visits through Medicaid'
+		table['simple_table_title'] = 'Hospital visits through Medicaid'
 		table['subject_area'] = 'Health care'
 		table['universe'] = 'Total number of hospital or ER visits through Medicaid for children (under 18)'
 		table['denominator_column_id'] = 'Under18_Tot'

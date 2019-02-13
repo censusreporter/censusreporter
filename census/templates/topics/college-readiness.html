@@ -1,0 +1,71 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <p>The table <a href="/tables/D3-College-Readiness/">D3-College-Readiness</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>AllSbjtNumAssessed</td>
+                <td>Number of students who took the SAT Assessment in all subjects.</td>
+            </tr>
+            <tr>
+                <td>MathNumAssessed</td>
+                <td>Number of students who took the Math SAT Assessment.</td>
+            </tr>
+            <tr>
+                <td>EBRWNumAssessed</td>
+                <td>Number of students who took the Evidenced-Based Reading and Writing SAT Assessment.</td>
+            </tr>
+            <tr>
+                <td>AllSbjtNumReady</td>
+                <td>Number of students who scored at or above college readiness proficiency on the SAT test in all subjects.</td>
+            </tr>
+            <tr>
+                <td>MathNumReady</td>
+                <td>Number of students who scored at or above college readiness proficiency on the SAT test in Math.</td>
+            </tr>
+            <tr>
+                <td>EBRWNumReady</td>
+                <td>Number of students who scored at or above college readiness proficiency on the SAT test in Evidenced-Based Reading and Writing.</td>
+            </tr>
+            <tr>
+                <td>FinalAllSbjtAveScore</td>
+                <td>Average of all the SAT scores.</td>
+            </tr>
+            <tr>
+                <td>FinalMathAveScore</td>
+                <td>Average of all the Math SAT scores.</td>
+            </tr>
+            <tr>
+                <td>FinalEWBRWAveScore</td>
+                <td>Average of all the Evidenced-Based Reading and Writing SAT scores.</td>
+            </tr>
+            <tr>
+                <td>AllSbjtPctReady</td>
+                <td>Percentage of students who scored at or above college readiness proficiency on the SAT test in all subjects.</td>
+            </tr>
+            <tr>
+                <td>MathPctReady</td>
+                <td>Percentage of students who scored at or above college readiness proficiency on the SAT test in Math.</td>
+            </tr>
+            <tr>
+                <td>EBRWPctReady</td>
+                <td>Percentage of students who scored at or above college readiness proficiency on the SAT test in Evidenced-Based Reading and Writing.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

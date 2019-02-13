@@ -1,0 +1,47 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <p>The table <a href="/tables/D3-Blood-Lead/">D3-Blood-Lead</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>CntTested</td>
+                <td>Number of individuals who were tested</td>
+            </tr>
+            <tr>
+                <td>EBLL</td>
+                <td>Number of individuals tested with an elevated blood lead level, defined as > 4.5 micrograms per deciliter</td>
+            </tr>
+            <tr>
+                <td>Under6CntTested</td>
+                <td>Number of individuals, under 6 years of age, who were tested</td>
+            </tr>
+            <tr>
+                <td>Under6EBLL</td>
+                <td>Number of individuals tested, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter</td>
+            </tr>
+            <tr>
+                <td>Under18CntTested</td>
+                <td>Number of individuals, under 18 years of age, who were tested</td>
+            </tr>
+            <tr>
+                <td>Under18EBLL</td>
+                <td>Number of individuals tested, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

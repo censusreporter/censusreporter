@@ -1648,7 +1648,7 @@ function Comparison(options, callback) {
         comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Department of Heath and Human Services';
         comparison.d3DataYears = '2018';
         comparison.d3table_name = 'D3-Blood-Lead';
-        comparison.d3title = 'Blood lead levels';
+        comparison.d3title = 'Blood lead levels (BLL), with elevated BLL defined as > 4.5 micrograms per deciliter';
         comparison.d3universe = 'Number of individuals who were tested';
         comparison.d3denominator_column_id ='D3-CntTested';
 
@@ -1659,7 +1659,7 @@ function Comparison(options, callback) {
         comparison.d3fields['CntTested']['indent'] = 0
 
         comparison.d3fields['EBLL'] = {};
-        comparison.d3fields['EBLL']['name'] = "Number of individuals tested with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+        comparison.d3fields['EBLL']['name'] = "Number of individuals tested with an elevated BLL"
         comparison.d3fields['EBLL']['indent'] = 1
 
         comparison.d3fields['Under6CntTested'] = {};
@@ -1667,7 +1667,7 @@ function Comparison(options, callback) {
         comparison.d3fields['Under6CntTested']['indent'] = 1
 
         comparison.d3fields['Under6EBLL'] = {};
-        comparison.d3fields['Under6EBLL']['name'] = "Number of individuals tested, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+        comparison.d3fields['Under6EBLL']['name'] = "Number of individuals tested, under 6 years of age, with an elevated BLL"
         comparison.d3fields['Under6EBLL']['indent'] = 2
 
         comparison.d3fields['Under18CntTested'] = {};
@@ -1675,7 +1675,7 @@ function Comparison(options, callback) {
         comparison.d3fields['Under18CntTested']['indent'] = 1
 
         comparison.d3fields['Under18EBLL'] = {};
-        comparison.d3fields['Under18EBLL']['name'] = "Number of individuals tested, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter"
+        comparison.d3fields['Under18EBLL']['name'] = "Number of individuals tested, under 18 years of age, with an elevated BLL"
         comparison.d3fields['Under18EBLL']['indent'] = 2
 
         comparison.ajaxCount = 0;

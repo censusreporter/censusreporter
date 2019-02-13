@@ -1365,6 +1365,15 @@ def geo_profile(geoid, acs='latest'):
 		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
 	add_metadata(college_readiness_dict['percent_proficient'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
 
+	pct_college_ready_chart_data = OrderedDict()
+	doc['social']['college_readiness']['pct_college_ready_chart_data'] = pct_college_ready_chart_data
+	add_metadata(pct_college_ready_chart_data, 'D3-College-Readiness', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
+	pct_college_ready_chart_data['at_above'] = build_item('At or above', data, d3_item_levels,
+		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
+	pct_college_ready_chart_data['below'] = build_item('Below', data, d3_item_levels,
+		'D3-AllSbjtNumAssessed D3-AllSbjtNumReady - D3-AllSbjtNumAssessed / %')
+
 
 	college_readiness_chart_data = OrderedDict()
 	doc['social']['college_readiness']['college_readiness_chart_data'] = college_readiness_chart_data
@@ -1457,6 +1466,15 @@ def geo_profile(geoid, acs='latest'):
 	college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within 6 months of graduation', data, d3_item_levels, 
 		'D3-TotEnrlCalc D3-TotGradCalc / %')
 	add_metadata(college_enrollment_dict['percent_enrolled'], 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+
+	college_enrollment_chart_data = OrderedDict()
+	doc['social']['college_enrollment']['college_enrollment_chart_data'] = college_enrollment_chart_data
+	add_metadata(college_enrollment_chart_data, 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+
+	college_enrollment_chart_data['enrolled'] = build_item('Enrolled', data, d3_item_levels,
+		'D3-TotEnrlCalc D3-TotGradCalc / %')
+	college_enrollment_chart_data['not_enrolled'] = build_item('Not Enrolled', data, d3_item_levels,
+		'D3-TotGradCalc D3-TotEnrlCalc - D3-TotGradCalc / %')
 
 
 	# get D3 data on Blood Lead Levels

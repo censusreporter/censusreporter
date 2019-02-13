@@ -913,6 +913,11 @@ var makeCharts = function() {
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
 
+        if (i % 2 == 0) {
+            chartColorScale = "Kat2";
+        } else {
+            chartColorScale = "Kat2Alt";
+        }
         var chartstuff = {
             chartContainer: chartID,
             chartDataKey: chartDataKey,
@@ -926,7 +931,7 @@ var makeCharts = function() {
             chartStatType: chartStatType,
             chartPrecision: chartPrecision,
             geographyData: geographyData,
-            chartColorScale: 'Kat2',
+            chartColorScale: chartColorScale,
         }
         try {
             Charts[i] = Chart(chartstuff);
