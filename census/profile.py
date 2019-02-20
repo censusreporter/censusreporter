@@ -420,18 +420,19 @@ def geo_profile(geoid, acs='latest'):
 		if level['sumlevel'] == '500':
 			d3_item_levels.append(level)
 			# remove the leading 26 to conform to the ODP dataset
-			cong_dist_geoid = split_geoid[1].replace("26", "", 1)
-			congressional_district_geoids.append(cong_dist_geoid)
+			# cong_dist_geoid = split_geoid[1].replace("26", "", 1)
+			# congressional_district_geoids.append(cong_dist_geoid)
+			congressional_district_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '610':
 			d3_item_levels.append(level)
-			state_senate_geoid = split_geoid[1].replace("260", "", 1)
-			state_senate_geoid = state_senate_geoid.lstrip("0")
-			state_senate_geoids.append(state_senate_geoid)
+			# state_senate_geoid = split_geoid[1].replace("260", "", 1)
+			# state_senate_geoid = state_senate_geoid.lstrip("0")
+			state_senate_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '620':
 			d3_item_levels.append(level)
-			state_house_geoid = split_geoid[1].replace("260", "", 1)
-			state_house_geoid = state_house_geoid.lstrip("0")
-			state_house_geoids.append(state_house_geoid)
+			# state_house_geoid = split_geoid[1].replace("260", "", 1)
+			# state_house_geoid = state_house_geoid.lstrip("0")
+			state_house_geoids.append(split_geoid[1])
 		if level['sumlevel'] == '860':
 			d3_item_levels.append(level)
 			zcta_geoids.append(split_geoid[1])
@@ -601,6 +602,15 @@ def geo_profile(geoid, acs='latest'):
 	if msa_geoids:
 		msa_data = d3_api.get_data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_MSA', msa_geoids)
 
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('ThirdGrade_ELA_Math_Scores_byCongressionalDistrict_20180321', 'CD_GEOID', congressional_district_geoids)
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('ThirdGrade_ELA_Math_Scores_byMISenateDistrict_20180321', 'SenateGEOID', state_senate_geoids)	
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('ThirdGrade_ELA_Math_Scores_byMIHouseDistrict_20180321', 'HouseGEOID', state_house_geoids)
+
 	if school_district_geoids:
 	 	school_district_data = d3_api.get_data('ThirdGrade_ELA_Math_Scores_bySchoolDistrict_08032017', 'GEOID10', school_district_geoids)
 
@@ -718,7 +728,7 @@ def geo_profile(geoid, acs='latest'):
 		state_senate_data = d3_api.get_data('GraduationRates_2016_2017_byMIStateSenate__20181019', 'GEOID', state_senate_geoids)	
 
 	if state_house_geoids:
-		state_house_data = d3_api.get_data('GraduationRates_2016_2017_byHouseOfReps__20181019', 'GEOID10', state_house_geoids)
+		state_house_data = d3_api.get_data('GraduationRates_2016_2017_byHouseOfReps__20181019', 'GEOID', state_house_geoids)
 
 	if school_district_geoids:
 	 	school_district_data = d3_api.get_data('GraduationRates_2016_2017_bySchoolDistrict__20181019', 'GEOID10', school_district_geoids)
@@ -845,13 +855,13 @@ def geo_profile(geoid, acs='latest'):
 		state_data = d3_api.get_data('Immunization_2015_StateofMichigan', 'GEOID', state_geoids)
 
 	if congressional_district_geoids:
-		congressional_district_data = d3_api.get_data('Immunization_2015_US_Congress', 'DISTRICT', congressional_district_geoids)
+		congressional_district_data = d3_api.get_data('Immunization_2015_US_Congress', 'GEOID', congressional_district_geoids)
 
 	if state_senate_geoids:
-		state_senate_data = d3_api.get_data('Immunization_2015_US_Senate', 'DISTRICT', state_senate_geoids)
+		state_senate_data = d3_api.get_data('Immunization_2015_US_Senate', 'GEOID', state_senate_geoids)
 
 	if state_house_geoids:
-		state_house_data = d3_api.get_data('Immunization_2015_State_House', 'DISTRICT', state_house_geoids)
+		state_house_data = d3_api.get_data('Immunization_2015_State_House', 'GEOID', state_house_geoids)
 
 	if county_geoids:
 		county_data = d3_api.get_data('Immunization_2015_Counties', 'GEOID10', county_geoids)

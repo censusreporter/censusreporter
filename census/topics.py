@@ -164,6 +164,17 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Child Care',
+        'slug': 'child-care',
+        'topics': ['child care', 'children', 'families'],
+        'description': 'Great Start to Quality measures the quality of early childhood programs and providers in Michigan by using more than 40 program quality indicators aligned with Michigan\'s Early Childhood Standards of Quality for Infant and Toddler Programs and Early Childhood Standards of Quality for Prekindergarten. The program quality indicators are standards used to measure the quality of a program in a specific area. Each program quality indicator falls into one of five categories.',
+        'template_name': 'child-care.html',
+        'question_images': [],
+        'question_pdfs': [
+        ]
+    },
+
+    {
         'title': 'Infant Mortality',
         'slug': 'infant-mortality',
         'topics': ['births', 'children', 'families', 'health care'],

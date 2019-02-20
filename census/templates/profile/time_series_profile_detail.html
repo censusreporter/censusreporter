@@ -24,6 +24,11 @@
 {% block head_css_extra %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/leaflet.label.css" />
+<style type="text/css">
+    section h2 {
+        font-size: 1.25em;
+    }
+</style>
 {% endblock %}
 
 {% block head_javascript_extra %}
@@ -174,7 +179,7 @@
  
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2 class="header-for-columns"><a class="permalink section" href="#children-age-race" id="children-age-race" title="Permalink">Youth age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-full" id="chart-column_time_series_group-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 0 - 9 years" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_race_grouped_under_9.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
@@ -186,7 +191,7 @@
             <div class="column-full" id="chart-column_time_series_group-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 10 - 17 years" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_race_grouped_10_to_17.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2 class="header-for-columns"><a class="permalink section" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
@@ -219,7 +224,7 @@
             <div class="column-half" id="chart-column_timeseries-families-households-distribution" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Population by household type" data-qualifier="Universe: {{ profile_data_current_year.families.households.distribution.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -242,7 +247,7 @@
             <div class="column-two-thirds" id="chart-column_time_series_group-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Marital status, by sex" data-qualifier="Universe: {{ profile_data_current_year.families.marital_status_grouped.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#births" id="births" title="Permalink">Births <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
@@ -270,7 +275,7 @@
             </div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#language" id="language" title="Permalink">Language <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -301,7 +306,7 @@
             <div class="column-two-thirds" id="chart-column_timeseries-social-ela_distribution" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.ela_distribution.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -329,7 +334,7 @@
             <div class="column-half" id="chart-column_time_series_group-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ profile_data_current_year.social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -357,7 +362,7 @@
             <div class="column-half" id="chart-column_timeseries-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ profile_data_current_year.social.educational_attainment_distribution.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
@@ -383,7 +388,7 @@
             </div> 
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#school-lunch" id="school-lunch" title="Permalink">Free and reduced school lunch <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -394,14 +399,10 @@
             <div class="column-two-thirds" id="chart-column_timeseries-social-school_lunch-school_lunch_chart_data" data-chart-title="Percent of students eligible for free or reduced price lunches by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.school_lunch.school_lunch_chart_data.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#college-enrollment-readiness" id="college-enrollment-readiness" title="Permalink">College enrollment and readiness<i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
-                <div id="chart-stat_timeseries-social-college_enrollment-percent_enrolled" data-stat-type="scaled-percentage" data-chart-title="Percent of public high school graduates who have enrolled in college within 6 months of graduation" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.percent_enrolled.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_enrollment.percent_enrolled stat_type='percentage' %} {% endcomment %}
-            </div>
             <div class="column-two-thirds">
                 <div class="column-third">
                     <div id="chart-stat_timeseries-social-college_readiness-sat_all_subject" data-stat-type="number" data-chart-title="Average SAT score in all subjects" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_all_subject.metadata.universe }}"></div>
@@ -415,6 +416,10 @@
                     <div id="chart-stat_timeseries-social-college_readiness-sat_reading_writing" data-stat-type="number" data-chart-title="Average SAT score in evidenced-based reading and writing" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_reading_writing.metadata.universe }}"></div>
                     {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_reading_writing stat_type='number' %} {% endcomment %}
                 </div>
+            </div>
+            <div class="column-third">
+                <div id="chart-stat_timeseries-social-college_enrollment-percent_enrolled" data-stat-type="scaled-percentage" data-chart-title="Percent of public high school graduates who have enrolled in college within 6 months of graduation" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.percent_enrolled.metadata.universe }}"></div>
+                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_enrollment.percent_enrolled stat_type='percentage' %} {% endcomment %}
             </div>
         </section>
 
@@ -438,7 +443,7 @@
     </header>
     <div class="section-container">
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#income" id="income" title="Permalink">Income <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -468,7 +473,7 @@
             <div class="column-half" id="chart-column_timeseries-economics-poverty-children_distribution_by_age" data-chart-title="Children living below the poverty line by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.economics.poverty.children_distribution_by_age.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#poverty" id="poverty" title="Permalink">Poverty <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -491,7 +496,7 @@
         </section>
 
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#employment" id="employment" title="Permalink">Employment <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -516,7 +521,7 @@
             <div class="column-two-thirds" id="chart-column_timeseries-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.economics.employment.transportation_distribution.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#vehicle-availability" id="vehicle-availability" title="Permalink">Vehicle availabilty <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -548,7 +553,7 @@
             <div class="column-third" id="chart-column_timeseries-housing-units-occupancy_distribution" data-stat-type="scaled-percentage" data-chart-title="Occupied vs. Vacant" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.housing.units.occupancy_distribution.metadata.universe }}"></div>
             <div class="column-third" id="chart-column_timeseries-housing-ownership-distribution" data-stat-type="scaled-percentage" data-chart-title="Ownership of occupied units" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.housing.ownership.distribution.metadata.universe }}"></div>
         </section>
-        <section class="clearfix stat-row grouped-row">
+        <section class="clearfix stat-row grouped-row alt">
             <aside>
             </aside>
             <div class="column-third" id="chart-column_timeseries-housing-units-structure_distribution" data-stat-type="scaled-percentage" data-chart-title="Types of structure" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.housing.units.structure_distribution.metadata.universe }}"></div>
@@ -566,7 +571,7 @@
             <div class="column-two-thirds" id="chart-column_timeseries-housing-costs-housing_costs_distribution" data-chart-title="Percent of households spending 30% or more of household income on housing by household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.housing.costs.housing_costs_distribution.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#housing-value" id="housing-value" title="Permalink">Housing value <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -598,7 +603,7 @@
     </header>
     <div class="section-container">
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#infant-mortality" id="infant-mortality" title="Permalink">Infant mortality <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -620,7 +625,7 @@
             <div class="column-two-thirds" id="chart-column_timeseries-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization_chart_data.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#blood-lead" id="blood-lead" title="Permalink">Elevated blood lead levels <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -643,7 +648,7 @@
             <div class="column-third" id="chart-column_timeseries-social-medicaid-condition_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by condition" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.medicaid.condition_chart_data.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#health-insurance" id="health-insurance" title="Permalink">Health insurance <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -674,7 +679,7 @@
             <div class="column-three-quarters" id="chart-column_timeseries-social-place_of_birth-distribution" data-chart-title="Place of birth for foreign-born population" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.place_of_birth.distribution.metadata.universe }}"></div>
         </section>
 
-        <section class="clearfix stat-row">
+        <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#veteran-status" id="veteran-status" title="Permalink">Veteran status <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -871,7 +876,9 @@ var gracefulType = function(chartType) {
     return chartType
 }
 
+
 var makeCharts = function() {
+
     $.each(chartContainers, function(i, obj) {
         $(obj).empty();
         var chartID = $(this).prop('id'),
@@ -886,8 +893,15 @@ var makeCharts = function() {
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
             chartPrecision = $(this).data('precision'),
-            geographyData = profileData['geography'];
+            geographyData = profileData['geography'],
+            chartColorScale;
 
+        // toggle color scale if new section
+        if ($(this).parents('.alt').length > 0) {
+            chartColorScale = "Kat2Alt";
+        } else {
+            chartColorScale = "Kat2";
+        }
 
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
@@ -913,11 +927,6 @@ var makeCharts = function() {
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
 
-        if (i % 2 == 0) {
-            chartColorScale = "Kat2";
-        } else {
-            chartColorScale = "Kat2Alt";
-        }
         var chartstuff = {
             chartContainer: chartID,
             chartDataKey: chartDataKey,

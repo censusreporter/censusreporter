@@ -248,6 +248,7 @@ function Chart(options) {
     };
     
     chart.draw = function() {
+        
         chart.chartContainer
             .classed("chart", true);
             
@@ -263,6 +264,7 @@ function Chart(options) {
         } else if (chart.chartType == 'bar_timeseries') {
             chart.makeTimeseriesBarChart();
         }
+        
         return chart;
 
     }
@@ -1816,6 +1818,10 @@ function Chart(options) {
 
         // Kat Hartman colors
         Kat2: ['#76AFF2', '#74B73C', '#A975D7', '#979797', '#4F80BA', '#F8E71C',  '#F7AB1E', '#7E4BAB'],
+
+        // Alternate order for Kat Hartman colors
+        Kat2Alt: ['#A975D7', '#979797', '#4F80BA', '#F8E71C',  '#F7AB1E', '#7E4BAB', '#76AFF2', '#74B73C'],
+
         
     };
     
