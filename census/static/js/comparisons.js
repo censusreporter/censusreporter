@@ -953,7 +953,7 @@ function Comparison(options, callback) {
         }
         if (comparison.state_house_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_2016_2017_byHouseOfReps__20181019', 'GEOID10', comparison.state_house_geoids, 'state_house_data')
+            comparison.getD3Data('GraduationRates_2016_2017_byHouseOfReps__20181019', 'GEOID', comparison.state_house_geoids, 'state_house_data')
         }
         if (comparison.school_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1057,15 +1057,15 @@ function Comparison(options, callback) {
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Immunization_2015_US_Congress', 'DISTRICT', comparison.congressional_district_geoids, 'congressional_district_data')
+            comparison.getD3Data('Immunization_2015_US_Congress', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
         }
         if (comparison.state_senate_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Immunization_2015_US_Senate', 'DISTRICT', comparison.state_senate_geoids, 'state_senate_data')
+            comparison.getD3Data('Immunization_2015_US_Senate', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
         }
         if (comparison.state_house_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Immunization_2015_State_House', 'DISTRICT', comparison.state_house_geoids, 'state_house_data')
+            comparison.getD3Data('Immunization_2015_State_House', 'GEOID', comparison.state_house_geoids, 'state_house_data')
         }
 
     }
@@ -1648,7 +1648,7 @@ function Comparison(options, callback) {
         comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Department of Heath and Human Services';
         comparison.d3DataYears = '2018';
         comparison.d3table_name = 'D3-Blood-Lead';
-        comparison.d3title = 'Blood lead levels';
+        comparison.d3title = 'Blood lead levels (BLL), with elevated BLL defined as > 4.5 micrograms per deciliter';
         comparison.d3universe = 'Number of individuals who were tested';
         comparison.d3denominator_column_id ='D3-CntTested';
 
@@ -1659,23 +1659,23 @@ function Comparison(options, callback) {
         comparison.d3fields['CntTested']['indent'] = 0
 
         comparison.d3fields['EBLL'] = {};
-        comparison.d3fields['EBLL']['name'] = "Number of individuals tested with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+        comparison.d3fields['EBLL']['name'] = "Tested with an elevated BLL"
         comparison.d3fields['EBLL']['indent'] = 1
 
         comparison.d3fields['Under6CntTested'] = {};
-        comparison.d3fields['Under6CntTested']['name'] = "Number of individuals, under 6 years of age, who were tested"
+        comparison.d3fields['Under6CntTested']['name'] = "Tested under 6 years of age"
         comparison.d3fields['Under6CntTested']['indent'] = 1
 
         comparison.d3fields['Under6EBLL'] = {};
-        comparison.d3fields['Under6EBLL']['name'] = "Number of individuals tested, under 6 years of age, with an elevated blood lead level, defined as > 4.5 micrograms per deciliter"
+        comparison.d3fields['Under6EBLL']['name'] = "Tested under 6 years of age with an elevated BLL"
         comparison.d3fields['Under6EBLL']['indent'] = 2
 
         comparison.d3fields['Under18CntTested'] = {};
-        comparison.d3fields['Under18CntTested']['name'] = "Number of individuals, under 18 years of age, who were tested"
+        comparison.d3fields['Under18CntTested']['name'] = "Tested under 18 years of age"
         comparison.d3fields['Under18CntTested']['indent'] = 1
 
         comparison.d3fields['Under18EBLL'] = {};
-        comparison.d3fields['Under18EBLL']['name'] = "Number of individuals tested, under 18 years of age, with an elevated blood lead level, defined as  > 4.5 micrograms per deciliter"
+        comparison.d3fields['Under18EBLL']['name'] = "Tested under 18 years of age with an elevated BLL"
         comparison.d3fields['Under18EBLL']['indent'] = 2
 
         comparison.ajaxCount = 0;

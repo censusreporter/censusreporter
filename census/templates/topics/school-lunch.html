@@ -1,0 +1,55 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <p>The table <a href="/tables/D3-School-Lunch/">D3-School-Lunch</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>FreeEligible</td>
+                <td>Number of students who records indicate that they are eligible for the free lunch program, are migrant or homeless students, or identified via Direct Certification Process</td>
+            </tr>
+            <tr>
+                <td>ReducedEligible</td>
+                <td>Number of students who records indicate that they are eligible for the reduced price lunch program and are not a migrant or homeless student and were not identified via the Direct Certification process.</td>
+            </tr>
+            <tr>
+                <td>NotEligible</td>
+                <td>Student records indicate they are not eligible for free or reduced lunch programs.</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>Total number of student counts grade K-12, including ungraded.</td>
+            </tr>
+            <tr>
+                <td>FreeReducedEligible</td>
+                <td>The number of students eligible for free OR reduced lunches as measured above</td>
+            </tr>
+            <tr>
+                <td>PCT_Free</td>
+                <td>The percent of total students reported eligible for free lunches</td>
+            </tr>
+            <tr>
+                <td>PCT_Reduced</td>
+                <td>The percent of total students reported eligible for reduced price lunches</td>
+            </tr>
+            <tr>
+                <td>PCT_FreeReduced</td>
+                <td>The percent of total students reported eligible for free OR reduced price lunches.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

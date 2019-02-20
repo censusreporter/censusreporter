@@ -368,9 +368,6 @@
             <h2><a class="permalink" href="#college-enrollment-readiness" id="college-enrollment-readiness" title="Permalink">College enrollment and readiness<i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.college_enrollment.percent_enrolled stat_type='percentage' %}
-            </div>
             <div class="column-two-thirds">
                 <div class="column-third">
                     {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_all_subject stat_type='number' %}
@@ -382,13 +379,12 @@
                     {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_reading_writing stat_type='number' %}
                 </div>
             </div>
+            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 6 months of graduation" data-qualifier="Universe: {{ social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside>
             </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.percent_proficient stat_type='percentage' %}
-            </div>
+            <div class="column-third" id="chart-pie-social-college_readiness-pct_college_ready_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of students who scored at, above or below college readiness proficiency on the SAT assessment in all subjects" data-qualifier="Universe: {{ social.college_readiness.pct_college_ready_chart_data.metadata.universe }}"></div>
             <div class="column-two-thirds" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
         </section>
 

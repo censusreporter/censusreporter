@@ -1,0 +1,87 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <p>The table <a href="/tables/D3-Medicaid/">D3-Medicaid</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Under18_Tot</td>
+                <td>Total number of hospital or ER visits through Medicaid for children (under 18)</td>
+            </tr>
+            <tr>
+                <td>FivePlus_Tot</td>
+                <td>Total number of hospital or ER visits through Medicaid for children over 5</td>
+            </tr>
+            <tr>
+                <td>Under5_Tot</td>
+                <td>Total number of hospital or ER visits through Medicaid for children under 5</td>
+            </tr>
+            <tr>
+                <td>AsthmaCt</td>
+                <td>Total number of hospital or ER visits for children through Medicaid related to Asthma</td>
+            </tr>
+            <tr>
+                <td>Diabetes1Ct</td>
+                <td>Total number of hospital or ER visits for children through Medicaid related to Type 1 Diabetes</td>
+            </tr>
+            <tr>
+                <td>Diabetes2Ct</td>
+                <td>Total number of hospital or ER visits for children through Medicaid related to Type 2 Diabetes</td>
+            </tr>
+            <tr>
+                <td>DiabetesOtherCt</td>
+                <td>Total number of hospital or ER visits for children through Medicaid related to other types of Diabetes (excluding Type 1 and 2)</td>
+            </tr>
+            <tr>
+                <td>Tot_Hosp_Visits</td>
+                <td>Total number of hospital visits through Medicaid for children under 18</td>
+            </tr>
+            <tr>
+                <td>Under5_Hosp</td>
+                <td>Total number of hospital visits through Medicaid for children under 5</td>
+            </tr>
+            <tr>
+                <td>Tot_ER_Visits</td>
+                <td>Total number of ER visits through Medicaid for children (under 18)</td>
+            </tr>
+            <tr>
+                <td>FivePlus_ER</td>
+                <td>Total number of ER visits through Medicaid for children over 5</td>
+            </tr>
+            <tr>
+                <td>Under5_ER</td>
+                <td>Total number of ER visits through Medicaid for children under 5</td>
+            </tr>
+            <tr>
+                <td>PctOvr5ER</td>
+                <td>Percent of total children over 5 who visited the ER through Medicaid</td>
+            </tr>
+            <tr>
+                <td>PctUndr5ER</td>
+                <td>Percent of total children under 5 who visited the ER through Medicaid</td>
+            </tr>
+            <tr>
+                <td>PctAsthma</td>
+                <td>Percent of total children (under 18) who visited the ER through Medicaid related to Asthma</td>
+            </tr>
+            <tr>
+                <td>PctDiabetes</td>
+                <td>Percent of total children (under 18) who visited the ER through Medicaid related to Diabetes</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

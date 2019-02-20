@@ -449,8 +449,8 @@ class D3TableDetailViewMedicaid(TemplateView):
 	def get_context_data(self, *args, **kwargs):
 		table = OrderedDict()
 		table['table_id'] = 'D3-Medicaid'
-		table['table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
-		table['simple_table_title'] = 'Visits to the Emergency Room, Hospital, and Urgent Care'
+		table['table_title'] = 'Hospital visits through Medicaid'
+		table['simple_table_title'] = 'Hospital visits through Medicaid'
 		table['subject_area'] = 'Health care'
 		table['universe'] = 'Total number of hospital or ER visits through Medicaid for children (under 18)'
 		table['denominator_column_id'] = 'Under18_Tot'
@@ -2002,7 +2002,7 @@ class DataView(TemplateView):
 
 			if state_house_geoids and self.table == 'D3-Graduation-Rates':
 				table_id = 'GraduationRates_2016_2017_byHouseOfReps__20181019'
-				field_name = 'GEOID10'
+				field_name = 'GEOID'
 				if hasattr(state_house_geoids, '__iter__'):
 					state_house_geoids = ','.join(state_house_geoids)
 				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'	
@@ -2062,21 +2062,21 @@ class DataView(TemplateView):
 
 			if congressional_district_geoids and self.table == 'D3-Immunization':
 				table_id = 'Immunization_2015_US_Congress'
-				field_name = 'DISTRICT'
+				field_name = 'GEOID'
 				if hasattr(congressional_district_geoids, '__iter__'):
 					congressional_district_geoids = ','.join(congressional_district_geoids)
 				d3_congressional_district_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ congressional_district_geoids +')'				
 
 			if state_senate_geoids and self.table == 'D3-Immunization':
 				table_id = 'Immunization_2015_US_Senate'
-				field_name = 'DISTRICT'
+				field_name = 'GEOID'
 				if hasattr(state_senate_geoids, '__iter__'):
 					state_senate_geoids = ','.join(state_senate_geoids)
 				d3_state_senate_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_senate_geoids +')'				
 			
 			if state_house_geoids and self.table == 'D3-Immunization':
 				table_id = 'Immunization_2015_State_House'
-				field_name = 'DISTRICT'
+				field_name = 'GEOID'
 				if hasattr(state_house_geoids, '__iter__'):
 					state_house_geoids = ','.join(state_house_geoids)
 				d3_state_house_link = settings.D3_API_URL + '/'+ table_id +'/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20('+ state_house_geoids +')'				
