@@ -8,20 +8,23 @@
 {% block body_id %}locate{% endblock %}
 
 {% block content %}
+<div id="location-search-wrapper">
+    <input type="text" id="address-search" placeholder="Search for an address">
+    <div>
+        <a id="use-location" class="action-button"><i class="fa fa-location-arrow"></i><span>Use your current location</span></a>
+        <span class="no-map-hide">or double-click to place the marker</span>
+    </div>
+</div>
 <div id="map-controls" class="clearfix">
+    <div class="modal-control"><i class="fa fa-angle-up fa-3"></i></div>
     <header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
             <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
         </a>
     </header>
     <div id="address-search-content" class="box-content">
-        <div class="tool-set header-tool-set clearfix">
-            <a id="use-location" class="action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
-            <span class="no-map-hide">or double-click to place the marker</span>
-        </div>
         <section class="clearfix header-container" id="address-search-wrapper">
-            <h1>Search for an address</h1>
-            <input type="text" id="address-search" placeholder="Search for an address">
+            <p id="address-search-instructions">Search for an address above, double tap a location to place a marker, or tap the location icon to use your current location.</p>
             <h2 id="address-search-message" class="hidden bottom"></h2>
             <aside id="data-display" class="clearfix"></aside>
         </section>
@@ -30,11 +33,9 @@
 <div id="slippy-map"></div>
 <script id="place-result-template" type="text/template">
     <li data-geoid="<%= full_geoid %>">
-        <a href="/profiles/<%= full_geoid %>">
-            <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
-            <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
-            <%= full_name %>
-        </a>
+        <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
+        <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
+        <a class="full-name" href="/profiles/<%= full_geoid %>"><%= full_name %></a>
     </li>
 </script>
 {% endblock %}

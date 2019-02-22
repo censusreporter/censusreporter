@@ -600,10 +600,14 @@ aside#facets {
     display: inline-block;
     font-size: .9em;
     padding: 0 9px;
-    margin-right: .33em;
+    margin: .33em;
 }
 
-#address-search-message { display: none; margin-top: 1em;}
+#address-search-message {
+    margin-top: 1em;
+    padding: 0 1em .5em 1em;
+    border-bottom: 1px solid #aaa;
+}
 
 #address-search {
     font-size: 1em;
@@ -1068,16 +1072,93 @@ h1.article-header-right {
     border-radius: 3px;
     border: 1px solid #014948;
     width: 450px;
-    overflow-y: auto;
+    overflow-y: hidden;
+    max-height: 40em;
 }
-#locate #map-controls {
-    overflow-y: visible;
+
+@media only screen and (max-height: 400px) { /*for android keyboards*/
+    #map-controls {
+        display: none !important;
+    }
+
+    #page-footer {
+        padding: 0;
+    }
+    #address-search-content {
+        height: initial !important;
+    }
+    #location-search-wrapper {
+        top: 15% !important;
+    }
+    #slippy-map {
+        height: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #map-controls {
+        bottom: 0px;
+        left: 0;
+        top: initial;
+        width: 100%;
+        height: 30%;
+        overflow-y: scroll;
+    }
+    #address-search {
+        top: 0;
+    }
+    #address-search-content {
+        height: 100%;
+        padding: 0 1em;
+    }
+    #location-search-wrapper {
+        position: absolute;
+        top: 8%;
+        display: flex;
+        justify-content: space-between;
+        width: 93%;
+        align-content: space-evenly;
+        z-index: 98;
+    }
+    .tt-dropdown-menu {
+        height: 17em!important;
+    }
+    .location-list {
+        height: 66%;
+        max-height: 38em !important;
+    }
+    #address-search-instructions {
+        margin: 2em auto;
+        width: 90%;
+        display: none;
+    }
+}
+#address-search-message {
+    margin-top: 0em;
+}
+#address-search-content {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+.modal-control {
+    display: none;
+    justify-content: center;
+}
+.modal-control i {
+    font-size: 1.5em;
+}  
+
+#address-search-wrapper #location-search-wrapper {
+    margin: 1em;
 }
 #map-controls h1,
 #map-controls .header-container {
-    margin: .5em 0;
+    margin: 0;
     clear: both;
     padding: 0;
+    height: 100%;
+    overflow-y: hidden;
 }
 #map-controls h2 span {
     margin-right: 1.5em;
@@ -1106,13 +1187,15 @@ h1.article-header-right {
 #map-controls #sumlev-select,
 #map-controls .header-tool-set,
 #map-controls aside {
-    width: 100%;
     display: block;
     float: none;
 }
 #map-controls aside {
-    padding: .67em 0 .33em;
+    padding: 1em 1em;
     margin: 0;
+    height: 100%;
+    overflow-y: hidden;
+    width: 100%;
 }
 #map-controls aside .action-button {
     float: right;
@@ -1135,7 +1218,6 @@ h1.article-header-right {
 }
 #map-controls .header-tool-set,
 #map-controls .caption {
-    margin: .25em 0 0;
 }
 #map-legend,
 #map-select {
@@ -2382,18 +2464,23 @@ aside .search .result-type {
 }
 
 .location-list {
+    max-height: 30em;
+    overflow-y: scroll;
     list-style: none;
     margin: 0;
     padding: 0;
     font-size: .9em;
 }
 
+.location-list div {
+    flex-grow: 1;
+    height: 1.8em;
+}
+
 .location-list a {
     text-decoration: none;
     background-color: #fff;
-    display: block;
     font-weight: bold;
-    padding: .67em .2em;
 }
 .location-list a:hover {
     color: #f55b2c;
@@ -2408,6 +2495,10 @@ aside .search .result-type {
 }
 .location-list a:hover .identifier {
     color: #111;
+}
+
+.location-list li {
+    padding: 0.5em.25em;
 }
 
 #body-spinner {
@@ -2647,10 +2738,11 @@ blockquote {
         clear: both;
     }
 } /* END: @media only screen and (max-width: 768px) */
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
     .tool-set {
         float: none;
-        margin: .5em 0 1em;
+        margin: 0.22em 0 0 1em;
+        padding: 0;
     }
     #menu-toggle {
         display: block;
