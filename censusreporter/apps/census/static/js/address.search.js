@@ -24,7 +24,7 @@ if (isMobile) {
     $('.tool-set header-tool-set, .box-header, .no-map-hide').hide()
     $('#use-location > span').remove()
     $('#slippy-map').css({
-        height: "50%",
+        height: "70%",
         top: '5%',
         'z-index': 5
     })
@@ -33,13 +33,17 @@ if (isMobile) {
         "width": "100%",
         "z-index": 99,
     })
+    $('.modal-control').css({display: "flex"})
     // $('#address-search-wrapper >  #address-search').hide()
+} else {
+    $("#location-search-wrapper").prependTo('#address-search-wrapper')
+    $('#address-search-instructions').hide()
 }
 
 
 var initState = {
     modalDirection: "down",
-    "map-controls-height": $('#map-controls').css("height"), 
+    "map-controls-height": $('#map-controls').css("height"), // this is necessary bc you can't animate percentages
     "data-display-height": $('#data-display').css("height"), 
 }
 
@@ -51,21 +55,17 @@ function controlModalSize(state) {
         console.log("was up, bringing down");
         state.modalDirection = "down"
         $('#map-controls').animate({"height": initState["map-controls-height"]})
-        $('#data-display').css("height", initState["data-display-height"])
-        // $('#location-search-wrapper').animate({"top": "-98%"})
+        $('.location-list').css("height", "66%")
         $('#slippy-map').css('z-index', 5)
         $('.fa-angle-up').css("transform", "rotate(0deg)")
     } else {
         console.log("was down, bringing up");
         state.modalDirection = "up"
         $('#map-controls').animate({"height": "75%"})
-        $('#data-display').animate({"height": "94%"})
-        // $('#location-search-wrapper').animate({"top": "-15%"})
+        $('.location-list').css("height", "90%")
         $('#slippy-map').css('z-index', 0)
         $('.fa-angle-up').css({"transform": "rotate(180deg)"})
     }
-
-    
 }
 
 $('.modal-control').click(() => controlModalSize(initState))
@@ -286,7 +286,7 @@ function findPlaces(lat,lng,address) {
             $("#data-display").html("");
             var list = $("<ul class='location-list'></ul>");
             list.appendTo($("#data-display"));
-
+            $('#address-search-instructions').fadeOut(500);
             var results = _.sortBy(data.results,function(x){ return sumlevMap[x.sumlevel].size_sort });
             if (results.length == 0) {
                 var label = $("#address-search-message").html();
@@ -319,13 +319,18 @@ function findPlaces(lat,lng,address) {
                         }
                     });
                 })
-                $('.zoom-to-layer').click(function(e) {
+                $('.location-list li').click(function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    var geoid = $(this).parents('li').data('geoid');
+                    var geoid = $(this).data('geoid');
+                    if($(e.target).is('a')){
+                        window.location = $(this).find("a").attr("href");
+                    }
+                    
                     if (PLACE_LAYERS[geoid]) {
                         var layer = PLACE_LAYERS[geoid];
                         layer.addTo(map);
+                        
                         if (!isMobile) {
                             console.log(isMobile);
                             
@@ -396,9 +401,15 @@ function init_from_params(params) {
 }
 
 // perhaps leave out the map on small viewports?
-if (!(lat && lng)) {
+console.log("lat:", lat)
+console.log("lng:", lng)
+
+if (!(lat.trim() && lng.trim())) {
     lat = '42.02';
     lng = '-87.67';
+    if (isMobile) {
+        $('#address-search-instructions').css('display', "block")        
+    }
 }
 
 function initialize_map() {

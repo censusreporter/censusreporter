@@ -514,7 +514,7 @@ aside ul.search-filter-list .remove {
     margin-left: .5em;
 }
 aside li {
-    margin-bottom: .25em;
+    padding: .67em .2em;
 }
 aside ul.sumlev-list li,
 aside ul.search-filter-list li {
@@ -604,10 +604,10 @@ aside#facets {
 }
 
 #address-search-message {
-    display: none;
+    /* display: none; */
     margin-top: 1em;
     padding: 0 1em .5em 1em;
-    border-bottom: 2px solid #014948;
+    border-bottom: 1px solid #aaa;
 }
 
 #address-search {
@@ -1073,7 +1073,9 @@ h1.article-header-right {
     border-radius: 3px;
     border: 1px solid #014948;
     width: 450px;
-    overflow-y: auto;
+    overflow-y: hidden;
+    max-height: 40em;
+    /* height: 40em; */
 }
 
 @media only screen and (max-height: 400px) {
@@ -1096,19 +1098,19 @@ h1.article-header-right {
 
 }
 
-
 @media only screen and (max-width: 768px) {
     #map-controls {
         bottom: 0px;
         left: 0;
         width: 100%;
-        height: 46%;
+        height: 30%;
+        overflow-y: hidden;
     }
     #address-search {
         top: 0;
     }
     #address-search-content {
-        height: 93%;
+        height: 100%;
         padding: 0 1em;
     }
     #location-search-wrapper {
@@ -1118,33 +1120,52 @@ h1.article-header-right {
         justify-content: space-between;
         width: 93%;
         align-content: space-evenly;
-        /* margin-left: 1em; */
         z-index: 98;
     }
     .tt-dropdown-menu {
         height: 17em!important;
     }
-}
-div#location-search-wrapper {}
-    #address-search-message {margin-top: 0em;}
-    #address-search-content {padding: 0;margin: 0;}
-    .modal-control {
-        display: flex;
-        justify-content: center;
+    .location-list {
+        height: 66%;
+        max-height: 38em !important;
     }
-    .modal-control i{
-        font-size: 1.5em;
-    }  
+    #address-search-instructions {
+        margin: 2em auto;
+        width: 90%;
+        display: none;
+    }
 }
+#address-search-message {
+    margin-top: 0em;
+}
+#address-search-content {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+.modal-control {
+    display: none;
+    justify-content: center;
+}
+.modal-control i {
+    font-size: 1.5em;
+}  
+    
+
+#address-search-wrapper #location-search-wrapper {
+    margin: 1em;
+}
+    
 #locate #map-controls {
-    overflow-y: visible;
+    /* overflow-y: visible; */
 }
 #map-controls h1,
 #map-controls .header-container {
     margin: 0;
     clear: both;
     padding: 0;
-    height: 96%;
+    height: 100%;
+    overflow-y: hidden;
 }
 #map-controls h2 span {
     margin-right: 1.5em;
@@ -1177,10 +1198,10 @@ div#location-search-wrapper {}
     float: none;
 }
 #map-controls aside {
-    padding: .67em 1em;
+    padding: 1em 1em;
     margin: 0;
-    height: 85%;
-    overflow-y: scroll;
+    height: 100%;
+    overflow-y: hidden;
     width: 100%;
 }
 #map-controls aside .action-button {
@@ -2450,18 +2471,25 @@ aside .search .result-type {
 }
 
 .location-list {
+    max-height: 30em;
+    overflow-y: scroll;
     list-style: none;
     margin: 0;
     padding: 0;
     font-size: .9em;
 }
 
+.location-list div {
+    flex-grow: 1;
+    height: 1.8em;
+}
+
 .location-list a {
     text-decoration: none;
     background-color: #fff;
-    display: block;
+    /* display: block; */
     font-weight: bold;
-    padding: .67em .2em;
+    /* padding: .67em .2em; */
 }
 .location-list a:hover {
     color: #f55b2c;

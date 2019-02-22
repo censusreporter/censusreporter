@@ -24,6 +24,7 @@
     </header>
     <div id="address-search-content" class="box-content">
         <section class="clearfix header-container" id="address-search-wrapper">
+            <p id="address-search-instructions">Search for an address above, double tap a location to place a marker, or tap the location icon to use your current location.</p>
             <h2 id="address-search-message" class="hidden bottom"></h2>
             <aside id="data-display" class="clearfix"></aside>
         </section>
@@ -32,11 +33,9 @@
 <div id="slippy-map"></div>
 <script id="place-result-template" type="text/template">
     <li data-geoid="<%= full_geoid %>">
-        <a href="/profiles/<%= full_geoid %>">
-            <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
-            <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
-            <%= full_name %>
-        </a>
+        <i class="zoom-to-layer fa fa-arrows-alt" title="Zoom map to fit this shape"></i>
+        <span class="glossary-term identifier"><%= SUMLEVELS[sumlevel].name %></span>
+        <a class="full-name" href="/profiles/<%= full_geoid %>"><%= full_name %></a>
     </li>
 </script>
 {% endblock %}
