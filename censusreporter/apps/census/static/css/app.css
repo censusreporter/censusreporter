@@ -514,7 +514,7 @@ aside ul.search-filter-list .remove {
     margin-left: .5em;
 }
 aside li {
-    padding: .67em .2em;
+    margin-bottom: .25em;
 }
 aside ul.sumlev-list li,
 aside ul.search-filter-list li {
@@ -604,7 +604,6 @@ aside#facets {
 }
 
 #address-search-message {
-    /* display: none; */
     margin-top: 1em;
     padding: 0 1em .5em 1em;
     border-bottom: 1px solid #aaa;
@@ -1065,7 +1064,7 @@ h1.article-header-right {
 #map-controls {
     position: absolute;
     z-index: 49;
-    top: initial;
+    top: 10px;
     left: 10px;
     background-color: #fff;
     -webkit-border-radius: 3px;
@@ -1075,10 +1074,9 @@ h1.article-header-right {
     width: 450px;
     overflow-y: hidden;
     max-height: 40em;
-    /* height: 40em; */
 }
 
-@media only screen and (max-height: 400px) {
+@media only screen and (max-height: 400px) { /*for android keyboards*/
     #map-controls {
         display: none !important;
     }
@@ -1095,16 +1093,16 @@ h1.article-header-right {
     #slippy-map {
         height: 100% !important;
     }
-
 }
 
 @media only screen and (max-width: 768px) {
     #map-controls {
         bottom: 0px;
         left: 0;
+        top: initial;
         width: 100%;
         height: 30%;
-        overflow-y: hidden;
+        overflow-y: scroll;
     }
     #address-search {
         top: 0;
@@ -1150,14 +1148,9 @@ h1.article-header-right {
 .modal-control i {
     font-size: 1.5em;
 }  
-    
 
 #address-search-wrapper #location-search-wrapper {
     margin: 1em;
-}
-    
-#locate #map-controls {
-    /* overflow-y: visible; */
 }
 #map-controls h1,
 #map-controls .header-container {
@@ -2487,9 +2480,7 @@ aside .search .result-type {
 .location-list a {
     text-decoration: none;
     background-color: #fff;
-    /* display: block; */
     font-weight: bold;
-    /* padding: .67em .2em; */
 }
 .location-list a:hover {
     color: #f55b2c;
@@ -2504,6 +2495,10 @@ aside .search .result-type {
 }
 .location-list a:hover .identifier {
     color: #111;
+}
+
+.location-list li {
+    padding: 0.5em.25em;
 }
 
 #body-spinner {

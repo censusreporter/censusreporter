@@ -33,7 +33,8 @@ if (isMobile) {
         "width": "100%",
         "z-index": 99,
     })
-    $('.modal-control').css({display: "flex"})
+    $('.modal-control').css("display", "flex")
+    $('#map-controls').css('overflow-y', "hidden")
     // $('#address-search-wrapper >  #address-search').hide()
 } else {
     $("#location-search-wrapper").prependTo('#address-search-wrapper')
