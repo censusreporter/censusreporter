@@ -97,6 +97,12 @@ fieldset {
     padding: 0;
 }
 
+fieldset label, fieldset input {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+}
+
 textarea {
     resize: vertical;
 }
@@ -1948,6 +1954,7 @@ section.chart-divider h2 {
     -moz-border-radius: 4px;
     border-radius: 4px;
     border: none;
+    cursor: pointer;
 }
 .action-button.disabled,
 .action-button.disabled:hover,

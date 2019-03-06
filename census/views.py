@@ -3052,10 +3052,13 @@ def uniurlquote(s):
 
 def make_dashboard(request):
 	if request.method == 'POST':
-		dashboard_geoids = request.POST.get('dashboard_geoids')
 		dashboard_name = request.POST.get('dashboard_name')
+		dashboard_slug = request.POST.get('dashboard_slug')
+		dashboard_geoids = request.POST.get('dashboard_geoids')
+		dashboard_organization = request.POST.get('dashboard_organization')
 		
-		dashboard = Dashboards(dashboard_geoids=dashboard_geoids, dashboard_name=dashboard_name)
+		
+		dashboard = Dashboards(dashboard_name=dashboard_name, dashboard_slug=dashboard_slug,dashboard_geoids=dashboard_geoids, dashboard_organization=dashboard_organization)
 		dashboard.save()
 		return HttpResponse(
             json.dumps({"this": "worked"}),

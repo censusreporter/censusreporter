@@ -1,13 +1,13 @@
 {% extends '_base.html' %}
 
 {% block head_css_extra %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.7/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/leaflet.label.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 {% endblock %}
 
 {% block head_javascript_extra %}
-<script src="https://unpkg.com/leaflet@0.7.2/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
@@ -74,8 +74,10 @@
     <form>
       <fieldset>
         <label for="dashboard-name">Name</label>
-        <input type="text" name="name" id="dashboard-name" class="text ui-widget-content ui-corner-all"> 
-        <a id="submit-custom-geo" class="action-button" style="display: inline-block">Save</a> 
+        <input type="text" name="name" id="dashboard-name" class="text ui-widget-content ui-corner-all">
+        <label for="dashboard-organization">Organization</label>
+        <input type="text" name="org" id="dashboard-organization" class="text ui-widget-content ui-corner-all"> 
+        <a id="submit-custom-geo" class="action-button" style="display: inline-block; margin-top: 10px;">Save</a> 
       </fieldset>
     </form>
 </div>
