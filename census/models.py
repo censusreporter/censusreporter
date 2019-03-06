@@ -134,5 +134,8 @@ class Geography(models.Model):
 
 
 class Dashboards(models.Model):
-    dashboard_name = models.TextField(blank=True)
-    dashboard_geoids = models.TextField(blank=True)
+    dashboard_name = models.TextField(blank=False, null=False)
+    dashboard_slug = models.CharField(max_length=1000, blank=False, null=False)
+    dashboard_geoids = models.TextField(blank=False, null=False)
+    dashboard_organization = models.TextField(blank=True, null=True)
+

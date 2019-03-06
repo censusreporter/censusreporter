@@ -120,7 +120,7 @@ $("#draw-on-map").click(function() {
     map.removeLayer(regularBackgroundTiles);
     map.addLayer(drawBackgroundTiles);
     enabledLayer.geojsonLayer.eachLayer(function(layer) {
-        setDeselected(layer.feature, layer);
+        setDeselected(layer);
     });    
 });
 
@@ -142,16 +142,22 @@ dialog = $("#dialog-form").dialog({
     modal: true,
     close: function() {
       form[ 0 ].reset();
-      allFields.removeClass( "ui-state-error" );
     }
 });
 
 $("#submit-custom-geo").click(function() {
-    dialog.find("form").submit();
+    // check form for existance of name in name field 
+    if (!$('#dashboard-name').val()) {
+        $('#dashboard-name').addClass( "ui-state-error" );
+        alert("A name for your dashboard is required. Please add a name for your dashboard.");
+    } else {
+        dialog.find("form").submit();
+    }
 });
 
 form = dialog.find( "form" ).on( "submit", function( event ) {
     event.preventDefault();
+    $('#dashboard-name').removeClass( "ui-state-error" );
     makeDashboard();
 });
 
@@ -183,19 +189,29 @@ $("#make-dashboard").click(function() {
 });
 
 var makeDashboard = function() {
-    var geoids_string = dashboard_geoids.join(",")
+    var geoids_string = dashboard_geoids.join(",");
+    var dashboard_name = $('#dashboard-name').val();
+    var dashboard_organization = $('#dashboard-organization').val();
+    var dashboard_slug = dashboard_name.cleanup();
+    console.log(dashboard_slug);
+
     // submit with ajax
     $.ajax({
         type:"POST",
         url:"/make_dashboard/",
         data: {
             'dashboard_geoids': geoids_string,
-            'dashboard_name': $('#dashboard-name').val()
+            'dashboard_name': dashboard_name,
+            'dashboard_organization': dashboard_organization,
+            'dashboard_slug': dashboard_slug
         },
         success: function(){
             $('#dashboard_name').val('');
+            $('#dashboard_organization').val('');
             dialog.dialog("close");
-            alert("Temporary alert to flag that dashboard data was saved correctly.");
+            // send to the dashboard
+            window.location.href = '/custom-profiles/' + dashboard_slug;
+            
         },
         error: function(e){
             console.log(e);
@@ -257,6 +273,7 @@ var setDefault = function(feature, layer) {
     layer.on('mouseout', function() {
         layer.setStyle(defaultStyle);
     });
+    layer.off('click');
     layer.on('click', function() {
         //add spinner to page load 
         var spinnerTarget = document.getElementById("body-spinner");
@@ -270,7 +287,6 @@ var setDefault = function(feature, layer) {
 }
 
 var setSelected = function(layer) {
-    layer.removeEventListener();
     layer.selected = true;
     layer.setStyle(selectedStyle);
     // update label
@@ -287,13 +303,14 @@ var setSelected = function(layer) {
     layer.on('mouseout', function() {
         layer.setStyle(selectedStyle);
     });
+    layer.off('click');
     layer.on('click', function() {
         setDeselected(layer);
     });
 }
 
 var setDeselected = function(layer) {
-    layer.removeEventListener();
+
     layer.selected = false;
     layer.setStyle(defaultStyle);
     // update label
@@ -310,6 +327,7 @@ var setDeselected = function(layer) {
     layer.on('mouseout', function() {
         layer.setStyle(defaultStyle);
     });
+    layer.off('click');
     layer.on('click', function() {
         setSelected(layer);   
     });
@@ -731,17 +749,20 @@ function initialize_map() {
         $("#map-action-buttons").removeClass("hidden");
     
         var drawnLayer = e.layer;
-        //map.addLayer(drawnLayer);
         var drawnGeojson = drawnLayer.toGeoJSON();
         // loop through added geojson tiles
-        console.log(enabledLayer.geojsonLayer.getLayers());
         enabledLayer.geojsonLayer.eachLayer(function(layer) {
             //console.log(layer);
             var tileGeojson = layer.toGeoJSON();
-            //console.log(tileGeojson.geometry.geometries[0]);
-            var intersection = turf.intersect(drawnGeojson, tileGeojson.geometry.geometries[0]);
-            //console.log(intersection);
-            if (intersection) {
+            var intersect_at_all = false;
+            var intersect_once = false;
+            for (let i = 0; i < tileGeojson.geometry.geometries.length; i++) {
+                intersect_once = turf.intersect(drawnGeojson.geometry, tileGeojson.geometry.geometries[i]);
+                if (intersect_once) {
+                    intersect_at_all = true;
+                }
+            }
+            if (intersect_at_all) {
                 setSelected(layer);
             } else {
                 setDeselected(layer);
@@ -762,3 +783,8 @@ if (should_show_map) {
     $("#address-search-content").addClass('no-map')
 }
 init_from_params($.parseParams());
+
+// utility function to make slug from string
+String.prototype.cleanup = function() {
+    return this.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
+}
