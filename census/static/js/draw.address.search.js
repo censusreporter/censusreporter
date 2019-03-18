@@ -15,7 +15,8 @@ var lat = '',
     address = '',
     point_marker = null,
     map = null,
-    enabledLayer = null,
+    toggleableLayer = null,
+    clickableLayer = null,
     drawnItems = null,
     drawControl = null,
     drawToggle = false,
@@ -71,7 +72,9 @@ $("#locate-tab").click(function(){
     // check to see if active
     if (mode == 'draw') {
         clearDraw();
-        mode = 'locate'; 
+        mode = 'locate';
+        // turn on map double click listener
+        map.on("dblclick", doubleClickMap); 
     }
 });
 
@@ -91,17 +94,18 @@ $("#sumlev-picker").change(function(e) {
         $("#draw-on-map").removeClass('disabled');
 
         if (typeof sumlev.layer == 'undefined') {
-            sumlev.layer = makeTileLayer(sumlev.level);
-            enabledLayer = sumlev.layer;
+            sumlev.layer = makeClickableTileLayer(sumlev.level);
+            clickableLayer = sumlev.layer;
+            toggleableLayer = makeTogglableTileLayer(sumlev.level);
         }
         _.each(sumlevs,function(sl) {
             if (sl.layer && map.hasLayer(sl.layer)) {
                 map.removeLayer(sl.layer);
             }
         })
-        map.addLayer(sumlev.layer);
+        map.addLayer(clickableLayer);
 
-        clearLocate();
+        //clearLocate();
 
     } else {
         clearDraw();
@@ -119,20 +123,15 @@ $("#draw-on-map").click(function() {
     $("#draw-on-map").addClass("active");
     map.removeLayer(regularBackgroundTiles);
     map.addLayer(drawBackgroundTiles);
-    enabledLayer.geojsonLayer.eachLayer(function(layer) {
+    map.removeLayer(clickableLayer);
+    map.addLayer(toggleableLayer);
+    toggleableLayer.geojsonLayer.eachLayer(function(layer) {
         setDeselected(layer);
     });    
 });
 
 $("#clear-map").click(function() {
-    // hide clear and make dashboard buttons
-    $("#map-action-buttons").addClass("hidden");
-    // set drawToggle to false
-    drawToggle = false;
-    // loop through each layer and reset style and event listeners
-    enabledLayer.geojsonLayer.eachLayer(function(layer) {
-        setDefault(layer.feature, layer);
-    });
+    clearDraw();
 });
 
 dialog = $("#dialog-form").dialog({
@@ -163,7 +162,7 @@ form = dialog.find( "form" ).on( "submit", function( event ) {
 
 $("#make-dashboard").click(function() {
     dashboard_geoids = [];
-    enabledLayer.geojsonLayer.eachLayer(function(layer) {
+    toggleableLayer.geojsonLayer.eachLayer(function(layer) {
         if (layer.selected) {
             dashboard_geoids.push(layer.feature.properties.geoid);
         }
@@ -248,14 +247,25 @@ var clearDraw = function() {
     $("#draw-on-map").addClass('disabled');
     // hide clear and make dashboard buttons
     $("#map-action-buttons").addClass("hidden");
+    // enable zoom buttons
+    $(".leaflet-control-zoom .leaflet-control-zoom-in").removeClass('disabled');
+    $(".leaflet-control-zoom .leaflet-control-zoom-out").removeClass('disabled');
+    map.scrollWheelZoom.enable();
     // remove map layers
     _.each(sumlevs,function(sl) {
         if (sl.layer && map.hasLayer(sl.layer)) {
             map.removeLayer(sl.layer);
         }
     })
-    // turn on map double click listener
-    map.on("dblclick", doubleClickMap);
+    // set drawToggle to false
+    drawToggle = false;
+    // loop through each layer and reset style and event listeners
+    map.addLayer(clickableLayer);
+    map.removeLayer(toggleableLayer);
+    clickableLayer.geojsonLayer.eachLayer(function(layer) {
+        setDefault(layer.feature, layer);
+    });
+
 }   
 
 var setDefault = function(feature, layer) {
@@ -273,7 +283,6 @@ var setDefault = function(feature, layer) {
     layer.on('mouseout', function() {
         layer.setStyle(defaultStyle);
     });
-    layer.off('click');
     layer.on('click', function() {
         //add spinner to page load 
         var spinnerTarget = document.getElementById("body-spinner");
@@ -291,11 +300,13 @@ var setSelected = function(layer) {
     layer.setStyle(selectedStyle);
     // update label
     layer.unbindLabel();
-    layer.bindLabel("Remove " + layer.feature.properties.name + " from selection.", {direction: 'auto'});
+    if (layer.feature) {
+        layer.bindLabel("Remove " + layer.feature.properties.name + " from selection.", {direction: 'auto'});
+    }
     // set up new listeners
     layer.on('mouseover', function() {
         layer.setStyle({
-            "weight": 2,
+            "weight": 6,
             "fillOpacity": 0.4,
             "fillColor": "#6828A6",
         });
@@ -303,23 +314,23 @@ var setSelected = function(layer) {
     layer.on('mouseout', function() {
         layer.setStyle(selectedStyle);
     });
-    layer.off('click');
     layer.on('click', function() {
         setDeselected(layer);
     });
 }
 
 var setDeselected = function(layer) {
-
     layer.selected = false;
     layer.setStyle(defaultStyle);
     // update label
     layer.unbindLabel();
-    layer.bindLabel("Add " + layer.feature.properties.name + " to selection.", {direction: 'auto'});
+    if (layer.feature) {
+        layer.bindLabel("Add " + layer.feature.properties.name + " to selection.", {direction: 'auto'});
+    }
     // set up new listeners
     layer.on('mouseover', function() {
         layer.setStyle({
-            "weight": 2,
+            "weight": 6,
             "fillOpacity": 0.4,
             "fillColor": "#76AFF2",
         });
@@ -327,13 +338,12 @@ var setDeselected = function(layer) {
     layer.on('mouseout', function() {
         layer.setStyle(defaultStyle);
     });
-    layer.off('click');
     layer.on('click', function() {
         setSelected(layer);   
     });
 }
 
-var makeTileLayer = function(thisSumlev) {
+var makeClickableTileLayer = function(thisSumlev) {
 
     var geojsonTileLayer;
 
@@ -345,6 +355,27 @@ var makeTileLayer = function(thisSumlev) {
                 // filter out non-Michingan results
                 if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
                     setDefault(feature, layer);
+                } else {
+                    layer.setStyle(invisibleStyle);
+                }
+            }
+        });
+    } 
+    return geojsonTileLayer;
+}
+
+var makeTogglableTileLayer = function(thisSumlev) {
+
+    var geojsonTileLayer;
+
+    if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
+        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
+            {
+            style: defaultStyle,
+            onEachFeature: function(feature, layer) {
+                // filter out non-Michingan results
+                if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
+                    setDeselected(layer);
                 } else {
                     layer.setStyle(invisibleStyle);
                 }
@@ -747,12 +778,16 @@ function initialize_map() {
     
         // show clear and make dashboard buttons
         $("#map-action-buttons").removeClass("hidden");
+
+        // don't allow folks to zoom in and out to prevent them from losing their selection
+        $(".leaflet-control-zoom .leaflet-control-zoom-in").addClass('disabled');
+        $(".leaflet-control-zoom .leaflet-control-zoom-out").addClass('disabled');
+        map.scrollWheelZoom.disable();
     
         var drawnLayer = e.layer;
         var drawnGeojson = drawnLayer.toGeoJSON();
         // loop through added geojson tiles
-        enabledLayer.geojsonLayer.eachLayer(function(layer) {
-            //console.log(layer);
+        toggleableLayer.geojsonLayer.eachLayer(function(layer) {
             var tileGeojson = layer.toGeoJSON();
             var intersect_at_all = false;
             var intersect_once = false;
