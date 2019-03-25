@@ -21,6 +21,40 @@ import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
+class ApiClient(object):
+	def __init__(self, base_url):
+		self.base_url = base_url
+
+	def _get(self, path, params=None):
+		url = self.base_url + path
+		# print url
+		# print params
+		r = requests.get(url, params=params)
+		data = None
+		# print r
+		time.sleep(1)
+		if r.status_code == 200:
+			data = r.json(object_pairs_hook=OrderedDict)
+		else:
+			raise Exception("Error fetching data: " + r.json().get("error"))
+
+		return data
+
+	def get_parent_geoids(self, geoid):
+		return self._get('/1.0/geo/tiger2017/{}/parents'.format(geoid))
+
+	def get_geoid_data(self, geoid):
+		return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
+
+	def get_data(self, table_ids, geo_ids, acs='latest'):
+		if hasattr(table_ids, '__iter__'):
+			table_ids = ','.join(table_ids)
+
+		if hasattr(geo_ids, '__iter__'):
+			geo_ids = ','.join(geo_ids)
+
+		return self._get('/1.0/data/show/{}'.format(acs), params=dict(table_ids=table_ids, geo_ids=geo_ids))
+
 
 def custom_s3_keyname(geo_id):
 	return '/1.0/data/profiles/%s.json' % geo_id.upper()
@@ -38,7 +72,6 @@ def custom_make_s3():
 	return custom_s3
 
 def custom_s3_profile_key(geo_id):
-	print geo_id
 	custom_s3 = custom_make_s3()
 	custom_key = None
 	if custom_s3:  
@@ -71,6 +104,41 @@ def get_data(geo_id):
 
 	return profile_data
 
+def process_sub_categories(key, data, numerator):
+	if (key == 'index') or (key == 'numerators'):
+		# straight average
+		if (data['this'] is None):
+			data['custom'] = None
+		else: 
+			try:
+				data['custom'] = float(data['this']) + data['custom']
+			except KeyError as e:
+				data['custom'] = float(data['this'])	
+
+	elif (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio'):
+		#weighted average
+		if (data['this'] is None) or (numerator is None):
+			data['custom'] = None
+		else: 
+			try:
+				data['custom'] = (float(data['this']) * float(numerator)) + data['custom']
+			except KeyError as e:
+				data['custom'] = (float(data['this']) * float(numerator))
+
+def normalize_sub_categories(key, data, numerator_total):
+	if (key == 'index') or (key == 'numerators'):
+		# straight average
+		if (data['custom'] is None):
+			data['this'] = None
+		else: 
+			data['this'] = data['custom']
+
+	elif (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio'):
+		#weighted average
+		if (data['custom'] is None):
+			data['this'] = None
+		else: 
+			data['this'] = data['custom'] / numerator_total
 
 def create_custom_profile(slug):
 	# look up geoids in database
@@ -84,10 +152,114 @@ def create_custom_profile(slug):
 					   ('housing', dict()),
 					   ('social', dict()),])
 
+	#set up for geographies
+	doc['geography']['this'] = dict()
+	doc['geography']['this']['number_of_geographies'] = 0
+	doc['geography']['this']['total_population'] = 0
+	doc['geography']['this']['land_area'] = 0
+	doc['geography']['this']['full_geoids'] = []
+	doc['geo_metadata'] = dict()
 
-	for geo_id in geoids:
+	for i, geo_id in enumerate(geoids):
 		profile_data = get_data(geo_id)
-		print profile_data
 
-	return profile_data
+		# if the first time through the loop, copy the data over, then we'll overwrite the ['this'] dictionaries as we itterate  
+		if i == 0:
+			#custom geo metadata
+			doc['geography']['census_release'] = profile_data['geography']['census_release']
+			doc['geography']['census_release_year'] = profile_data['geography']['census_release_year']
+			doc['geography']['census_release_level'] = profile_data['geography']['census_release_level']
+			doc['geography']['this']['sumlevel_name'] = profile_data['geography']['this']['sumlevel_name']
+			doc['geography']['this']['short_name'] = dashboard.dashboard_name
+			doc['geography']['this']['sumlevel'] = profile_data['geography']['this']['sumlevel']
+			doc['geography']['this']['short_geoid'] = None
+			doc['geography']['this']['full_name'] = dashboard.dashboard_name
+
+			# parents
+			doc['geography']['parents'] = profile_data['geography']['parents']
+
+			#copy the data
+			doc['demographics'] = profile_data['demographics']
+			doc['economics'] = profile_data['economics']
+			doc['families'] = profile_data['families']
+			doc['housing'] = profile_data['housing']
+			doc['social'] = profile_data['social']
+
+		#custom geo metadata
+		doc['geography']['this']['number_of_geographies'] += 1
+		doc['geography']['this']['land_area'] = profile_data['geography']['this']['land_area'] + doc['geography']['this']['land_area']
+		doc['geography']['this']['full_geoids'].append(geo_id)
+		doc['geography']['this']['total_population'] = profile_data['geography']['this']['total_population'] + doc['geography']['this']['total_population']
+
+		#### demographics calculations ####
+
+		# iterate thorough all values and create averages and weighted averages
+		for top_level, top_level_data in doc.iteritems():
+			if top_level != 'geography':
+				for category, category_data in top_level_data.iteritems():
+					for sub_category, sub_category_data in category_data.iteritems():
+						if sub_category != 'metadata':
+							try:
+								numerator = sub_category_data['numerators']['this']
+							except KeyError as e:
+								pass
+
+							for key, data in sub_category_data.iteritems():
+								try:
+									process_sub_categories(key, data, numerator)
+								except KeyError as e:
+									numerator = data['numerators']['this']
+									# data is one more rung down the ladder
+									for sub_key, sub_data in data.iteritems():
+										process_sub_categories(sub_key, sub_data, numerator)
+	
+
+													
+	# normalize 'custom' fields and set them to equal this
+	for top_level, top_level_data in doc.iteritems():
+		print top_level
+		if top_level != 'geography':
+			for category, category_data in top_level_data.iteritems():
+				print category
+				for sub_category, sub_category_data in category_data.iteritems():
+					print sub_category
+					if sub_category != 'metadata':
+						try:
+							numerator = sub_category_data['numerators']['custom']
+						except KeyError as e:
+							pass
+
+						for key, data in sub_category_data.iteritems():
+							print key
+							try:
+								normalize_sub_categories(key, data, numerator)
+							except KeyError as e:
+								numerator = data['numerators']['custom']
+								# data is one more rung down the ladder
+								for sub_key, sub_data in data.iteritems():
+									normalize_sub_categories(sub_key, sub_data, numerator)
+									
+								
+
+			
+			
+		
+
+
+
+
+
+
+
+
+
+	square_miles = get_division(doc['geography']['this']['land_area'], 2589988)
+	if square_miles < .1:
+		square_miles = get_division(doc['geography']['this']['land_area'], 2589988, 3)
+	total_pop = doc['geography']['this']['total_population']
+	population_density = get_division(total_pop, get_division(doc['geography']['this']['land_area'], 2589988, -1))
+	doc['geo_metadata']['square_miles'] = square_miles
+	doc['geo_metadata']['population_density'] = population_density
+
+	return doc
 
