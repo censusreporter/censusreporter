@@ -1288,6 +1288,13 @@ h1.article-header-right {
     padding: .83em 1em;
 }
 
+.leaflet-control-zoom .leaflet-control-zoom-in.disabled , .leaflet-control-zoom .leaflet-control-zoom-out.disabled {
+    pointer-events: none;
+    cursor: no-drop;   
+    text-decoration: none;
+    background-color: #ddd;
+}
+
 
 ul.quantile-legend {
     list-style: none;
