@@ -668,18 +668,19 @@ flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
 // Enable the single-table topic picker
 var thisSumlev = '{{ geography.this.sumlevel }}',
     thisGeoShortName = '{{ geography.this.short_name }}',
-    thisGeoID = '',
+    thisGeoID = '{{ geography.this.full_geoid }}',
     placeGeoID = '{{ geography.parents.place.full_geoid }}',
     CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
     countyGeoID = '{{ geography.parents.county.full_geoid }}',
     stateGeoID = '{{ geography.parents.state.full_geoid }}',
     nationGeoID = '{{ geography.parents.nation.full_geoid }}';
 
+/*
 var theseGeoIDs = [];
 {% for full_geoid in geography.this.full_geoids %}
     theseGeoIDs.push('{{ full_geoid }}');
-    thisGeoID = '{{ full_geoid }}';
 {% endfor %}
+*/
 
 
 // Update the header's list of parent geographies

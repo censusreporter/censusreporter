@@ -214,8 +214,10 @@ var makeDashboard = function() {
         },
         error: function(e){
             console.log(e);
-            dialog.dialog("close");
-            alert("Temporary alert to flag a problem with saving dashboard data.");
+            //dialog.dialog("close");
+            $('#dashboard-name').addClass( "ui-state-error" );
+            alert("We're sorry, but that dashboard name is already taken. Please choose another name for your dashboard.");
+    
         },
     });
     return false; 

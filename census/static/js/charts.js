@@ -56,7 +56,14 @@ function Chart(options) {
         }
         
         chart.primaryGeoID = geographyThis.full_geoid;
-        chart.geoIDs = [geographyThis.full_geoid];
+        chart.geoIDs = [];
+        if (geographyThis.full_geoids) {
+            d3.values(geographyThis.full_geoids).forEach(function(d) {
+                chart.geoIDs.push(d)
+            });
+        } else {
+            chart.geoIDs.push(geographyThis.full_geoid);
+        }
         d3.values(geographyParents).forEach(function(g) {
             chart.geoIDs.push(g.full_geoid)
         });
@@ -1537,7 +1544,7 @@ function Chart(options) {
                 // add the primary value
                 rowData.push({ cellClass: 'value', cellContents: chart.getValueFmt(d, k, 1) });
                 if (!d.context.tableID.startsWith('D3-')) {
-                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], k, 1) });
+                    rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.valFmt(d.context.error[k], 1) });
                 }
 
                 // add the numerator value if it exists
@@ -1546,7 +1553,7 @@ function Chart(options) {
                 } else {
                     rowData.push({ cellClass: 'value', cellContents: chart.commaFmt(d.context.numerators[k]) }); 
                     if (!d.context.tableID.startsWith('D3-')) {
-                        rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k]) });
+                        rowData.push({ cellClass: 'context', cellContents: '&plusmn;' + chart.commaFmt(d.context.numerator_errors[k].toFixed(0)) });
                     }
                 }
 
