@@ -211,7 +211,6 @@ def create_custom_profile(slug):
 			doc['geography']['this']['full_geoids'] = []
 
 			#copy the data
-			print profile_data['demographics']
 			doc['demographics'] = profile_data['demographics']
 			doc['economics'] = profile_data['economics']
 			doc['families'] = profile_data['families']
