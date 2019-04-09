@@ -160,7 +160,7 @@
             <h2 class="header-for-columns"><a class="permalink" href="#youth-population" id="youth-population" title="Permalink">Youth population, sex &amp; age <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='count' %}
             </div>
             <div class="column-third">
                 <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
@@ -181,7 +181,7 @@
             <h2 class="header-for-columns"><a class="permalink" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.male_child_pop.total stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.male_child_pop.total stat_type='count' %}
             </div>
             <div class="column-third">
                 <div id="chart-pie-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_total_distribution.metadata.universe }}"></div>
@@ -229,7 +229,7 @@
             <h2><a class="permalink" href="#births" id="births" title="Permalink">Births <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.births.total stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.births.total stat_type='count' %}
             </div>
             <div class="column-third">
                 <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
@@ -296,10 +296,10 @@
             </aside>
             <div class="column-half">
                 <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.enrolled stat_type='number' %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.enrolled stat_type='count' %}
                 </div>
                 <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.not_enrolled stat_type='number' %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.not_enrolled stat_type='count' %}
                 </div>
             </div>
             <div class="column-half" id="chart-grouped_column-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
@@ -334,7 +334,7 @@
             <h2><a class="permalink" href="#child-care" id="child-care" title="Permalink">Child care <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='count' %}
             </div>
             <div class="column-third">
                 <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
@@ -347,7 +347,7 @@
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
             <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='count' %}
             </div>
             <div class="column-two-thirds">
                 <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
@@ -550,7 +550,7 @@
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.infant_mortality.infant_mortality stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.infant_mortality.infant_mortality stat_type='count' %}
             </div>
             <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.infant_mortality_chart_data.metadata.universe }}"></div>
         </section>
@@ -560,7 +560,7 @@
             <aside>
             </aside>
             <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.immunization.immunization stat_type='number' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=social.immunization.immunization stat_type='count' %}
             </div>
             <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.immunization.immunization_chart_data.metadata.universe }}"></div>
         </section>

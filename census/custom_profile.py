@@ -97,7 +97,7 @@ def get_data(geo_id):
 		# Read the decompressed JSON from S3
 		profile_data_json = compressed.read()
 		# Load it into a Python dict for the template
-		profile_data = simplejson.loads(profile_data_json)
+		profile_data = simplejson.loads(profile_data_json, object_pairs_hook=OrderedDict)
 	else:
 		profile_data = None
 
@@ -153,9 +153,9 @@ def normalize_sub_categories(key, data, numerator_total):
 				data['this'] = 0
 	
 	#remove data['custom'] from dictionary
-	data.pop('custom', None)
+	# data.pop('custom', None)
 			
-def normalize_income(key, data, number_of_geographies):
+def normalize_by_geography(key, data, number_of_geographies):
 	if (key == 'index') or (key == 'numerators'):
 		# straight average
 		if (data['custom'] is None):
@@ -176,7 +176,7 @@ def normalize_income(key, data, number_of_geographies):
 				data['this'] = 0
 	
 	#remove data['custom'] from dictionary
-	data.pop('custom', None)
+	# data.pop('custom', None)
 			
 
 
@@ -186,11 +186,11 @@ def create_custom_profile(slug):
 	geoids = dashboard.dashboard_geoids.split(",")
 
 	doc = OrderedDict([('geography', OrderedDict()),
-					   ('demographics', dict()),
-					   ('economics', dict()),
-					   ('families', dict()),
-					   ('housing', dict()),
-					   ('social', dict()),])
+					   ('demographics', OrderedDict()),
+					   ('economics', OrderedDict()),
+					   ('families', OrderedDict()),
+					   ('housing', OrderedDict()),
+					   ('social', OrderedDict()),])
 
 	#set up for geographies
 	doc['geo_metadata'] = dict()
@@ -211,6 +211,7 @@ def create_custom_profile(slug):
 			doc['geography']['this']['full_geoids'] = []
 
 			#copy the data
+			print profile_data['demographics']
 			doc['demographics'] = profile_data['demographics']
 			doc['economics'] = profile_data['economics']
 			doc['families'] = profile_data['families']
@@ -232,51 +233,55 @@ def create_custom_profile(slug):
 		#### demographics calculations ####
 
 		# iterate thorough all values and create averages and weighted averages
-		for top_level, top_level_data in doc.iteritems():
+		for top_level, top_level_data in sorted(doc.items()):
 			if top_level != 'geography':
-				for category, category_data in top_level_data.iteritems():
-					for sub_category, sub_category_data in category_data.iteritems():
+				for category, category_data in sorted(top_level_data.items()):
+					#print category
+					for sub_category, sub_category_data in sorted(category_data.items()):
+						#print sub_category
 						if sub_category != 'metadata':
 							try:
 								numerator = sub_category_data['numerators']['this']
 							except KeyError as e:
+								numerator = None
 								pass
 
-							for key, data in sub_category_data.iteritems():
+							for key, data in sorted(sub_category_data.items()):
+								#print key
 								if (key != 'name') and (key != 'acs_release'):
 									try:
 										process_sub_categories(key, data, numerator)
 									except KeyError as e:
 										numerator = data['numerators']['this']
 										# data is one more rung down the ladder
-										for sub_key, sub_data in data.iteritems():
+										for sub_key, sub_data in sorted(data.items()):
 											process_sub_categories(sub_key, sub_data, numerator)
 	
 
 													
 	# normalize 'custom' fields and set them to equal this
-	for top_level, top_level_data in doc.iteritems():
+	for top_level, top_level_data in sorted(doc.items()):
 		if top_level != 'geography':
-			for category, category_data in top_level_data.iteritems():
-				for sub_category, sub_category_data in category_data.iteritems():
+			for category, category_data in sorted(top_level_data.items()):
+				for sub_category, sub_category_data in sorted(category_data.items()):
 					if sub_category != 'metadata':
 						try:
 							numerator = sub_category_data['numerators']['custom']
 						except KeyError as e:
 							pass
 
-						for key, data in sub_category_data.iteritems():
+						for key, data in sorted(sub_category_data.items()):
 							if (key != 'name') and (key != 'acs_release'):
 								try:
-									# special case for `per_capita_income_in_the_last_12_months` and `median_household_income` keys
-									if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income'):
-										normalize_income(key, data, doc['geography']['this']['number_of_geographies'])
+									# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
+									if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income') or (sub_category == 'sat_all_subject') or (sub_category == 'sat_math') or (sub_category == 'sat_reading_writing'):
+										normalize_by_geography(key, data, doc['geography']['this']['number_of_geographies'])
 									else:
 										normalize_sub_categories(key, data, numerator)
 								except KeyError as e:
 									numerator = data['numerators']['custom']
 									# data is one more rung down the ladder
-									for sub_key, sub_data in data.iteritems():
+									for sub_key, sub_data in sorted(data.items()):
 										normalize_sub_categories(sub_key, sub_data, numerator)
 
 
