@@ -4,7 +4,9 @@ register = template.Library()
 
 @register.inclusion_tag('profile/_blocks/_comparative_list_item.html')
 def build_comparative_item(sumlev, stat, stat_type, geography):
-    if sumlev == 'CBSA':
+    if sumlev == 'CBSA' and stat_type == 'count':
+        place_name = geography['parents'][sumlev]['full_name']
+    elif sumlev == 'CBSA':
         place_name = 'the %s' % geography['parents'][sumlev]['full_name']
     else:
         place_name = geography['parents'][sumlev]['short_name']
