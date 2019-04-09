@@ -153,7 +153,7 @@ def normalize_sub_categories(key, data, numerator_total):
 				data['this'] = 0
 	
 	#remove data['custom'] from dictionary
-	# data.pop('custom', None)
+	data.pop('custom', None)
 			
 def normalize_by_geography(key, data, number_of_geographies):
 	if (key == 'index') or (key == 'numerators'):
@@ -176,7 +176,7 @@ def normalize_by_geography(key, data, number_of_geographies):
 				data['this'] = 0
 	
 	#remove data['custom'] from dictionary
-	# data.pop('custom', None)
+	data.pop('custom', None)
 			
 
 
@@ -273,7 +273,7 @@ def create_custom_profile(slug):
 							if (key != 'name') and (key != 'acs_release'):
 								try:
 									# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
-									if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income') or (sub_category == 'sat_all_subject') or (sub_category == 'sat_math') or (sub_category == 'sat_reading_writing'):
+									if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income') or (sub_category == 'sat_all_subject') or (sub_category == 'sat_math') or (sub_category == 'sat_reading_writing') or (sub_category == 'median_costs'):
 										normalize_by_geography(key, data, doc['geography']['this']['number_of_geographies'])
 									else:
 										normalize_sub_categories(key, data, numerator)
