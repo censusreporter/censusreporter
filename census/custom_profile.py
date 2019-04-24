@@ -12,7 +12,7 @@ from collections import OrderedDict
 from django.conf import settings
 from django.utils import simplejson
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
-from .models import Dashboards
+from .models import Dashboards, Districts
 
 from boto.s3.connection import S3Connection, Location
 from boto.s3.key import Key
@@ -82,6 +82,7 @@ def custom_s3_profile_key(geo_id):
 	return custom_key
 
 def get_data(geo_id):
+	print geo_id
 	
 	try:
 		custom_s3_key = custom_s3_profile_key(geo_id)
@@ -100,7 +101,6 @@ def get_data(geo_id):
 		profile_data = simplejson.loads(profile_data_json, object_pairs_hook=OrderedDict)
 	else:
 		profile_data = None
-
 
 	return profile_data
 
@@ -180,9 +180,13 @@ def normalize_by_geography(key, data, number_of_geographies):
 			
 
 
-def create_custom_profile(slug):
+def create_custom_profile(slug, profile_type):
 	# look up geoids in database
-	dashboard = Dashboards.objects.get(dashboard_slug=slug)
+	if profile_type == 'custom':
+		dashboard = Dashboards.objects.get(dashboard_slug=slug)
+	else:
+		dashboard = Districts.objects.get(dashboard_slug=slug)
+	
 	geoids = dashboard.dashboard_geoids.split(",")
 
 	doc = OrderedDict([('geography', OrderedDict()),
