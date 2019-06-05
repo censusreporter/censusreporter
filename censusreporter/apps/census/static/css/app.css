@@ -2992,3 +2992,91 @@ a.ui-button:active,
     position: relative;
     left: 1em;
 }
+
+
+@media print {
+  article.clearfix.column-half{
+    width:auto;
+  }
+
+  #menu{
+    display:none;
+  }
+
+  #cover-map{
+    height:0;
+  }
+
+  #slippy-map{
+    display:none;
+  }
+
+   #profile #query-topic-picker{
+    display:none;
+  }
+
+  .explain{
+    display:none;
+  }
+
+  header.section-contents{
+    float:none;
+    width:auto;
+  }
+
+  header.section-contents h1{
+    margin-bottom:0;
+    text-align:center;
+
+  }
+
+  div.chart.column-chart a.column{
+    width:auto;
+  }
+
+  div.chart.column-chart a.column span.area{
+    width:100%;
+  }
+
+  div.action-links{
+    display:none;
+  }
+
+  article .section-container{
+    margin-left:0;
+  }
+
+  #hovercard{
+    display:none;
+  }
+
+  #demographics div.column-quarter[data-chart-title="Population by age category"]{
+    float:right;
+  }
+
+
+  aside{
+    display: none;
+  }
+
+  .action-links{
+    display:none;
+  }
+
+  .context{
+    display:inline-block !important;
+  }
+
+  footer#page-footer{
+    display:none;
+  }
+
+  .column-half{
+    width: 35%;
+  }
+
+  .column-two-thirds{
+    width: 60%;
+  }
+
+}
