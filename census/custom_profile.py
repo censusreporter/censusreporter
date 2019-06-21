@@ -82,7 +82,7 @@ def custom_s3_profile_key(geo_id):
 	return custom_key
 
 def get_data(geo_id):
-	print geo_id
+	#print geo_id
 	
 	try:
 		custom_s3_key = custom_s3_profile_key(geo_id)
@@ -205,7 +205,8 @@ def normalize_sub_categories(key, data, numerator_total, denominator_total):
 	# print denominator_max
 
 	#remove data['custom'] from dictionary
-	#data.pop('custom', None)
+	data.pop('custom', None)
+	data.pop('denominator', None)
 			
 def normalize_by_geography(key, data, number_of_geographies):
 	if (key == 'index') or (key == 'numerators'):
@@ -228,7 +229,8 @@ def normalize_by_geography(key, data, number_of_geographies):
 				data['this'] = 0
 	
 	#remove data['custom'] from dictionary
-	#data.pop('custom', None)
+	data.pop('custom', None)
+	data.pop('denominator', None)
 			
 
 
@@ -341,10 +343,10 @@ def create_custom_profile(slug, profile_type):
 	for top_level, top_level_data in sorted(doc.items()):
 		if top_level != 'geography' and top_level != 'geo_metadata':
 			for category, category_data in sorted(top_level_data.items()):
-				print category
+				#print category
 				for sub_category, sub_category_data in sorted(category_data.items()):
-					print sub_category
-					print sub_category_data
+					#print sub_category
+					#print sub_category_data
 					denominator = None
 					for found in listRecursive(sub_category_data, 'denominator'):
 						if denominator is None:
@@ -353,7 +355,7 @@ def create_custom_profile(slug, profile_type):
 							denominator = found
 						else:
 							denominator = denominator
-					print denominator
+					#print denominator
 
 					if sub_category != 'metadata':
 						try:
