@@ -856,6 +856,8 @@ var makeCharts = function() {
             chartQualifier = $(this).data('qualifier') || null,
             geographyData = profileData['geography'];
 
+        console.log(chartData);
+        
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
         if (drilldown >= 2) {
