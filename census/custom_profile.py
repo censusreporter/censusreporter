@@ -205,8 +205,9 @@ def normalize_sub_categories(key, data, numerator_total, denominator_total):
 	# print denominator_max
 
 	#remove data['custom'] from dictionary
-	data.pop('custom', None)
-	data.pop('denominator', None)
+	if isinstance(data, dict):
+		data.pop('custom', None)
+		data.pop('denominator', None)
 			
 def normalize_by_geography(key, data, number_of_geographies):
 	if (key == 'index') or (key == 'numerators'):
@@ -229,8 +230,9 @@ def normalize_by_geography(key, data, number_of_geographies):
 				data['this'] = 0
 	
 	#remove data['custom'] from dictionary
-	data.pop('custom', None)
-	data.pop('denominator', None)
+	if isinstance(data, dict):
+		data.pop('custom', None)
+		data.pop('denominator', None)
 			
 
 
