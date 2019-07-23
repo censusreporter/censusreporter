@@ -113,11 +113,6 @@ def listRecursive(d, key):
             yield v
 
 def process_sub_categories(key, data, numerator, doc_data):
-	# print "Pre process_sub_categories"
-	# print key 
-	# print data
-	# print doc_data
-
 
 	if (key == 'index') or (key == 'numerators'):
 		if not 'custom' in doc_data:
@@ -133,7 +128,7 @@ def process_sub_categories(key, data, numerator, doc_data):
 				doc_data['custom'] = 0
 			doc_data['custom'] = float(data['this']) + doc_data['custom']	
 
-	elif (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio'):
+	elif (key == 'values'):
 		if not 'custom' in doc_data:
 			doc_data['custom'] = None
 
@@ -147,15 +142,62 @@ def process_sub_categories(key, data, numerator, doc_data):
 			#straight average
 			doc_data['custom'] = float(data['this']) + doc_data['custom']
 
-		elif (key == 'values'):
+		else:
+			if (doc_data['custom'] is None):
+				doc_data['custom'] = 0
+			#straight average
+			doc_data['custom'] = float(data['this']) + doc_data['custom']
+						
 			if not 'denominator' in doc_data:
 				doc_data['denominator'] = 0
-			# calcualte denominator
+			# calculate denominator
 			try:
 				doc_data['denominator'] = ((float(numerator) * 100) / float(data['this'])) + doc_data['denominator']	
 			except ZeroDivisionError as e:
 				doc_data['denominator'] = doc_data['denominator']
 							
+	elif (key == 'error'):
+		if not 'custom' in doc_data:
+			doc_data['custom'] = None
+
+		if ((data['this'] is None) and (numerator is None) and (doc_data['custom'] is None)) or ((data['this'] is None) and (doc_data['custom'] is None)):
+			doc_data['custom'] = None
+		elif ((data['this'] is None) and (numerator is None)) or ((data['this'] is None)):
+			doc_data['custom'] = doc_data['custom']
+		elif (numerator is None) or (numerator == 0):
+			if (doc_data['custom'] is None):
+				doc_data['custom'] = 0
+			#straight average
+			doc_data['custom'] = float(data['this']) + doc_data['custom']
+
+		else:
+			if (doc_data['custom'] is None):
+				doc_data['custom'] = 0
+			#straight average
+			doc_data['custom'] = float(data['this']) + doc_data['custom']
+						
+			if not 'denominator' in doc_data:
+				doc_data['denominator'] = 0
+			# calculate denominator
+			try:
+				doc_data['denominator'] = ((float(numerator) * 100) / float(data['this'])) + doc_data['denominator']	
+			except ZeroDivisionError as e:
+				doc_data['denominator'] = doc_data['denominator']
+
+
+	elif (key == 'numerator_errors') or (key == 'error_ratio'):
+		if not 'custom' in doc_data:
+			doc_data['custom'] = None
+
+		if ((data['this'] is None) and (numerator is None) and (doc_data['custom'] is None)) or ((data['this'] is None) and (doc_data['custom'] is None)):
+			doc_data['custom'] = None
+		elif ((data['this'] is None) and (numerator is None)) or ((data['this'] is None)):
+			doc_data['custom'] = doc_data['custom']
+		elif (numerator is None) or (numerator == 0):
+			if (doc_data['custom'] is None):
+				doc_data['custom'] = 0
+			#straight average
+			doc_data['custom'] = float(data['this']) + doc_data['custom']
 		
 		else:
 			if (doc_data['custom'] is None):
@@ -163,51 +205,69 @@ def process_sub_categories(key, data, numerator, doc_data):
 			#straight average
 			doc_data['custom'] = float(data['this']) + doc_data['custom']
 
-			# print "Post process_sub_categories with numerator"
-			# print numerator
-			# print key 
-			# print data
-			# print doc_data
 
-	
 
 def normalize_sub_categories(key, data, numerator_total, denominator_total):
-	# print key 
-	# print data
-	# print numerator_total
-	# print denominator_max
 
-	if (key == 'index') or (key == 'numerators'):
+	if (key == 'numerators'):
+		# print key
+		# print data
 		# straight average
 		if (data['custom'] is None):
 			data['this'] = None
-		else: 
+		elif numerator_total is not None:
+			data['this'] = numerator_total
+		else:
 			data['this'] = data['custom']
+			
 
-	elif (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio'):
+	elif (key == 'values'):
+		# print key
+		# print data
 		#weighted average
 		if (data['custom'] is None):
 			data['this'] = None
 		elif (numerator_total is None) or (numerator_total == 0):
 			data['this'] = data['custom']
-
-		elif (key == 'values'):
+		else:
 			try:
 				data['this'] = (numerator_total / denominator_total) * 100
 			except ZeroDivisionError as e:
 				data['this'] = denominator_total		
+
+	elif (key == 'error'):
+		#weighted average
+		if (data['custom'] is None):
+			data['this'] = None
+		else:
+			if denominator_total is not None:
+				try:
+					data['this'] = (data['custom'] / denominator_total) * 100
+				except ZeroDivisionError as e:
+					data['this'] = data['custom']	
+			else:
+				data['this'] = data['custom']
+
+	elif (key == 'index') or (key == 'error_ratio'):
+		#weighted average
+		if (data['custom'] is None):
+			data['this'] = None
+		else:
+			if denominator_total is not None:
+				try:
+					data['this'] = (data['custom'] / denominator_total)
+				except ZeroDivisionError as e:
+					data['this'] = data['custom']	
+			else:
+				data['this'] = data['custom']
+
+	elif (key == 'numerator_errors'):
+		#weighted average
+		if (data['custom'] is None):
+			data['this'] = None
 		else:
 			data['this'] = data['custom']
 
-	# print key 
-	# print data
-	# print numerator_total
-	# print denominator_max
-
-	#remove data['custom'] from dictionary
-	if isinstance(data, dict):
-		data.pop('custom', None)
-		data.pop('denominator', None)
 			
 def normalize_by_geography(key, data, number_of_geographies):
 	if (key == 'index') or (key == 'numerators'):
@@ -228,12 +288,6 @@ def normalize_by_geography(key, data, number_of_geographies):
 				data['this'] = data['custom'] / number_of_geographies
 			except ZeroDivisionError as e:
 				data['this'] = 0
-	
-	#remove data['custom'] from dictionary
-	if isinstance(data, dict):
-		data.pop('custom', None)
-		data.pop('denominator', None)
-			
 
 
 def create_custom_profile(slug, profile_type):
@@ -308,15 +362,17 @@ def create_custom_profile(slug, profile_type):
 									pass
 
 								for key, data in sorted(sub_category_data.items()):
-									#print "key 1: " + key
+									# if category == 'births':
+									# 	print "key 1: " + key
+									# 	print data
 									if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
 										# pass keys to doc OrderedDict so we can sum correctly
 										doc_data = doc[top_level][category][sub_category][key]
-										#print doc_data
+										# if category == 'births':
+										# 	print doc_data
 										process_sub_categories(key, data, numerator, doc_data)
 									elif (key != 'name') and (key != 'acs_release') and (key != 'metadata'):
-										#print "key 2: " + key
-										#print data
+										
 										try: 
 											numerator = data['numerators']['this']
 										except KeyError as e:
@@ -327,6 +383,10 @@ def create_custom_profile(slug, profile_type):
 										for sub_key, sub_data in sorted(data.items()):
 											if (sub_key == 'values') or (sub_key == 'error') or (sub_key == 'numerator_errors') or (sub_key == 'error_ratio') or (sub_key == 'index') or (sub_key == 'numerators'):
 												doc_data = doc[top_level][category][sub_category][key][sub_key]
+												# if category == 'births':
+												# 	print "key 2: " + sub_key
+												# 	print sub_data
+												# 	print doc_data
 												process_sub_categories(sub_key, sub_data, numerator, doc_data)
 											elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
 												numerator = sub_data['numerators']['this']
@@ -345,85 +405,275 @@ def create_custom_profile(slug, profile_type):
 	for top_level, top_level_data in sorted(doc.items()):
 		if top_level != 'geography' and top_level != 'geo_metadata':
 			for category, category_data in sorted(top_level_data.items()):
-				#print category
+				print category
 				for sub_category, sub_category_data in sorted(category_data.items()):
-					#print sub_category
-					#print sub_category_data
-					denominator = None
-					for found in listRecursive(sub_category_data, 'denominator'):
-						if denominator is None:
-							denominator = found
-						elif denominator < found:
-							denominator = found
-						else:
-							denominator = denominator
-					#print denominator
+
 
 					if sub_category != 'metadata':
-						try:
-							numerator = sub_category_data['numerators']['custom']
-						except KeyError as e:
-							numerator = None
-							pass
+						print sub_category
+						#print sub_category_data
 
-						
-						for key, data in sorted(sub_category_data.items()):
-							if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
-								# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
-								if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income') or (sub_category == 'sat_all_subject') or (sub_category == 'sat_math') or (sub_category == 'sat_reading_writing') or (sub_category == 'median_costs') or (sub_category == 'median_value'):
-									normalize_by_geography(key, data, doc['geography']['this']['number_of_geographies'])
-								else:
-									normalize_sub_categories(key, data, numerator, denominator)
+						# special case for grouped bar charts where sub categories should total 100%
+						if sub_category == 'marital_status_grouped' or sub_category == 'youth_school_enrollment_grouped' or sub_category == 'youth_school_employment_grouped' or sub_category == 'coverage_distribution':
+							denominator = dict()
 
-							elif (key != 'name') and (key != 'acs_release') and (key != 'metadata'):
-								try: 
-									numerator = data['numerators']['custom']
-								except KeyError as e:
-									numerator = None
-									pass
+							keys = sub_category_data.keys()
+							if 'metadata' in keys:
+								keys.remove('metadata')
+							if 'acs_release' in keys:
+								keys.remove('acs_release')
+							if 'name' in keys:
+								keys.remove('name')
+							# print 'First Keys:'
+							# print keys
 
-								# denominator = None
-								# for found in listRecursive(data, 'denominator'):
-								# 	if denominator is None:
-								# 		denominator = found
-								# 	elif denominator < found:
-								# 		denominator = found
-								# 	else:
-								# 		denominator = denominator
-																
-								# data is one more rung down the ladder
-								for sub_key, sub_data in sorted(data.items()):
-									if (sub_key == 'values') or (sub_key == 'error') or (sub_key == 'numerator_errors') or (sub_key == 'error_ratio') or (sub_key == 'index') or (sub_key == 'numerators'):
-										# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
-										if (key == 'per_capita_income_in_the_last_12_months') or (key == 'median_household_income') or (key == 'sat_all_subject') or (key == 'sat_math') or (key == 'sat_reading_writing') or (key == 'median_costs') or (key == 'median_value'):
-											normalize_by_geography(sub_key, sub_data, doc['geography']['this']['number_of_geographies'])
-										else:
-											normalize_sub_categories(sub_key, sub_data, numerator, denominator)
-										
-									elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
-										try: 
-											numerator = sub_data['numerators']['custom']
-										except KeyError as e:
-											numerator = None
-											pass
+							#set up denom keys
+							for key, data in sorted(sub_category_data.items()):
+								keys = data.keys()
+								for k in keys:
+									denominator[k] = None
+			
 
-										# denominator = None
-										# for found in listRecursive(data, 'denominator'):
-										# 	if denominator is None:
-										# 		denominator = found
-										# 	elif denominator < found:
-										# 		denominator = found
-										# 	else:
-										# 		denominator = denominator
-										
-										for sub_sub_key, sub_sub_data in sorted(sub_data.items()):
-											# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
-											if (sub_key == 'per_capita_income_in_the_last_12_months') or (sub_key == 'median_household_income') or (sub_key == 'sat_all_subject') or (sub_key == 'sat_math') or (sub_key == 'sat_reading_writing') or (sub_key == 'median_costs') or (sub_key == 'median_value'):
-												normalize_by_geography(sub_sub_key, sub_sub_data, doc['geography']['this']['number_of_geographies'])
+							for key, data in sorted(sub_category_data.items()):
+								keys = data.keys()
+								if 'metadata' in keys:
+									keys.remove('metadata')
+								if 'acs_release' in keys:
+									keys.remove('acs_release')
+								if 'name' in keys:
+									keys.remove('name')
+								if 'universe'in keys:
+									keys.remove('universe')
+								if 'table_id'in keys:
+									keys.remove('table_id')
+								# print 'Second Keys:'
+								# print keys
+								for k in keys:
+									print 'Key:' + k
+									if 'values' in sub_category_data[key][k]:
+										if 'denominator' in sub_category_data[key][k]['values']:
+											for j, d in sorted(data.items()):
+												print "j:" + j
+												print d
+												if j == k:
+													found = d['values']['denominator']
+													print found
+													if denominator[k] is None:
+														denominator[k] = found
+													elif denominator[k] < found:
+														denominator[k] = found
+													else:
+														denominator[k] = denominator[k]	
+
+													print denominator[k]
+
+							for key, data in sorted(sub_category_data.items()):
+								keys = data.keys()
+								if 'metadata' in keys:
+									keys.remove('metadata')
+								if 'acs_release' in keys:
+									keys.remove('acs_release')
+								if 'name' in keys:
+									keys.remove('name')
+								if 'universe'in keys:
+									keys.remove('universe')
+								if 'table_id'in keys:
+									keys.remove('table_id')
+								for k in keys:
+									for j, d in sorted(data.items()):
+										if j == k:
+											if 'numerators' in d:
+												if 'custom' in d['numerators']:
+													numerator = d['numerators']['custom']
+												else:
+													numerator = None
 											else:
-												normalize_sub_categories(sub_sub_key, sub_sub_data, numerator, denominator)
+												numerator = None
+
+											for sub_key, sub_data in sorted(d.items()):
+												print sub_key
+												print numerator
+												print denominator[k]
+												normalize_sub_categories(sub_key, sub_data, numerator, denominator[k])													
+
+						else:
+							#special case denominators
+							if sub_category == 'child_care_center_chart_data' or sub_category == 'child_care_program_chart_data':
+								denominator = doc[top_level]['child_care']['child_care_centers']['values']['custom']
+							elif sub_category == 'child_care_capacity_chart_data':
+								denominator = doc[top_level]['child_care']['child_care_capacity']['values']['custom']
+							elif sub_category == 'by_characteristic' or sub_category == 'race_distribution':
+								denominator = doc[top_level]['births']['total']['values']['custom']
+							else:
+								denominator = None
+								# check if denominator is shallow
+								if 'values' in sub_category_data:
+									if 'denominator' in sub_category_data['values']:
+										denominator = sub_category_data['values']['denominator']
+									else:
+										denominator = None
+								else:
+									denominator = None
+
+							#get keys
+							keys = sub_category_data.keys()
+							if 'metadata' in keys:
+								keys.remove('metadata')
+							if 'acs_release' in keys:
+								keys.remove('acs_release')
+							if 'name' in keys:
+								keys.remove('name')
+							
+							# if category == 'enrollment':
+							# 	print 'First Keys:'
+							# 	print keys
+
+							if denominator is None:
+								for k in keys:
+									if 'values' in sub_category_data[k]:
+										if 'denominator' in sub_category_data[k]['values']:
+											found = sub_category_data[k]['values']['denominator']
+											if denominator is None:
+												denominator = found
+											elif denominator < found:
+												denominator = found
+											else:
+												denominator = denominator
+
+							# if category == 'enrollment':
+							# 	print 'First Denominator:'
+							# 	print denominator
+							# 	print sub_category_data
+
+							if 'numerators' in sub_category_data:
+								if 'custom' in sub_category_data['numerators']:
+									numerator = sub_category_data['numerators']['custom']
+								else:
+									numerator = None
+							else:
+								numerator = None
+
+							# if category == 'enrollment':
+							# 	print 'First Numerator:'
+							# 	print numerator
+							
+							for key, data in sorted(sub_category_data.items()):
+								# if category == 'enrollment':
+								# 	print key
+								if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
+									# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
+									if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income') or (sub_category == 'sat_all_subject') or (sub_category == 'sat_math') or (sub_category == 'sat_reading_writing') or (sub_category == 'median_costs') or (sub_category == 'median_value'):
+										normalize_by_geography(key, data, doc['geography']['this']['number_of_geographies'])
+									else:
+										normalize_sub_categories(key, data, numerator, denominator)
+
+								elif (key != 'name') and (key != 'acs_release') and (key != 'metadata'):
+
+									if denominator is None:
+										#get keys
+										keys = data.keys()
+										if 'metadata' in keys:
+											keys.remove('metadata')
+										if 'acs_release' in keys:
+											keys.remove('acs_release')
+										if 'name' in keys:
+											keys.remove('name')
+										# if category == 'enrollment':
+										# 	print 'Second Keys:'
+										# 	print keys
+										for k in keys:
+											if 'values' in data[k]:
+												if 'denominator' in data[k]['values']:
+													found = data[k]['values']['denominator']
+													if denominator is None:
+														denominator = found
+													elif denominator < found:
+														denominator = found
+													else:
+														denominator = denominator
+
+
+
+									if 'numerators' in data:
+										if 'custom' in data['numerators']:
+											numerator = data['numerators']['custom']
+										else:
+											numerator = None
+									else:
+										numerator = None
+
+									# if category == 'enrollment':
+									# 	print 'Second Denominator:'
+									# 	print denominator
+
+									# if category == 'enrollment':
+									# 	print 'Second Numerator:'
+									# 	print numerator
+																	
+									# data is one more rung down the ladder
+									for sub_key, sub_data in sorted(data.items()):
+										if (sub_key == 'values') or (sub_key == 'error') or (sub_key == 'numerator_errors') or (sub_key == 'error_ratio') or (sub_key == 'index') or (sub_key == 'numerators'):
+											# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
+											if (key == 'per_capita_income_in_the_last_12_months') or (key == 'median_household_income') or (key == 'sat_all_subject') or (key == 'sat_math') or (key == 'sat_reading_writing') or (key == 'median_costs') or (key == 'median_value'):
+												normalize_by_geography(sub_key, sub_data, doc['geography']['this']['number_of_geographies'])
+											else:
+												normalize_sub_categories(sub_key, sub_data, numerator, denominator)
+											
+										elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
+											if 'numerators' in sub_data:
+												if 'custom' in sub_data['numerators']:
+													numerator = sub_data['numerators']['custom']
+												else:
+													numerator = None
+											else:
+												numerator = None
+											
+											for sub_sub_key, sub_sub_data in sorted(sub_data.items()):
+												# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
+												if (sub_key == 'per_capita_income_in_the_last_12_months') or (sub_key == 'median_household_income') or (sub_key == 'sat_all_subject') or (sub_key == 'sat_math') or (sub_key == 'sat_reading_writing') or (sub_key == 'median_costs') or (sub_key == 'median_value'):
+													normalize_by_geography(sub_sub_key, sub_sub_data, doc['geography']['this']['number_of_geographies'])
+												else:
+													normalize_sub_categories(sub_sub_key, sub_sub_data, numerator, denominator)
 											
 
+
+	# remove custom and denominator fields from dict
+	for top_level, top_level_data in sorted(doc.items()):
+		if top_level != 'geography' and top_level != 'geo_metadata':
+			for category, category_data in sorted(top_level_data.items()):
+				for sub_category, sub_category_data in sorted(category_data.items()):
+					if isinstance(sub_category_data, dict):
+						if 'values' in sub_category_data:
+							if 'custom' in sub_category_data['values']:
+								sub_category_data['values'].pop('custom', None)
+							if 'denominator' in sub_category_data['values']:
+								sub_category_data['values'].pop('denominator', None)
+						
+						for key, data in sorted(sub_category_data.items()):
+							if isinstance(data, dict):
+								if 'values' in data:
+									if 'custom' in data['values']:
+										data['values'].pop('custom', None)
+									if 'denominator' in data['values']:
+										data['values'].pop('denominator', None)
+																		
+								for sub_key, sub_data in sorted(data.items()):
+									if isinstance(sub_data, dict):
+										if 'values' in sub_data:
+											if 'custom' in sub_data['values']:
+												sub_data['values'].pop('custom', None)
+											if 'denominator' in sub_data['values']:
+												sub_data['values'].pop('denominator', None)
+
+										
+										for sub_sub_key, sub_sub_data in sorted(sub_data.items()):
+											if isinstance(sub_sub_data, dict):
+												if 'values' in sub_sub_data:
+													if 'custom' in sub_sub_data['values']:
+														sub_sub_data['values'].pop('custom', None)
+													if 'denominator' in sub_sub_data['values']:
+														sub_sub_data['values'].pop('denominator', None)
+												
 
 
 	square_miles = get_division(doc['geography']['this']['land_area'], 2589988)

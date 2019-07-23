@@ -1617,6 +1617,7 @@ function Chart(options) {
                 
                 // generate the comparative text for this parent level
                 if (!!index) {
+                    console.log(index);
                     phraseBits = chart.getComparisonThreshold(index);
                     compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNamePhrases[k] + ": " + chart.valFmt(value) + moeFlag;
                 } else {
