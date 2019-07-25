@@ -1223,7 +1223,7 @@ function Comparison(options, callback) {
         }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10', comparison.tract_geoids, 'tract_data')
+            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10_Tract', comparison.tract_geoids, 'tract_data')
         }
         // if (comparison.block_group_geoids.length > 0) {
         //     comparison.ajaxCount++;
@@ -1299,7 +1299,7 @@ function Comparison(options, callback) {
         }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10', comparison.tract_geoids, 'tract_data')
+            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10_Tract', comparison.tract_geoids, 'tract_data')
         }
         // if (comparison.block_group_geoids.length > 0) {
         //     comparison.ajaxCount++;
@@ -1375,7 +1375,7 @@ function Comparison(options, callback) {
         }
         if (comparison.tract_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10', comparison.tract_geoids, 'tract_data')
+            comparison.getD3Data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10_Tract', comparison.tract_geoids, 'tract_data')
         }
         // if (comparison.block_group_geoids.length > 0) {
         //     comparison.ajaxCount++;
