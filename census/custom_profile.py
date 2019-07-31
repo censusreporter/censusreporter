@@ -618,11 +618,51 @@ def create_custom_profile(slug, profile_type):
 							# 	print numerator
 							# 	print 'First Denominator:'
 							# 	print denominator
-							
+
+							# special case for `poverty_family_educational_attainment` to flag if we've stored data for a parent key yet
+							if sub_category == 'poverty_family_educational_attainment':
+								parent_keys = sub_category_data.keys()
+								if 'metadata' in parent_keys:
+									parent_keys.remove('metadata')
+								if 'acs_release' in parent_keys:
+									parent_keys.remove('acs_release')
+								if 'name' in parent_keys:
+									parent_keys.remove('name')
+
+								for pk in parent_keys:
+									numerator[pk] = dict()
+									denominator[pk] = dict()
+
 							for key, data in sorted(sub_category_data.items()):
-								# if sub_category == 'children_distribution_by_age':
-								# 	print key
-								# 	print data
+								if sub_category == 'poverty_family_educational_attainment':
+									print key
+									print data
+
+									# numerators and denominators for poverty_family_educational_attainment
+								if (sub_category == 'poverty_family_educational_attainment') and (key != "metadata") and (key != "acs_release"):
+									if not numerator[key] and not denominator[key]:
+										keys = data.keys()
+										print "Keys 721:"
+										print keys
+										if 'metadata' in keys:
+											keys.remove('metadata')
+										if 'acs_release' in keys:
+											keys.remove('acs_release')
+										if 'name' in keys:
+											keys.remove('name')	
+
+										for k in keys:
+											if 'numerators' in data[k]:
+												if 'custom' in data[k]['numerators']:
+													numerator[key][k] = data[k]['numerators']['custom']
+
+										for k in keys:
+											if 'values' in data[k]:
+												if 'denominator' in data[k]['values']:
+													denominator[key][k] = data[k]['values']['denominator']																
+										print numerator
+										print denominator
+
 								if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
 									# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
 									if (sub_category == 'per_capita_income_in_the_last_12_months') or (sub_category == 'median_household_income') or (sub_category == 'sat_all_subject') or (sub_category == 'sat_math') or (sub_category == 'sat_reading_writing') or (sub_category == 'median_costs') or (sub_category == 'median_value'):
@@ -645,13 +685,14 @@ def create_custom_profile(slug, profile_type):
 										if 'name' in keys:
 											keys.remove('name')
 
-										if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
+										if sub_category == 'children_distribution_by_age':
 											# print 'Second Keys:'
 											# print keys
 											for k in keys:
 												if 'values' in data[k]:
 													if 'denominator' in data[k]['values']:
-														denominator[k] = data[k]['values']['denominator']														
+														denominator[k] = data[k]['values']['denominator']
+
 										else:
 											for k in keys:
 												if 'values' in data[k]:
@@ -665,10 +706,8 @@ def create_custom_profile(slug, profile_type):
 															denominator = denominator
 
 
-									if (sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment') and not numerator:
+									if (sub_category == 'children_distribution_by_age') and not numerator:
 										keys = data.keys()
-										print "Keys 670:"
-										print keys
 										if 'metadata' in keys:
 											keys.remove('metadata')
 										if 'acs_release' in keys:
@@ -679,6 +718,7 @@ def create_custom_profile(slug, profile_type):
 											if 'numerators' in data[k]:
 												if 'custom' in data[k]['numerators']:
 													numerator[k] = data[k]['numerators']['custom']
+
 									elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
 										pass
 									else:
@@ -698,7 +738,7 @@ def create_custom_profile(slug, profile_type):
 									# if sub_category == 'children_distribution_by_age':
 									# 	print 'Second Numerator:'
 									# 	print numerator
-																	
+
 									# data is one more rung down the ladder
 									for sub_key, sub_data in sorted(data.items()):
 										# if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
@@ -713,7 +753,7 @@ def create_custom_profile(slug, profile_type):
 											# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
 											if (key == 'per_capita_income_in_the_last_12_months') or (key == 'median_household_income') or (key == 'sat_all_subject') or (key == 'sat_math') or (key == 'sat_reading_writing') or (key == 'median_costs') or (key == 'median_value'):
 												normalize_by_geography(sub_key, sub_data)
-											elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
+											elif sub_category == 'children_distribution_by_age':
 												for k in keys:
 													if key == k:
 														# print "Sent to normalizer:"
@@ -737,7 +777,7 @@ def create_custom_profile(slug, profile_type):
 													keys.remove('acs_release')
 												if 'name' in keys:
 													keys.remove('name')
-												if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
+												if sub_category == 'children_distribution_by_age':
 													# print 'Third Keys:'
 													# print keys
 													for k in keys:
@@ -757,7 +797,7 @@ def create_custom_profile(slug, profile_type):
 																else:
 																	denominator = denominator
 
-											if (sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment') and not numerator:
+											if (sub_category == 'children_distribution_by_age') and not numerator:
 												keys = sub_data.keys()
 												if 'metadata' in keys:
 													keys.remove('metadata')
@@ -769,6 +809,7 @@ def create_custom_profile(slug, profile_type):
 													if 'numerators' in sub_data[k]:
 														if 'custom' in sub_data[k]['numerators']:
 															numerator[k] = sub_data[k]['numerators']['custom']
+
 											elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
 												pass
 											else:
@@ -781,6 +822,7 @@ def create_custom_profile(slug, profile_type):
 												else:
 													numerator = None
 											
+
 											for sub_sub_key, sub_sub_data in sorted(sub_data.items()):
 												# if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
 												# 	print "Data:"
@@ -795,7 +837,7 @@ def create_custom_profile(slug, profile_type):
 												# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
 												if (sub_key == 'per_capita_income_in_the_last_12_months') or (sub_key == 'median_household_income') or (sub_key == 'sat_all_subject') or (sub_key == 'sat_math') or (sub_key == 'sat_reading_writing') or (sub_key == 'median_costs') or (sub_key == 'median_value'):
 													normalize_by_geography(sub_sub_key, sub_sub_data)
-												elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
+												elif sub_category == 'children_distribution_by_age':
 													for k in keys:
 														if sub_key == k:	
 															# print "Sent to normalizer:"
@@ -806,8 +848,23 @@ def create_custom_profile(slug, profile_type):
 															# print numerator[k]
 															# print denominator[k]
 															normalize_sub_categories(sub_sub_key, sub_sub_data, numerator[k], denominator[k], sub_category)
+
+												elif sub_category == 'poverty_family_educational_attainment':
+													for i, k in enumerate(keys):
+														if sub_key == k:
+															print key
+															print sub_key
+															print k
+															print "Sent to normalizer:"
+															print sub_sub_key
+															print sub_sub_data
+															print numerator
+															print denominator[key][k]
+															normalize_sub_categories(sub_sub_key, sub_sub_data, numerator[key][k], denominator[key][k], sub_category)
+
 												else:
 													normalize_sub_categories(sub_sub_key, sub_sub_data, numerator, denominator)
+									
 											
 
 
