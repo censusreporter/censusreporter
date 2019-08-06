@@ -28,7 +28,7 @@ else:
 		s3 = None
 
 def s3_keyname(geoid):
-    return '/1.0/data/profiles/%s.json' % geoid
+    return '/1.0/data/dev-profiles/2017/2017/%s.json' % geoid
 
 def key(geoid):
     bucket = s3.get_bucket('d3-sd-child')
@@ -55,7 +55,7 @@ def write_profile_json(s3_key, data):
 def seed(geoid):
     print "Working on {}".format(geoid)
     try:
-        api_data = geo_profile(geoid)
+        api_data = geo_profile(geoid, 'acs2017_5yr')
         api_data = enhance_api_data(api_data)
 
         s3key = key(geoid)
