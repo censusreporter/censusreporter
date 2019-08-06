@@ -20,8 +20,8 @@ class ApiClient(object):
 
 	def _get(self, path, params=None):
 		url = self.base_url + path
-		# print url
-		# print params
+		print url
+		print params
 		r = requests.get(url, params=params)
 		data = None
 		# print r
