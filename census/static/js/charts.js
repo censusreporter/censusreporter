@@ -54,6 +54,11 @@ function Chart(options) {
             'state': (!!geographyParents.state) ? 'in ' + geographyParents.state.short_name : 'statewide',
             'nation': (!!geographyParents.nation) ? 'in ' + geographyParents.nation.short_name : 'nationwide'
         }
+
+        // remove nation as parent comparision -- nation not in SDC API
+        if (geographyParents.nation) {
+            delete geographyParents.nation;
+        }
         
         chart.primaryGeoID = geographyThis.full_geoid;
         chart.geoIDs = [];

@@ -107,7 +107,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-API_URL = 'https://api.censusreporter.org'
+API_URL = 'https://censusapi.datadrivendetroit.org:1443'
 D3_API_URL = 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
 
 # AWS credentails

@@ -3,7 +3,7 @@ var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=qu
 var selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 
 $(function() {
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : 'https://api.censusreporter.org';
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : 'https://censusapi.datadrivendetroit.org:1443';
     // Initialize autocomplete
     $("#search").autocomplete({
         // Grab source from ajax call

@@ -74,7 +74,7 @@ As part of the Census Reporter project, we've loaded ACS data into a Postgres da
 ###Show data
 This endpoint does the heavy lifting for Census Reporter's profile and comparison pages. Given a release code, a table code, and a geography, it will return American Community Survey data. A common call to this endpoint might look like:
 
-    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=16000US5367000
+    https://censusapi.datadrivendetroit.org:1443/1.0/data/show/latest?table_ids=B01001&geo_ids=16000US5367000
 
 This will return data for Spokane, WA, from the "Sex By Age" table, using the "latest" ACS release available. In this case, "latest" determines not only the year of release, but also the estimate used. The ACS provides <a href="http://www.census.gov/acs/www/guidance_for_data_users/estimates/">three datasets per year</a>: the 1-year, which uses 12 months of data to arrive at estimates for areas with at least 65,000 residents; the 3-year, which uses 36 months of data and covers areas with at least 20,000 people; and the 5-year, which uses 60 months of data and covers areas of all sizes.
 
@@ -82,23 +82,23 @@ For this API endpoint, "latest" is a shortcut that asks for the most current est
 
 You can ask for a specific release and estimate by exchanging "latest" for a release code that looks like `acs{year}_{estimate}yr`. So a call to:
 
-    https://api.censusreporter.org/1.0/data/show/acs2012_5yr?table_ids=B01001&geo_ids=16000US5367000
+    https://censusapi.datadrivendetroit.org:1443/1.0/data/show/acs2012_5yr?table_ids=B01001&geo_ids=16000US5367000
 
 ... would return data for Spokane, WA, from the "Sex By Age" table, using the ACS 2012 5-year release.
 
 You can ask for multiple tables at a time by passing a comma-separated `table_ids` list:
 
-    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000
+    https://censusapi.datadrivendetroit.org:1443/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000
 
 And you can ask for multiple geographies by passing a comma-separated `geo_ids` list:
 
-    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000,16000US1714000
+    https://censusapi.datadrivendetroit.org:1443/1.0/data/show/latest?table_ids=B01001,B01002&geo_ids=16000US5367000,16000US1714000
 
 One particularly common use case is to request data for all geographies of a particular class within a particular parent geography, e.g. "compare all counties in Washington state." Identifying each county's geoID individually would be unwieldy, so we added a shortcut for this type of request. Your comma-separated list of `geo_ids` can contain one or more items that use the pipe character to describe a comparison set like this: `{child_summary_level}|{parent_geoid}`.
 
 The Census uses summary levels to identify classes of geographies (like counties or school districts or census tracts), and each one <a href="https://censusreporter.org/topics/geography/">is represented by a three-digit code</a>. For this API endpoint, "all counties in Washington state" can be represented as `050|04000US53`, so a request to:
 
-    https://api.censusreporter.org/1.0/data/show/latest?table_ids=B01001&geo_ids=050|04000US53
+    https://censusapi.datadrivendetroit.org:1443/1.0/data/show/latest?table_ids=B01001&geo_ids=050|04000US53
 
 ... would return "Sex By Age" data for all 39 counties in Washington. Great? Great! But hold on, let's talk about this for a second.
 
@@ -179,7 +179,7 @@ Note that Washington state's data is also included in this API response. When yo
 
 This endpoint provides basic information about a specific geography, including name, summary level, land area, and population. A common call to this endpoint might look like:
 
-    https://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000
+    https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2013/16000US5367000
 
 This request uses the geoID for Spokane, WA, and returns this JSON:
 
@@ -205,7 +205,7 @@ This endpoint returns Tiger 2012 data for all but one class of geography: congre
 
 This endpoint takes a specific geography and provides metadata for it, along with a list of parent geographies that contain it. A common call to this endpoint might look like:
 
-    https://api.censusreporter.org/1.0/geo/tiger2013/16000US5367000/parents
+    https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2013/16000US5367000/parents
 
 ... which returns results that include name, geoID, summary level, geography class, and percentage of coverage:
 
@@ -253,7 +253,7 @@ This endpoint takes a specific geography and provides metadata for it, along wit
 
 This endpoint returns metadata for geographies with names that match a text string. A common call to this endpoint might look like:
 
-    https://api.censusreporter.org/1.0/geo/search?q=spo
+    https://censusapi.datadrivendetroit.org:1443/1.0/geo/search?q=spo
 
 ... which returns results that include each matching geography's summary level, geoID and name:
 
@@ -285,13 +285,13 @@ This endpoint returns metadata for geographies with names that match a text stri
 
 You can limit the search to a particular set of summary levels by passing an optional, comma-separated list in a `sumlevs` argument. The Census Reporter website does this in most cases:
 
-    https://api.censusreporter.org/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
+    https://censusapi.datadrivendetroit.org:1443/1.0/geo/search?q=spo&sumlevs=010,020,030,040,050,060,160,250,310,500,610,620,860,950,960,970
 
 ###Table search
 
 This endpoint returns metadata for tables with titles or column names that match a text string. A common call to this endpoint might look like:
 
-    https://api.censusreporter.org/1.0/table/search?q=heat
+    https://censusapi.datadrivendetroit.org:1443/1.0/table/search?q=heat
 
 ... which would return metadata for matches that includes table name, table code, table universe and table topics. Column metadata is also included where they matched type is a column:
 
