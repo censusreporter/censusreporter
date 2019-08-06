@@ -28,7 +28,7 @@ else:
 		s3 = None
 
 def s3_keyname(geoid):
-    return '/1.0/data/dev-profiles/2017/2017/%s.json' % geoid
+    return '/1.0/data/dev-profiles/2017/%s.json' % geoid
 
 def key(geoid):
     bucket = s3.get_bucket('d3-sd-child')
