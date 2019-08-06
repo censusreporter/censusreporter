@@ -35,7 +35,7 @@ CensusReporter = {
         initialize: function(geoid_spec, options) {
             L.GeoJSON.prototype.initialize.call(this);
             var options = L.extend({
-                api_url: 'https://api.censusreporter.org',
+                api_url: 'https://censusapi.datadrivendetroit.org:1443',
                 censusreporter_url: 'https://censusreporter.org',
                 release: 'tiger2016',
                 autoclick: true

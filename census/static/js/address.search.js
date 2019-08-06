@@ -4,7 +4,7 @@ var PROXIMITY_GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json
 var REVERSE_GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?latlng=<%=lat%>,<%=lng%>&key=<%=token%>").template()
 
 var PLACE_LAYERS = {}
-var geoSearchAPI = 'https://api.censusreporter.org/1.0/geo/search';
+var geoSearchAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
 var push_state_url_template = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var push_state_title_template = _.template("Geographies containing <%= address %> (<%=lat%>, <%=lng%>)");

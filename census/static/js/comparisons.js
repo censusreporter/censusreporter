@@ -29,7 +29,7 @@ function Comparison(options, callback) {
     } 
 
 
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org';
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443';
 
     var comparison = {
         tableSearchAPI: API_URL + '/1.0/table/search',
@@ -1971,7 +1971,7 @@ function Comparison(options, callback) {
 
     // BEGIN THE MAP-SPECIFIC THINGS
     comparison.makeMapDisplay = function() {
-        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org';
+        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443';
 
         // some extra setup for map view
         // for triggering overflow-y: visible on table search
@@ -3755,6 +3755,7 @@ function Comparison(options, callback) {
             removeA(comparison.geoIDs, '01000US');
         }
 
+        console.log(comparison.geoIDs);
         _.each(comparison.geoIDs, function(i) {
             var thisSumlev = i.slice(0, 3),
                 thisName;

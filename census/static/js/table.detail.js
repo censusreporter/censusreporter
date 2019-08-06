@@ -6,7 +6,7 @@ function Table(options) {
         spinnerTarget = document.getElementById('body-spinner');
     } 
 
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org'; 
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443'; 
 
 
     var table = {
