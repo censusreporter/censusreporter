@@ -57,7 +57,7 @@ class ApiClient(object):
 
 
 def custom_s3_keyname(geo_id):
-	return '/1.0/data/dev-profiles/2017/%s.json' % geo_id.upper()
+	return '/1.0/data/profiles/%s.json' % geo_id.upper()
 
 def custom_make_s3():
 	if settings.AWS_KEY and settings.AWS_SECRET:
@@ -114,7 +114,48 @@ def listRecursive(d, key):
 
 def process_sub_categories(key, data, numerator, doc_data):
 
-	if (key == 'index') or (key == 'numerators'):
+	if (key == 'index'):
+		if not 'custom' in doc_data:
+			doc_data['custom'] = None
+
+		if not 'geos_in_use' in doc_data:
+			doc_data['geos_in_use'] = None
+
+		if ((data['this'] is None) and (numerator is None) and (doc_data['custom'] is None)) or ((data['this'] is None) and (doc_data['custom'] is None)):
+			doc_data['custom'] = None
+			doc_data['geos_in_use'] = None
+		elif ((data['this'] is None) and (numerator is None)) or ((data['this'] is None)):
+			doc_data['custom'] = doc_data['custom']
+			doc_data['geos_in_use'] = doc_data['geos_in_use']
+		elif (numerator is None) or (numerator == 0):
+			if (doc_data['custom'] is None):
+				doc_data['custom'] = 0
+			#straight average
+			doc_data['custom'] = float(data['this']) + doc_data['custom']
+
+			if (doc_data['geos_in_use'] is None):
+				doc_data['geos_in_use'] = 0
+			doc_data['geos_in_use'] += 1
+
+		else:
+			if (doc_data['custom'] is None):
+				doc_data['custom'] = 0
+			#straight average
+			doc_data['custom'] = float(data['this']) + doc_data['custom']
+
+			if (doc_data['geos_in_use'] is None):
+				doc_data['geos_in_use'] = 0
+			doc_data['geos_in_use'] += 1
+
+			if not 'denominator' in doc_data:
+				doc_data['denominator'] = 0
+			# calculate denominator
+			try:
+				doc_data['denominator'] = ((float(numerator) * 100) / float(data['this'])) + doc_data['denominator']	
+			except ZeroDivisionError as e:
+				doc_data['denominator'] = doc_data['denominator']
+
+	if (key == 'numerators'):
 		if not 'custom' in doc_data:
 			doc_data['custom'] = None
 		
@@ -296,7 +337,18 @@ def normalize_sub_categories(key, data, numerator_total, denominator_total, sub_
 			else:
 				data['this'] = data['custom']
 
-	elif (key == 'index') or (key == 'error_ratio'):
+	elif (key == 'index'):
+		if (data['custom'] is None):
+			data['this'] = None
+		elif (numerator_total is None) or (numerator_total == 0):
+			data['this'] = data['custom']
+		else:
+			try:
+				data['this'] = (numerator_total / denominator_total) * 100
+			except ZeroDivisionError as e:
+				data['this'] = numerator_total	
+
+	elif (key == 'error_ratio'):
 		#weighted average
 		if (data['custom'] is None):
 			data['this'] = None
