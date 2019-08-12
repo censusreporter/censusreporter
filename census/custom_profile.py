@@ -911,8 +911,13 @@ def create_custom_profile(slug, profile_type):
 															print sub_sub_key
 															print sub_sub_data
 															print numerator
-															print denominator[key][k]
-															normalize_sub_categories(sub_sub_key, sub_sub_data, numerator[key][k], denominator[key][k], sub_category)
+															print denominator[key]
+															try:
+																denominator_send = denominator[key][k]
+															except KeyError as e:
+																denominator_send = None
+																pass
+															normalize_sub_categories(sub_sub_key, sub_sub_data, numerator[key][k], denominator_send, sub_category)
 
 												else:
 													normalize_sub_categories(sub_sub_key, sub_sub_data, numerator, denominator)
