@@ -885,7 +885,7 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
     parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2016/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2016/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2016/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {

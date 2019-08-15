@@ -386,7 +386,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
 
-        var url = 'https://embed.censusreporter.org/1.0/geo/' + options.release + '/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+        var url = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/' + options.release + '/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         if (!('style' in geojsonOptions)) {
             geojsonOptions.style = this._defaultFeatureStyle;
