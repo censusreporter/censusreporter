@@ -8,6 +8,9 @@ var geoSearchAPI = CR_API_URL + '/1.0/geo/search',
     geoSelect = $('.geography-select'),
     chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
 
+var wayneCountyCommission = false;
+var policeDept = false;
+var cityCouncil = false;
 
 var geoSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
@@ -16,12 +19,34 @@ var geoSelectEngine = new Bloodhound({
     remote: {
         url: geoSearchAPI,
         replace: function (url, query) {
+            var re = new RegExp(query.toLowerCase(), 'g');
+            // check query to see if district text shows up and print options
+            
+            if ('wayne county commission district'.match(re)) {
+                wayneCountyCommission = true;
+            } else {
+                wayneCountyCommission = false;
+            }
+
+            if ('detroit police department precinct'.match(re)) {
+                policeDept = true;
+            } else {
+                policeDept = false;
+            }
+
+            if ('detroit city council district'.match(re)) {
+                cityCouncil = true;
+            } else {
+                cityCouncil = false;
+            }
+
             var latitude = 42.3487;
             var longitude = -83.0587;
             chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
             return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
         },
         filter: function(response) {
+            
             var results = [];
             // remove any non-Michigan responses
             for (var i = response.results.length - 1; i >= 0; i--) {
@@ -42,6 +67,49 @@ var geoSelectEngine = new Bloodhound({
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
                 item['url'] = '/profiles/' + item['full_geoid'] + '-' + slugify(item['full_name']);
             })
+            // check against arrays of geoIDs to see if we should add districts
+            if (wayneCountyCommission) {
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 1", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-1'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 2", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-2'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 3", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-3'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 4", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-4'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 5", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-5'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 6", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-6'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 7", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-7'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 8", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-8'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 9", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-9'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 10", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-10'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 11", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-11'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 12", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-12'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 13", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-13'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 14", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-14'});
+                results.push({full_geoid: "", full_name: "Wayne County Commission District 15", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-15'});
+            }
+
+            if (policeDept) {
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 2", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-2'});                
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 3", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-3'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 4", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-4'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 5", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-5'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 6", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-6'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 7", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-7'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 8", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-8'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 9", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-9'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 10", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-10'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 11", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-11'}); 
+                results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 12", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-12'}); 
+            }
+
+            if (cityCouncil) {
+                results.push({full_geoid: "", full_name: "Detroit City Council District 1", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-1'});
+                results.push({full_geoid: "", full_name: "Detroit City Council District 2", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-2'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 3", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-3'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 4", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-4'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 5", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-5'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 6", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-6'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 7", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-7'});               
+            }
+            
             var resultNumber = results.length;
             if (resultNumber === 0) {
                 results.push({
@@ -83,3 +151,4 @@ function makeGeoSelectWidget(element) {
 }
 
 makeGeoSelectWidget(geoSelect);
+
