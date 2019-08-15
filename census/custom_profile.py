@@ -121,39 +121,22 @@ def process_sub_categories(key, data, numerator, doc_data):
 		if not 'geos_in_use' in doc_data:
 			doc_data['geos_in_use'] = None
 
-		if ((data['this'] is None) and (numerator is None) and (doc_data['custom'] is None)) or ((data['this'] is None) and (doc_data['custom'] is None)):
+		if (data['this'] is None) and (doc_data['custom'] is None):
 			doc_data['custom'] = None
-			doc_data['geos_in_use'] = None
-		elif ((data['this'] is None) and (numerator is None)) or ((data['this'] is None)):
+			doc_data['geos_in_use'] = doc_data['geos_in_use']
+		elif (data['this'] is None):
 			doc_data['custom'] = doc_data['custom']
 			doc_data['geos_in_use'] = doc_data['geos_in_use']
-		elif (numerator is None) or (numerator == 0):
-			if (doc_data['custom'] is None):
-				doc_data['custom'] = 0
-			#straight average
-			doc_data['custom'] = float(data['this']) + doc_data['custom']
-
-			if (doc_data['geos_in_use'] is None):
-				doc_data['geos_in_use'] = 0
-			doc_data['geos_in_use'] += 1
-
 		else:
 			if (doc_data['custom'] is None):
 				doc_data['custom'] = 0
 			#straight average
-			doc_data['custom'] = float(data['this']) + doc_data['custom']
+			doc_data['custom'] = float(data['this']) + doc_data['custom']			
 
 			if (doc_data['geos_in_use'] is None):
 				doc_data['geos_in_use'] = 0
 			doc_data['geos_in_use'] += 1
 
-			if not 'denominator' in doc_data:
-				doc_data['denominator'] = 0
-			# calculate denominator
-			try:
-				doc_data['denominator'] = ((float(numerator) * 100) / float(data['this'])) + doc_data['denominator']	
-			except ZeroDivisionError as e:
-				doc_data['denominator'] = doc_data['denominator']
 
 	if (key == 'numerators'):
 		if not 'custom' in doc_data:
@@ -340,13 +323,10 @@ def normalize_sub_categories(key, data, numerator_total, denominator_total, sub_
 	elif (key == 'index'):
 		if (data['custom'] is None):
 			data['this'] = None
-		elif (numerator_total is None) or (numerator_total == 0):
+		elif (data['geos_in_use'] is None) or (data['geos_in_use'] == 0): 
 			data['this'] = data['custom']
 		else:
-			try:
-				data['this'] = (numerator_total / denominator_total) * 100
-			except ZeroDivisionError as e:
-				data['this'] = numerator_total	
+			data['this'] = data['custom'] / data['geos_in_use']
 
 	elif (key == 'error_ratio'):
 		#weighted average
@@ -461,9 +441,6 @@ def create_custom_profile(slug, profile_type):
 									pass
 
 								for key, data in sorted(sub_category_data.items()):
-									# if key == 'OtherGSRP':
-									# 	print "key 1: " + key
-									# 	print data
 									if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
 										# pass keys to doc OrderedDict so we can sum correctly
 										doc_data = doc[top_level][category][sub_category][key]
@@ -482,10 +459,6 @@ def create_custom_profile(slug, profile_type):
 										for sub_key, sub_data in sorted(data.items()):
 											if (sub_key == 'values') or (sub_key == 'error') or (sub_key == 'numerator_errors') or (sub_key == 'error_ratio') or (sub_key == 'index') or (sub_key == 'numerators'):
 												doc_data = doc[top_level][category][sub_category][key][sub_key]
-												# if key == 'OtherGSRP':
-												# 	print "key 2: " + sub_key
-												# 	print sub_data
-												# 	print doc_data
 												process_sub_categories(sub_key, sub_data, numerator, doc_data)
 											elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
 												numerator = sub_data['numerators']['this']

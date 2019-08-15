@@ -1181,8 +1181,6 @@ def geo_profile(geoid, acs='latest'):
 		'D3-CapHS D3-Capacity / %')
 	child_care_capacity_chart_data['CapGSRP'] = build_item('GSRP programs', data, d3_item_levels,
 		'D3-CapGSRP D3-Capacity / %')
-	child_care_capacity_chart_data['OtherGSRP'] = build_item('Other programs', data, d3_item_levels,
-		'D3-Capacity D3-CapGSRP - D3-CapEarlyHS - D3-CapHS - D3-Capacity / %')
 
 
 
