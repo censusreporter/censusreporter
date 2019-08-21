@@ -1622,7 +1622,10 @@ function Chart(options) {
                 
                 // generate the comparative text for this parent level
                 if (!!index) {
-                    console.log(index);
+                    // for districts and custom profiles, indexes don't work, so we need to calcualte index here
+                    if (window.location.href.indexOf("district") > -1 || window.location.href.indexOf("custom-profiles") > -1) {
+                        index = (contextData.values['this']/value)*100;
+                    }
                     phraseBits = chart.getComparisonThreshold(index);
                     compareBits = "<strong>" + phraseBits[0] + "</strong> " + phraseBits[1] + " the " + chart.getComparisonNoun() + " " + chart.comparisonNamePhrases[k] + ": " + chart.valFmt(value) + moeFlag;
                 } else {
