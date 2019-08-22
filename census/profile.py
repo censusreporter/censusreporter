@@ -1740,8 +1740,7 @@ def geo_profile(geoid, acs='latest'):
 	sex_dict['percent_female'] = build_item('Female', data, item_levels,
 		'B01001026 B01001001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data('B01002', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -1758,8 +1757,7 @@ def geo_profile(geoid, acs='latest'):
 		'B01002003')
 	add_metadata(median_age_dict['female'], 'B01002', 'Total population', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Demographics: Race
 	data = api.get_data('B03002', comparison_geoids, acs)
@@ -1793,8 +1791,7 @@ def geo_profile(geoid, acs='latest'):
 	race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
 		'B03002012 B03002001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	#### Race by age for youth ####
 	#### SODC ####
@@ -1870,8 +1867,7 @@ def geo_profile(geoid, acs='latest'):
 		'B01001A003 B01001A004 + B01001A005 + B01001A006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data(['B01001B', 'B01001'], comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -1891,8 +1887,7 @@ def geo_profile(geoid, acs='latest'):
 	male_child_age_race_distribution_dict['percent_black'] = build_item('Black', data, item_levels,
 		'B01001B003 B01001B004 + B01001B005 + B01001B006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data(['B01001D', 'B01001'], comparison_geoids, acs)
 	acs_name = data['release']['name']		
@@ -1912,8 +1907,7 @@ def geo_profile(geoid, acs='latest'):
 	male_child_age_race_distribution_dict['percent_asian'] = build_item('Asian', data, item_levels,
 		'B01001D003 B01001D004 + B01001D005 + B01001D006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data(['B01001I', 'B01001'], comparison_geoids, acs)
 	acs_name = data['release']['name']	
@@ -1962,8 +1956,7 @@ def geo_profile(geoid, acs='latest'):
 		'B01001006 B01001003 B01001004 + B01001005 + B01001006 + / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Per-Capita Income
 	data = api.get_data('B19301', comparison_geoids, acs)
@@ -1976,8 +1969,7 @@ def geo_profile(geoid, acs='latest'):
 		'B19301001')
 	add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Median Household Income
 	data = api.get_data('B19013', comparison_geoids, acs)
@@ -1987,8 +1979,7 @@ def geo_profile(geoid, acs='latest'):
 		'B19013001')
 	add_metadata(income_dict['median_household_income'], 'B19013', 'Households', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Household Income Distribution
 	data = api.get_data('B19001', comparison_geoids, acs)
@@ -2007,8 +1998,7 @@ def geo_profile(geoid, acs='latest'):
 	income_distribution['over_200'] = build_item('Over $200K', data, item_levels,
 		'B19001017 B19001001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Poverty Rate
 	data = api.get_data('B17001', comparison_geoids, acs)
@@ -2061,8 +2051,7 @@ def geo_profile(geoid, acs='latest'):
 	poverty_children_distribution_by_age['16_and_17'] = build_item('16-17', data, item_levels,
 		'B17001009 B17001023 + B17001009 B17001023 + B17001038 + B17001052 + / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Public Assistance to households with children
 	data = api.get_data('B09010', comparison_geoids, acs)
@@ -2072,8 +2061,7 @@ def geo_profile(geoid, acs='latest'):
 		'B09010002 B09010001 / %')
 	add_metadata(poverty_dict['percent_receiving_public_assistance'], 'B09010', 'Population under 18 years in households', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Poverty Status in the Past 12 Months of Families by Household Type by Educational Attainment of Householder
 	data = api.get_data('B17018', comparison_geoids, acs)
@@ -2135,8 +2123,7 @@ def geo_profile(geoid, acs='latest'):
 		'B17018018 B17018018 B17018035 + / %')	
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Food assistance program participation
 	data = api.get_data('B22002', comparison_geoids, acs)
@@ -2189,11 +2176,13 @@ def geo_profile(geoid, acs='latest'):
 	food_assistance_household_type['female_householder']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
 		'B22002013 B22002001 / %')	
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
-	data = api.get_data(['B23025', 'B23027'], comparison_geoids, acs)
+	if acs != 'acs2012_5yr' and acs != 'acs2012_1yr':
+		data = api.get_data(['B23025', 'B23027'], comparison_geoids, acs)
+	else:
+		data = api.get_data(['B23025'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 
 	employment_dict = dict()
@@ -2203,12 +2192,12 @@ def geo_profile(geoid, acs='latest'):
 		'B23025005 B23025003 / %')
 	add_metadata(employment_dict['unemployment_rate'], 'B23025', 'Population 16 years and over', acs_name)
 
-	employment_dict['nowork_rate'] = build_item('Persons 16-64 who have not worked in the last 12 months', data, item_levels,
-		'B23027006 B23027011 + B23027016 + B23027021 + B23027026 + B23027002 B23027007 + B23027012 + B23027017 + B23027022 + / %')
-	add_metadata(employment_dict['nowork_rate'], 'B23027', 'Population 16 years and over', acs_name)
+	if acs != 'acs2012_5yr' and acs != 'acs2012_1yr':
+		employment_dict['nowork_rate'] = build_item('Persons 16-64 who have not worked in the last 12 months', data, item_levels,
+			'B23027006 B23027011 + B23027016 + B23027021 + B23027026 + B23027002 B23027007 + B23027012 + B23027017 + B23027022 + / %')
+		add_metadata(employment_dict['nowork_rate'], 'B23027', 'Population 16 years and over', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data(['B14005'], comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -2278,8 +2267,7 @@ def geo_profile(geoid, acs='latest'):
 	youth_school_employment_grouped['not_graduated_unemployed']['female'] = build_item('Female', data, item_levels,
 		'B14005028 B14005029 + B14005016 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -2288,8 +2276,7 @@ def geo_profile(geoid, acs='latest'):
 		'B08013001 B08006001 B08006017 - /')
 	add_metadata(employment_dict['mean_travel_time'], 'B08006, B08013', 'Workers 16 years and over who did not work at home', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data('B08006', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -2314,8 +2301,7 @@ def geo_profile(geoid, acs='latest'):
 		'B08006017 B08006001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Family and Economic Security: Vehicle Avaialabilty
 	data = api.get_data(['B08006', 'B08014', 'B08015'], comparison_geoids, acs)
@@ -2343,8 +2329,7 @@ def geo_profile(geoid, acs='latest'):
 		'B08014007 B08014001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Families: Marital Status by Sex
 	data = api.get_data('B12001', comparison_geoids, acs)
@@ -2413,8 +2398,7 @@ def geo_profile(geoid, acs='latest'):
 		'B12001018 B12001011 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Families: Family Types with Children
 	#### Useful for SODC report! ####
@@ -2436,8 +2420,7 @@ def geo_profile(geoid, acs='latest'):
 		'B09002015 B09002001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Families: Percent of Families with Related Children Under 18
 	#### SODC ####
@@ -2451,8 +2434,7 @@ def geo_profile(geoid, acs='latest'):
 		'B11004003 B11004010 + B11004016 + B11004001 / %')
 	add_metadata(families_with_children['percent_familes_with_children'], 'B11004', 'Family Type by Presence and Age of Related Children Under 18 Years', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Families: Percent of Households with Children under 18
 	#### SODC ####
@@ -2465,8 +2447,7 @@ def geo_profile(geoid, acs='latest'):
 		'B11005002 B11005001 / %')
 	add_metadata(households_with_children['percent_households_with_children'], 'B11005', 'Households by Presence of People Under 18 Years by Household Type', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Families: Birth Rate by Women's Age
 	data = api.get_data('B13016', comparison_geoids, acs)
@@ -2499,8 +2480,7 @@ def geo_profile(geoid, acs='latest'):
 		'B13016009 B13016009 B13016017 + / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Families: Number of Households, Persons per Household, Household type distribution
 	data = api.get_data(['B11001', 'B11002'], comparison_geoids, acs)
@@ -2534,8 +2514,7 @@ def geo_profile(geoid, acs='latest'):
 		'B11002012 B11002001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: Number of Housing Units, Occupancy Distribution, Vacancy Distribution
 	data = api.get_data('B25002', comparison_geoids, acs)
@@ -2558,8 +2537,7 @@ def geo_profile(geoid, acs='latest'):
 		'B25002003 B25002001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: Structure Distribution
 	data = api.get_data('B25024', comparison_geoids, acs)
@@ -2578,8 +2556,7 @@ def geo_profile(geoid, acs='latest'):
 	structure_distribution_dict['vehicle'] = build_item('Boat, RV, van, etc.', data, item_levels,
 		'B25024011 B25024001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: Tenure
 	data = api.get_data('B25003', comparison_geoids, acs)
@@ -2597,8 +2574,7 @@ def geo_profile(geoid, acs='latest'):
 	ownership_distribution_dict['renter'] = build_item('Renter occupied', data, item_levels,
 		'B25003003 B25003001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data('B25026', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -2621,8 +2597,7 @@ def geo_profile(geoid, acs='latest'):
 		'B25026003 B25026010 + B25026001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: Mobility
 	data = api.get_data('B07003', comparison_geoids, acs)
@@ -2650,8 +2625,7 @@ def geo_profile(geoid, acs='latest'):
 	migration_distribution_dict['moved_from_abroad'] = build_item('From abroad', data, item_levels,
 		'B07003016 B07003001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: Median Costs
 	data = api.get_data('B25105', comparison_geoids, acs)
@@ -2664,8 +2638,7 @@ def geo_profile(geoid, acs='latest'):
 		'B25105001')
 	add_metadata(costs_dict['median_costs'], 'B25105', 'Occupied housing units with monthly housing costs', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: HOUSING COSTS AS A PERCENTAGE OF HOUSEHOLD INCOME
 	data = api.get_data('B25106', comparison_geoids, acs)
@@ -2686,8 +2659,7 @@ def geo_profile(geoid, acs='latest'):
 	housing_costs_distribution['over_75'] = build_item('Over $75K', data, item_levels,
 		'B25106022 B25106044 + B25106019 B25106041 + / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Housing: Median Value and Distribution of Values
 	data = api.get_data('B25077', comparison_geoids, acs)
@@ -2697,8 +2669,7 @@ def geo_profile(geoid, acs='latest'):
 		'B25077001')
 	add_metadata(ownership_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data('B25075', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -2726,8 +2697,7 @@ def geo_profile(geoid, acs='latest'):
 		'B25075025 B25075001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Social: Educational Attainment
 	data = api.get_data('B15002', comparison_geoids, acs)
@@ -2764,8 +2734,7 @@ def geo_profile(geoid, acs='latest'):
 		'B15002016 B15002017 + B15002018 + B15002033 + B15002034 + B15002035 + B15002001 / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Social: School Enrollment
 	data = api.get_data('B14003', comparison_geoids, acs)
@@ -2824,8 +2793,7 @@ def geo_profile(geoid, acs='latest'):
 		'B14003051 B14003033 B14003042 + B14003051 + / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Social: Health Insurance
 	data = api.get_data('B27001', comparison_geoids, acs)
@@ -2951,8 +2919,7 @@ def geo_profile(geoid, acs='latest'):
 	# coverage_distribution['over_75']['female'] = build_item('Female', data, item_levels,
 	# 	'B27001057 B27001055 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Social: Place of Birth
 	data = api.get_data('B05002', comparison_geoids, acs)
@@ -2965,8 +2932,7 @@ def geo_profile(geoid, acs='latest'):
 		'B05002013 B05002001 / %')
 	add_metadata(foreign_dict['percent_foreign_born'], 'B05002', 'Total population', acs_name)
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data('B05006', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -2988,8 +2954,7 @@ def geo_profile(geoid, acs='latest'):
 	place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
 		'B05006159 B05006001 / %')
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
 	#### For some reason, thi svariable is no longer available at many geographies
@@ -3042,8 +3007,7 @@ def geo_profile(geoid, acs='latest'):
 		'B16007013 B16007019 + B16007008 B16007014 + / %')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	# Social: Number of Veterans, Wartime Service, Sex of Veterans
 	data = api.get_data('B21002', comparison_geoids, acs)
@@ -3068,8 +3032,7 @@ def geo_profile(geoid, acs='latest'):
 		'B21002002 B21002003 + B21002004 +')
 
 
-	# pause between CR data API requests to limit traffic to API
-	time.sleep(5)
+
 
 	data = api.get_data('B21001', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -3126,6 +3089,8 @@ def find_dicts_with_key(dictionary, searchkey):
 
 def enhance_api_data(api_data):
 	dict_list = find_dicts_with_key(api_data, 'values')
+
+	print dict_list
 
 	for d in dict_list:
 		raw = {}

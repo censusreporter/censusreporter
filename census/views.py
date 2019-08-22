@@ -1225,7 +1225,7 @@ class GeographyDetailView(TemplateView):
 			# Also mark it as safe for the charts on the profile
 			profile_data_json = SafeString(profile_data_json)
 		else:
-			profile_data = geo_profile(geography_id)
+			profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data:
 				profile_data = enhance_api_data(profile_data)
@@ -1378,7 +1378,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			# Also mark it as safe for the charts on the profile
 			profile_data_json_current_year = SafeString(profile_data_json_current_year)
 		else:
-			profile_data_current_year = geo_profile(geography_id)
+			profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data_current_year:
 				profile_data_current_year = enhance_api_data(profile_data_current_year)
@@ -1419,7 +1419,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			# Also mark it as safe for the charts on the profile
 			profile_data_json_past_year = SafeString(profile_data_json_past_year)
 		else:
-			profile_data_past_year = geo_profile(geography_id)
+			profile_data_past_year = geo_profile(geography_id, 'acs2012_5yr')
 
 			if profile_data_past_year:
 				profile_data_past_year= enhance_api_data(profile_data_past_year)
