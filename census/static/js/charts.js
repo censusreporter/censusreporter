@@ -77,8 +77,8 @@ function Chart(options) {
             dataObj,
             metadataFields = ['metadata', 'acs_release', 'name'];
 
-        // merge timeseries datasets 
-        if (options.chartDataPastYear) {
+        // merge timeseries datasets
+        if (options.chartDataPastYear && options.chartType.indexOf('time') !== -1) {
             // if we're down to the level of values (i.e the key 'error' exists), add a key called count and move the object into that key/value pair
             if (options.chartDataPastYear.error) {
                 const countPastYear = options.chartDataPastYear;

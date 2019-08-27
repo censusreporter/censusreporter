@@ -251,15 +251,18 @@
             <h2><a class="permalink section" href="#births" id="births" title="Permalink">Births <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
-                <div id="chart-stat_timeseries-families-births-total" data-stat-type="number" data-chart-title="Total births" data-qualifier="Universe: {{ profile_data_current_year.families.births.total.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.births.total stat_type='number' %} {% endcomment %}
+                <h3 class="chart-title">Total Births (2017)</h3>
+                {% comment %} <div id="chart-stat_timeseries-families-births-total" data-stat-type="number" data-chart-title="Total births" data-qualifier="Universe: {{ profile_data_current_year.families.births.total.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.births.total stat_type='number' %}
             </div>
             <div class="column-three-quarters">
                 <div class="column-half">
-                    <div id="chart-column_timeseries-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+                    {% comment %} <div id="chart-column_timeseries-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div> {% endcomment %}
+                    <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>                    
                 </div> 
                 <div class="column-half">
-                    <div id="chart-column_timeseries-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ profile_data_current_year.families.births.by_characteristic.metadata.universe }}"></div>
+                    {% comment %} <div id="chart-column_timeseries-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ profile_data_current_year.families.births.by_characteristic.metadata.universe }}"></div> {% endcomment %}
+                    <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic (2017)" data-qualifier="Universe: {{ profile_data_current_year.families.births.by_characteristic.metadata.universe }}"></div>                    
                 </div> 
             </div>
 
@@ -299,22 +302,22 @@
             <h2><a class="permalink section" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
-                <div id="chart-stat_timeseries-social-ela_math-percent_met_expectaions_in_ela" data-stat-type="scaled-percentage" data-chart-title="Students who met or exceeded expectations in ELA" data-qualifier="Universe: {{ profile_data_current_year.social.ela_math.percent_met_expectaions_in_ela.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %} {% endcomment %}
+            <div class="column-half">
+                {% comment %} <div id="chart-stat_timeseries-social-ela_math-percent_met_expectaions_in_ela" data-stat-type="scaled-percentage" data-chart-title="Students who met or exceeded expectations in ELA" data-qualifier="Universe: {{ profile_data_current_year.social.ela_math.percent_met_expectaions_in_ela.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-ela_distribution" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.ela_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-ela_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.ela_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
-                <div id="chart-stat_timeseries-social-ela_math-percent_met_expectaions_in_math" data-stat-type="scaled-percentage" data-chart-title="Students who met or exceeded expectations in Math" data-qualifier="Universe: {{ profile_data_current_year.social.ela_math.percent_met_expectaions_in_math.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %} {% endcomment %}
+            <div class="column-half">
+                {% comment %} <div id="chart-stat_timeseries-social-ela_math-percent_met_expectaions_in_math" data-stat-type="scaled-percentage" data-chart-title="Students who met or exceeded expectations in Math" data-qualifier="Universe: {{ profile_data_current_year.social.ela_math.percent_met_expectaions_in_math.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-math_distribution" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.math_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-math_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.math_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -338,11 +341,12 @@
             <h2><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
-                <div id="chart-stat_timeseries-social-graduation-graduation_rate" data-stat-type="scaled-percentage" data-chart-title="Graduation Rate" data-qualifier="Universe: {{ profile_data_current_year.social.graduation.graduation_rate.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.graduation.graduation_rate stat_type='percentage' %} {% endcomment %}
+            <div class="column-half">
+                {% comment %} <div id="chart-stat_timeseries-social-graduation-graduation_rate" data-stat-type="scaled-percentage" data-chart-title="Graduation Rate" data-qualifier="Universe: {{ profile_data_current_year.social.graduation.graduation_rate.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.graduation.graduation_rate stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-graduation_chart_data" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.graduation_chart_data.metadata.universe }}"></div>
+            {% comment %} <div class="column-two-thirds" id="chart-column_timeseries-social-graduation_chart_data" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.graduation_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-half" id="chart-pie-social-graduation_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.graduation_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -366,25 +370,29 @@
             <h2><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-third">
-                <div id="chart-stat_timeseries-families-child_care-child_care_centers" data-stat-type="scaled-percentage" data-chart-title="Number of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_centers.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='number' %} {% endcomment %}
+                {% comment %} <div id="chart-stat_timeseries-families-child_care-child_care_centers" data-stat-type="scaled-percentage" data-chart-title="Number of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_centers.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.child_care.child_care_centers stat_type='count' %}
             </div>
             <div class="column-third">
-                <div id="chart-column_timeseries-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
+                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div> {% endcomment %}
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div>                
             </div>
             <div class="column-third">
-                <div id="chart-column_timeseries-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
+                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div> {% endcomment %}
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div>                
             </div> 
         </section>
 
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
             <div class="column-third">
-                <div id="chart-stat_timeseries-families-child_care-child_care_capacity" data-stat-type="scaled-percentage" data-chart-title="Capacity of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='number' %} {% endcomment %}
+                {% comment %} <div id="chart-stat_timeseries-families-child_care-child_care_capacity" data-stat-type="scaled-percentage" data-chart-title="Capacity of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity.metadata.universe }}"></div> {% endcomment %}
+                
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.child_care.child_care_capacity stat_type='count' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column_timeseries-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
+                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div> {% endcomment %}
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>                
             </div> 
         </section>
 
@@ -393,10 +401,11 @@
             <aside>
             </aside>
             <div class="column-third">
-                <div id="chart-stat_timeseries-social-school_lunch-percent_free_reduced" data-stat-type="scaled-percentage" data-chart-title="Percent of total students reported eligible for free or reduced price lunches" data-qualifier="Universe: {{ profile_data_current_year.social.school_lunch.percent_free_reduced.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.school_lunch.percent_free_reduced stat_type='percentage' %} {% endcomment %}
+                {% comment %} <div id="chart-stat_timeseries-social-school_lunch-percent_free_reduced" data-stat-type="scaled-percentage" data-chart-title="Percent of total students reported eligible for free or reduced price lunches" data-qualifier="Universe: {{ profile_data_current_year.social.school_lunch.percent_free_reduced.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.school_lunch.percent_free_reduced stat_type='percentage' %}
             </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-school_lunch-school_lunch_chart_data" data-chart-title="Percent of students eligible for free or reduced price lunches by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.school_lunch.school_lunch_chart_data.metadata.universe }}"></div>
+            {% comment %} <div class="column-two-thirds" id="chart-column_timeseries-social-school_lunch-school_lunch_chart_data" data-chart-title="Percent of students eligible for free or reduced price lunches by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.school_lunch.school_lunch_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-two-thirds" id="chart-column-social-school_lunch-school_lunch_chart_data" data-chart-title="Percent of students eligible for free or reduced price lunches by status (2017)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.school_lunch.school_lunch_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row alt">
@@ -405,32 +414,35 @@
             </aside>
             <div class="column-two-thirds">
                 <div class="column-third">
-                    <div id="chart-stat_timeseries-social-college_readiness-sat_all_subject" data-stat-type="number" data-chart-title="Average SAT score in all subjects" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_all_subject.metadata.universe }}"></div>
-                    {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_all_subject stat_type='number' %} {% endcomment %}
+                    {% comment %} <div id="chart-stat_timeseries-social-college_readiness-sat_all_subject" data-stat-type="number" data-chart-title="Average SAT score in all subjects" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_all_subject.metadata.universe }}"></div> {% endcomment %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.college_readiness.sat_all_subject stat_type='number' %}
                 </div>
                 <div class="column-third">
-                    <div id="chart-stat_timeseries-social-college_readiness-sat_math" data-stat-type="number" data-chart-title="Average SAT score in math" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_math.metadata.universe }}"></div>
-                    {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_math stat_type='number' %} {% endcomment %}
+                    {% comment %} <div id="chart-stat_timeseries-social-college_readiness-sat_math" data-stat-type="number" data-chart-title="Average SAT score in math" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_math.metadata.universe }}"></div> {% endcomment %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.college_readiness.sat_math stat_type='number' %}
                 </div>
                 <div class="column-third">
-                    <div id="chart-stat_timeseries-social-college_readiness-sat_reading_writing" data-stat-type="number" data-chart-title="Average SAT score in evidenced-based reading and writing" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_reading_writing.metadata.universe }}"></div>
-                    {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_reading_writing stat_type='number' %} {% endcomment %}
+                    {% comment %} <div id="chart-stat_timeseries-social-college_readiness-sat_reading_writing" data-stat-type="number" data-chart-title="Average SAT score in evidenced-based reading and writing" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.sat_reading_writing.metadata.universe }}"></div> {% endcomment %}
+                    {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.college_readiness.sat_reading_writing stat_type='number' %}
                 </div>
             </div>
-            <div class="column-third">
+            {% comment %} <div class="column-third">
                 <div id="chart-stat_timeseries-social-college_enrollment-percent_enrolled" data-stat-type="scaled-percentage" data-chart-title="Percent of public high school graduates who have enrolled in college within 6 months of graduation" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.percent_enrolled.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_enrollment.percent_enrolled stat_type='percentage' %} {% endcomment %}
-            </div>
+
+            </div> {% endcomment %}
+            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 6 months of graduation (2018)" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row grouped-row">
             <aside>
             </aside>
-            <div class="column-third">
+            {% comment %} <div class="column-third">
                 <div id="chart-stat_timeseries-social-college_readiness-percent_proficient" data-stat-type="scaled-percentage" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT assessment in all subjects" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.percent_proficient.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.percent_proficient stat_type='percentage' %} {% endcomment %}
-            </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
+            </div> {% endcomment %}
+            <div class="column-third" id="chart-pie-social-college_readiness-pct_college_ready_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of students who scored at, above or below college readiness proficiency on the SAT assessment in all subjects (2018)" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.pct_college_ready_chart_data.metadata.universe }}"></div>
+
+            {% comment %} <div class="column-two-thirds" id="chart-column_timeseries-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-two-thirds" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject (2018)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
         </section>
 
     </div>
@@ -607,45 +619,58 @@
             <h2><a class="permalink section" href="#infant-mortality" id="infant-mortality" title="Permalink">Infant mortality <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            {% comment %} <div class="column-third">
                 <div id="chart-stat_timeseries-social-infant_mortality-infant_mortality" data-stat-type="number" data-chart-title="Number of infant deaths" data-qualifier="Universe: {{ profile_data_current_year.social.infant_mortality.infant_mortality.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.infant_mortality.infant_mortality stat_type='number' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-infant_mortality_chart_data" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.infant_mortality_chart_data.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-social-infant_mortality_chart_data" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.infant_mortality_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.infant_mortality.infant_mortality stat_type='count' %}
+            </div>
+            <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.infant_mortality_chart_data.metadata.universe }}"></div>            
         </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink section" href="#immunizations" id="immunizations" title="Permalink">Immunizations <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            {% comment %} <div class="column-third">
                 <div id="chart-stat_timeseries-social-immunization-immunization" data-stat-type="number" data-chart-title="Number of infant deaths" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.immunization.immunization stat_type='number' %} {% endcomment %}
             </div>
-            <div class="column-two-thirds" id="chart-column_timeseries-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization_chart_data.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-column_timeseries-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.immunization.immunization stat_type='count' %}
+            </div>
+            <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status (2015)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization_chart_data.metadata.universe }}"></div>            
         </section>
 
         <section class="clearfix stat-row alt">
             <h2><a class="permalink section" href="#blood-lead" id="blood-lead" title="Permalink">Elevated blood lead levels <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-half">
+            {% comment %} <div class="column-half">
                 <div id="chart-stat_timeseries-social-blood_lead-percent_elevated" data-stat-type="scaled-percentage" data-chart-title="Number of infant deaths" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.percent_elevated.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.blood_lead.percent_elevated stat_type='percentage' %} {% endcomment %}
             </div>
-            <div class="column-half" id="chart-column_timeseries-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>
+            <div class="column-half" id="chart-column_timeseries-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.blood_lead.percent_elevated stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>            
         </section>
 
         <section class="clearfix stat-row">
             <h2><a class="permalink section" href="#hospitalization" id="hospitalization" title="Permalink">Hospital visits through Medicaid <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
-            <div class="column-third">
+            {% comment %} <div class="column-third">
                 <div id="chart-stat_timeseries-social-medicaid-child_er" data-stat-type="scaled-percentage" data-chart-title="Number of infant deaths" data-qualifier="Universe: {{ profile_data_current_year.social.medicaid.child_er.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=social.medicaid.child_er stat_type='percentage' %} {% endcomment %}
             </div>
             <div class="column-third" id="chart-column_timeseries-social-medicaid-er_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.medicaid.er_chart_data.metadata.universe }}"></div>
-            <div class="column-third" id="chart-column_timeseries-social-medicaid-condition_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by condition" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.medicaid.condition_chart_data.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column_timeseries-social-medicaid-condition_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by condition" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.medicaid.condition_chart_data.metadata.universe }}"></div> {% endcomment %}
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.medicaid.child_er stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-column-social-medicaid-er_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by age (2017)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.er_chart_data.metadata.universe }}"></div>
+            <div class="column-third" id="chart-column-social-medicaid-condition_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by condition (2017)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.condition_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row alt">
@@ -915,7 +940,7 @@ var makeCharts = function() {
         // determine whether data point is from anything other
         // than the primary ACS release for this page
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
-        if (chartData[key]['acs_release'] && chartData[key]['acs_release'] == 'ACS 2017 5-Year') {
+        if (chartData[key]['acs_release'] && chartData[key]['acs_release'] == 'ACS 2017 5-year') {
             var thisRelease = "ACS 2012 and 2017 5-year";
         } else if (chartData[key]['acs_release']) {
             var thisRelease = chartData[key]['acs_release'];
