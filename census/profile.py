@@ -661,16 +661,16 @@ def geo_profile(geoid, acs='latest'):
 
 	ela_math_dict['percent_met_expectaions_in_math'] = build_item('Students who met or exceeded expectations in Math', data, d3_item_levels,
 		'D3-MATHTotalMet_Calc D3-MATHNumAssessed_Calc / %')
-	add_metadata(ela_math_dict['percent_met_expectaions_in_math'], 'D3-Math-Proficiency', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(ela_math_dict['percent_met_expectaions_in_math'], 'D3-Math-Proficiency', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	ela_math_dict['percent_met_expectaions_in_ela'] = build_item('Students who met or exceeded expectations in ELA', data, d3_item_levels,
 		'D3-ELATotalMet_Calc D3-ELANumAssessed_Calc / %')
-	add_metadata(ela_math_dict['percent_met_expectaions_in_ela'], 'D3-ELA-Proficiency', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(ela_math_dict['percent_met_expectaions_in_ela'], 'D3-ELA-Proficiency', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 
 	ela_distribution_dict = OrderedDict()
 	doc['social']['ela_distribution'] = ela_distribution_dict
-	add_metadata(ela_distribution_dict, 'D3-ELA-Proficiency', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(ela_distribution_dict, 'D3-ELA-Proficiency', 'Total students taking ELA Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	ela_distribution_dict['ELATotalMet_Calc'] = build_item('Met expectations', data, d3_item_levels,
 		'D3-ELATotalMet_Calc D3-ELANumAssessed_Calc / %')
@@ -681,7 +681,7 @@ def geo_profile(geoid, acs='latest'):
 
 	math_distribution_dict = OrderedDict()
 	doc['social']['math_distribution'] = math_distribution_dict
-	add_metadata(math_distribution_dict, 'D3-Math-Proficiency', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(math_distribution_dict, 'D3-Math-Proficiency', 'Total students taking Math Assessment', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	math_distribution_dict['MATHTotalMet_Calc'] = build_item('Met expectations', data, d3_item_levels,
 		'D3-MATHTotalMet_Calc D3-MATHNumAssessed_Calc / %')
@@ -761,11 +761,11 @@ def geo_profile(geoid, acs='latest'):
 
 	graduation_dict['graduation_rate'] = build_item('Graduation Rate', data, d3_item_levels,
 		'D3-GradCnt D3-CohortCnt / %')
-	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	graduation_chart_data = OrderedDict()
 	doc['social']['graduation_chart_data'] = graduation_chart_data
-	add_metadata(graduation_chart_data, 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(graduation_chart_data, 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	graduation_chart_data['graduated'] = build_item('Graduated', data, d3_item_levels,
 		'D3-GradCnt D3-CohortCnt / %')
@@ -900,11 +900,11 @@ def geo_profile(geoid, acs='latest'):
 
 	immunization_dict['immunization'] = build_item('Fully immunized children aged 19-35 months', data, d3_item_levels, 
 		'D3-Fully_Immunized_43133142')
-	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency') 
+	add_metadata(immunization_dict['immunization'], 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency, 2015') 
 
 	immunization_chart_data = OrderedDict()
 	doc['social']['immunization']['immunization_chart_data'] = immunization_chart_data
-	add_metadata(immunization_chart_data, 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency')
+	add_metadata(immunization_chart_data, 'D3-Immunization', 'Immunized children aged 19-35 months', 'D3 Open Data Portal, Michigan Care Improvement Agency, 2015')
 
 	immunization_chart_data['Fully_Immunized_43133142'] = build_item('Fully immunized', data, d3_item_levels,
 		'D3-Fully_Immunized_43133142 D3-Immunization_Population / %')
@@ -1020,11 +1020,11 @@ def geo_profile(geoid, acs='latest'):
 
 	medicaid_dict['child_er'] = build_item('of hospital visits by children on Medicaid were to an emergency room or urgent care', data, d3_item_levels, 
 		'D3-Under5_ER D3-FivePlus_ER + D3-Under18_Tot / %')
-	add_metadata(medicaid_dict['child_er'], 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(medicaid_dict['child_er'], 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services, 2017')
 
 	er_chart_data = OrderedDict()
 	doc['social']['medicaid']['er_chart_data'] = er_chart_data
-	add_metadata(er_chart_data, 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(er_chart_data, 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services, 2017')
 
 	er_chart_data['Under5_ER'] = build_item('Under 5 years old', data, d3_item_levels,
 		'D3-Under5_ER D3-Under5_Tot / %')
@@ -1033,7 +1033,7 @@ def geo_profile(geoid, acs='latest'):
 
 	condition_chart_data = OrderedDict()
 	doc['social']['medicaid']['condition_chart_data'] = condition_chart_data
-	add_metadata(condition_chart_data, 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services')
+	add_metadata(condition_chart_data, 'D3-Medicaid', 'Total number of hospital or ER visits through Medicaid for children (under 18)', 'D3 Open Data Portal, Michigan Department of Health and Human Services, 2017')
 
 	condition_chart_data['Asthma'] = build_item('Asthma', data, d3_item_levels,
 		'D3-AsthmaCt D3-Under18_Tot / %')
@@ -1143,7 +1143,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_dict['child_care_centers'] = build_item('Number of licensed child care facilities', data, d3_item_levels, 
 		'D3-Centers')
-	add_metadata(child_care_dict['child_care_centers'], 'D3-Child-Care-Centers', 'Number of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality') 
+	add_metadata(child_care_dict['child_care_centers'], 'D3-Child-Care-Centers', 'Number of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 
 
 	child_care_dict['child_care_capacity'] = build_item('Capacity of licensed child care facilities', data, d3_item_levels, 
 		'D3-Capacity')
@@ -1151,7 +1151,7 @@ def geo_profile(geoid, acs='latest'):
 	
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
-	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality')
+	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018')
 
 	child_care_center_chart_data['LicCenCnt'] = build_item('Licensed child care centers', data, d3_item_levels,
 		'D3-LicCenCnt D3-Centers / %')
@@ -1162,7 +1162,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_program_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
-	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality')
+	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
 
 	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
 		'D3-EarlyHSCnt D3-LicCenCnt / %')
@@ -1261,12 +1261,12 @@ def geo_profile(geoid, acs='latest'):
 
 	school_lunch_dict['percent_free_reduced'] = build_item('Percent of total students reported eligible for free or reduced price lunches', data, d3_item_levels, 
 		'D3-FreeReducedEligible D3-Total / %')
-	add_metadata(school_lunch_dict['percent_free_reduced'], 'D3-School-Lunch', 'Total number of students in grades K-12, including ungraded, that attend schools within this geography', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+	add_metadata(school_lunch_dict['percent_free_reduced'], 'D3-School-Lunch', 'Total number of students in grades K-12, including ungraded, that attend schools within this geography', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2017') 
 
 
 	school_lunch_chart_data = OrderedDict()
 	doc['social']['school_lunch']['school_lunch_chart_data'] = school_lunch_chart_data
-	add_metadata(school_lunch_chart_data, 'D3-School-Lunch', 'Total number of students in grades K-12, including ungraded, that attend schools within this geography', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+	add_metadata(school_lunch_chart_data, 'D3-School-Lunch', 'Total number of students in grades K-12, including ungraded, that attend schools within this geography', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2017') 
 
 	school_lunch_chart_data['FreeEligible'] = build_item('Eligible for free lunch', data, d3_item_levels,
 		'D3-FreeEligible D3-Total / %')
@@ -1371,11 +1371,11 @@ def geo_profile(geoid, acs='latest'):
 
 	college_readiness_dict['percent_proficient'] = build_item('Percent of students who scored at or above college readiness proficiency on the SAT assessment in all subjects', data, d3_item_levels, 
 		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
-	add_metadata(college_readiness_dict['percent_proficient'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+	add_metadata(college_readiness_dict['percent_proficient'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018') 
 
 	pct_college_ready_chart_data = OrderedDict()
 	doc['social']['college_readiness']['pct_college_ready_chart_data'] = pct_college_ready_chart_data
-	add_metadata(pct_college_ready_chart_data, 'D3-College-Readiness', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(pct_college_ready_chart_data, 'D3-College-Readiness', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2018')
 
 	pct_college_ready_chart_data['at_above'] = build_item('At or above', data, d3_item_levels,
 		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
@@ -1385,7 +1385,7 @@ def geo_profile(geoid, acs='latest'):
 
 	college_readiness_chart_data = OrderedDict()
 	doc['social']['college_readiness']['college_readiness_chart_data'] = college_readiness_chart_data
-	add_metadata(college_readiness_chart_data, 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
+	add_metadata(college_readiness_chart_data, 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018')
 
 	college_readiness_chart_data['AllSbjtNumReady'] = build_item('All subjects', data, d3_item_levels,
 		'D3-AllSbjtNumReady D3-AllSbjtNumAssessed / %')
@@ -1396,15 +1396,15 @@ def geo_profile(geoid, acs='latest'):
 
 	college_readiness_dict['sat_all_subject'] = build_item('Average SAT score in all subjects', data, d3_item_levels, 
 		'D3-FinalAllSbjtAveScore')
-	add_metadata(college_readiness_dict['sat_all_subject'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+	add_metadata(college_readiness_dict['sat_all_subject'], 'D3-College-Readiness', 'The number of students who took the SAT assessment in all subjects', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018') 
 
 	college_readiness_dict['sat_math'] = build_item('Average SAT score in math', data, d3_item_levels, 
 		'D3-FinalMathAveScore')
-	add_metadata(college_readiness_dict['sat_math'], 'D3-College-Readiness', 'The number of students who took the math SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
+	add_metadata(college_readiness_dict['sat_math'], 'D3-College-Readiness', 'The number of students who took the math SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018')
 
 	college_readiness_dict['sat_reading_writing'] = build_item('Average SAT score in evidenced-based reading and writing', data, d3_item_levels, 
 		'D3-FinalEWBRWAveScore')
-	add_metadata(college_readiness_dict['sat_reading_writing'], 'D3-College-Readiness', 'The number of students who took the evidenced-based reading and writing SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information')
+	add_metadata(college_readiness_dict['sat_reading_writing'], 'D3-College-Readiness', 'The number of students who took the evidenced-based reading and writing SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018')
 
 
 	# get D3 data on College Enrollment
@@ -1473,11 +1473,11 @@ def geo_profile(geoid, acs='latest'):
 
 	college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within 6 months of graduation', data, d3_item_levels, 
 		'D3-TotEnrlCalc D3-TotGradCalc / %')
-	add_metadata(college_enrollment_dict['percent_enrolled'], 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information') 
+	add_metadata(college_enrollment_dict['percent_enrolled'], 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2017') 
 
 	college_enrollment_chart_data = OrderedDict()
 	doc['social']['college_enrollment']['college_enrollment_chart_data'] = college_enrollment_chart_data
-	add_metadata(college_enrollment_chart_data, 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information')
+	add_metadata(college_enrollment_chart_data, 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	college_enrollment_chart_data['enrolled'] = build_item('Enrolled', data, d3_item_levels,
 		'D3-TotEnrlCalc D3-TotGradCalc / %')
@@ -1567,11 +1567,11 @@ def geo_profile(geoid, acs='latest'):
 
 	blood_lead_dict['percent_elevated'] = build_item('Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter)', data, d3_item_levels, 
 		'D3-EBLL D3-CntTested / %')
-	add_metadata(blood_lead_dict['percent_elevated'], 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services')
+	add_metadata(blood_lead_dict['percent_elevated'], 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services, 2018')
 
 	blood_lead_chart_data = OrderedDict()
 	doc['social']['blood_lead']['blood_lead_chart_data'] = blood_lead_chart_data
-	add_metadata(blood_lead_chart_data, 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services')
+	add_metadata(blood_lead_chart_data, 'D3-Blood-Lead', 'Number of individuals who were tested', 'D3 Open Data Portal, State of Michigan, Department of Heath and Human Services, 2018')
 
 	blood_lead_chart_data['Under6EBLL'] = build_item('Under 6 years of age', data, d3_item_levels,
 		'D3-Under6EBLL D3-Under6CntTested / %')
