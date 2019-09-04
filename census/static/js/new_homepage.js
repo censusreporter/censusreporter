@@ -96,3 +96,15 @@ if (window.innerWidth > 500) {
 $( function() {
     $( "#tabs" ).tabs();
 } );
+
+$('#explore-nav').click(() => {
+    $( "#tabs" ).tabs( "option", "active", 0 );
+});
+
+$('#topics-nav').click(() => {
+    $( "#tabs" ).tabs( "option", "active", 1 );
+});
+
+$('#critical-questions-nav').click(() => {
+    $( "#tabs" ).tabs( "option", "active", 2 );
+});
