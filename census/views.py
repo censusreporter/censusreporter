@@ -2606,7 +2606,7 @@ class DataView(TemplateView):
 
 
 class HomepageView(TemplateView):
-	template_name = 'homepage.html'
+	template_name = 'new_homepage.html'
 	def get_context_data(self, *args, **kwargs):
 		excluded_topics = ('getting-started', 'topic-codes')
 		page_context = {
