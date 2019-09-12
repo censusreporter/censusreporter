@@ -79,7 +79,7 @@ nav a {
     font-size: 29px;
     color: #979797;
     letter-spacing: 6.69px;
-    padding: 50px 40px 50px 40px;
+    padding: 30px 40px 30px 40px;
     display: block;
 }
 
@@ -87,7 +87,7 @@ nav li {
     border-bottom: 1px solid #979797;
 }
 
-nav li:nth-child(3) {
+nav li:nth-child(4) {
     border-bottom: none;
 }
 
@@ -364,7 +364,7 @@ nav .container {
 
 .c-explore-panel button {
     font-family: 'Quicksand-Bold';
-    margin-bottom: 110px;
+    margin-bottom: 40px;
     background: #7E4BAB;
     display: flex;
     justify-content: center;

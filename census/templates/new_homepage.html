@@ -20,16 +20,19 @@
                             <li>
                                 <a id="critical-questions-nav" class='nav-link' href="#tabs">Critical Questions</a>
                             </li>
-                        </ul>
-                        <ul>
                             <li>
                                 <a id="explore-nav" class='nav-link' href="#tabs">Explore</a>
                             </li>
+                        </ul>
+                        <ul>
                             <li>
                                 <a id="topics-nav" class='nav-link' href="#tabs">Topics</a>
                             </li>
                             <li>
                                 <a class='nav-link' href="#additional-resources">Additional Resources</a>
+                            </li>
+                            <li>
+                                <a class='nav-link' href="gallery/">Custom Profile Gallery</a>
                             </li>
                         </ul>
                     </div>
@@ -50,9 +53,9 @@
         </main>
         <div id="tabs" class="c-tabs-panel">
             <ul>
+                <li><a href="#tabs-critical-questions">Critical Questions</a></li>
                 <li><a href="#tabs-explore">Explore</a></li>
                 <li><a href="#tabs-topics">Topics</a></li>
-                <li><a href="#tabs-critical-questions">Critical Questions</a></li>
             </ul>
             <div id="tabs-explore">
                 <div class="c-explore-panel" id="explore">
@@ -68,7 +71,14 @@
                     <div class="l-flex-center">
                         <a href="{% url 'draw' %}">
                             <button>
-                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>Search By Street Address
+                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>Search on a Map
+                            </button>
+                        </a>
+                    </div>
+                    <div class="l-flex-center">
+                        <a href="{% url 'gallery' %}">
+                            <button>
+                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>See what other people have created
                             </button>
                         </a>
                     </div>
