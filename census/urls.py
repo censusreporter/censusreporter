@@ -10,7 +10,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, DistrictGeographyDetailView, GeographySearchView,
     D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCarePrograms, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard)
+    MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard, CustomDrawnProfilesView)
 
 admin.autodiscover()
 
@@ -54,6 +54,13 @@ urlpatterns = patterns('',
         view    = cache_page(STANDARD_CACHE_TIME)(DistrictGeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'district_geography_detail',
+    ),
+
+    url(
+        regex   = '^gallery/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(CustomDrawnProfilesView.as_view()),
+        kwargs  = {},
+        name    = 'gallery',
     ),
 
     url(

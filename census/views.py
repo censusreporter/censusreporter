@@ -1650,8 +1650,6 @@ class DistrictGeographyDetailView(TemplateView):
 		return page_context
 
 
-
-
 class TopicView(TemplateView):
 	template_name = 'topics/topics_list.html'
 
@@ -2616,6 +2614,16 @@ class HomepageView(TemplateView):
 
 		return page_context
 
+class CustomDrawnProfilesView(TemplateView):
+	template_name = 'gallery/custom_drawn_profiles.html'
+	def get_context_data(self, *args, **kwargs):
+		dashboards = Dashboards.objects.all().order_by('dashboard_name')
+
+		page_context = {
+			'dashboards': dashboards,
+		}
+
+		return page_context
 
 class ComparisonBuilder(TemplateView):
 	template_name = 'compare/comparison_builder.html'

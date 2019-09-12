@@ -38,7 +38,6 @@
 
     {% if geography.comparatives and stat.values.this and not stat_class == 'secondary' %}
     <ul class="context-phrases">
-        {{ geography.comparatives }}
         {% for sumlev in geography.comparatives %}
             {% build_comparative_item sumlev stat stat_type geography %}
         {% endfor %}

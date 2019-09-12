@@ -1,0 +1,21 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<section>   
+    <h1>Custom Profile Gallery</h1>
+    <p>Below is a list of custom profiles that users of the State of the Detroit Child website have created. They have done this by drawing out an area of interest, fine tuning a set of selected Census geographies, and naming their new custom profile. If you don't see the geography you're looking for below, feel free to <a href="{% url 'draw' %}">create your own</a>!</p>
+
+    <h2>List of User Created Custom Profiles</h2>
+    <ul>
+        {% for dashboard in dashboards %}
+            <li><a href="/custom-profiles/{{ dashboard.dashboard_slug }}">{{ dashboard.dashboard_name }}</a></li>
+        {% endfor %}
+    </ul>
+
+
+</section>
+
+
+{% endblock %}
+
+
