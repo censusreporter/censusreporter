@@ -272,6 +272,7 @@ nav .container {
 .c-tools-panel li p {
     color: #fff;
     flex-shrink: 100;
+    margin: 15px 0 15px 0;
 }
 
 .c-tools-panel button {
@@ -284,6 +285,13 @@ nav .container {
 
 .c-critical-questions-panel .section-main-image {
     padding: 110px 0;
+}
+
+.c-critical-questions-panel p {
+    width: 75%;
+    text-align: center;
+    line-height: 32px;
+    margin-bottom: 50px;
 }
 
 .c-critical-questions-panel ul {
@@ -763,7 +771,7 @@ footer .designed-by span {
         font-size: 12px;
     }
     nav {
-        display: block;
+        display: none;
         padding: 0;
         position: fixed;
         right: 0;
@@ -779,13 +787,21 @@ footer .designed-by span {
         letter-spacing: 2.77px;
         line-height: 14.5px;
     }
-    nav li:nth-child(3) {
+    nav li:nth-child(4) {
         border-bottom: 1px solid #979797;
     }
     nav .container {
         width: 100%;
         flex-direction: column;
     }
+    .ui-tabs .ui-tabs-nav {
+        flex-direction: column;
+    }
+    .ui-tabs .ui-tabs-nav li {
+        flex-direction: column;
+        margin: 10px 15px 0;
+    }
+
     .c-intro-panel {
         padding-top: 30px;
     }
@@ -803,6 +819,9 @@ footer .designed-by span {
     } */
     .c-intro-panel .state-of-detroit-child {
         margin-left: -41%;
+    }
+    .c-intro-panel-color {
+        height: 100px;
     }
     .c-our-goal-panel {
         padding: 40px;
@@ -1073,6 +1092,9 @@ footer .designed-by span {
         width: 37px;
         height: 37px;
         margin-bottom: -15px;
+    }
+    .l-flex-center .section-header-img {
+        width: 220px;
     }
 }
 

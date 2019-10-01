@@ -15,7 +15,6 @@ var cityCouncil = false;
 var geoSelectEngine = new Bloodhound({
     datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    limit: 500,
     remote: {
         url: geoSearchAPI,
         replace: function (url, query) {
@@ -86,6 +85,16 @@ var geoSelectEngine = new Bloodhound({
                 results.push({full_geoid: "", full_name: "Wayne County Commission District 15", sumlevel: "", sumlev_name: "county commission district", url: '/districts/wayne-county-commission-district-15'});
             }
 
+            if (cityCouncil) {
+                results.push({full_geoid: "", full_name: "Detroit City Council District 1", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-1'});
+                results.push({full_geoid: "", full_name: "Detroit City Council District 2", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-2'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 3", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-3'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 4", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-4'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 5", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-5'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 6", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-6'});  
+                results.push({full_geoid: "", full_name: "Detroit City Council District 7", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-7'});               
+            }
+
             if (policeDept) {
                 results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 2", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-2'});                
                 results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 3", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-3'}); 
@@ -98,16 +107,6 @@ var geoSelectEngine = new Bloodhound({
                 results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 10", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-10'}); 
                 results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 11", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-11'}); 
                 results.push({full_geoid: "", full_name: "Detroit Police Department Precinct 12", sumlevel: "", sumlev_name: "police department precinct", url: '/districts/detroit-police-department-precinct-12'}); 
-            }
-
-            if (cityCouncil) {
-                results.push({full_geoid: "", full_name: "Detroit City Council District 1", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-1'});
-                results.push({full_geoid: "", full_name: "Detroit City Council District 2", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-2'});  
-                results.push({full_geoid: "", full_name: "Detroit City Council District 3", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-3'});  
-                results.push({full_geoid: "", full_name: "Detroit City Council District 4", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-4'});  
-                results.push({full_geoid: "", full_name: "Detroit City Council District 5", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-5'});  
-                results.push({full_geoid: "", full_name: "Detroit City Council District 6", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-6'});  
-                results.push({full_geoid: "", full_name: "Detroit City Council District 7", sumlevel: "", sumlev_name: "city council district", url: '/districts/detroit-city-council-district-7'});               
             }
             
             var resultNumber = results.length;
@@ -134,6 +133,7 @@ function makeGeoSelectWidget(element) {
         name: 'profile',
         displayKey: 'full_name',
         source: geoSelectEngine.ttAdapter(),
+        limit: 10,
         templates: {
             suggestion: Handlebars.compile(
                 '<p class="result-name"><span class="result-type">{{sumlev_name}}</span>{{full_name}}</p>'

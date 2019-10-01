@@ -71,7 +71,7 @@
                     <div class="l-flex-center">
                         <a href="{% url 'draw' %}">
                             <button>
-                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>Search on a Map
+                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>Search on a Map or Create your own Profile
                             </button>
                         </a>
                     </div>
@@ -147,9 +147,9 @@
             </div>
             <div id="tabs-critical-questions">
                 <div class="c-critical-questions-panel" id="critical-questions">
-                    {% comment %} <div class="l-flex-center">
-                        <img class="section-main-image" src="{{ STATIC_URL }}img/critical-questions.png" />
-                    </div> {% endcomment %}
+                    <div class="l-flex-center">
+                        <p class="body-text">The State of the Detroit Child is desinged to give you quick answers to questions you have about the well-being of Detroit's kids. Here are a sample of the critcal questions this tool can help answer.</p>
+                    </div>
                     <ul>
                         <li>
                             <a href="/data/map/?table=B01001&geo_ids=06000US2616322000,05000US26163,04000US26,01000US,860|06000US2616322000&primary_geo_id=06000US2616322000#column|B01001027,sumlev|860">
@@ -279,10 +279,10 @@
                 </a>
             </li>
             <li class="l-flex-space-between">
-                <a href="https://datadrivendetroit.org/studentdispersion2013/">
+                <a href="https://datadrivendetroit.org/student-dispersion-2013/">
                     <img src="{{ STATIC_URL }}img/DataDrivenDetroit-LogoWhite.svg" alt="" />
                 </a>
-                <a href="https://datadrivendetroit.org/studentdispersion2013/">
+                <a href="https://datadrivendetroit.org/student-dispersion-2013/">
                     <span>
                         <p class="body-text body-text-bold">2013 Student Dispersion Analysis</p>
                         <p class="body-text body-text-ligher">An interactive map showing where ​students attending Detroit schools reside; created by Data Driven Detroit</p>

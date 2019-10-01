@@ -180,7 +180,9 @@ function Chart(options) {
                             d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
                             .forEach(function(z) {
                                 // add substring to name if it doesn't exist
-                                if (d[v][z].name.indexOf(d.name) !== -1) {
+                                if (d[v][z].name.indexOf('; ' + d.name) !== -1) {
+                                    sub_name = d[v][z].name;
+                                } else if (d[v][z].name.indexOf(d.name) !== -1) {
                                     sub_name = d[v][z].name.replace(' ' + d.name, '; ' + d.name);
                                 } else {
                                     sub_name = d[v][z].name + '; ' + d.name;
@@ -194,7 +196,9 @@ function Chart(options) {
 
                         d3.keys(d[v]).filter(function(z) { return chart.exclude(metadataFields, z) })
                             .forEach(function(z) {
-                            if (d[v][z].name.indexOf(d.name) !== -1) {
+                            if (d[v][z].name.indexOf('; ' + d.name) !== -1) {
+                                sub_name = d[v][z].name;
+                            } else if (d[v][z].name.indexOf(d.name) !== -1) {
                                 sub_name = d[v][z].name.replace(' ' + d.name, '; ' + d.name);
                             } else {
                                 sub_name = d[v][z].name + '; ' + d.name;
@@ -754,6 +758,7 @@ function Chart(options) {
         }
 
 
+
         // y scale and axis, account for raw number vs. percentages
         if (chart.chartStatType == 'percentage') {
             var yDomain = [0, 100],
@@ -819,6 +824,7 @@ function Chart(options) {
             chart.chartContainer
                 .classed('grouped-column-chart', true);
 
+            
             chart.columnGroups = chart.htmlBase.selectAll(".column-group")
                     .data(chart.chartDataValues)
                 .enter().append("div")
@@ -886,7 +892,6 @@ function Chart(options) {
                                 }
 
 
-                                   
                                groupValues.forEach(function(v, i) {
                                    let sub_name = '';
                                    column = g.append("a").attr("class", "column")
@@ -901,6 +906,7 @@ function Chart(options) {
                                             } else {
                                                 sub_name = d[v][z].name + '; ' + d.name;
                                             }
+
                                            return (chart.x(sub_name) + chart.settings.margin.left + ((columnWidth + 2) * i)) + "px"; 
                                         })
                                        .style("height", function(d) { 
@@ -1039,6 +1045,7 @@ function Chart(options) {
 
         return chart;
     }
+
 
 
     chart.makePieChart = function() {

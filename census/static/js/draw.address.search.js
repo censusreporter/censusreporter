@@ -120,7 +120,8 @@ $("#draw-on-map").click(function() {
         drawToggle = true;
     }
     // set up map for draw mode
-    $("#draw-on-map").addClass("active");
+    $("#draw-on-map").addClass('active');
+    $("#sumlev-picker").prop('disabled', 'disabled');
     map.removeLayer(regularBackgroundTiles);
     map.addLayer(drawBackgroundTiles);
     map.removeLayer(clickableLayer);
@@ -244,6 +245,7 @@ var clearLocate = function() {
 
 var clearDraw = function() {
     // reset dropdown menu
+    $("#sumlev-picker").prop('disabled', false);
     $("#sumlev-picker")[0].selectedIndex = 0;
     // disable the draw on map buttons
     $("#draw-on-map").addClass('disabled');
@@ -262,11 +264,11 @@ var clearDraw = function() {
     // set drawToggle to false
     drawToggle = false;
     // loop through each layer and reset style and event listeners
-    map.addLayer(clickableLayer);
+    //map.addLayer(clickableLayer);
     map.removeLayer(toggleableLayer);
-    clickableLayer.geojsonLayer.eachLayer(function(layer) {
-        setDefault(layer.feature, layer);
-    });
+    // clickableLayer.geojsonLayer.eachLayer(function(layer) {
+    //     setDefault(layer.feature, layer);
+    // });
 
 }   
 
