@@ -680,18 +680,32 @@ def geo_profile(geoid, acs='latest'):
     doc['housing']['length_of_tenure'] = length_of_tenure_dict
     add_metadata(length_of_tenure_dict, 'B25026', 'Total population in occupied housing units', acs_name)
 
-    length_of_tenure_dict['Before_1970'] = build_item('Before 1970', data, item_levels,
-        'B25026008 B25026015 + B25026001 / %')
-    length_of_tenure_dict['1970s'] = build_item('1970s', data, item_levels,
-        'B25026007 B25026014 + B25026001 / %')
-    length_of_tenure_dict['1980s'] = build_item('1980s', data, item_levels,
-        'B25026006 B25026013 + B25026001 / %')
-    length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
-        'B25026005 B25026012 + B25026001 / %')
-    length_of_tenure_dict['2000_to_2004'] = build_item('2000-2004', data, item_levels,
-        'B25026004 B25026011 + B25026001 / %')
-    length_of_tenure_dict['since_2005'] = build_item('Since 2005', data, item_levels,
-        'B25026003 B25026010 + B25026001 / %')
+    if '2017' in acs_name:
+        length_of_tenure_dict['Before_1980'] = build_item('Before 1980', data, item_levels,
+            'B25026008 B25026015 + B25026001 / %')
+        length_of_tenure_dict['1980s'] = build_item('1980s', data, item_levels,
+            'B25026007 B25026014 + B25026001 / %')
+        length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
+            'B25026006 B25026013 + B25026001 / %')
+        length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
+            'B25026005 B25026012 + B25026001 / %')
+        length_of_tenure_dict['2010_to_2004'] = build_item('2010-2004', data, item_levels,
+            'B25026004 B25026011 + B25026001 / %')
+        length_of_tenure_dict['since_2015'] = build_item('Since 2015', data, item_levels,
+            'B25026003 B25026010 + B25026001 / %')
+    elif '2018' in acs_name:
+        length_of_tenure_dict['Before_1990'] = build_item('Before 1990', data, item_levels,
+            'B25026008 B25026015 + B25026001 / %')
+        length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
+            'B25026007 B25026014 + B25026001 / %')
+        length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
+            'B25026006 B25026013 + B25026001 / %')
+        length_of_tenure_dict['2010_to_2004'] = build_item('2010-2014', data, item_levels,
+            'B25026005 B25026012 + B25026001 / %')
+        length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
+            'B25026004 B25026011 + B25026001 / %')
+        length_of_tenure_dict['since_2017'] = build_item('Since 2017', data, item_levels,
+            'B25026003 B25026010 + B25026001 / %')
 
     # Housing: Mobility
     data = api.get_data('B07003', comparison_geoids, acs)
