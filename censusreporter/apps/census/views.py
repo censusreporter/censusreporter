@@ -246,7 +246,7 @@ class TableDetailView(TemplateView):
 
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
-    
+
     def parse_fragment(self,fragment):
         """Given a URL, return a (geoid,slug) tuple. slug may be None.
         GeoIDs are not tested for structure, but are simply the part of the URL
@@ -273,8 +273,8 @@ class GeographyDetailView(TemplateView):
     def dispatch(self, *args, **kwargs):
 
         self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
-        
-        # checking geoid 
+
+        # checking geoid
         geography_info = self.get_geography(self.geo_id)
         if (geography_info == None):
             raise Http404
@@ -295,7 +295,7 @@ class GeographyDetailView(TemplateView):
             identifier = parts[1]
             self.geo_id = "{}00US{}".format(sumlevel, identifier)
             self.slug = None # simple way to force a redirect
-            
+
         self.canonical_url = self.request.build_absolute_uri()
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
@@ -317,9 +317,9 @@ class GeographyDetailView(TemplateView):
     def make_canonical_url(self, geo_id):
         pass
 
-        
+
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2017/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2018/%s' % self.geo_id
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -329,7 +329,7 @@ class GeographyDetailView(TemplateView):
         return None
 
     def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2017/%s.json' % geo_id.upper()
+        return '/1.0/data/profiles/2017-2018/%s.json' % geo_id.upper()
 
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:
@@ -368,7 +368,7 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
-        
+
         try:
             s3_key = self.s3_profile_key(geography_id)
         except:

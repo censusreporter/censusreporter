@@ -13,7 +13,7 @@ var theseGeoIDs = [thisGeoID, placeGeoID, CBSAGeoID, countyGeoID, stateGeoID, na
     topicSelect = $('#topic-select');
 
 var tableSearchAPI = CR_API_URL + '/1.0/table/search',
-    rootGeoAPI = CR_API_URL + '/1.0/geo/tiger2017/',
+    rootGeoAPI = CR_API_URL + '/1.0/geo/tiger2018/',
     dataAPI = CR_API_URL + '/1.0/data/show/latest';
 
 var topicSelectEngine = new Bloodhound({
