@@ -105,12 +105,14 @@
                 <option value="#ela-proficiency">Education</option>
                 <option value="#ela-proficiency">Third grade english language arts (ELA) proficiency</option>
                 <option value="#math-proficiency">Third grade math proficiency</option>
+                <option value="#eighth-grade-math-proficiency">Eighth grade math proficiency</option>
                 <option value="#school-enrollment">School enrollment</option>
                 <option value="#graduation-rate">High school graduation</option>
                 <option value="#educational-attainment">Educational attainment</option>
                 <option value="#child-care">Child care</option>
                 <option value="#school-lunch">Free and reduced school lunch</option>   
                 <option value="#college-enrollment-readiness">College enrollment and readiness</option> 
+                <option value="#student-mobility-absenteeism">Student mobility and chronic absenteeism</option> 
             </optgroup>
             <optgroup label="Family &amp; Economic Security">
                 <option value="#income">Family &amp; economic security</option>
@@ -320,6 +322,16 @@
         </section>
 
         <section class="clearfix stat-row">
+            <h2><a class="permalink section" href="#eighth-grade-math-proficiency" id="eighth-grade-math-proficiency" title="Permalink">Eighth grade math proficiency (2017-2018 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-half">
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.eighth_grade_math.percent_met stat_type='percentage' %}
+            </div>
+            <div class="column-half" id="chart-pie-social-eighth_grade_math-eighth_grade_math_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.eighth_grade_math.eighth_grade_math_chart_data.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
             <h2><a class="permalink section" href="#school-enrollment" id="school-enrollment" title="Permalink">School enrollment  <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
@@ -426,10 +438,10 @@
                 </div>
             </div>
             {% comment %} <div class="column-third">
-                <div id="chart-stat_timeseries-social-college_enrollment-percent_enrolled" data-stat-type="scaled-percentage" data-chart-title="Percent of public high school graduates who have enrolled in college within 6 months of graduation" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.percent_enrolled.metadata.universe }}"></div>
+                <div id="chart-stat_timeseries-social-college_enrollment-percent_enrolled" data-stat-type="scaled-percentage" data-chart-title="Percent of public high school graduates who have enrolled in college within 12 months of graduation" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.percent_enrolled.metadata.universe }}"></div>
 
             </div> {% endcomment %}
-            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 6 months of graduation (2018)" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
+            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 12 months of graduation (2017)" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row grouped-row">
@@ -443,6 +455,14 @@
             {% comment %} <div class="column-two-thirds" id="chart-column_timeseries-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div> {% endcomment %}
             <div class="column-two-thirds" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject (2018)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
         </section>
+        <section class="clearfix stat-row">
+            <h2><a class="permalink section" href="#student-mobility-absenteeism" id="student-mobility-absenteeism" title="Permalink">Student mobility and chronic absenteeism<i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <aside>
+            </aside>
+            <div class="column-half" id="chart-pie-social-student_mobility-student_mobility_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public school students either leaving or entering a new school during the school year (2018)" data-qualifier="Universe: {{ profile_data_current_year.social.student_mobility.student_mobility_chart_data.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-chronic_absenteeism-chronic_absenteeism_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public school students missing 10% or more school days (2018)" data-qualifier="Universe: {{ profile_data_current_year.social.chronic_absenteeism.chronic_absenteeism_chart_data.metadata.universe }}"></div>
+        </section>
+
 
     </div>
 </article>

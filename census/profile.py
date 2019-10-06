@@ -52,9 +52,9 @@ class D3ApiClient(object):
 	def __init__(self, base_url):
 		self.base_url = base_url
 
-	def _get(self, table_id, field_name, geo_ids):
+	def _get(self, table_id, field_name, geo_ids, layer_id):
 		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=json
-		url = self.base_url + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
+		url = self.base_url + '/' + table_id + '/FeatureServer/'+ layer_id +'/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
 		print url
 		# using post
 		r = requests.post(url)
@@ -66,12 +66,12 @@ class D3ApiClient(object):
 
 		return data
 
-	def get_data(self, table_id, field_name, geo_ids):
+	def get_data(self, table_id, field_name, geo_ids, layer_id='0'):
 
 		if hasattr(geo_ids, '__iter__'):
 			geo_ids = ','.join(geo_ids)
 
-		return self._get(table_id, field_name, geo_ids)
+		return self._get(table_id, field_name, geo_ids, layer_id)
 
 
 def format_d3_data(years, table_name, title, universe, denominator_column_id, fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
@@ -1407,7 +1407,85 @@ def geo_profile(geoid, acs='latest'):
 	add_metadata(college_readiness_dict['sat_reading_writing'], 'D3-College-Readiness', 'The number of students who took the evidenced-based reading and writing SAT assessment', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018')
 
 
-	# get D3 data on College Enrollment
+	# # get D3 data on College Enrollment
+	# state_data = []
+	# county_data = []
+	# county_sd_data = []
+	# tract_data = []
+	# block_group_data = []
+	# msa_data = []
+	# congressional_district_data = []
+	# state_senate_data = []
+	# state_house_data = []
+	# school_district_data = []
+	# zcta_data = []	
+
+	# if state_geoids:
+	# 	state_data = d3_api.get_data('CollegeEnrollment_2017_StateOfMichigan_20181106', 'GEOID', state_geoids)
+
+	# if county_geoids:
+	# 	county_data = d3_api.get_data('CollegeEnrollment_2017_byCounty_20181106', 'GEOID10', county_geoids)
+
+	# if county_sd_geoids:
+	# 	county_sd_data = d3_api.get_data('CollegeEnrollment_2017_byCountySub_20181106', 'GEOID10', county_sd_geoids)
+
+	# if tract_geoids:
+	# 	tract_data = d3_api.get_data('CollegeEnrollment_2017_byTract_20181106', 'GEOID10', tract_geoids)
+
+	# if block_group_geoids:
+	# 	block_group_data = d3_api.get_data('CollegeEnrollment_2017_byBlockGroup_20181106', 'GEOID10', block_group_geoids)
+
+	# if msa_geoids:
+	# 	msa_data = d3_api.get_data('CollegeEnrollment_2017_byMSA_20181106', 'GeoID10_MSA', msa_geoids)
+
+	# if congressional_district_geoids:
+	# 	congressional_district_data = d3_api.get_data('CollegeEnrollment_2017_byMICongressionalDistrict_20181106', 'GEOID', congressional_district_geoids)
+
+	# if state_senate_geoids:
+	# 	state_senate_data = d3_api.get_data('CollegeEnrollment_2017_byMISenateDistrict_20181106', 'GEOID', state_senate_geoids)
+
+	# if state_house_geoids:
+	# 	state_house_data = d3_api.get_data('CollegeEnrollment_2017_byMIHouseOfRepDistrict_20181106', 'GEOID', state_house_geoids)
+
+	# if school_district_geoids:
+	# 	school_district_data = d3_api.get_data('CollegeEnrollment_2016_2017_bySchDist__20181106', 'GEOID10', school_district_geoids)
+
+	# if zcta_geoids:
+	# 	zcta_data = d3_api.get_data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA', zcta_geoids)
+
+	# # take D3 ODP data and create structure like census_reporter structure
+
+	# fields = OrderedDict()
+	# fields['TotGradCalc'] = OrderedDict()
+	# fields['TotGradCalc']['name'] = "Number of public high school graduates who received a diploma during the high school graduation year"
+	# fields['TotGradCalc']['indent'] = 0
+
+	# fields['TotEnrlCalc'] = OrderedDict()
+	# fields['TotEnrlCalc']['name'] = "Number of public high school graduates who have enrolled in college within 6 months of graduation"
+	# fields['TotEnrlCalc']['indent'] = 1
+
+
+	# data = format_d3_data("2018", "D3-College-Enrollment", "Number of public high school graduates who received a diploma during the high school graduation year", "Number of public high school graduates who received a diploma during the high school graduation year", "TotGradCalc", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	# 	)
+
+	# college_enrollment_dict = dict()
+	# doc['social']['college_enrollment'] = college_enrollment_dict
+
+	# college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within 6 months of graduation', data, d3_item_levels, 
+	# 	'D3-TotEnrlCalc D3-TotGradCalc / %')
+	# add_metadata(college_enrollment_dict['percent_enrolled'], 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2017') 
+
+	# college_enrollment_chart_data = OrderedDict()
+	# doc['social']['college_enrollment']['college_enrollment_chart_data'] = college_enrollment_chart_data
+	# add_metadata(college_enrollment_chart_data, 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
+
+	# college_enrollment_chart_data['enrolled'] = build_item('Enrolled', data, d3_item_levels,
+	# 	'D3-TotEnrlCalc D3-TotGradCalc / %')
+	# college_enrollment_chart_data['not_enrolled'] = build_item('Not Enrolled', data, d3_item_levels,
+	# 	'D3-TotGradCalc D3-TotEnrlCalc - D3-TotGradCalc / %')
+
+
+	# get D3 data on College enrollment within 12 months of High School graduation
 	state_data = []
 	county_data = []
 	county_sd_data = []
@@ -1421,58 +1499,58 @@ def geo_profile(geoid, acs='latest'):
 	zcta_data = []	
 
 	if state_geoids:
-		state_data = d3_api.get_data('CollegeEnrollment_2017_StateOfMichigan_20181106', 'GEOID', state_geoids)
+		state_data = d3_api.get_data('CollegeEnrollment12m_20162017_byStateOfMichigan__20190722', 'GEOID', state_geoids)
 
 	if county_geoids:
-		county_data = d3_api.get_data('CollegeEnrollment_2017_byCounty_20181106', 'GEOID10', county_geoids)
+		county_data = d3_api.get_data('CollegeEnrollment12m_20162017_byCnty__20190722', 'GEOID10', county_geoids)
 
 	if county_sd_geoids:
-		county_sd_data = d3_api.get_data('CollegeEnrollment_2017_byCountySub_20181106', 'GEOID10', county_sd_geoids)
+		county_sd_data = d3_api.get_data('CollegeEnrollment12m_20162017_byCntySub__20190722', 'GEOID10', county_sd_geoids)
 
 	if tract_geoids:
-		tract_data = d3_api.get_data('CollegeEnrollment_2017_byTract_20181106', 'GEOID10', tract_geoids)
+		tract_data = d3_api.get_data('CollegeEnrollment12m_20162017_byTract__20190722', 'GEOID10', tract_geoids)
 
 	if block_group_geoids:
-		block_group_data = d3_api.get_data('CollegeEnrollment_2017_byBlockGroup_20181106', 'GEOID10', block_group_geoids)
+		block_group_data = d3_api.get_data('CollegeEnrollment12m_20162017_byBlockGroup__20190722', 'GEOID10', block_group_geoids)
 
 	if msa_geoids:
-		msa_data = d3_api.get_data('CollegeEnrollment_2017_byMSA_20181106', 'GeoID10_MSA', msa_geoids)
+		msa_data = d3_api.get_data('CollegeEnrollment12m_20162017_byMSA__20190722', 'GEOID10', msa_geoids)
 
 	if congressional_district_geoids:
-		congressional_district_data = d3_api.get_data('CollegeEnrollment_2017_byMICongressionalDistrict_20181106', 'GEOID', congressional_district_geoids)
+		congressional_district_data = d3_api.get_data('CollegeEnrollment12m_20162017_byMICongDist__20190722', 'GEOID', congressional_district_geoids)
 
 	if state_senate_geoids:
-		state_senate_data = d3_api.get_data('CollegeEnrollment_2017_byMISenateDistrict_20181106', 'GEOID', state_senate_geoids)
+		state_senate_data = d3_api.get_data('CollegeEnrollment12m_20162017_byMISenate__20190722', 'GEOID', state_senate_geoids)
 
 	if state_house_geoids:
-		state_house_data = d3_api.get_data('CollegeEnrollment_2017_byMIHouseOfRepDistrict_20181106', 'GEOID', state_house_geoids)
+		state_house_data = d3_api.get_data('CollegeReadiness_2017_2018_byMIHouseOrRep_20181107', 'GEOID', state_house_geoids)
 
 	if school_district_geoids:
-		school_district_data = d3_api.get_data('CollegeEnrollment_2016_2017_bySchDist__20181106', 'GEOID10', school_district_geoids)
+		school_district_data = d3_api.get_data('CollegeEnrollment12m_20162017_bySchDist__20190722', 'GEOID10', school_district_geoids)
 
 	if zcta_geoids:
-		zcta_data = d3_api.get_data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA', zcta_geoids)
+		zcta_data = d3_api.get_data('CollegeEnrollment12m_20162017_byZip__20190722', 'GEOID10', zcta_geoids)
 
 	# take D3 ODP data and create structure like census_reporter structure
 
 	fields = OrderedDict()
-	fields['TotGradCalc'] = OrderedDict()
-	fields['TotGradCalc']['name'] = "Number of public high school graduates who received a diploma during the high school graduation year"
-	fields['TotGradCalc']['indent'] = 0
+	fields['TotGrad'] = OrderedDict()
+	fields['TotGrad']['name'] = "Number of public high school graduates who received a diploma during the high school graduation year"
+	fields['TotGrad']['indent'] = 0
 
-	fields['TotEnrlCalc'] = OrderedDict()
-	fields['TotEnrlCalc']['name'] = "Number of public high school graduates who have enrolled in college within 6 months of graduation"
-	fields['TotEnrlCalc']['indent'] = 1
+	fields['TotEnrl'] = OrderedDict()
+	fields['TotEnrl']['name'] = "Number of public high school graduates who have enrolled in college within 12 months of graduation"
+	fields['TotEnrl']['indent'] = 1
 
 
-	data = format_d3_data("2018", "D3-College-Enrollment", "Number of public high school graduates who received a diploma during the high school graduation year", "Number of public high school graduates who received a diploma during the high school graduation year", "TotGradCalc", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+	data = format_d3_data("2017", "D3-College-Enrollment", "Number of public high school graduates who received a diploma during the high school graduation year", "Number of public high school graduates who received a diploma during the high school graduation year", "TotGrad", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
 		)
 
 	college_enrollment_dict = dict()
 	doc['social']['college_enrollment'] = college_enrollment_dict
 
-	college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within 6 months of graduation', data, d3_item_levels, 
-		'D3-TotEnrlCalc D3-TotGradCalc / %')
+	college_enrollment_dict['percent_enrolled'] = build_item('Percent of public high school graduates who have enrolled in college within 12 months of graduation', data, d3_item_levels, 
+		'D3-TotEnrl D3-TotGrad / %')
 	add_metadata(college_enrollment_dict['percent_enrolled'], 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2017') 
 
 	college_enrollment_chart_data = OrderedDict()
@@ -1480,9 +1558,246 @@ def geo_profile(geoid, acs='latest'):
 	add_metadata(college_enrollment_chart_data, 'D3-College-Enrollment', 'Number of public high school graduates who received a diploma during the high school graduation year', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
 
 	college_enrollment_chart_data['enrolled'] = build_item('Enrolled', data, d3_item_levels,
-		'D3-TotEnrlCalc D3-TotGradCalc / %')
+		'D3-TotEnrl D3-TotGrad / %')
 	college_enrollment_chart_data['not_enrolled'] = build_item('Not Enrolled', data, d3_item_levels,
-		'D3-TotGradCalc D3-TotEnrlCalc - D3-TotGradCalc / %')
+		'D3-TotGrad D3-TotEnrl - D3-TotGrad / %')
+
+
+	# get D3 data on Student Mobility
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	block_group_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('Student_Mobility_2017_to_2018_for_Michigan', 'geoid', state_geoids, '7')
+
+	if county_geoids:
+		county_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_County', 'geoid', county_geoids, '2')
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_County_Subdivision', 'geoid', county_sd_geoids, '1')
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_Census_Tract', 'geoid', tract_geoids, '6')
+
+	if block_group_geoids:
+		block_group_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_Census_Block_Group', 'geoid', block_group_geoids, '4')
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_MSA', 'geoid', msa_geoids)
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_Congressional_District', 'geoid', congressional_district_geoids, '3')
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_State_Senate_District', 'geoid', state_senate_geoids, '8')
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_State_House', 'geoid', state_house_geoids, '9')
+
+	if school_district_geoids:
+		school_district_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_School_District', 'geoid', school_district_geoids, '10')
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_Zip_Code', 'geoid', zcta_geoids, '5')
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict()
+	fields['s_count'] = OrderedDict()
+	fields['s_count']['name'] = "Number of public school students"
+	fields['s_count']['indent'] = 0
+
+	fields['s_mobile'] = OrderedDict()
+	fields['s_mobile']['name'] = "Number of public school students either leaving or entering a new school during the school year"
+	fields['s_mobile']['indent'] = 1
+
+
+	data = format_d3_data("2018", "D3-Student-Mobility", "Number of public school students", "Number of public school students", "s_count", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	student_mobility_dict = dict()
+	doc['social']['student_mobility'] = student_mobility_dict
+
+	student_mobility_dict['percent_mobile'] = build_item('Percent of public school students either leaving or entering a new school during the school year', data, d3_item_levels, 
+		'D3-s_mobile D3-s_count / %')
+	add_metadata(student_mobility_dict['percent_mobile'], 'D3-Student-Mobility', 'Number of public school students', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018') 
+
+	student_mobility_chart_data = OrderedDict()
+	doc['social']['student_mobility']['student_mobility_chart_data'] = student_mobility_chart_data
+	add_metadata(student_mobility_chart_data, 'D3-Student-Mobility', 'Number of public school students', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2018')
+
+	student_mobility_chart_data['mobile'] = build_item('Changing schools', data, d3_item_levels,
+		'D3-s_mobile D3-s_count / %')
+	student_mobility_chart_data['not_mobile'] = build_item('Stable', data, d3_item_levels,
+		'D3-s_count D3-s_mobile - D3-s_count / %')
+
+
+	# get D3 data on Chronic Absenteeism
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	block_group_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_for_Michigan', 'geoid', state_geoids, '7')
+
+	if county_geoids:
+		county_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_County', 'geoid', county_geoids, '2')
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_County_Subdivision', 'geoid', county_sd_geoids, '1')
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_Census_Tract', 'geoid', tract_geoids, '6')
+
+	if block_group_geoids:
+		block_group_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_Census_Block_Group', 'geoid', block_group_geoids, '4')
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_MSA', 'geoid', msa_geoids)
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_Congressional_District', 'geoid', congressional_district_geoids, '3')
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_State_Senate_District', 'geoid', state_senate_geoids, '8')
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_State_House_District', 'geoid', state_house_geoids, '9')
+
+	if school_district_geoids:
+		school_district_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_School_District', 'geoid', school_district_geoids, '10')
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_Zip_Code', 'geoid', zcta_geoids, '5')
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict()
+	fields['n_total'] = OrderedDict()
+	fields['n_total']['name'] = "Number of public school students"
+	fields['n_total']['indent'] = 0
+
+	fields['n_chronabs'] = OrderedDict()
+	fields['n_chronabs']['name'] = "Number of public school students missing 10% or more of the school days"
+	fields['n_chronabs']['indent'] = 1
+
+
+	data = format_d3_data("2018", "D3-Chronic-Absenteeism", "Number of public school students", "Number of public school students", "n_total", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	chronic_absenteeism_dict = dict()
+	doc['social']['chronic_absenteeism'] = chronic_absenteeism_dict
+
+	chronic_absenteeism_dict['percent_absent'] = build_item('Percent of public school students missing 10% or more of the school days', data, d3_item_levels, 
+		'D3-n_chronabs D3-n_total / %')
+	add_metadata(chronic_absenteeism_dict['percent_absent'], 'D3-Chronic-Absenteeism', 'Number of public school students', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018') 
+
+	chronic_absenteeism_chart_data = OrderedDict()
+	doc['social']['chronic_absenteeism']['chronic_absenteeism_chart_data'] = chronic_absenteeism_chart_data
+	add_metadata(chronic_absenteeism_chart_data, 'D3-Chronic-Absenteeism', 'Number of public school students', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2018')
+
+	chronic_absenteeism_chart_data['absent'] = build_item('Chronically absent', data, d3_item_levels,
+		'D3-n_chronabs D3-n_total / %')
+	chronic_absenteeism_chart_data['not_absent'] = build_item('Not chronically absent', data, d3_item_levels,
+		'D3-n_total D3-n_chronabs - D3-n_total / %')
+
+
+	# get D3 data on 8th Grade Math
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	block_group_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_for_Michigan', 'geoid', state_geoids, '3')
+
+	if county_geoids:
+		county_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_County', 'geoid', county_geoids, '8')
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_County_Subdivision', 'geoid', county_sd_geoids, '9')
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Census_Tract', 'geoid', tract_geoids, '4')
+
+	if block_group_geoids:
+		block_group_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Census_Block_Group', 'geoid', block_group_geoids, '6')
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_MSA', 'geoid', msa_geoids, '10')
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Congressional_District', 'geoid', congressional_district_geoids, '7')
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_State_Senate_District', 'geoid', state_senate_geoids, '2')
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_State_House_District', 'geoid', state_house_geoids, '1')
+
+	if school_district_geoids:
+		school_district_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_School_District', 'geoid', school_district_geoids)
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Zip_Code', 'geoid', zcta_geoids, '5')
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict()
+	fields['numberasse'] = OrderedDict()
+	fields['numberasse']['name'] = "Number of students assessed in Math"
+	fields['numberasse']['indent'] = 0
+
+	fields['totalmet'] = OrderedDict()
+	fields['totalmet']['name'] = "Number of students who met or exceeded grade level standards in Math"
+	fields['totalmet']['indent'] = 1
+
+
+	data = format_d3_data("2018", "D3-Eighth-Grade-Math-Assessment", "Number of students assessed in Math", "Number of students assessed in Math", "numberasse", fields, state_data, county_data, tract_data, block_group_data ,county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	eighth_grade_math_dict = dict()
+	doc['social']['eighth_grade_math'] = eighth_grade_math_dict
+
+	eighth_grade_math_dict['percent_met'] = build_item('Percent of eighth grade students who met or exceeded grade level standards in Math', data, d3_item_levels, 
+		'D3-totalmet D3-numberasse / %')
+	add_metadata(eighth_grade_math_dict['percent_met'], 'D3-Eighth-Grade-Math-Assessment', 'Number of students assessed in Math', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018') 
+
+	eighth_grade_math_chart_data = OrderedDict()
+	doc['social']['eighth_grade_math']['eighth_grade_math_chart_data'] = eighth_grade_math_chart_data
+	add_metadata(eighth_grade_math_chart_data, 'D3-Eighth-Grade-Math-Assessment', 'Number of students assessed in Math', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2018')
+
+	eighth_grade_math_chart_data['met'] = build_item('Met standards', data, d3_item_levels,
+		'D3-totalmet D3-numberasse / %')
+	eighth_grade_math_chart_data['not_met'] = build_item('Did not meet standards', data, d3_item_levels,
+		'D3-numberasse D3-totalmet - D3-numberasse / %')
+
+
+
 
 
 	# get D3 data on Blood Lead Levels
@@ -1796,7 +2111,7 @@ def geo_profile(geoid, acs='latest'):
 	#### Race by age for youth ####
 	#### SODC ####
 	#data = api.get_data(['B01001A', 'B01001B', 'B01001C', 'B01001D', 'B01001E', 'B01001F', 'B01001G', 'B01001I', 'B01001'], comparison_geoids, acs)
-	data = api.get_data(['B01001A', 'B01001'], comparison_geoids, acs)
+	data = api.get_data(['B01001H', 'B01001'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 	
 	child_race_grouped_under_9 = OrderedDict()
@@ -1849,22 +2164,22 @@ def geo_profile(geoid, acs='latest'):
 	
 	male_child_age_race_distribution_dict = OrderedDict()
 	doc['demographics']['male_child_age_race_distribution'] = male_child_age_race_distribution_dict
-	add_metadata(male_child_age_race_distribution_dict, 'B01001B', 'Population of males under 18 years of age', acs_name)
+	add_metadata(male_child_age_race_distribution_dict, 'B01001', 'Population of males under 18 years of age', acs_name)
 
 	child_race_grouped_under_9['under_5']['white'] = build_item('White Under 5', data, item_levels,
-		'B01001A003 B01001A018 + B01001003 B01001027 + / %')
+		'B01001H003 B01001H018 + B01001003 B01001027 + / %')
 
 	child_race_grouped_under_9['5_to_9']['white'] = build_item('White 5 to 9', data, item_levels,
-		'B01001A004 B01001A019 + B01001004 B01001028 + / %')
+		'B01001H004 B01001H019 + B01001004 B01001028 + / %')
 
 	child_race_grouped_10_to_17['10_to_14']['white'] = build_item('White 10 to 14', data, item_levels,
-		'B01001A005 B01001A020 + B01001005 B01001029 + / %')
+		'B01001H005 B01001H020 + B01001005 B01001029 + / %')
 
 	child_race_grouped_10_to_17['15_to_17']['white'] = build_item('White 15 to 17', data, item_levels,
-		'B01001A006 B01001A021 + B01001006 B01001030 + / %')
+		'B01001H006 B01001H021 + B01001006 B01001030 + / %')
 	
 	male_child_age_race_distribution_dict['percent_white'] = build_item('White', data, item_levels,
-		'B01001A003 B01001A004 + B01001A005 + B01001A006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
+		'B01001H003 B01001H004 + B01001H005 + B01001H006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
 
 
 

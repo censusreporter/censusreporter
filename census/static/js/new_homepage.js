@@ -102,13 +102,13 @@ $( function() {
 } );
 
 $('#explore-nav').click(() => {
-    $( "#tabs" ).tabs( "option", "active", 0 );
-});
-
-$('#topics-nav').click(() => {
     $( "#tabs" ).tabs( "option", "active", 1 );
 });
 
-$('#critical-questions-nav').click(() => {
+$('#topics-nav').click(() => {
     $( "#tabs" ).tabs( "option", "active", 2 );
+});
+
+$('#critical-questions-nav').click(() => {
+    $( "#tabs" ).tabs( "option", "active", 0 );
 });
