@@ -40,18 +40,22 @@ let mobileToggle = () => {
         $(".parent-container").animate({
             "marginLeft": ["-90%"]
         }, {
-            duration: 700
+            duration: 700,
+            complete: function () {
+                $(nav).css('display', 'block');
+            }
         });
+        
         isNavOpen = true;
 
     } else {
+        $(nav).css('display', 'none');
         $(".parent-container").animate({
             "marginLeft": ["0%"]
         }, {
             duration: 700,
             complete: function () {
                 $('.main-container').css('width', 'auto');
-                $(nav).css('display', 'none');
                 $('body').css('overflow', 'scroll');
             }
         });
@@ -98,13 +102,13 @@ $( function() {
 } );
 
 $('#explore-nav').click(() => {
-    $( "#tabs" ).tabs( "option", "active", 0 );
-});
-
-$('#topics-nav').click(() => {
     $( "#tabs" ).tabs( "option", "active", 1 );
 });
 
-$('#critical-questions-nav').click(() => {
+$('#topics-nav').click(() => {
     $( "#tabs" ).tabs( "option", "active", 2 );
+});
+
+$('#critical-questions-nav').click(() => {
+    $( "#tabs" ).tabs( "option", "active", 0 );
 });
