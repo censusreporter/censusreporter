@@ -1523,7 +1523,7 @@ def geo_profile(geoid, acs='latest'):
 		state_senate_data = d3_api.get_data('CollegeEnrollment12m_20162017_byMISenate__20190722', 'GEOID', state_senate_geoids)
 
 	if state_house_geoids:
-		state_house_data = d3_api.get_data('CollegeReadiness_2017_2018_byMIHouseOrRep_20181107', 'GEOID', state_house_geoids)
+		state_house_data = d3_api.get_data('CollegeEnrollment12m_20162017_byMIHouseOrRep__20190722', 'GEOID', state_house_geoids)
 
 	if school_district_geoids:
 		school_district_data = d3_api.get_data('CollegeEnrollment12m_20162017_bySchDist__20190722', 'GEOID10', school_district_geoids)
@@ -1667,7 +1667,7 @@ def geo_profile(geoid, acs='latest'):
 		tract_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_Census_Tract', 'geoid', tract_geoids, '6')
 
 	if block_group_geoids:
-		block_group_data = d3_api.get_data('Student_Mobility_2017_to_2018_by_Census_Block_Group', 'geoid', block_group_geoids, '4')
+		block_group_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_Census_Block_Group', 'geoid', block_group_geoids, '4')
 
 	if msa_geoids:
 		msa_data = d3_api.get_data('Chronic_Absenteeism_2017_to_2018_by_MSA', 'geoid', msa_geoids)
@@ -1695,7 +1695,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['n_total']['indent'] = 0
 
 	fields['n_chronabs'] = OrderedDict()
-	fields['n_chronabs']['name'] = "Number of public school students missing 10% or more of the school days"
+	fields['n_chronabs']['name'] = "Number of public school students missing 10% or more school days"
 	fields['n_chronabs']['indent'] = 1
 
 
@@ -1705,7 +1705,7 @@ def geo_profile(geoid, acs='latest'):
 	chronic_absenteeism_dict = dict()
 	doc['social']['chronic_absenteeism'] = chronic_absenteeism_dict
 
-	chronic_absenteeism_dict['percent_absent'] = build_item('Percent of public school students missing 10% or more of the school days', data, d3_item_levels, 
+	chronic_absenteeism_dict['percent_absent'] = build_item('Percent of public school students missing 10% or more school days', data, d3_item_levels, 
 		'D3-n_chronabs D3-n_total / %')
 	add_metadata(chronic_absenteeism_dict['percent_absent'], 'D3-Chronic-Absenteeism', 'Number of public school students', 'D3 Open Data Portal, State of Michigan, Center for Educational Performance and Information, 2018') 
 

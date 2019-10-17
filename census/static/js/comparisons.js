@@ -495,57 +495,6 @@ function Comparison(options, callback) {
         }
 
 
-        if (comparison.d3table_name == "D3-College-Enrollment") {
-            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
-                split_geoid = comparison.d3_all_geoids[i].split('US');
-                if (split_geoid[0].startsWith('040')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'state_data', 'GEOID');
-                }
-                if (split_geoid[0].startsWith('050')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
-                }
-                if (split_geoid[0].startsWith('060')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
-                }
-                if (split_geoid[0].startsWith('140')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
-                }
-                if (split_geoid[0].startsWith('150')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'block_group_data', 'GEOID10');
-                }
-                if (split_geoid[0].startsWith('310')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'GeoID10_MSA');
-                }
-                if (split_geoid[0].startsWith('500')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'GEOID');
-                }
-                if (split_geoid[0].startsWith('610')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'state_senate_data', 'GEOID');
-                }
-                if (split_geoid[0].startsWith('620')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
-                if (split_geoid[0].startsWith('860')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA');
-                }
-                if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
-                    ajaxGeo++;
-                    parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
-                }
-            }
-        }
-
-
         if (comparison.d3table_name == "D3-Blood-Lead") {
             for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
                 split_geoid = comparison.d3_all_geoids[i].split('US');
@@ -592,6 +541,106 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
+                }
+            }
+        }
+
+        if (comparison.d3table_name == "D3-College-Enrollment") {
+            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+                split_geoid = comparison.d3_all_geoids[i].split('US');
+                if (split_geoid[0].startsWith('040')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'GEOID');
+                }
+                if (split_geoid[0].startsWith('050')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('060')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('140')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'tract_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('150')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'block_group_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('310')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('500')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'GEOID');
+                }
+                if (split_geoid[0].startsWith('610')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_senate_data', 'GEOID');
+                }
+                if (split_geoid[0].startsWith('620')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
+                }         
+                if (split_geoid[0].startsWith('860')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'zcta_data', 'GEOID10');
+                }
+                if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
+                }
+            }
+        }
+
+        if (comparison.d3table_name == "D3-Student-Mobility" || comparison.d3table_name == "D3-Chronic-Absenteeism" || comparison.d3table_name == "D3-Eighth-Grade-Math-Assessment") {
+            for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
+                split_geoid = comparison.d3_all_geoids[i].split('US');
+                if (split_geoid[0].startsWith('040')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('050')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('060')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'county_sd_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('140')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'tract_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('150')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'block_group_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('310')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'msa_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('500')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'congressional_district_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('610')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_senate_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('620')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'state_house_data', 'geoid');
+                }         
+                if (split_geoid[0].startsWith('860')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'zcta_data', 'geoid');
+                }
+                if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
+                    ajaxGeo++;
+                    parseData(comparison.d3_all_geoids[i], 'school_district_data', 'geoid');
                 }
             }
         }
@@ -657,9 +706,9 @@ function Comparison(options, callback) {
 
     }
 
-    comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key) {
+    comparison.getD3Data = function(table_id, field_name, geo_ids, geo_key, layer_id = '0') {
         // var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
-        var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query'
+        var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/'+ layer_id +'/query'
         console.log(url);
         console.log(geo_ids);       
         var data = {
@@ -1727,6 +1776,277 @@ function Comparison(options, callback) {
         
     }
 
+    comparison.getCollegeEnrollment12MOData = function() {
+        // metadata specific to Blood Lead Levels
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2017';
+        comparison.d3table_name = 'D3-College-Enrollment';
+        comparison.d3title = 'Number of public high school graduates who have enrolled in college within 12 months of graduation';
+        comparison.d3universe = 'Number of public high school graduates who received a diploma during the high school graduation year';
+        comparison.d3denominator_column_id ='D3-TotGrad';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['TotGrad'] = {};
+        comparison.d3fields['TotGrad']['name'] = "Number of public high school graduates who received a diploma during the high school graduation year"
+        comparison.d3fields['TotGrad']['indent'] = 0
+
+        comparison.d3fields['TotEnrl'] = {};
+        comparison.d3fields['TotEnrl']['name'] = "Number of public high school graduates who have enrolled in college within 12 months of graduation"
+        comparison.d3fields['TotEnrl']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byStateOfMichigan__20190722', 'GEOID', comparison.state_geoids, 'state_data');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byCnty__20190722', 'GEOID10', comparison.county_geoids, 'county_data')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byCntySub__20190722', 'GEOID10', comparison.county_sd_geoids, 'county_sd_data')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byTract__20190722', 'GEOID10', comparison.tract_geoids, 'tract_data')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byBlockGroup__20190722', 'GEOID10', comparison.block_group_geoids, 'block_group_data')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byMSA__20190722', 'GEOID10', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byMICongDist__20190722', 'GEOID', comparison.congressional_district_geoids, 'congressional_district_data')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byMISenate__20190722', 'GEOID', comparison.state_senate_geoids, 'state_senate_data')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byMIHouseOrRep__20190722', 'GEOID', comparison.state_house_geoids, 'state_house_data')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_bySchDist__20190722', 'GEOID10', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byZip__20190722', 'GEOID10', comparison.zcta_geoids, 'zcta_data')
+        }
+        
+    }
+
+    comparison.getStudentMobilityData = function() {
+        // metadata specific to Blood Lead Levels
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-Student-Mobility';
+        comparison.d3title = 'Number of public school students either leaving or entering a new school during the school year';
+        comparison.d3universe = 'Number of public school students';
+        comparison.d3denominator_column_id ='D3-s_count';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['s_count'] = {};
+        comparison.d3fields['s_count']['name'] = "Number of public school students"
+        comparison.d3fields['s_count']['indent'] = 0
+
+        comparison.d3fields['s_mobile'] = {};
+        comparison.d3fields['s_mobile']['name'] = "Number of public school students either leaving or entering a new school during the school year"
+        comparison.d3fields['s_mobile']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_for_Michigan', 'geoid', comparison.state_geoids, 'state_data', '7');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_County', 'geoid', comparison.county_geoids, 'county_data', '2')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_County_Subdivision', 'geoid', comparison.county_sd_geoids, 'county_sd_data', '1')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_Census_Tract', 'geoid', comparison.tract_geoids, 'tract_data', '6')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_Census_Block_Group', 'geoid', comparison.block_group_geoids, 'block_group_data', '4')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_Congressional_District', 'geoid', comparison.congressional_district_geoids, 'congressional_district_data', '3')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_State_Senate_District', 'geoid', comparison.state_senate_geoids, 'state_senate_data', '8')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_State_House', 'geoid', comparison.state_house_geoids, 'state_house_data', '9')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_School_District', 'geoid', comparison.school_district_geoids, 'school_district_data', '10')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_Zip_Code', 'geoid', comparison.zcta_geoids, 'zcta_data', '5')
+        }
+        
+    }
+
+    comparison.getChronicAbsenteeismData = function() {
+        // metadata specific to Blood Lead Levels
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-Chronic-Absenteeism';
+        comparison.d3title = 'Number of public school students missing 10% or more school days';
+        comparison.d3universe = 'Number of public school students';
+        comparison.d3denominator_column_id ='D3-n_total';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['n_total'] = {};
+        comparison.d3fields['n_total']['name'] = "Number of public school students"
+        comparison.d3fields['n_total']['indent'] = 0
+
+        comparison.d3fields['n_chronabs'] = {};
+        comparison.d3fields['n_chronabs']['name'] = "Number of public school students missing 10% or more school days"
+        comparison.d3fields['n_chronabs']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_for_Michigan', 'geoid', comparison.state_geoids, 'state_data', '7');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_County', 'geoid', comparison.county_geoids, 'county_data', '2')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_County_Subdivision', 'geoid', comparison.county_sd_geoids, 'county_sd_data', '1')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_Census_Tract', 'geoid', comparison.tract_geoids, 'tract_data', '6')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_Census_Block_Group', 'geoid', comparison.block_group_geoids, 'block_group_data', '4')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_Congressional_District', 'geoid', comparison.congressional_district_geoids, 'congressional_district_data', '3')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_State_Senate_District', 'geoid', comparison.state_senate_geoids, 'state_senate_data', '8')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_State_House_District', 'geoid', comparison.state_house_geoids, 'state_house_data', '9')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_School_District', 'geoid', comparison.school_district_geoids, 'school_district_data', '10')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_Zip_Code', 'geoid', comparison.zcta_geoids, 'zcta_data', '5')
+        }
+        
+    }
+
+    comparison.get8thGradeMathData = function() {
+        // metadata specific to Blood Lead Levels
+        comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan Center for Educational Performance and Information';
+        comparison.d3DataYears = '2018';
+        comparison.d3table_name = 'D3-Eighth-Grade-Math-Assessment';
+        comparison.d3title = 'Number of students who met or exceeded grade level standards in Math';
+        comparison.d3universe = 'Number of students assessed in Math';
+        comparison.d3denominator_column_id ='D3-numberasse';
+
+        // table columns
+        comparison.d3fields = {};
+        comparison.d3fields['numberasse'] = {};
+        comparison.d3fields['numberasse']['name'] = "Number of public school students"
+        comparison.d3fields['numberasse']['indent'] = 0
+
+        comparison.d3fields['totalmet'] = {};
+        comparison.d3fields['totalmet']['name'] = "Number of students who met or exceeded grade level standards in Math"
+        comparison.d3fields['totalmet']['indent'] = 1
+
+        comparison.ajaxCount = 0;
+
+        if (comparison.state_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_for_Michigan', 'geoid', comparison.state_geoids, 'state_data', '3');
+        }
+        if (comparison.county_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_County', 'geoid', comparison.county_geoids, 'county_data', '8')
+        }
+        if (comparison.county_sd_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_County_Subdivision', 'geoid', comparison.county_sd_geoids, 'county_sd_data', '9')
+        }
+        if (comparison.tract_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Census_Tract', 'geoid', comparison.tract_geoids, 'tract_data', '4')
+        }
+        if (comparison.block_group_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Census_Block_Group', 'geoid', comparison.block_group_geoids, 'block_group_data', '6')
+        }
+        if (comparison.msa_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data', '10') 
+        }
+        if (comparison.congressional_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Congressional_District', 'geoid', comparison.congressional_district_geoids, 'congressional_district_data', '7')
+        }
+        if (comparison.state_senate_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_State_Senate_District', 'geoid', comparison.state_senate_geoids, 'state_senate_data', '2')
+        }
+        if (comparison.state_house_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_State_House_District', 'geoid', comparison.state_house_geoids, 'state_house_data', '1')
+        }
+        if (comparison.school_district_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_School_District', 'geoid', comparison.school_district_geoids, 'school_district_data')
+        }
+        if (comparison.zcta_geoids.length > 0) {
+            comparison.ajaxCount++;
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Zip_Code', 'geoid', comparison.zcta_geoids, 'zcta_data', '5')
+        }
+        
+    }
 
     comparison.getData = function() {
         if (comparison.tableID && comparison.geoIDs) {
@@ -1882,12 +2202,24 @@ function Comparison(options, callback) {
                         comparison.getCollegeReadinessData();
                     }
 
-                    if (comparison.tableID == 'D3-College-Enrollment') {
-                        comparison.getCollegeEnrollmentData();
-                    }
-
                     if (comparison.tableID == 'D3-Blood-Lead') {
                         comparison.getBloodLeadLevelsData();
+                    }
+
+                    if (comparison.tableID == 'D3-College-Enrollment') {
+                        comparison.getCollegeEnrollment12MOData();
+                    }
+
+                    if (comparison.tableID == 'D3-Student-Mobility') {
+                        comparison.getStudentMobilityData();
+                    }
+
+                    if (comparison.tableID == 'D3-Chronic-Absenteeism') {
+                        comparison.getChronicAbsenteeismData();
+                    }
+
+                    if (comparison.tableID == 'D3-Eighth-Grade-Math-Assessment') {
+                        comparison.get8thGradeMathData();
                     }
 
                 }

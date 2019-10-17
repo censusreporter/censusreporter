@@ -202,15 +202,6 @@ function Table(options) {
                     response.unshift(d3Response);
                 } 
 
-                // college enrollment
-                var collegeenrollment = 'publichighschoolgraduatesreceiveddiplomagraduationenrolledcollege6sixmonthsgraduationenrollment';
-                var match_collegeenrollment = collegeenrollment.match(re);
-                if (match_collegeenrollment) {
-                    var d3Response = d3CollegeEnrollmentTable();
-                    // insert response into the reponse
-                    response.unshift(d3Response);
-                } 
-
                 // blood lead levels
                 var bloodlead = 'individualstestedelevatedbloodleadleveldefined4.5microgramsperdeciliter';
                 var match_bloodlead = bloodlead.match(re);
@@ -220,7 +211,44 @@ function Table(options) {
                     response.unshift(d3Response);
                 } 
 
+                // college enrollment
+                var collegeenrollment = 'publichighschoolgraduatesreceiveddiplomagraduationenrolledcollege12twelvemonthsgraduationenrollment';
+                var match_collegeenrollment = collegeenrollment.match(re);
+                if (match_collegeenrollment) {
+                    var d3Response = d3CollegeEnrollmentTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                } 
+
+                // Student Mobility
+                var studentmobility = 'publicschoolstudentsmobilityleavingenteringnewschoolduringschoolyear';
+                var match_studentmobility = studentmobility.match(re);
+                if (match_studentmobility) {
+                    var d3Response = d3StudentMobilityTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                }             
+
+                // chronicabsenteeism
+                var chronicabsenteeism = 'publicschoolstudentschronicabsenteeismmissing10tenormoreschooldaysinaschoolyear';
+                var match_chronicabsenteeism = chronicabsenteeism.match(re);
+                if (match_chronicabsenteeism) {
+                    var d3Response = d3ChronicAbsenteeismTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                } 
+
+                // eighthgrademath
+                var eighthgrademath = 'educationtestingelamatheighth8thgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolmath';
+                var match_eighthgrademath = eighthgrademath.match(re);
+                if (match_eighthgrademath) {
+                    var d3Response = d38thGradeMathTable();
+                    // insert response into the reponse
+                    response.unshift(d3Response);
+                } 
+
                 
+
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
                     response.push({
@@ -453,24 +481,6 @@ function Table(options) {
     
     }
     
-    var d3CollegeEnrollmentTable = function() {
-        // state table
-        var response = {
-            'id': "D3-College-Enrollment",
-            'simple_table_name': "College enrollment",
-            'table_id': "D3-College-Enrollment",
-            'table_name': "College enrollment",
-            'topic_string': "education, children",
-            'topics': ['education','children'],
-            'type': "table",
-            'unique_key': "D3-College-Enrollment",
-            'universe': "Number of public high school graduates who received a diploma during the high school graduation year"
-        }
-    
-        return response;
-    
-    }
-    
     var d3BloodLeadLevelsTable = function() {
         // state table
         var response = {
@@ -489,7 +499,78 @@ function Table(options) {
     
     }
        
-
+    var d3CollegeEnrollmentTable = function() {
+        // state table
+        var response = {
+            'id': "D3-College-Enrollment",
+            'simple_table_name': "College enrollment",
+            'table_id': "D3-College-Enrollment",
+            'table_name': "College enrollment",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-College-Enrollment",
+            'universe': "Number of public high school graduates who received a diploma during the high school graduation year"
+        }
+    
+        return response;
+    
+    }
+    
+    var d3StudentMobilityTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Student-Mobility",
+            'simple_table_name': "Student mobility",
+            'table_id': "D3-Student-Mobility",
+            'table_name': "College enrollment",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Student-Mobility",
+            'universe': "Number of public school students"
+        }
+    
+        return response;
+    
+    }
+    
+    var d3ChronicAbsenteeismTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Chronic-Absenteeism",
+            'simple_table_name': "Chronic absenteeism",
+            'table_id': "D3-Chronic-Absenteeism",
+            'table_name': "College enrollment",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Chronic-Absenteeism",
+            'universe': "Number of public school students"
+        }
+    
+        return response;
+    
+    }
+    
+    
+    var d38thGradeMathTable = function() {
+        // state table
+        var response = {
+            'id': "D3-Eighth-Grade-Math-Assessment",
+            'simple_table_name': "Eighth grade math assessment",
+            'table_id': "D3-Eighth-Grade-Math-Assessment",
+            'table_name': "College enrollment",
+            'topic_string': "education, children",
+            'topics': ['education','children'],
+            'type': "table",
+            'unique_key': "D3-Eighth-Grade-Math-Assessment",
+            'universe': "Number of students assessed in Math"
+        }
+    
+        return response;
+    
+    }
 
 
     
