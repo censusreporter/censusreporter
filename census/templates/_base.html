@@ -64,32 +64,17 @@
 
         {% block header %}
         <header id="page-header">
-            <div id="page-header-title" class="wrapper clearfix">
-                {% if not hide_nav_tools %}
-                <i id="menu-toggle" class="fa fa-bars"></i>
-                {% endif %}
-                <a class="title" href="{% url 'homepage' %}">
-                    <img src="{{ STATIC_URL }}img/state-of-detroit-child.png">
-                </a>
-                {% if not hide_nav_tools %}
-                <div id="menu" class="tool-set clearfix">
-                    <div class="tool-group">
-                        <input name="geography_select" class="geography-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
-                    </div>
-<!--                     {% if not hide_nav_compare %}
-                    <span class="separator">or</span>
-                    <div class="tool-group">
-                        <a class="button" href="{% url 'table_search' %}">
-                            <i class="fa fa-chevron-circle-right"></i>
-                            Search for data
-                        </a>
-                    </div>
-                    {% endif %} -->
+            <div id="page-header-title" class="wrapper clearfix">{% if not hide_nav_tools %}
+            <div id="menu" class="tool-set clearfix">
+                <div class="tool-group">
+                    <input name="geography_select" class="geography-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
                 </div>
-                {% endif %}
-                <!-- <div class="beta-ribbon">
-                    <img class="beta-image" src="{{ STATIC_URL }}img/beta.png">
-                </div> -->
+            </div>
+            {% endif %}
+                <a class="title" href="{% url 'homepage' %}"><h1>Housing Information Portal</h1></a>
+                    {% if not hide_nav_tools %}
+                    <i id="menu-toggle" class="fa fa-bars"></i>
+                    {% endif %}
             </div>
         </header>
         {% block header_content %}{% endblock header_content %}

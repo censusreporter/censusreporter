@@ -1,0 +1,139 @@
+/*Styling for HIPI Portal*/
+
+/*Obligatory CSS reset*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*FONTS*/
+/*broadly applies to entire page*/
+
+@import url('https://fonts.googleapis.com/css?family=Century+Gothic&display=swap')
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap')
+
+p { font-family: Poppins, Arial, sans-serif; font-size:14px;}
+
+h1 {text-transform:uppercase;
+	font-family: "Century Gothic", "Open Sans", sans-serif;
+	font-size:24px;
+	font-weight:500;
+	margin-bottom:10px;}
+
+/*style for "p" only renders correctly when typed above and below "h1"*/
+/*designer has written it off as mysterious witchcraft*/
+p { font-family: Poppins, Arial, sans-serif; font-size:14px;}
+
+
+/*div sections & colors styled*/
+
+/*Section 1: Title/Header*/
+#header {
+	padding: 40px;
+	background-color: #ecba66;
+	color: #2f2f2f;
+}
+
+#header a:link, a:visited {color: #2f2f2f; text-decoration:underline;}
+#header a:hover {color: #ffffff;}
+
+/*Section 2: Map Tools*/
+#maps {
+	padding: 40px;
+	background-color: #ffffff;
+	color: #2f2f2f;
+}
+
+#maps a:link, a:visited {color: #20698a; text-decoration:underline;}
+#maps a:hover {color:#6596cf;}
+
+/*Section 3: More Information*/
+#info {
+	padding: 40px;
+	background-color: #d1d2d4;
+	color: #2f2f2f;
+}
+
+#info a:link, a:visited {color: #2f2f2f; text-decoration:none; font-variant:small-caps; font-size:20px;}
+#info a:hover {color:#ffffff;}
+
+/*Section 4: Case Studies*/
+#studies {
+	padding: 40px;
+	background-color: #2f2f2f ;
+	color: #ffffff;
+}
+
+#studies a:link, a:visited {color: #6596cf; text-decoration:underline;}
+#studies a:hover {color:#ffffff;}
+
+/*Section 5: Additional Resources*/
+#resources {
+	padding: 40px;
+	background-color: #ffffff;
+	color: #2f2f2f;
+}
+
+#resources a:link, a:visited {color: #20698a; text-decoration:underline;}
+#resources a:hover {color:#6596cf;}
+
+/*Section 6: Annual Report*/
+#report {
+	padding: 40px;
+	background-color: #ecba66;
+	color: #2f2f2f;
+}
+
+#report a:link, a:visited {color: #2f2f2f; text-decoration:underline; text-transform:uppercase;}
+#report a:hover {color:#ffffff;}
+
+/*Section 7: Page Footer*/
+#footer {
+	padding: 40px;
+	background-color: #ffffff;
+	color: #2f2f2f;
+}
+
+#footer a:link, a:visited {color: #20698a; text-decoration:underline;}
+#footer a:hover {color:#6596cf;}

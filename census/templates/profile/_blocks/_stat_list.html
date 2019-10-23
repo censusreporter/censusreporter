@@ -1,6 +1,10 @@
 {% load humanize madlibs comparatives %}
 {% if not stat_wrapper == 'false' %}<a class="stat {{ stat_type }}{% if wrapper_class %} {{ wrapper_class }}{% endif %}">{% endif %}
     <span class="{% if stat_class %}{{ stat_class }}{% else %}primary{% endif %}">
+    <span class="name"><h3 class="chart-title">{{ stat.name }}</h3></span>
+    {% if stat.metadata.acs_release != geography.census_release %}
+        <span class="small">* {{ stat.metadata.acs_release }} data</span>
+    {% endif %}
         <span class="value">
             {% if not stat.values.this %}
                 N/A
@@ -18,11 +22,7 @@
                 {% endif %}
             {% endif %}
         </span>
-        <span class="name">{{ stat.name }}</span>
-        {% if stat.metadata.acs_release != geography.census_release %}
-            <span class="small">* {{ stat.metadata.acs_release }} data</span>
-        {% endif %}
-        
+
         {% if stat_class == 'secondary' %}
             <span class="context">
                 {% if stat.error.this %}

@@ -19,6 +19,7 @@ uncomment for separate inclusion into embed iframes */
     float: left;
     display: block;
     margin: 0 .5em;
+    color: #6596cf;
 }
 .census-chart-embed {
     position: relative;
@@ -342,12 +343,12 @@ uncomment for separate inclusion into embed iframes */
     border-radius: 3px;
 }
 .action-links {
-    float: right;
-    color: #032634;
+    color: #6596cf;
 }
 .action-links a {
     cursor: pointer;
-    color: #032634;
+    color: #6596cf;
+    text-decoration: underline;
 }
 .action-links a:hover {
     color: #4F80BA;

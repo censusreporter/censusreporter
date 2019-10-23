@@ -1,0 +1,31 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <p>The table <a href="/tables/D3-Chronic-Absenteeism/">D3-Chronic-Absenteeism</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>n_total</td>
+                <td>Number of public school students.</td>
+            </tr>
+            <tr>
+                <td>n_chronabs</td>
+                <td>Number of public school students missing 10% or more school days.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+

@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView
 
 from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, DistrictGeographyDetailView, GeographySearchView,
-    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCarePrograms, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
+    D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCarePrograms, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, D3TableDetailViewStudentMobility, D3TableDetailViewChronicAbsenteeism, D3TableDetailView8thGradeMath, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard, CustomDrawnProfilesView)
 
@@ -177,6 +177,13 @@ urlpatterns = patterns('',
     ),
 
     url(
+        regex   = '^tables/D3-Blood-Lead/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewLeadBloodLevels.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Blood-Lead',
+    ),
+
+    url(
         regex   = '^tables/D3-College-Enrollment/$',
         view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewCollegeEnrollment.as_view()),
         kwargs  = {},
@@ -184,10 +191,24 @@ urlpatterns = patterns('',
     ),
 
     url(
-        regex   = '^tables/D3-Blood-Lead/$',
-        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewLeadBloodLevels.as_view()),
+        regex   = '^tables/D3-Student-Mobility/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewStudentMobility.as_view()),
         kwargs  = {},
-        name    = 'table_D3-Blood-Lead',
+        name    = 'table_D3-Student-Mobility',
+    ),
+
+    url(
+        regex   = '^tables/D3-Chronic-Absenteeism/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailViewChronicAbsenteeism.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Chronic-Absenteeism',
+    ),
+
+    url(
+        regex   = '^tables/D3-Eighth-Grade-Math-Assessment/$',
+        view    = cache_page(STANDARD_CACHE_TIME)(D3TableDetailView8thGradeMath.as_view()),
+        kwargs  = {},
+        name    = 'table_D3-Chronic-Absenteeism',
     ),
 
     url(
