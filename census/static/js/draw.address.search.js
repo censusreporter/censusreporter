@@ -26,7 +26,7 @@ var lat = '',
     dashboard_geoids = [];
 
 var sumlevs = [
-    { 'level': '150', 'name': 'Census Block Group', zoom: 15 },
+    // { 'level': '150', 'name': 'Census Block Group', zoom: 15 },
     { 'level': '140', 'name': 'Census Tract', zoom: 10 },
     { 'level': '860', 'name': 'ZIP Code', zoom: 12  },
     { 'level': '970', 'name': 'School District (Unified)', zoom: 10  },

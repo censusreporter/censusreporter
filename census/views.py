@@ -789,45 +789,6 @@ class D3TableDetailViewCollegeReadiness(TemplateView):
 		return page_context	
 
 
-class D3TableDetailViewCollegeEnrollment(TemplateView):
-	template_name = 'table/table_detail.html'
-
-	def dispatch(self, *args, **kwargs):
-
-		try:
-			return super(D3TableDetailViewCollegeEnrollment, self).dispatch(*args, **kwargs)
-		except Http404, e:
-			raise e
-
-	def get_context_data(self, *args, **kwargs):
-		table = OrderedDict()
-		table['table_id'] = 'D3-College-Enrollment'
-		table['table_title'] = 'College enrollment'
-		table['simple_table_title'] = 'College enrollment'
-		table['subject_area'] = 'Education'
-		table['universe'] = 'Number of public high school graduates who received a diploma during the high school graduation year'
-		table['denominator_column_id'] = 'TotGradCalc'
-		table['topics'] = ["education", "children"]
-
-		table['columns'] = OrderedDict()
-		table['columns']['TotGradCalc'] = OrderedDict()
-		table['columns']['TotGradCalc']['column_title'] = 'Number of public high school graduates who received a diploma during the high school graduation year:'
-		table['columns']['TotGradCalc']['indent'] = 0
-		table['columns']['TotGradCalc']['parent_column_id'] = None
-
-		table['columns']['TotEnrlCalc'] = OrderedDict()
-		table['columns']['TotEnrlCalc']['column_title'] = 'Number of public high school graduates who have enrolled in college within 6 months of graduation'
-		table['columns']['TotEnrlCalc']['indent'] = 1
-		table['columns']['TotEnrlCalc']['parent_column_id'] = 'TotGradCalc'
-
-		page_context = {
-			'table': table,
-			'tabulation': {'table_versions': ''}
-		}
-
-		return page_context	
-
-
 class D3TableDetailViewLeadBloodLevels(TemplateView):
 	template_name = 'table/table_detail.html'
 
@@ -885,6 +846,163 @@ class D3TableDetailViewLeadBloodLevels(TemplateView):
 		}
 
 		return page_context	
+
+
+class D3TableDetailViewCollegeEnrollment(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewCollegeEnrollment, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-College-Enrollment'
+		table['table_title'] = 'College enrollment'
+		table['simple_table_title'] = 'College enrollment'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of public high school graduates who received a diploma during the high school graduation year'
+		table['denominator_column_id'] = 'TotGrad'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['TotGrad'] = OrderedDict()
+		table['columns']['TotGrad']['column_title'] = 'Number of public high school graduates who received a diploma during the high school graduation year:'
+		table['columns']['TotGrad']['indent'] = 0
+		table['columns']['TotGrad']['parent_column_id'] = None
+
+		table['columns']['TotEnrl'] = OrderedDict()
+		table['columns']['TotEnrl']['column_title'] = 'Number of public high school graduates who have enrolled in college within 12 months of graduation'
+		table['columns']['TotEnrl']['indent'] = 1
+		table['columns']['TotEnrl']['parent_column_id'] = 'TotGrad'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewStudentMobility(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewStudentMobility, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Student-Mobility'
+		table['table_title'] = 'Student mobility'
+		table['simple_table_title'] = 'Student mobility'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of public school students'
+		table['denominator_column_id'] = 's_count'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['s_count'] = OrderedDict()
+		table['columns']['s_count']['column_title'] = 'Number of public school students:'
+		table['columns']['s_count']['indent'] = 0
+		table['columns']['s_count']['parent_column_id'] = None
+
+		table['columns']['s_mobile'] = OrderedDict()
+		table['columns']['s_mobile']['column_title'] = 'Number of public school students either leaving or entering a new school during the school year'
+		table['columns']['s_mobile']['indent'] = 1
+		table['columns']['s_mobile']['parent_column_id'] = 's_count'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailViewChronicAbsenteeism(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailViewChronicAbsenteeism, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Chronic-Absenteeism'
+		table['table_title'] = 'Chronic absenteeism'
+		table['simple_table_title'] = 'Chronic absenteeism'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of public school students'
+		table['denominator_column_id'] = 'n_total'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['n_total'] = OrderedDict()
+		table['columns']['n_total']['column_title'] = 'Number of public school students:'
+		table['columns']['n_total']['indent'] = 0
+		table['columns']['n_total']['parent_column_id'] = None
+
+		table['columns']['n_chronabs'] = OrderedDict()
+		table['columns']['n_chronabs']['column_title'] = 'Number of public school students missing 10% or more school days'
+		table['columns']['n_chronabs']['indent'] = 1
+		table['columns']['n_chronabs']['parent_column_id'] = 'n_total'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
+
+class D3TableDetailView8thGradeMath(TemplateView):
+	template_name = 'table/table_detail.html'
+
+	def dispatch(self, *args, **kwargs):
+
+		try:
+			return super(D3TableDetailView8thGradeMath, self).dispatch(*args, **kwargs)
+		except Http404, e:
+			raise e
+
+	def get_context_data(self, *args, **kwargs):
+		table = OrderedDict()
+		table['table_id'] = 'D3-Eighth-Grade-Math-Assessment'
+		table['table_title'] = 'Eighth grade math assessment'
+		table['simple_table_title'] = 'Eighth grade math assessment'
+		table['subject_area'] = 'Education'
+		table['universe'] = 'Number of students assessed in Math'
+		table['denominator_column_id'] = 'numberasse'
+		table['topics'] = ["education", "children"]
+
+		table['columns'] = OrderedDict()
+		table['columns']['numberasse'] = OrderedDict()
+		table['columns']['numberasse']['column_title'] = 'Number of public school students:'
+		table['columns']['numberasse']['indent'] = 0
+		table['columns']['numberasse']['parent_column_id'] = None
+
+		table['columns']['totalmet'] = OrderedDict()
+		table['columns']['totalmet']['column_title'] = 'Number of students who met or exceeded grade level standards in Math'
+		table['columns']['totalmet']['indent'] = 1
+		table['columns']['totalmet']['parent_column_id'] = 'numberasse'
+
+		page_context = {
+			'table': table,
+			'tabulation': {'table_versions': ''}
+		}
+
+		return page_context	
+
 
 
 class TableDetailView(TemplateView):
@@ -1163,7 +1281,7 @@ class GeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '/1.0/data/dev-profiles/2017/%s.json' % geo_id.upper()
+		return '/1.0/data/profiles/2017/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1313,7 +1431,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, year, geo_id):
-		return '/1.0/data/dev-profiles/%s/%s.json' % (year, geo_id.upper())
+		return '/1.0/data/profiles/%s/%s.json' % (year, geo_id.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:

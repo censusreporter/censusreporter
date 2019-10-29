@@ -1,0 +1,31 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}    
+    <p>The table <a href="/tables/D3-Student-Mobility/">D3-Student-Mobility</a> houses data on the following columns:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Columns</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>s_count</td>
+                <td>Number of public school students.</td>
+            </tr>
+            <tr>
+                <td>s_mobile</td>
+                <td>Number of public school students either leaving or entering a new school during the school year.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}
+
+
