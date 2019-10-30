@@ -397,9 +397,9 @@ article.column-full {
     margin-bottom: 4em;
 }
 header.section-contents, header.section-contents-list {
-    float: left;
-    width: 16em;
+    width: 18em;
     border-bottom: 1px solid #2f2f2f;
+    margin-left: -1.9em;
 }
 header.section-contents h1, header.section-contents-list h1 {
     font-size: 1em;
@@ -429,6 +429,7 @@ article .section-container {
     -moz-border-radius-topleft: 0;
     border-top-left-radius: 0;
 }
+
 /*header.section-contents h1,
 article .section-container,
 .card {
@@ -604,13 +605,24 @@ header.section-contents h1 {
   font-size: 2em;
   font-weight: 700;
   color: #ecba66;
+  text-align: right;
+  padding-right: .3em;
+}
+
+article .section-container h2.header-for-columns {
+  margin: 0 0 1em;
+  text-align: right;
+  clear: both;
 }
 
 aside {
     float: left;
-    margin-left: -17.4em;
-    width: 16em;
+    margin-left: -25em;
+    width: 23em;
     padding: .25em .67em .67em 1.1em;
+    text-align: right;
+    clear: both;
+    font-size: 0.8em;
 }
 aside h3 {
     font-size: .9em;
@@ -780,6 +792,7 @@ aside#facets {
 #cover-profile h1 {
   color: #ecba66;
   border-bottom: 1px solid #2f2f2f;
+  font-size: 2.25em;
 }
 
 #cover-profile p.caption a {
@@ -2540,7 +2553,6 @@ dl#racial-iteration dt {
     line-height: 1.8em;
 }
 #profile #query-topic-picker .typeahead-container {
-    width: 50%;
 }
 #query-topic-picker #topic-select,
 #topic-picker #topic-select {

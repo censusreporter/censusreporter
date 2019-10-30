@@ -110,9 +110,9 @@
                 <option value="#graduation-rate">High school graduation</option>
                 <option value="#educational-attainment">Educational attainment</option>
                 <option value="#child-care">Child care</option>
-                <option value="#school-lunch">Free and reduced school lunch</option>   
-                <option value="#college-enrollment-readiness">College enrollment and readiness</option> 
-                <option value="#student-mobility-absenteeism">Student mobility and chronic absenteeism</option> 
+                <option value="#school-lunch">Free and reduced school lunch</option>
+                <option value="#college-enrollment-readiness">College enrollment and readiness</option>
+                <option value="#student-mobility-absenteeism">Student mobility and chronic absenteeism</option>
             </optgroup>
             <optgroup label="Family &amp; Economic Security">
                 <option value="#income">Family &amp; economic security</option>
@@ -130,7 +130,7 @@
                 <option value="#housing-costs">Housing costs</option>
                 <option value="#housing-value">Housing value</option>
                 <option value="#geographical-mobility">Geographical mobility</option>
-            </optgroup> 
+            </optgroup>
             <optgroup label="Health &amp; Safety">
                 <option value="#health-insurance">Health &amp; safety</option>
                 <option value="#infant-mortality">Infant mortality</option>
@@ -172,12 +172,12 @@
             <div class="column-three-quarters">
                 <div class="column-half">
                     <div id="chart-column_timeseries-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_sex.metadata.universe }}"></div>
-                </div>        
+                </div>
                 <div class="column-half">
                     <div id="chart-column_timeseries-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.demographics.child_age.distribution_by_category.metadata.universe }}"></div>
                 </div>
             </div>
- 
+
         </section>
 
         <section class="clearfix stat-row alt">
@@ -202,10 +202,10 @@
             <div class="column-three-quarters">
                 <div class="column-half">
                     <div id="chart-column_timeseries-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.demographics.male_child_age_total_distribution.metadata.universe }}"></div>
-                </div>        
+                </div>
                 <div class="column-half">
                     <div id="chart-column_timeseries-demographics-male_child_age_race_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of male youth by race" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.demographics.male_child_age_race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-                </div> 
+                </div>
             </div>
 
         </section>
@@ -219,7 +219,7 @@
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.households.number_of_households stat_type='count' %} {% endcomment %}
             </div>
             <div class="column-quarter">
-                <div id="chart-stat_timeseries-families-households-persons_per_household" data-stat-type="number" data-chart-title="Persons per household" data-qualifier="Universe: {{ profile_data_current_year.families.households.persons_per_household.metadata.universe }}" data-precision='1'></div> 
+                <div id="chart-stat_timeseries-families-households-persons_per_household" data-stat-type="number" data-chart-title="Persons per household" data-qualifier="Universe: {{ profile_data_current_year.families.households.persons_per_household.metadata.universe }}" data-precision='1'></div>
                 {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=families.households.persons_per_household stat_type='number' %} {% endcomment %}
             </div>
             <div class="column-half" id="chart-column_timeseries-families-households-distribution" data-stat-type="scaled-percentage" data-initial-sort="-value" data-chart-title="Population by household type" data-qualifier="Universe: {{ profile_data_current_year.families.households.distribution.metadata.universe }}"></div>
@@ -259,12 +259,12 @@
             <div class="column-three-quarters">
                 <div class="column-half">
                     {% comment %} <div id="chart-column_timeseries-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="scaled-percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div> {% endcomment %}
-                    <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>                    
-                </div> 
+                    <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ profile_data_current_year.families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+                </div>
                 <div class="column-half">
                     {% comment %} <div id="chart-column_timeseries-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ profile_data_current_year.families.births.by_characteristic.metadata.universe }}"></div> {% endcomment %}
-                    <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic (2017)" data-qualifier="Universe: {{ profile_data_current_year.families.births.by_characteristic.metadata.universe }}"></div>                    
-                </div> 
+                    <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic (2017)" data-qualifier="Universe: {{ profile_data_current_year.families.births.by_characteristic.metadata.universe }}"></div>
+                </div>
             </div>
 
         </section>
@@ -345,7 +345,7 @@
                     {% comment %} {% include 'profile/_blocks/_time_series_stat_list.html' with current_stat=social.enrollment.not_enrolled stat_type='number' %} {% endcomment %}
                 </div>
             </div>
-            <div class="column-half" id="chart-column_time_series_group-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ profile_data_current_year.social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-column_time_series_group-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ profile_data_current_year.social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row alt">
@@ -386,25 +386,25 @@
             </div>
             <div class="column-third">
                 {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div> {% endcomment %}
-                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div>                
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
             </div>
             <div class="column-third">
                 {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div> {% endcomment %}
-                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div>                
-            </div> 
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
+            </div>
         </section>
 
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
             <div class="column-third">
                 {% comment %} <div id="chart-stat_timeseries-families-child_care-child_care_capacity" data-stat-type="scaled-percentage" data-chart-title="Capacity of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity.metadata.universe }}"></div> {% endcomment %}
-                
+
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.child_care.child_care_capacity stat_type='count' %}
             </div>
             <div class="column-two-thirds">
                 {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div> {% endcomment %}
-                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>                
-            </div> 
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
+            </div>
         </section>
 
         <section class="clearfix stat-row alt">
@@ -645,7 +645,7 @@
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.infant_mortality.infant_mortality stat_type='count' %}
             </div>
-            <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.infant_mortality_chart_data.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.infant_mortality_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -659,7 +659,7 @@
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.immunization.immunization stat_type='count' %}
             </div>
-            <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status (2015)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization_chart_data.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status (2015)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.immunization.immunization_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row alt">
@@ -673,7 +673,7 @@
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.blood_lead.percent_elevated stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -828,19 +828,19 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ profile_data_current_year.geography.
                         layer.setStyle({
                             "weight": 2,
                             "fillOpacity": 0.4,
-                            "fillColor": "#76AFF2",
+                            "fillColor": "#5B5B5B",
                         });
                     });
                     layer.on('mouseout', function() {
                         layer.setStyle(defaultStyle);
                     });
                     layer.on('click', function() {
-                        // add spinner to page load 
+                        // add spinner to page load
                         var spinnerTarget = document.getElementById("body-spinner");
                         if (!spinnerTarget) {
                             $('body').append('<div id="body-spinner"></div>');
                             spinnerTarget = document.getElementById('body-spinner');
-                        } 
+                        }
                         spinner.spin(spinnerTarget);
                         window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                     });
@@ -863,7 +863,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ profile_data_current_year.geography.
 
     var featureLayer = L.geoJson(json, {
         style: {
-            "fillColor": "#A975D7",
+            "fillColor": "#6596CF",
             "fillOpacity": 0.5,
             "color": "#686867",
             "weight": 2,
@@ -1050,7 +1050,7 @@ if (!!parentLinkContainer) {
             var parents = _.reject(results['parents'], function(p) {
                 return p.relation === 'this' || p.relation === 'place' || p.relation === 'nation';
             });
-            
+
 
             // list of unique parent sumlev types, maintaining order
             var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));
