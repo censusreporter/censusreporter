@@ -737,7 +737,6 @@ aside#facets {
 
 .use-location {
     display: inline-block !important;
-    font-size: .9em !important;
     padding: 0 9px;
     margin-right: .33em;
 }
@@ -787,7 +786,7 @@ aside#facets {
 }
 #cover-profile article {
     margin-top: 3em;
-    background-color: #f6dbb2;
+    background-color: #ffe6c5;
     border: 1px solid #2f2f2f;
     padding: .67em 1.25em .33em;
 }
@@ -1239,11 +1238,8 @@ h1.article-header-right {
     z-index: 401;
     top: 10px;
     left: 10px;
-    background-color: #fff;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    border: 1px solid #4F80BA;
+    background-color: #ffe6c5;
+    border: 1px solid #2f2f2f;
     width: 450px;
     /* overflow-y: auto; */
 }
@@ -1310,9 +1306,13 @@ h1.article-header-right {
     margin-top: 1em;
     display: none;
 }
+#map-controls #sumlev-picker {
+  width: 100%;
+  text-align: center;
+}
+
 #map-controls #map-legend {
     margin: 2em 0;
-    text-align: center;
 }
 #map-controls .header-tool-set,
 #map-controls .caption {
@@ -1321,13 +1321,42 @@ h1.article-header-right {
 
 #map-controls .draw-tools {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 #map-controls .draw-tools select,
 #map-controls .draw-tools a
 {
    display: inline-block;
-   width: auto;
+   width: 100%;
+   text-align: center;
+   font-size: 1.5em;
+}
+
+#map-controls .draw-tools a#use-location {
+  color: #2f2f2f;
+  background-color: #d1d2d4;
+}
+
+#map-controls .draw-tools a#use-location:hover {
+  background-color: #979797;
+  border-color: #5b5b5b;
+}
+
+.draw-tools a.action-button {
+  background-color: #f1be6a;
+  color: #2f2f2f;
+}
+
+.draw-tools a.action-button:hover {
+  background-color: #ffe6c5;
+  border: 1px solid #f1be6a;
+}
+
+#map-controls input, #map-controls select {
+  background-color: #ffe6c5;
+  text-align: center;
+  color: #2f2f2f;
 }
 
 #map-legend,
@@ -1341,6 +1370,23 @@ h1.article-header-right {
     font-size: 11px;
     height: 4em;
     float: right;
+}
+
+#map-controls hr {
+  border-color: #f1be6a;
+}
+
+#map-action-buttons a.action-button {
+  width: 48%;
+}
+
+#map-action-buttons a#clear-map {
+  margin-right: 4%;
+}
+
+
+#map-action-buttons a#make-dashboard {
+  margin-right: 0;
 }
 .leaflet-label.hovercard {
     white-space: normal;
@@ -2012,12 +2058,21 @@ section.chart-divider h2 {
 .action-button.disabled.hovered {
     pointer-events: none;
     cursor: not-allowed;
-    border-color: #baccc9;
-    background-color: #baccc9;
-    color: #fff;
+    border: 1px solid #f1be6a;
+    background-color: #ffe6c5;
+    color: #2f2f2f;
+}
+.draw-tools .action-button.disabled,
+.draw-tools .action-button.disabled:hover,
+.draw-tools .action-button.disabled.hovered {
+    pointer-events: none;
+    cursor: not-allowed;
+    border: 1px solid #f1be6a;
+    background-color: #ffe6c5;
+    color: #2f2f2f;
 }
 .action-button.active {
-    background-color: #5b5b5b;
+    background-color: #2f2f2f;
     color: #fff;
 }
 
