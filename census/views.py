@@ -1281,7 +1281,7 @@ class GeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '/1.0/data/profiles/2017/%s.json' % geo_id.upper()
+		return '/1.0/data/hip-profiles/2017/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1431,7 +1431,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, year, geo_id):
-		return '/1.0/data/profiles/%s/%s.json' % (year, geo_id.upper())
+		return '/1.0/data/hip-profiles/%s/%s.json' % (year, geo_id.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1584,7 +1584,7 @@ class CustomGeographyDetailView(TemplateView):
 		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '/1.0/data/custom-profiles/%s.json' % (self.slug.upper())
+		return '/1.0/data/hip-custom-profiles/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
