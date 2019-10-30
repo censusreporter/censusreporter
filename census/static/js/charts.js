@@ -1845,8 +1845,11 @@ function Chart(options) {
         // Alternate order for Kat Hartman colors
         Kat2Alt: ['#A975D7', '#979797', '#4F80BA', '#F8E71C',  '#F7AB1E', '#7E4BAB', '#76AFF2', '#74B73C'],
 
-        // Updated for Housing Information Portal
-        HIP: ['#ECBA66', '#6596CF', '#5B5B5B', '#7DA879', '#F7AB1E', '#78A6D4', '#979797', '#F0CD8A']
+        // Housing Information Portal
+        HIP1: ['#ECBA66', '#6596CF', '#5B5B5B', '#7DA879', '#F7AB1E', '#78A6D4', '#979797', '#9BC69B'],
+
+        // Alternate order for Housing Information Portal
+        HIPAlt: ['#67B1A6', '#D39AAA', '#DCF0A1', '#F0D3AA', '#89EDDE', '#DCAEBB', '#D3ED89', '#EDC895']
 
 
     };

@@ -320,13 +320,13 @@ img.screenshot {
 #menu a.button,
 a.action-button,
 .big-action .with-submit input[type="submit"] {
-    color: #fff;
+    color: #F1BE6A;
     display: block;
     margin-top: 0;
     padding: 0 9px;
     height: 2em;
     line-height: 1.9em;
-    background-color: #76AFF2;
+    background-color: #979797;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -340,7 +340,7 @@ a.action-button,
     display: none;
 }
 #menu a.button:hover {
-    background-color: #76AFF2;
+    background-color: #6596CF;
 }
 #menu-toggle {
     float: right;
@@ -2035,7 +2035,8 @@ section.chart-divider h2 {
     color: #fff;
 }
 .action-button.active {
-    background-color: #4F80BA;
+    background-color: #5b5b5b;
+    color: #fff;
 }
 
 .change-button {
@@ -2048,7 +2049,7 @@ section.chart-divider h2 {
 }
 .change-button:hover,
 .action-button:hover {
-    background-color: #4F80BA;
+    background-color: #5b5b5b;
     color: #fff;
 }
 
