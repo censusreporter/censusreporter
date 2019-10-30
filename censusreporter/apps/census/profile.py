@@ -689,7 +689,7 @@ def geo_profile(geoid, acs='latest'):
             'B25026006 B25026013 + B25026001 / %')
         length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
             'B25026005 B25026012 + B25026001 / %')
-        length_of_tenure_dict['2010_to_2004'] = build_item('2010-2004', data, item_levels,
+        length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
             'B25026004 B25026011 + B25026001 / %')
         length_of_tenure_dict['since_2015'] = build_item('Since 2015', data, item_levels,
             'B25026003 B25026010 + B25026001 / %')
@@ -700,7 +700,7 @@ def geo_profile(geoid, acs='latest'):
             'B25026007 B25026014 + B25026001 / %')
         length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
             'B25026006 B25026013 + B25026001 / %')
-        length_of_tenure_dict['2010_to_2004'] = build_item('2010-2014', data, item_levels,
+        length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
             'B25026005 B25026012 + B25026001 / %')
         length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
             'B25026004 B25026011 + B25026001 / %')
