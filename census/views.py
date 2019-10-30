@@ -1044,12 +1044,16 @@ class TableDetailView(TemplateView):
 				return HttpResponseRedirect(
 					reverse('table_detail', args = (table_argument,))
 				)
+
+			print e
 			raise e
 
 	def get_tabulation_data(self, table_code):
 		endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
+		print endpoint
 		r = requests.get(endpoint)
 		status_code = r.status_code
+		print status_code
 
 		# make sure we've requested a legit tabulation code
 		if status_code == 200:
@@ -1147,8 +1151,11 @@ class TableDetailView(TemplateView):
 		return related_topic_pages
 
 	def get_table_data(self, table_code):
-		endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
+		endpoint = 'https://api.censusreporter.org/2.0/table/latest/%s' % table_code
 		r = requests.get(endpoint)
+
+		print endpoint
+		print r.status_code
 
 		if r.status_code == 200:
 			print simplejson.loads(r.text, object_pairs_hook=OrderedDict)
