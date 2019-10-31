@@ -254,11 +254,30 @@ class GeographyDetailView(TemplateView):
         legislative districts.
         (see https://github.com/censusreporter/censusreporter/issues/50)
         """
+
+        def handle_long_geoid(geo_id):
+            """American FactFinder and Census API use seven characters for the 'sumlevel' part.
+               See https://factfinder.census.gov/service/GeographyIds.html for more info
+               Legislative district geoIDs sometimes have a strange bit in the first two characters
+               after the sumlevel which we can't make sense of. Also, we only support component
+               '00' so we just force to that.
+
+               If we don't seem to have one of those, just pass back what we got unchanged.
+            """
+            parts = geo_id.split('US')
+
+            if len(parts) == 2 and len(parts[0]) == 7: # American Fact Finder style GeoID.
+                sumlevel = parts[0][:3]
+                identifier = parts[1]
+                return "{}00US{}".format(sumlevel, identifier)
+            return geo_id
+
         parts = fragment.split('-',1)
         if len(parts) == 1:
-            return (fragment,None)
+            return (handle_long_geoid(fragment),None)
 
         geoid,slug = parts
+        geoid = handle_long_geoid(geoid)
         if len(slug) == 1:
             geoid = '{}-{}'.format(geoid,slug)
             slug = None
@@ -288,13 +307,6 @@ class GeographyDetailView(TemplateView):
             return HttpResponseRedirect(
                         path
                     )
-        # formatting geo_id
-        parts = self.geo_id.split('US')
-        if len(parts) == 2 and len(parts[0]) == 7: # American Fact Finder style GeoID.
-            sumlevel = parts[0][:3]
-            identifier = parts[1]
-            self.geo_id = "{}00US{}".format(sumlevel, identifier)
-            self.slug = None # simple way to force a redirect
 
         self.canonical_url = self.request.build_absolute_uri()
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
