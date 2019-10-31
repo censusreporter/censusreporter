@@ -56,7 +56,7 @@ var defaultStyle = {
 };
 
 var selectedStyle = {
-    "fillColor": "#9C65D1",
+    "fillColor": "#6596CF",
     "color": "#686867",
     "weight": 1,
     "opacity": 0.3,
@@ -74,15 +74,15 @@ $("#locate-tab").click(function(){
         clearDraw();
         mode = 'locate';
         // turn on map double click listener
-        map.on("dblclick", doubleClickMap); 
+        map.on("dblclick", doubleClickMap);
     }
 });
 
 $("#draw-tab").click(function(){
     // check to see if active
     if (mode == 'locate') {
-        clearLocate();  
-        mode = 'draw'; 
+        clearLocate();
+        mode = 'draw';
     }
 });
 
@@ -128,7 +128,52 @@ $("#draw-on-map").click(function() {
     map.addLayer(toggleableLayer);
     toggleableLayer.geojsonLayer.eachLayer(function(layer) {
         setDeselected(layer);
-    });    
+    });
+});
+
+$("#sumlev-picker").change(function(e) {
+    var sumlev = _.findWhere(sumlevs,{level: $(e.target).val()})
+    if (sumlev) {
+
+        // Enable the draw button
+        $("#click-on-map").removeClass('disabled');
+
+        if (typeof sumlev.layer == 'undefined') {
+            sumlev.layer = makeClickableTileLayer(sumlev.level);
+            clickableLayer = sumlev.layer;
+            toggleableLayer = makeTogglableTileLayer(sumlev.level);
+        }
+        _.each(sumlevs,function(sl) {
+            if (sl.layer && map.hasLayer(sl.layer)) {
+                map.removeLayer(sl.layer);
+            }
+        })
+        map.addLayer(clickableLayer);
+
+        //clearLocate();
+
+    } else {
+        clearDraw();
+    }
+    // always hide clear and make dashboard buttons
+    $("#map-action-buttons").addClass("hidden");
+});
+
+$("#click-on-map").click(function() {
+    if (!drawToggle) {
+        new L.Draw.Polygon(map, drawControl.options.polygon).enable();
+        drawToggle = true;
+    }
+    // set up map for draw mode
+    $("#click-on-map").addClass('active');
+    $("#sumlev-picker").prop('disabled', 'disabled');
+    map.removeLayer(regularBackgroundTiles);
+    map.addLayer(drawBackgroundTiles);
+    map.removeLayer(clickableLayer);
+    map.addLayer(toggleableLayer);
+    toggleableLayer.geojsonLayer.eachLayer(function(layer) {
+        setDeselected(layer);
+    });
 });
 
 $("#clear-map").click(function() {
@@ -146,7 +191,7 @@ dialog = $("#dialog-form").dialog({
 });
 
 $("#submit-custom-geo").click(function() {
-    // check form for existance of name in name field 
+    // check form for existance of name in name field
     if (!$('#dashboard-name').val()) {
         $('#dashboard-name').addClass( "ui-state-error" );
         alert("A name for your dashboard is required. Please add a name for your dashboard.");
@@ -177,15 +222,15 @@ $("#make-dashboard").click(function() {
 
 
 
-    // add spinner to page load 
+    // add spinner to page load
     // var spinnerTarget = document.getElementById("body-spinner");
     // if (!spinnerTarget) {
     //     $('body').append('<div id="body-spinner"></div>');
     //     spinnerTarget = document.getElementById('body-spinner');
-    // } 
+    // }
     // spinner.spin(spinnerTarget);
     // window.location.href = '/custom-profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-    
+
 });
 
 var makeDashboard = function() {
@@ -211,17 +256,17 @@ var makeDashboard = function() {
             dialog.dialog("close");
             // send to the dashboard
             window.location.href = '/custom-profiles/' + dashboard_slug;
-            
+
         },
         error: function(e){
             console.log(e);
             //dialog.dialog("close");
             $('#dashboard-name').addClass( "ui-state-error" );
             alert("We're sorry, but that dashboard name is already taken. Please choose another name for your dashboard.");
-    
+
         },
     });
-    return false; 
+    return false;
 }
 
 
@@ -240,7 +285,7 @@ var clearLocate = function() {
         $("#data-display").html("");
     }
     // turn off map double click listener
-    map.off("dblclick", doubleClickMap);    
+    map.off("dblclick", doubleClickMap);
 }
 
 var clearDraw = function() {
@@ -270,7 +315,7 @@ var clearDraw = function() {
     //     setDefault(layer.feature, layer);
     // });
 
-}   
+}
 
 var setDefault = function(feature, layer) {
     layer.removeEventListener();
@@ -288,12 +333,12 @@ var setDefault = function(feature, layer) {
         layer.setStyle(defaultStyle);
     });
     layer.on('click', function() {
-        //add spinner to page load 
+        //add spinner to page load
         var spinnerTarget = document.getElementById("body-spinner");
         if (!spinnerTarget) {
            $('body').append('<div id="body-spinner"></div>');
            spinnerTarget = document.getElementById('body-spinner');
-        } 
+        }
         spinner.spin(spinnerTarget);
         window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
     });
@@ -312,7 +357,7 @@ var setSelected = function(layer) {
         layer.setStyle({
             "weight": 6,
             "fillOpacity": 0.4,
-            "fillColor": "#6828A6",
+            "fillColor": "#366891",
         });
     });
     layer.on('mouseout', function() {
@@ -343,7 +388,7 @@ var setDeselected = function(layer) {
         layer.setStyle(defaultStyle);
     });
     layer.on('click', function() {
-        setSelected(layer);   
+        setSelected(layer);
     });
 }
 
@@ -364,7 +409,7 @@ var makeClickableTileLayer = function(thisSumlev) {
                 }
             }
         });
-    } 
+    }
     return geojsonTileLayer;
 }
 
@@ -385,7 +430,7 @@ var makeTogglableTileLayer = function(thisSumlev) {
                 }
             }
         });
-    } 
+    }
     return geojsonTileLayer;
 }
 
@@ -395,7 +440,7 @@ var spinnerTarget = document.getElementById("body-spinner");
 if (!spinnerTarget) {
     $('body').append('<div id="body-spinner"></div>');
     spinnerTarget = document.getElementById('body-spinner');
-} 
+}
 
 window.onpopstate = function(event) {
     if (event.state) {
@@ -558,7 +603,7 @@ function geocodeAddress(query, callback) {
 
 var POLYGON_STYLE = {
     "clickable": true,
-    "fillColor": "#9C65D1",
+    "fillColor": "#6596CF",
     "color": "#686867",
     "weight": 1,
     "opacity": 0.3,
@@ -577,7 +622,7 @@ function makeLayer(d) {
         layer.setStyle(POLYGON_STYLE);
     });
     layer.on('click', function() {
-        // add spinner to page load 
+        // add spinner to page load
         spinner.spin(spinnerTarget);
         window.location.href = '/profiles/' + d.full_geoid;
     });
@@ -676,7 +721,7 @@ function placeMarker(lat, lng, label) {
             point_marker.updateLabelContent(label);
             point_marker.setLatLng(L.latLng(lat,lng));
         } else {
-            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#9C65D1", fillOpacity: 1, stroke: false, radius: 5});
+            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#6596CF", fillOpacity: 1, stroke: false, radius: 5});
             map.addLayer(point_marker);
             point_marker.bindLabel(label, {noHide: true, direction:'right'});
         }
@@ -779,7 +824,7 @@ function initialize_map() {
         $("#draw-on-map").removeClass("active");
         map.removeLayer(drawBackgroundTiles);
         map.addLayer(regularBackgroundTiles);
-    
+
         // show clear and make dashboard buttons
         $("#map-action-buttons").removeClass("hidden");
 
@@ -787,7 +832,7 @@ function initialize_map() {
         $(".leaflet-control-zoom .leaflet-control-zoom-in").addClass('disabled');
         $(".leaflet-control-zoom .leaflet-control-zoom-out").addClass('disabled');
         map.scrollWheelZoom.disable();
-    
+
         var drawnLayer = e.layer;
         var drawnGeojson = drawnLayer.toGeoJSON();
         // loop through added geojson tiles
@@ -806,14 +851,14 @@ function initialize_map() {
             } else {
                 setDeselected(layer);
             }
-            
+
         });
-    
+
         drawToggle = false;
     });
 
     spinner.stop();
-    
+
 }
 var should_show_map = true; // eventually base on viewport or similar
 if (should_show_map) {

@@ -19,43 +19,33 @@
 <div id="map-controls" class="clearfix">
     <header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
-            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> State of the Detroit Child
+            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> Housing Information Portal
         </a>
     </header>
     <div class="box-content">
-        <div id="tabs">
-            <ul>
-                <li id="locate-tab"><a href="#tabs-1">Locate</a></li>
-                <li id="draw-tab"><a href="#tabs-2">Draw</a></li>
-            </ul>
-            <div id="tabs-1">
-                <div id="address-search-content">
-                    <div class="tool-set header-tool-set draw-tools clearfix">
-                        <h1>Select a location to view an existing profile</h1>
-                        <a id="use-location" class="use-location action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
-                        <span class="no-map-hide">or double-click to place a marker</span>
-                    </div>
-                    <section class="clearfix header-container" id="address-search-wrapper">
-                        <input type="text" id="address-search" placeholder="Search for an address">
-                        <h2 id="address-search-message" class="hidden bottom"></h2>
-                        <aside id="data-display" class="clearfix"></aside>
-                    </section>
-                </div>
-            </div>
-            <div id="tabs-2">
-                <section class="clearfix header-container draw-tools">
-                    <h1>Draw a shape to create a custom profile</h1>
-                    <select id="sumlev-picker">
-                        <option>Select Geographic Building Blocks </option>
-                    </select>
-                    <a id="draw-on-map" class="action-button disabled"><i class="fa fa-pencil-square"></i> Draw on Map</a>
-                </section>
-                <section id="map-action-buttons" class="clearfix draw-tools hidden">
-                    <a id="clear-map" class="action-button">Clear Map</a>
-                    <a id="make-dashboard" class="action-button">Create Profile</a>
-                </section>
-            </div>
-        </div>        
+      <select id="sumlev-picker">
+          <option>Select Geographic Building Blocks </option>
+      </select>
+      <hr>
+      <div id="address-search-content">
+          <div class="tool-set header-tool-set draw-tools clearfix">
+              <a id="use-location" class="use-location action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
+          </div>
+          <section class="clearfix header-container" id="address-search-wrapper">
+              <input type="text" id="address-search" placeholder="Center map on an address">
+              <h2 id="address-search-message" class="hidden bottom"></h2>
+              <aside id="data-display" class="clearfix"></aside>
+          </section>
+      </div>
+      <hr>
+      <section class="clearfix header-container draw-tools" id="select-on-map">
+          <a id="click-on-map" class="action-button disabled column-half">Click to Select</a>
+          <a id="draw-on-map" class="action-button disabled column-half">Draw on Map</a>
+      </section>
+      <section id="map-action-buttons" class="clearfix draw-tools hidden">
+          <a id="clear-map" class="action-button column-half">Clear Map</a>
+          <a id="make-dashboard" class="action-button column-half">Create Profile</a>
+      </section>
     </div>
 </div>
 <div id="slippy-map"></div>
@@ -76,8 +66,8 @@
         <label for="dashboard-name">Custom Profile Name</label>
         <input type="text" name="name" id="dashboard-name" class="text ui-widget-content ui-corner-all">
         <label for="dashboard-organization">Your Organization</label>
-        <input type="text" name="org" id="dashboard-organization" class="text ui-widget-content ui-corner-all"> 
-        <a id="submit-custom-geo" class="action-button" style="display: inline-block; margin-top: 10px;">Save</a> 
+        <input type="text" name="org" id="dashboard-organization" class="text ui-widget-content ui-corner-all">
+        <a id="submit-custom-geo" class="action-button" style="display: inline-block; margin-top: 10px;">Save</a>
       </fieldset>
     </form>
 </div>

@@ -26,7 +26,7 @@ function Comparison(options, callback) {
     if (!spinnerTarget) {
         $('body').append('<div id="body-spinner"></div>');
         spinnerTarget = document.getElementById('body-spinner');
-    } 
+    }
 
 
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443';
@@ -134,7 +134,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
@@ -178,8 +178,8 @@ function Comparison(options, callback) {
                     parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
                 }
             }
-        } 
-        
+        }
+
         // infant mortality
         if (comparison.d3table_name == "D3-Infant-Mortality") {
             for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
@@ -280,7 +280,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID10');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
@@ -290,7 +290,7 @@ function Comparison(options, callback) {
                     parseData(comparison.d3_all_geoids[i], 'school_district_data', 'GEOID10');
                 }
             }
-        } 
+        }
 
         if (comparison.d3table_name == "D3-Medicaid") {
             for (var i = comparison.d3_all_geoids.length - 1; i >= 0; i--) {
@@ -330,7 +330,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
@@ -381,7 +381,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA');
@@ -431,7 +431,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA5CE10');
@@ -482,7 +482,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA');
@@ -533,7 +533,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'ZCTA');
@@ -583,7 +583,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'GEOID');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'GEOID10');
@@ -633,7 +633,7 @@ function Comparison(options, callback) {
                 if (split_geoid[0].startsWith('620')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'state_house_data', 'geoid');
-                }         
+                }
                 if (split_geoid[0].startsWith('860')) {
                     ajaxGeo++;
                     parseData(comparison.d3_all_geoids[i], 'zcta_data', 'geoid');
@@ -656,14 +656,14 @@ function Comparison(options, callback) {
             if (geo_key == 'state_senate_data') {
                 split_geoid[1] = split_geoid[1].replace("260", "");
                 split_geoid[1] = +split_geoid[1]
-            } 
-            
+            }
+
             if (geo_key == 'state_house_data') {
                 split_geoid[1] = split_geoid[1].replace("260", "");
                 split_geoid[1] = +split_geoid[1]
-            } 
-            
-            
+            }
+
+
             // get geography name from CR
             var nameGeoAPI = comparison.rootGeoAPI + geo_id;
             $.getJSON(nameGeoAPI)
@@ -695,7 +695,7 @@ function Comparison(options, callback) {
                         if (typeof callback === "function") {
                             callback(comparison);
                         }
-                    } 
+                    }
                 })
                 .fail(function(xhr, textStatus, error) {
                     var message = $.parseJSON(xhr.responseText);
@@ -710,7 +710,7 @@ function Comparison(options, callback) {
         // var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/0/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json';
         var url = comparison.d3DataAPI + '/' + table_id + '/FeatureServer/'+ layer_id +'/query'
         console.log(url);
-        console.log(geo_ids);       
+        console.log(geo_ids);
         var data = {
             outFields: '*',
             where: field_name +' in (' + geo_ids + ')',
@@ -728,7 +728,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount--;
             if (comparison.ajaxCount == 0) {
                 comparison.formatD3Data();
-            }          
+            }
         })
         .fail(function(xhr, textStatus, error) {
             var message = $.parseJSON(xhr.responseText);
@@ -807,7 +807,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Births_by_MSA_2016', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('Births_by_MSA_2016', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -829,7 +829,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('Births_by_ZIP_2016', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getMathProficiencyData = function() {
@@ -876,7 +876,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.school_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -886,7 +886,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byZip_08032017', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getELAProficiencyData = function() {
@@ -933,7 +933,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byMSA_08032017', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.school_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -943,7 +943,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('ThirdGrade_ELA_Math_Scores_byZip_08032017', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
 
@@ -990,7 +990,7 @@ function Comparison(options, callback) {
         // }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('GraduationRates_2016_2017_byMSA__20181019', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('GraduationRates_2016_2017_byMSA__20181019', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1012,7 +1012,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('GraduationRates_2016_2017_byZip__20181019', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getInfantMortalityData = function() {
@@ -1056,7 +1056,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('MI_USCongressionalDistrict_InfantMort_Suppressed', 'DISTRICT', comparison.congressional_district_geoids, 'congressional_district_data')
         }
-        
+
     }
 
     comparison.getImmunizationData = function() {
@@ -1203,7 +1203,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Medicaid_CY2017_byMSA_20181106', 'GEOIDMSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('Medicaid_CY2017_byMSA_20181106', 'GEOIDMSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1225,7 +1225,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('Medicaid_CY2017_byZIP_20181106', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
 
@@ -1280,7 +1280,7 @@ function Comparison(options, callback) {
         // }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1302,7 +1302,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getChildCareProgramsData = function() {
@@ -1356,7 +1356,7 @@ function Comparison(options, callback) {
         // }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1378,7 +1378,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getChildCareCapacityData = function() {
@@ -1432,7 +1432,7 @@ function Comparison(options, callback) {
         // }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1454,10 +1454,10 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
-    
+
     comparison.getFreeReducedLunchData = function() {
         // metadata specific to Free and Reduced Lunch
         comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, State of Michigan, Center for Educational Performance and Information';
@@ -1513,7 +1513,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByMSA_20181105', 'GEOID10', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('FreeAndReducedLunch_Fall207_ByMSA_20181105', 'GEOID10', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1535,9 +1535,9 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('FreeAndReducedLunch_Fall207_ByZIP_20181105', 'ZCTA5CE10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
-    
+
 
     comparison.getCollegeReadinessData = function() {
         // metadata specific to College Readiness
@@ -1598,7 +1598,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('CollegeReadiness_2017_2018_byMSA_20181107', 'GEOID10', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('CollegeReadiness_2017_2018_byMSA_20181107', 'GEOID10', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1620,7 +1620,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('CollegeReadiness_2017_2018_byZip_20181107', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getCollegeEnrollmentData = function() {
@@ -1666,7 +1666,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('CollegeEnrollment_2017_byMSA_20181106', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('CollegeEnrollment_2017_byMSA_20181106', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1688,7 +1688,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('CollegeEnrollment_2017_byZip_20181106', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
 
@@ -1751,7 +1751,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('LeadBloodLevels_2017_byMSA_20181129', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('LeadBloodLevels_2017_byMSA_20181129', 'GeoID10_MSA', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1773,7 +1773,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('LeadBloodLevels_2017_byZip_20181129', 'ZCTA', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getCollegeEnrollment12MOData = function() {
@@ -1819,7 +1819,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('CollegeEnrollment12m_20162017_byMSA__20190722', 'GEOID10', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('CollegeEnrollment12m_20162017_byMSA__20190722', 'GEOID10', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1841,7 +1841,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('CollegeEnrollment12m_20162017_byZip__20190722', 'GEOID10', comparison.zcta_geoids, 'zcta_data')
         }
-        
+
     }
 
     comparison.getStudentMobilityData = function() {
@@ -1887,7 +1887,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Student_Mobility_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('Student_Mobility_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1909,7 +1909,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('Student_Mobility_2017_to_2018_by_Zip_Code', 'geoid', comparison.zcta_geoids, 'zcta_data', '5')
         }
-        
+
     }
 
     comparison.getChronicAbsenteeismData = function() {
@@ -1955,7 +1955,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data') 
+            comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -1977,7 +1977,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('Chronic_Absenteeism_2017_to_2018_by_Zip_Code', 'geoid', comparison.zcta_geoids, 'zcta_data', '5')
         }
-        
+
     }
 
     comparison.get8thGradeMathData = function() {
@@ -2023,7 +2023,7 @@ function Comparison(options, callback) {
         }
         if (comparison.msa_geoids.length > 0) {
             comparison.ajaxCount++;
-            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data', '10') 
+            comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_MSA', 'geoid', comparison.msa_geoids, 'msa_data', '10')
         }
         if (comparison.congressional_district_geoids.length > 0) {
             comparison.ajaxCount++;
@@ -2045,7 +2045,7 @@ function Comparison(options, callback) {
             comparison.ajaxCount++;
             comparison.getD3Data('8th_Grade_Math_Assessment_Results_2017_to_2018_by_Zip_Code', 'geoid', comparison.zcta_geoids, 'zcta_data', '5')
         }
-        
+
     }
 
     comparison.getData = function() {
@@ -2149,7 +2149,7 @@ function Comparison(options, callback) {
                     }
                     if (split_geoid[0].startsWith('950') || split_geoid[0].startsWith('960') || split_geoid[0].startsWith('970')) {
                         comparison.school_district_geoids.push(split_geoid[1]);
-                    }  
+                    }
                 }
 
                 function pullData() {
@@ -2224,7 +2224,7 @@ function Comparison(options, callback) {
 
                 }
 
-                
+
 
             } else {
                 // CR query
@@ -2408,7 +2408,7 @@ function Comparison(options, callback) {
                 .classed('bigger', true)
                 .text(comparison.release.name);
         headerMetadataContainer.append('li')
-                .html('<a id="change-table" href="#">Change table</a>');
+                .html('<br /><a id="change-table" href="#">Change table</a>');
 
         comparison.headerContainer.selectAll('.caption').remove();
         comparison.headerContainer.append('p')
@@ -2622,7 +2622,7 @@ function Comparison(options, callback) {
                 } else {
                     pctLabel += closeParen + '</span>';
                 }
-                
+
             }
             if (!!thisValue) {
                 var openParen = (thisIsPct) ? '(' : '',
@@ -2667,7 +2667,7 @@ function Comparison(options, callback) {
 
 
         // create the legend
-        var quintileColors = ['#A7C5E9', '#759FD2', '#4F80BA', '#3366A4', '#174F93'];
+        var quintileColors = ['#C2D1DE', '#A4BBCD', '#86A4BD', '#547FA1', '#366891'];
         var buildLegend = function(colors) {
             var scaleStops = (values.length >= 5) ? 5 : values.length;
 
@@ -2738,8 +2738,8 @@ function Comparison(options, callback) {
                 layer.bindLabel(label, {className: 'hovercard', direction: 'auto', offset: [10, -38]});
                 layer.on('click', function() {
                     comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
-                     // add spinner to page load 
-                    spinner.spin(spinnerTarget);                   
+                     // add spinner to page load
+                    spinner.spin(spinnerTarget);
                     window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                 });
             }
@@ -2839,7 +2839,7 @@ function Comparison(options, callback) {
                         thisValue = (comparison.valueType == 'estimate') ? thisRow.estimate[k] : thisRow.percentage[k];
                     }
                 }
-                
+
                 // add raw numbers
                 if (thisValue >= 0) {
                     gridRowCol += '<span class="value number">' + valFmt(thisValue, thisFmt) + '</span>';
@@ -3162,7 +3162,7 @@ function Comparison(options, callback) {
         if (comparison.table.title == "Poverty Status in the Past 12 Months of Related Children Under 18 Years by Family Type by Age of Related Children Under 18 Years") {
             // shorten table title for childhood poverty linked from critical questions
             comparison.table.title = "Child Poverty Status in the Past 12 Months by Family Type and Age of Children";
-        } 
+        }
 
         // fill in some metadata and instructions
         d3.select('#table-universe').html('<strong>Table universe:</strong> ' + comparison.table.universe);
@@ -3183,7 +3183,7 @@ function Comparison(options, callback) {
     comparison.addContainerMetadata = function() {
         // tableID and change table link
         comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
-            .append('<a href="#" id="change-table">Change</a>');
+            .append('<br /><a href="#" id="change-table">Change</a>');
         comparison.$displayWrapper.find('h2').text(comparison.release.name);
     }
 
@@ -3226,7 +3226,7 @@ function Comparison(options, callback) {
                 var births = 'totalbirthsnonhispanicwhiteblackotherinadequateprenatalcarelowbirthweightteenmothersfertilityracehealthcare';
                 var match_births = births.match(re);
                 if (match_births) {
-                    // get all births tables and 
+                    // get all births tables and
                     var d3Response = d3BirthsTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
@@ -3257,7 +3257,7 @@ function Comparison(options, callback) {
                     var d3Response = d3GradTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                }               
+                }
 
                 // infant mortality
                 var infantmortality = 'infantmortalitydeathschildrensleepsafeunsafeassultmaltreatmentbirth';
@@ -3266,7 +3266,7 @@ function Comparison(options, callback) {
                     var d3Response = d3InfantMortalityTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                }               
+                }
 
                 // immunization
                 var immunization = 'immunizationvaccinationvaccinechildrenshotspreventablediseasedtappoliommrhibhepbvaricellapcvhepavaccinations';
@@ -3275,7 +3275,7 @@ function Comparison(options, callback) {
                     var d3Response = d3ImmunizationTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
 
                 var resultNumber = response.length;
@@ -3710,10 +3710,10 @@ function Comparison(options, callback) {
                         }
 
                     })
-                    .text(function(d) { 
+                    .text(function(d) {
                         // skip building places
                         if (d != 160) {
-                            return sumlevMap[d]['plural'] 
+                            return sumlevMap[d]['plural']
                         }
                     });
         }

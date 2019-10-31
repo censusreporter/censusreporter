@@ -15,10 +15,12 @@
 {% block body_class %}{{ block.super }} full-screen{% endblock %}
 
 {% block body %}
+
+
 <div id="map-controls" class="clearfix">
     <header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
-            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> State of the Detroit Child
+            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> Housing Information Portal
         </a>
     </header>
     <div class="box-content">
@@ -38,4 +40,33 @@
 {% endblock %}
 
 {% block page_specific_javascript %}
+
+<footer>
+    <div class="l-flex-space-between">
+      <ul id=footer-nav>
+        <li><a href="">Home</a></li>
+        <li><a href="">Map</a></li>
+        <li><a href="">Case<br />Studies</a></li>
+        <li><a href="">Information<br />Action Briefs</a></li>
+        <li><a href="">Blog</a></li>
+      </ul>
+        <div class="details">
+          <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>
+            <p class="body-text">We are happy to explore additional partnerships to make this data portal more comprehensive.</p>
+            <p class="body-text">Please reach out to us at <a href="mailto:info@datadrivendetroit.org" target="_top"> info@datadrivendetroit.org</a> to talk more!</p>
+        </div>
+        <ul id="footer-logos">
+          <li>
+            <a href="http://datadrivendetroit.org/">
+                <img class="company-logo" src="{{ STATIC_URL }}img/DataDrivenDetroit-LogoColor.svg" />
+            </a>
+          </li>
+          <li>
+            <a href="http://datadrivendetroit.org/">
+                <img class="company-logo" src="{{ STATIC_URL }}img/ask-d3-logo.png" />
+            </a>
+          </li>
+        </ul>
+    </div>
+</footer>
 {% endblock %}

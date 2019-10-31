@@ -5,7 +5,7 @@ var geoSearchAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/search'
 var place_template = _.template($("#place-result-template").html())
 
 var lat = '',
-    lon = '', 
+    lon = '',
     map = null,
     drawnLayer = null,
     drawnGeojson = null;
@@ -42,7 +42,7 @@ var defaultStyle = {
 };
 
 var selectedStyle = {
-    "fillColor": "#9C65D1",
+    "fillColor": "#6596CF",
     "color": "#686867",
     "weight": 1,
     "opacity": 0.3,
@@ -102,7 +102,7 @@ function makeTileLayer(thisSumlev) {
             style: invisibleStyle,
             onEachFeature: function(feature, layer) {}
         });
-    } 
+    }
     return geojsonTileLayer;
 }
 
@@ -169,12 +169,12 @@ function setInvisible(layer) {
         layer.setStyle(invisibleStyle);
     });
     layer.on('click', function() {
-        // add spinner to page load 
+        // add spinner to page load
         // var spinnerTarget = document.getElementById("body-spinner");
         // if (!spinnerTarget) {
         //    $('body').append('<div id="body-spinner"></div>');
         //    spinnerTarget = document.getElementById('body-spinner');
-        // } 
+        // }
         // spinner.spin(spinnerTarget);
         // window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
     });
@@ -191,7 +191,7 @@ function setSelected(layer) {
         layer.setStyle({
             "weight": 2,
             "fillOpacity": 0.4,
-            "fillColor": "#6828A6",
+            "fillColor": "#366891",
         });
     });
     layer.on('mouseout', function() {
@@ -221,7 +221,7 @@ function setDeselected(layer) {
         layer.setStyle(defaultStyle);
     });
     layer.on('click', function() {
-        layer.selected = true; 
+        layer.selected = true;
         setSelected(layer);
     });
 }
@@ -243,7 +243,7 @@ function listGeograpies() {
                             setSelected(layer);
                         } else {
                             setDeselected(layer);
-                        }  
+                        }
                     });
                 } else {
 
@@ -254,7 +254,7 @@ function listGeograpies() {
                     // }
                 }
             });
-            
+
         });
 
         $('.location-list li').click(function(e) {
@@ -269,7 +269,7 @@ function listGeograpies() {
     });
 
     $('body').trigger('glossaryUpdate', list);
-    
+
 }
 
 map.on('draw:created', function (e) {
@@ -285,7 +285,7 @@ map.on('draw:created', function (e) {
     map.addLayer(drawnLayer);
     drawnGeojson = drawnLayer.toGeoJSON();
 
-    // create selections and store for mouseover    
+    // create selections and store for mouseover
     _.each(sumlevs,function(l) {
         l.layer.geojsonLayer.eachLayer(function(layer) {
             //console.log(layer);
@@ -309,6 +309,3 @@ map.on('draw:created', function (e) {
 
     drawToggle = false;
 });
-
-
-
