@@ -1104,7 +1104,7 @@ h1.article-header-right {
     padding: 0;
 }
 
-.count .primary .value, .percentage .primary .value, .time .primary .value, .dollar .primary .value {
+.count .primary .value, .percentage .primary .value, .time .primary .value, .dollar .primary .value, .number .primary .value {
   color: #ecba66;
   font-weight: 700;
   font-size: 2em;

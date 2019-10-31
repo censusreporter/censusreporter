@@ -2,9 +2,6 @@
 {% if not stat_wrapper == 'false' %}<a class="stat {{ stat_type }}{% if wrapper_class %} {{ wrapper_class }}{% endif %}">{% endif %}
     <span class="{% if stat_class %}{{ stat_class }}{% else %}primary{% endif %}">
     <span class="name"><h3 class="chart-title">{{ stat.name }}</h3></span>
-    {% if stat.metadata.acs_release != geography.census_release %}
-        <span class="small">* {{ stat.metadata.acs_release }} data</span>
-    {% endif %}
         <span class="value">
             {% if not stat.values.this %}
                 N/A
@@ -42,5 +39,8 @@
             {% build_comparative_item sumlev stat stat_type geography %}
         {% endfor %}
     </ul>
+    {% endif %}
+    {% if stat.metadata.acs_release != geography.census_release %}
+        <span class="chart-qualifier">* {{ stat.metadata.acs_release }} data</span>
     {% endif %}
 {% if not stat_wrapper == 'false' %}</a>{% endif %}
