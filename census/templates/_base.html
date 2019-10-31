@@ -91,44 +91,32 @@
 
 
         <footer id="page-footer">
-            <section class="wrapper footer-container clearfix">
-                {% block footer_content %}
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-desktop"></i> <a href="http://datadrivendetroit.org/">D3 on the Web</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-rss"></i> <a href="http://datadrivendetroit.org/blog/">D3 blog</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope"></i> <a href="http://datadrivendetroit.org/subscribe_to_newsletter/">D3 Newsletter</a>
-                    </li>
-
+            <div class="l-flex-space-between">
+              <ul id=footer-nav>
+                <li><a href="">Home</a></li>
+                <li><a href="">Map</a></li>
+                <li><a href="">Case<br />Studies</a></li>
+                <li><a href="">Information<br />Action Briefs</a></li>
+                <li><a href="">Blog</a></li>
+              </ul>
+                <div class="details">
+                  <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>
+                    <p class="body-text">We are happy to explore additional partnerships to make this data portal more comprehensive.</p>
+                    <p class="body-text">Please reach out to us at <a href="mailto:info@datadrivendetroit.org" target="_top"> info@datadrivendetroit.org</a> to talk more!</p>
+                </div>
+                <ul id="footer-logos">
+                  <li>
+                    <a href="http://datadrivendetroit.org/">
+                        <img class="company-logo" src="{{ STATIC_URL }}img/DataDrivenDetroit-LogoColor.svg" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="http://datadrivendetroit.org/">
+                        <img class="company-logo" src="{{ STATIC_URL }}img/ask-d3-logo.png" />
+                    </a>
+                  </li>
                 </ul>
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-facebook"></i> <a href="https://www.facebook.com/DataDrivenDetroit">D3 on Facebook</a>
-                    </li>
-                    {% comment %} <li>
-                        <i class="fa fa-twitter"></i> <a href="https://twitter.com/d3detroit">@d3detroit</a>
-                    </li> {% endcomment %}
-                    <li>
-                        <i class="fa fa-linkedin"></i> <a href="https://www.linkedin.com/company/data-driven-detroit">D3 on LinkedIn</a>
-                    </li>
-                </ul>
-                <ul class="ul-icon-list column-third">
-                    <li>
-                        <i class="fa fa-th-list"></i> <a href="{% url 'glossary' %}">Census terms &amp; definitions</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-laptop"></i> <a href="https://censusreporter.org/">Census Reporter on the Web</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-github"></i> <a href="https://github.com/censusreporter/">Census Reporter on GitHub</a>
-                    </li>
-                </ul>
-                {% endblock footer_content %}
-            </section>
+            </div>
         </footer>
         {% endblock body %}
 

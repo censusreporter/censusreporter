@@ -126,7 +126,7 @@ nav .container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 85%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -639,7 +639,7 @@ footer #footer-nav li a {
 }
 
 footer .details {
-  padding-right: 75px;
+  padding-right: 3em;
 }
 
 footer h2.subhead {

@@ -30,17 +30,17 @@
       <div id="address-search-content">
           <div class="tool-set header-tool-set draw-tools clearfix">
               <a id="use-location" class="use-location action-button"><i class="fa fa-location-arrow"></i> Use your current location</a>
-              <span class="no-map-hide">or double-click to place a marker</span>
           </div>
           <section class="clearfix header-container" id="address-search-wrapper">
-              <input type="text" id="address-search" placeholder="Search for an address">
+              <input type="text" id="address-search" placeholder="Center map on an address">
               <h2 id="address-search-message" class="hidden bottom"></h2>
               <aside id="data-display" class="clearfix"></aside>
           </section>
       </div>
       <hr>
-      <section class="clearfix header-container draw-tools">
-          <a id="draw-on-map" class="action-button disabled"><i class="fa fa-pencil-square"></i> Draw on Map</a>
+      <section class="clearfix header-container draw-tools" id="select-on-map">
+          <a id="click-on-map" class="action-button disabled column-half">Click to Select</a>
+          <a id="draw-on-map" class="action-button disabled column-half">Draw on Map</a>
       </section>
       <section id="map-action-buttons" class="clearfix draw-tools hidden">
           <a id="clear-map" class="action-button column-half">Clear Map</a>
