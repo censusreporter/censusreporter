@@ -7,26 +7,26 @@
 }
 
 .body-text {
-    font-family: "QuickSand-Medium";
+    font-family: "Poppins";
     font-size: 29px;
     color: #979797;
 }
 
 .body-text-bold {
-    font-family: "Quicksand-Bold";
+    font-family: "Poppins";
 }
 
 .body-text-ligher {
-    font-family: "Quicksand";
+    font-family: "Poppins";
 }
 
 .body-text-32 {
-    font-family: 'Quicksand-Bold';
+    font-family: 'Poppins';
     font-size: 32px;
 }
 
 .rounded-button-body-text {
-    font-family: Quicksand-Bold;
+    font-family: Poppins;
     font-size: 38px;
     color: #ffffff;
     letter-spacing: 2.7px;
@@ -57,7 +57,7 @@
 }
 
 .hyperlink-bold-small {
-    font-family: "Quicksand-Bold";
+    font-family: "Poppins";
     font-size: 24px;
     color: #979797;
 }
@@ -74,7 +74,7 @@ nav {
 }
 
 nav a {
-    font-family: 'Quicksand-Bold';
+    font-family: 'Poppins';
     font-size: 29px;
     color: #979797;
     letter-spacing: 6.69px;
@@ -244,7 +244,7 @@ nav .container {
 }
 
 .c-critical-questions-panel ul p {
-    font-family: 'Quicksand-Bold';
+    font-family: 'Poppins';
     font-size: 32px;
     color: #979797;
     line-height: 45px;
@@ -277,7 +277,7 @@ nav .container {
 }
 
 .c-explore-panel input[type='text'] {
-    font-family: 'Quicksand-Medium';
+    font-family: 'Poppins';
     margin: 60px 0;
     border-radius: 7.2px;
     border: none;
@@ -299,7 +299,7 @@ nav .container {
 }
 
 .c-explore-panel button {
-    font-family: 'Quicksand-Bold';
+    font-family: 'Poppins';
     margin-bottom: 110px;
     background: #7E4BAB;
     display: flex;
@@ -327,7 +327,7 @@ nav .container {
     width: 72%;
     margin-top: -60px;
     background: #A8D94E;
-    font-family: 'Quicksand-Medium' !important;
+    font-family: 'Poppins' !important;
     left: auto !important;
     border-radius: 7.2px;
 }
@@ -342,7 +342,7 @@ nav .container {
 }
 
 .c-explore-panel .twitter-typeahead .tt-menu .tt-dataset-profile p {
-    font-family: 'Quicksand-Medium' !important;
+    font-family: 'Poppins' !important;
     padding: 20px 30px;
     font-size: 29px !important;
     color: #fff;
@@ -388,7 +388,7 @@ nav .container {
 }
 
 .c-topics-panel .button-group button {
-    font-family: 'Quicksand-Medium';
+    font-family: 'Poppins';
     background: #76AFF2;
     color: #fff;
     border-radius: 90px;
@@ -427,12 +427,12 @@ nav .container {
     width: 72%;
     left:auto !important;
     background: #A8D94E;
-    font-family: 'Quicksand-Medium' !important;
+    font-family: 'Poppins' !important;
 
 }
 
 .c-topics-panel .twitter-typeahead .tt-menu .tt-dataset-topics h5 {
-    font-family: 'Quicksand-Medium' !important;
+    font-family: 'Poppins' !important;
     padding: 20px 30px;
     font-size: 29px !important;
     color: #fff;
@@ -868,9 +868,9 @@ footer .designed-by span {
         margin: 40px 0;
         width: 85%;
     }
-    
+
     .c-topics-panel .dropdown button {
-        font-family: 'Quicksand-Medium';
+        font-family: 'Poppins';
         background: #76AFF2;
         color: #fff;
         border-radius: 0;
@@ -905,7 +905,7 @@ footer .designed-by span {
     .c-topics-panel .dropdown:hover .topics-dropdown-content {
         display: block;
     }
-  
+
     .c-additional-resources-panel .section-main-image {
         width: 206px;
         height: 165px;
@@ -1012,9 +1012,13 @@ footer .designed-by span {
     font-family: 'Quicksand-Bold';
     src: url("../img/fonts/Quicksand-Bold.ttf") format("truetype");
 }
+}
+
+@import url('https://fonts.googleapis.com/css?family=Century+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
 * {
-    font-family: 'Quicksand-Medium', sans-serif;
+    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
 }
 
@@ -1055,4 +1059,3 @@ input {
     flex-direction: column;
     align-items: center;
 } */
-

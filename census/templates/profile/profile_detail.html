@@ -44,28 +44,22 @@
                 <p class="caption"></p>
                 {% endif %}
             </header>
-            <div class="column-half">
+            <div class="stats">
                 <div class="stat">
-                    <span class="primary">
-                        <span class="value">{{ geography.this.total_population|intcomma }}</span>
-                        <span class="name">Population</span>
-                    </span>
+                      <span class="value">{{ geography.this.total_population|intcomma }}</span>
+                      <span class="name">Population</span>
                 </div>
-            </div>
-            {% if geo_metadata.square_miles or geo_metadata.population_density %}
-            <div class="column-half">
                 <div class="stat">
-                    <span class="secondary">
-                        <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
-                        <span class="name"> square miles</span>
-                    </span>
-                    <span class="secondary">
-                        <span class="value">{{ geo_metadata.population_density|floatformat|intcomma }}</span>
-                        <span class="name"> people per square mile</span>
-                    </span>
+                  {% if geo_metadata.square_miles or geo_metadata.population_density %}
+                      <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
+                      <span class="name"> square miles</span>
                 </div>
-            </div>
-            {% endif %}
+                <div class="stat">
+                      <span class="value">{{ geo_metadata.population_density|floatformat|intcomma }}</span>
+                      <span class="name"> people per square mile</span>
+                  </div>
+                </div>
+                {% endif %}
 
             {% if geography.this.show_extra_links %}
                 {% include "profile/_blocks/_header_extra_links.html" %}
@@ -80,7 +74,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="clearfix" id="query-topic-picker">
+<section class="clearfix column-half" id="query-topic-picker">
     <h2>Jump to a section: </h2>
     <div class="typeahead-container">
         <select name="select_section" onchange="location = this.value;" style="width: 100%;">
@@ -105,9 +99,9 @@
                 <option value="#graduation-rate">High school graduation</option>
                 <option value="#educational-attainment">Educational attainment</option>
                 <option value="#child-care">Child care</option>
-                <option value="#school-lunch">Free and reduced school lunch</option>   
-                <option value="#college-enrollment-readiness">College enrollment and readiness</option> 
-                <option value="#student-mobility-absenteeism">Student mobility and chronic absenteeism</option> 
+                <option value="#school-lunch">Free and reduced school lunch</option>
+                <option value="#college-enrollment-readiness">College enrollment and readiness</option>
+                <option value="#student-mobility-absenteeism">Student mobility and chronic absenteeism</option>
             </optgroup>
             <optgroup label="Family &amp; Economic Security">
                 <option value="#income">Family &amp; economic security</option>
@@ -125,7 +119,7 @@
                 <option value="#housing-costs">Housing costs</option>
                 <option value="#housing-value">Housing value</option>
                 <option value="#geographical-mobility">Geographical mobility</option>
-            </optgroup> 
+            </optgroup>
             <optgroup label="Health &amp; Safety">
                 <option value="#health-insurance">Health &amp; safety</option>
                 <option value="#infant-mortality">Infant mortality</option>
@@ -142,7 +136,7 @@
         </select>
     </div>
 </section>
-<section class="clearfix" id="query-topic-picker">
+<section class="clearfix column-half" id="query-topic-picker">
     <h2>Find data for this place</h2>
     <div class="typeahead-container">
         <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
@@ -159,43 +153,46 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink section" href="#youth-population" id="youth-population" title="Permalink">Youth population, sex &amp; age <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='count' %}
-            </div>
-            <div class="column-third">
-                <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
-            </div>        
-            <div class="column-third">
-                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
-            </div> 
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#youth-population" id="youth-population" title="Permalink">Youth population, sex &amp; age<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='count' %}
+              </div>
+              <div class="column-third">
+                  <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
+              </div>
+              <div class="column-third">
+                  <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
+              </div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink section" href="#children-age-race" id="children-age-race" title="Permalink">Youth age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#children-age-race" id="children-age-race" title="Permalink">Youth age, race &amp; ethnicity <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
             <div class="column-half" id="chart-grouped_column-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 0 - 9 years" data-qualifier="Universe: {{ demographics.child_race_grouped_under_9.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
             <div class="column-half" id="chart-grouped_column-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 10 - 17 years" data-qualifier="Universe: {{ demographics.child_race_grouped_10_to_17.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2 class="header-for-columns"><a class="permalink section" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.male_child_pop.total stat_type='count' %}
             </div>
             <div class="column-third">
                 <div id="chart-pie-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_total_distribution.metadata.universe }}"></div>
-            </div>        
+            </div>
             <div class="column-third">
                 <div id="chart-pie-demographics-male_child_age_race_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of male youth by race" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-            </div> 
+            </div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#households" id="households" title="Permalink">Households <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#households" id="households" title="Permalink">Households <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.households.number_of_households stat_type='count' %}
@@ -207,8 +204,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
@@ -220,25 +217,26 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#marital-status" id="marital-status" title="Permalink">Marital status <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#marital-status" id="marital-status" title="Permalink">Marital status <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third" id="chart-pie-families-marital_status" data-stat-type="percentage" data-qualifier="Universe: {{ families.marital_status.metadata.universe }}"></div>
             <div class="column-two-thirds" id="chart-grouped_column-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Marital status, by sex" data-qualifier="Universe: {{ families.marital_status_grouped.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#births" id="births" title="Permalink">Births <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#births" id="births" title="Permalink">Births <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.births.total stat_type='count' %}
             </div>
             <div class="column-third">
                 <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-            </div> 
+            </div>
             <div class="column-third">
                 <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ families.births.by_characteristic.metadata.universe }}"></div>
-            </div> 
+            </div>
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
@@ -251,8 +249,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#language" id="language" title="Permalink">Language <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#language" id="language" title="Permalink">Language <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             {% comment %} <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.language.percent_non_english_at_home stat_type='percentage' %}
@@ -273,8 +271,8 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency (2015-2016 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
@@ -283,8 +281,8 @@
         </section>
 
         {% comment %} <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
@@ -293,8 +291,8 @@
         </section> {% endcomment %}
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#eighth-grade-math-proficiency" id="eighth-grade-math-proficiency" title="Permalink">Eighth grade math proficiency (2017-2018 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#eighth-grade-math-proficiency" id="eighth-grade-math-proficiency" title="Permalink">Eighth grade math proficiency (2017-2018 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.eighth_grade_math.percent_met stat_type='percentage' %}
@@ -303,8 +301,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#school-enrollment" id="school-enrollment" title="Permalink">School enrollment  <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#school-enrollment" id="school-enrollment" title="Permalink">School enrollment  <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 <div class="column-half">
@@ -314,12 +312,12 @@
                     {% include 'profile/_blocks/_stat_list.html' with stat=social.enrollment.not_enrolled stat_type='count' %}
                 </div>
             </div>
-            <div class="column-half" id="chart-grouped_column-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-grouped_column-social-enrollment-youth_school_enrollment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment for 5 to 9 year olds by school type and sex" data-qualifier="Universe: {{ social.enrollment.youth_school_enrollment_grouped.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2016-2017 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2016-2017 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.graduation.graduation_rate stat_type='percentage' %}
@@ -328,8 +326,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#educational-attainment" id="educational-attainment" title="Permalink">Educational attainment <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#educational-attainment" id="educational-attainment" title="Permalink">Educational attainment <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 <div class="column-half">
@@ -343,8 +341,9 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='count' %}
             </div>
@@ -353,7 +352,7 @@
             </div>
             <div class="column-third">
                 <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
-            </div> 
+            </div>
         </section>
 
         <section class="clearfix stat-row grouped-row">
@@ -363,12 +362,12 @@
             </div>
             <div class="column-two-thirds">
                 <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
-            </div> 
+            </div>
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#school-lunch" id="school-lunch" title="Permalink">Free and reduced school lunch <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#school-lunch" id="school-lunch" title="Permalink">Free and reduced school lunch <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.school_lunch.percent_free_reduced stat_type='percentage' %}
@@ -377,8 +376,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#college-enrollment-readiness" id="college-enrollment-readiness" title="Permalink">College enrollment and readiness<i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#college-enrollment-readiness" id="college-enrollment-readiness" title="Permalink">College enrollment and readiness<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-two-thirds">
                 <div class="column-third">
@@ -400,8 +399,8 @@
             <div class="column-two-thirds" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#student-mobility-absenteeism" id="student-mobility-absenteeism" title="Permalink">Student mobility and chronic absenteeism<i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#student-mobility-absenteeism" id="student-mobility-absenteeism" title="Permalink">Student mobility and chronic absenteeism<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half" id="chart-pie-social-student_mobility-student_mobility_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public school students either leaving or entering a new school during the school year" data-qualifier="Universe: {{ social.student_mobility.student_mobility_chart_data.metadata.universe }}"></div>
             <div class="column-half" id="chart-pie-social-chronic_absenteeism-chronic_absenteeism_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public school students missing 10% or more school days" data-qualifier="Universe: {{ social.chronic_absenteeism.chronic_absenteeism_chart_data.metadata.universe }}"></div>
@@ -419,8 +418,8 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#income" id="income" title="Permalink">Income <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#income" id="income" title="Permalink">Income <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
@@ -432,8 +431,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#child-poverty" id="child-poverty" title="Permalink">Child poverty <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#child-poverty" id="child-poverty" title="Permalink">Child poverty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.children.Below stat_type='percentage' %}
@@ -445,8 +444,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#poverty" id="poverty" title="Permalink">Poverty <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#poverty" id="poverty" title="Permalink">Poverty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
@@ -455,8 +454,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#food-assistance" id="food-assistance" title="Permalink">Food assistance program participation <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#food-assistance" id="food-assistance" title="Permalink">Food assistance program participation <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_receiving_food_assistance stat_type='percentage' %}
@@ -466,8 +465,8 @@
 
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#employment" id="employment" title="Permalink">Employment <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#employment" id="employment" title="Permalink">Employment <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.unemployment_rate stat_type='percentage' %}
@@ -479,8 +478,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#commute" id="commute" title="Permalink">Transportation to work <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#commute" id="commute" title="Permalink">Transportation to work <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
@@ -489,8 +488,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#vehicle-availability" id="vehicle-availability" title="Permalink">Vehicle availabilty <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#vehicle-availability" id="vehicle-availability" title="Permalink">Vehicle availabilty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
@@ -509,8 +508,8 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#housing-occupancy" id="housing-occupancy" title="Permalink">Units &amp; occupancy <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#housing-occupancy" id="housing-occupancy" title="Permalink">Units &amp; occupancy <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='count' %}
@@ -526,8 +525,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#housing-costs" id="housing-costs" title="Permalink">Housing costs <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#housing-costs" id="housing-costs" title="Permalink">Housing costs <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=housing.costs.median_costs stat_type='dollar' %}
@@ -536,8 +535,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#housing-value" id="housing-value" title="Permalink">Housing value <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#housing-value" id="housing-value" title="Permalink">Housing value <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=housing.ownership.median_value stat_type='dollar' %}
@@ -546,8 +545,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#geographical-mobility" id="geographical-mobility" title="Permalink">Geographical mobility <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#geographical-mobility" id="geographical-mobility" title="Permalink">Geographical mobility <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=housing.migration.moved_since_previous_year stat_type='percentage' %}
@@ -566,8 +565,8 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#infant-mortality" id="infant-mortality" title="Permalink">Infant mortality <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#infant-mortality" id="infant-mortality" title="Permalink">Infant mortality <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.infant_mortality.infant_mortality stat_type='count' %}
@@ -576,8 +575,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#immunizations" id="immunizations" title="Permalink">Immunizations <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#immunizations" id="immunizations" title="Permalink">Immunizations <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.immunization.immunization stat_type='count' %}
@@ -586,8 +585,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#blood-lead" id="blood-lead" title="Permalink">Elevated blood lead levels <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#blood-lead" id="blood-lead" title="Permalink">Elevated blood lead levels <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.blood_lead.percent_elevated stat_type='percentage' %}
@@ -596,8 +595,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#hospitalization" id="hospitalization" title="Permalink">Hospital visits through Medicaid <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#hospitalization" id="hospitalization" title="Permalink">Hospital visits through Medicaid <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.medicaid.child_er stat_type='percentage' %}
@@ -607,8 +606,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#health-insurance" id="health-insurance" title="Permalink">Health insurance <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#health-insurance" id="health-insurance" title="Permalink">Health insurance <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.health_insurance.uninsured stat_type='percentage' %}
@@ -627,8 +626,9 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#place-of-birth" id="place-of-birth" title="Permalink">Place of birth <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside></aside>
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#place-of-birth" id="place-of-birth" title="Permalink">Place of birth <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.place_of_birth.percent_foreign_born stat_type='percentage' %}
             </div>
@@ -636,8 +636,8 @@
         </section>
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#veteran-status" id="veteran-status" title="Permalink">Veteran status <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#veteran-status" id="veteran-status" title="Permalink">Veteran status <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.percentage stat_type='percentage' %}
@@ -740,19 +740,19 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ geography.this.full_geoid }}?geom=tr
                         layer.setStyle({
                             "weight": 2,
                             "fillOpacity": 0.4,
-                            "fillColor": "#76AFF2",
+                            "fillColor": "#5B5B5B",
                         });
                     });
                     layer.on('mouseout', function() {
                         layer.setStyle(defaultStyle);
                     });
                     layer.on('click', function() {
-                        // add spinner to page load 
+                        // add spinner to page load
                         var spinnerTarget = document.getElementById("body-spinner");
                         if (!spinnerTarget) {
                             $('body').append('<div id="body-spinner"></div>');
                             spinnerTarget = document.getElementById('body-spinner');
-                        } 
+                        }
                         spinner.spin(spinnerTarget);
                         window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
                     });
@@ -775,7 +775,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ geography.this.full_geoid }}?geom=tr
 
     var featureLayer = L.geoJson(json, {
         style: {
-            "fillColor": "#A975D7",
+            "fillColor": "#6596CF",
             "fillOpacity": 0.5,
             "color": "#686867",
             "weight": 2,
@@ -870,7 +870,7 @@ var makeCharts = function() {
             chartInitialSort: chartInitialSort,
             chartStatType: chartStatType,
             geographyData: geographyData,
-            chartColorScale: 'Kat2',
+            chartColorScale: 'HIP1',
         }
         try {
             Charts[i] = Chart(chartstuff);
@@ -898,7 +898,7 @@ $(window).resize(lazyRedrawCharts);
 var flaggedMOE = $('.stat-row sup'),
     daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
 
-flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
+flaggedMOE.closest('.stat-row').find('aside').append(daggerNote);
 
 // Enable the single-table topic picker
 var thisSumlev = '{{ geography.this.sumlevel }}',
@@ -937,7 +937,7 @@ if (!!parentLinkContainer) {
             var parents = _.reject(results['parents'], function(p) {
                 return p.relation === 'this' || p.relation === 'place' || p.relation === 'nation';
             });
-            
+
 
             // list of unique parent sumlev types, maintaining order
             var parentRelations = _.uniq(_.pluck(parents, 'sumlevel'));

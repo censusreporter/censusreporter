@@ -30,6 +30,7 @@ else:
 def s3_keyname(geoid):
     return '/1.0/data/hip-profiles/2017/%s.json' % geoid
 
+
 def key(geoid):
     bucket = s3.get_bucket('d3-sd-child')
     keyname = s3_keyname(geoid)

@@ -21,7 +21,7 @@ var spinnerTarget = document.getElementById("body-spinner");
 if (!spinnerTarget) {
     $('body').append('<div id="body-spinner"></div>');
     spinnerTarget = document.getElementById('body-spinner');
-} 
+}
 
 window.onpopstate = function(event) {
     if (event.state) {
@@ -184,7 +184,7 @@ function geocodeAddress(query, callback) {
 
 var POLYGON_STYLE = {
     "clickable": true,
-    "fillColor": "#9C65D1",
+    "fillColor": "#6596CF",
     "color": "#686867",
     "weight": 1,
     "opacity": 0.3,
@@ -203,7 +203,7 @@ function makeLayer(d) {
         layer.setStyle(POLYGON_STYLE);
     });
     layer.on('click', function() {
-        // add spinner to page load 
+        // add spinner to page load
         spinner.spin(spinnerTarget);
         window.location.href = '/profiles/' + d.full_geoid;
     });
@@ -301,7 +301,7 @@ function placeMarker(lat, lng, label) {
             point_marker.setTooltipContent(label);
             point_marker.setLatLng(L.latLng(lat,lng));
         } else {
-            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#9C65D1", fillOpacity: 1, stroke: false, radius: 5});
+            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#6596CF", fillOpacity: 1, stroke: false, radius: 5});
             map.addLayer(point_marker);
             point_marker.bindTooltip(label, {permanent: true, direction:'right'});
         }

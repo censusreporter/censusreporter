@@ -10,15 +10,21 @@ uncomment for separate inclusion into embed iframes */
     font-weight: bold;
     line-height: 1;
     margin-bottom: 7px;
+    color: #2f2f2f;
 }
 .chart-header {
     line-height: 1;
-    margin: 0 0 .5em;
+    margin: 0 .5em;
 }
 .chart-qualifier {
     float: left;
     display: block;
-    margin: 0 .5em;
+    margin: 1em .5em 0 0;
+    color: #6596cf;
+}
+
+.stat .chart-qualifier {
+  font-size: .75em;
 }
 .census-chart-embed {
     position: relative;
@@ -342,12 +348,13 @@ uncomment for separate inclusion into embed iframes */
     border-radius: 3px;
 }
 .action-links {
-    float: right;
-    color: #032634;
+    color: #6596cf;
+    clear: both;
 }
 .action-links a {
     cursor: pointer;
-    color: #032634;
+    color: #6596cf;
+    text-decoration: underline;
 }
 .action-links a:hover {
     color: #4F80BA;
