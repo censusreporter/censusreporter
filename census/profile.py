@@ -448,6 +448,231 @@ def geo_profile(geoid, acs='latest'):
 					   ('housing', dict()),
 					   ('social', dict()),])
 
+	# get D3 data on Graduation Rates
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	block_group_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('GraduationRate_2016_2017_StateOfMichigan__20181009', 'StateID', state_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('GraduationRates_2016_2017_byCounty__20181019', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('GraduationRates_2016_2017_byCountySubdivision__20181019', 'GEOID10', county_sd_geoids)
+
+	# if tract_geoids:
+	# 	tract_data = d3_api.get_data('GraduationRates_2016_2017_byTract__20181019', 'GEOID10', tract_geoids)
+
+	# if block_group_geoids:
+	# 	block_group_data = d3_api.get_data('GraduationRates_2016_2017_byBlockGroup__20181108', 'GEOID10', block_group_geoids)
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('GraduationRates_2016_2017_byMSA__20181019', 'GeoID10_MSA', msa_geoids)
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('GraduationRates_2016_2017_byCongressionalDistrict__20181019', 'GEOID', congressional_district_geoids)
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('GraduationRates_2016_2017_byMIStateSenate__20181019', 'GEOID', state_senate_geoids)	
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('GraduationRates_2016_2017_byHouseOfReps__20181019', 'GEOID', state_house_geoids)
+
+	if school_district_geoids:
+	 	school_district_data = d3_api.get_data('GraduationRates_2016_2017_bySchoolDistrict__20181019', 'GEOID10', school_district_geoids)
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('GraduationRates_2016_2017_byZip__20181019', 'ZCTA5CE10', zcta_geoids)
+
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict()
+	fields['CohortCnt'] = OrderedDict()
+	fields['CohortCnt']['name'] = "Number of students in the class that were on schedule to graduate in 2017"
+	fields['CohortCnt']['indent'] = 0
+
+	fields['GradCnt'] = OrderedDict()
+	fields['GradCnt']['name'] = "Number of students in the class that graduated in 2017"
+	fields['GradCnt']['indent'] = 1
+
+	fields['GradRate'] = OrderedDict()
+	fields['GradRate']['name'] = "Ratio of students that graduated in 2017 to total students in cohort"
+	fields['GradRate']['indent'] = 1
+
+
+	data = format_d3_data("2017", "D3-Graduation-Rates", "Graduation Rate", "Number of students in the class that were on schedule to graduate in 2017", "CohortCnt", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	graduation_dict = dict()
+	doc['social']['graduation'] = graduation_dict
+
+	graduation_dict['graduation_rate'] = build_item('Graduation Rate', data, d3_item_levels,
+		'D3-GradCnt D3-CohortCnt / %')
+	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
+
+	graduation_chart_data = OrderedDict()
+	doc['social']['graduation_chart_data'] = graduation_chart_data
+	add_metadata(graduation_chart_data, 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
+
+	graduation_chart_data['graduated'] = build_item('Graduated', data, d3_item_levels,
+		'D3-GradCnt D3-CohortCnt / %')
+	graduation_chart_data['not_graduated'] = build_item('Not Graduated', data, d3_item_levels,
+		'D3-CohortCnt D3-GradCnt - D3-CohortCnt / %')
+
+
+	# get D3 data on Child Care Centers
+	state_data = []
+	county_data = []
+	county_sd_data = []
+	tract_data = []
+	block_group_data = []
+	msa_data = []
+	congressional_district_data = []
+	state_senate_data = []
+	state_house_data = []
+	school_district_data = []
+	zcta_data = []	
+
+	if state_geoids:
+		state_data = d3_api.get_data('LicensedChildCenters_StateOfMichigan_20180920', 'GEOID', state_geoids)
+
+	if county_geoids:
+		county_data = d3_api.get_data('LicensedChildCenters_by_County_20180920', 'GEOID10', county_geoids)
+
+	if county_sd_geoids:
+		county_sd_data = d3_api.get_data('LicensedChildCenters_by_CountySubdivision_20180920', 'GEOID10', county_sd_geoids)
+
+	if tract_geoids:
+		tract_data = d3_api.get_data('LicensedChildCenters_by_Tracts_20180920', 'GEOID10_Tract', tract_geoids)
+
+	# if block_group_geoids:
+	# 	block_group_data = d3_api.get_data('', 'GEOID10', block_group_geoids)
+
+	if msa_geoids:
+		msa_data = d3_api.get_data('LicensedChildCenters_by_MSA_20180920', 'GeoID10_MSA', msa_geoids)
+
+	if congressional_district_geoids:
+		congressional_district_data = d3_api.get_data('LicensedChildCenters_by_MICongressionalDistrict_20180920', 'GEOID', congressional_district_geoids)
+
+	if state_senate_geoids:
+		state_senate_data = d3_api.get_data('LicensedChildCenters_by_MISenate_20180920', 'GEOID', state_senate_geoids)
+
+	if state_house_geoids:
+		state_house_data = d3_api.get_data('LicensedChildCenters_by_MIHouseOfReps_20180920', 'GEOID', state_house_geoids)
+
+	if school_district_geoids:
+		school_district_data = d3_api.get_data('LicensedChildCenters_by_SchoolDistricts_20180920', 'GEOID10', school_district_geoids)
+
+	if zcta_geoids:
+		zcta_data = d3_api.get_data('LicensedChildCenters_by_ZIP_20180920', 'ZCTA', zcta_geoids)
+
+	# take D3 ODP data and create structure like census_reporter structure
+
+	fields = OrderedDict()
+	fields['Centers'] = OrderedDict()
+	fields['Centers']['name'] = "Number of licensed child care facilities"
+	fields['Centers']['indent'] = 0
+
+	fields['Capacity'] = OrderedDict()
+	fields['Capacity']['name'] = "Capacity of licensed child care facilities"
+	fields['Capacity']['indent'] = 1
+
+	fields['GrpHmeCnt'] = OrderedDict()
+	fields['GrpHmeCnt']['name'] = "Number of group homes"
+	fields['GrpHmeCnt']['indent'] = 1
+
+	fields['FamHmeCnt'] = OrderedDict()
+	fields['FamHmeCnt']['name'] = "Number of family homes"
+	fields['FamHmeCnt']['indent'] = 1
+
+	fields['LicCenCnt'] = OrderedDict()	
+	fields['LicCenCnt']['name'] = "Number of licensed child care centers"
+	fields['LicCenCnt']['indent'] = 1
+
+	fields['EarlyHSCnt'] = OrderedDict()	
+	fields['EarlyHSCnt']['name'] = "Number of early head start programs"
+	fields['EarlyHSCnt']['indent'] = 1
+
+	fields['CapEarlyHS'] = OrderedDict()	
+	fields['CapEarlyHS']['name'] = "Capacity of early head start programs"
+	fields['CapEarlyHS']['indent'] = 2
+
+	fields['GSRPCnt'] = OrderedDict()	
+	fields['GSRPCnt']['name'] = "Number of GSRP programs"
+	fields['GSRPCnt']['indent'] = 1
+
+	fields['CapGSRP'] = OrderedDict()	
+	fields['CapGSRP']['name'] = "Capacity of GSRP programs"
+	fields['CapGSRP']['indent'] = 2
+
+	fields['HSCnt'] = OrderedDict()	
+	fields['HSCnt']['name'] = "Number of Head Start programs"
+	fields['HSCnt']['indent'] = 1
+
+	fields['CapHS'] = OrderedDict()	
+	fields['CapHS']['name'] = "Capacity of Head Start programs"
+	fields['CapHS']['indent'] = 2
+
+
+	data = format_d3_data("2018", "D3-Child-Care-Centers", "Number of licensed child care facilities", "Number of licensed child care facilities", "Centers", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
+		)
+
+	child_care_dict = dict()
+	doc['families']['child_care'] = child_care_dict
+
+	child_care_dict['child_care_centers'] = build_item('Number of licensed child care facilities', data, d3_item_levels, 
+		'D3-Centers')
+	add_metadata(child_care_dict['child_care_centers'], 'D3-Child-Care-Centers', 'Number of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 
+
+	child_care_dict['child_care_capacity'] = build_item('Capacity of licensed child care facilities', data, d3_item_levels, 
+		'D3-Capacity')
+	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 	
+	
+	child_care_center_chart_data = OrderedDict()
+	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
+	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018')
+
+	child_care_center_chart_data['LicCenCnt'] = build_item('Licensed child care centers', data, d3_item_levels,
+		'D3-LicCenCnt D3-Centers / %')
+	child_care_center_chart_data['GrpHmeCnt'] = build_item('Group homes', data, d3_item_levels,
+		'D3-GrpHmeCnt D3-Centers / %')
+	child_care_center_chart_data['FamHmeCnt'] = build_item('Family homes', data, d3_item_levels,
+		'D3-FamHmeCnt D3-Centers / %')
+
+	child_care_program_chart_data = OrderedDict()
+	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
+	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
+
+	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
+		'D3-EarlyHSCnt D3-LicCenCnt / %')
+	child_care_program_chart_data['GSRPCnt'] = build_item('GSRP', data, d3_item_levels,
+		'D3-GSRPCnt D3-LicCenCnt / %')
+	child_care_program_chart_data['HSCnt'] = build_item('Head Start', data, d3_item_levels,
+		'D3-HSCnt D3-LicCenCnt / %')
+
+	child_care_capacity_chart_data = OrderedDict()
+	doc['families']['child_care']['child_care_capacity_chart_data'] = child_care_capacity_chart_data
+	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018')
+
+	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Early Head Start programs', data, d3_item_levels,
+		'D3-CapEarlyHS D3-Capacity / %')
+	child_care_capacity_chart_data['CapHS'] = build_item('Head Start programs', data, d3_item_levels,
+		'D3-CapHS D3-Capacity / %')
+	child_care_capacity_chart_data['CapGSRP'] = build_item('GSRP programs', data, d3_item_levels,
+		'D3-CapGSRP D3-Capacity / %')
+
+
 
 	# CR queries
 	data = api.get_data('B01001', comparison_geoids, acs)
@@ -509,320 +734,6 @@ def geo_profile(geoid, acs='latest'):
 		'B01001005 B01001029 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
 	child_cat_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
 		'B01001006 B01001030 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
-
-	age_dict = dict()
-	doc['demographics']['age'] = age_dict
-
-	cat_dict = OrderedDict()
-	age_dict['distribution_by_category'] = cat_dict
-	add_metadata(age_dict['distribution_by_category'], 'B01001', 'Total population', acs_name)
-
-	cat_dict['percent_under_18'] = build_item('Under 18', data, item_levels,
-		'B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + B01001001 / %')
-	cat_dict['percent_18_to_64'] = build_item('18 to 64', data, item_levels,
-		'B01001007 B01001008 + B01001009 + B01001010 + B01001011 + B01001012 + B01001013 + B01001014 + B01001015 + B01001016 + B01001017 + B01001018 + B01001019 + B01001031 + B01001032 + B01001033 + B01001034 + B01001035 + B01001036 + B01001037 + B01001038 + B01001039 + B01001040 + B01001041 + B01001042 + B01001043 + B01001001 / %')
-	cat_dict['percent_over_65'] = build_item('65 and over', data, item_levels,
-		'B01001020 B01001021 + B01001022 + B01001023 + B01001024 + B01001025 + B01001044 + B01001045 + B01001046 + B01001047 + B01001048 + B01001049 + B01001001 / %')
-
-	pop_dict = dict()
-	age_dict['distribution_by_decade'] = pop_dict
-	population_by_age_total = OrderedDict()
-	population_by_age_male = OrderedDict()
-	population_by_age_female = OrderedDict()
-	pop_dict['total'] = population_by_age_total
-	add_metadata(pop_dict['total'], 'B01001', 'Total population', acs_name)
-	pop_dict['male'] = population_by_age_male
-	add_metadata(pop_dict['male'], 'B01001', 'Total population', acs_name)
-	pop_dict['female'] = population_by_age_female
-	add_metadata(pop_dict['female'], 'B01001', 'Total population', acs_name)
-
-	population_by_age_male['0-9'] = build_item('0-9', data, item_levels,
-		'B01001003 B01001004 + B01001002 / %')
-	population_by_age_female['0-9'] = build_item('0-9', data, item_levels,
-		'B01001027 B01001028 + B01001026 / %')
-	population_by_age_total['0-9'] = build_item('0-9', data, item_levels,
-		'B01001003 B01001004 + B01001027 + B01001028 + B01001001 / %')
-
-	population_by_age_male['10-19'] = build_item('10-19', data, item_levels,
-		'B01001005 B01001006 + B01001007 + B01001002 / %')
-	population_by_age_female['10-19'] = build_item('10-19', data, item_levels,
-		'B01001029 B01001030 + B01001031 + B01001026 / %')
-	population_by_age_total['10-19'] = build_item('10-19', data, item_levels,
-		'B01001005 B01001006 + B01001007 + B01001029 + B01001030 + B01001031 + B01001001 / %')
-
-	population_by_age_male['20-29'] = build_item('20-29', data, item_levels,
-		'B01001008 B01001009 + B01001010 + B01001011 + B01001002 / %')
-	population_by_age_female['20-29'] = build_item('20-29', data, item_levels,
-		'B01001032 B01001033 + B01001034 + B01001035 + B01001026 / %')
-	population_by_age_total['20-29'] = build_item('20-29', data, item_levels,
-		'B01001008 B01001009 + B01001010 + B01001011 + B01001032 + B01001033 + B01001034 + B01001035 + B01001001 / %')
-
-	population_by_age_male['30-39'] = build_item('30-39', data, item_levels,
-		'B01001012 B01001013 + B01001002 / %')
-	population_by_age_female['30-39'] = build_item('30-39', data, item_levels,
-		'B01001036 B01001037 + B01001026 / %')
-	population_by_age_total['30-39'] = build_item('30-39', data, item_levels,
-		'B01001012 B01001013 + B01001036 + B01001037 + B01001001 / %')
-
-	population_by_age_male['40-49'] = build_item('40-49', data, item_levels,
-		'B01001014 B01001015 + B01001002 / %')
-	population_by_age_female['40-49'] = build_item('40-49', data, item_levels,
-		'B01001038 B01001039 + B01001026 / %')
-	population_by_age_total['40-49'] = build_item('40-49', data, item_levels,
-		'B01001014 B01001015 + B01001038 + B01001039 + B01001001 / %')
-
-	population_by_age_male['50-59'] = build_item('50-59', data, item_levels,
-		'B01001016 B01001017 + B01001002 / %')
-	population_by_age_female['50-59'] = build_item('50-59', data, item_levels,
-		'B01001040 B01001041 + B01001026 / %')
-	population_by_age_total['50-59'] = build_item('50-59', data, item_levels,
-		'B01001016 B01001017 + B01001040 + B01001041 + B01001001 / %')
-
-	population_by_age_male['60-69'] = build_item('60-69', data, item_levels,
-		'B01001018 B01001019 + B01001020 + B01001021 + B01001002 / %')
-	population_by_age_female['60-69'] = build_item('60-69', data, item_levels,
-		'B01001042 B01001043 + B01001044 + B01001045 + B01001026 / %')
-	population_by_age_total['60-69'] = build_item('60-69', data, item_levels,
-		'B01001018 B01001019 + B01001020 + B01001021 + B01001042 + B01001043 + B01001044 + B01001045 + B01001001 / %')
-
-	population_by_age_male['70-79'] = build_item('70-79', data, item_levels,
-		'B01001022 B01001023 + B01001002 / %')
-	population_by_age_female['70-79'] = build_item('70-79', data, item_levels,
-		'B01001046 B01001047 + B01001026 / %')
-	population_by_age_total['70-79'] = build_item('70-79', data, item_levels,
-		'B01001022 B01001023 + B01001046 + B01001047 + B01001001 / %')
-
-	population_by_age_male['80+'] = build_item('80+', data, item_levels,
-		'B01001024 B01001025 + B01001002 / %')
-	population_by_age_female['80+'] = build_item('80+', data, item_levels,
-		'B01001048 B01001049 + B01001026 / %')
-	population_by_age_total['80+'] = build_item('80+', data, item_levels,
-		'B01001024 B01001025 + B01001048 + B01001049 + B01001001 / %')
-
-	# Demographics: Sex
-	sex_dict = OrderedDict()
-	doc['demographics']['sex'] = sex_dict
-	add_metadata(sex_dict, 'B01001', 'Total population', acs_name)
-	sex_dict['percent_male'] = build_item('Male', data, item_levels,
-		'B01001002 B01001001 / %')
-	sex_dict['percent_female'] = build_item('Female', data, item_levels,
-		'B01001026 B01001001 / %')
-
-
-
-	data = api.get_data('B01002', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	median_age_dict = dict()
-	age_dict['median_age'] = median_age_dict
-	median_age_dict['total'] = build_item('Median age', data, item_levels,
-		'B01002001')
-	add_metadata(median_age_dict['total'], 'B01002', 'Total population', acs_name)
-	median_age_dict['male'] = build_item('Median age male', data, item_levels,
-		'B01002002')
-	add_metadata(median_age_dict['male'], 'B01002', 'Total population', acs_name)
-	median_age_dict['female'] = build_item('Median age female', data, item_levels,
-		'B01002003')
-	add_metadata(median_age_dict['female'], 'B01002', 'Total population', acs_name)
-
-
-
-	# Demographics: Race
-	data = api.get_data('B03002', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	race_dict = OrderedDict()
-	doc['demographics']['race'] = race_dict
-	add_metadata(race_dict, 'B03002', 'Total population', acs_name)
-
-	race_dict['percent_white'] = build_item('White', data, item_levels,
-		'B03002003 B03002001 / %')
-
-	race_dict['percent_black'] = build_item('Black', data, item_levels,
-		'B03002004 B03002001 / %')
-
-	race_dict['percent_native'] = build_item('Native American', data, item_levels,
-		'B03002005 B03002001 / %')
-
-	race_dict['percent_asian'] = build_item('Asian', data, item_levels,
-		'B03002006 B03002001 / %')
-
-	race_dict['percent_islander'] = build_item('Pacific Islander', data, item_levels,
-		'B03002007 B03002001 / %')
-
-	race_dict['percent_other'] = build_item('Other', data, item_levels,
-		'B03002008 B03002001 / %')
-
-	race_dict['percent_two_or_more'] = build_item('Two+', data, item_levels,
-		'B03002009 B03002001 / %')
-
-	race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
-		'B03002012 B03002001 / %')
-
-
-
-	#### Race by age for youth ####
-	#### SODC ####
-	#data = api.get_data(['B01001A', 'B01001B', 'B01001C', 'B01001D', 'B01001E', 'B01001F', 'B01001G', 'B01001I', 'B01001'], comparison_geoids, acs)
-	data = api.get_data(['B01001H', 'B01001'], comparison_geoids, acs)
-	acs_name = data['release']['name']
-	
-	child_race_grouped_under_9 = OrderedDict()
-	doc['demographics']['child_race_grouped_under_9'] = child_race_grouped_under_9
-	add_metadata(child_race_grouped_under_9, 'B01001', 'Population under 5 years old and 5-9 years old', acs_name)
-
-	# Race by age under 5
-	child_race_grouped_under_9['under_5'] = OrderedDict()
-	child_race_grouped_under_9['under_5']['acs_release'] = acs_name
-	child_race_grouped_under_9['under_5']['metadata'] = {
-		'universe': 'Population under 5 years old',
-		'table_id': 'B01001',
-		'name': 'Under 5'
-	}
-
-	# Race by age 5 - 9
-	child_race_grouped_under_9['5_to_9'] = OrderedDict()
-	child_race_grouped_under_9['5_to_9']['acs_release'] = acs_name
-	child_race_grouped_under_9['5_to_9']['metadata'] = {
-		'universe': 'Total population',
-		'table_id': 'B01001',
-		'name': '5 to 9'
-	}
-
-	# Race by age 10 - 14
-	child_race_grouped_10_to_17 = OrderedDict()
-	doc['demographics']['child_race_grouped_10_to_17'] = child_race_grouped_10_to_17
-	add_metadata(child_race_grouped_10_to_17, 'B01001', 'Population 10-14 years old and 15-17 years old', acs_name)
-
-	child_race_grouped_10_to_17['10_to_14'] = OrderedDict()
-	child_race_grouped_10_to_17['10_to_14']['acs_release'] = acs_name
-	child_race_grouped_10_to_17['10_to_14']['metadata'] = {
-		'universe': 'Total population',
-		'table_id': 'B01001',
-		'name': '10 to 14'
-	}
-
-	# Race by age 15 - 17
-	child_race_grouped_10_to_17['15_to_17'] = OrderedDict()
-	child_race_grouped_10_to_17['15_to_17']['acs_release'] = acs_name
-	child_race_grouped_10_to_17['15_to_17']['metadata'] = {
-		'universe': 'Total population',
-		'table_id': 'B01001',
-		'name': '15 to 17'
-	}
-
-
-	# Male Children: Distribution by Race
-	#### SODC ####
-	
-	male_child_age_race_distribution_dict = OrderedDict()
-	doc['demographics']['male_child_age_race_distribution'] = male_child_age_race_distribution_dict
-	add_metadata(male_child_age_race_distribution_dict, 'B01001', 'Population of males under 18 years of age', acs_name)
-
-	child_race_grouped_under_9['under_5']['white'] = build_item('White Under 5', data, item_levels,
-		'B01001H003 B01001H018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['5_to_9']['white'] = build_item('White 5 to 9', data, item_levels,
-		'B01001H004 B01001H019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['white'] = build_item('White 10 to 14', data, item_levels,
-		'B01001H005 B01001H020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['15_to_17']['white'] = build_item('White 15 to 17', data, item_levels,
-		'B01001H006 B01001H021 + B01001006 B01001030 + / %')
-	
-	male_child_age_race_distribution_dict['percent_white'] = build_item('White', data, item_levels,
-		'B01001H003 B01001H004 + B01001H005 + B01001H006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-
-
-
-	data = api.get_data(['B01001B', 'B01001'], comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	child_race_grouped_under_9['under_5']['black'] = build_item('Black Under 5', data, item_levels,
-		'B01001B003 B01001B018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['5_to_9']['black'] = build_item('Black 5 to 9', data, item_levels,
-		'B01001B004 B01001B019 + B01001004 B01001028 + / %')
-	
-	child_race_grouped_10_to_17['10_to_14']['black'] = build_item('Black 10 to 14', data, item_levels,
-		'B01001B005 B01001B020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['15_to_17']['black'] = build_item('Black 15 to 17', data, item_levels,
-		'B01001B006 B01001B021 + B01001006 B01001030 + / %')
-
-	male_child_age_race_distribution_dict['percent_black'] = build_item('Black', data, item_levels,
-		'B01001B003 B01001B004 + B01001B005 + B01001B006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-
-
-	data = api.get_data(['B01001D', 'B01001'], comparison_geoids, acs)
-	acs_name = data['release']['name']		
-
-	child_race_grouped_under_9['under_5']['asian'] = build_item('Asian Under 5', data, item_levels,
-		'B01001D003 B01001D018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['5_to_9']['asian'] = build_item('Asian 5 to 9', data, item_levels,
-		'B01001D004 B01001D019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['asian'] = build_item('Asian 10 to 14', data, item_levels,
-		'B01001D005 B01001D020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['15_to_17']['asian'] = build_item('Asian 15 to 17', data, item_levels,
-		'B01001D006 B01001D021 + B01001006 B01001030 + / %')
-
-	male_child_age_race_distribution_dict['percent_asian'] = build_item('Asian', data, item_levels,
-		'B01001D003 B01001D004 + B01001D005 + B01001D006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-
-
-	data = api.get_data(['B01001I', 'B01001'], comparison_geoids, acs)
-	acs_name = data['release']['name']	
-
-	child_race_grouped_under_9['under_5']['hispanic'] = build_item('Hispanic Under 5', data, item_levels,
-		'B01001I003 B01001I018 + B01001003 B01001027 + / %')
-
-	child_race_grouped_under_9['5_to_9']['hispanic'] = build_item('Hispanic 5 to 9', data, item_levels,
-		'B01001I004 B01001I019 + B01001004 B01001028 + / %')
-
-	child_race_grouped_10_to_17['10_to_14']['hispanic'] = build_item('Hispanic 10 to 14', data, item_levels,
-		'B01001I005 B01001I020 + B01001005 B01001029 + / %')
-
-	child_race_grouped_10_to_17['15_to_17']['hispanic'] = build_item('Hispanic 15 to 17', data, item_levels,
-		'B01001I006 B01001I021 + B01001006 B01001030 + / %')
-
-	male_child_age_race_distribution_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
-		'B01001I003 B01001I004 + B01001I005 + B01001I006 + B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-
-	# Male Children: Total number of male youth
-	#### SODC ####
-	male_child_pop_dict = dict()
-	doc['demographics']['male_child_pop'] = male_child_pop_dict
-	male_child_pop_dict['total'] = build_item('Number of male children under 18', data, item_levels,
-		'B01001003 B01001004 + B01001005 + B01001006 + ')
-	add_metadata(male_child_pop_dict['total'], 'B01001', 'Total population', acs_name)    
-
-
-	# Male Children: Total Distribution by Age
-	#### SODC ####
-	male_child_age_total_distribution_dict = OrderedDict()
-	doc['demographics']['male_child_age_total_distribution'] = male_child_age_total_distribution_dict
-	add_metadata(male_child_age_total_distribution_dict, 'B01001', 'Population of males under 18 years of age', acs_name)
-
-	male_child_age_total_distribution_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
-		'B01001003 B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-	male_child_age_total_distribution_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
-		'B01001004 B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-	male_child_age_total_distribution_dict['percent_10_to_14'] = build_item('10 to 14', data, item_levels,
-		'B01001005 B01001003 B01001004 + B01001005 + B01001006 + / %')
-
-	male_child_age_total_distribution_dict['percent_15_to_17'] = build_item('15 to 17', data, item_levels,
-		'B01001006 B01001003 B01001004 + B01001005 + B01001006 + / %')
-
 
 
 
@@ -921,16 +832,6 @@ def geo_profile(geoid, acs='latest'):
 
 
 
-	# Economics: Public Assistance to households with children
-	data = api.get_data('B09010', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	poverty_dict['percent_receiving_public_assistance'] = build_item('Households with children (under 18) receiving SSI, cash or food/SNAP assistance', data, item_levels,
-		'B09010002 B09010001 / %')
-	add_metadata(poverty_dict['percent_receiving_public_assistance'], 'B09010', 'Population under 18 years in households', acs_name)
-
-
-
 	# Economics: Poverty Status in the Past 12 Months of Families by Household Type by Educational Attainment of Householder
 	data = api.get_data('B17018', comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -993,183 +894,6 @@ def geo_profile(geoid, acs='latest'):
 
 
 
-	# Economics: Food assistance program participation
-	data = api.get_data('B22002', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	poverty_dict['percent_receiving_food_assistance'] = build_item('Households with food/SNAP assistance in the past 12 months', data, item_levels,
-		'B22002002 B22002001 / %')
-	add_metadata(poverty_dict['percent_receiving_food_assistance'], 'B22002', 'Households', acs_name)
-
-	food_assistance_household_type = OrderedDict()
-	doc['economics']['poverty']['food_assistance_household_type'] = food_assistance_household_type
-	add_metadata(food_assistance_household_type, 'B22002', 'Households', acs_name)
-
-	# Married Couples
-	food_assistance_household_type['married_couples'] = OrderedDict()
-	food_assistance_household_type['married_couples']['acs_release'] = acs_name
-	food_assistance_household_type['married_couples']['metadata'] = {
-		'universe': 'Households',
-		'table_id': 'B22002',
-		'name': 'Married couples'
-	}
-	food_assistance_household_type['married_couples']['With Children'] = build_item('With children under 18 years', data, item_levels,
-		'B22002004 B22002001 / %')	
-	food_assistance_household_type['married_couples']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
-		'B22002010 B22002001 / %')	
-
-	#Male Householder
-	food_assistance_household_type['male_householder'] = OrderedDict()
-	food_assistance_household_type['male_householder']['acs_release'] = acs_name
-	food_assistance_household_type['male_householder']['metadata'] = {
-		'universe': 'Households',
-		'table_id': 'B22002',
-		'name': 'Male householder, no wife present'
-	}
-	food_assistance_household_type['male_householder']['With Children'] = build_item('With children under 18 years', data, item_levels,
-		'B22002006 B22002001 / %')	
-	food_assistance_household_type['male_householder']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
-		'B22002012 B22002001 / %')	
-
-	#Female Householder
-	food_assistance_household_type['female_householder'] = OrderedDict()
-	food_assistance_household_type['female_householder']['acs_release'] = acs_name
-	food_assistance_household_type['female_householder']['metadata'] = {
-		'universe': 'Households',
-		'table_id': 'B22002',
-		'name': 'Female householder, no husband present'
-	}
-	food_assistance_household_type['female_householder']['With Children'] = build_item('With children under 18 years', data, item_levels,
-		'B22002007 B22002001 / %')	
-	food_assistance_household_type['female_householder']['W/O Children'] = build_item('No children under 18 years', data, item_levels,
-		'B22002013 B22002001 / %')	
-
-
-
-	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
-	if acs != 'acs2012_5yr' and acs != 'acs2012_1yr':
-		data = api.get_data(['B23025', 'B23027'], comparison_geoids, acs)
-	else:
-		data = api.get_data(['B23025'], comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	employment_dict = dict()
-	doc['economics']['employment'] = employment_dict
-
-	employment_dict['unemployment_rate'] = build_item('Unemployment rate', data, item_levels,
-		'B23025005 B23025003 / %')
-	add_metadata(employment_dict['unemployment_rate'], 'B23025', 'Population 16 years and over', acs_name)
-
-	if acs != 'acs2012_5yr' and acs != 'acs2012_1yr':
-		employment_dict['nowork_rate'] = build_item('Persons 16-64 who have not worked in the last 12 months', data, item_levels,
-			'B23027006 B23027011 + B23027016 + B23027021 + B23027026 + B23027002 B23027007 + B23027012 + B23027017 + B23027022 + / %')
-		add_metadata(employment_dict['nowork_rate'], 'B23027', 'Population 16 years and over', acs_name)
-
-
-
-	data = api.get_data(['B14005'], comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	youth_school_employment_grouped = OrderedDict()
-	employment_dict['youth_school_employment_grouped'] = youth_school_employment_grouped
-	add_metadata(youth_school_employment_grouped, 'B14005', 'Population 16 to 19 years', acs_name)
-
-	# repeating data temporarily to develop grouped column chart format
-	youth_school_employment_grouped['enrolled'] = OrderedDict()
-	youth_school_employment_grouped['enrolled']['acs_release'] = acs_name
-	youth_school_employment_grouped['enrolled']['metadata'] = {
-		'universe': 'Population 16 to 19 years',
-		'table_id': 'C14005',
-		'name': 'Enrolled'
-	}
-	youth_school_employment_grouped['enrolled']['male'] = build_item('Male', data, item_levels,
-		'B14005003 B14005002 / %')
-	youth_school_employment_grouped['enrolled']['female'] = build_item('Female', data, item_levels,
-		'B14005017 B14005016 / %')
-
-	youth_school_employment_grouped['graduated_employed'] = OrderedDict()
-	youth_school_employment_grouped['graduated_employed']['acs_release'] = acs_name
-	youth_school_employment_grouped['graduated_employed']['metadata'] = {
-		'universe': 'Population 16 to 19 years',
-		'table_id': 'B14005',
-		'name': 'Employed, graduated'
-	}
-	youth_school_employment_grouped['graduated_employed']['male'] = build_item('Male', data, item_levels,
-		'B14005009 B14005002 / %')
-	youth_school_employment_grouped['graduated_employed']['female'] = build_item('Female', data, item_levels,
-		'B14005023 B14005016 / %')
-
-	youth_school_employment_grouped['not_graduated_employed'] = OrderedDict()
-	youth_school_employment_grouped['not_graduated_employed']['acs_release'] = acs_name
-	youth_school_employment_grouped['not_graduated_employed']['metadata'] = {
-		'universe': 'Population 16 to 19 years',
-		'table_id': 'B14005',
-		'name': 'Employed, not graduated'
-	}
-	youth_school_employment_grouped['not_graduated_employed']['male'] = build_item('Male', data, item_levels,
-		'B14005013 B14005002 / %')
-	youth_school_employment_grouped['not_graduated_employed']['female'] = build_item('Female', data, item_levels,
-		'B14005027 B14005016 / %')
-
-	youth_school_employment_grouped['graduated_unemployed'] = OrderedDict()
-	youth_school_employment_grouped['graduated_unemployed']['acs_release'] = acs_name
-	youth_school_employment_grouped['graduated_unemployed']['metadata'] = {
-		'universe': 'Population 16 to 19 years',
-		'table_id': 'B14005',
-		'name': 'Unemployed or not in LF, graduated'
-	}
-	youth_school_employment_grouped['graduated_unemployed']['male'] = build_item('Male', data, item_levels,
-		'B14005014 B14005015 + B14005002 / %')
-	youth_school_employment_grouped['graduated_unemployed']['female'] = build_item('Female', data, item_levels,
-		'B14005028 B14005029 + B14005016 / %')
-
-	youth_school_employment_grouped['not_graduated_unemployed'] = OrderedDict()
-	youth_school_employment_grouped['not_graduated_unemployed']['acs_release'] = acs_name
-	youth_school_employment_grouped['not_graduated_unemployed']['metadata'] = {
-		'universe': 'Population 16 to 19 years',
-		'table_id': 'B14005',
-		'name': 'Unemployed or not in LF, not graduated'
-	}
-	youth_school_employment_grouped['not_graduated_unemployed']['male'] = build_item('Male', data, item_levels,
-		'B14005014 B14005015 + B14005002 / %')
-	youth_school_employment_grouped['not_graduated_unemployed']['female'] = build_item('Female', data, item_levels,
-		'B14005028 B14005029 + B14005016 / %')
-
-
-
-	data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
-		'B08013001 B08006001 B08006017 - /')
-	add_metadata(employment_dict['mean_travel_time'], 'B08006, B08013', 'Workers 16 years and over who did not work at home', acs_name)
-
-
-
-	data = api.get_data('B08006', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	transportation_dict = OrderedDict()
-	employment_dict['transportation_distribution'] = transportation_dict
-	add_metadata(employment_dict['transportation_distribution'], 'B08006', 'Workers 16 years and over', acs_name)
-
-	transportation_dict['drove_alone'] = build_item('Drove alone', data, item_levels,
-		'B08006003 B08006001 / %')
-	transportation_dict['carpooled'] = build_item('Carpooled', data, item_levels,
-		'B08006004 B08006001 / %')
-	transportation_dict['public_transit'] = build_item('Public transit', data, item_levels,
-		'B08006008 B08006001 / %')
-	transportation_dict['Bicycle'] = build_item('Bicycle', data, item_levels,
-		'B08006014 B08006001 / %')
-	transportation_dict['walked'] = build_item('Walked', data, item_levels,
-		'B08006015 B08006001 / %')
-	transportation_dict['other'] = build_item('Other', data, item_levels,
-		'B08006016 B08006001 / %')
-	transportation_dict['worked_at_home'] = build_item('Worked at home', data, item_levels,
-		'B08006017 B08006001 / %')
-
-
-
 
 	# Family and Economic Security: Vehicle Avaialabilty
 	data = api.get_data(['B08006', 'B08014', 'B08015'], comparison_geoids, acs)
@@ -1195,76 +919,6 @@ def geo_profile(geoid, acs='latest'):
 		'B08014006 B08014001 / %')
 	vehicle_availabilty_dict['5_or_more_vehicles_available'] = build_item('5+ vehicles available', data, item_levels,
 		'B08014007 B08014001 / %')
-
-
-
-
-	# Families: Marital Status by Sex
-	data = api.get_data('B12001', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	marital_status = OrderedDict()
-	doc['families']['marital_status'] = marital_status
-	add_metadata(marital_status, 'B12001', 'Population 15 years and over', acs_name)
-
-	marital_status['married'] = build_item('Married', data, item_levels,
-		'B12001004 B12001013 + B12001001 / %')
-	marital_status['single'] = build_item('Single', data, item_levels,
-		'B12001003 B12001009 + B12001010 + B12001012 + B12001018 + B12001019 + B12001001 / %')
-
-	marital_status_grouped = OrderedDict()
-	doc['families']['marital_status_grouped'] = marital_status_grouped
-	add_metadata(marital_status_grouped, 'B12001', 'Population 15 years and over', acs_name)
-
-	# repeating data temporarily to develop grouped column chart format
-	marital_status_grouped['never_married'] = OrderedDict()
-	marital_status_grouped['never_married']['acs_release'] = acs_name
-	marital_status_grouped['never_married']['metadata'] = {
-		'universe': 'Population 15 years and over',
-		'table_id': 'B12001',
-		'name': 'Never married'
-	}
-	marital_status_grouped['never_married']['male'] = build_item('Male', data, item_levels,
-		'B12001003 B12001002 / %')
-	marital_status_grouped['never_married']['female'] = build_item('Female', data, item_levels,
-		'B12001012 B12001011 / %')
-
-	marital_status_grouped['married'] = OrderedDict()
-	marital_status_grouped['married']['acs_release'] = acs_name
-	marital_status_grouped['married']['metadata'] = {
-		'universe': 'Population 15 years and over',
-		'table_id': 'B12001',
-		'name': 'Now married'
-	}
-	marital_status_grouped['married']['male'] = build_item('Male', data, item_levels,
-		'B12001004 B12001002 / %')
-	marital_status_grouped['married']['female'] = build_item('Female', data, item_levels,
-		'B12001013 B12001011 / %')
-
-	marital_status_grouped['divorced'] = OrderedDict()
-	marital_status_grouped['divorced']['acs_release'] = acs_name
-	marital_status_grouped['divorced']['metadata'] = {
-		'universe': 'Population 15 years and over',
-		'table_id': 'B12001',
-		'name': 'Divorced'
-	}
-	marital_status_grouped['divorced']['male'] = build_item('Male', data, item_levels,
-		'B12001010 B12001002 / %')
-	marital_status_grouped['divorced']['female'] = build_item('Female', data, item_levels,
-		'B12001019 B12001011 / %')
-
-	marital_status_grouped['widowed'] = OrderedDict()
-	marital_status_grouped['widowed']['acs_release'] = acs_name
-	marital_status_grouped['widowed']['metadata'] = {
-		'universe': 'Population 15 years and over',
-		'table_id': 'B12001',
-		'name': 'Widowed'
-	}
-	marital_status_grouped['widowed']['male'] = build_item('Male', data, item_levels,
-		'B12001009 B12001002 / %')
-	marital_status_grouped['widowed']['female'] = build_item('Female', data, item_levels,
-		'B12001018 B12001011 / %')
-
 
 
 
@@ -1317,39 +971,6 @@ def geo_profile(geoid, acs='latest'):
 
 
 
-	# Families: Birth Rate by Women's Age
-	data = api.get_data('B13016', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	fertility = dict()
-	doc['families']['fertility'] = fertility
-
-	fertility['total'] = build_item('Women 15-50 who gave birth during past year', data, item_levels,
-		'B13016002 B13016001 / %')
-	add_metadata(fertility['total'], 'B13016', 'Women 15 to 50 years', acs_name)
-
-	fertility_by_age_dict = OrderedDict()
-	fertility['by_age'] = fertility_by_age_dict
-	add_metadata(fertility['by_age'], 'B13016', 'Women 15 to 50 years', acs_name)
-
-	fertility_by_age_dict['15_to_19'] = build_item('15-19', data, item_levels,
-		'B13016003 B13016003 B13016011 + / %')
-	fertility_by_age_dict['20_to_24'] = build_item('20-24', data, item_levels,
-		'B13016004 B13016004 B13016012 + / %')
-	fertility_by_age_dict['25_to_29'] = build_item('25-29', data, item_levels,
-		'B13016005 B13016005 B13016013 + / %')
-	fertility_by_age_dict['30_to_34'] = build_item('30-35', data, item_levels,
-		'B13016006 B13016006 B13016014 + / %')
-	fertility_by_age_dict['35_to_39'] = build_item('35-39', data, item_levels,
-		'B13016007 B13016007 B13016015 + / %')
-	fertility_by_age_dict['40_to_44'] = build_item('40-44', data, item_levels,
-		'B13016008 B13016008 B13016016 + / %')
-	fertility_by_age_dict['45_to_50'] = build_item('45-50', data, item_levels,
-		'B13016009 B13016009 B13016017 + / %')
-
-
-
-
 	# Families: Number of Households, Persons per Household, Household type distribution
 	data = api.get_data(['B11001', 'B11002'], comparison_geoids, acs)
 	acs_name = data['release']['name']
@@ -1380,206 +1001,6 @@ def geo_profile(geoid, acs='latest'):
 
 	households_distribution_dict['nonfamily'] = build_item('Non-family', data, item_levels,
 		'B11002012 B11002001 / %')
-
-
-
-
-
-	# Housing: Structure Distribution
-	data = api.get_data('B25024', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	structure_distribution_dict = OrderedDict()
-	units_dict['structure_distribution'] = structure_distribution_dict
-	add_metadata(units_dict['structure_distribution'], 'B25024', 'Housing units', acs_name)
-
-	structure_distribution_dict['single_unit'] = build_item('Single unit', data, item_levels,
-		'B25024002 B25024003 + B25024001 / %')
-	structure_distribution_dict['multi_unit'] = build_item('Multi-unit', data, item_levels,
-		'B25024004 B25024005 + B25024006 + B25024007 + B25024008 + B25024009 + B25024001 / %')
-	structure_distribution_dict['mobile_home'] = build_item('Mobile home', data, item_levels,
-		'B25024010 B25024001 / %')
-	structure_distribution_dict['vehicle'] = build_item('Boat, RV, van, etc.', data, item_levels,
-		'B25024011 B25024001 / %')
-
-
-
-	# Housing: Tenure
-	data = api.get_data('B25003', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	ownership_dict = dict()
-	doc['housing']['ownership'] = ownership_dict
-
-	ownership_distribution_dict = OrderedDict()
-	ownership_dict['distribution'] = ownership_distribution_dict
-	add_metadata(ownership_dict['distribution'], 'B25003', 'Occupied housing units', acs_name)
-
-	ownership_distribution_dict['owner'] = build_item('Owner occupied', data, item_levels,
-		'B25003002 B25003001 / %')
-	ownership_distribution_dict['renter'] = build_item('Renter occupied', data, item_levels,
-		'B25003003 B25003001 / %')
-
-
-
-	data = api.get_data('B25026', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	length_of_tenure_dict = OrderedDict()
-	doc['housing']['length_of_tenure'] = length_of_tenure_dict
-	add_metadata(length_of_tenure_dict, 'B25026', 'Total population in occupied housing units', acs_name)
-
-	length_of_tenure_dict['Before_1970'] = build_item('Before 1970', data, item_levels,
-		'B25026008 B25026015 + B25026001 / %')
-	length_of_tenure_dict['1970s'] = build_item('1970s', data, item_levels,
-		'B25026007 B25026014 + B25026001 / %')
-	length_of_tenure_dict['1980s'] = build_item('1980s', data, item_levels,
-		'B25026006 B25026013 + B25026001 / %')
-	length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
-		'B25026005 B25026012 + B25026001 / %')
-	length_of_tenure_dict['2000_to_2004'] = build_item('2000-2004', data, item_levels,
-		'B25026004 B25026011 + B25026001 / %')
-	length_of_tenure_dict['since_2005'] = build_item('Since 2005', data, item_levels,
-		'B25026003 B25026010 + B25026001 / %')
-
-
-
-
-	# Housing: Mobility
-	data = api.get_data('B07003', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	migration_dict = dict()
-	doc['housing']['migration'] = migration_dict
-
-	migration_dict['moved_since_previous_year'] = build_item('Moved since previous year', data, item_levels,
-		'B07003007 B07003010 + B07003013 + B07003016 + B07003001 / %')
-	add_metadata(migration_dict['moved_since_previous_year'], 'B07003', 'Population 1 year and over in the United States', acs_name)
-
-	migration_distribution_dict = OrderedDict()
-	doc['housing']['migration_distribution'] = migration_distribution_dict
-	add_metadata(migration_distribution_dict, 'B07003', 'Population 1 year and over in the United States', acs_name)
-
-	migration_distribution_dict['same_house_year_ago'] = build_item('Same house year ago', data, item_levels,
-		'B07003004 B07003001 / %')
-	migration_distribution_dict['moved_same_county'] = build_item('From same county', data, item_levels,
-		'B07003007 B07003001 / %')
-	migration_distribution_dict['moved_different_county'] = build_item('From different county', data, item_levels,
-		'B07003010 B07003001 / %')
-	migration_distribution_dict['moved_different_state'] = build_item('From different state', data, item_levels,
-		'B07003013 B07003001 / %')
-	migration_distribution_dict['moved_from_abroad'] = build_item('From abroad', data, item_levels,
-		'B07003016 B07003001 / %')
-
-
-
-	# Housing: Median Costs
-	data = api.get_data('B25105', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	costs_dict = dict()
-	doc['housing']['costs'] = costs_dict
-
-	costs_dict['median_costs'] = build_item('Median monthly housing costs', data, item_levels,
-		'B25105001')
-	add_metadata(costs_dict['median_costs'], 'B25105', 'Occupied housing units with monthly housing costs', acs_name)
-
-
-
-	# Housing: HOUSING COSTS AS A PERCENTAGE OF HOUSEHOLD INCOME
-	data = api.get_data('B25106', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	housing_costs_distribution = OrderedDict()
-	costs_dict['housing_costs_distribution'] = housing_costs_distribution
-	add_metadata(housing_costs_distribution, 'B25106', 'Occupied housing units', acs_name)
-
-	housing_costs_distribution['under_20'] = build_item('Under $20K', data, item_levels,
-		'B25106006 B25106028 + B25106003 B25106025 + / %')
-	housing_costs_distribution['20_to_35'] = build_item('$20K - $35K', data, item_levels,
-		'B25106010 B25106032 + B25106007 B25106029 + / %')
-	housing_costs_distribution['25_to_50'] = build_item('$35K - $50K', data, item_levels,
-		'B25106014 B25106036 + B25106011 B25106033 + / %')
-	housing_costs_distribution['50_to_75'] = build_item('$50K - $75K', data, item_levels,
-		'B25106018 B25106040 + B25106015 B25106037 + / %')
-	housing_costs_distribution['over_75'] = build_item('Over $75K', data, item_levels,
-		'B25106022 B25106044 + B25106019 B25106041 + / %')
-
-
-
-	# Housing: Median Value and Distribution of Values
-	data = api.get_data('B25077', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	ownership_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
-		'B25077001')
-	add_metadata(ownership_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
-
-
-
-	data = api.get_data('B25075', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	value_distribution = OrderedDict()
-	ownership_dict['value_distribution'] = value_distribution
-	add_metadata(value_distribution, 'B25075', 'Owner-occupied housing units', acs_name)
-
-	ownership_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
-		'B25075001')
-
-	value_distribution['under_100'] = build_item('Under $100K', data, item_levels,
-		'B25075002 B25075003 + B25075004 + B25075005 + B25075006 + B25075007 + B25075008 + B25075009 + B25075010 + B25075011 + B25075012 + B25075013 + B25075014 + B25075001 / %')
-	value_distribution['100_to_200'] = build_item('$100K - $200K', data, item_levels,
-		'B25075015 B25075016 + B25075017 + B25075018 + B25075001 / %')
-	value_distribution['200_to_300'] = build_item('$200K - $300K', data, item_levels,
-		'B25075019 B25075020 + B25075001 / %')
-	value_distribution['300_to_400'] = build_item('$300K - $400K', data, item_levels,
-		'B25075021 B25075001 / %')
-	value_distribution['400_to_500'] = build_item('$400K - $500K', data, item_levels,
-		'B25075022 B25075001 / %')
-	value_distribution['500_to_1000000'] = build_item('$500K - $1M', data, item_levels,
-		'B25075023 B25075024 + B25075001 / %')
-	value_distribution['over_1000000'] = build_item('Over $1M', data, item_levels,
-		'B25075025 B25075001 / %')
-
-
-
-
-	# Social: Educational Attainment
-	data = api.get_data('B15002', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	attainment_dict = dict()
-	doc['social']['educational_attainment'] = attainment_dict
-
-	attainment_dict['percent_high_school_grad_or_higher'] = build_item('High school grad or higher', data, item_levels,
-		'B15002011 B15002012 + B15002013 + B15002014 + B15002015 + B15002016 + B15002017 + B15002018 + B15002028 + B15002029 + B15002030 + B15002031 + B15002032 + B15002033 + B15002034 + B15002035 + B15002001 / %')
-	add_metadata(attainment_dict['percent_high_school_grad_or_higher'], 'B15002', 'Population 25 years and over', acs_name)
-
-	attainment_dict['percent_bachelor_degree_or_higher'] = build_item('Bachelor\'s degree or higher', data, item_levels,
-		'B15002015 B15002016 + B15002017 + B15002018 + B15002032 + B15002033 + B15002034 + B15002035 + B15002001 / %')
-	add_metadata(attainment_dict['percent_bachelor_degree_or_higher'], 'B15002', 'Population 25 years and over', acs_name)
-
-	attainment_distribution_dict = OrderedDict()
-	doc['social']['educational_attainment_distribution'] = attainment_distribution_dict
-	add_metadata(attainment_distribution_dict, 'B15002', 'Population 25 years and over', acs_name)
-
-	attainment_distribution_dict['non_high_school_grad'] = build_item('No degree', data, item_levels,
-		'B15002003 B15002004 + B15002005 + B15002006 + B15002007 + B15002008 + B15002009 + B15002010 + B15002020 + B15002021 + B15002022 + B15002023 + B15002024 + B15002025 + B15002026 + B15002027 + B15002001 / %')
-
-	attainment_distribution_dict['high_school_grad'] = build_item('High school', data, item_levels,
-		'B15002011 B15002028 + B15002001 / %')
-
-	attainment_distribution_dict['some_college'] = build_item('Some college', data, item_levels,
-		'B15002012 B15002013 + B15002014 + B15002029 + B15002030 + B15002031 + B15002001 / %')
-
-	attainment_distribution_dict['Bachelor_degree'] = build_item('Bachelor\'s', data, item_levels,
-		'B15002015 B15002032 + B15002001 / %')
-
-	attainment_distribution_dict['post_grad_degree'] = build_item('Post-grad', data, item_levels,
-		'B15002016 B15002017 + B15002018 + B15002033 + B15002034 + B15002035 + B15002001 / %')
-
-
 
 
 	# Social: School Enrollment
@@ -1637,269 +1058,6 @@ def geo_profile(geoid, acs='latest'):
 		'B14003023 B14003005 B14003014 + B14003023 + / %')
 	youth_school_enrollment_grouped['not_enrolled']['female'] = build_item('Female', data, item_levels,
 		'B14003051 B14003033 B14003042 + B14003051 + / %')
-
-
-
-
-	# Social: Health Insurance
-	data = api.get_data('B27001', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	health_insurance_dict = dict()
-	doc['social']['health_insurance'] = health_insurance_dict
-
-	health_insurance_dict['uninsured'] = build_item('Persons without health insurance', data, item_levels,
-		'B27001005 B27001008 + B27001011 + B27001014 + B27001017 + B27001020 + B27001023 + B27001026 + B27001029 + B27001033 + B27001036 + B27001039 + B27001042 + B27001045 + B27001048 + B27001051 + B27001054 + B27001057 + B27001001 / %')
-	add_metadata(health_insurance_dict['uninsured'], 'B27001', 'Civilian noninstitutionalized population', acs_name)
-
-	coverage_distribution = OrderedDict()
-	health_insurance_dict['coverage_distribution'] = coverage_distribution
-	add_metadata(coverage_distribution, 'B27001', 'Civilian noninstitutionalized population', acs_name)
-
-	# repeating data temporarily to develop grouped column chart format
-	coverage_distribution['under_6'] = OrderedDict()
-	coverage_distribution['under_6']['acs_release'] = acs_name
-	coverage_distribution['under_6']['metadata'] = {
-		'universe': 'Civilian noninstitutionalized population',
-		'table_id': 'B27001',
-		'name': 'Under 6'
-	}
-	coverage_distribution['under_6']['male'] = build_item('Male', data, item_levels,
-		'B27001005 B27001003 / %')
-	coverage_distribution['under_6']['female'] = build_item('Female', data, item_levels,
-		'B27001033 B27001031 / %')
-
-	coverage_distribution['6_17'] = OrderedDict()
-	coverage_distribution['6_17']['acs_release'] = acs_name
-	coverage_distribution['6_17']['metadata'] = {
-		'universe': 'Civilian noninstitutionalized population',
-		'table_id': 'B27001',
-		'name': '6-17'
-	}
-	coverage_distribution['6_17']['male'] = build_item('Male', data, item_levels,
-		'B27001008 B27001006 / %')
-	coverage_distribution['6_17']['female'] = build_item('Female', data, item_levels,
-		'B27001036 B27001034 / %')
-
-	coverage_distribution['18_24'] = OrderedDict()
-	coverage_distribution['18_24']['acs_release'] = acs_name
-	coverage_distribution['18_24']['metadata'] = {
-		'universe': 'Civilian noninstitutionalized population',
-		'table_id': 'B27001',
-		'name': '18-24'
-	}
-	coverage_distribution['18_24']['male'] = build_item('Male', data, item_levels,
-		'B27001011 B27001009 / %')
-	coverage_distribution['18_24']['female'] = build_item('Female', data, item_levels,
-		'B27001039 B27001037 / %')
-
-	coverage_distribution['25_34'] = OrderedDict()
-	coverage_distribution['25_34']['acs_release'] = acs_name
-	coverage_distribution['25_34']['metadata'] = {
-		'universe': 'Civilian noninstitutionalized population',
-		'table_id': 'B27001',
-		'name': '25-34'
-	}
-	coverage_distribution['25_34']['male'] = build_item('Male', data, item_levels,
-		'B27001014 B27001012 / %')
-	coverage_distribution['25_34']['female'] = build_item('Female', data, item_levels,
-		'B27001042 B27001040 / %')
-
-	coverage_distribution['35_64'] = OrderedDict()
-	coverage_distribution['35_64']['acs_release'] = acs_name
-	coverage_distribution['35_64']['metadata'] = {
-		'universe': 'Civilian noninstitutionalized population',
-		'table_id': 'B27001',
-		'name': '35-64'
-	}
-	coverage_distribution['35_64']['male'] = build_item('Male', data, item_levels,
-		'B27001017 B27001020 + B27001023 + B27001015 B27001018 + B27001021 + / %')
-	coverage_distribution['35_64']['female'] = build_item('Female', data, item_levels,
-		'B27001045 B27001048 + B27001051 + B27001043 B27001046 + B27001049 + / %')
-
-	# coverage_distribution['45_54'] = OrderedDict()
-	# coverage_distribution['45_54']['acs_release'] = acs_name
-	# coverage_distribution['45_54']['metadata'] = {
-	# 	'universe': 'Civilian noninstitutionalized population',
-	# 	'table_id': 'B27001',
-	# 	'name': '45-54'
-	# }
-	# coverage_distribution['45_54']['male'] = build_item('Male', data, item_levels,
-	# 	'B27001020 B27001018 / %')
-	# coverage_distribution['45_54']['female'] = build_item('Female', data, item_levels,
-	# 	'B27001048 B27001046 / %')
-
-	# coverage_distribution['55_64'] = OrderedDict()
-	# coverage_distribution['55_64']['acs_release'] = acs_name
-	# coverage_distribution['55_64']['metadata'] = {
-	# 	'universe': 'Civilian noninstitutionalized population',
-	# 	'table_id': 'B27001',
-	# 	'name': '55-64'
-	# }
-	# coverage_distribution['55_64']['male'] = build_item('Male', data, item_levels,
-	# 	'B27001023 B27001021 / %')
-	# coverage_distribution['55_64']['female'] = build_item('Female', data, item_levels,
-	# 	'B27001051 B27001049 / %')
-
-	coverage_distribution['over_65'] = OrderedDict()
-	coverage_distribution['over_65']['acs_release'] = acs_name
-	coverage_distribution['over_65']['metadata'] = {
-		'universe': 'Civilian noninstitutionalized population',
-		'table_id': 'B27001',
-		'name': 'Over 65'
-	}
-	coverage_distribution['over_65']['male'] = build_item('Male', data, item_levels,
-		'B27001026 B27001029 + B27001024 B27001027 + / %')
-	coverage_distribution['over_65']['female'] = build_item('Female', data, item_levels,
-		'B27001054 B27001057 + B27001052 B27001055 + / %')
-
-	# coverage_distribution['over_75'] = OrderedDict()
-	# coverage_distribution['over_75']['acs_release'] = acs_name
-	# coverage_distribution['over_75']['metadata'] = {
-	# 	'universe': 'Civilian noninstitutionalized population',
-	# 	'table_id': 'B27001',
-	# 	'name': 'Over 75'
-	# }
-	# coverage_distribution['over_75']['male'] = build_item('Male', data, item_levels,
-	# 	'B27001029 B27001027 / %')
-	# coverage_distribution['over_75']['female'] = build_item('Female', data, item_levels,
-	# 	'B27001057 B27001055 / %')
-
-
-
-	# Social: Place of Birth
-	data = api.get_data('B05002', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	foreign_dict = dict()
-	doc['social']['place_of_birth'] = foreign_dict
-
-	foreign_dict['percent_foreign_born'] = build_item('Foreign-born population', data, item_levels,
-		'B05002013 B05002001 / %')
-	add_metadata(foreign_dict['percent_foreign_born'], 'B05002', 'Total population', acs_name)
-
-
-
-	data = api.get_data('B05006', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	place_of_birth_dict = OrderedDict()
-	foreign_dict['distribution'] = place_of_birth_dict
-	add_metadata(place_of_birth_dict, 'B05006', 'Foreign-born population', acs_name)
-
-	place_of_birth_dict['europe'] = build_item('Europe', data, item_levels,
-		'B05006002 B05006001 / %')
-	place_of_birth_dict['asia'] = build_item('Asia', data, item_levels,
-		'B05006047 B05006001 / %')
-	place_of_birth_dict['africa'] = build_item('Africa', data, item_levels,
-		'B05006091 B05006001 / %')
-	place_of_birth_dict['oceania'] = build_item('Oceania', data, item_levels,
-		'B05006116 B05006001 / %')
-	place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
-		'B05006123 B05006001 / %')
-	place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
-		'B05006159 B05006001 / %')
-
-
-
-	# Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
-	#### For some reason, thi svariable is no longer available at many geographies
-	# data = api.get_data('B16001', comparison_geoids, acs)
-	# acs_name = data['release']['name']
-
-	language_dict = dict()
-	doc['social']['language'] = language_dict
-
-	# language_dict['percent_non_english_at_home'] = build_item('Persons with language other than English spoken at home', data, item_levels,
-	# 	'B16001001 B16001002 - B16001001 / %')
-	# add_metadata(language_dict['percent_non_english_at_home'], 'B16001', 'Population 5 years and over', acs_name)
-
-	# # pause between CR data API requests to limit traffic to API
-	# time.sleep(5)
-
-	data = api.get_data('B16007', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	language_children = OrderedDict()
-	language_adults = OrderedDict()
-	language_dict['children'] = language_children
-	add_metadata(language_dict['children'], 'B16007', 'Population 5-17 years old', acs_name)
-	language_dict['adults'] = language_adults
-	add_metadata(language_dict['adults'], 'B16007', 'Population 18 years and over', acs_name)
-
-	language_children['english'] = build_item('English only', data, item_levels,
-		'B16007003 B16007002 / %')
-	language_adults['english'] = build_item('English only', data, item_levels,
-		'B16007009 B16007015 + B16007008 B16007014 + / %')
-
-	language_children['spanish'] = build_item('Spanish', data, item_levels,
-		'B16007004 B16007002 / %')
-	language_adults['spanish'] = build_item('Spanish', data, item_levels,
-		'B16007010 B16007016 + B16007008 B16007014 + / %')
-
-	language_children['indoeuropean'] = build_item('Indo-European', data, item_levels,
-		'B16007005 B16007002 / %')
-	language_adults['indoeuropean'] = build_item('Indo-European', data, item_levels,
-		'B16007011 B16007017 + B16007008 B16007014 + / %')
-
-	language_children['asian_islander'] = build_item('Asian/Pacific Islander', data, item_levels,
-		'B16007006 B16007002 / %')
-	language_adults['asian_islander'] = build_item('Asian/Pacific Islander', data, item_levels,
-		'B16007012 B16007018 + B16007008 B16007014 + / %')
-
-	language_children['other'] = build_item('Other', data, item_levels,
-		'B16007007 B16007002 / %')
-	language_adults['other'] = build_item('Other', data, item_levels,
-		'B16007013 B16007019 + B16007008 B16007014 + / %')
-
-
-
-
-	# Social: Number of Veterans, Wartime Service, Sex of Veterans
-	data = api.get_data('B21002', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	veterans_dict = dict()
-	doc['social']['veterans'] = veterans_dict
-
-	veterans_service_dict = OrderedDict()
-	veterans_dict['wartime_service'] = veterans_service_dict
-	add_metadata(veterans_service_dict, 'B21002', 'Civilian veterans 18 years and over', acs_name)
-
-	veterans_service_dict['wwii'] = build_item('WWII', data, item_levels,
-		'B21002009 B21002011 + B21002012 +')
-	veterans_service_dict['korea'] = build_item('Korea', data, item_levels,
-		'B21002008 B21002009 + B21002010 + B21002011 +')
-	veterans_service_dict['vietnam'] = build_item('Vietnam', data, item_levels,
-		'B21002004 B21002006 + B21002007 + B21002008 + B21002009 +')
-	veterans_service_dict['gulf_1990s'] = build_item('Gulf (1990s)', data, item_levels,
-		'B21002003 B21002004 + B21002005 + B21002006 +')
-	veterans_service_dict['gulf_2001'] = build_item('Gulf (2001-)', data, item_levels,
-		'B21002002 B21002003 + B21002004 +')
-
-
-
-
-	data = api.get_data('B21001', comparison_geoids, acs)
-	acs_name = data['release']['name']
-
-	veterans_sex_dict = OrderedDict()
-	veterans_dict['sex'] = veterans_sex_dict
-
-	veterans_sex_dict['male'] = build_item('Male', data, item_levels,
-		'B21001005')
-	add_metadata(veterans_sex_dict['male'], 'B21001', 'Civilian population 18 years and over', acs_name)
-	veterans_sex_dict['female'] = build_item('Female', data, item_levels,
-		'B21001023')
-	add_metadata(veterans_sex_dict['female'], 'B21001', 'Civilian population 18 years and over', acs_name)
-
-	veterans_dict['number'] = build_item('Total veterans', data, item_levels,
-		'B21001002')
-	add_metadata(veterans_dict['number'], 'B21001', 'Civilian population 18 years and over', acs_name)
-
-	veterans_dict['percentage'] = build_item('Population with veteran status', data, item_levels,
-		'B21001002 B21001001 / %')
-	add_metadata(veterans_dict['percentage'], 'B21001', 'Civilian population 18 years and over', acs_name)
 
 
 	#### Housing Information Portal Data ####
