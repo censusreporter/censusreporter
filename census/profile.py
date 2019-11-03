@@ -1170,7 +1170,7 @@ def geo_profile(geoid, acs='latest'):
 	occupancy_by_race['two_more']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
 		'B25003G003 B25003G001 / %')
 
-	#two or more races
+	#hispanic
 	occupancy_by_race['hispanic'] = OrderedDict()
 	occupancy_by_race['hispanic']['acs_release'] = acs_name
 	occupancy_by_race['hispanic']['metadata'] = {
@@ -1183,7 +1183,7 @@ def geo_profile(geoid, acs='latest'):
 	occupancy_by_race['hispanic']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
 		'B25003I003 B25003I001 / %')
 
-	#two or more races
+	#white nh
 	occupancy_by_race['white'] = OrderedDict()
 	occupancy_by_race['white']['acs_release'] = acs_name
 	occupancy_by_race['white']['metadata'] = {
@@ -1419,8 +1419,6 @@ def geo_profile(geoid, acs='latest'):
 
 
 	#### END Housing Information Portal Data ####
-
-
 
 
 
