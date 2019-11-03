@@ -2040,20 +2040,224 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Housing: Occupancy by Tenure Status
-	data = api.get_data(['B25096', 'B25106', 'B25056'], comparison_geoids, acs)
+	data = api.get_data(['B25096', 'B25056'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 
 	tenure_distribution_dict = OrderedDict()
 	units_dict['tenure_distribution'] = tenure_distribution_dict
 	add_metadata(units_dict['tenure_distribution'], 'B25096', 'Housing units', acs_name)
 
-	tenure_distribution_dict['not_mortgaged'] = build_item('Not Mortgaged', data, item_levels,
-		'B25096012 B25096001 / %')
-	tenure_distribution_dict['mortgaged'] = build_item('With a Mortgage', data, item_levels,
-		'B25096002 B25096001 / %')
-	tenure_distribution_dict['vacant'] = build_item('Vacant', data, item_levels,
-		'B25002003 B25002001 / %')
+	tenure_distribution_dict['not_mortgaged'] = build_item('Not mortgaged', data, item_levels,
+		'B25096012 B25056001 B25096001 + / %')
+	tenure_distribution_dict['mortgaged'] = build_item('With a mortgage', data, item_levels,
+		'B25096002 B25056001 B25096001 + / %')
+	tenure_distribution_dict['no_cash_rent'] = build_item('No cash rent', data, item_levels,
+		'B25056027 B25056001 B25096001 + / %')
+	tenure_distribution_dict['cash_rent'] = build_item('With cash rent', data, item_levels,
+		'B25056002 B25056001 B25096001 + / %')
 
+
+	# Rental Unit Size
+	data = api.get_data(['B25068'], comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	home_size_distribution_dict = OrderedDict()
+	units_dict['home_size_distribution'] = home_size_distribution_dict
+	add_metadata(units_dict['home_size_distribution'], 'B25096', 'Renter-occupied housing units', acs_name)
+
+	home_size_distribution_dict['no_bedrooms'] = build_item('No bedrooms', data, item_levels,
+		'B25068002 B25068001 / %')
+	home_size_distribution_dict['one_bedroom'] = build_item('One bedroom', data, item_levels,
+		'B25068011 B25068001 / %')
+	home_size_distribution_dict['two_bedrooms'] = build_item('Two bedrooms', data, item_levels,
+		'B25068020 B25068001 / %')
+	home_size_distribution_dict['three_bedrooms'] = build_item('Three bedrooms', data, item_levels,
+		'B25068029 B25068001 / %')
+
+
+	# Rents
+	data = api.get_data(['B25056'], comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	rent_distribution_dict = OrderedDict()
+	units_dict['rent_distribution'] = rent_distribution_dict
+	add_metadata(units_dict['rent_distribution'], 'B25096', 'Renter-occupied housing units', acs_name)
+
+	rent_distribution_dict['lt_200'] = build_item('Rent Less than $200', data, item_levels,
+		'B25068003 B25056004 + B25056005 + B25056002 / %')
+	rent_distribution_dict['200_299'] = build_item('Rent $200 to $299', data, item_levels,
+		'B25068006 B25056007 + B25056002 / %')
+	rent_distribution_dict['300_499'] = build_item('Rent $300 to $499', data, item_levels,
+		'B25068008 B25056009 + B25056010 + B25056011 + B25056002 / %')
+	rent_distribution_dict['500_749'] = build_item('Rent $500 to $749', data, item_levels,
+		'B25068012 B25056013 + B25056014 + B25056015 + B25056016 + B25056002 / %')
+	rent_distribution_dict['750_999'] = build_item('Rent $750 to $999', data, item_levels,
+		'B25068017 B25056018 + B25056019 + B25056002 / %')
+	rent_distribution_dict['gte_1000'] = build_item('Rent $1,000 or More', data, item_levels,
+		'B25068020 B25056021 + B25056022 + B25056023 + B25056024 + B25056025 + B25056026 + B25056002 / %')
+
+
+	# Housing: Median Value and Distribution of Values
+	data = api.get_data('B25077', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	ownership_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
+		'B25077001')
+	add_metadata(ownership_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
+
+
+	data = api.get_data('B25075', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	value_distribution = OrderedDict()
+	ownership_dict['value_distribution'] = value_distribution
+	add_metadata(value_distribution, 'B25075', 'Owner-occupied housing units', acs_name)
+
+	ownership_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
+		'B25075001')
+
+	value_distribution['under_50'] = build_item('Under $50K', data, item_levels,
+		'B25075002 B25075003 + B25075004 + B25075005 + B25075006 + B25075007 + B25075008 + B25075009 + B25075001 / %')
+	value_distribution['50_to_100'] = build_item('$50K - $100K', data, item_levels,
+		'B25075010 B25075011 + B25075012 + B25075013 + B25075014 + B25075001 / %')
+	value_distribution['100_to_150'] = build_item('$100K - $150K', data, item_levels,
+		'B25075015 B25075016 + B25075001 / %')
+	value_distribution['150_to_200'] = build_item('$150K - $200K', data, item_levels,
+		'B25075017 B25075018 + B25075001 / %')
+	value_distribution['200_to_300'] = build_item('$200K - $300K', data, item_levels,
+		'B25075019 B25075020 + B25075001 / %')
+	value_distribution['300_to_500'] = build_item('$300K - $500K', data, item_levels,
+		'B25075021 B25075022 + B25075001 / %')
+	value_distribution['500_to_1000000'] = build_item('$500K - $1M', data, item_levels,
+		'B25075023 B25075024 + B25075001 / %')
+	value_distribution['over_1000000'] = build_item('Over $1M', data, item_levels,
+		'B25075025 B25075001 / %')
+
+
+
+	# Housing burden for renters and owners
+	data = api.get_data(['B25070', 'B25091'], comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	housing_burden = OrderedDict()
+	doc['housing']['units']['housing_burden'] = housing_burden
+	add_metadata(housing_burden, 'B25070', 'Occupied housing hnits', acs_name)
+
+	# Less than 30%
+	housing_burden['lt_30'] = OrderedDict()
+	housing_burden['lt_30']['acs_release'] = acs_name
+	housing_burden['lt_30']['metadata'] = {
+		'universe': 'Occupied housing units',
+		'table_id': 'B25070',
+		'name': 'Housing costs are less than 30% of household income in the past 12 months'
+	}
+	housing_burden['lt_30']['renter_occupied'] = build_item('Renter occupied', data, item_levels,
+		'B25070002 B25070003 + B25070004 + B25070005 + B25070006 + B25070001 / %')	
+	housing_burden['lt_30']['owner_w_mortgage'] = build_item('Owner with mortgage', data, item_levels,
+		'B25091003 B25091004 + B25091005 + B25091006 + B25091007 + B25091002 / %')
+	housing_burden['lt_30']['owner_w_o_mortgage'] = build_item('Owner without mortgage', data, item_levels,
+		'B25091014 B25091015 + B25091016 + B25091017 + B25091018 + B25091013 / %')
+
+	# 30% - 50%
+	housing_burden['30_to_50'] = OrderedDict()
+	housing_burden['30_to_50']['acs_release'] = acs_name
+	housing_burden['30_to_50']['metadata'] = {
+		'universe': 'Occupied housing units',
+		'table_id': 'B25070',
+		'name': 'Housing costs are 30% - 49.9% of household income in the past 12 months'
+	}
+	housing_burden['30_to_50']['renter_occupied'] = build_item('Renter occupied', data, item_levels,
+		'B25070007 B25070008 + B25070009 + B25070001 / %')	
+	housing_burden['30_to_50']['owner_w_mortgage'] = build_item('Owner with mortgage', data, item_levels,
+		'B25091008 B25091009 + B25091010 + B25091002 / %')
+	housing_burden['30_to_50']['owner_w_o_mortgage'] = build_item('Owner without mortgage', data, item_levels,
+		'B25091019 B25091020 + B25091021 + B25091013 / %')
+
+	# 50%+
+	housing_burden['gte_50'] = OrderedDict()
+	housing_burden['gte_50']['acs_release'] = acs_name
+	housing_burden['gte_50']['metadata'] = {
+		'universe': 'Occupied housing units',
+		'table_id': 'B25070',
+		'name': 'Housing costs are 50% or more of household income in the past 12 months'
+	}
+	housing_burden['gte_50']['renter_occupied'] = build_item('Renter occupied', data, item_levels,
+		'B25070010 B25070001 / %')	
+	housing_burden['gte_50']['owner_w_mortgage'] = build_item('Owner with mortgage', data, item_levels,
+		'B25091011 B25091002 / %')
+	housing_burden['gte_50']['owner_w_o_mortgage'] = build_item('Owner without mortgage', data, item_levels,
+		'B25091022 B25091013 / %')
+
+
+	# home size
+	data = api.get_data('B25041', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	size_distribution = OrderedDict()
+	units_dict['size_distribution'] = size_distribution
+	add_metadata(size_distribution, 'B25041', 'Housing units', acs_name)
+
+	size_distribution['no_bedrooms'] = build_item('No bedrooms', data, item_levels,
+		'B25041002 B25041001 / %')
+	size_distribution['one_bedroom'] = build_item('One bedroom', data, item_levels,
+		'B25041003 B25041001 / %')
+	size_distribution['two_bedrooms'] = build_item('Two bedrooms', data, item_levels,
+		'B25041004 B25041001 / %')
+	size_distribution['three_bedrooms'] = build_item('Three bedrooms', data, item_levels,
+		'B25041005 B25041001 / %')
+	size_distribution['four_bedrooms'] = build_item('Four bedrooms', data, item_levels,
+		'B25041006 B25041001 / %')
+	size_distribution['five_plus_bedrooms'] = build_item('5 or more bedrooms', data, item_levels,
+		'B25041007 B25041001 / %')
+
+
+	# substandard housing
+	data = api.get_data('B25123', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	renter_condition_distribution = OrderedDict()
+	units_dict['renter_condition_distribution'] = renter_condition_distribution
+	add_metadata(renter_condition_distribution, 'B25123', 'Occupied housing units', acs_name)
+
+	renter_condition_distribution['no_cond'] = build_item('No selected conditions', data, item_levels,
+		'B25123013 B25123008 / %')
+	renter_condition_distribution['one_cond'] = build_item('With one selected condition', data, item_levels,
+		'B25123009 B25123008 / %')
+	renter_condition_distribution['two_cond'] = build_item('With two selected conditions', data, item_levels,
+		'B25123010 B25123008 / %')
+	renter_condition_distribution['three_cond'] = build_item('With three selected conditions', data, item_levels,
+		'B25123011 B25123008 / %')
+	renter_condition_distribution['four_cond'] = build_item('With four selected conditions', data, item_levels,
+		'B25123012 B25123008 / %')
+
+	owner_condition_distribution = OrderedDict()
+	units_dict['owner_condition_distribution'] = owner_condition_distribution
+	add_metadata(owner_condition_distribution, 'B25041', 'Housing units', acs_name)
+
+	owner_condition_distribution['no_cond'] = build_item('No selected conditions', data, item_levels,
+		'B25123007 B25123002 / %')
+	owner_condition_distribution['one_cond'] = build_item('With one selected condition', data, item_levels,
+		'B25123003 B25123002 / %')
+	owner_condition_distribution['two_cond'] = build_item('With two selected conditions', data, item_levels,
+		'B25123004 B25123002 / %')
+	owner_condition_distribution['three_cond'] = build_item('With three selected conditions', data, item_levels,
+		'B25123005 B25123002 / %')
+	owner_condition_distribution['four_cond'] = build_item('With four selected conditions', data, item_levels,
+		'B25123006 B25123002 / %')
+
+
+	# Utilities Included in Rent
+	data = api.get_data('B25069', comparison_geoids, acs)
+	acs_name = data['release']['name']
+
+	utilities_distribution = OrderedDict()
+	units_dict['utilities_distribution'] = utilities_distribution
+	add_metadata(utilities_distribution, 'B25069', 'Renter-occupied housing units', acs_name)
+
+	utilities_distribution['pay_extra'] = build_item('Pay extra for one or more utilities', data, item_levels,
+		'B25069002 B25069001 / %')
+	utilities_distribution['no_extra'] = build_item('No extra payment for any utilities', data, item_levels,
+		'B25069003 B25069001 / %')
 
 
 	#### END Housing Information Portal Data ####
