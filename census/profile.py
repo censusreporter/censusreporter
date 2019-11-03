@@ -1259,19 +1259,19 @@ def geo_profile(geoid, acs='latest'):
 	data = api.get_data('B25077', comparison_geoids, acs)
 	acs_name = data['release']['name']
 
-	ownership_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
+	units_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
 		'B25077001')
-	add_metadata(ownership_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
+	add_metadata(units_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
 
 
 	data = api.get_data('B25075', comparison_geoids, acs)
 	acs_name = data['release']['name']
 
 	value_distribution = OrderedDict()
-	ownership_dict['value_distribution'] = value_distribution
+	units_dict['value_distribution'] = value_distribution
 	add_metadata(value_distribution, 'B25075', 'Owner-occupied housing units', acs_name)
 
-	ownership_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
+	units_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
 		'B25075001')
 
 	value_distribution['under_50'] = build_item('Under $50K', data, item_levels,
