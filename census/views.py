@@ -1339,7 +1339,6 @@ class GeographyDetailView(TemplateView):
 			profile_data_json = compressed.read()
 			# Load it into a Python dict for the template
 			profile_data = simplejson.loads(profile_data_json)
-			print profile_data['social']['immunization']
 			# Also mark it as safe for the charts on the profile
 			profile_data_json = SafeString(profile_data_json)
 		else:

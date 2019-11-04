@@ -899,6 +899,9 @@ def geo_profile(geoid, acs='latest'):
 	data = api.get_data(['B08006', 'B08014', 'B08015'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 
+	employment_dict = dict()
+	doc['economics']['employment'] = employment_dict
+
 	employment_dict['mean_number_of_vehicles'] = build_item('Mean number of vehicles available', data, item_levels,
 		'B08015001 B08006002 /')
 	add_metadata(employment_dict['mean_number_of_vehicles'], 'B08006, B08015', 'Workers Whose Means of Transportation Is Car, Truck, or Van', acs_name)
@@ -1090,110 +1093,110 @@ def geo_profile(geoid, acs='latest'):
 
 	occupancy_by_race = OrderedDict()
 	doc['housing']['units']['occupancy_by_race'] = occupancy_by_race
-	add_metadata(occupancy_by_race, 'B25003B', 'Occupied Housing Units', acs_name)
+	add_metadata(occupancy_by_race, 'B25003B', 'Occupied housing units', acs_name)
 
 	# Native
 	occupancy_by_race['native'] = OrderedDict()
 	occupancy_by_race['native']['acs_release'] = acs_name
 	occupancy_by_race['native']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003C',
 		'name': 'American Indian or Alaska Native'
 	}
-	occupancy_by_race['native']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['native']['owner'] = build_item('Owner', data, item_levels,
 		'B25003C002 B25003C001 / %')	
-	occupancy_by_race['native']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['native']['renter'] = build_item('Renter', data, item_levels,
 		'B25003C003 B25003C001 / %')	
 
 	#Asian
 	occupancy_by_race['asian'] = OrderedDict()
 	occupancy_by_race['asian']['acs_release'] = acs_name
 	occupancy_by_race['asian']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003D',
 		'name': 'Asian'
 	}
-	occupancy_by_race['native']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['native']['owner'] = build_item('Owner', data, item_levels,
 		'B25003D002 B25003D001 / %')	
-	occupancy_by_race['native']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['native']['renter'] = build_item('Renter', data, item_levels,
 		'B25003D003 B25003D001 / %')
 
 	#Black
 	occupancy_by_race['black'] = OrderedDict()
 	occupancy_by_race['black']['acs_release'] = acs_name
 	occupancy_by_race['black']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003B',
 		'name': 'Black'
 	}
-	occupancy_by_race['black']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['black']['owner'] = build_item('Owner', data, item_levels,
 		'B25003B002 B25003B001 / %')	
-	occupancy_by_race['black']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['black']['renter'] = build_item('Renter', data, item_levels,
 		'B25003B003 B25003B001 / %')
 
 	#Pacific Islander
 	occupancy_by_race['pacific_islander'] = OrderedDict()
 	occupancy_by_race['pacific_islander']['acs_release'] = acs_name
 	occupancy_by_race['pacific_islander']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003E',
 		'name': 'Native Hawaiian and Other Pacific Islander'
 	}
-	occupancy_by_race['pacific_islander']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['pacific_islander']['owner'] = build_item('Owner', data, item_levels,
 		'B25003E002 B25003E001 / %')	
-	occupancy_by_race['pacific_islander']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['pacific_islander']['renter'] = build_item('Renter', data, item_levels,
 		'B25003E003 B25003E001 / %')
 
 	#some other race
 	occupancy_by_race['other'] = OrderedDict()
 	occupancy_by_race['other']['acs_release'] = acs_name
 	occupancy_by_race['other']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003F',
 		'name': 'Some other race'
 	}
-	occupancy_by_race['other']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['other']['owner'] = build_item('Owner', data, item_levels,
 		'B25003F002 B25003F001 / %')	
-	occupancy_by_race['other']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['other']['renter'] = build_item('Renter', data, item_levels,
 		'B25003F003 B25003F001 / %')
 
 	#two or more races
 	occupancy_by_race['two_more'] = OrderedDict()
 	occupancy_by_race['two_more']['acs_release'] = acs_name
 	occupancy_by_race['two_more']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003G',
 		'name': 'Two or more races'
 	}
-	occupancy_by_race['two_more']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['two_more']['owner'] = build_item('Owner', data, item_levels,
 		'B25003G002 B25003G001 / %')	
-	occupancy_by_race['two_more']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['two_more']['renter'] = build_item('Renter', data, item_levels,
 		'B25003G003 B25003G001 / %')
 
 	#hispanic
 	occupancy_by_race['hispanic'] = OrderedDict()
 	occupancy_by_race['hispanic']['acs_release'] = acs_name
 	occupancy_by_race['hispanic']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003I',
 		'name': 'Hispanic or latino'
 	}
-	occupancy_by_race['hispanic']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['hispanic']['owner'] = build_item('Owner', data, item_levels,
 		'B25003I002 B25003I001 / %')	
-	occupancy_by_race['hispanic']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['hispanic']['renter'] = build_item('Renter', data, item_levels,
 		'B25003I003 B25003I001 / %')
 
 	#white nh
 	occupancy_by_race['white'] = OrderedDict()
 	occupancy_by_race['white']['acs_release'] = acs_name
 	occupancy_by_race['white']['metadata'] = {
-		'universe': 'Occupied Housing Units',
+		'universe': 'Occupied housing units',
 		'table_id': 'B25003H',
 		'name': 'White'
 	}
-	occupancy_by_race['white']['Owner occupied'] = build_item('Owner occupied', data, item_levels,
+	occupancy_by_race['white']['owner'] = build_item('Owner', data, item_levels,
 		'B25003H002 B25003H001 / %')	
-	occupancy_by_race['white']['Renter occupied'] = build_item('Renter occupied', data, item_levels,
+	occupancy_by_race['white']['renter'] = build_item('Renter', data, item_levels,
 		'B25003H003 B25003H001 / %')
 
 
@@ -1239,20 +1242,20 @@ def geo_profile(geoid, acs='latest'):
 
 	rent_distribution_dict = OrderedDict()
 	units_dict['rent_distribution'] = rent_distribution_dict
-	add_metadata(units_dict['rent_distribution'], 'B25096', 'Renter-occupied housing units', acs_name)
+	add_metadata(units_dict['rent_distribution'], 'B25056', 'Renter-occupied housing units', acs_name)
 
 	rent_distribution_dict['lt_200'] = build_item('Rent Less than $200', data, item_levels,
-		'B25068003 B25056004 + B25056005 + B25056002 / %')
+		'B25056003 B25056004 + B25056005 + B25056002 / %')
 	rent_distribution_dict['200_299'] = build_item('Rent $200 to $299', data, item_levels,
-		'B25068006 B25056007 + B25056002 / %')
+		'B25056006 B25056007 + B25056002 / %')
 	rent_distribution_dict['300_499'] = build_item('Rent $300 to $499', data, item_levels,
-		'B25068008 B25056009 + B25056010 + B25056011 + B25056002 / %')
+		'B25056008 B25056009 + B25056010 + B25056011 + B25056002 / %')
 	rent_distribution_dict['500_749'] = build_item('Rent $500 to $749', data, item_levels,
-		'B25068012 B25056013 + B25056014 + B25056015 + B25056016 + B25056002 / %')
+		'B25056012 B25056013 + B25056014 + B25056015 + B25056016 + B25056002 / %')
 	rent_distribution_dict['750_999'] = build_item('Rent $750 to $999', data, item_levels,
-		'B25068017 B25056018 + B25056019 + B25056002 / %')
+		'B25056017 B25056018 + B25056019 + B25056002 / %')
 	rent_distribution_dict['gte_1000'] = build_item('Rent $1,000 or More', data, item_levels,
-		'B25068020 B25056021 + B25056022 + B25056023 + B25056024 + B25056025 + B25056026 + B25056002 / %')
+		'B25056020 B25056021 + B25056022 + B25056023 + B25056024 + B25056025 + B25056026 + B25056002 / %')
 
 
 	# Housing: Median Value and Distribution of Values
@@ -1309,11 +1312,11 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B25070',
 		'name': 'Housing costs are less than 30% of household income in the past 12 months'
 	}
-	housing_burden['lt_30']['renter_occupied'] = build_item('Renter occupied', data, item_levels,
+	housing_burden['lt_30']['Renter'] = build_item('Renter occupied', data, item_levels,
 		'B25070002 B25070003 + B25070004 + B25070005 + B25070006 + B25070001 / %')	
-	housing_burden['lt_30']['owner_w_mortgage'] = build_item('Owner with mortgage', data, item_levels,
+	housing_burden['lt_30']['Owner w/ mortgage'] = build_item('Owner with mortgage', data, item_levels,
 		'B25091003 B25091004 + B25091005 + B25091006 + B25091007 + B25091002 / %')
-	housing_burden['lt_30']['owner_w_o_mortgage'] = build_item('Owner without mortgage', data, item_levels,
+	housing_burden['lt_30']['Owner w/o mortgage'] = build_item('Owner without mortgage', data, item_levels,
 		'B25091014 B25091015 + B25091016 + B25091017 + B25091018 + B25091013 / %')
 
 	# 30% - 50%
@@ -1324,11 +1327,11 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B25070',
 		'name': 'Housing costs are 30% - 49.9% of household income in the past 12 months'
 	}
-	housing_burden['30_to_50']['renter_occupied'] = build_item('Renter occupied', data, item_levels,
+	housing_burden['30_to_50']['Renter'] = build_item('Renter occupied', data, item_levels,
 		'B25070007 B25070008 + B25070009 + B25070001 / %')	
-	housing_burden['30_to_50']['owner_w_mortgage'] = build_item('Owner with mortgage', data, item_levels,
+	housing_burden['30_to_50']['Owner w/ mortgage'] = build_item('Owner with mortgage', data, item_levels,
 		'B25091008 B25091009 + B25091010 + B25091002 / %')
-	housing_burden['30_to_50']['owner_w_o_mortgage'] = build_item('Owner without mortgage', data, item_levels,
+	housing_burden['30_to_50']['Owner w/o mortgage'] = build_item('Owner without mortgage', data, item_levels,
 		'B25091019 B25091020 + B25091021 + B25091013 / %')
 
 	# 50%+
@@ -1339,11 +1342,11 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B25070',
 		'name': 'Housing costs are 50% or more of household income in the past 12 months'
 	}
-	housing_burden['gte_50']['renter_occupied'] = build_item('Renter occupied', data, item_levels,
+	housing_burden['gte_50']['Renter'] = build_item('Renter occupied', data, item_levels,
 		'B25070010 B25070001 / %')	
-	housing_burden['gte_50']['owner_w_mortgage'] = build_item('Owner with mortgage', data, item_levels,
+	housing_burden['gte_50']['Owner w/ mortgage'] = build_item('Owner with mortgage', data, item_levels,
 		'B25091011 B25091002 / %')
-	housing_burden['gte_50']['owner_w_o_mortgage'] = build_item('Owner without mortgage', data, item_levels,
+	housing_burden['gte_50']['Owner w/o mortgage'] = build_item('Owner without mortgage', data, item_levels,
 		'B25091022 B25091013 / %')
 
 
@@ -1379,13 +1382,13 @@ def geo_profile(geoid, acs='latest'):
 
 	renter_condition_distribution['no_cond'] = build_item('No selected conditions', data, item_levels,
 		'B25123013 B25123008 / %')
-	renter_condition_distribution['one_cond'] = build_item('With one selected condition', data, item_levels,
+	renter_condition_distribution['one_cond'] = build_item('One selected condition', data, item_levels,
 		'B25123009 B25123008 / %')
-	renter_condition_distribution['two_cond'] = build_item('With two selected conditions', data, item_levels,
+	renter_condition_distribution['two_cond'] = build_item('Two selected conditions', data, item_levels,
 		'B25123010 B25123008 / %')
-	renter_condition_distribution['three_cond'] = build_item('With three selected conditions', data, item_levels,
+	renter_condition_distribution['three_cond'] = build_item('Three selected conditions', data, item_levels,
 		'B25123011 B25123008 / %')
-	renter_condition_distribution['four_cond'] = build_item('With four selected conditions', data, item_levels,
+	renter_condition_distribution['four_cond'] = build_item('Four selected conditions', data, item_levels,
 		'B25123012 B25123008 / %')
 
 	owner_condition_distribution = OrderedDict()
@@ -1394,13 +1397,13 @@ def geo_profile(geoid, acs='latest'):
 
 	owner_condition_distribution['no_cond'] = build_item('No selected conditions', data, item_levels,
 		'B25123007 B25123002 / %')
-	owner_condition_distribution['one_cond'] = build_item('With one selected condition', data, item_levels,
+	owner_condition_distribution['one_cond'] = build_item('One selected condition', data, item_levels,
 		'B25123003 B25123002 / %')
-	owner_condition_distribution['two_cond'] = build_item('With two selected conditions', data, item_levels,
+	owner_condition_distribution['two_cond'] = build_item('Two selected conditions', data, item_levels,
 		'B25123004 B25123002 / %')
-	owner_condition_distribution['three_cond'] = build_item('With three selected conditions', data, item_levels,
+	owner_condition_distribution['three_cond'] = build_item('Three selected conditions', data, item_levels,
 		'B25123005 B25123002 / %')
-	owner_condition_distribution['four_cond'] = build_item('With four selected conditions', data, item_levels,
+	owner_condition_distribution['four_cond'] = build_item('Four selected conditions', data, item_levels,
 		'B25123006 B25123002 / %')
 
 
@@ -1412,9 +1415,9 @@ def geo_profile(geoid, acs='latest'):
 	units_dict['utilities_distribution'] = utilities_distribution
 	add_metadata(utilities_distribution, 'B25069', 'Renter-occupied housing units', acs_name)
 
-	utilities_distribution['pay_extra'] = build_item('Pay extra for one or more utilities', data, item_levels,
+	utilities_distribution['pay_extra'] = build_item('Not included', data, item_levels,
 		'B25069002 B25069001 / %')
-	utilities_distribution['no_extra'] = build_item('No extra payment for any utilities', data, item_levels,
+	utilities_distribution['no_extra'] = build_item('Included', data, item_levels,
 		'B25069003 B25069001 / %')
 
 
