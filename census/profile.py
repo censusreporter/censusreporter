@@ -1314,9 +1314,9 @@ def geo_profile(geoid, acs='latest'):
 	}
 	housing_burden['lt_30']['Renter'] = build_item('Renter occupied', data, item_levels,
 		'B25070002 B25070003 + B25070004 + B25070005 + B25070006 + B25070001 / %')	
-	housing_burden['lt_30']['Owner w/ mortgage'] = build_item('Owner with mortgage', data, item_levels,
+	housing_burden['lt_30']['Mortgage'] = build_item('Owner with mortgage', data, item_levels,
 		'B25091003 B25091004 + B25091005 + B25091006 + B25091007 + B25091002 / %')
-	housing_burden['lt_30']['Owner w/o mortgage'] = build_item('Owner without mortgage', data, item_levels,
+	housing_burden['lt_30']['No mortgage'] = build_item('Owner without mortgage', data, item_levels,
 		'B25091014 B25091015 + B25091016 + B25091017 + B25091018 + B25091013 / %')
 
 	# 30% - 50%
@@ -1329,9 +1329,9 @@ def geo_profile(geoid, acs='latest'):
 	}
 	housing_burden['30_to_50']['Renter'] = build_item('Renter occupied', data, item_levels,
 		'B25070007 B25070008 + B25070009 + B25070001 / %')	
-	housing_burden['30_to_50']['Owner w/ mortgage'] = build_item('Owner with mortgage', data, item_levels,
+	housing_burden['30_to_50']['Mortgage'] = build_item('Owner with mortgage', data, item_levels,
 		'B25091008 B25091009 + B25091010 + B25091002 / %')
-	housing_burden['30_to_50']['Owner w/o mortgage'] = build_item('Owner without mortgage', data, item_levels,
+	housing_burden['30_to_50']['No mortgage'] = build_item('Owner without mortgage', data, item_levels,
 		'B25091019 B25091020 + B25091021 + B25091013 / %')
 
 	# 50%+
@@ -1344,9 +1344,9 @@ def geo_profile(geoid, acs='latest'):
 	}
 	housing_burden['gte_50']['Renter'] = build_item('Renter occupied', data, item_levels,
 		'B25070010 B25070001 / %')	
-	housing_burden['gte_50']['Owner w/ mortgage'] = build_item('Owner with mortgage', data, item_levels,
+	housing_burden['gte_50']['Mortgage'] = build_item('Owner with mortgage', data, item_levels,
 		'B25091011 B25091002 / %')
-	housing_burden['gte_50']['Owner w/o mortgage'] = build_item('Owner without mortgage', data, item_levels,
+	housing_burden['gte_50']['No mortgage'] = build_item('Owner without mortgage', data, item_levels,
 		'B25091022 B25091013 / %')
 
 
