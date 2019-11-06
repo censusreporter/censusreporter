@@ -11,6 +11,7 @@ $('body').on('click', 'tr', function(){
     $(this).toggleClass('highlight');
 })
 
+
 // attach browser dimensions for help with charts and tables
 window.browserWidth = document.documentElement.clientWidth;
 window.browserHeight = document.documentElement.clientHeight;
@@ -31,7 +32,7 @@ var spinnerTarget = document.getElementById("body-spinner");
 if (!spinnerTarget) {
     $('body').append('<div id="body-spinner"></div>');
     spinnerTarget = document.getElementById('body-spinner');
-} 
+}
 var spinner = new Spinner();
 $(document).ajaxSend(function(event, request, settings) {
     spinner.spin(spinnerTarget);
@@ -220,7 +221,7 @@ var roundNumber = function(value, decimals) {
     var precision = (!!decimals) ? decimals : 0,
         factor = Math.pow(10, precision),
         value = Math.round(value * factor) / factor;
-    
+
     return value;
 }
 
