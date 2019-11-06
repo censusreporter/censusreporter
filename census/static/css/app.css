@@ -464,12 +464,6 @@ article .section-container {
     margin-left: 16em;
     padding: .6em 1.2em 1.2em;
     border-left: 1px solid #2f2f2f;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-border-top-left-radius: 0;
-    -moz-border-radius-topleft: 0;
-    border-top-left-radius: 0;
 }
 
 /*header.section-contents h1,
@@ -1275,6 +1269,47 @@ h1.article-header-right {
 .q3 { background-color: #547FA1; fill: #547FA1; }
 .q4 { background-color: #366891; fill: #366891; }
 
+
+#draw-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    height: 100%;
+    width: 100%;
+}
+.intro-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #2f2f2f;
+    background-color: #d1d2d4;
+    border: 1px solid #2f2f2f;
+    width: 50%;
+  	max-height: 100%;
+    overflow: auto;
+}
+.intro-content h2.title {
+  text-transform: uppercase;
+  font-size: 2.5em;
+  margin-bottom: 0;
+}
+.intro-content section {
+  border-bottom: 1px solid #2f2f2f;
+}
+.intro-content section#gallery, .intro-content section#tutorial {
+  margin: 1em 0;
+}
+.intro-content .action-button {
+  background-color: #2f2f2f;
+  font-size: 1.5em;
+  width: 25%;
+  margin: 0 auto;
+  display: block;
+  color: #d1d2d4;
+}
 #map-controls {
     position: absolute;
     z-index: 401;
@@ -1378,7 +1413,8 @@ h1.article-header-right {
 }
 
 #map-controls .draw-tools select,
-#map-controls .draw-tools a
+#map-controls .draw-tools a,
+.modalconent .action-button
 {
    display: inline-block;
    text-align: center;
