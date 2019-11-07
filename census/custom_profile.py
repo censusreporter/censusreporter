@@ -781,13 +781,13 @@ def create_custom_profile(slug, profile_type):
 											elif sub_category == 'children_distribution_by_age':
 												for k in keys:
 													if key == k:
-														# print "Sent to normalizer:"
-														# print key
-														# print k
-														# print sub_key
-														# print sub_data
-														# print numerator[k]
-														# print denominator[k]
+														print "Sent to normalizer:"
+														print key
+														print k
+														print sub_key
+														print sub_data
+														print numerator[k]
+														print denominator[k]
 														normalize_sub_categories(sub_key, sub_data, numerator[k], denominator[k], sub_category)
 											else:
 												normalize_sub_categories(sub_key, sub_data, numerator, denominator)
