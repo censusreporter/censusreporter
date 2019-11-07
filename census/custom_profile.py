@@ -566,7 +566,12 @@ def create_custom_profile(slug, profile_type):
 												#print sub_key
 												#print numerator
 												#print denominator[k]
-												normalize_sub_categories(sub_key, sub_data, numerator, denominator[k])													
+												try:
+													denominator_send = denominator[k]
+												except KeyError as e:
+													denominator_send = None
+													pass
+												normalize_sub_categories(sub_key, sub_data, numerator, denominator_send)													
 
 						else:
 							#special case denominators
@@ -695,7 +700,12 @@ def create_custom_profile(slug, profile_type):
 									elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
 										for k in keys:
 											if key == k:
-												normalize_sub_categories(key, data, numerator[k], denominator[k], sub_category)										
+												try:
+													denominator_send = denominator[k]
+												except KeyError as e:
+													denominator_send = None
+													pass												
+												normalize_sub_categories(key, data, numerator[k], denominator_send, sub_category)										
 									else:
 										normalize_sub_categories(key, data, numerator, denominator)
 
@@ -781,14 +791,19 @@ def create_custom_profile(slug, profile_type):
 											elif sub_category == 'children_distribution_by_age':
 												for k in keys:
 													if key == k:
-														print "Sent to normalizer:"
-														print key
-														print k
-														print sub_key
-														print sub_data
-														print numerator[k]
-														print denominator[k]
-														normalize_sub_categories(sub_key, sub_data, numerator[k], denominator[k], sub_category)
+														# print "Sent to normalizer:"
+														# print key
+														# print k
+														# print sub_key
+														# print sub_data
+														# print numerator[k]
+														# print denominator[k]
+														try:
+															denominator_send = denominator[k]
+														except KeyError as e:
+															denominator_send = None
+															pass
+														normalize_sub_categories(sub_key, sub_data, numerator[k], denominator_send, sub_category)
 											else:
 												normalize_sub_categories(sub_key, sub_data, numerator, denominator)
 											
@@ -872,7 +887,12 @@ def create_custom_profile(slug, profile_type):
 															# print sub_sub_data
 															# print numerator[k]
 															# print denominator[k]
-															normalize_sub_categories(sub_sub_key, sub_sub_data, numerator[k], denominator[k], sub_category)
+															try:
+																denominator_send = denominator[k]
+															except KeyError as e:
+																denominator_send = None
+																pass					
+															normalize_sub_categories(sub_sub_key, sub_sub_data, numerator[k], denominator_send, sub_category)
 
 												elif sub_category == 'poverty_family_educational_attainment':
 													for i, k in enumerate(keys):
