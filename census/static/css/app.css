@@ -1299,8 +1299,15 @@ h1.article-header-right {
 .intro-content section {
   border-bottom: 1px solid #2f2f2f;
 }
-.intro-content section#gallery, .intro-content section#tutorial {
-  margin: 1em 0;
+.intro-content section#tutorial {
+  margin-top: 1em;
+}
+.intro-content section#gallery {
+  margin-bottom: 1em;
+}
+.intro-content section#gallery div.gallery-content  {
+    text-align: center;
+    padding: 1em;
 }
 .intro-content .action-button {
   background-color: #2f2f2f;
