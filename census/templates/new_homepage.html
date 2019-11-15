@@ -228,21 +228,22 @@
     </div>
     <div class="c-map-panel">
       <div class="section">
-          <h2 class="subhead">I want to learn about a...</h2>
-          <p class="body-text">These tools are designed to provide more data on a location based on geographical area via a map, or by Parcel ID or address.</p>
-          <div class="l-flex-space-between l-flex-center">
-            <div>
-              <a href="/draw/">
-                <img src="{{ STATIC_URL }}img/geographic-select-placeholder.png" alt="">
-                <h3>Geographic Area</h3>
-              </a>
-            </div>
-              <div>
-                <a href="https://parceltool.datadrivendetroit.org/">
-                  <img src="{{ STATIC_URL }}img/parcel-id-placeholder.png" alt="">
-                  <h3>Parcel ID or Address</h3>
-                </a>
-              </div>
+        <h2 class="subhead">I want to learn about a...</h2>
+        <p class="body-text">These tools are designed to provide more data on a location based on geographical area via a map, or by Parcel ID or address.</p>
+        <div class="options">
+          <div>
+            <a href="{{ STATIC_URL }}/draw">
+              <img src="{{ STATIC_URL }}img/geographic-select.png" alt="">
+              <h3>Geographic Area</h3>
+            </a>
+          </div>
+          <div>
+            <a href="">
+              <img src="{{ STATIC_URL }}img/geographic-select.png" alt="">
+              <h3>Parcel ID or Address</h3>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="c-IAB-panel">
@@ -367,56 +368,6 @@
               <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>
                 <p class="body-text">We are happy to explore additional partnerships to make this data portal more comprehensive.</p>
                 <p class="body-text">Please reach out to us at <a href="mailto:info@datadrivendetroit.org" target="_top"> info@datadrivendetroit.org</a> to talk more!</p>
-<!--
-                <div class="divider"></div>
-                <div class="c-social-media">
-                    <ul>
-                        <li class="l-flex-align-center">
-                            <a href="https://www.facebook.com/DataDrivenDetroit">
-                                <img class="social-icons" src="{{ STATIC_URL }}img/facebook.png"/>
-                            </a>
-                            <a class="hyperlink-bold-small" href="https://www.facebook.com/DataDrivenDetroit">D3 on Facebook</a>
-                        </li>
-                        {% comment %} <li class="l-flex-align-center">
-                            <a href="https://twitter.com/d3detroit">
-                                <img class="social-icons" src="{{ STATIC_URL }}img/twitter.png"/>
-                            </a>
-                            <a class="hyperlink-bold-small" href="https://twitter.com/d3detroit">D3 on Twitter</a>
-                        </li> {% endcomment %}
-                        <li class="l-flex-align-center">
-                            <a href="https://www.linkedin.com/company/data-driven-detroit">
-                                <img class="social-icons" src="{{ STATIC_URL }}img/linkedin.png"/>
-                            </a>
-                            <a class="hyperlink-bold-small" href="https://www.linkedin.com/company/data-driven-detroit">D3 on LinkedIn</a>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li class="l-flex-align-center">
-                            <a class="hyperlink-bold-small" href="https://censusreporter.org/">
-                                <img class="social-icons" src="{{ STATIC_URL }}img/web.png"/>
-                            </a>
-                            <a class="hyperlink-bold-small" href="https://censusreporter.org/">Census Reporter on the Web</a>
-                        </li>
-                        <li class="l-flex-align-center">
-                            <a class="hyperlink-bold-small" href="https://github.com/censusreporter/">
-                                <img class="social-icons" src="{{ STATIC_URL }}img/github.png"/>
-                            </a>
-                            <a class="hyperlink-bold-small" href="https://github.com/censusreporter/">Census Reporter on Github</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="divider"> </div>
-                <a href="http://www.skillman.org/">
-                    <div class="skillman">
-                        <div class="l-flex-align-flex-end">
-                            <img src="{{ STATIC_URL }}img/SkillmanFoundation-Logo.png" />
-                            <p>Supported by The Skillman Foundation</p>
-                        </div>
-                    </div>
-                </a>
-                <p class="designed-by">Site built and designed by <a href="http://nijel.org/"><span>NiJeL</span></a>, based on <a href="https://censusreporter.org/"><span>Census Reporter</span></a>. </a> Homepage designed by <a href="http://gooddonedaily.com/"><span>gdd</span></a>.
-                </p>
--->
             </div>
             <ul id="footer-logos">
               <li>
@@ -432,7 +383,6 @@
             </ul>
         </div>
     </footer>
-    </div>
 
 
 {% endblock %}

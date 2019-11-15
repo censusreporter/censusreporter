@@ -94,6 +94,7 @@ hr {
 
 img {
     vertical-align: middle;
+    max-width: 100%;
 }
 
 fieldset {
@@ -1299,23 +1300,50 @@ h1.article-header-right {
 .intro-content section {
   border-bottom: 1px solid #2f2f2f;
 }
+.intro-content section#gallery, .intro-content section#tutorial {
+  margin: 1em 0 0;
+}
+
 .intro-content section#tutorial {
-  margin-top: 1em;
-}
-.intro-content section#gallery {
+  padding-bottom: 1em;
   margin-bottom: 1em;
+  border: none;
 }
-.intro-content section#gallery div.gallery-content  {
-    text-align: center;
-    padding: 1em;
+
+.intro-content section ul {
+  list-style: none;
+  padding-left: 0;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-flex-flow: row;
+  justify-content: space-between;
+}
+
+.intro-content section ul li {
+  display: block;
+  padding: 0 1em;
+  flex-basis: 33%;
+}
+.intro-content section ul li:first-child {
+  padding-left: 0;
+}
+
+.intro-content section ul li:last-child {
+  padding-right: 0;
 }
 .intro-content .action-button {
-  background-color: #2f2f2f;
+  background-color: #ecba66;
   font-size: 1.5em;
   width: 25%;
-  margin: 0 auto;
+  margin: 1em auto;
   display: block;
-  color: #d1d2d4;
+  color: #2f2f2f;
+  border: 1px solid #2f2f2f;
 }
 #map-controls {
     position: absolute;
@@ -2906,6 +2934,8 @@ blockquote {
         margin-left: 0;
         width: auto;
         padding: 0;
+        text-align: left;
+        margin-bottom: 3em;
     }
     aside .action-button {
         display: inline-block;
@@ -3000,6 +3030,18 @@ blockquote {
         padding: 1em 0 0;
         clear: both;
     }
+    article .section-container h2.header-for-columns {
+      text-align: left;
+    }
+    .intro-content section ul {
+      -webkit-flex-flow: column wrap;
+      flex-flow: column wrap;
+      padding: 0;
+    }
+    .intro-content section ul li {
+      padding: 0;
+    }
+
 } /* END: @media only screen and (max-width: 768px) */
 @media only screen and (max-width: 640px) {
     .tool-set {

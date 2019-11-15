@@ -123,7 +123,6 @@ nav .container {
 }
 
 .c-intro-panel header {
-    display: flex;
     justify-content: space-between;
     align-items: flex-start;
     width: 80%;
@@ -235,12 +234,33 @@ nav .container {
     margin: 0 auto;
 }
 
-.c-map-panel {
+.c-map-panel .options {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
 
-.c-map-panel p {
-    margin: 0;
-    line-height: 32px;
+.c-map-panel .options div {
+  max-width: 500px;
+}
+
+.c-map-panel img {
+  border: 1px solid #2f2f2f;
+}
+
+.c-map-panel a:hover img {
+  opacity: 0.6;
+}
+
+.c-map-panel a h3 {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 1em;
+  text-decoration: underline;
+}
+
+.c-map-panel a:hover h3 {
+  color: #20698a;
 }
 
 .c-IAB-panel {
@@ -839,8 +859,6 @@ footer .designed-by span {
         line-height: 24px;
     }
     .body-text {
-        font-size: 12px;
-        line-height: 21px;
     }
     .body-text-32 {
         font-size: 16px;
@@ -887,7 +905,7 @@ footer .designed-by span {
     }
 
     .c-intro-panel {
-        padding-top: 30px;
+        padding-top: 0;
     }
     .c-intro-panel main {
         padding: 30px 0;
@@ -904,8 +922,10 @@ footer .designed-by span {
     .c-intro-panel .state-of-detroit-child {
         margin-left: -41%;
     }
+    .c-intro-panel header h1 {
+      font-size: 3.5em;
+    }
     .c-intro-panel-color {
-        height: 100px;
     }
     .c-our-goal-panel {
         padding: 40px;
@@ -918,8 +938,6 @@ footer .designed-by span {
         padding: 40px 0;
     }
     .c-map-panel p {
-        width: 80%;
-        line-height: 21px;
     }
     .c-goal-panel p {
         padding: 40px 0;
@@ -942,6 +960,9 @@ footer .designed-by span {
     }
     .c-tools-panel button {
         margin-bottom: 45px;
+    }
+    .c-studies-panel li {
+        flex: 0 1 100%;
     }
     .c-critical-questions-panel .section-main-image {
         padding: 45px 0;
