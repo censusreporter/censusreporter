@@ -1327,7 +1327,21 @@ h1.article-header-right {
 .intro-content section ul li {
   display: block;
   padding: 0 1em;
+}
+
+.intro-content section#tutorial ul li {
   flex-basis: 33%;
+}
+
+.intro-content section#gallery ul {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.intro-content section#gallery ul li {
+  padding: 0;
+  margin: 0.5em;
+  width: 22%;
 }
 .intro-content section ul li:first-child {
   padding-left: 0;
@@ -1336,6 +1350,11 @@ h1.article-header-right {
 .intro-content section ul li:last-child {
   padding-right: 0;
 }
+
+.intro-content section ul li a:hover {
+  opacity: 0.5;
+}
+
 .intro-content .action-button {
   background-color: #ecba66;
   font-size: 1.5em;
@@ -1350,7 +1369,7 @@ h1.article-header-right {
     z-index: 401;
     top: 10px;
     left: 10px;
-    background-color: #ffe6c5;
+    background-color: #f0f0f0;
     border: 1px solid #2f2f2f;
     width: 450px;
     /* overflow-y: auto; */
@@ -1427,7 +1446,7 @@ h1.article-header-right {
 }
 
 #map-controls .item-chosen, #map-controls .item-choices {
-  background-color: #FFE6C5;
+  background-color: #f0f0f0;
 }
 
 #map-controls #map-legend {
@@ -1467,17 +1486,17 @@ h1.article-header-right {
 }
 
 .draw-tools a.action-button {
-  background-color: #f1be6a;
+  background-color: #d1d2d4;
   color: #2f2f2f;
 }
 
 .draw-tools a.action-button:hover {
-  background-color: #ffe6c5;
-  border: 1px solid #f1be6a;
+  background-color: #979797;
+  border-color: #5b5b5b;
 }
 
 #map-controls input, #map-controls select {
-  background-color: #ffe6c5;
+  background-color: #f0f0f0;
   text-align: center;
   color: #2f2f2f;
 }
@@ -1501,13 +1520,13 @@ h1.article-header-right {
 }
 
 #map-controls hr {
-  border-color: #f1be6a;
+  border-color: #d1d2d4;
 }
 
 #select-on-map a.active {
-  color: #2f2f2f;
-  background-color: #FFE6C5;
-  border: 1px solid #2f2f2f;
+  color: #d1d2d4;
+  background-color: #2f2f2f;
+  border: 1px solid #d1d2d4;
 }
 
 #map-action-buttons a.action-button {
@@ -2202,8 +2221,8 @@ section.chart-divider h2 {
 .draw-tools .action-button.disabled.hovered {
     pointer-events: none;
     cursor: not-allowed;
-    border: 1px solid #f1be6a;
-    background-color: #ffe6c5;
+    border: 1px solid #2f2f2f;
+    background-color: #f0f0f0;
     color: #2f2f2f;
 }
 .action-button.active {
@@ -3033,7 +3052,7 @@ blockquote {
     article .section-container h2.header-for-columns {
       text-align: left;
     }
-    .intro-content section ul {
+    .intro-content section#tutorial ul {
       -webkit-flex-flow: column wrap;
       flex-flow: column wrap;
       padding: 0;
@@ -3152,6 +3171,9 @@ blockquote {
     }
     .header-container {
         padding-top: 1em;
+    }
+    .intro-content section#gallery ul li {
+      width: 27%;
     }
 } /* END: @media only screen and (max-width: 640px) */
 @media only screen and (max-width: 480px) {
