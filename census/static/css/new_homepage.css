@@ -125,7 +125,7 @@ nav .container {
 .c-intro-panel header {
     justify-content: space-between;
     align-items: flex-start;
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
 }
 
@@ -139,7 +139,7 @@ nav .container {
     text-transform:uppercase;
   	font-family: "Playfair Display", "Georgia", serif;
     color: #2f2f2f;
-    font-size: 5em;
+    font-size: 4.25em;
     text-align: center;
 }
 
@@ -346,8 +346,8 @@ nav .container {
 
 .c-studies-panel li {
     align-items: center;
-    flex: 0 1 33.33%;
-    margin-bottom: 40px;
+    flex: 0 1 30.33%;
+    margin: 0 0.5em 40px;
 }
 
 .c-studies-panel li img {
@@ -774,7 +774,47 @@ footer .designed-by span {
     align-items: flex-end;
 }
 
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .c-studies-panel li {
+    flex: 0 1 40.33%;
+  }
+
+  footer {
+      width: 100%;
+      padding: 60px 0 30px 0;
+  }
+  footer .l-flex-space-between {
+      flex-direction: column;
+      align-items: center;
+  }
+  footer .body-text {
+      text-align: center;
+  }
+  footer h2.subhead {
+    text-align: center;
+  }
+  footer #footer-nav {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 3.5em;
+  }
+  footer #footer-nav {
+    text-align: center;
+  }
+  footer .details {
+    padding: 0;
+    margin-bottom: 3.5em;
+  }
+}
+
 @media (min-width: 481px) and (max-width: 1200px) {
+
+    .c-intro-panel header h1 {
+      font-size: 3.5em;
+    }
     .c-intro-panel .beta-button {
         width: 100px;
         margin-right: 75px;
@@ -789,10 +829,8 @@ footer .designed-by span {
         margin-bottom: 25px;
         width: 100%;
     }
-
-    footer {
-        width: 100%;
-        padding: 60px 0 30px 0;
+    footer #footer-nav {
+      padding-right: 3em;
     }
     footer input {
         font-size: 12px;
@@ -812,10 +850,6 @@ footer .designed-by span {
         width: 60%;
         margin: 0 auto;
     }
-    footer .l-flex-space-between {
-        flex-direction: column;
-        align-items: center;
-    }
     footer .divider {
         margin: 20px 0;
         border: .1px solid #8C8C8C;
@@ -829,9 +863,6 @@ footer .designed-by span {
     }
     footer .c-social-media .social-icons {
         width: 15px;
-    }
-    footer .body-text {
-        text-align: center;
     }
     footer .skillman img {
         width: 172px;
@@ -1127,9 +1158,26 @@ footer .designed-by span {
     .c-additional-resources-panel li span {
         text-align: center;
     }
+    footer h2.subhead {
+      text-align: center;
+    }
     footer {
         width: 100%;
         padding: 60px 0 30px 0;
+    }
+    footer #footer-nav {
+      width: 90%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 3.5em;
+    }
+    footer #footer-nav {
+      text-align: center;
+    }
+    footer .details {
+      padding: 0;
+      margin-bottom: 3.5em;
     }
     footer input {
         font-size: 12px;
