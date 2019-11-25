@@ -85,13 +85,9 @@
           <section id="gallery">
             <h2>See what others have created</h2>
             <ul>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
-              <li><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""></a></li>
+                {% for dashboard in dashboards %}
+                    <li><a href="/custom-profiles/{{ dashboard.dashboard_slug }}" title="{{ dashboard.dashboard_name }}"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt="{{ dashboard.dashboard_name }}"></a></li>
+                {% endfor %}
             </ul>
           </section>
           <section id="tutorial">
@@ -102,13 +98,13 @@
               <li><h3>3. Select Geography</h3>Click on the map to select an area, or use the "Draw on Map" option to select a range of building blocks</li>
             </ul>
           </section>
-          <section id="gallery">
+          {% comment %} <section id="gallery">
             <div class="gallery-content">
                 <a href="{% url 'gallery' %}">Check out what others have created</a>
                 <br />
                 <a href="#0">Tutorial (Coming soon!)</a>
             </div>
-          </section>
+          </section> {% endcomment %}
         <button id="button" class="action-button">Close</button>
         </div>
     </div>

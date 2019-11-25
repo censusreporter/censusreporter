@@ -2742,6 +2742,18 @@ class CustomDrawnProfilesView(TemplateView):
 
 		return page_context
 
+class DrawProfilesView(TemplateView):
+	template_name = 'draw/draw.html'
+	def get_context_data(self, *args, **kwargs):
+		dashboards = Dashboards.objects.all().order_by('dashboard_name')
+
+		page_context = {
+			'dashboards': dashboards,
+		}
+
+		return page_context
+
+
 class ComparisonBuilder(TemplateView):
 	template_name = 'compare/comparison_builder.html'
 
