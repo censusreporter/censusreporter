@@ -1425,6 +1425,100 @@ def geo_profile(geoid, acs='latest'):
 
 
 
+	#### START Housing Information Portal Parcel-based Data ####
+	d3_comparison_geoids = list(comparison_geoids)
+	d3_comparison_geoids.remove('05000US26163')
+	d3_comparison_geoids.remove('04000US26')
+
+	item_levels_minus_county_state = []
+
+	for level in item_levels:
+		if level['sumlevel'] != '040' and level['sumlevel'] != '050':
+			item_levels_minus_county_state.append(level)
+
+
+
+	# Demolitions
+	data = api.get_data('B25998', d3_comparison_geoids, 'd3_present')
+	acs_name = data['release']['name']
+
+	units_dict['number_demos'] = build_item('Total number of demolitions (2019)', data, item_levels_minus_county_state,
+		'B25998001')
+	add_metadata(units_dict['number_demos'], 'B25998', 'Total number of demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+
+	units_dict['median_demo_cost'] = build_item('Median demolition cost (2019)', data, item_levels_minus_county_state,
+		'B25998022')
+	add_metadata(units_dict['median_demo_cost'], 'B25998', 'Total number of demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+
+
+	demo_company_distribution = OrderedDict()
+	units_dict['demo_company_distribution'] = demo_company_distribution
+	add_metadata(demo_company_distribution, 'B25998', 'Total housing unit demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+
+	demo_company_distribution['adamo'] = build_item('Adamo Group, Inc', data, item_levels_minus_county_state,
+		'B25998002 B25998001 / %')
+	demo_company_distribution['homrich'] = build_item('Homrich', data, item_levels_minus_county_state,
+		'B25998003 B25998001 / %')
+	demo_company_distribution['dmc'] = build_item('DMC Consultants', data, item_levels_minus_county_state,
+		'B25998004 B25998001 / %')
+	demo_company_distribution['able'] = build_item('Able Demolition', data, item_levels_minus_county_state,
+		'B25998005 B25998001 / %')
+	demo_company_distribution['rickman'] = build_item('Rickman Enterprise Group', data, item_levels_minus_county_state,
+		'B25998006 B25998001 / %')
+	demo_company_distribution['salebein'] = build_item('Salebein Trucking & Excavating', data, item_levels_minus_county_state,
+		'B25998007 B25998001 / %')
+	demo_company_distribution['other'] = build_item('Other Demolition Contractor', data, item_levels_minus_county_state,
+		'B25998008 B25998001 / %')
+
+	demo_month_distribution = OrderedDict()
+	units_dict['demo_month_distribution'] = demo_month_distribution
+	add_metadata(demo_month_distribution, 'B25998', 'Total housing unit demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+
+	demo_month_distribution['january'] = build_item('January', data, item_levels_minus_county_state,
+		'B25998009 B25998001 / %')
+	demo_month_distribution['february'] = build_item('February', data, item_levels_minus_county_state,
+		'B25998010 B25998001 / %')
+	demo_month_distribution['march'] = build_item('March', data, item_levels_minus_county_state,
+		'B25998011 B25998001 / %')
+	demo_month_distribution['april'] = build_item('April', data, item_levels_minus_county_state,
+		'B25998012 B25998001 / %')
+	demo_month_distribution['may'] = build_item('May', data, item_levels_minus_county_state,
+		'B25998013 B25998001 / %')
+	demo_month_distribution['june'] = build_item('June', data, item_levels_minus_county_state,
+		'B25998014 B25998001 / %')
+	demo_month_distribution['july'] = build_item('July', data, item_levels_minus_county_state,
+		'B25998015 B25998001 / %')
+	demo_month_distribution['august'] = build_item('August', data, item_levels_minus_county_state,
+		'B25998016 B25998001 / %')
+	demo_month_distribution['september'] = build_item('September', data, item_levels_minus_county_state,
+		'B25998017 B25998001 / %')
+	demo_month_distribution['october'] = build_item('October', data, item_levels_minus_county_state,
+		'B25998018 B25998001 / %')
+	demo_month_distribution['november'] = build_item('November', data, item_levels_minus_county_state,
+		'B25998019 B25998001 / %')
+	demo_month_distribution['december'] = build_item('December', data, item_levels_minus_county_state,
+		'B25998020 B25998001 / %')
+
+
+	# Vacant properties
+	data = api.get_data('B25999', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']
+
+	units_dict['number_vacant'] = build_item('Total number of vacant housing units (Q3 2019)', data, item_levels_minus_county_state,
+		'B25999003')
+	add_metadata(units_dict['number_vacant'], 'B25999', 'Total number of vacant housing units', 'Valassis VNEF Plus Database; ' + acs_name)
+
+	units_dict['percent_vacant'] = build_item('Percent of housing units vacant (Q3 2019)', data, item_levels_minus_county_state,
+		'B25999003 B25999001 / %')
+	add_metadata(units_dict['percent_vacant'], 'B25999', 'Total number of vacant housing units', 'Valassis VNEF Plus Database; ' + acs_name)
+
+
+
+
+
+	#### END Housing Information Portal Parcel-based Data ####
+
+
 	geo_metadata = api.get_geoid_data(geoid)
 
 	if geo_metadata:
