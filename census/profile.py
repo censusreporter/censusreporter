@@ -1426,12 +1426,12 @@ def geo_profile(geoid, acs='latest'):
 
 
 	#### START Housing Information Portal Parcel-based Data ####
-	d3_comparison_geoids = list(comparison_geoids)
-	d3_comparison_geoids.remove('05000US26163')
-	d3_comparison_geoids.remove('04000US26')
+	d3_comparison_geoids = []
+	for geoid in comparison_geoids:
+		if geoid != '05000US26163' and geoid != '04000US26':
+			d3_comparison_geoids.append(geoid)
 
 	item_levels_minus_county_state = []
-
 	for level in item_levels:
 		if level['sumlevel'] != '040' and level['sumlevel'] != '050':
 			item_levels_minus_county_state.append(level)
