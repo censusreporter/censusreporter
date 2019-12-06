@@ -122,6 +122,7 @@ $("#draw-on-map").click(function() {
     // set up map for draw mode
     $("#draw-on-map").addClass('active');
     $("#sumlev-picker").prop('disabled', 'disabled');
+    $("#click-on-map").removeClass('active');
     map.removeLayer(regularBackgroundTiles);
     map.addLayer(drawBackgroundTiles);
     map.removeLayer(clickableLayer);
@@ -135,8 +136,9 @@ $("#sumlev-picker").change(function(e) {
     var sumlev = _.findWhere(sumlevs,{level: $(e.target).val()})
     if (sumlev) {
 
-        // Enable the draw button
+        // Enable the click button
         $("#click-on-map").removeClass('disabled');
+        $("#click-on-map").addClass('active');
 
         if (typeof sumlev.layer == 'undefined') {
             sumlev.layer = makeClickableTileLayer(sumlev.level);
@@ -157,23 +159,6 @@ $("#sumlev-picker").change(function(e) {
     }
     // always hide clear and make dashboard buttons
     $("#map-action-buttons").addClass("hidden");
-});
-
-$("#click-on-map").click(function() {
-    if (!drawToggle) {
-        new L.Draw.Polygon(map, drawControl.options.polygon).enable();
-        drawToggle = true;
-    }
-    // set up map for draw mode
-    $("#click-on-map").addClass('active');
-    $("#sumlev-picker").prop('disabled', 'disabled');
-    map.removeLayer(regularBackgroundTiles);
-    map.addLayer(drawBackgroundTiles);
-    map.removeLayer(clickableLayer);
-    map.addLayer(toggleableLayer);
-    toggleableLayer.geojsonLayer.eachLayer(function(layer) {
-        setDeselected(layer);
-    });
 });
 
 $("#clear-map").click(function() {

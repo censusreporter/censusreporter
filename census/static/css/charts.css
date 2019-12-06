@@ -120,6 +120,9 @@ uncomment for separate inclusion into embed iframes */
 .bar-set h4.label {
     margin: .25em 0;
 }
+.bar-set h3 {
+  font-size: 11px;
+}
 .bar-group {
     margin-bottom: 2em;
 }
@@ -568,6 +571,11 @@ section.chart-divider h2 {
 .coal-chart li.tick-mark-max span {
     margin-left: -99%;
 }
+@media only screen and (min-width: 769px) and (max-width: 960px) {
+  a.column span.x {
+    font-size: .8em;
+  }
+}
 
 @media only screen and (max-width: 640px) {
     .chart-qualifier,
@@ -581,6 +589,9 @@ section.chart-divider h2 {
     .chart-get-data,
     .action-links a {
         display: inline-block;
+    }
+    .action-links {
+      margin-bottom: 2em;
     }
     .column-chart,
     .bar-chart,
