@@ -64,17 +64,26 @@
 
         {% block header %}
         <header id="page-header">
-            <div id="page-header-title" class="wrapper clearfix">{% if not hide_nav_tools %}
-            <div id="menu" class="tool-set clearfix">
-                <div class="tool-group">
-                    <input name="geography_select" class="geography-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
-                </div>
-            </div>
+            <div id="page-header-title" class="clearfix">{% if not hide_nav_tools %}
+              <div id="header-search" class="tool-set clearfix">
+                  <div class="tool-group">
+                      <input name="geography_select" class="geography-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
+                  </div>
+              </div>
             {% endif %}
-                <a class="title" href="{% url 'homepage' %}"><h1>Housing Information Portal</h1></a>
+              <a class="title" href="{% url 'homepage' %}"><h1>Housing Information Portal</h1></a>
                     {% if not hide_nav_tools %}
-                    <i id="menu-toggle" class="fa fa-bars"></i>
+              <a id="menu-toggle"><span>Menu</span><i  class="fa fa-ellipsis-v"></i></a>
                     {% endif %}
+            </div>
+            <div id="menu">
+              <ul id="header-nav" class="">
+                <li><a href="">Home</a></li>
+                <li><a href="">Map</a></li>
+                <li><a href="">Case<br />Studies</a></li>
+                <li><a href="">Information<br />Action Briefs</a></li>
+                <li><a href="">Blog</a></li>
+              </ul>
             </div>
         </header>
         {% block header_content %}{% endblock header_content %}

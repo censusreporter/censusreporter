@@ -298,13 +298,12 @@ img.screenshot {
     height: 70px !important;
 }
 
-#menu {
-    float: left;
+#header-search {
     margin: 0;
     padding: 0;
 }
-#menu .tool-group {
-    margin: 7px 0 0;
+#header-search .tool-group {
+    margin: 0;
 }
 #menu .separator {
     float:left;
@@ -315,7 +314,7 @@ img.screenshot {
     height: 2em;
     padding-top: .2em;
 }
-#menu input {
+#header-search input {
     border: 1px solid #2f2f2f;
     margin-left: 0;
     padding: 2px 6px 0;
@@ -345,21 +344,48 @@ a.action-button,
     background-color: #6596CF;
 }
 #menu-toggle {
-    float: right;
     font-size: 18px;
-    margin-top: 2px;
     color: #76AFF2;
     line-height: 1;
-    padding: .25em .33em .2em;
-    background-color: #001716;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
     cursor: pointer;
-    display: none;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 #menu-toggle.fa:before {
     cursor: pointer;
+}
+
+#menu-toggle i {
+  margin-left: 10px;
+}
+
+#menu {
+  position: absolute;
+  top: 83.5px;
+  right: 0;
+  border-left: 1px solid #2f2f2f;
+  border-bottom: 1px solid #2f2f2f;
+  background-color: #ecba66;
+  z-index: 10001;
+  display: none;
+}
+
+#menu #header-nav {
+  list-style: none;
+  font-weight: bold;
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-size: 2em;
+  padding-right: 3em;
+  padding-left: 1.5em;
+}
+
+#menu #header-nav li {
+  margin-bottom: 1em;
+}
+
+#menu #header-nav li a:hover {
+  color: #979797;
 }
 
 #page-footer {
@@ -382,7 +408,9 @@ a.action-button,
 footer .details {
   padding-right: 3em;
 }
-
+footer .details .body-text {
+  font-size: 24px;
+}
 footer #footer-logos li {
   margin-bottom: 25px;
 }
@@ -562,7 +590,7 @@ article .section-container,
 }
 .explain {
     font-size: 1em;
-    padding: 0 1em;
+    text-align: center;
 }
 .sidebar-block .explain {
     padding: .5em 0;
@@ -1216,7 +1244,7 @@ h1.article-header-right {
     font-size: .8em;
 }
 .stat-row {
-    border-top: 1px solid #f1f1f2;
+    border-top: 1px solid #dfdfdf;
     padding-top: 2em;
 }
 .stat-row.grouped-row {
@@ -1289,7 +1317,7 @@ h1.article-header-right {
     background-color: #d1d2d4;
     border: 1px solid #2f2f2f;
     width: 50%;
-  	max-height: 100%;
+  	max-height: 92%;
     overflow: auto;
 }
 .intro-content h2.title {
@@ -1342,7 +1370,39 @@ h1.article-header-right {
   padding: 0;
   margin: 0.5em;
   width: 22%;
+  position: relative;
 }
+
+.intro-content section#gallery ul li#gallery-link h4 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #2f2f2f;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+.intro-content section#gallery ul li#gallery-link {
+  position: relative;
+  cursor: pointer;
+}
+
+.intro-content section#gallery ul li#gallery-link:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(236,186,102, 0.5);
+  transition: background .3s linear;
+}
+
+.intro-content section#gallery ul li#gallery-link:before:hover:before {
+  background: none;
+}
+
 .intro-content section ul li:first-child {
   padding-left: 0;
 }
@@ -1914,7 +1974,6 @@ textarea#results {
     margin-left: .25em;
     background-color: #ecba66;
     border-radius: 0;
-    color: #fff;
 }
 .tool-group.data-selector select {
     margin-left: 0;
@@ -2731,7 +2790,7 @@ dl#racial-iteration dt {
     font-size: .83em;
 }
 
-#menu input,
+#header-search input,
 #menu .tt-dropdown-menu {
     width: 240px;
 }
@@ -2909,14 +2968,58 @@ blockquote {
         width: 1120px;
         margin: 0 auto;
     }
+    #page-header-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5em 0;
+    align-items: center;
+  }
 } /* END: @media only screen and (min-width: 1140px) */
 @media only screen and (max-width: 1139px) {
     .chosen {
         margin: 0 0 1em;
     }
+    #page-header-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5em 0;
+    align-items: center;
+  }
+  #header-search input {
+    width: 200px;
+  }
+  footer #footer-nav {
+    margin-right: 3em;
+  }
 
 } /* END: @media only screen and (max-width: 1139px) */
 @media only screen and (max-width: 768px) {
+    #page-header-title {
+      display: block;
+    }
+    #header-search {
+      margin-bottom: 1.5em;
+    }
+    #header-search .tool-group {
+      width: 100%;
+    }
+    #header-search input {
+      width: 96%;
+      margin: 0 2%;
+    }
+    #page-header-title a.title {
+      float: left; margin-left: 1em;
+    }
+    #menu-toggle {
+      float: right;
+      margin-right: 1em;
+      margin-top: 9px;
+    }
+
+    #menu {
+      top: 128px;
+    }
+
     article,
     article.column-full {
         margin-bottom: 2em;
@@ -2995,6 +3098,9 @@ blockquote {
     .centered {
         text-align: left;
     }
+    .explain {
+      text-align: left;
+    }
     #cover-map {
         height: auto;
         margin: 1em;
@@ -3006,13 +3112,12 @@ blockquote {
         height: 200px;
     }
     #cover-profile {
-        margin: 200px 1em 0;
+        margin: 200px 0 0;
     }
     #cover-profile article {
-        background-color: inherit;
         border: none;
         width: 100%;
-        padding: 1em .25em;
+        padding: 1em 1.25em;
         margin-top: 0;
     }
     #homepage #profile h1,
@@ -3060,6 +3165,28 @@ blockquote {
     .intro-content section ul li {
       padding: 0;
     }
+    #page-footer {
+      width: 100%;
+      padding: 60px 0 30px 0;
+    }
+    footer .l-flex-space-between {
+      flex-direction: column;
+      align-items: center;
+    }
+    footer #footer-nav {
+      text-align: center;
+      width: 90%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 3.5em;
+    }
+    footer .body-text, footer h2.subhead {
+      text-align: center;
+    }
+    footer #footer-nav, footer .details {
+      margin-right: 0;
+    }
 
 } /* END: @media only screen and (max-width: 768px) */
 @media only screen and (max-width: 640px) {
@@ -3068,23 +3195,19 @@ blockquote {
         margin: .5em 0 1em;
     }
     #menu-toggle {
-        display: block;
+        margin-top: 5px;
     }
-    #menu {
-        float: none;
-        display: block;
-        padding: 1em 0 .67em;
-        display: none;
+    #page-header-title a.title h1 {
+      font-size: 1.7em;
     }
-    #menu input {
-        margin-left: 0;
-    }
-    #menu input,
     #menu .tt-dropdown-menu {
         width: 100%;
     }
-    #menu .tool-group {
-        width: 47%;
+    a#menu-toggle span {
+        display: none;
+    }
+    a#menu-toggle i {
+      font-size: 1.5em;
     }
     #menu .separator {
         width: 6%;
@@ -3095,9 +3218,12 @@ blockquote {
     #menu .tt-dropdown-menu {
         height: 200px;
     }
+    #menu {
+      top: 122px;
+    }
     .section-container section,
     .stat-row [class^="column-"] {
-        margin-bottom: 2em;
+        margin-bottom: 3em;
     }
     .stat-row [class^="column-"]:last-child {
         margin-bottom: 0;
@@ -3141,7 +3267,6 @@ blockquote {
     }
     #profile #query-topic-picker .typeahead-container {
         display: block;
-        padding: 0 .75em;
     }
     #profile #query-topic-picker h2 {
         position: relative;
@@ -3175,6 +3300,9 @@ blockquote {
     .intro-content section#gallery ul li {
       width: 27%;
     }
+    .intro-content {
+      width: 75%;
+    }
 } /* END: @media only screen and (max-width: 640px) */
 @media only screen and (max-width: 480px) {
     .column-third,
@@ -3195,18 +3323,17 @@ blockquote {
     .stat .primary .name {
         font-size: 1.1em;
     }
-    #menu {
+    #header-search {
         padding-top: 0;
     }
-    #menu .tool-group {
-        float: none;
-        width: 100%;
-        margin-right: 0;
-        margin-top: 1em;
+    #page-header-title a.title h1 {
+      font-size: 1.3em;
     }
-    #menu .separator {
-        display: none;
+
+    #menu {
+      top: 114px;
     }
+
     #cover-map #slippy-map {
         height: 150px;
     }
@@ -3256,10 +3383,16 @@ blockquote {
     .topic aside img {
         width: 100%;
     }
+    #menu-toggle {
+      margin-top: 0;
+    }
 }
 @media only screen and (max-width: 360px) {
     h1.article-header {
         font-size: 2.2em;
+    }
+    #page-header-title a.title h1 {
+      font-size: 1.2em;
     }
 }
 
