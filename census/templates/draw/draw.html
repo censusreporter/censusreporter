@@ -88,6 +88,7 @@
                 {% for dashboard in dashboards %}
                     <li><a href="/custom-profiles/{{ dashboard.dashboard_slug }}" title="{{ dashboard.dashboard_name }}"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt="{{ dashboard.dashboard_name }}"></a></li>
                 {% endfor %}
+                    <li id="gallery-link"><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""><h4 class="f6 f2-ns">Gallery</h4></a></li>
             </ul>
           </section>
           <section id="tutorial">
