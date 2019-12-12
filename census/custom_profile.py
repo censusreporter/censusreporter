@@ -399,8 +399,6 @@ def create_custom_profile(slug, profile_type):
 			doc['geography']['this']['short_geoid'] = None
 			doc['geography']['this']['full_name'] = dashboard.dashboard_name
 			doc['geography']['this']['number_of_geographies'] = 0
-			doc['geography']['this']['total_population'] = 0
-			doc['geography']['this']['land_area'] = 0
 			doc['geography']['this']['full_geoids'] = []
 
 			#copy the data
@@ -412,15 +410,23 @@ def create_custom_profile(slug, profile_type):
 
 		#custom geo metadata
 		doc['geography']['this']['number_of_geographies'] += 1
-		try:
-			doc['geography']['this']['land_area'] = profile_data['geography']['this']['land_area'] + doc['geography']['this']['land_area']
-		except TypeError as e:
-			pass
 		doc['geography']['this']['full_geoids'].append(geo_id)
-		try:
-			doc['geography']['this']['total_population'] = profile_data['geography']['this']['total_population'] + doc['geography']['this']['total_population']
-		except TypeError as e:
-			pass
+
+		# after the first time through the loop, add the land area and the total population to the count
+		if i != 0:
+			try:
+				doc['geography']['this']['land_area'] = profile_data['geography']['this']['land_area'] + doc['geography']['this']['land_area']
+			except TypeError as e:
+				pass
+
+			try:
+				doc['geography']['this']['total_population'] = profile_data['geography']['this']['total_population'] + doc['geography']['this']['total_population']
+			except TypeError as e:
+				pass
+		
+
+		# print doc['geography']['this']['total_population']
+		# print profile_data['geography']['this']['total_population']
 
 		#### demographics calculations ####
 
@@ -477,12 +483,12 @@ def create_custom_profile(slug, profile_type):
 	for top_level, top_level_data in sorted(doc.items()):
 		if top_level != 'geography' and top_level != 'geo_metadata':
 			for category, category_data in sorted(top_level_data.items()):
-				print category
+				#print category
 				for sub_category, sub_category_data in sorted(category_data.items()):
 
 
 					if sub_category != 'metadata':
-						print sub_category
+						#print sub_category
 						#print sub_category_data
 
 						# special case for grouped bar charts where sub categories should total 100%
@@ -606,8 +612,8 @@ def create_custom_profile(slug, profile_type):
 								keys.remove('name')
 							
 							if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
-								print 'Keys 579:'
-								print keys
+								#print 'Keys 579:'
+								#print keys
 								if not denominator:
 									for k in keys:
 										if 'values' in sub_category_data[k]:
@@ -664,16 +670,16 @@ def create_custom_profile(slug, profile_type):
 									denominator[pk] = dict()
 
 							for key, data in sorted(sub_category_data.items()):
-								if sub_category == 'poverty_family_educational_attainment':
-									print key
-									print data
+								# if sub_category == 'poverty_family_educational_attainment':
+								# 	print key
+								# 	print data
 
 									# numerators and denominators for poverty_family_educational_attainment
 								if (sub_category == 'poverty_family_educational_attainment') and (key != "metadata") and (key != "acs_release"):
 									if not numerator[key] and not denominator[key]:
 										keys = data.keys()
-										print "Keys 721:"
-										print keys
+										#print "Keys 721:"
+										#print keys
 										if 'metadata' in keys:
 											keys.remove('metadata')
 										if 'acs_release' in keys:
@@ -690,8 +696,8 @@ def create_custom_profile(slug, profile_type):
 											if 'values' in data[k]:
 												if 'denominator' in data[k]['values']:
 													denominator[key][k] = data[k]['values']['denominator']																
-										print numerator
-										print denominator
+										#print numerator
+										#print denominator
 
 								if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
 									# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
@@ -897,14 +903,14 @@ def create_custom_profile(slug, profile_type):
 												elif sub_category == 'poverty_family_educational_attainment':
 													for i, k in enumerate(keys):
 														if sub_key == k:
-															print key
-															print sub_key
-															print k
-															print "Sent to normalizer:"
-															print sub_sub_key
-															print sub_sub_data
-															print numerator
-															print denominator[key]
+															# print key
+															# print sub_key
+															# print k
+															# print "Sent to normalizer:"
+															# print sub_sub_key
+															# print sub_sub_data
+															# print numerator
+															# print denominator[key]
 															try:
 																denominator_send = denominator[key][k]
 															except KeyError as e:
