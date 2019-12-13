@@ -5,6 +5,15 @@ $('#menu-toggle').on('click', function() {
     $('#menu').slideToggle(150);
 })
 
+$('#menu-toggle').on('click', function() {
+  $('.rotate').toggleClass('down');
+})
+
+$('#hide-box').on('click', function() {
+  $('.box-content').slideToggle(150);
+})
+
+
 // make table rows highlight-able. Not ideal to attach listener to `body`
 // but we have some tables that are created by js after page load
 $('body').on('click', 'tr', function(){

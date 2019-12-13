@@ -267,7 +267,8 @@ img.screenshot {
 .box-header {
     padding: .25em .5em;
     margin-bottom: .67em;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 .box-header img {
     height: 16px;
@@ -278,7 +279,7 @@ img.screenshot {
 .box-header a.title {
   text-transform: uppercase;
   font-weight: 700;
-  font-size: 26px;
+  font-size: 22px;
 }
 .box-content {
     padding: 0 1em;
@@ -357,6 +358,17 @@ a.action-button,
 
 #menu-toggle i {
   margin-left: 10px;
+}
+
+#menu-toggle .rotate {
+    -moz-transition: all .25s linear;
+    -webkit-transition: all .25s linear;
+    transition: all .25s linear;
+}
+#menu-toggle .rotate.down {
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
 }
 
 #menu {
@@ -1373,7 +1385,7 @@ h1.article-header-right {
   position: relative;
 }
 
-.intro-content section#gallery ul li#gallery-link h4 {
+.intro-content section#gallery ul li#gallery-link h4, .intro-content section#gallery ul li#generated h4 {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1382,12 +1394,16 @@ h1.article-header-right {
   -ms-transform: translate(-50%,-50%);
 }
 
-.intro-content section#gallery ul li#gallery-link {
+.intro-content section#gallery ul li#gallery-link h4 {
+  font-size: 1.5em;
+}
+
+.intro-content section#gallery ul li#gallery-link, .intro-content section#gallery ul li#generated {
   position: relative;
   cursor: pointer;
 }
 
-.intro-content section#gallery ul li#gallery-link:before {
+.intro-content section#gallery ul li#gallery-link:before, .intro-content section#gallery ul li#generated:before {
   content: "";
   display: block;
   position: absolute;
@@ -1399,7 +1415,7 @@ h1.article-header-right {
   transition: background .3s linear;
 }
 
-.intro-content section#gallery ul li#gallery-link:before:hover:before {
+.intro-content section#gallery ul li#gallery-link:before:hover:before, .intro-content section#gallery ul li#generated:before:hover:before {
   background: none;
 }
 
@@ -2988,6 +3004,9 @@ blockquote {
   #header-search input {
     width: 200px;
   }
+  .intro-content section#gallery ul li#gallery-link h4 {
+    font-size: 1.3em;
+  }
   footer #footer-nav {
     margin-right: 3em;
   }
@@ -3100,6 +3119,9 @@ blockquote {
     }
     .explain {
       text-align: left;
+    }
+    .intro-content section#gallery ul li#gallery-link h4 {
+      font-size: 1em;
     }
     #cover-map {
         height: auto;
@@ -3393,6 +3415,19 @@ blockquote {
     }
     #page-header-title a.title h1 {
       font-size: 1.2em;
+    }
+    #map-controls {
+      font-size: .7em;
+      max-width: 95%;
+    }
+    #map-controls .box-header a.title {
+      font-size: 20px;
+    }
+    .intro-content .action-button {
+      width: 50%;
+    }
+    #draw-intro .intro-content h2.title {
+      font-size: 1.4em;
     }
 }
 
