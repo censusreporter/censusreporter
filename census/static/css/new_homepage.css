@@ -114,7 +114,7 @@ nav .container {
 .c-intro-panel-color {
     padding-top: 10px;
     width: 100%;
-    height: 360px;
+    height: 280px;
     background: url("../img/home-header-bg.png") #ecba66 no-repeat bottom;
 }
 
@@ -244,23 +244,35 @@ nav .container {
   max-width: 500px;
 }
 
+
 .c-map-panel img {
   border: 1px solid #2f2f2f;
+  opacity: 0.5;
+  margin-bottom: 1em;
 }
 
 .c-map-panel a:hover img {
-  opacity: 0.6;
+  opacity: 0.3;
+}
+
+.c-map-panel a {
+  position: relative;
 }
 
 .c-map-panel a h3 {
+  font-size: 4em;
   text-align: center;
   text-transform: uppercase;
-  margin-top: 1em;
-  text-decoration: underline;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+    color: #20698a;
 }
 
 .c-map-panel a:hover h3 {
-  color: #20698a;
+  color: #6596cf;
 }
 
 .c-IAB-panel {
@@ -776,6 +788,10 @@ footer .designed-by span {
 
 
 @media (min-width: 481px) and (max-width: 768px) {
+  .section {
+    padding-top: 40px;
+  }
+
   .c-studies-panel li {
     flex: 0 1 40.33%;
   }
@@ -811,6 +827,7 @@ footer .designed-by span {
 }
 
 @media (min-width: 481px) and (max-width: 1200px) {
+
 
     .c-intro-panel header h1 {
       font-size: 3.5em;
@@ -934,6 +951,9 @@ footer .designed-by span {
         flex-direction: column;
         margin: 10px 15px 0;
     }
+    .section {
+      padding-top: 20px;
+    }
 
     .c-intro-panel {
         padding-top: 0;
@@ -965,8 +985,8 @@ footer .designed-by span {
         width: 220px;
         height: 71.2px;
     }
-    .c-map-panel {
-        padding: 40px 0;
+    .c-map-panel a h3 {
+      font-size: 3em;
     }
     .c-map-panel p {
     }

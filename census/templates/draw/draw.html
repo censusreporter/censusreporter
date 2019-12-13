@@ -21,6 +21,7 @@
         <a class="title" href="{% url 'homepage' %}">
             <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> Housing Information Portal
         </a>
+        <button id="hide-box">X</button>
     </header>
     <div class="box-content">
       <select id="sumlev-picker">
@@ -79,33 +80,22 @@
             <h2 class="title">Geographic Area Tool</h2>
         </header>
         <div class="box-content">
-          <section id="info">
-            <p>Explore hundreds of datasets by location across Detroit and Michigan! This tool is designed to provide more data on a location based on geographical area via a map.</p>
-          </section>
+        <section id="tutorial">
+          <ul>
+            <li><h3>1. Chose Building Block</h3>Pick an option from the "Select Geographic Building Blocks" dropdown</li>
+            <li><h3>2. Pick Starting Location</h3>To change the map location, center the map on your current location, type an address in the search box, or drag the map with your cursor</li>
+            <li><h3>3. Select Geography</h3>Click on the map to select an area, or use the "Draw on Map" option to select a range of building blocks</li>
+          </ul>
+        </section>
           <section id="gallery">
             <h2>See what others have created</h2>
             <ul>
                 {% for dashboard in dashboards %}
-                    <li><a href="/custom-profiles/{{ dashboard.dashboard_slug }}" title="{{ dashboard.dashboard_name }}"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt="{{ dashboard.dashboard_name }}"></a></li>
+                    <li id="generated"><a href="/custom-profiles/{{ dashboard.dashboard_slug }}" title="{{ dashboard.dashboard_name }}"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt="{{ dashboard.dashboard_name }}"><h4 class="f6 f2-ns">Title</h4></a></li>
                 {% endfor %}
                     <li id="gallery-link"><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""><h4 class="f6 f2-ns">Gallery</h4></a></li>
             </ul>
           </section>
-          <section id="tutorial">
-            <h2>How To Use</h2>
-            <ul>
-              <li><h3>1. Chose Building Block</h3>Pick an option from the "Select Geographic Building Blocks" dropdown</li>
-              <li><h3>2. Pick Starting Location</h3>To change the map location, center the map on your current location, type an address in the search box, or drag the map with your cursor</li>
-              <li><h3>3. Select Geography</h3>Click on the map to select an area, or use the "Draw on Map" option to select a range of building blocks</li>
-            </ul>
-          </section>
-          {% comment %} <section id="gallery">
-            <div class="gallery-content">
-                <a href="{% url 'gallery' %}">Check out what others have created</a>
-                <br />
-                <a href="#0">Tutorial (Coming soon!)</a>
-            </div>
-          </section> {% endcomment %}
         <button id="button" class="action-button">Close</button>
         </div>
     </div>
