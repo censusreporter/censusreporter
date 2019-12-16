@@ -9,8 +9,19 @@ $('#menu-toggle').on('click', function() {
   $('.rotate').toggleClass('down');
 })
 
+$("#word-toggle").on("click", function() {
+  var menuChange = $(this);
+  menuChange.text() == menuChange.data("text-swap")
+    ? menuChange.text(menuChange.data("text-original"))
+    : menuChange.text(menuChange.data("text-swap"));
+});
+
 $('#hide-box').on('click', function() {
   $('.box-content').slideToggle(150);
+})
+
+$('#hide-box').on('click', function() {
+  $('.rotate').toggleClass('down');
 })
 
 
