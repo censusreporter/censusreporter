@@ -267,9 +267,13 @@ img.screenshot {
 .box-header {
     padding: .25em .5em;
     margin-bottom: .67em;
-    display: flex;
-    justify-content: space-between;
+    text-align: center;
 }
+#map-controls .box-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .box-header img {
     height: 16px;
 }
@@ -281,12 +285,29 @@ img.screenshot {
   font-weight: 700;
   font-size: 22px;
 }
+.box-header button {
+  padding: 5px 5px 0;
+  font-weight: 700;
+}
+
 .box-content {
     padding: 0 1em;
     margin-bottom: .67em;
 }
 .box-content section {
     margin-bottom: 0;
+}
+#hide-box .rotate.down {
+    -moz-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    transform:rotate(180deg);
+}
+
+#hide-box {
+  font-size: 25px;
+  line-height: 1;
+  margin-right: 7px;
+  margin-top: 2px;
 }
 
 .beta-ribbon {
@@ -360,7 +381,7 @@ a.action-button,
   margin-left: 10px;
 }
 
-#menu-toggle .rotate {
+#menu-toggle .rotate, #hide-box .rotate {
     -moz-transition: all .25s linear;
     -webkit-transition: all .25s linear;
     transition: all .25s linear;
