@@ -134,6 +134,8 @@ class Geography(models.Model):
 
 
 class Dashboards(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     dashboard_name = models.TextField(blank=False, null=False, unique=True)
     dashboard_slug = models.CharField(max_length=1000, blank=False, null=False, unique=True)
     dashboard_geoids = models.TextField(blank=False, null=False)

@@ -2745,7 +2745,7 @@ class CustomDrawnProfilesView(TemplateView):
 class DrawProfilesView(TemplateView):
 	template_name = 'draw/draw.html'
 	def get_context_data(self, *args, **kwargs):
-		dashboards = Dashboards.objects.all().order_by('dashboard_name')
+		dashboards = Dashboards.objects.all().order_by('-created_at')[:7]
 
 		page_context = {
 			'dashboards': dashboards,
