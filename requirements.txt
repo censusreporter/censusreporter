@@ -3,7 +3,7 @@ boto==2.27.0
 cffi==1.10.0
 contextlib2==0.5.1
 cryptography==1.8.1
-Django==1.5.4
+Django==1.11.23
 ecdsa==0.10
 enum34==1.1.6
 fab==1.4.2
