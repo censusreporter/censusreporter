@@ -16,7 +16,7 @@ packaging==16.8
 paramiko==1.12.0
 pycparser==2.17
 pycrypto==2.6.1
-pyOpenSSL==16.2.0
+pyOpenSSL==17.5.0
 pyparsing==2.2.0
 python-memcached==1.53
 pytz==2017.2
