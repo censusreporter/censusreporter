@@ -3,26 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/35000US77200-providencewarwick-rima-metropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US77650-rutland-vt-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US77950-sanford-me-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US78100-springfield-mact-metropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US78400-torrington-ct-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/35000US79600-worcester-mact-metropolitan-necta/</loc>
     </url>
     
@@ -48,6 +28,26 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/35000US71050-barre-vt-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US77200-providencewarwick-rima-metropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US77650-rutland-vt-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US77950-sanford-me-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US78100-springfield-mact-metropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US78400-torrington-ct-micropolitan-necta/</loc>
     </url>
     
     <url>

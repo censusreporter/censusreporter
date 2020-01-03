@@ -3,102 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/25100US5550255-gregory/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3970550-porcupine-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3970200-fort-yates-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3970100-cannonball-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3970300-kenel-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3235670-swift-bear-segment/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1160450-parshall-segment/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550415-oaks-community/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550420-old-eucha/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550353-mayes-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550333-mcintosh-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550380-muskogee-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550405-nowata-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550430-ottawa-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550505-rogers-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550540-sequoyah-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550640-tulsa-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550660-wagoner-noncommunity/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550030-akins/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550520-sams-corner/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3680120-bdedan/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3235100-corn-creek-segment/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US2430560-ojo-encino-chapter/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5590900-county-district-12/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25100US5550453-piney/</loc>
     </url>
     
@@ -131,31 +35,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290650-priest-point/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3680170-east-village/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25100US2430653-red-valley-chapter/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US2430665-rock-point-chapter/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3680150-brewer/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3235040-black-pipe-segment/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1250350-frazier-district/</loc>
     </url>
     
     <url>
@@ -271,6 +155,102 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25100US5550255-gregory/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3970550-porcupine-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3970200-fort-yates-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3970100-cannonball-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3970300-kenel-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3235670-swift-bear-segment/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1160450-parshall-segment/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550415-oaks-community/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550420-old-eucha/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550353-mayes-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550333-mcintosh-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550380-muskogee-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550405-nowata-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550430-ottawa-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550505-rogers-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550540-sequoyah-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550640-tulsa-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550660-wagoner-noncommunity/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550030-akins/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5550520-sams-corner/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3680120-bdedan/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3235100-corn-creek-segment/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US2430560-ojo-encino-chapter/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US5590900-county-district-12/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25100US5550425-old-green/</loc>
     </url>
     
@@ -288,10 +268,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US5550450-pettit/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4290300-john-sam-lake/</loc>
     </url>
     
     <url>
@@ -324,10 +300,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US2430820-sweetwater-chapter/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4290100-aspen/</loc>
     </url>
     
     <url>
@@ -371,7 +343,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1505569-ru569/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290250-hermosa-point/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3100600-ponemah-district/</loc>
     </url>
     
     <url>
@@ -388,6 +364,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US1505451-ru451/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US2430010-aneth-chapter/</loc>
     </url>
     
     <url>
@@ -439,7 +419,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1505165-hopiwinslow-district/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290350-maplewood/</loc>
     </url>
     
     <url>
@@ -643,10 +623,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1505180-moenkopi-administrative-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25100US2430400-leupp-chapter/</loc>
     </url>
     
@@ -679,14 +655,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US0605100-district-1/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US0605400-district-4/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25100US3235720-two-strike-segment/</loc>
     </url>
     
@@ -704,22 +672,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US5550645-turley/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505725-toreva-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505740-tovar-mesa-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505780-upper-polacca-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US2810200-eagle-nest-district/</loc>
     </url>
     
     <url>
@@ -863,15 +815,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290250-hermosa-point/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3100600-ponemah-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US2430010-aneth-chapter/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290800-shaker-church/</loc>
     </url>
     
     <url>
@@ -888,10 +832,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US3970650-rock-creek-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4290350-maplewood/</loc>
     </url>
     
     <url>
@@ -923,7 +863,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290800-shaker-church/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290600-port-susan/</loc>
     </url>
     
     <url>
@@ -932,6 +872,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US2430315-houck-chapter/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4200570-san-xavier-district/</loc>
     </url>
     
     <url>
@@ -971,7 +915,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290600-port-susan/</loc>
+        <loc>https://censusreporter.org/profiles/25100US2430693-san-juan-southern-paiute-northern-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1160800-white-shield-segment/</loc>
     </url>
     
     <url>
@@ -1012,10 +960,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US2810400-lacreek-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4200570-san-xavier-district/</loc>
     </url>
     
     <url>
@@ -1251,11 +1195,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US5550700-wickliffe/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290990-waterworks/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290990-waterworks/</loc>
+        <loc>https://censusreporter.org/profiles/25100US5550700-wickliffe/</loc>
     </url>
     
     <url>
@@ -1267,7 +1211,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25100US1860600-old-agency-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3935250-fort-totten-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3935600-st-michael-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US0990600-painttown-community/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25100US5550705-woodall/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1505165-hopiwinslow-district/</loc>
     </url>
     
     <url>
@@ -1275,7 +1239,35 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25100US1505180-moenkopi-administrative-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US0605100-district-1/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25100US5550715-zena/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US0605400-district-4/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1505725-toreva-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1505740-tovar-mesa-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1505780-upper-polacca-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US2810200-eagle-nest-district/</loc>
     </url>
     
     <url>
@@ -1315,15 +1307,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1860600-old-agency-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3935250-fort-totten-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US3935600-st-michael-district/</loc>
+        <loc>https://censusreporter.org/profiles/25100US1505558-ru558/</loc>
     </url>
     
     <url>
@@ -1335,15 +1319,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US0990600-painttown-community/</loc>
+        <loc>https://censusreporter.org/profiles/25100US1505569-ru569/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1505558-ru558/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290700-quilceda/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US0990050-big-cove-community/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4200270-gila-bend-district/</loc>
     </url>
     
     <url>
@@ -1352,6 +1340,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US1110400-hot-springs-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4200340-hickiwan-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4200700-sif-oidak-district/</loc>
     </url>
     
     <url>
@@ -1484,26 +1480,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US1505120-east-dinnebito-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4290700-quilceda/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4200270-gila-bend-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4200340-hickiwan-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4200700-sif-oidak-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505556-ru556/</loc>
     </url>
     
     <url>
@@ -1647,7 +1623,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1505572-ru572/</loc>
+        <loc>https://censusreporter.org/profiles/25100US1505556-ru556/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4290400-marshall/</loc>
     </url>
     
     <url>
@@ -1663,39 +1643,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US5550285-ketchum-community/</loc>
+        <loc>https://censusreporter.org/profiles/25100US1860500-long-hollow-district/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US5550290-keys/</loc>
+        <loc>https://censusreporter.org/profiles/25100US2430855-torreon-chapter/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1505573-ru573/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US5550210-eldon/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US4290400-marshall/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505600-shongopovi-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505660-south-oraibi-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US1505700-talahogan-district/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25100US2430040-becenti-chapter/</loc>
+        <loc>https://censusreporter.org/profiles/25100US1505572-ru572/</loc>
     </url>
     
     <url>
@@ -1719,6 +1675,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25100US1505573-ru573/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25100US2430837-thoreau-chapter/</loc>
     </url>
     
@@ -1739,11 +1699,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US2430693-san-juan-southern-paiute-northern-area/</loc>
+        <loc>https://censusreporter.org/profiles/25100US4290750-rainwater/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1160800-white-shield-segment/</loc>
+        <loc>https://censusreporter.org/profiles/25100US1505600-shongopovi-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4290450-marysville-west/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1505660-south-oraibi-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1505700-talahogan-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US2430040-becenti-chapter/</loc>
     </url>
     
     <url>
@@ -1759,11 +1735,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US1860500-long-hollow-district/</loc>
+        <loc>https://censusreporter.org/profiles/25100US5550285-ketchum-community/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US2430855-torreon-chapter/</loc>
+        <loc>https://censusreporter.org/profiles/25100US5550290-keys/</loc>
     </url>
     
     <url>
@@ -1779,7 +1755,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290750-rainwater/</loc>
+        <loc>https://censusreporter.org/profiles/25100US5550210-eldon/</loc>
     </url>
     
     <url>
@@ -1795,10 +1771,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25100US4290450-marysville-west/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25100US3235500-ring-thunder-segment/</loc>
     </url>
     
@@ -1808,6 +1780,26 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US2430140-counselor-chapter/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4290650-priest-point/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3680170-east-village/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3680150-brewer/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US3235040-black-pipe-segment/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US1250350-frazier-district/</loc>
     </url>
     
     <url>
@@ -1824,6 +1816,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25100US1150250-dodson-district/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4290300-john-sam-lake/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25100US4290100-aspen/</loc>
     </url>
     
     <url>
