@@ -25,7 +25,7 @@ from django.views.generic import View, TemplateView
 from .models import Geography, Table, Column, SummaryLevel
 from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
      SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
-from .profile import geo_profile, enhance_api_data
+from .profile import geo_profile, enhance_api_data, ApiException
 from .topics import TOPICS_MAP
 
 from boto.s3.connection import S3Connection
@@ -109,7 +109,7 @@ class TableDetailView(TemplateView):
 
         try:
             return super(TableDetailView, self).dispatch(*args, **kwargs)
-        except Http404, e:
+        except Http404 as e:
             # Check if core table doesn't exist, but has iterations; if so,
             # redirect to the first iteration.
             if table_argument.endswith('PR'):

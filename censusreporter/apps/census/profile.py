@@ -10,6 +10,10 @@ from requests.adapters import HTTPAdapter
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 
+class ApiException(Exception):
+    pass
+
+
 class ApiClient(object):
     def __init__(self, base_url):
         self.base_url = base_url
@@ -25,7 +29,7 @@ class ApiClient(object):
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)
         else:
-            raise Exception("HTTP %s error fetching data: %s" % (r.status_code, r.text))
+            raise ApiException("HTTP %s error fetching data: %s" % (r.status_code, r.text))
 
         return data
 
