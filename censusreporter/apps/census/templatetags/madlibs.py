@@ -1,6 +1,5 @@
 from django import template
 from django.utils.safestring import mark_safe
-from numpy import array
 
 register = template.Library()
 
@@ -43,23 +42,23 @@ def comparison_index_phrase(value):
 
     The COMPARISON_PHRASE_MAP defines the comparative phrases; the dict keys
     are the lower boundary of the range of values that result in that phrase.
-    
+
     For example, the effective range of index values that return the phrase
     "about half" would be 45 to 55.
     '''
     # make sure we have an int for comparison
     index = round(float(value))
-    
+
     # get lower boundaries for each phrase in the map
-    thresholds = array(sorted([k for k,v in COMPARISON_PHRASE_MAP.iteritems()]))
+    thresholds = list(sorted(COMPARISON_PHRASE_MAP.keys()))
 
     # get highest boundary that's less than the index value we've been passed
-    phrase_key = max(thresholds[thresholds<=index])
-    
+    phrase_key = max(filter(lambda t: t <= index, thresholds))
+
     phrase_bits = COMPARISON_PHRASE_MAP[phrase_key]
     phrase = "<strong>%s</strong> %s" % (phrase_bits[0], phrase_bits[1])
     return mark_safe(phrase)
-    
+
 @register.filter
 def stat_type_to_number_noun(stat_type):
     if stat_type == 'dollar':
