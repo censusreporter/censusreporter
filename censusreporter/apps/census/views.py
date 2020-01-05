@@ -736,34 +736,38 @@ class SearchResultsView(TemplateView):
     template_name = 'search/results.html'
 
     def get_data(self, query):
-        search_url = settings.API_URL + "/2.1/full-text/search?q={}"
         if not query:
             return {'results': [], 'has_query': False}
 
-        r = r_session.get(search_url.format(uniurlquote(query)))
-        status_code = r.status_code
-
-        mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
-        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json?access_token={1}&country=us,pr"
-        location_request_url = location_request_url.format(uniurlquote(query), mapbox_accessToken)
-        r_location = r_session.get(location_request_url)
-        status_code_location = r_location.status_code
-
         search_data_all = {}
-        if status_code == 200 or status_code_location == 200:
-            search_data = json.loads(r.text)
-            search_data['results'] = filter(lambda x: x.get('sumlevel') not in ['140','150'], search_data['results'])
-            search_data_location = json.loads(r_location.text)
+
+        cr_data = []
+        search_url = settings.API_URL + "/2.1/full-text/search"
+        cr_resp = r_session.get(search_url, params={"q": query})
+
+        if cr_resp.status_code == 200:
+            cr_data = cr_resp.json().get('results')
+            cr_data = filter(lambda x: x.get('sumlevel') not in ['140','150'], cr_data)
             search_data_all['has_query'] = True
-            search_data_all['results'] = (search_data.get('results') or []) + (search_data_location.get('features') or [])
-        elif status_code == 404 or status_code == 400:
-            error_data = json.loads(r.text)
+
+        mb_data = []
+        mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
+        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json"
+        location_request_url = location_request_url.format(uniurlquote(query))
+        mb_resp = r_session.get(location_request_url, params={"access_token": mapbox_accessToken, "country": "us,pr"})
+
+        if mb_resp.status_code == 200:
+            mb_data = mb_resp.json().get('features')
+            search_data_all['has_query'] = True
+
+        search_data_all['results'] = cr_data + mb_data
+
+        if cr_resp.status_code != 200 and mb_resp != 200:
+            error_data = {
+                "location_err": mb_resp.text,
+                "search_err": cr_resp.text,
+            }
             raise_404_with_messages(self.request, error_data)
-        elif status_code_location == 404 or status_code_location == 400:
-            error_data = json.loads(r_location.text)
-            raise_404_with_messages(self.request, error_data)
-        else:
-            raise Http404
 
         return search_data_all
 
