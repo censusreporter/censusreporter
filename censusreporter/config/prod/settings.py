@@ -6,7 +6,8 @@ WSGI_APPLICATION = "config.prod.wsgi.application"
 
 
 ALLOWED_HOSTS = [
-    '.censusreporter.org',
+    'censusreporter.org',
+    'www.censusreporter.org',
     '.compute-1.amazonaws.com',  # allows viewing of instances directly
     'cr-prod-409865157.us-east-1.elb.amazonaws.com',  # from the load balancer
 ]
