@@ -49,7 +49,7 @@ def render_json_to_response(context):
     Utility method for rendering a view's data to JSON response.
     '''
     result = json.dumps(context, sort_keys=False, indent=4)
-    return HttpResponse(result, mimetype='application/javascript')
+    return HttpResponse(result, content_type='application/javascript')
 
 def capitalize_first(str):
     """Capitalizes only the first letter of the given string.
