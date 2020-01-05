@@ -4,7 +4,7 @@ cffi==1.10.0
 contextlib2==0.5.1
 cryptography==1.8.1
 Django==1.5.4
-ecdsa==0.10
+ecdsa==0.13.3
 enum34==1.1.6
 fab==1.4.2
 Fabric==1.10.2
