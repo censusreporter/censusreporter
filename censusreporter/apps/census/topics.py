@@ -234,4 +234,4 @@ TOPICS_LIST = [
 
 ]
 
-TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
+TOPICS_MAP = dict((topic['slug'], topic) for topic in TOPICS_LIST)

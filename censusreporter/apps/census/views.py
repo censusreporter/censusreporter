@@ -1,36 +1,38 @@
 from __future__ import division
 from collections import OrderedDict, defaultdict
-from urllib2 import unquote, quote
+from urllib2 import quote
 import cStringIO
 import gzip
 import re
 import requests
-import unicodecsv
 import topics
 import json
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.template import loader, TemplateDoesNotExist, RequestContext
+from django.shortcuts import render
+from django.template import loader, TemplateDoesNotExist
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
-from .models import Geography, Table, Column, SummaryLevel
-from .utils import LazyEncoder, get_max_value, get_object_or_none, parse_table_id, \
-     SUMMARY_LEVEL_DICT, NLTK_STOPWORDS, TOPIC_FILTERS, SUMLEV_CHOICES, ACS_RELEASES
-from .profile import geo_profile, enhance_api_data, ApiException
+from .utils import (
+    LazyEncoder,
+    parse_table_id,
+    TOPIC_FILTERS,
+    SUMLEV_CHOICES,
+    ACS_RELEASES,
+)
+from .profile import geo_profile, enhance_api_data
 from .topics import TOPICS_MAP
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 try:
     from config.dev.local import AWS_KEY, AWS_SECRET
-except:
+except Exception:
     AWS_KEY = AWS_SECRET = None
 
 
@@ -42,7 +44,7 @@ r_session = requests.Session()
 r_session.headers.update({'User-Agent': 'censusreporter.org frontend'})
 
 
-### UTILS ###
+# UTILS
 
 def render_json_to_response(context):
     '''
@@ -51,27 +53,31 @@ def render_json_to_response(context):
     result = json.dumps(context, sort_keys=False, indent=4)
     return HttpResponse(result, content_type='application/javascript')
 
+
 def capitalize_first(str):
     """Capitalizes only the first letter of the given string.
 
     :param str: string to capitalize
     :return: str with only the first letter capitalized
     """
-    if str == "": return ""
+    if str == "":
+        return ""
     return str[0].upper() + str[1:]
 
-### HEALTH CHECK ###
+# HEALTH CHECK
+
 
 class HealthcheckView(TemplateView):
     template_name = 'healthcheck.html'
 
 
-## ERRORS ##
+# ERRORS
 
 def server_error(request):
     response = render(request, "500.html")
     response.status_code = 500
     return response
+
 
 def raise_404_with_messages(request, error_data={}):
     ''' expects a dict containing error labels and messages for the user '''
@@ -80,6 +86,7 @@ def raise_404_with_messages(request, error_data={}):
         messages.error(request, error_text)
 
     raise Http404
+
 
 class TableDetailView(TemplateView):
     template_name = 'table/table_detail.html'
@@ -98,12 +105,12 @@ class TableDetailView(TemplateView):
         # canonicalize
         if table_argument and not table_argument == table_argument.upper():
             return HttpResponseRedirect(
-                        reverse('table_detail', args=(table_argument.upper(),))
-                    )
+                reverse('table_detail', args=(table_argument.upper(),))
+            )
 
         self.table_code = table_argument
         self.table_group = self.table_code[0]
-        self.tabulation_code = re.sub("\D", "", self.table_code)
+        self.tabulation_code = re.sub(r"\D", "", self.table_code)
 
         try:
             return super(TableDetailView, self).dispatch(*args, **kwargs)
@@ -118,7 +125,7 @@ class TableDetailView(TemplateView):
 
             if r_session.get(endpoint).status_code == 200:
                 return HttpResponseRedirect(
-                    reverse('table_detail', args = (table_argument,))
+                    reverse('table_detail', args=(table_argument,))
                 )
             raise e
 
@@ -156,13 +163,9 @@ class TableDetailView(TemplateView):
             }
 
         tables = OrderedDict()
-        table_grid = OrderedDict()
-        tables_expanded = OrderedDict()
         default_table = defaultdict(table_dict_factory)
         default_table_groups = defaultdict(table_ordereddict_factory)
         default_table_list = defaultdict(table_ordereddict_factory)
-        default_expanded_list = defaultdict(table_ordereddict_factory)
-        default_expanded_table = defaultdict(table_expanded_factory)
 
         # take API data and shape into dicts for:
         # * a grid with each table variant and which releases it's available for
@@ -175,7 +178,7 @@ class TableDetailView(TemplateView):
             # before this, this is guaranteed to list tables as
             # tableA, ... , tableI, tableAPR, ... , tableIPR.
             sorted_data = sorted(tabulation_data['tables_by_release'][release],
-                                 key = lambda code: len(code))
+                                 key=lambda code: len(code))
             for table_code in sorted_data:
                 # is this a B or C table?
                 parsed = parse_table_id(table_code)
@@ -214,7 +217,7 @@ class TableDetailView(TemplateView):
 
     def get_topic_pages(self, table_topics):
         related_topic_pages = []
-        for key, values in TOPICS_MAP.iteritems():
+        for key, values in TOPICS_MAP.items():
             topics = values.get('topics', [])
             matches = set(topics).intersection(table_topics)
             if matches:
@@ -242,10 +245,11 @@ class TableDetailView(TemplateView):
 
         return page_context
 
+
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
-    def parse_fragment(self,fragment):
+    def parse_fragment(self, fragment):
         """Given a URL, return a (geoid,slug) tuple. slug may be None.
         GeoIDs are not tested for structure, but are simply the part of the URL
         before any '-' character, also allowing for the curiosity of Vermont
@@ -264,28 +268,28 @@ class GeographyDetailView(TemplateView):
             """
             parts = geo_id.split('US')
 
-            if len(parts) == 2 and len(parts[0]) == 7: # American Fact Finder style GeoID.
+            if len(parts) == 2 and len(parts[0]) == 7:  # American Fact Finder style GeoID.
                 sumlevel = parts[0][:3]
                 identifier = parts[1]
                 return "{}00US{}".format(sumlevel, identifier)
             return geo_id
 
-        parts = fragment.split('-',1)
+        parts = fragment.split('-', 1)
         if len(parts) == 1:
-            return (handle_long_geoid(fragment),None)
+            return (handle_long_geoid(fragment), None)
 
-        geoid,slug = parts
+        geoid, slug = parts
         geoid = handle_long_geoid(geoid)
         if len(slug) == 1:
-            geoid = '{}-{}'.format(geoid,slug)
+            geoid = '{}-{}'.format(geoid, slug)
             slug = None
         else:
             parts = slug.split('-')
             if len(parts) > 1 and len(parts[0]) == 1:
-                geoid = '{}-{}'.format(geoid,parts[0])
+                geoid = '{}-{}'.format(geoid, parts[0])
                 slug = '-'.join(parts[1:])
 
-        return (geoid,slug)
+        return (geoid, slug)
 
     def dispatch(self, *args, **kwargs):
 
@@ -293,7 +297,7 @@ class GeographyDetailView(TemplateView):
 
         # checking geoid
         geography_info = self.get_geography(self.geo_id)
-        if (geography_info == None):
+        if geography_info is None:
             raise Http404
 
         # checking slug
@@ -302,31 +306,28 @@ class GeographyDetailView(TemplateView):
             fragment = '{}-{}'.format(self.geo_id, calculated_slug)
             path = reverse('geography_detail', args=(fragment,))
             self.canonical_url = self.request.build_absolute_uri(path)
-            return HttpResponseRedirect(
-                        path
-                    )
+            return HttpResponseRedirect(path)
 
         self.canonical_url = self.request.build_absolute_uri()
         return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
-    def  make_slug(self, geo):
+    def make_slug(self, geo):
         if geo:
-                try:
-                    # get slug from geo
-                    return slugify(geo['properties']['display_name'])
-                except Exception, e:
-                    # if we have a strange situation where there's no
-                    # display name attached to the geography, we should
-                    # go ahead and display the profile page
-                    logger.warn(e)
-                    logger.warn("Geography {} has no display_name".format(self.geo_id))
-                    pass
+            try:
+                # get slug from geo
+                return slugify(geo['properties']['display_name'])
+            except Exception, e:
+                # if we have a strange situation where there's no
+                # display name attached to the geography, we should
+                # go ahead and display the profile page
+                logger.warn(e)
+                logger.warn("Geography {} has no display_name".format(self.geo_id))
+                pass
         else:
             pass
 
     def make_canonical_url(self, geo_id):
         pass
-
 
     def get_geography(self, geo_id):
         endpoint = settings.API_URL + '/1.0/geo/tiger2018/%s' % self.geo_id
@@ -347,7 +348,7 @@ class GeographyDetailView(TemplateView):
         else:
             try:
                 s3 = S3Connection()
-            except:
+            except Exception:
                 s3 = None
         return s3
 
@@ -368,7 +369,6 @@ class GeographyDetailView(TemplateView):
 
         # create gzipped version of json in memory
         memfile = cStringIO.StringIO()
-        #memfile.write(data)
         with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data)
         memfile.seek(0)
@@ -381,7 +381,7 @@ class GeographyDetailView(TemplateView):
 
         try:
             s3_key = self.s3_profile_key(geography_id)
-        except:
+        except Exception:
             s3_key = None
 
         if s3_key and s3_key.exists():
@@ -431,7 +431,7 @@ class TopicView(TemplateView):
                     'topic': TOPICS_MAP[topic_slug],
                 }
                 self.template_name = 'topics/%s' % TOPICS_MAP[topic_slug]['template_name']
-            except:
+            except Exception:
                 raise Http404
         else:
             page_context = {
@@ -446,7 +446,7 @@ class TopicView(TemplateView):
         return page_context
 
 
-### EXAMPLES ###
+# EXAMPLES
 
 class ExampleView(TemplateView):
     '''
@@ -462,7 +462,7 @@ class ExampleView(TemplateView):
             raise Http404
 
 
-### COMPARISONS ###
+# COMPARISONS
 
 class DataView(TemplateView):
     template_name = 'data/data_table.html'
@@ -533,6 +533,7 @@ class ComparisonBuilder(TemplateView):
 
         return page_context
 
+
 class S3Conn(object):
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:
@@ -540,7 +541,7 @@ class S3Conn(object):
         else:
             try:
                 s3 = S3Connection()
-            except:
+            except Exception:
                 s3 = None
         return s3
 
@@ -560,13 +561,13 @@ class S3Conn(object):
 
         # create gzipped version of json in memory
         memfile = cStringIO.StringIO()
-        #memfile.write(data)
         with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data)
         memfile.seek(0)
 
         # store static version on S3
         s3_key.set_contents_from_file(memfile)
+
 
 class MakeJSONView(View):
     def post(self, request, *args, **kwargs):
@@ -607,7 +608,7 @@ class MakeJSONView(View):
 
         try:
             s3_key = s3.s3_key(key_name)
-        except:
+        except Exception:
             s3_key = None
 
         if s3_key and s3_key.exists():
@@ -618,116 +619,6 @@ class MakeJSONView(View):
             logger.warn("Could not save to S3 because there was no connection to S3.")
 
         return render_json_to_response({'success': 'true'})
-
-
-
-## LOCAL DEV VERSION OF API ##
-
-class PlaceSearchJson(View):
-    def get(self, request, *args, **kwargs):
-        geographies = Geography.objects.all()
-
-        if 'geoids' in self.request.GET:
-            geoid_list = self.request.GET['geoids'].split('|')
-            geographies = Geography.objects.filter(full_geoid__in=geoid_list)
-
-        elif 'geoid' in self.request.GET:
-            geoid = self.request.GET['geoid']
-            geographies = Geography.objects.filter(full_geoid__exact=geoid)
-
-        elif 'q' in self.request.GET:
-            q = self.request.GET['q']
-            geographies = Geography.objects.filter(full_name__icontains=q)
-
-        if 'sumlevs' in self.request.GET:
-            allowed_sumlev_list = self.request.GET['sumlevs'].split(',')
-            geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
-
-        geographies = geographies.values()
-        geographies = geographies.only('full_name','full_geoid','sumlev')
-
-        return render_json_to_response(list(geographies))
-
-class TableSearchJson(View):
-    def format_result(self, obj, obj_type):
-        table_id = obj.get('table_id', None) or obj.get('parent_table_id', None)
-        table_name = obj.get('table_name', None) or obj.get('table__table_name', None)
-        table_topics = obj.get('topics', None) or obj.get('table__topics', None)
-        table_universe = obj.get('table_universe', None) or obj.get('table__table_universe', None)
-
-        result = OrderedDict()
-        result['type'] = obj_type
-        result['table_id'] = table_id
-        result['table_name'] = table_name
-        result['topics'] = table_topics
-        result['universe'] = table_name
-        result['unique_key'] = table_id
-        #result['tokens'] = [word.lower().strip("() ") for word in table_name.split(' ') if word.lower() not in NLTK_STOPWORDS]
-
-        if obj_type == 'column':
-            result['column_id'] = obj['column_id']
-            result['column_name'] = obj['column_name']
-            result['unique_key'] = '%s|%s' % (table_id, obj['column_id'])
-
-        return result
-
-    def get(self, request, *args, **kwargs):
-        results = []
-        # allow choice of release, default to 2012 1-year
-        release = self.request.GET.get('release', 'ACS 2012 1-Year')
-
-        # comparison query builder throws a search term here,
-        # so force it to look at just one release
-        q = self.request.GET.get('q', None)
-        topics = self.request.GET.get('topics', None)
-        tables = Table.objects.filter(release = release)
-        columns = Column.objects.filter(table__release = release)
-
-        if q:
-            q = q.strip()
-            if q == '*':
-                columns = None
-            else:
-                tables = tables.filter(Q(table_name__icontains = q) | Q(table_id__icontains = q))
-                columns = columns.filter(Q(column_name__icontains = q) | Q(column_id = q) | Q(table__table_id = q))
-        else:
-            # only fetch tables on unfiltered query
-            columns = None
-
-        if topics:
-            topic_list = unquote(topics).split(',')
-            for topic in topic_list:
-                tables = tables.filter(topics__contains = topic)
-                if columns:
-                    columns = columns.filter(table__topics__contains = topics)
-
-        # short-circuit if just requesting a count
-        count = self.request.GET.get('count', None)
-        if count == 'tables':
-            return render_json_to_response({'count': tables.count()})
-
-        tables = tables.extra(select={'length':'Length(table_id)'}).extra(order_by=['length', 'table_id'])
-        tables = tables.values('table_id','table_name','topics','length')
-        tables_list = [self.format_result(table, 'table') for table in list(tables)]
-        results.extend(tables_list)
-
-        if columns:
-            columns = columns.values('parent_table_id','table__table_name','table__topics','column_id','column_name')
-            columns_list = [self.format_result(column, 'column') for column in list(columns)]
-            results.extend(columns_list)
-
-        table = self.request.GET.get('table', None)
-        if table:
-            tables = tables.filter(table_name__icontains=table).values()
-            results['tables'] = list(tables)
-
-        column = self.request.GET.get('column', None)
-        if column:
-            columns = columns.filter(column_name__icontains=column).values()
-            columns = columns.only('table', 'parent_table_id', 'column_name', 'column_id')
-            results['columns'] = list(columns)
-
-        return render_json_to_response(results)
 
 
 class SearchResultsView(TemplateView):
@@ -745,7 +636,7 @@ class SearchResultsView(TemplateView):
 
         if cr_resp.status_code == 200:
             cr_data = cr_resp.json().get('results')
-            cr_data = filter(lambda x: x.get('sumlevel') not in ['140','150'], cr_data)
+            cr_data = filter(lambda x: x.get('sumlevel') not in ['140', '150'], cr_data)
             search_data_all['has_query'] = True
 
         mb_data = []
@@ -771,7 +662,7 @@ class SearchResultsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         q = self.request.GET.get('q', None)
-        page_context = self.get_data(q) # format: { "results": [ ... ] }
+        page_context = self.get_data(q)  # format: { "results": [ ... ] }
 
         # Determine if types of pages exist (used for filtering)
         has_profiles = False
@@ -780,10 +671,10 @@ class SearchResultsView(TemplateView):
         has_topics = False
 
         # Collect list of sumlevel names for filtering
-        sumlevels = {} # format: { sumlevel : [sumlevel_name, count] }
+        sumlevels = {}  # format: { sumlevel : [sumlevel_name, count] }
 
         # Collect list of topics for filtering
-        all_topics = {} # format: { topic_name: count}
+        all_topics = {}  # format: { topic_name: count}
 
         for item in page_context['results']:
             if item['type'] == "profile":
@@ -853,18 +744,6 @@ class SearchResultsView(TemplateView):
         return page_context
 
 
-
-class GeoSearch(TemplateView):
-    template_name = 'search/geo_search.html'
-
-    def get_context_data(self, *args, **kwargs):
-        page_context = {
-            'release_options': ['ACS 2012 1-Year', 'ACS 2012 3-Year', 'ACS 2012 5-Year']
-        }
-        tables = None
-        columns = None
-
-
 class SitemapTopicsView(TemplateView):
     template_name = 'sitemap.xml'
 
@@ -888,9 +767,11 @@ class SitemapProfilesView(TemplateView):
         context = self.get_context_data()
         return self.render_to_response(context, content_type="text/xml; charset=utf-8")
 
+
 def sort_topics(topic_map):
     # force "getting started" to the top of the list, and serve the rest alphabetically.
-    return [topic_map['getting-started']]+[v for k, v in sorted(topic_map.items()) if k != 'getting-started']
+    return [topic_map['getting-started']] + [v for k, v in sorted(topic_map.items()) if k != 'getting-started']
+
 
 def uniurlquote(s):
     """urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""
