@@ -1,6 +1,7 @@
 boto==2.49.0
 Django==1.11.27
 Fabric==1.10.2
+python-memcached==1.59
 raven==6.10.0
 requests==2.22.0
 six==1.13.0
