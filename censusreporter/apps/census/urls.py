@@ -152,7 +152,7 @@ urlpatterns = [
         regex = '^robots.txt$',
         view = lambda r: HttpResponse(
             "User-agent: *\n%s: /" % ('Disallow' if BLOCK_ROBOTS else 'Allow') ,
-            mimetype="text/plain"
+            content_type="text/plain"
         )
     ),
 
