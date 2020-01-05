@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls import url, patterns, include
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
@@ -18,7 +18,7 @@ STANDARD_CACHE_TIME = 60*60*24 # 24-hour cache
 COMPARISON_FORMATS = 'map|table|distribution'
 BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(
         regex   = '^$',
         view    = cache_page(STANDARD_CACHE_TIME)(HomepageView.as_view()),
@@ -178,4 +178,4 @@ urlpatterns = patterns('',
         name    = 'geo_search',
     ),
     ## END LOCAL DEV VERSION OF API ##
-)
+]

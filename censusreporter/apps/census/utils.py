@@ -1,8 +1,8 @@
 from __future__ import division
 from collections import OrderedDict
+import json
 import re
 
-from django.utils import simplejson
 from django.utils.functional import lazy, Promise
 from django.utils.encoding import force_unicode
 from django.core.urlresolvers import reverse
@@ -13,7 +13,7 @@ def get_object_or_none(klass, *args, **kwargs):
     except klass.DoesNotExist:
         return None
 
-class LazyEncoder(simplejson.JSONEncoder):
+class LazyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):
             return force_unicode(obj)

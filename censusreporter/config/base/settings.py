@@ -5,16 +5,8 @@ dirname = os.path.dirname
 PROJECT_ROOT = os.path.abspath(os.path.join(dirname(__file__),"..",".."))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 # should be set by each settings file
 # ROOT_URLCONF = 'config.dev.urls'
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '%s/census_app_db' % PROJECT_ROOT,
-    },
-}
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -48,18 +40,26 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
-    'django.contrib.auth.context_processors.auth',
-    'census.context_processors.api_url',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'census.context_processors.api_url',
+            ],
+        },
+    },
+]
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
