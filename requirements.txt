@@ -21,6 +21,6 @@ pyparsing==2.2.0
 python-memcached==1.53
 pytz==2017.2
 raven==5.10.2
-requests==2.13.0
+requests==2.20.0
 six==1.10.0
 unicodecsv==0.9.4
