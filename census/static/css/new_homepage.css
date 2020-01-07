@@ -655,8 +655,8 @@ footer .l-flex-space-between {
     align-items: flex-start;
 }
 
-footer #footer-nav {
-  width: 25%;
+footer #footer-nav, footer .footer-logos {
+  width: 20%;
 }
 
 footer #footer-nav li {
@@ -671,7 +671,9 @@ footer #footer-nav li a {
 }
 
 footer .details {
-  padding-right: 3em;
+  width: 60%;
+  margin-right: 3em;
+  margin-left: 3em;
 }
 
 footer h2.subhead {
@@ -722,8 +724,11 @@ footer .c-social-media .social-icons {
     margin-right: 20px;
 }
 
+footer .skillman {
+  margin-bottom: 2em;
+}
+
 footer .skillman p {
-    font-family: 'Quicksand';
     font-size: 22px;
     margin-bottom: 0;
 }
@@ -741,6 +746,10 @@ footer .designed-by {
 
 footer .designed-by span {
     color: #67C0CE;
+}
+
+footer .footer-logos li {
+  margin-bottom: 25px;
 }
 
 .c-arrow {
@@ -800,10 +809,14 @@ footer .designed-by span {
       width: 100%;
       padding: 60px 0 30px 0;
   }
-  footer .l-flex-space-between {
+  footer .l-flex-space-between, footer .l-flex-align-flex-end {
       flex-direction: column;
       align-items: center;
   }
+  footer .skillman {
+    margin-top: 2em;
+  }
+
   footer .body-text {
       text-align: center;
   }
@@ -823,6 +836,11 @@ footer .designed-by span {
   footer .details {
     padding: 0;
     margin-bottom: 3.5em;
+    width: 100%;
+  }
+  footer .footer-logos {
+    width: 100%;
+    text-align: center;
   }
 }
 
@@ -847,7 +865,6 @@ footer .designed-by span {
         width: 100%;
     }
     footer #footer-nav {
-      padding-right: 3em;
     }
     footer input {
         font-size: 12px;
@@ -856,8 +873,6 @@ footer .designed-by span {
         margin: 20px 0 30px 0;
     }
     footer .company-logo {
-        width: 225px;
-        margin: 0 auto 20px auto;
     }
     footer .body-text-32 {
         text-align: center;
@@ -889,7 +904,7 @@ footer .designed-by span {
     footer .skillman p {
         font-size: 16px;
     }
-    footer .skillman .l-flex-align-flex-end {
+    footer .l-flex-align-flex-end {
         flex-direction: column;
         align-items: center;
     }
@@ -1246,9 +1261,12 @@ footer .designed-by span {
     footer .skillman p {
         font-size: 12px;
     }
-    footer .skillman .l-flex-align-flex-end {
+    footer .l-flex-align-flex-end {
         flex-direction: column;
         align-items: center;
+    }
+    footer .skillman {
+      margin-top: 2em;
     }
     footer .designed-by {
         margin: 20px;
