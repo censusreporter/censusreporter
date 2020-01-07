@@ -1437,6 +1437,18 @@ def geo_profile(geoid, acs='latest'):
 			item_levels_minus_county_state.append(level)
 
 
+	# Vacant properties
+	data = api.get_data('B25999', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']
+
+	units_dict['number_vacant'] = build_item('Total number of vacant housing units (Q3 2019)', data, item_levels_minus_county_state,
+		'B25999003')
+	add_metadata(units_dict['number_vacant'], 'B25999', 'Total number of vacant housing units', 'Valassis VNEF Plus Database; ' + acs_name)
+
+	units_dict['percent_vacant'] = build_item('Percent of housing units vacant (Q3 2019)', data, item_levels_minus_county_state,
+		'B25999003 B25999001 / %')
+	add_metadata(units_dict['percent_vacant'], 'B25999', 'Total number of vacant housing units', 'Valassis VNEF Plus Database; ' + acs_name)
+
 
 	# Demolitions
 	data = api.get_data('B25998', d3_comparison_geoids, 'd3_present')
@@ -1500,19 +1512,88 @@ def geo_profile(geoid, acs='latest'):
 		'B25998020 B25998001 / %')
 
 
-	# Vacant properties
-	data = api.get_data('B25999', d3_comparison_geoids , 'd3_present')
+	# Building Permits
+	data = api.get_data('B25997', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']	
+
+	units_dict['number_permits'] = build_item('Total number of building permits (2018)', data, item_levels_minus_county_state,
+		'B25997001')
+	add_metadata(units_dict['number_permits'], 'B25997', 'Total number of building permits', 'SOURCE; ' + acs_name)
+
+	units_dict['median_permit_cost'] = build_item('Median estimated permit cost (2018)', data, item_levels_minus_county_state,
+		'B25998022')
+	add_metadata(units_dict['median_permit_cost'], 'B25997', 'Total number of building permits', 'SOURCE; ' + acs_name)	
+
+	permit_type_distribution = OrderedDict()
+	units_dict['permit_type_distribution'] = permit_type_distribution
+	add_metadata(permit_type_distribution, 'B25997', 'Total number of building permits', 'SOURCE; ' + acs_name)
+
+	permit_type_distribution['alterations'] = build_item('Alterations', data, item_levels_minus_county_state,
+		'B25997002 B25997001 / %')	
+	permit_type_distribution['dismantle'] = build_item('Dismantle', data, item_levels_minus_county_state,
+		'B25997003 B25997001 / %')
+	permit_type_distribution['repairs'] = build_item('Repairs', data, item_levels_minus_county_state,
+		'B25997004 B25997001 / %')
+	permit_type_distribution['fire_repairs'] = build_item('Fire Repairs', data, item_levels_minus_county_state,
+		'B25997005 B25997001 / %')
+	permit_type_distribution['sign_erection'] = build_item('Sign Erection', data, item_levels_minus_county_state,
+		'B25997006 B25997001 / %')			
+	permit_type_distribution['new'] = build_item('New', data, item_levels_minus_county_state,
+		'B25997007 B25997001 / %')	
+	permit_type_distribution['other'] = build_item('Other', data, item_levels_minus_county_state,
+		'B25997008 B25997001 / %')
+
+
+
+	# Blight Violations
+	data = api.get_data('B25996', d3_comparison_geoids , 'd3_present')
 	acs_name = data['release']['name']
 
-	units_dict['number_vacant'] = build_item('Total number of vacant housing units (Q3 2019)', data, item_levels_minus_county_state,
-		'B25999003')
-	add_metadata(units_dict['number_vacant'], 'B25999', 'Total number of vacant housing units', 'Valassis VNEF Plus Database; ' + acs_name)
+	units_dict['number_blight_tickets'] = build_item('Total number of blight tickets (2019)', data, item_levels_minus_county_state,
+		'B25996001')
+	add_metadata(units_dict['number_blight_tickets'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
 
-	units_dict['percent_vacant'] = build_item('Percent of housing units vacant (Q3 2019)', data, item_levels_minus_county_state,
-		'B25999003 B25999001 / %')
-	add_metadata(units_dict['percent_vacant'], 'B25999', 'Total number of vacant housing units', 'Valassis VNEF Plus Database; ' + acs_name)
+	department_ticket_distribution = OrderedDict()
+	units_dict['department_ticket_distribution'] = department_ticket_distribution
+	add_metadata(units_dict['department_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
 
+	department_ticket_distribution['building_dept'] = build_item('Buildings, Safety Engineering & Env Department', data, item_levels_minus_county_state,
+		'B25996002 B25996001 / %')	
+	department_ticket_distribution['pw_dept'] = build_item('Department of Public Works', data, item_levels_minus_county_state,
+		'B25996003 B25996001 / %')	
+	department_ticket_distribution['police_dept'] = build_item('Detroit Police Department', data, item_levels_minus_county_state,
+		'B25996004 B25996001 / %')	
 
+	ticket_month_distribution = OrderedDict()
+	units_dict['ticket_month_distribution'] = ticket_month_distribution
+	add_metadata(units_dict['department_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+
+	ticket_month_distribution['january'] = build_item('January', data, item_levels_minus_county_state,
+		'B25996005 B25996001 / %')
+	ticket_month_distribution['february'] = build_item('February', data, item_levels_minus_county_state,
+		'B25996006 B25996001 / %')
+	ticket_month_distribution['march'] = build_item('March', data, item_levels_minus_county_state,
+		'B25996007 B25996001 / %')
+	ticket_month_distribution['april'] = build_item('April', data, item_levels_minus_county_state,
+		'B25996008 B25996001 / %')
+	ticket_month_distribution['may'] = build_item('May', data, item_levels_minus_county_state,
+		'B25996009 B25996001 / %')
+	ticket_month_distribution['june'] = build_item('June', data, item_levels_minus_county_state,
+		'B25996010 B25996001 / %')
+	ticket_month_distribution['july'] = build_item('July', data, item_levels_minus_county_state,
+		'B25996011 B25996001 / %')
+	ticket_month_distribution['august'] = build_item('August', data, item_levels_minus_county_state,
+		'B25996012 B25996001 / %')
+	ticket_month_distribution['september'] = build_item('September', data, item_levels_minus_county_state,
+		'B25996013 B25996001 / %')
+	ticket_month_distribution['october'] = build_item('October', data, item_levels_minus_county_state,
+		'B25996014 B25996001 / %')
+	ticket_month_distribution['november'] = build_item('November', data, item_levels_minus_county_state,
+		'B25996015 B25996001 / %')
+	ticket_month_distribution['december'] = build_item('December', data, item_levels_minus_county_state,
+		'B25996016 B25996001 / %')
+
+	# TODO: Continue adding charts fro blight from this doc https://docs.google.com/spreadsheets/d/1I_AH8bFFcdX8KO1XZk-Sak2n8hhff2sJgp6n1colB4k/edit?ts=5dfbd522#gid=1699272400
 
 
 

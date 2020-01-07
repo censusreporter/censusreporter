@@ -1,13 +1,13 @@
 {% extends 'profile/_base_profile.html' %}{% load humanize madlibs %}
 
 {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %}
-{% block head_meta_description %}Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|floatformat:"0"|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %}
+{% block head_meta_description %}Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %}
 
 {% block head_facebook_tags %}
         <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
         <meta property="og:site_name" content="State of the Detroit Child" />
         <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-        <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|floatformat:"0"|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
+        <meta property="og:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more." />
         <meta property="og:type" content="article" />
         {#}<meta property="og:image" content="" />{#}
 {% endblock %}
@@ -17,7 +17,7 @@
         <meta name="twitter:site" content="@d3detroit">
         <meta name="twitter:creator" content="@d3detroit">
         <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
-        <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|floatformat:"0"|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
+        <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.">
         {#}<meta name="twitter:image" content="">{#}
 {% endblock %}
 
@@ -46,19 +46,20 @@
             </header>
             <div class="stats">
                 <div class="stat">
-                        <span class="value">{{ geography.this.total_population|floatformat:"0"|intcomma }}</span> <span class="name">population</span>
+                      <span class="value">{{ geography.this.total_population|intcomma }}</span>
+                      <span class="name">Population</span>
                 </div>
-            {% if geo_metadata.square_miles or geo_metadata.population_density %}
                 <div class="stat">
-                        <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
-                        <span class="name"> square miles</span>
-                  </div>
-                  <div class="stat">
-                        <span class="value">{{ geo_metadata.population_density|floatformat|intcomma }}</span>
-                        <span class="name"> people per square mile</span>
+                  {% if geo_metadata.square_miles or geo_metadata.population_density %}
+                      <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
+                      <span class="name"> square miles</span>
                 </div>
-            </div>
-            {% endif %}
+                <div class="stat">
+                      <span class="value">{{ geo_metadata.population_density|floatformat|intcomma }}</span>
+                      <span class="name"> people per square mile</span>
+                  </div>
+                </div>
+                {% endif %}
 
             {% if geography.this.show_extra_links %}
                 {% include "profile/_blocks/_header_extra_links.html" %}
@@ -73,125 +74,193 @@
 {% endblock %}
 
 {% block content %}
-<section class="clearfix" id="query-topic-picker">
+<section class="clearfix column-half" id="query-topic-picker">
     <h2>Jump to a section: </h2>
     <div class="typeahead-container">
         <select name="select_section" onchange="location = this.value;" style="width: 100%;">
             {% comment %} <option value="#">Jump to a section: </option> {% endcomment %}
-            <optgroup label="Youth &amp; Family Demographics">
-                <option value="#youth-population">Youth &amp; family demographics</option>
-                <option value="#youth-population">Youth population, sex &amp; age</option>
-                <option value="#children-age-race">Youth age, race &amp; ethnicity</option>
-                <option value="#young-men">Boys &amp; young male population, age, race &amp; ethnicity</option>
+            <optgroup label="Housing occupancy">
+                <option value="#occupancy">Housing occupancy</option>
+                <option value="#vacancy-demolitions">Vacancy and demolitions</option>
+            </optgroup>
+            <optgroup label="Housing cost &amp; value">
+                <option value="#occupancy-tenure">Housing cost &amp; value</option>
+                <option value="#occupancy-tenure">Tenure status, rental size &amp; rents</option>
+                <option value="#rents=values">Rents &amp; housing values</option>
+                <option value="#housing-burden">Housing burden</option>
+            </optgroup>
+            <optgroup label="Housing conditions">
+                <option value="#bedrooms-per-unit">Housing conditions</option>
+                <option value="#bedrooms-per-unit">Size &amp; quality of housing units</option>
+            </optgroup>
+            <optgroup label="Neighborhood demographics">
+                <option value="#households">Neighborhood demographics</option>
                 <option value="#households">Households</option>
                 <option value="#families-with-children">Families with children</option>
-                <option value="#marital-status">Marital status</option>
-                <option value="#births">Births</option>
-                <option value="#language">Language</option>
-            </optgroup>
-            <optgroup label="Education">
-                <option value="#ela-proficiency">Education</option>
-                <option value="#ela-proficiency">Third grade english language arts (ELA) proficiency</option>
-                {% comment %} <option value="#math-proficiency">Third grade math proficiency</option> {% endcomment %}
-                <option value="#eighth-grade-math-proficiency">Eighth grade math proficiency</option>
-                <option value="#school-enrollment">School enrollment</option>
-                <option value="#graduation-rate">High school graduation</option>
-                <option value="#educational-attainment">Educational attainment</option>
-                <option value="#child-care">Child care</option>
-                <option value="#school-lunch">Free and reduced school lunch</option>
-                <option value="#college-enrollment-readiness">College enrollment and readiness</option>
-                <option value="#student-mobility-absenteeism">Student mobility and chronic absenteeism</option>
-            </optgroup>
-            <optgroup label="Family &amp; Economic Security">
-                <option value="#income">Family &amp; economic security</option>
+                <option value="#youth-population">Youth &amp; family demographics</option>
+                <option value="#youth-population">Youth population, sex &amp; age</option>
                 <option value="#income">Income</option>
-                <option value="#child-poverty">Child poverty</option>
                 <option value="#poverty">Poverty</option>
-                <option value="#food-assistance">Food assistance program participation</option>
-                <option value="#employment">Employment</option>
-                <option value="#commute">Transportation to work</option>
                 <option value="#vehicle-availability">Vehicle availability</option>
             </optgroup>
-            <optgroup label="Housing Section">
-                <option value="#housing-occupancy">Housing</option>
-                <option value="#housing-occupancy">Units &amp; occupancy</option>
-                <option value="#housing-costs">Housing costs</option>
-                <option value="#housing-value">Housing value</option>
-                <option value="#geographical-mobility">Geographical mobility</option>
-            </optgroup>
-            <optgroup label="Health &amp; Safety">
-                <option value="#health-insurance">Health &amp; safety</option>
-                <option value="#infant-mortality">Infant mortality</option>
-                <option value="#immunizations">Immunizations</option>
-                <option value="#blood-lead">Elevated blood lead levels</option>
-                <option value="#hospitalization">Hospital visits through Medicaid</option>
-                <option value="#health-insurance">Health insurance</option>
-            </optgroup>
-            <optgroup label="Other Demographics">
-                <option value="#place-of-birth">Other demographics</option>
-                <option value="#place-of-birth">Place of birth</option>
-                <option value="#veteran-status">Veteran status</option>
+            <optgroup label="Neighborhood education">
+                <option value="#school-enrollment">Neighborhood education</option>
+                <option value="#school-enrollment">School enrollment</option>
+                <option value="#graduation-rate">High school graduation</option>
+                <option value="#child-care">Child care</option>
             </optgroup>
         </select>
     </div>
 </section>
-{% comment %} <section class="clearfix" id="query-topic-picker">
+<section class="clearfix column-half" id="query-topic-picker">
     <h2>Find data for this place</h2>
     <div class="typeahead-container">
         <input name="topic_select" id="topic-select" type="text" placeholder="Search by table or column name..." autocomplete="off">
     </div>
-</section> {% endcomment %}
+</section>
 
 <p class="explain">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
 
 
-<article id="youth-demographics" class="clearfix">
+<article id="occupancy" class="clearfix">
     <header class="section-contents">
-        <h1>Youth &amp; Family Demographics</h1>
+        <h1>Occupancy</h1>
     </header>
     <div class="section-container">
 
         <section class="clearfix stat-row">
             <aside>
-              <h2 class="header-for-columns"><a class="permalink" href="#youth-population" id="youth-population" title="Permalink">Youth population, sex &amp; age <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink section" href="#occupancy" id="occupancy" title="Permalink">Housing occupancy<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='count' %}
-            </div>
-            <div class="column-third">
-                <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
-            </div>
-            <div class="column-third">
-                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
-            </div>
+              <div class="column-half">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='count' %}
+              </div>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-occupancy_distribution" data-chart-title="Distribution of occupancy" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.occupancy_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full" id="chart-grouped_column-housing-units-occupancy_by_race" data-stat-type="scaled-percentage" data-chart-title="Renter-occupied or owner-occupied by race" data-qualifier="Universe: {{ housing.units.occupancy_by_race.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
         </section>
 
         <section class="clearfix stat-row">
             <aside>
-              <h2 class="header-for-columns"><a class="permalink" href="#children-age-race" id="children-age-race" title="Permalink">Youth age, race &amp; ethnicity <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink section" href="#vacancy-demolitions" id="vacancy-demolitions" title="Permalink">Vacancy and demolitions<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            <div class="column-half" id="chart-grouped_column-demographics-child_race_grouped_under_9" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 0 - 9 years" data-qualifier="Universe: {{ demographics.child_race_grouped_under_9.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-            <div class="column-half" id="chart-grouped_column-demographics-child_race_grouped_10_to_17" data-stat-type="scaled-percentage" data-chart-title="Child population by age, race and ethnicity, 10 - 17 years" data-qualifier="Universe: {{ demographics.child_race_grouped_10_to_17.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number_vacant stat_type='count' %}
+              </div> 
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.percent_vacant stat_type='percentage' %}
+              </div>  
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number_demos stat_type='count' %}
+              </div>              
         </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.median_demo_cost stat_type='dollar' %}
+              </div>
+              <div class="column-two-thirds">
+                  <div id="chart-column-housing-units-demo_company_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of demolitions by company contracted for demolition (2019)" data-qualifier="Universe: {{ housing.units.demo_company_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full" id="chart-column-housing-units-demo_month_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of month structure demolished (2019)" data-qualifier="Universe: {{ housing.units.demo_month_distribution.metadata.universe }}"></div>
+
+        </section>
+    </div>
+</article>
+
+
+<article id="cost-and-value" class="clearfix">
+    <header class="section-contents">
+        <h1>Cost and value</h1>
+    </header>
+    <div class="section-container">
 
         <section class="clearfix stat-row">
             <aside>
-              <h2 class="header-for-columns"><a class="permalink" href="#young-men" id="young-men" title="Permalink">Boys &amp; young male population, age, race &amp; ethnicity <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink section" href="#occupancy-tenure" id="occupancy-tenure" title="Permalink">Tenure status, rental size &amp; rents<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.male_child_pop.total stat_type='count' %}
-            </div>
-            <div class="column-third">
-                <div id="chart-pie-demographics-male_child_age_total_distribution" data-chart-title="Distribution of male youth by age" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_total_distribution.metadata.universe }}"></div>
-            </div>
-            <div class="column-third">
-                <div id="chart-pie-demographics-male_child_age_race_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of male youth by race" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.male_child_age_race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-            </div>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-tenure_distribution" data-chart-title="Distribution of occupancy by tenure status" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.tenure_distribution.metadata.universe }}"></div>                  
+              </div>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-home_size_distribution" data-chart-title="Distributuon of rental unit size" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.home_size_distribution.metadata.universe }}"></div>
+              </div>
         </section>
+
+
+        <section class="clearfix stat-row grouped-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#rents-values" id="rents-values" title="Permalink">Rents &amp; housing values<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-half">
+                  <div id="chart-column-housing-units-rent_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of rents" data-qualifier="Universe: {{ housing.units.rent_distribution.metadata.universe }}"></div>
+              </div>
+              <div class="column-half">
+                  <div id="chart-column-housing-units-value_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of owner-occupied housing value" data-qualifier="Universe: {{ housing.units.value_distribution.metadata.universe }}"></div>                
+              </div>
+        </section>        
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink" href="#households" id="households" title="Permalink">Households <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink section" href="#housing-burden" id="housing-burden" title="Permalink">Housing burden<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-full" id="chart-grouped_column-housing-units-housing_burden" data-stat-type="scaled-percentage" data-chart-title="Housing burden by tenure" data-qualifier="Universe: {{ housing.units.housing_burden.metadata.universe }}"></div>
+        </section>
+
+    </div>
+</article>
+
+
+<article id="housing-conditions" class="clearfix">
+    <header class="section-contents">
+        <h1>Housing conditions</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#bedrooms-per-unit" id="bedrooms-per-unit" title="Permalink">Size &amp; quality of housing units<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-size_distribution" data-chart-title="Distribution of bedrooms per unit" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.size_distribution.metadata.universe }}"></div>                  
+              </div>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-utilities_distribution" data-chart-title="Utilities included in rent" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.utilities_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+
+        <section class="clearfix stat-row grouped-row">
+            <aside>
+            </aside>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-owner_condition_distribution" data-chart-title="Owner-occupied housing units with substandard housing conditions" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.owner_condition_distribution.metadata.universe }}"></div>
+              </div>
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-renter_condition_distribution" data-chart-title="Renter-occupied housing units with substandard housing conditions" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.renter_condition_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+
+    </div>
+</article>
+
+
+<article id="neighborhood-demographics" class="clearfix">
+    <header class="section-contents">
+        <h1>Neighborhood demographics</h1>
+    </header>
+    <div class="section-container">
+
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#households" id="households" title="Permalink">Households <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.households.number_of_households stat_type='count' %}
@@ -204,7 +273,7 @@
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink section" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
@@ -217,91 +286,65 @@
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink" href="#marital-status" id="marital-status" title="Permalink">Marital status <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <h2 class="header-for-columns"><a class="permalink section" href="#youth-population" id="youth-population" title="Permalink">Youth population, sex &amp; age <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            <div class="column-third" id="chart-pie-families-marital_status" data-stat-type="percentage" data-qualifier="Universe: {{ families.marital_status.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-grouped_column-families-marital_status_grouped" data-stat-type="scaled-percentage" data-chart-title="Marital status, by sex" data-qualifier="Universe: {{ families.marital_status_grouped.metadata.universe }}"></div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='count' %}
+            </div>
+            <div class="column-third">
+                <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
+            </div>        
+            <div class="column-third">
+                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
+            </div> 
         </section>
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink" href="#births" id="births" title="Permalink">Births <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+              <h2 class="header-for-columns"><a class="permalink section" href="#income" id="income" title="Permalink">Income <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.births.total stat_type='count' %}
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
             </div>
-            <div class="column-third">
-                <div id="chart-pie-families-births-race_distribution" data-chart-title="Distribution of births race and ethnicity" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ families.births.race_distribution.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.median_household_income stat_type='dollar' %}
             </div>
-            <div class="column-third">
-                <div id="chart-column-families-births-by_characteristic" data-stat-type="scaled-percentage" data-chart-title="Distribution of births by select characteristic" data-qualifier="Universe: {{ families.births.by_characteristic.metadata.universe }}"></div>
-            </div>
-        </section>
-        <section class="clearfix stat-row grouped-row">
-            <aside></aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.fertility.total stat_type='percentage' %}
-            </div>
-            <div class="column-two-thirds">
-                <div id="chart-column-families-fertility-by_age" data-stat-type="scaled-percentage" data-chart-title="Women who gave birth during past year, by age group" data-qualifier="Universe: {{ families.fertility.by_age.metadata.universe }}"></div>
-            </div>
+            <div class="column-half" id="chart-histogram-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.income.household_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink" href="#language" id="language" title="Permalink">Language <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+              <h2 class="header-for-columns"><a class="permalink section" href="#poverty" id="poverty" title="Permalink">Poverty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            {% comment %} <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.language.percent_non_english_at_home stat_type='percentage' %}
-            </div> {% endcomment %}
-            <div class="column-half" id="chart-pie-social-language-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, children 5-17" data-qualifier="Universe: {{ social.language.children.metadata.universe }}"></div>
-            <div class="column-half" id="chart-pie-social-language-adults" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Language at home, adults 18+" data-qualifier="Universe: {{ social.language.adults.metadata.universe }}"></div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
+            </div>
+            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder" data-qualifier="Universe: {{ economics.poverty.poverty_family_educational_attainment.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#vehicle-availability" id="vehicle-availability" title="Permalink">Vehicle availabilty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
+            </div>
+            <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
         </section>
 
     </div>
 </article>
 
 
-
-<article id="education" class="clearfix">
+<article id="neighborhood-education" class="clearfix">
     <header class="section-contents">
-        <h1>Education</h1>
+        <h1>Neighborhood education</h1>
     </header>
     <div class="section-container">
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink section" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency (2015-2016 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-pie-social-ela_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.ela_distribution.metadata.universe }}"></div>
-        </section>
-
-        {% comment %} <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-pie-social-math_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ social.math_distribution.metadata.universe }}"></div>
-        </section> {% endcomment %}
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#eighth-grade-math-proficiency" id="eighth-grade-math-proficiency" title="Permalink">Eighth grade math proficiency (2017-2018 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.eighth_grade_math.percent_met stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-pie-social-eighth_grade_math-eighth_grade_math_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.eighth_grade_math.eighth_grade_math_chart_data.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#school-enrollment" id="school-enrollment" title="Permalink">School enrollment  <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink section" href="#school-enrollment" id="school-enrollment" title="Permalink">School enrollment  <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 <div class="column-half">
@@ -316,7 +359,7 @@
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2016-2017 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2016-2017 school year) <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=social.graduation.graduation_rate stat_type='percentage' %}
@@ -326,22 +369,7 @@
 
         <section class="clearfix stat-row">
             <aside>
-              <h2><a class="permalink section" href="#educational-attainment" id="educational-attainment" title="Permalink">Educational attainment <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_high_school_grad_or_higher stat_type='percentage' %}
-                </div>
-                <div class="column-half">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
-                </div>
-            </div>
-            <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2 class="header-for-columns"><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='count' %}
@@ -364,298 +392,20 @@
             </div>
         </section>
 
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#school-lunch" id="school-lunch" title="Permalink">Free and reduced school lunch <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.school_lunch.percent_free_reduced stat_type='percentage' %}
-            </div>
-            <div class="column-two-thirds" id="chart-column-social-school_lunch-school_lunch_chart_data" data-chart-title="Percent of students eligible for free or reduced price lunches by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.school_lunch.school_lunch_chart_data.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#college-enrollment-readiness" id="college-enrollment-readiness" title="Permalink">College enrollment and readiness<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-two-thirds">
-                <div class="column-third">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_all_subject stat_type='number' %}
-                </div>
-                <div class="column-third">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_math stat_type='number' %}
-                </div>
-                <div class="column-third">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.college_readiness.sat_reading_writing stat_type='number' %}
-                </div>
-            </div>
-            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 12 months of graduation" data-qualifier="Universe: {{ social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
-        </section>
-        <section class="clearfix stat-row grouped-row">
-            <aside>
-            </aside>
-            <div class="column-third" id="chart-pie-social-college_readiness-pct_college_ready_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of students who scored at, above or below college readiness proficiency on the SAT assessment in all subjects" data-qualifier="Universe: {{ social.college_readiness.pct_college_ready_chart_data.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-column-social-college_readiness-college_readiness_chart_data" data-chart-title="Percent of students who scored at or above college readiness proficiency on the SAT test by subject" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.college_readiness.college_readiness_chart_data.metadata.universe }}"></div>
-        </section>
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink section" href="#student-mobility-absenteeism" id="student-mobility-absenteeism" title="Permalink">Student mobility and chronic absenteeism<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half" id="chart-pie-social-student_mobility-student_mobility_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public school students either leaving or entering a new school during the school year" data-qualifier="Universe: {{ social.student_mobility.student_mobility_chart_data.metadata.universe }}"></div>
-            <div class="column-half" id="chart-pie-social-chronic_absenteeism-chronic_absenteeism_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public school students missing 10% or more school days" data-qualifier="Universe: {{ social.chronic_absenteeism.chronic_absenteeism_chart_data.metadata.universe }}"></div>
-        </section>
-
-
     </div>
 </article>
 
-
-<article id="economics" class="clearfix">
-    <header class="section-contents">
-        <h1>Family &amp; Economic Security</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#income" id="income" title="Permalink">Income <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.per_capita_income_in_the_last_12_months stat_type='dollar' %}
-            </div>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.income.median_household_income stat_type='dollar' %}
-            </div>
-            <div class="column-half" id="chart-histogram-economics-income-household_distribution" data-chart-title="Household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.income.household_distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#child-poverty" id="child-poverty" title="Permalink">Child poverty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.children.Below stat_type='percentage' %}
-            </div>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_receiving_public_assistance stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-histogram-economics-poverty-children_distribution_by_age" data-chart-title="Children living below the poverty line by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.poverty.children_distribution_by_age.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#poverty" id="poverty" title="Permalink">Poverty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
-            </div>
-            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder" data-qualifier="Universe: {{ economics.poverty.poverty_family_educational_attainment.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#food-assistance" id="food-assistance" title="Permalink">Food assistance program participation <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_receiving_food_assistance stat_type='percentage' %}
-            </div>
-            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-food_assistance_household_type" data-stat-type="scaled-percentage" data-chart-title="Household food/SNAP assistance participation in the past 12 months by household type" data-qualifier="Universe: {{ economics.poverty.food_assistance_household_type.metadata.universe }}"></div>
-        </section>
-
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#employment" id="employment" title="Permalink">Employment <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.unemployment_rate stat_type='percentage' %}
-            </div>
-            {% comment %} <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.nowork_rate stat_type='percentage' %}
-            </div> {% endcomment %}
-            <div class="column-three-quarters" id="chart-grouped_column-economics-employment-youth_school_employment_grouped" data-stat-type="scaled-percentage" data-chart-title="School enrollment and labor force (LF) participation for 16 - 19 year olds by sex" data-qualifier="Universe: {{ economics.employment.youth_school_employment_grouped.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#commute" id="commute" title="Permalink">Transportation to work <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_travel_time stat_type='time' stat_suffix='minutes' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-economics-employment-transportation_distribution" data-chart-title="Means of transportation to work" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.transportation_distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#vehicle-availability" id="vehicle-availability" title="Permalink">Vehicle availabilty <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
-        </section>
-
-    </div>
-</article>
-
-
-<article id="housing" class="clearfix">
-    <header class="section-contents">
-        <h1>Housing</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#housing-occupancy" id="housing-occupancy" title="Permalink">Units &amp; occupancy <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='count' %}
-            </div>
-            <div class="column-third" id="chart-pie-housing-units-occupancy_distribution" data-stat-type="percentage" data-chart-title="Occupied vs. Vacant" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.occupancy_distribution.metadata.universe }}"></div>
-            <div class="column-third" id="chart-pie-housing-ownership-distribution" data-stat-type="percentage" data-chart-title="Ownership of occupied units" data-initial-sort="-value" data-qualifier="Universe: {{ housing.ownership.distribution.metadata.universe }}"></div>
-        </section>
-        <section class="clearfix stat-row grouped-row">
-            <aside>
-            </aside>
-            <div class="column-third" id="chart-pie-housing-units-structure_distribution" data-stat-type="percentage" data-chart-title="Types of structure" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.structure_distribution.metadata.universe }}"></div>
-            <div class="column-two-thirds" id="chart-histogram-housing-length_of_tenure" data-stat-type="scaled-percentage" data-chart-title="Year moved in, by percentage of population" data-qualifier="Universe: {{ housing.length_of_tenure.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#housing-costs" id="housing-costs" title="Permalink">Housing costs <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.costs.median_costs stat_type='dollar' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-housing-costs-housing_costs_distribution" data-chart-title="Percent of households spending 30% or more of household income on housing by household income" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.costs.housing_costs_distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#housing-value" id="housing-value" title="Permalink">Housing value <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.ownership.median_value stat_type='dollar' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-housing-ownership-value_distribution" data-chart-title="Value of owner-occupied housing units" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ housing.ownership.value_distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#geographical-mobility" id="geographical-mobility" title="Permalink">Geographical mobility <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=housing.migration.moved_since_previous_year stat_type='percentage' %}
-            </div>
-            <div class="column-two-thirds" id="chart-histogram-housing-migration_distribution" data-stat-type="scaled-percentage" data-chart-title="Population migration since previous year" data-qualifier="Universe: {{ housing.migration_distribution.metadata.universe }}"></div>
-        </section>
-
-    </div>
-</article>
-
-
-<article id="social" class="clearfix">
-    <header class="section-contents">
-        <h1>Health &amp; safety</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#infant-mortality" id="infant-mortality" title="Permalink">Infant mortality <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.infant_mortality.infant_mortality stat_type='count' %}
-            </div>
-            <div class="column-half" id="chart-pie-social-infant_mortality_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ social.infant_mortality_chart_data.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#immunizations" id="immunizations" title="Permalink">Immunizations <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.immunization.immunization stat_type='count' %}
-            </div>
-            <div class="column-half" id="chart-column-social-immunization-immunization_chart_data" data-chart-title="Immunized children aged 19-35 months by status" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.immunization.immunization_chart_data.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#blood-lead" id="blood-lead" title="Permalink">Elevated blood lead levels <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-half">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.blood_lead.percent_elevated stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#hospitalization" id="hospitalization" title="Permalink">Hospital visits through Medicaid <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.medicaid.child_er stat_type='percentage' %}
-            </div>
-            <div class="column-third" id="chart-column-social-medicaid-er_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.er_chart_data.metadata.universe }}"></div>
-            <div class="column-third" id="chart-column-social-medicaid-condition_chart_data" data-chart-title="Percent of hospital visits that were to an emergency room, by condition" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.medicaid.condition_chart_data.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#health-insurance" id="health-insurance" title="Permalink">Health insurance <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.health_insurance.uninsured stat_type='percentage' %}
-            </div>
-            <div class="column-three-quarters" id="chart-grouped_column-social-health_insurance-coverage_distribution" data-stat-type="scaled-percentage" data-chart-title="Percent uninsured by age group" data-qualifier="Universe: {{ social.health_insurance.coverage_distribution.metadata.universe }}"></div>
-        </section>
-
-    </div>
-
-</article>
-
-<article id="social" class="clearfix">
-    <header class="section-contents">
-        <h1>Other Demographics</h1>
-    </header>
-    <div class="section-container">
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#place-of-birth" id="place-of-birth" title="Permalink">Place of birth <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.place_of_birth.percent_foreign_born stat_type='percentage' %}
-            </div>
-            <div class="column-three-quarters" id="chart-column-social-place_of_birth-distribution" data-chart-title="Place of birth for foreign-born population" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ social.place_of_birth.distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-              <h2><a class="permalink" href="#veteran-status" id="veteran-status" title="Permalink">Veteran status <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-quarter">
-                {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.percentage stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-column-social-veterans-wartime_service" data-stat-type="number" data-chart-title="Veterans by wartime service" data-qualifier="Universe: {{ social.veterans.wartime_service.metadata.universe }}; Civilian veterans who served during wartime only"></div>
-            <div class="column-quarter">
-                <a class="stat number">
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.number stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.sex.male stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                    {% include 'profile/_blocks/_stat_list.html' with stat=social.veterans.sex.female stat_type='number' stat_class='secondary' stat_wrapper="false" %}
-                </a>
-            </div>
-        </section>
-        <p class="">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
-    </div>
-
-</article>
 
 {% endblock %}
+
+{% block sticky_buttons %}
+<!-- Add sticky buttons for time series vers one year views -->
+<div class="sticky-time-series-buttons">
+    <a id="one-year" class='action-button active' href="#">One year</a>
+    <a id="over-time" class='action-button' href="#">Over time</a>
+</div>
+{% endblock %}
+
 
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
@@ -678,149 +428,106 @@ $.ajaxSetup({
     }
 });
 
-// Add note to rows with flagged MOE
-var flaggedMOE = $('.stat-row sup'),
-    daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
+// Make the header map
+d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+    if (error) return console.warn(error);
+    var allowMapDrag = (browserWidth > 480) ? true : false;
 
-flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
-
-// Enable the single-table topic picker
-var thisSumlev = '{{ geography.this.sumlevel }}',
-    thisGeoShortName = '{{ geography.this.short_name }}',
-    thisGeoID = '{{ geography.this.full_geoid }}',
-    placeGeoID = '{{ geography.parents.place.full_geoid }}',
-    CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
-    countyGeoID = '{{ geography.parents.county.full_geoid }}',
-    stateGeoID = '{{ geography.parents.state.full_geoid }}',
-    nationGeoID = '{{ geography.parents.nation.full_geoid }}';
-
-/*
-var theseGeoIDs = [];
-{% for full_geoid in geography.this.full_geoids %}
-    theseGeoIDs.push('{{ full_geoid }}');
-{% endfor %}
-*/
-
-
-// Update the header's list of parent geographies
-var parentLinkContainer = $('#header-box .caption'),
-    parentLinksPrefix = '<span class="glossary-term">{{ geography.this.number_of_geographies }} {{ geography.this.sumlevel_name|capfirst }}{{ geography.this.number_of_geographies|pluralize }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2017/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2017/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
-
-//**** Make the header map ****
-var allowMapDrag = (browserWidth > 480) ? true : false;
-
-// draw a geom
-var map = L.map('slippy-map', {
-    scrollWheelZoom: false,
-    zoomControl: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    keyboard: false,
-    dragging: allowMapDrag,
-    touchZoom: allowMapDrag
-});
-
-// set a tile layer
-var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
-});
-
-// add these tiles to our map
-map.addLayer(tiles);
-
-if (allowMapDrag) {
-    map.addControl(new L.Control.Zoom({
-        position: 'topright'
-    }));
-}
-
-if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
-    var defaultStyle = {
-            "clickable": true,
-            "color": "#76AFF2",
-            "fillColor": "#f1f1f2",
-            "weight": 1,
-            "opacity": 0.5,
-            "fillOpacity": 0.3,
-        },
-    geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
-        {
-        style: defaultStyle,
-        onEachFeature: function(feature, layer) {
-
-            // filter out non-Michingan results
-            if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
-                layer.bindLabel(feature.properties.name, {direction: 'auto'});
-                layer.on('mouseover', function() {
-                    layer.setStyle({
-                        "weight": 2,
-                        "fillOpacity": 0.4,
-                        "fillColor": "#5B5B5B",
-                    });
-                });
-                layer.on('mouseout', function() {
-                    layer.setStyle(defaultStyle);
-                });
-                layer.on('click', function() {
-                    // add spinner to page load
-                    var spinnerTarget = document.getElementById("body-spinner");
-                    if (!spinnerTarget) {
-                        $('body').append('<div id="body-spinner"></div>');
-                        spinnerTarget = document.getElementById('body-spinner');
-                    }
-                    spinner.spin(spinnerTarget);
-                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                });
-            } else {
-                var invisibleStyle = {
-                    "clickable": false,
-                    "color": "#fff",
-                    "fillColor": "#fff",
-                    "weight": 0,
-                    "opacity": 0,
-                    "fillOpacity": 0,
-                }
-                layer.setStyle(invisibleStyle);
-            }
-
-        }
+    // draw a geom
+    var map = L.map('slippy-map', {
+        scrollWheelZoom: false,
+        zoomControl: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        dragging: allowMapDrag,
+        touchZoom: allowMapDrag
     });
-    map.addLayer(geojsonTileLayer);
-}
-//**** end make the header map ****
 
+    // set a tile layer
+    var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+    });
 
-// Itterate thorough geoids and add them to map
-var group = new L.FeatureGroup();
-var geoids_processed = 0;
-var count_of_geoids = {{ geography.this.full_geoids|length }};
-{% for full_geoid in geography.this.full_geoids %}
-    d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ full_geoid }}?geom=true', function(error, json) {
-        if (error) return console.warn(error);
-        var featureLayer = L.geoJson(json, {
-            style: {
-                "fillColor": "#6596CF",
-                "fillOpacity": 0.5,
-                "color": "#686867",
-                "weight": 2,
-                "clickable": false
+    // add these tiles to our map
+    map.addLayer(tiles);
+
+    if (allowMapDrag) {
+        map.addControl(new L.Control.Zoom({
+            position: 'topright'
+        }));
+    }
+
+    if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
+        var defaultStyle = {
+                "clickable": true,
+                "color": "#76AFF2",
+                "fillColor": "#f1f1f2",
+                "weight": 1,
+                "opacity": 0.5,
+                "fillOpacity": 0.3,
+            },
+        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
+            {
+            style: defaultStyle,
+            onEachFeature: function(feature, layer) {
+                if (feature.properties.geoid == thisGeoID)
+                    return;
+
+                // filter out non-Michingan results
+                if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
+                    layer.bindLabel(feature.properties.name, {direction: 'auto'});
+                    layer.on('mouseover', function() {
+                        layer.setStyle({
+                            "weight": 2,
+                            "fillOpacity": 0.4,
+                            "fillColor": "#5B5B5B",
+                        });
+                    });
+                    layer.on('mouseout', function() {
+                        layer.setStyle(defaultStyle);
+                    });
+                    layer.on('click', function() {
+                        // add spinner to page load
+                        var spinnerTarget = document.getElementById("body-spinner");
+                        if (!spinnerTarget) {
+                            $('body').append('<div id="body-spinner"></div>');
+                            spinnerTarget = document.getElementById('body-spinner');
+                        }
+                        spinner.spin(spinnerTarget);
+                        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                    });
+                } else {
+                    var invisibleStyle = {
+                        "clickable": false,
+                        "color": "#fff",
+                        "fillColor": "#fff",
+                        "weight": 0,
+                        "opacity": 0,
+                        "fillOpacity": 0,
+                    }
+                    layer.setStyle(invisibleStyle);
+                }
+
             }
         });
-        group.addLayer(featureLayer);
+        map.addLayer(geojsonTileLayer);
+    }
 
-        geoids_processed++;
-
-        if (geoids_processed === count_of_geoids) {
-            addDataAndPositionMap();
+    var featureLayer = L.geoJson(json, {
+        style: {
+            "fillColor": "#6596CF",
+            "fillOpacity": 0.5,
+            "color": "#686867",
+            "weight": 2,
+            "clickable": false
         }
+    });
+    map.addLayer(featureLayer);
+    var objBounds = featureLayer.getBounds();
 
-    })
-{% endfor %}
-
-var addDataAndPositionMap = function() {
-    map.addLayer(group);
-    var objBounds = group.getBounds();
+    if (thisSumlev === "010") {
+        objBounds = L.latLngBounds(L.latLng(24.396, -124.849), L.latLng(49.384, -66.885));
+    }
 
     if (browserWidth > 768) {
         var z;
@@ -839,7 +546,7 @@ var addDataAndPositionMap = function() {
     } else {
         map.fitBounds(objBounds);
     }
-}
+})
 
 // Create all the charts
 var Charts = {},
@@ -874,9 +581,6 @@ var makeCharts = function() {
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
             geographyData = profileData['geography'];
-
-        console.log(chartChartTitle);
-        console.log(chartData);
 
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
@@ -930,7 +634,27 @@ var lazyRedrawCharts = _.debounce(function() {
 }, 50);
 $(window).resize(lazyRedrawCharts);
 
+// Add note to rows with flagged MOE
+var flaggedMOE = $('.stat-row sup'),
+    daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
 
+flaggedMOE.closest('.stat-row').find('aside').append(daggerNote);
+
+// Enable the single-table topic picker
+var thisSumlev = '{{ geography.this.sumlevel }}',
+    thisGeoShortName = '{{ geography.this.short_name }}',
+    thisGeoID = '{{ geography.this.full_geoid }}',
+    placeGeoID = '{{ geography.parents.place.full_geoid }}',
+    CBSAGeoID = '{{ geography.parents.CBSA.full_geoid }}',
+    countyGeoID = '{{ geography.parents.county.full_geoid }}',
+    stateGeoID = '{{ geography.parents.state.full_geoid }}',
+    nationGeoID = '{{ geography.parents.nation.full_geoid }}';
+
+// Update the header's list of parent geographies
+var parentLinkContainer = $('#header-box .caption'),
+    parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2017/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2017/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
@@ -947,7 +671,7 @@ if (!!parentLinkContainer) {
     // hit the /parents API endpoint
     $.getJSON(parentGeoAPI)
         .done(function(results) {
-            // console.log(results);
+            console.log(results);
             // filter out 'this' from the parents
             // filter out any parents further up from state
             var parents = _.reject(results['parents'], function(p) {
@@ -1000,12 +724,12 @@ var makeCitation = function(year, release) {
 	if (release.startsWith('D3 Open Data Portal')) {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'Data Driven Detroit Open Data Portal (<span id="cite-release-year">' + year + '</span>). ' +
-	    'Retrieved from <em>State of the Detroit Child Custom Profile page:</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	} else {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
 	    '<em>American Community Survey <span id="cite-release">' + release + '</span> estimates.</em> ' +
-	    'Retrieved from <em>State of the Detroit Child Custom Profile page:</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof geography.this.full_name geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	}
 
 
@@ -1029,7 +753,24 @@ $.each($.unique(releases), function(i, v) {
 
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 
-// set up dropdown menu listeners
+// set up scroll listener to change the linked location to multi year data
+$(function () {
+    let currentHash = '#';
+    const currentURL = window.location.href.split('profiles');
+    const minusHash = currentURL[1].split('#');
+    $('#over-time').attr("href", currentURL[0] + "time-series-profiles" + minusHash[0]);
+    $(document).scroll(function () {
+        $('.section').each(function () {
+            const top = window.pageYOffset;
+            const distance = top - $(this).offset().top;
+            const hash = $(this).attr('href');
+            if (distance < 30 && distance > -30 && currentHash != hash) {
+                $('#over-time').attr("href", currentURL[0] + "time-series-profiles" + minusHash[0] + hash);
+                currentHash = hash;
+            }
+        });
+    });
+});
 
 
 </script>

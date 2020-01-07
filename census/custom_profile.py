@@ -82,7 +82,7 @@ def custom_s3_profile_key(geo_id):
 	return custom_key
 
 def get_data(geo_id):
-	#print geo_id
+	print geo_id
 	
 	try:
 		custom_s3_key = custom_s3_profile_key(geo_id)
