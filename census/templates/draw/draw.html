@@ -17,12 +17,11 @@
 
 {% block content %}
 <div id="map-controls" class="clearfix">
-    <header class="box-header">
+    <!--<header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
-            <!-- <img src="{{ STATIC_URL }}img/logo.png"> --> Housing Information Portal
+             <img src="{{ STATIC_URL }}img/logo.png"> Housing Information Portal
         </a>
-        <a id="hide-box"><i class="fa fa-angle-up rotate"></i></a>
-    </header>
+    </header> -->
     <div class="box-content">
       <select id="sumlev-picker">
           <option>Select Geographic Building Blocks </option>
@@ -48,6 +47,7 @@
           <a id="make-dashboard" class="action-button column-half">Create Profile</a>
       </section>
     </div>
+    <a id="hide-box"><i class="fa fa-angle-up rotate"></i></a>
 </div>
 <div id="slippy-map"></div>
 <script id="place-result-template" type="text/template">
