@@ -43,188 +43,11 @@
       <div class="c-intro-panel-color">
         <header>
             <h1>Housing Information Portal</h1>
-<!--
-            <div class="navigation-icon-holder">
-                <img class="navigation-icon" src="{{ STATIC_URL }}img/navigation-icon.svg" id="navigationIcon" />
-            </div>
-            -->
         </header>
       </div>
         <main>
             <p class="body-text">Welcome to D3’s Housing Information Portal! Here, we provide data and resources about housing and property in Detroit, Southeast Michigan, and beyond. Scroll down to learn more about what we have available!</p>
         </main>
-        <!--
-        <div id="tabs" class="c-tabs-panel">
-            <ul>
-                <li><a href="#tabs-critical-questions">Critical Questions</a></li>
-                <li><a href="#tabs-explore">Explore</a></li>
-                <li><a href="#tabs-topics">Topics</a></li>
-            </ul>
-            <div id="tabs-explore">
-                <div class="c-explore-panel" id="explore">
-                    {% comment %} <div class="l-flex-center">
-                        <img class="section-main-image" src="{{ STATIC_URL }}img/explore.png" />
-                    </div> {% endcomment %}
-                    <div class="l-flex-center">
-                        <h1 class="body-text-large">Explore hundreds of datasets by location across Detroit and Michigan!</h1>
-                    </div>
-                    <div class="l-flex-center" id="geography-select-wrapper">
-                        <input class="geography-select" type="text" placeholder="Search by Michigan places or zip codes…" autocomplete="off" />
-                    </div>
-                    <div class="l-flex-center">
-                        <a href="{% url 'draw' %}">
-                            <button>
-                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>Search on a Map or Create your own Profile
-                            </button>
-                        </a>
-                    </div>
-                    <div class="l-flex-center">
-                        <a href="{% url 'gallery' %}">
-                            <button>
-                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>See what other people have created
-                            </button>
-                        </a>
-                    </div>
-                    <div class="l-flex-center">
-                        <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
-                    </div>
-                </div>
-            </div>
-            <div id="tabs-topics">
-                <div class="c-topics-panel" id="topics">
-                    {% comment %} <div class="l-flex-center">
-                        <img class="section-main-image" src="{{ STATIC_URL }}img/topics.png" />
-                    </div> {% endcomment %}
-                    <div class="l-flex-center">
-                        <p class="body-text">Here you'll find a starting point to accessing census data related to Detroit children. Click "Getting Started" for
-                            a broad overview of the data or jump right into a topic and start exploring.</p>
-                    </div>
-                    <div class="l-flex-center">
-                        <div class="button-group">
-                            <a href="{% url 'topic_detail' 'getting-started' %}">
-                                <button class="c-topics-button">Getting Started</button>
-                            </a>
-                            <a href="{% url 'topic_detail' 'table-codes' %}">
-                                <button class="c-topics-button">Table Codes</button>
-                            </a>
-                            <a href="{% url 'glossary' %}">
-                                <button class="c-topics-button">Census Terms</button>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="l-flex-center" >
-                        <div id="topic-select-wrapper">
-                            <input id="topic-select" class="c-input-text c-input-text--grey" type="text" placeholder="Search for a topic by keyword…" autocomplete="off"/>
-                        </div>
-                    </div>
-                    <div class="l-flex-space-between">
-                        {% for row in topics_list|columns:7 %}
-                            <ul class="topics-column">
-                                {% for topic in row %}
-                                    <li>
-                                        <a class="hyperlink-regular" id="topic-{{ topic.slug }}"
-                                        href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a>
-                                    </li>
-
-                                {% endfor %}
-                            </ul>
-
-                        {% endfor %}
-                    </div>
-                    <div class="l-flex-center">
-                        <div class="dropdown">
-                            <button>Topics &or;</button>
-                            <div class="topics-dropdown-content">
-                                {% for row in topics_list|columns:7 %}
-                                    {% for topic in row %}
-                                        <a href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a>
-                                    {% endfor %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="l-flex-center">
-                        <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
-                    </div>
-                </div>
-            </div>
-            <div id="tabs-critical-questions">
-                <div class="c-critical-questions-panel" id="critical-questions">
-                    <div class="l-flex-center">
-                        <p class="body-text">The State of the Detroit Child is desinged to give you quick answers to questions you have about the well-being of Detroit's kids. Here are a sample of the critcal questions this tool can help answer.</p>
-                    </div>
-                    <ul>
-                        <li>
-                            <a href="/data/map/?table=B01001&geo_ids=06000US2616322000,05000US26163,04000US26,860|06000US2616322000&primary_geo_id=06000US2616322000#column|B01001027,sumlev|860">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration1.png"/>
-                                </div>
-                                <p>Where do children in Detroit live? </p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#ela-proficiency">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration2.png"/>
-                                </div>
-                                <p>How many third graders are proficient in English Language Arts? </p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/data/map/?table=B17006&geo_ids=06000US2616322000,860|06000US2616322000&primary_geo_id=06000US2616322000#column|B17006002,sumlev|860">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration3.png"/>
-                                </div>
-                                <p>How does child poverty differ across the city? </p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#graduation-rate">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration4.png"/>
-                                </div>
-                                <p>What’s the high school graduation rate?</p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#employment">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration5.png"/>
-                                </div>
-                                <p>How many youth are neither in school nor working?</p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#births">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration6.png"/>
-                                </div>
-                                <p>How many mothers in Detroit did not receive adequate prenatal care?</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="l-flex-center">
-                        <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% comment %} <div class="l-flex-center">
-            <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
-        </div> {% endcomment %}
-    </div>
-    <div class="c-our-goal-panel" id="our-goal">
-        <div class="l-flex-center">
-            <img class="section-header-img" src="{{ STATIC_URL }}img/our-goal.png" />
-        </div>
-    </div>
-    -->
-
     </div>
     <div class="c-map-panel">
       <div class="section">
@@ -370,10 +193,10 @@
             <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>
               <p class="body-text">We’re always looking to explore additional partnerships to make this portal more comprehensive. If you have suggestions, we’d love to hear them as well!</p>
               <p class="body-text">Reach out to us at <a href="mailto:info@datadrivendetroit.org" target="_top"> info@datadrivendetroit.org</a> to talk more!</p>
-              <a href="http://www.skillman.org/">
+              <a href="https://kresge.org/">
                 <div class="l-flex-align-flex-end skillman">
-                  <img src="/static/img/SkillmanFoundation-Logo.png">
-                  <p class="body-text">Supported by The Skillman Foundation</p>
+                  <img src="/static/img/kresge_logo.jpg">
+                  <p class="body-text">Supported by The Kresge Foundation</p>
                 </div>
               </a>
               <p class="body-text">Site built and designed by <a href="http://nijel.org/">NiJeL</a>, based on <a href="https://censusreporter.org/">Census Reporter</a>, the <a href="http://www.wprdc.org/">Western Pennsylvania Regional Data Center</a>, and <a href="http://www.datadrivendetroit.org">D3</a>.</p>

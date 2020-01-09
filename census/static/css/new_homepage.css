@@ -7,27 +7,27 @@
 }
 
 .body-text {
-    font-family: "Poppins";
+    font-family: 'Poppins', Georgia, serif;
     font-size: 24px;
     color: #2f2f2f;
     line-height: 32px;
 }
 
 .body-text-bold {
-    font-family: "Poppins";
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .body-text-ligher {
-    font-family: "Poppins";
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .body-text-32 {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 32px;
 }
 
 .rounded-button-body-text {
-    font-family: Poppins;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;;
     font-size: 24px;
     color: #ffffff;
     letter-spacing: 2.7px;
@@ -58,7 +58,7 @@
 }
 
 .hyperlink-bold-small {
-    font-family: "Poppins";
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 24px;
     color: #979797;
 }
@@ -75,7 +75,7 @@ nav {
 }
 
 nav a {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 29px;
     color: #979797;
     letter-spacing: 6.69px;
@@ -141,6 +141,7 @@ nav .container {
     color: #2f2f2f;
     font-size: 4.25em;
     text-align: center;
+    font-weight: bold;
 }
 
 .c-intro-panel main {
@@ -301,7 +302,7 @@ nav .container {
 }
 
 .c-IAB-panel ul h3, .c-additional-resources-panel ul h3 {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 24px;
     line-height: 32px;
     text-align: center;
@@ -423,7 +424,7 @@ nav .container {
 }
 
 .c-critical-questions-panel ul p {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 24px;
     color: #979797;
     line-height: 32px;
@@ -456,7 +457,7 @@ nav .container {
 }
 
 .c-explore-panel input[type='text'] {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 60px 0;
     border-radius: 7.2px;
     border: none;
@@ -478,7 +479,7 @@ nav .container {
 }
 
 .c-explore-panel button {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-bottom: 40px;
     background: #7E4BAB;
     display: flex;
@@ -522,7 +523,7 @@ nav .container {
 }
 
 .c-explore-panel .twitter-typeahead .tt-menu .tt-dataset-profile p {
-    font-family: 'Poppins' !important;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     padding: 20px 30px;
     font-size: 29px !important;
     color: #fff;
@@ -553,7 +554,7 @@ nav .container {
     padding: 30px 50px;
     background: #DBDBDB;
     width: 72%; */
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0;
     border-radius: 7.2px;
     border: none;
@@ -577,7 +578,7 @@ nav .container {
 }
 
 .c-topics-panel .button-group button {
-    font-family: 'Poppins';
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: #76AFF2;
     color: #fff;
     border-radius: 90px;
@@ -616,12 +617,12 @@ nav .container {
     width: 72%;
     left:auto !important;
     background: #A8D94E;
-    font-family: 'Poppins' !important;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 
 }
 
 .c-topics-panel .twitter-typeahead .tt-menu .tt-dataset-topics h5 {
-    font-family: 'Poppins' !important;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     padding: 20px 30px;
     font-size: 29px !important;
     color: #fff;
@@ -1138,7 +1139,7 @@ footer .footer-logos li {
     }
 
     .c-topics-panel .dropdown button {
-        font-family: 'Poppins';
+        font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
         background: #76AFF2;
         color: #fff;
         border-radius: 0;
@@ -1305,7 +1306,7 @@ footer .footer-logos li {
 }
 
 * {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
     box-sizing: border-box;
 }
 
