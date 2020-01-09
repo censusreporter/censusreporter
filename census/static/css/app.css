@@ -1624,12 +1624,12 @@ h1.article-header-right {
   border-color: #5b5b5b;
 }
 
-.draw-tools a.action-button {
+#map-controls .draw-tools a.action-button {
   background-color: #d1d2d4;
   color: #2f2f2f;
 }
 
-.draw-tools a.action-button:hover {
+#map-controls .draw-tools a.action-button:hover {
   background-color: #979797;
   border-color: #5b5b5b;
 }
@@ -3615,7 +3615,7 @@ a.ui-button:active,
 /* Tabs for locate and draw tools */
 .ui-widget-content, .ui-widget.ui-widget-content {
     border: none;
-    background: none;
+    background: #f0f0f0;
 }
 
 .ui-widget {
