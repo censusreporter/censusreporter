@@ -95,13 +95,23 @@
           <section id="gallery">
             <h2>See what others have created</h2>
             <ul>
-                {% for dashboard in dashboards %}
-                    <li id="generated"><a href="/custom-profiles/{{ dashboard.dashboard_slug }}" title="{{ dashboard.dashboard_name }}"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt="{{ dashboard.dashboard_name }}"><h4 class="f6 f2-ns">Title</h4></a></li>
-                {% endfor %}
-                    <li id="gallery-link"><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder.png" alt=""><h4 class="f6 f2-ns">Gallery</h4></a></li>
+                <!--{% for dashboard in dashboards %}
+                    <li id="generated"><a href="/custom-profiles/{{ dashboard.dashboard_slug }}" title="{{ dashboard.dashboard_name }}"><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt="{{ dashboard.dashboard_name }}"><h4 class="f6 f2-ns">Title</h4></a></li>
+                {% endfor %}-->
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">Corpus Christi Parish</h4></a></li>
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">Grandmont-Rosedale</h4></a></li>
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">Hope Village</h4></a></li>
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">HOPE Village 2</h4></a></li>
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">Jefferson East, Inc.</h4></a></li>
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">TCC Primary Clients </h4></a></li>
+                <li id="generated"><a href="/custom-profiles/" title=""><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">Title</h4></a></li>
+                    <li id="gallery-link"><a href="#"><img src="{{ STATIC_URL }}img/modal-placeholder-short.png" alt=""><h4 class="f6 f2-ns">Gallery</h4></a></li>
             </ul>
           </section>
         <button id="button" class="action-button">Close</button>
+      <div id="stop-modal">
+        <input type="checkbox" id="modal-check" class="check-modal" name="stop-modal"> <label for="modal-check">Don't show again</label>
+      </div>
         </div>
     </div>
 </div>

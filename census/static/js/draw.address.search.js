@@ -255,7 +255,7 @@ var clearDraw = function() {
         }
     })
     // set drawToggle to false
-    drawToggle = false;
+    //drawToggle = false;
     // loop through each layer and reset style and event listeners
     //map.addLayer(clickableLayer);
     map.removeLayer(toggleableLayer);
@@ -820,3 +820,22 @@ init_from_params($.parseParams());
 String.prototype.cleanup = function() {
     return this.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
 }
+
+var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {},
+    $checkboxes = $("#draw-intro :checkbox");
+
+$checkboxes.on("change", function(){
+  $checkboxes.each(function(){
+    checkboxValues[this.id] = this.checked;
+  });
+
+  localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+});
+
+// On page load
+$.each(checkboxValues, function(key, value) {
+  $("#" + key).prop('checked', value);
+  if (document.getElementById('modal-check').checked ){
+    $("#draw-intro").addClass('hide');
+  }
+});

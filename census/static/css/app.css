@@ -1382,6 +1382,9 @@ h1.article-header-right {
     height: 100%;
     width: 100%;
 }
+#draw-intro.hide {
+  display: none;
+}
 .intro-content {
     position: absolute;
     top: 50%;
@@ -1437,13 +1440,13 @@ h1.article-header-right {
 
 .intro-content section#gallery ul {
   flex-wrap: wrap;
-  justify-content: flex-start;
+  /*justify-content: flex-start;*/
 }
 
 .intro-content section#gallery ul li {
   padding: 0;
-  margin: 0.5em;
-  width: 22%;
+  margin: 0.5em 0;
+  width: 23.5%;
   position: relative;
 }
 
@@ -1454,6 +1457,8 @@ h1.article-header-right {
   color: #2f2f2f;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
+  text-align: center;
+  width: 90%;
 }
 
 .intro-content section#gallery ul li#gallery-link h4 {
@@ -1501,6 +1506,10 @@ h1.article-header-right {
   display: block;
   color: #2f2f2f;
   border: 1px solid #2f2f2f;
+}
+.intro-content #stop-modal {
+  position: absolute;
+  bottom: 31px;
 }
 #map-controls {
     position: absolute;
@@ -3067,11 +3076,17 @@ blockquote {
   #header-search input {
     width: 200px;
   }
+  #draw-intro .intro-content {
+    width: 60%;
+  }
   .intro-content h2.title {
     font-size: 2.1em;
   }
   .intro-content section#gallery ul li#gallery-link h4 {
     font-size: 1.3em;
+  }
+  .intro-content section#gallery ul li#generated h4 {
+    font-size: 0.9em;
   }
   footer .details {
     margin-right: 3em;
@@ -3302,6 +3317,21 @@ blockquote {
     .intro-content h2.title {
       font-size: 2em;
     }
+    .intro-content section#gallery ul {
+      justify-content: flex-start;
+    }
+    .intro-content section#gallery ul li {
+      width: 30%;
+      margin: 0.5em 1.5%;
+    }
+    .intro-content #stop-modal {
+      position: relative;
+      margin: 0 auto;
+      display: block;
+      width: 50%;
+      text-align: center;
+      bottom: 0;
+    }
 
 } /* END: @media only screen and (max-width: 768px) */
 @media only screen and (max-width: 640px) {
@@ -3412,10 +3442,7 @@ blockquote {
     .header-container {
         padding-top: 1em;
     }
-    .intro-content section#gallery ul li {
-      width: 27%;
-    }
-    .intro-content {
+    #draw-intro .intro-content {
       width: 75%;
     }
     #draw #slippy-map {
@@ -3520,6 +3547,15 @@ blockquote {
     }
     .intro-content .action-button {
       width: 40%;
+    }
+    .intro-content section#gallery ul {
+      justify-content: space-between;
+    }
+    .intro-content section#gallery ul li {
+      width: 48%;
+      margin: 0.5em 0;
+    }
+    .intro-content section#gallery ul li h4 {
     }
 }
 @media only screen and (max-width: 360px) {
