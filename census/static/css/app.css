@@ -1562,7 +1562,7 @@ h1.article-header-right {
     float: none;
 }
 #map-controls aside {
-    padding: .67em 0 .33em;
+    padding: .67em 0 0;
     margin: 0;
     text-align: left;
 }
@@ -1610,6 +1610,11 @@ h1.article-header-right {
     text-align: center;
 }
 
+#tabs-2 .draw-tools {
+  margin-bottom: 0;
+}
+
+
 #map-controls .draw-tools a#use-location {
   width: 100%;
 }
@@ -1620,7 +1625,7 @@ h1.article-header-right {
 {
    display: inline-block;
    text-align: center;
-   font-size: 1.5em;
+   font-size: 1.4em;
 }
 
 #map-controls .draw-tools a#use-location {
@@ -1651,7 +1656,7 @@ h1.article-header-right {
 
 #map-controls #address-search {
   height: 2em;
-  font-size: 1.5em;
+  font-size: 1.4em;
 }
 
 #map-legend,
