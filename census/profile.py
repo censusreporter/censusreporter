@@ -1549,7 +1549,7 @@ def geo_profile(geoid, acs='latest'):
 	data = api.get_data('B25996', d3_comparison_geoids , 'd3_present')
 	acs_name = data['release']['name']
 
-	units_dict['number_blight_tickets'] = build_item('Total number of blight tickets (2019)', data, item_levels_minus_county_state,
+	units_dict['number_blight_tickets'] = build_item('Total number of blight tickets (2018)', data, item_levels_minus_county_state,
 		'B25996001')
 	add_metadata(units_dict['number_blight_tickets'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
 
@@ -1593,7 +1593,255 @@ def geo_profile(geoid, acs='latest'):
 	ticket_month_distribution['december'] = build_item('December', data, item_levels_minus_county_state,
 		'B25996016 B25996001 / %')
 
-	# TODO: Continue adding charts fro blight from this doc https://docs.google.com/spreadsheets/d/1I_AH8bFFcdX8KO1XZk-Sak2n8hhff2sJgp6n1colB4k/edit?ts=5dfbd522#gid=1699272400
+
+	ticket_type_distribution = OrderedDict()
+	units_dict['ticket_type_distribution'] = ticket_type_distribution
+	add_metadata(units_dict['ticket_type_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+
+	ticket_type_distribution['no_cert'] = build_item('9-1-36(a): No certificate of compliance', data, item_levels_minus_county_state,
+		'B25996017 B25996001 / %')	
+	ticket_type_distribution['weeds'] = build_item('9-1-104: Weeds and plant growth', data, item_levels_minus_county_state,
+		'B25996018 B25996001 / %')	
+	ticket_type_distribution['waste'] = build_item('22-2-88(b): Bulk solid waste accumulation', data, item_levels_minus_county_state,
+		'B25996019 B25996001 / %')
+	ticket_type_distribution['no_rental_cert'] = build_item('9-1-81(a): No rental certificate', data, item_levels_minus_county_state,
+		'B25996020 B25996001 / %')
+	ticket_type_distribution['other'] = build_item('Other', data, item_levels_minus_county_state,
+		'B25996021 B25996001 / %')	
+
+
+	units_dict['upheld_blight_tickets'] = build_item('Tickets upheld by court (2018)', data, item_levels_minus_county_state,
+		'B25996022')
+	add_metadata(units_dict['upheld_blight_tickets'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)	
+
+	upheld_ticket_distribution = OrderedDict()
+	units_dict['upheld_ticket_distribution'] = upheld_ticket_distribution
+	add_metadata(units_dict['upheld_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+
+	upheld_ticket_distribution['unpaid'] = build_item('Unpaid', data, item_levels_minus_county_state,
+		'B25996023 B25996001 / %')	
+	upheld_ticket_distribution['paid'] = build_item('Paid in full', data, item_levels_minus_county_state,
+		'B25996024 B25996001 / %')	
+	upheld_ticket_distribution['partially_paid'] = build_item('Partially paid', data, item_levels_minus_county_state,
+		'B25996025 B25996001 / %')	
+
+	units_dict['amount_due'] = build_item('Total Amount Due for Blight Tickets Upheld by Court (2018)', data, item_levels_minus_county_state,
+		'B25996026')
+	add_metadata(units_dict['amount_due'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)	
+
+	owed_ticket_distribution = OrderedDict()
+	units_dict['owed_ticket_distribution'] = owed_ticket_distribution
+	add_metadata(units_dict['owed_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+
+	owed_ticket_distribution['unpaid'] = build_item('Unpaid', data, item_levels_minus_county_state,
+		'B25996027')	
+	owed_ticket_distribution['paid'] = build_item('Paid in full', data, item_levels_minus_county_state,
+		'B25996028')	
+	owed_ticket_distribution['partially_paid'] = build_item('Partially paid', data, item_levels_minus_county_state,
+		'B25996029')	
+
+
+	# Total Tax Foreclosures
+	data = api.get_data('B25995', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']
+
+	units_dict['total_tax_foreclosures'] = build_item('Total Tax Foreclosures (2018)', data, item_levels_minus_county_state,
+		'B25995001')
+	add_metadata(units_dict['total_tax_foreclosures'], 'B25995', 'Housing units', 'SOURCE; ' + acs_name)
+
+
+	# Property Transactions
+	data = api.get_data('B25994', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']
+
+	units_dict['number_property_sales'] = build_item('Total number of property sales (2018)', data, item_levels_minus_county_state,
+		'B25994001')
+	add_metadata(units_dict['number_property_sales'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+
+
+	sale_month_distribution = OrderedDict()
+	units_dict['sale_month_distribution'] = sale_month_distribution
+	add_metadata(sale_month_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+
+	sale_month_distribution['january'] = build_item('January', data, item_levels_minus_county_state,
+		'B25994002 B25994001 / %')
+	sale_month_distribution['february'] = build_item('February', data, item_levels_minus_county_state,
+		'B25994003 B25994001 / %')
+	sale_month_distribution['march'] = build_item('March', data, item_levels_minus_county_state,
+		'B25994004 B25994001 / %')
+	sale_month_distribution['april'] = build_item('April', data, item_levels_minus_county_state,
+		'B25994005 B25994001 / %')
+	sale_month_distribution['may'] = build_item('May', data, item_levels_minus_county_state,
+		'B25994006 B25994001 / %')
+	sale_month_distribution['june'] = build_item('June', data, item_levels_minus_county_state,
+		'B25994007 B25994001 / %')
+	sale_month_distribution['july'] = build_item('July', data, item_levels_minus_county_state,
+		'B25994008 B25994001 / %')
+	sale_month_distribution['august'] = build_item('August', data, item_levels_minus_county_state,
+		'B25994009 B25994001 / %')
+	sale_month_distribution['september'] = build_item('September', data, item_levels_minus_county_state,
+		'B25994010 B25994001 / %')
+	sale_month_distribution['october'] = build_item('October', data, item_levels_minus_county_state,
+		'B25994011 B25994001 / %')
+	sale_month_distribution['november'] = build_item('November', data, item_levels_minus_county_state,
+		'B25994012 B25994001 / %')
+	sale_month_distribution['december'] = build_item('December', data, item_levels_minus_county_state,
+		'B25994013 B25994001 / %')
+
+	sale_type_distribution = OrderedDict()
+	units_dict['sale_type_distribution'] = sale_type_distribution
+	add_metadata(sale_type_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+
+	sale_type_distribution['bank_sale_not_used'] = build_item('Bank sale not used', data, item_levels_minus_county_state,
+		'B25994014 B25994001 / %')
+	sale_type_distribution['bank_sale_used'] = build_item('Bank sale used', data, item_levels_minus_county_state,
+		'B25994015 B25994001 / %')
+	sale_type_distribution['exempt_government'] = build_item('Exempt/government', data, item_levels_minus_county_state,
+		'B25994016 B25994001 / %')
+	sale_type_distribution['foreclosure_forfeit'] = build_item('Foreclosure/forfeit', data, item_levels_minus_county_state,
+		'B25994017 B25994001 / %')
+	sale_type_distribution['multi_parcel'] = build_item('Multi parcel', data, item_levels_minus_county_state,
+		'B25994018 B25994001 / %')
+	sale_type_distribution['no_consideration'] = build_item('No consideration', data, item_levels_minus_county_state,
+		'B25994019 B25994001 / %')
+	sale_type_distribution['not_arms_length'] = build_item('Not arms length', data, item_levels_minus_county_state,
+		'B25994020 B25994001 / %')
+	sale_type_distribution['valid_arms_length'] = build_item('Valid arms length', data, item_levels_minus_county_state,
+		'B25994021 B25994001 / %')
+	sale_type_distribution['special_acts'] = build_item('Special acts', data, item_levels_minus_county_state,
+		'B25994022 B25994001 / %')	
+	sale_type_distribution['other_sales_terms'] = build_item('Other sales terms', data, item_levels_minus_county_state,
+		'B25994023 B25994001 / %')
+
+
+	sale_price_distribution = OrderedDict()
+	units_dict['sale_price_distribution'] = sale_price_distribution
+	add_metadata(sale_price_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+
+	sale_price_distribution['lt_1000'] = build_item('Less than $1,000.00', data, item_levels_minus_county_state,
+		'B25994028 B25994001 / %')
+	sale_price_distribution['1000_5000'] = build_item('$1,000.00 - $4,999.99', data, item_levels_minus_county_state,
+		'B25994029 B25994001 / %')
+	sale_price_distribution['5000_10000'] = build_item('$5,000.00 - $9,999.99', data, item_levels_minus_county_state,
+		'B25994030 B25994001 / %')
+	sale_price_distribution['10000_25000'] = build_item('$10,000.00 - $24,999.99', data, item_levels_minus_county_state,
+		'B25994031 B25994001 / %')
+	sale_price_distribution['25000_50000'] = build_item('$25,000.00 - $49,999.99', data, item_levels_minus_county_state,
+		'B25994032 B25994001 / %')
+	sale_price_distribution['50000_100000'] = build_item('$50,000.00 - $99,999.99', data, item_levels_minus_county_state,
+		'B25994033 B25994001 / %')
+	sale_price_distribution['100000_500000'] = build_item('$100,000.00 - $499,999.99', data, item_levels_minus_county_state,
+		'B25994034 B25994001 / %')
+	sale_price_distribution['500000_1000000'] = build_item('$500,000.00 - $999,999.99', data, item_levels_minus_county_state,
+		'B25994035 B25994001 / %')
+	sale_price_distribution['1000000_5000000'] = build_item('$1,000,000.00 - $4,999,999.99', data, item_levels_minus_county_state,
+		'B25994036 B25994001 / %')	
+	sale_price_distribution['gt_5000000'] = build_item('Greater than $5,000,000', data, item_levels_minus_county_state,
+		'B25994037 B25994001 / %')
+
+	units_dict['total_property_sales'] = build_item('Total property sales (2018)', data, item_levels_minus_county_state,
+		'B25994038')
+	add_metadata(units_dict['total_property_sales'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+	
+	sale_type_dollar_distribution = OrderedDict()
+	units_dict['sale_type_dollar_distribution'] = sale_type_dollar_distribution
+	add_metadata(sale_type_dollar_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+
+	sale_type_dollar_distribution['bank_sale_not_used'] = build_item('Bank sale not used', data, item_levels_minus_county_state,
+		'B25994051')
+	sale_type_dollar_distribution['bank_sale_used'] = build_item('Bank sale used', data, item_levels_minus_county_state,
+		'B25994052')
+	sale_type_dollar_distribution['exempt_government'] = build_item('Exempt/government', data, item_levels_minus_county_state,
+		'B25994053')
+	sale_type_dollar_distribution['foreclosure_forfeit'] = build_item('Foreclosure/forfeit', data, item_levels_minus_county_state,
+		'B25994054')
+	sale_type_dollar_distribution['multi_parcel'] = build_item('Multi parcel', data, item_levels_minus_county_state,
+		'B25994055')
+	sale_type_dollar_distribution['no_consideration'] = build_item('No consideration', data, item_levels_minus_county_state,
+		'B25994056')
+	sale_type_dollar_distribution['not_arms_length'] = build_item('Not arms length', data, item_levels_minus_county_state,
+		'B25994057')
+	sale_type_dollar_distribution['valid_arms_length'] = build_item('Valid arms length', data, item_levels_minus_county_state,
+		'B25994058')
+	sale_type_dollar_distribution['special_acts'] = build_item('Special acts', data, item_levels_minus_county_state,
+		'B25994059')	
+	sale_type_dollar_distribution['other_sales_terms'] = build_item('Other sales terms', data, item_levels_minus_county_state,
+		'B25994060')
+
+	units_dict['min_price'] = build_item('Minimum price sold (2018)', data, item_levels_minus_county_state,
+		'B25994067')
+	add_metadata(units_dict['min_price'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+
+	units_dict['max_price'] = build_item('Maximum price sold (2018)', data, item_levels_minus_county_state,
+		'B25994068')
+	add_metadata(units_dict['max_price'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+
+	units_dict['median_price'] = build_item('Median price sold (2018)', data, item_levels_minus_county_state,
+		'B25994070')
+	add_metadata(units_dict['median_price'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+
+
+	#voter age
+	data = api.get_data('B25993', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']
+
+	units_dict['voters'] = build_item('Total registered voters (2018)', data, item_levels_minus_county_state,
+		'B25993001')
+	add_metadata(units_dict['voters'], 'B25993', 'Housing units', 'SOURCE; ' + acs_name)
+	
+	voter_age_distribution = OrderedDict()
+	units_dict['voter_age_distribution'] = voter_age_distribution
+	add_metadata(voter_age_distribution, 'B25993', 'Total registered voters', 'SOURCE; ' + acs_name)
+
+	voter_age_distribution['18_24'] = build_item('18-24', data, item_levels_minus_county_state,
+		'B25993002 B25993001 / %')
+	voter_age_distribution['25_34'] = build_item('25-34', data, item_levels_minus_county_state,
+		'B25993003 B25993001 / %')
+	voter_age_distribution['35_54'] = build_item('35-54', data, item_levels_minus_county_state,
+		'B25993004 B25993001 / %')
+	voter_age_distribution['55_64'] = build_item('55-64', data, item_levels_minus_county_state,
+		'B25993005 B25993001 / %')
+	voter_age_distribution['65'] = build_item('65+', data, item_levels_minus_county_state,
+		'B25993006 B25993001 / %')
+
+
+	#Tax and Values
+	data = api.get_data('B25992', d3_comparison_geoids , 'd3_present')
+	acs_name = data['release']['name']	
+	
+	units_dict['voters'] = build_item('Total properties (2018)', data, item_levels_minus_county_state,
+		'B25992001')
+	add_metadata(units_dict['voters'], 'B25992', 'Housing units', 'SOURCE; ' + acs_name)
+
+	sev_distribution = OrderedDict()
+	units_dict['sev_distribution'] = sev_distribution
+	add_metadata(sev_distribution, 'B25992', 'Housing units with SEV', 'SOURCE; ' + acs_name)
+
+	sev_distribution['1_4000'] = build_item('$1-$4,000', data, item_levels_minus_county_state,
+		'B25992033 B25992032 / %')
+	sev_distribution['4000_8000'] = build_item('$4,001-$8,000', data, item_levels_minus_county_state,
+		'B25992034 B25992032 / %')
+	sev_distribution['8000_12000'] = build_item('$8,001-$12,000', data, item_levels_minus_county_state,
+		'B25992035 B25992032 / %')
+	sev_distribution['12000_16000'] = build_item('$12,001-$16,000', data, item_levels_minus_county_state,
+		'B25992036 B25992032 / %')
+	sev_distribution['16000_20000'] = build_item('$16,001-$20,000', data, item_levels_minus_county_state,
+		'B25992037 B25992032 / %')
+	sev_distribution['20000_24000'] = build_item('$20,001-$24,000', data, item_levels_minus_county_state,
+		'B25992038 B25992032 / %')
+	sev_distribution['24000_28000'] = build_item('$24,001-$28,000', data, item_levels_minus_county_state,
+		'B25992039 B25992032 / %')
+	sev_distribution['28000_32000'] = build_item(' $28,001-$32,000', data, item_levels_minus_county_state,
+		'B25992040 B25992032 / %')
+	sev_distribution['32000_36000'] = build_item('$32,001-$36,000', data, item_levels_minus_county_state,
+		'B25992041 B25992032 / %')
+	sev_distribution['36000_40000'] = build_item('$36,001-$40,000', data, item_levels_minus_county_state,
+		'B25992042 B25992032 / %')
+	sev_distribution['gt_40000'] = build_item('Greater than $40,000', data, item_levels_minus_county_state,
+		'B25992043 B25992032 / %')
+	
+
+
 
 
 
