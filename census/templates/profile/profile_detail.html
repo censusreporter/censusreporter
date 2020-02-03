@@ -82,16 +82,22 @@
             <optgroup label="Housing occupancy">
                 <option value="#occupancy">Housing occupancy</option>
                 <option value="#vacancy-demolitions">Vacancy and demolitions</option>
+                <option value="#building-permits">Building permits</option>
+                <option value="#tax-foreclosures">Tax foreclosures</option>
+                <option value="#property-transactions">Property Transactions</option>
             </optgroup>
             <optgroup label="Housing cost &amp; value">
                 <option value="#occupancy-tenure">Housing cost &amp; value</option>
                 <option value="#occupancy-tenure">Tenure status, rental size &amp; rents</option>
                 <option value="#rents-values">Rents &amp; housing values</option>
                 <option value="#housing-burden">Housing burden</option>
+                <option value="#tax-values">Tax &amp; values</option>
+                <option value="#dlba">DLBA ownership &amp; sales</option>
             </optgroup>
             <optgroup label="Housing conditions">
                 <option value="#bedrooms-per-unit">Housing conditions</option>
                 <option value="#bedrooms-per-unit">Size &amp; quality of housing units</option>
+                <option value="#blight-violations">Blight violations</option>
             </optgroup>
             <optgroup label="Neighborhood demographics">
                 <option value="#households">Neighborhood demographics</option>
@@ -101,6 +107,7 @@
                 <option value="#income">Income</option>
                 <option value="#poverty">Poverty</option>
                 <option value="#vehicle-availability">Vehicle availability</option>
+                <option value="#voter-ages">Voter ages</option>
             </optgroup>
             <optgroup label="Neighborhood education">
                 <option value="#school-enrollment">Neighborhood education</option>
@@ -170,7 +177,73 @@
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
               <div class="column-full" id="chart-column-housing-units-demo_month_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of month structure demolished (2019)" data-qualifier="Universe: {{ housing.units.demo_month_distribution.metadata.universe }}"></div>
-
+        </section>
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#building-permits" id="building-permits" title="Permalink">Building permits<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-half">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number_permits stat_type='count' %}
+              </div> 
+              <div class="column-half">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.median_permit_cost stat_type='dollar' %}
+              </div>               
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full" id="chart-column-housing-units-permit_type_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of building permit types (2018)" data-qualifier="Universe: {{ housing.units.permit_type_distribution.metadata.universe }}"></div>
+        </section>
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#tax-foreclosures" id="tax-foreclosures" title="Permalink">Tax foreclosures<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-full">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_tax_foreclosures stat_type='number' %}
+              </div>             
+        </section>
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#property-transactions" id="property-transactions" title="Permalink">Property transactions<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number_property_sales stat_type='number' %}
+              </div>  
+              <div class="column-two-thirds">
+                  <div id="chart-column-housing-units-sale_type_distribution" data-stat-type="scaled-percentage" data-chart-title="Percentage of property sales by type (2018)" data-qualifier="Universe: {{ housing.units.sale_type_distribution.metadata.universe }}"></div>
+              </div>           
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full">
+                  <div id="chart-column-housing-units-sale_month_distribution" data-stat-type="scaled-percentage" data-chart-title="Percentage of property sales by month (2018)" data-qualifier="Universe: {{ housing.units.sale_month_distribution.metadata.universe }}"></div>
+              </div>   
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full">
+                  <div id="chart-column-housing-units-sale_price_distribution" data-stat-type="scaled-percentage" data-chart-title="Percentage of property sales by price (2018)" data-qualifier="Universe: {{ housing.units.sale_price_distribution.metadata.universe }}"></div>
+              </div>   
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-quarter">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_property_sales stat_type='dollar' %}
+              </div>  
+              <div class="column-quarter">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.median_price stat_type='dollar' %}
+              </div> 
+              <div class="column-quarter">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.max_price stat_type='dollar' %}
+              </div> 
+              <div class="column-quarter">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.min_price stat_type='dollar' %}
+              </div>  
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full">
+                  <div id="chart-column-housing-units-sale_type_dollar_distribution" data-stat-type="dollar" data-chart-title="Property sales amounts by type (2018)" data-qualifier="Universe: {{ housing.units.sale_type_dollar_distribution.metadata.universe }}"></div>
+              </div>   
         </section>
     </div>
 </article>
@@ -214,6 +287,71 @@
               <div class="column-full" id="chart-grouped_column-housing-units-housing_burden" data-stat-type="scaled-percentage" data-chart-title="Housing burden by tenure" data-qualifier="Universe: {{ housing.units.housing_burden.metadata.universe }}"></div>
         </section>
 
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#tax-values" id="tax-values" title="Permalink">Tax &amp; values <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_properties stat_type='number' %}
+              </div>  
+              <div class="column-two-thirds">
+                  <div id="chart-column-housing-units-pre_status_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of properties by PRE status (2018)" data-qualifier="Universe: {{ housing.units.pre_status_distribution.metadata.universe }}"></div>                
+              </div>              
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_sev stat_type='dollar' %}
+              </div>  
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.mean_sev_over_0 stat_type='dollar' %}
+              </div> 
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.median_sev_over_0 stat_type='dollar' %}
+              </div>
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full">
+                  <div id="chart-column-housing-units-sev_distribution" data-stat-type="dollar" data-chart-title="Distribution of properties by SEV (2018)" data-qualifier="Universe: {{ housing.units.sev_distribution.metadata.universe }}"></div>
+              </div>   
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-full">
+                  <div id="chart-column-housing-units-taxable_status_distribution" data-stat-type="dollar" data-chart-title="Distribution of properties by taxable status (2018)" data-qualifier="Universe: {{ housing.units.taxable_status_distribution.metadata.universe }}"></div>
+              </div>   
+        </section>
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#dlba" id="dlba" title="Permalink">DLBA ownership &amp; sales <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.dlba_total_properties stat_type='number' %}
+              </div>  
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.dlba_total_sales stat_type='number' %}
+              </div>  
+              <div class="column-third">
+                  <div id="chart-pie-housing-units-dlba_sale_type_distrubution" data-chart-title="Distribution of DLBA sales by type (2019)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.dlba_sale_type_distrubution.metadata.universe }}"></div>              
+              </div>              
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside>
+              <div class="column-third">
+                  <div id="chart-pie-housing-units-dlba_auction_buyer_type_distrubution" data-chart-title="Distribution of DLBA buyer by type (2019)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.dlba_auction_buyer_type_distrubution.metadata.universe }}"></div>              
+              </div> 
+              <div class="column-two-thirds">
+                  <div id="chart-column-housing-units-dlba_auction_price_distrubution" data-stat-type="scaled-percentage" data-chart-title="Distribution of DLBA sale prices (2019)" data-qualifier="Universe: {{ housing.units.dlba_auction_price_distrubution.metadata.universe }}"></div>
+              </div>   
+        </section>
+        <section class="clearfix stat-row grouped-row">
+            <aside></aside> 
+              <div class="column-full">
+                  <div id="chart-column-housing-units-dlba_cp_type_distrubution" data-stat-type="scaled-percentage" data-chart-title="Distribution of DLBA sales to  community partners by property classes (2019)" data-qualifier="Universe: {{ housing.units.dlba_cp_type_distrubution.metadata.universe }}"></div>
+              </div>   
+        </section>
+
     </div>
 </article>
 
@@ -244,6 +382,49 @@
               </div>
               <div class="column-half">
                   <div id="chart-pie-housing-units-renter_condition_distribution" data-chart-title="Renter-occupied housing units with substandard housing conditions" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.renter_condition_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#blight-violations" id="blight-violations" title="Permalink">Blight violations<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+              <div class="column-half">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number_blight_tickets stat_type='count' %}
+              </div> 
+              <div class="column-half">
+                  <div id="chart-pie-housing-units-department_ticket_distribution" data-chart-title="Blight violations by department (2018)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.department_ticket_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+
+        <section class="clearfix stat-row grouped-row">
+            <aside>
+            </aside>
+              <div class="column-full" id="chart-column-housing-units-ticket_month_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of month violation issued (2018)" data-qualifier="Universe: {{ housing.units.ticket_month_distribution.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row grouped-row">
+            <aside>
+            </aside>
+              <div class="column-third">
+                  <div id="chart-pie-housing-units-ticket_type_distribution" data-chart-title="Blight violations by type (2018)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.ticket_type_distribution.metadata.universe }}"></div>
+              </div>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.upheld_blight_tickets stat_type='percentage' %}
+              </div>
+              <div class="column-third">
+                  <div id="chart-pie-housing-units-upheld_ticket_distribution" data-chart-title="Payment status for upheld blight violations (2018)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.upheld_ticket_distribution.metadata.universe }}"></div>
+              </div>
+        </section>
+
+        <section class="clearfix stat-row grouped-row">
+            <aside>
+            </aside>
+              <div class="column-third">
+                  {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.amount_due stat_type='dollar' %}
+              </div>
+              <div class="column-two-thirds">
+                  <div id="chart-column-housing-units-owed_ticket_distribution" data-stat-type="dollar" data-chart-title="Payment status for blight tickets upheld by court (2018)" data-qualifier="Universe: {{ housing.units.owed_ticket_distribution.metadata.universe }}"></div>
               </div>
         </section>
 
@@ -329,6 +510,18 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
             </div>
             <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <aside>
+              <h2 class="header-for-columns"><a class="permalink section" href="#voter-ages" id="voter-ages" title="Permalink">Voter ages <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.voters stat_type='number' stat_suffix='' %}
+            </div>
+              <div class="column-two-thirds">
+                  <div id="chart-column-housing-units-voter_age_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of voters by age group (2018)" data-qualifier="Universe: {{ housing.units.voter_age_distribution.metadata.universe }}"></div>
+              </div>
         </section>
 
     </div>
