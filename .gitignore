@@ -52,3 +52,5 @@ config/base/settings.py
 requirements.txt
 p3env/
 *.bak
+census_app_db
+
