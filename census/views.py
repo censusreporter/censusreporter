@@ -1,25 +1,31 @@
 from __future__ import division
+from __future__ import absolute_import
+from __future__ import print_function
 from collections import OrderedDict, defaultdict
-from numpy import median
-from urllib2 import unquote, quote
-import cStringIO
+from six.moves.urllib.parse import unquote, quote
+from io import StringIO
+from io import BytesIO
 import gzip
 import re
 import requests
 import unicodecsv
-import topics
+from . import topics
 import json
-import boto
-import boto.s3.connection
+
+import boto3
+import botocore
+from boto3 import Session
+# import boto
+# import boto.s3.connection
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template import loader, TemplateDoesNotExist, RequestContext
-from django.utils import simplejson
+import json
 from django.utils.safestring import SafeString
 from django.utils.text import slugify
 from django.views.generic import View, TemplateView
@@ -31,10 +37,11 @@ from .profile import geo_profile, enhance_api_data
 from .custom_profile import create_custom_profile
 from .topics import TOPICS_MAP
 
-from boto.s3.connection import S3Connection, Location
-from boto.s3.key import Key
+# from boto.s3.connection import S3Connection, Location
+# from boto.s3.key import Key
 
 import logging
+import six
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
@@ -44,7 +51,7 @@ def render_json_to_response(context):
 	'''
 	Utility method for rendering a view's data to JSON response.
 	'''
-	result = simplejson.dumps(context, sort_keys=False, indent=4)
+	result = json.dumps(context, sort_keys=False, indent=4)
 	return HttpResponse(result, mimetype='application/javascript')
 
 def capitalize_first(str):
@@ -99,10 +106,10 @@ class TableSearchView(TemplateView):
 			status_code = r.status_code
 
 			if status_code == 200:
-				data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+				data = json.loads(r.text, object_pairs_hook=OrderedDict)
 
 				# if we end up powering results list with javascript ...
-				#page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
+				#page_context['results'] = SafeString(json.dumps(data['results'], cls=LazyEncoder))
 
 				page_context = data
 				page_context['q'] = q
@@ -124,7 +131,7 @@ class TableSearchView(TemplateView):
 
 				page_context['q'] = q
 			elif status_code == 404 or status_code == 400:
-				error_data = simplejson.loads(r.text)
+				error_data = json.loads(r.text)
 				raise_404_with_messages(self.request, error_data)
 			else:
 				raise Http404
@@ -138,7 +145,7 @@ class D3TableDetailViewBirths(TemplateView):
 
 		try:
 			return super(D3TableDetailViewBirths, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -212,7 +219,7 @@ class D3TableDetailViewMathProficiency(TemplateView):
 
 		try:
 			return super(D3TableDetailViewMathProficiency, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -262,7 +269,7 @@ class D3TableDetailViewELAProficiency(TemplateView):
 
 		try:
 			return super(D3TableDetailViewELAProficiency, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -312,7 +319,7 @@ class D3TableDetailViewGraduationRates(TemplateView):
 
 		try:
 			return super(D3TableDetailViewGraduationRates, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -351,7 +358,7 @@ class D3TableDetailViewInfantMortality(TemplateView):
 
 		try:
 			return super(D3TableDetailViewInfantMortality, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -395,7 +402,7 @@ class D3TableDetailViewImmunization(TemplateView):
 
 		try:
 			return super(D3TableDetailViewImmunization, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -444,7 +451,7 @@ class D3TableDetailViewMedicaid(TemplateView):
 
 		try:
 			return super(D3TableDetailViewMedicaid, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -533,7 +540,7 @@ class D3TableDetailViewChildCareCenters(TemplateView):
 
 		try:
 			return super(D3TableDetailViewChildCareCenters, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -582,7 +589,7 @@ class D3TableDetailViewChildCarePrograms(TemplateView):
 
 		try:
 			return super(D3TableDetailViewChildCarePrograms, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -632,7 +639,7 @@ class D3TableDetailViewChildCareCapacity(TemplateView):
 
 		try:
 			return super(D3TableDetailViewChildCareCapacity, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -682,7 +689,7 @@ class D3TableDetailViewFreeReducedLunch(TemplateView):
 
 		try:
 			return super(D3TableDetailViewFreeReducedLunch, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -737,7 +744,7 @@ class D3TableDetailViewCollegeReadiness(TemplateView):
 
 		try:
 			return super(D3TableDetailViewCollegeReadiness, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -796,7 +803,7 @@ class D3TableDetailViewLeadBloodLevels(TemplateView):
 
 		try:
 			return super(D3TableDetailViewLeadBloodLevels, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -855,7 +862,7 @@ class D3TableDetailViewCollegeEnrollment(TemplateView):
 
 		try:
 			return super(D3TableDetailViewCollegeEnrollment, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -894,7 +901,7 @@ class D3TableDetailViewStudentMobility(TemplateView):
 
 		try:
 			return super(D3TableDetailViewStudentMobility, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -933,7 +940,7 @@ class D3TableDetailViewChronicAbsenteeism(TemplateView):
 
 		try:
 			return super(D3TableDetailViewChronicAbsenteeism, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -972,7 +979,7 @@ class D3TableDetailView8thGradeMath(TemplateView):
 
 		try:
 			return super(D3TableDetailView8thGradeMath, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			raise e
 
 	def get_context_data(self, *args, **kwargs):
@@ -1031,7 +1038,7 @@ class TableDetailView(TemplateView):
 
 		try:
 			return super(TableDetailView, self).dispatch(*args, **kwargs)
-		except Http404, e:
+		except Http404 as e:
 			# Check if core table doesn't exist, but has iterations; if so,
 			# redirect to the first iteration.
 			if table_argument.endswith('PR'):
@@ -1053,9 +1060,9 @@ class TableDetailView(TemplateView):
 
 		# make sure we've requested a legit tabulation code
 		if status_code == 200:
-			tabulation_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+			tabulation_data = json.loads(r.text, object_pairs_hook=OrderedDict)
 		elif status_code == 404 or status_code == 400:
-			error_data = simplejson.loads(r.text)
+			error_data = json.loads(r.text)
 			raise_404_with_messages(self.request, error_data)
 		else:
 			raise Http404
@@ -1126,8 +1133,8 @@ class TableDetailView(TemplateView):
 			'preview': {},
 		}
 
-		for group, group_values in tables.iteritems():
-			preview_table = next(group_values.iteritems())[0]
+		for group, group_values in six.iteritems(tables):
+			preview_table = next(six.iteritems(group_values))[0]
 			try:
 				tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
 				tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
@@ -1138,7 +1145,7 @@ class TableDetailView(TemplateView):
 
 	def get_topic_pages(self, table_topics):
 		related_topic_pages = []
-		for key, values in TOPICS_MAP.iteritems():
+		for key, values in six.iteritems(TOPICS_MAP):
 			topics = values.get('topics', [])
 			matches = set(topics).intersection(table_topics)
 			if matches:
@@ -1151,8 +1158,8 @@ class TableDetailView(TemplateView):
 		r = requests.get(endpoint)
 
 		if r.status_code == 200:
-			print simplejson.loads(r.text, object_pairs_hook=OrderedDict)
-			return simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+			print((json.loads(r.text, object_pairs_hook=OrderedDict)))
+			return json.loads(r.text, object_pairs_hook=OrderedDict)
 		if r.status_code == 400:
 			raise ValueError("No table data for that table")
 		else:
@@ -1189,11 +1196,11 @@ class GeographySearchView(TemplateView):
 			status_code = r.status_code
 
 			if status_code == 200:
-				data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+				data = json.loads(r.text, object_pairs_hook=OrderedDict)
 
 				# if we end up powering results list with javascript ...
-				#page_context['results'] = SafeString(simplejson.dumps(data['results'], cls=LazyEncoder))
-				#page_context['facets'] = SafeString(simplejson.dumps(data['facets'], cls=LazyEncoder))
+				#page_context['results'] = SafeString(json.dumps(data['results'], cls=LazyEncoder))
+				#page_context['facets'] = SafeString(json.dumps(data['facets'], cls=LazyEncoder))
 
 				page_context = data
 				page_context['q'] = q
@@ -1210,7 +1217,7 @@ class GeographySearchView(TemplateView):
 				if 'previous_page' in data['links']:
 					page_context['previous_offset'] = data['links']['previous_page'].split('&start=')[1]
 			elif status_code == 404 or status_code == 400:
-				error_data = simplejson.loads(r.text)
+				error_data = json.loads(r.text)
 				raise_404_with_messages(self.request, error_data)
 			else:
 				raise Http404
@@ -1257,7 +1264,7 @@ class GeographyDetailView(TemplateView):
 					return HttpResponseRedirect(
 						reverse('geography_detail', args=(fragment,)
 					))
-				except Exception, e:
+				except Exception as e:
 					# if we have a strange situation where there's no
 					# display name attached to the geography, we should
 					# go ahead and display the profile page
@@ -1276,83 +1283,102 @@ class GeographyDetailView(TemplateView):
 		status_code = r.status_code
 
 		if status_code == 200:
-			geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+			geo_data = json.loads(r.text, object_pairs_hook=OrderedDict)
 			return geo_data
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '/1.0/data/hip-profiles/2017/%s.json' % geo_id.upper()
+		return '1.0/data/hip-profiles/2017/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
-			logger.warn(s3)
-			lookup = s3.lookup('d3-sd-child')
+			s3_session = boto3.Session(
+				aws_access_key_id=settings.AWS_KEY,
+				aws_secret_access_key=settings.AWS_SECRET,
+				region_name='us-east-2'
+			)
+			s3 = s3_session.resource('s3')
 		else:
-			try:
-				s3 = S3Connection()
-			except:
-				s3 = None
+			s3 = None
+
 		return s3
 
 	def s3_profile_key(self, geo_id):
 		s3 = self.make_s3()
 
-		key = None
-		if s3:  
-			bucket = s3.get_bucket('d3-sd-child')
+		s3_object = None
+		if s3:
 			keyname = self.s3_keyname(geo_id)
-			key = Key(bucket, keyname)
-		
-		return key
+			s3_object = s3.Object('d3-sd-child', keyname)
+				
+		return s3_object
 
-	def write_profile_json(self, s3_key, data):
-		s3_key.metadata['Content-Type'] = 'application/json'
-		s3_key.metadata['Content-Encoding'] = 'gzip'
-		s3_key.storage_class = 'REDUCED_REDUNDANCY'
-
+	def write_profile_json(self, s3_object, data, geo_id):
 		# create gzipped version of json in memory
-		memfile = cStringIO.StringIO()
+		memfile = BytesIO()
 		#memfile.write(data)
-		with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-			gzip_data.write(data)
+		keyname = self.s3_keyname(geo_id)
+		data_as_bytes = str.encode(data)
+		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data_as_bytes)
 		memfile.seek(0)
 
 		# store static version on S3
-		s3_key.set_contents_from_file(memfile)
-
+		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
+		
 	def get_context_data(self, *args, **kwargs):
 		geography_id = self.geo_id
-
+		logger.warn(geography_id)	
 		try:
-			s3_key = self.s3_profile_key(geography_id)
+			s3_object = self.s3_profile_key(geography_id)
 		except:
-			s3_key = None
+			s3_object = None
 
-		if s3_key and s3_key.exists():
-			memfile = cStringIO.StringIO()
-			s3_key.get_file(memfile)
-			memfile.seek(0)
-			compressed = gzip.GzipFile(fileobj=memfile)
+		if s3_object:
+			try:
+				buf = BytesIO(s3_object.get()["Body"].read())
+				compressed = gzip.GzipFile(fileobj=buf)
+				# Read the decompressed JSON from S3
+				string_as_bytes = compressed.read()
+				profile_data_json = string_as_bytes.decode()
+				# Load it into a Python dict for the template
+				profile_data = json.loads(profile_data_json)
+				# Also mark it as safe for the charts on the profile
+				profile_data_json = SafeString(profile_data_json)
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
-			# Read the decompressed JSON from S3
-			profile_data_json = compressed.read()
-			# Load it into a Python dict for the template
-			profile_data = simplejson.loads(profile_data_json)
-			# Also mark it as safe for the charts on the profile
-			profile_data_json = SafeString(profile_data_json)
+					if profile_data:
+						profile_data = enhance_api_data(profile_data)
+
+						profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
+
+						if s3_object is None:
+							logger.warn("Could not save to S3 because there was no connection to S3.")
+						else:
+							self.write_profile_json(s3_object, profile_data_json, geography_id)
+
+					else:
+						raise Http404				
+				else:
+					# Something else has gone wrong.
+					logger.warn(e)
+					raise Http404
 		else:
+			# The object does exist.
 			profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data:
 				profile_data = enhance_api_data(profile_data)
 
-				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+				profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
 
-				if s3_key is None:
+				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_key, profile_data_json)
+					self.write_profile_json(s3_object, profile_data_json, geography_id)
 
 			else:
 				raise Http404
@@ -1406,7 +1432,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 					return HttpResponseRedirect(
 						reverse('geography_detail', args=(fragment,)
 					))
-				except Exception, e:
+				except Exception as e:
 					# if we have a strange situation where there's no
 					# display name attached to the geography, we should
 					# go ahead and display the profile page
@@ -1425,50 +1451,113 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		status_code = r.status_code
 
 		if status_code == 200:
-			geo_data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+			geo_data = json.loads(r.text, object_pairs_hook=OrderedDict)
 			return geo_data
 		return None
 
 	def s3_keyname(self, year, geo_id):
-		return '/1.0/data/hip-profiles/%s/%s.json' % (year, geo_id.upper())
+		return '1.0/data/hip-profiles/%s/%s.json' % (year, geo_id.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
-			logger.warn(s3)
-			lookup = s3.lookup('d3-sd-child')
+			s3_session = boto3.Session(
+				aws_access_key_id=settings.AWS_KEY,
+				aws_secret_access_key=settings.AWS_SECRET,
+				region_name='us-east-2'
+			)
+			s3 = s3_session.resource('s3')
 		else:
-			try:
-				s3 = S3Connection()
-			except:
-				s3 = None
+			s3 = None
+
 		return s3
 
 	def s3_profile_key(self, year, geo_id):
 		s3 = self.make_s3()
 
-		key = None
-		if s3:  
-			bucket = s3.get_bucket('d3-sd-child')
+		s3_object = None
+		if s3:
 			keyname = self.s3_keyname(year, geo_id)
-			key = Key(bucket, keyname)
-		
-		return key
+			s3_object = s3.Object('d3-sd-child', keyname)
+				
+		return s3_object
 
-	def write_profile_json(self, s3_key, data):
-		s3_key.metadata['Content-Type'] = 'application/json'
-		s3_key.metadata['Content-Encoding'] = 'gzip'
-		s3_key.storage_class = 'REDUCED_REDUNDANCY'
-
+	def write_profile_json(self, s3_object, data, year, geo_id):
 		# create gzipped version of json in memory
-		memfile = cStringIO.StringIO()
+		memfile = BytesIO()
 		#memfile.write(data)
-		with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-			gzip_data.write(data)
+		keyname = self.s3_keyname(year, geo_id)
+		data_as_bytes = str.encode(data)
+		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data_as_bytes)
 		memfile.seek(0)
 
 		# store static version on S3
-		s3_key.set_contents_from_file(memfile)
+		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
+
+
+	def get_context_data(self, *args, **kwargs):
+		geography_id = self.geo_id
+
+		try:
+			s3_object = self.s3_profile_key(geography_id)
+		except:
+			s3_object = None
+
+		if s3_object:
+			try:
+				buf = BytesIO(s3_object.get()["Body"].read())
+				compressed = gzip.GzipFile(fileobj=buf)
+				# Read the decompressed JSON from S3
+				string_as_bytes = compressed.read()
+				profile_data_json = string_as_bytes.decode()
+				# Load it into a Python dict for the template
+				profile_data = json.loads(profile_data_json)
+				# Also mark it as safe for the charts on the profile
+				profile_data_json = SafeString(profile_data_json)
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					profile_data = geo_profile(geography_id, 'acs2017_5yr')
+
+					if profile_data:
+						profile_data = enhance_api_data(profile_data)
+
+						profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
+
+						if s3_object is None:
+							logger.warn("Could not save to S3 because there was no connection to S3.")
+						else:
+							self.write_profile_json(s3_object, profile_data_json, geography_id)
+
+					else:
+						raise Http404				
+				else:
+					# Something else has gone wrong.
+					logger.warn(e)
+					raise Http404
+		else:
+			# The object does exist.
+			profile_data = geo_profile(geography_id, 'acs2017_5yr')
+
+			if profile_data:
+				profile_data = enhance_api_data(profile_data)
+
+				profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
+
+				if s3_object is None:
+					logger.warn("Could not save to S3 because there was no connection to S3.")
+				else:
+					self.write_profile_json(s3_object, profile_data_json, geography_id)
+
+			else:
+				raise Http404
+
+		page_context = {
+			'profile_data_json': profile_data_json
+		}
+		page_context.update(profile_data)
+
+
 
 
 	def get_context_data(self, *args, **kwargs):
@@ -1478,35 +1567,54 @@ class TimeSeriesGeographyDetailView(TemplateView):
 
 		# current year
 		try:
-			s3_key = self.s3_profile_key(current_year, geography_id)
+			s3_object = self.s3_profile_key(current_year, geography_id)
 		except:
-			s3_key = None
+			s3_object = None
 
-		if s3_key and s3_key.exists():
-			memfile = cStringIO.StringIO()
-			s3_key.get_file(memfile)
-			memfile.seek(0)
-			compressed = gzip.GzipFile(fileobj=memfile)
+		if s3_object:
+			try:
+				buf = BytesIO(s3_object.get()["Body"].read())
+				compressed = gzip.GzipFile(fileobj=buf)
+				# Read the decompressed JSON from S3
+				string_as_bytes = compressed.read()
+				profile_data_json_current_year = string_as_bytes.decode()
+				# Load it into a Python dict for the template
+				profile_data_current_year = json.loads(profile_data_json_current_year)
+				# Also mark it as safe for the charts on the profile
+				profile_data_json_current_year = SafeString(profile_data_json_current_year)
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
 
-			# Read the decompressed JSON from S3
-			profile_data_json_current_year = compressed.read()
-			# Load it into a Python dict for the template
-			profile_data_current_year = simplejson.loads(profile_data_json_current_year)
-			# Also mark it as safe for the charts on the profile
-			profile_data_json_current_year = SafeString(profile_data_json_current_year)
+					if profile_data_current_year:
+						profile_data_current_year = enhance_api_data(profile_data_current_year)
+
+						profile_data_json_current_year = SafeString(json.dumps(profile_data_current_year, cls=LazyEncoder))
+
+						if s3_object is None:
+							logger.warn("Could not save to S3 because there was no connection to S3.")
+						else:
+							self.write_profile_json(s3_object, profile_data_current_year, current_year, geography_id)
+					else:
+						raise Http404				
+				else:
+					# Something else has gone wrong.
+					logger.warn(e)
+					raise Http404
 		else:
+			# The object does exist.
 			profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data_current_year:
 				profile_data_current_year = enhance_api_data(profile_data_current_year)
 
-				profile_data_json_current_year = SafeString(simplejson.dumps(profile_data_current_year, cls=LazyEncoder))
+				profile_data_json_current_year = SafeString(json.dumps(profile_data_current_year, cls=LazyEncoder))
 
-				if s3_key is None:
+				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_key, profile_data_current_year)
-
+					self.write_profile_json(s3_object, profile_data_current_year, current_year, geography_id)
 			else:
 				raise Http404
 
@@ -1519,35 +1627,54 @@ class TimeSeriesGeographyDetailView(TemplateView):
 
 		# past year
 		try:
-			s3_key = self.s3_profile_key(past_year, geography_id)
+			s3_object = self.s3_profile_key(past_year, geography_id)
 		except:
-			s3_key = None
+			s3_object = None
 
-		if s3_key and s3_key.exists():
-			memfile = cStringIO.StringIO()
-			s3_key.get_file(memfile)
-			memfile.seek(0)
-			compressed = gzip.GzipFile(fileobj=memfile)
+		if s3_object:
+			try:
+				buf = BytesIO(s3_object.get()["Body"].read())
+				compressed = gzip.GzipFile(fileobj=buf)
+				# Read the decompressed JSON from S3
+				string_as_bytes = compressed.read()
+				profile_data_json_past_year = string_as_bytes.decode()
+				# Load it into a Python dict for the template
+				profile_data_past_year = json.loads(profile_data_json_past_year)
+				# Also mark it as safe for the charts on the profile
+				profile_data_json_past_year = SafeString(profile_data_json_past_year)
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					profile_data_past_year = geo_profile(geography_id, 'acs2017_5yr')
 
-			# Read the decompressed JSON from S3
-			profile_data_json_past_year = compressed.read()
-			# Load it into a Python dict for the template
-			profile_data_past_year = simplejson.loads(profile_data_json_past_year)
-			# Also mark it as safe for the charts on the profile
-			profile_data_json_past_year = SafeString(profile_data_json_past_year)
+					if profile_data_past_year:
+						profile_data_past_year = enhance_api_data(profile_data_past_year)
+
+						profile_data_json_past_year = SafeString(json.dumps(profile_data_past_year, cls=LazyEncoder))
+
+						if s3_object is None:
+							logger.warn("Could not save to S3 because there was no connection to S3.")
+						else:
+							self.write_profile_json(s3_object, profile_data_past_year, past_year, geography_id)
+					else:
+						raise Http404				
+				else:
+					# Something else has gone wrong.
+					logger.warn(e)
+					raise Http404
 		else:
-			profile_data_past_year = geo_profile(geography_id, 'acs2012_5yr')
+			# The object does exist.
+			profile_data_past_year = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data_past_year:
-				profile_data_past_year= enhance_api_data(profile_data_past_year)
+				profile_data_past_year = enhance_api_data(profile_data_past_year)
 
-				profile_data_json_past_year = SafeString(simplejson.dumps(profile_data_past_year, cls=LazyEncoder))
+				profile_data_json_past_year = SafeString(json.dumps(profile_data_past_year, cls=LazyEncoder))
 
-				if s3_key is None:
+				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_key, profile_data_json_past_year)
-
+					self.write_profile_json(s3_object, profile_data_past_year, past_year, geography_id)
 			else:
 				raise Http404
 
@@ -1583,79 +1710,98 @@ class CustomGeographyDetailView(TemplateView):
 		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '/1.0/data/hip-custom-profiles/%s.json' % (self.slug.upper())
+		return '1.0/data/hip-custom-profiles/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
-			logger.warn(s3)
-			lookup = s3.lookup('d3-sd-child')
+			s3_session = boto3.Session(
+				aws_access_key_id=settings.AWS_KEY,
+				aws_secret_access_key=settings.AWS_SECRET,
+				region_name='us-east-2'
+			)
+			s3 = s3_session.resource('s3')
 		else:
-			try:
-				s3 = S3Connection()
-			except:
-				s3 = None
+			s3 = None
+
 		return s3
 
-	def s3_profile_key(self):
+	def s3_profile_key(self, geo_id):
 		s3 = self.make_s3()
-		key = None
-		if s3:  
-			bucket = s3.get_bucket('d3-sd-child')
-			keyname = self.s3_keyname()
-			key = Key(bucket, keyname)
-		
-		return key
 
-	def write_profile_json(self, s3_key, data):
-		s3_key.metadata['Content-Type'] = 'application/json'
-		s3_key.metadata['Content-Encoding'] = 'gzip'
-		s3_key.storage_class = 'REDUCED_REDUNDANCY'
+		s3_object = None
+		if s3:
+			keyname = self.s3_keyname(geo_id)
+			s3_object = s3.Object('d3-sd-child', keyname)
+				
+		return s3_object
 
+	def write_profile_json(self, s3_object, data, geo_id):
 		# create gzipped version of json in memory
-		memfile = cStringIO.StringIO()
+		memfile = BytesIO()
 		#memfile.write(data)
-		with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-			gzip_data.write(data)
+		keyname = self.s3_keyname(geo_id)
+		data_as_bytes = str.encode(data)
+		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data_as_bytes)
 		memfile.seek(0)
 
 		# store static version on S3
-		s3_key.set_contents_from_file(memfile)
+		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
 
 
 	def get_context_data(self, *args, **kwargs):
-
+		geography_id = self.geo_id
+		logger.warn(geography_id)	
 		try:
-			s3_key = self.s3_profile_key()
+			s3_object = self.s3_profile_key(geography_id)
 		except:
-			s3_key = None
+			s3_object = None
 
-		print s3_key
+		if s3_object:
+			try:
+				buf = BytesIO(s3_object.get()["Body"].read())
+				compressed = gzip.GzipFile(fileobj=buf)
+				# Read the decompressed JSON from S3
+				string_as_bytes = compressed.read()
+				profile_data_json = string_as_bytes.decode()
+				# Load it into a Python dict for the template
+				profile_data = json.loads(profile_data_json)
+				# Also mark it as safe for the charts on the profile
+				profile_data_json = SafeString(profile_data_json)
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
-		if s3_key and s3_key.exists():
-			memfile = cStringIO.StringIO()
-			s3_key.get_file(memfile)
-			memfile.seek(0)
-			compressed = gzip.GzipFile(fileobj=memfile)
+					if profile_data:
+						profile_data = enhance_api_data(profile_data)
 
-			# Read the decompressed JSON from S3
-			profile_data_json = compressed.read()
-			# Load it into a Python dict for the template
-			profile_data = simplejson.loads(profile_data_json)
-			# Also mark it as safe for the charts on the profile
-			profile_data_json = SafeString(profile_data_json)
+						profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
+
+						if s3_object is None:
+							logger.warn("Could not save to S3 because there was no connection to S3.")
+						else:
+							self.write_profile_json(s3_object, profile_data_json, geography_id)
+
+					else:
+						raise Http404				
+				else:
+					# Something else has gone wrong.
+					logger.warn(e)
+					raise Http404
 		else:
-			profile_data = create_custom_profile(self.slug, 'custom')
+			# The object does exist.
+			profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data:
-				# profile_data = enhance_api_data(profile_data)
+				profile_data = enhance_api_data(profile_data)
 
-				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+				profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
 
-				if s3_key is None:
+				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_key, profile_data_json)
+					self.write_profile_json(s3_object, profile_data_json, geography_id)
 
 			else:
 				raise Http404
@@ -1682,79 +1828,98 @@ class DistrictGeographyDetailView(TemplateView):
 		return super(DistrictGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '/1.0/data/districts/%s.json' % (self.slug.upper())
+		return '1.0/data/hip-districts/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
-			logger.warn(s3)
-			lookup = s3.lookup('d3-sd-child')
+			s3_session = boto3.Session(
+				aws_access_key_id=settings.AWS_KEY,
+				aws_secret_access_key=settings.AWS_SECRET,
+				region_name='us-east-2'
+			)
+			s3 = s3_session.resource('s3')
 		else:
-			try:
-				s3 = S3Connection()
-			except:
-				s3 = None
+			s3 = None
+
 		return s3
 
-	def s3_profile_key(self):
+	def s3_profile_key(self, geo_id):
 		s3 = self.make_s3()
-		key = None
-		if s3:  
-			bucket = s3.get_bucket('d3-sd-child')
-			keyname = self.s3_keyname()
-			key = Key(bucket, keyname)
-		
-		return key
 
-	def write_profile_json(self, s3_key, data):
-		s3_key.metadata['Content-Type'] = 'application/json'
-		s3_key.metadata['Content-Encoding'] = 'gzip'
-		s3_key.storage_class = 'REDUCED_REDUNDANCY'
+		s3_object = None
+		if s3:
+			keyname = self.s3_keyname(geo_id)
+			s3_object = s3.Object('d3-sd-child', keyname)
+				
+		return s3_object
 
+	def write_profile_json(self, s3_object, data, geo_id):
 		# create gzipped version of json in memory
-		memfile = cStringIO.StringIO()
+		memfile = BytesIO()
 		#memfile.write(data)
-		with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-			gzip_data.write(data)
+		keyname = self.s3_keyname(geo_id)
+		data_as_bytes = str.encode(data)
+		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data_as_bytes)
 		memfile.seek(0)
 
 		# store static version on S3
-		s3_key.set_contents_from_file(memfile)
+		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
 
 
 	def get_context_data(self, *args, **kwargs):
-
+		geography_id = self.geo_id
+		logger.warn(geography_id)	
 		try:
-			s3_key = self.s3_profile_key()
+			s3_object = self.s3_profile_key(geography_id)
 		except:
-			s3_key = None
+			s3_object = None
 
-		print s3_key
+		if s3_object:
+			try:
+				buf = BytesIO(s3_object.get()["Body"].read())
+				compressed = gzip.GzipFile(fileobj=buf)
+				# Read the decompressed JSON from S3
+				string_as_bytes = compressed.read()
+				profile_data_json = string_as_bytes.decode()
+				# Load it into a Python dict for the template
+				profile_data = json.loads(profile_data_json)
+				# Also mark it as safe for the charts on the profile
+				profile_data_json = SafeString(profile_data_json)
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
-		if s3_key and s3_key.exists():
-			memfile = cStringIO.StringIO()
-			s3_key.get_file(memfile)
-			memfile.seek(0)
-			compressed = gzip.GzipFile(fileobj=memfile)
+					if profile_data:
+						profile_data = enhance_api_data(profile_data)
 
-			# Read the decompressed JSON from S3
-			profile_data_json = compressed.read()
-			# Load it into a Python dict for the template
-			profile_data = simplejson.loads(profile_data_json)
-			# Also mark it as safe for the charts on the profile
-			profile_data_json = SafeString(profile_data_json)
+						profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
+
+						if s3_object is None:
+							logger.warn("Could not save to S3 because there was no connection to S3.")
+						else:
+							self.write_profile_json(s3_object, profile_data_json, geography_id)
+
+					else:
+						raise Http404				
+				else:
+					# Something else has gone wrong.
+					logger.warn(e)
+					raise Http404
 		else:
-			profile_data = create_custom_profile(self.slug, 'district')
+			# The object does exist.
+			profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data:
-				# profile_data = enhance_api_data(profile_data)
+				profile_data = enhance_api_data(profile_data)
 
-				profile_data_json = SafeString(simplejson.dumps(profile_data, cls=LazyEncoder))
+				profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
 
-				if s3_key is None:
+				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_key, profile_data_json)
+					self.write_profile_json(s3_object, profile_data_json, geography_id)
 
 			else:
 				raise Http404
@@ -1864,14 +2029,14 @@ class DataView(TemplateView):
 					status_code = r.status_code
 
 					if status_code == 200:
-						data = simplejson.loads(r.text)
+						data = json.loads(r.text)
 						for key in data:
 							if key == 'features':
 								for value in data[key]:
 									d3_all_geoids.append(value['properties']['geoid'])
 
 					elif status_code == 404 or status_code == 400:
-						error_data = simplejson.loads(r.text)
+						error_data = json.loads(r.text)
 						raise_404_with_messages(self.request, error_data)
 					else:
 						raise Http404
@@ -2777,54 +2942,55 @@ class ComparisonBuilder(TemplateView):
 		return page_context
 
 class S3Conn(object):
+
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
-			s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
-			logger.warn(s3)
+			s3_session = boto3.Session(
+				aws_access_key_id=settings.AWS_KEY,
+				aws_secret_access_key=settings.AWS_SECRET,
+				region_name='us-east-2'
+			)
+			s3 = s3_session.resource('s3')
 		else:
-			try:
-				s3 = S3Connection()
-			except:
-				s3 = None
+			s3 = None
+
 		return s3
 
-	def s3_key(self, key_name):
+	def s3_object(self, key_name):
 		s3 = self.make_s3()
 
-		key = None
+		s3_object = None
 		if s3:
-			bucket = s3.get_bucket('d3-sd-child')
-			key = Key(bucket, key_name)
-		return key
+			s3_object = s3.Object('d3-sd-child', key_name)
+				
+		return s3_object
 
-	def write_json(self, s3_key, data):
-		s3_key.metadata['Content-Type'] = 'application/json'
-		s3_key.metadata['Content-Encoding'] = 'gzip'
-		s3_key.storage_class = 'REDUCED_REDUNDANCY'
-
+	def write_json(self, s3_object, data, geo_id):
 		# create gzipped version of json in memory
-		memfile = cStringIO.StringIO()
+		memfile = BytesIO()
 		#memfile.write(data)
-		with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-			gzip_data.write(data)
+		keyname = self.s3_keyname(geo_id)
+		data_as_bytes = str.encode(data)
+		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data_as_bytes)
 		memfile.seek(0)
 
 		# store static version on S3
-		s3_key.set_contents_from_file(memfile)
+		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
 
 class MakeJSONView(View):
 	def post(self, request, *args, **kwargs):
 		post_data = self.request.POST
 
 		if 'chart_data' in post_data:
-			chart_data = simplejson.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
+			chart_data = json.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
 		if 'geography' in post_data:
-			geography = simplejson.loads(post_data['geography'], object_pairs_hook=OrderedDict)
+			geography = json.loads(post_data['geography'], object_pairs_hook=OrderedDict)
 		if 'geo_metadata' in post_data:
-			geo_metadata = simplejson.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
+			geo_metadata = json.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
 
 		if 'params' in post_data:
-			params = simplejson.loads(post_data['params'])
+			params = json.loads(post_data['params'])
 
 		# for now, assume we need all these things
 		if not (chart_data and geography and geo_metadata and params):
@@ -2844,21 +3010,28 @@ class MakeJSONView(View):
 
 		nested_set(data, path_to_make, chart_data)
 
-		chart_data_json = SafeString(simplejson.dumps(data, cls=LazyEncoder))
+		chart_data_json = SafeString(json.dumps(data, cls=LazyEncoder))
 
 		key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
 		s3 = S3Conn()
 
 		try:
-			s3_key = s3.s3_key(key_name)
+			s3_object = s3.s3_object(key_name)
 		except:
-			s3_key = None
+			s3_object = None
 
-		if s3_key and s3_key.exists():
-			pass
-		elif s3_key:
-			s3.write_json(s3_key, chart_data_json)
+		if s3_object:
+			try:
+				pass
+			except botocore.exceptions.ClientError as e:
+				if e.response['Error']['Code'] == "404":
+					# The object does not exist.
+					s3.write_json(s3_object, chart_data_json, params['geoID'])			
+				else:
+					# Something else has gone wrong.
+					logger.warn("Could not save to S3 because there was no connection to S3.")
 		else:
+			# The object does exist.
 			logger.warn("Could not save to S3 because there was no connection to S3.")
 
 		return render_json_to_response({'success': 'true'})
@@ -2887,7 +3060,7 @@ class PlaceSearchJson(View):
 			allowed_sumlev_list = self.request.GET['sumlevs'].split(',')
 			geographies = geographies.filter(sumlev__in=allowed_sumlev_list)
 
-		geographies = geographies.values()
+		geographies = list(geographies.values())
 		geographies = geographies.only('full_name','full_geoid','sumlev')
 
 		return render_json_to_response(list(geographies))
@@ -2962,12 +3135,12 @@ class TableSearchJson(View):
 
 		table = self.request.GET.get('table', None)
 		if table:
-			tables = tables.filter(table_name__icontains=table).values()
+			tables = list(tables.filter(table_name__icontains=table).values())
 			results['tables'] = list(tables)
 
 		column = self.request.GET.get('column', None)
 		if column:
-			columns = columns.filter(column_name__icontains=column).values()
+			columns = list(columns.filter(column_name__icontains=column).values())
 			columns = columns.only('table', 'parent_table_id', 'column_name', 'column_id')
 			results['columns'] = list(columns)
 
@@ -3033,7 +3206,7 @@ class SearchResultsView(TemplateView):
 				item['sumlevel_name'] = capitalized
 
 				# Increment count if found, otherwise add and start count
-				if item['sumlevel'] in sumlevels.keys():
+				if item['sumlevel'] in list(sumlevels.keys()):
 					sumlevels[item['sumlevel']][1] += 1
 				else:
 					sumlevels[item['sumlevel']] = [capitalized, 1]
@@ -3042,7 +3215,7 @@ class SearchResultsView(TemplateView):
 
 				# Change format from { sumlevel: [sumlevel_name, count] }
 				# to { sumlevel_name: count }
-				page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
+				page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in six.iteritems(sumlevels))
 
 			elif item['type'] == "table":
 				has_tables = True
@@ -3056,7 +3229,7 @@ class SearchResultsView(TemplateView):
 
 				# Increment count if found, otherwise add and start count
 				for topic in topics:
-					if topic in all_topics.keys():
+					if topic in list(all_topics.keys()):
 						all_topics[topic] += 1
 					else:
 						all_topics[topic] = 1
@@ -3106,13 +3279,13 @@ class Elasticsearch(TemplateView):
 			r = requests.get(api_endpoint, params=api_params)
 			status_code = r.status_code
 
-			#print r.url
+			#print(r.url)
 			if status_code == 200:
-				data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+				data = json.loads(r.text, object_pairs_hook=OrderedDict)
 				page_context['geos'] = data['results']
 				page_context['g'] = geo_select
 			elif status_code == 404 or status_code == 400:
-				error_data = simplejson.loads(r.text)
+				error_data = json.loads(r.text)
 				raise_404_with_messages(self.request, error_data)
 			else:
 				raise Http404
@@ -3125,10 +3298,10 @@ class Elasticsearch(TemplateView):
 			status_code = r.status_code
 
 			if status_code == 200:
-				data = simplejson.loads(r.text, object_pairs_hook=OrderedDict)
+				data = json.loads(r.text, object_pairs_hook=OrderedDict)
 				page_context['tables'] = data['results']
 			elif status_code == 404 or status_code == 400:
-				error_data = simplejson.loads(r.text)
+				error_data = json.loads(r.text)
 				raise_404_with_messages(self.request, error_data)
 			else:
 				raise Http404

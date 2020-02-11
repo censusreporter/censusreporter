@@ -1,14 +1,18 @@
+from __future__ import absolute_import
+from __future__ import print_function
 from django.core.management.base import BaseCommand
 from multiprocessing import Pool
 from traceback import format_exc
-import boto
-from boto.s3.connection import S3Connection
-from boto.s3.key import Key
+import boto3
+from boto3 import Session
+# import boto
+# from boto.s3.connection import S3Connection
+# from boto.s3.key import Key
 
 from django.conf import settings
 
 import json
-import cStringIO
+from io import StringIO
 import gzip
 
 from ...profile import geo_profile, enhance_api_data
@@ -44,7 +48,7 @@ def write_profile_json(s3_key, data):
     s3_key.storage_class = 'REDUCED_REDUNDANCY'
 
     # create gzipped version of json in memory
-    memfile = cStringIO.StringIO()
+    memfile = StringIO.StringIO()
     #memfile.write(data)
     with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
         gzip_data.write(data)
@@ -54,18 +58,18 @@ def write_profile_json(s3_key, data):
     s3_key.set_contents_from_file(memfile)
 
 def seed(geoid):
-    print "Working on {}".format(geoid)
+    print("Working on {}".format(geoid))
     try:
         api_data = geo_profile(geoid, 'acs2012_5yr')
         api_data = enhance_api_data(api_data)
 
         s3key = key(geoid)
         write_profile_json(s3key, json.dumps(api_data))
-        print "Wrote to key {}".format(s3key)
-    except Exception, e:
+        print("Wrote to key {}".format(s3key))
+    except Exception as e:
         logger.error("Problem caching {}".format(geoid))
         logger.exception(e)
-    print "Done working on {}".format(geoid)
+    print("Done working on {}".format(geoid))
 
 
 class Command(BaseCommand):
@@ -73,7 +77,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not args:
-            print "Please include the name of a file containing the seed geo_ids."
+            print("Please include the name of a file containing the seed geo_ids.")
             return False
 
         parallelism = 1

@@ -50,3 +50,5 @@ node_modules/
 config/base/settings.py
 .vagrant
 requirements.txt
+p3env/
+*.bak

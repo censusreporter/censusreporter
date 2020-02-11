@@ -1,21 +1,25 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import json
 import math
 import operator
 import requests
 import time
-import cStringIO
+from io import StringIO
 import gzip
-import boto
-import boto.s3.connection
+import boto3
+from boto3 import Session
+#import boto
+#import boto.s3.connection
 
 from collections import OrderedDict
 from django.conf import settings
-from django.utils import simplejson
+import json
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 from .models import Dashboards, Districts
 
-from boto.s3.connection import S3Connection, Location
-from boto.s3.key import Key
+#from boto.s3.connection import S3Connection, Location
+#from boto.s3.key import Key
 
 import logging
 logging.basicConfig()
@@ -61,44 +65,51 @@ def custom_s3_keyname(geo_id):
 
 def custom_make_s3():
 	if settings.AWS_KEY and settings.AWS_SECRET:
-		custom_s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
+		custom_s3 = boto3.Session(
+			aws_access_key_id=settings.AWS_KEY,
+			aws_secret_access_key=settings.AWS_SECRET,
+			region_name='us-east-2'
+		)
+		#custom_s3 = boto.s3.connect_to_region('us-east-2', aws_access_key_id=settings.AWS_KEY,aws_secret_access_key=settings.AWS_SECRET, calling_format = boto.s3.connection.OrdinaryCallingFormat(),)
 		logger.warn(custom_s3)
-		custom_lookup = custom_s3.lookup('d3-sd-child')
+		#custom_lookup = custom_s3.lookup('d3-sd-child')
 	else:
-		try:
-			custom_s3 = S3Connection()
-		except:
-			custom_s3 = None
+		# try:
+		# 	custom_s3 = S3Connection()
+		# except:
+		# 	custom_s3 = None
+		custom_s3 = None
 	return custom_s3
 
-def custom_s3_profile_key(geo_id):
+def custom_s3_profile_object(geo_id):
 	custom_s3 = custom_make_s3()
-	custom_key = None
-	if custom_s3:  
-		custom_bucket = custom_s3.get_bucket('d3-sd-child')
+	custom_object = None
+	if custom_s3:
+		bucket = custom_s3.Bucket('d3-sd-child')
+		#custom_bucket = custom_s3.get_bucket('d3-sd-child')
 		custom_keyname = custom_s3_keyname(geo_id)
-		custom_key = Key(custom_bucket, custom_keyname)
+		custom_object = s3.Object(custom_bucket, custom_keyname)
 	
-	return custom_key
+	return custom_object
 
 def get_data(geo_id):
-	print geo_id
+	print(geo_id)
 	
 	try:
-		custom_s3_key = custom_s3_profile_key(geo_id)
+		custom_s3_object = custom_s3_profile_object(geo_id)
 	except:
-		custom_s3_key = None
+		custom_s3_object = None
 
-	if custom_s3_key and custom_s3_key.exists():
-		memfile = cStringIO.StringIO()
-		custom_s3_key.get_file(memfile)
+	if custom_s3_object and custom_s3_object.exists():
+		memfile = StringIO.StringIO()
+		custom_s3_object.get(memfile)
 		memfile.seek(0)
 		compressed = gzip.GzipFile(fileobj=memfile)
 
 		# Read the decompressed JSON from S3
 		profile_data_json = compressed.read()
 		# Load it into a Python dict for the template
-		profile_data = simplejson.loads(profile_data_json, object_pairs_hook=OrderedDict)
+		profile_data = json.loads(profile_data_json, object_pairs_hook=OrderedDict)
 	else:
 		profile_data = None
 
@@ -477,19 +488,19 @@ def create_custom_profile(slug, profile_type):
 	for top_level, top_level_data in sorted(doc.items()):
 		if top_level != 'geography' and top_level != 'geo_metadata':
 			for category, category_data in sorted(top_level_data.items()):
-				print category
+				print(category)
 				for sub_category, sub_category_data in sorted(category_data.items()):
 
 
 					if sub_category != 'metadata':
-						print sub_category
+						print(sub_category)
 						#print sub_category_data
 
 						# special case for grouped bar charts where sub categories should total 100%
 						if sub_category == 'marital_status_grouped' or sub_category == 'youth_school_enrollment_grouped' or sub_category == 'youth_school_employment_grouped' or sub_category == 'coverage_distribution':
 							denominator = dict()
 
-							keys = sub_category_data.keys()
+							keys = list(sub_category_data.keys())
 							if 'metadata' in keys:
 								keys.remove('metadata')
 							if 'acs_release' in keys:
@@ -501,13 +512,13 @@ def create_custom_profile(slug, profile_type):
 
 							#set up denom keys
 							for key, data in sorted(sub_category_data.items()):
-								keys = data.keys()
+								keys = list(data.keys())
 								for k in keys:
 									denominator[k] = None
 			
 
 							for key, data in sorted(sub_category_data.items()):
-								keys = data.keys()
+								keys = list(data.keys())
 								if 'metadata' in keys:
 									keys.remove('metadata')
 								if 'acs_release' in keys:
@@ -540,7 +551,7 @@ def create_custom_profile(slug, profile_type):
 													#print denominator[k]
 
 							for key, data in sorted(sub_category_data.items()):
-								keys = data.keys()
+								keys = list(data.keys())
 								if 'metadata' in keys:
 									keys.remove('metadata')
 								if 'acs_release' in keys:
@@ -592,7 +603,7 @@ def create_custom_profile(slug, profile_type):
 									denominator = None
 
 							#get keys
-							keys = sub_category_data.keys()
+							keys = list(sub_category_data.keys())
 							if 'metadata' in keys:
 								keys.remove('metadata')
 							if 'acs_release' in keys:
@@ -601,8 +612,8 @@ def create_custom_profile(slug, profile_type):
 								keys.remove('name')
 							
 							if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
-								print 'Keys 579:'
-								print keys
+								print('Keys 579:')
+								print(keys)
 								if not denominator:
 									for k in keys:
 										if 'values' in sub_category_data[k]:
@@ -627,7 +638,7 @@ def create_custom_profile(slug, profile_type):
 									if 'numerators' in sub_category_data[k]:
 										if 'custom' in sub_category_data[k]['numerators']:
 											numerator[k] = sub_category_data[k]['numerators']['custom']
- 							elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
+							elif sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
 								pass
 							else:
 								if 'numerators' in sub_category_data:
@@ -646,7 +657,7 @@ def create_custom_profile(slug, profile_type):
 
 							# special case for `poverty_family_educational_attainment` to flag if we've stored data for a parent key yet
 							if sub_category == 'poverty_family_educational_attainment':
-								parent_keys = sub_category_data.keys()
+								parent_keys = list(sub_category_data.keys())
 								if 'metadata' in parent_keys:
 									parent_keys.remove('metadata')
 								if 'acs_release' in parent_keys:
@@ -660,15 +671,15 @@ def create_custom_profile(slug, profile_type):
 
 							for key, data in sorted(sub_category_data.items()):
 								if sub_category == 'poverty_family_educational_attainment':
-									print key
-									print data
+									print(key)
+									print(data)
 
 									# numerators and denominators for poverty_family_educational_attainment
 								if (sub_category == 'poverty_family_educational_attainment') and (key != "metadata") and (key != "acs_release"):
 									if not numerator[key] and not denominator[key]:
-										keys = data.keys()
-										print "Keys 721:"
-										print keys
+										keys = list(data.keys())
+										print("Keys 721:")
+										print(keys)
 										if 'metadata' in keys:
 											keys.remove('metadata')
 										if 'acs_release' in keys:
@@ -685,8 +696,8 @@ def create_custom_profile(slug, profile_type):
 											if 'values' in data[k]:
 												if 'denominator' in data[k]['values']:
 													denominator[key][k] = data[k]['values']['denominator']																
-										print numerator
-										print denominator
+										print(numerator)
+										print(denominator)
 
 								if (key == 'values') or (key == 'error') or (key == 'numerator_errors') or (key == 'error_ratio') or (key == 'index') or (key == 'numerators'):
 									# special case for `per_capita_income_in_the_last_12_months`, `median_household_income` and `sat_all_subject`, `sat_math`, and `sat_reading_writing` keys
@@ -702,7 +713,7 @@ def create_custom_profile(slug, profile_type):
 								elif (key != 'name') and (key != 'acs_release') and (key != 'metadata'):
 
 									if denominator is None or not denominator:
-										keys = data.keys()
+										keys = list(data.keys())
 										if 'metadata' in keys:
 											keys.remove('metadata')
 										if 'acs_release' in keys:
@@ -732,7 +743,7 @@ def create_custom_profile(slug, profile_type):
 
 
 									if (sub_category == 'children_distribution_by_age') and not numerator:
-										keys = data.keys()
+										keys = list(data.keys())
 										if 'metadata' in keys:
 											keys.remove('metadata')
 										if 'acs_release' in keys:
@@ -795,7 +806,7 @@ def create_custom_profile(slug, profile_type):
 										elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
 											if denominator is None or not bool(denominator):
 												#get keys
-												keys = sub_data.keys()
+												keys = list(sub_data.keys())
 												if 'metadata' in keys:
 													keys.remove('metadata')
 												if 'acs_release' in keys:
@@ -823,7 +834,7 @@ def create_custom_profile(slug, profile_type):
 																	denominator = denominator
 
 											if (sub_category == 'children_distribution_by_age') and not numerator:
-												keys = sub_data.keys()
+												keys = list(sub_data.keys())
 												if 'metadata' in keys:
 													keys.remove('metadata')
 												if 'acs_release' in keys:
@@ -877,14 +888,14 @@ def create_custom_profile(slug, profile_type):
 												elif sub_category == 'poverty_family_educational_attainment':
 													for i, k in enumerate(keys):
 														if sub_key == k:
-															print key
-															print sub_key
-															print k
-															print "Sent to normalizer:"
-															print sub_sub_key
-															print sub_sub_data
-															print numerator
-															print denominator[key]
+															print(key)
+															print(sub_key)
+															print(k)
+															print("Sent to normalizer:")
+															print(sub_sub_key)
+															print(sub_sub_data)
+															print(numerator)
+															print(denominator[key])
 															try:
 																denominator_send = denominator[key][k]
 															except KeyError as e:

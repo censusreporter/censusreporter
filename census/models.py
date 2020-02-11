@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from django.db import models
 
 class Table(models.Model):
@@ -16,14 +17,14 @@ class Table(models.Model):
         return '%s' % self.table_name
 
 class Column(models.Model):
-    table = models.ForeignKey(Table)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
     parent_table_id = models.CharField(max_length=8)
     column_id = models.CharField(max_length=16)
     column_order = models.DecimalField(max_digits=4, decimal_places=1)
     column_name = models.CharField(max_length=255)
     indent_value = models.IntegerField(blank=True, null=True)
     parent_column_id = models.CharField(max_length=255)
-    has_children = models.BooleanField()
+    has_children = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('table__table_id','table__release','column_id')
@@ -46,8 +47,8 @@ class SummaryLevel(models.Model):
     source = models.CharField(max_length=64, blank=True)
     
     # Relationships
-    parent = models.ForeignKey('self', related_name='children', blank=True, null=True)
-    ancestors = models.ManyToManyField('self', related_name='descendants', symmetrical=False, blank=True, null=True)
+    parent = models.ForeignKey('self', related_name='children', blank=True, null=True, on_delete=models.CASCADE)
+    ancestors = models.ManyToManyField('self', related_name='descendants', symmetrical=False, blank=True)
     
     class Meta:
         ordering = ('summary_level',)

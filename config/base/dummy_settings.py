@@ -1,4 +1,5 @@
 # Django settings for censusreporter project.
+from __future__ import absolute_import
 import os
 
 dirname = os.path.dirname
@@ -67,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 

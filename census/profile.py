@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import json
 import math
 import operator
@@ -10,6 +12,7 @@ from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 
 import logging
+import six
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
@@ -20,8 +23,8 @@ class ApiClient(object):
 
 	def _get(self, path, params=None):
 		url = self.base_url + path
-		print url
-		print params
+		print(url)
+		print(params)
 		r = requests.get(url, params=params)
 		data = None
 		# print r
@@ -40,10 +43,10 @@ class ApiClient(object):
 		return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
 
 	def get_data(self, table_ids, geo_ids, acs='latest'):
-		if hasattr(table_ids, '__iter__'):
+		if (hasattr(table_ids, '__iter__')) and not (isinstance(table_ids, str)):
 			table_ids = ','.join(table_ids)
 
-		if hasattr(geo_ids, '__iter__'):
+		if (hasattr(geo_ids, '__iter__')) and not (isinstance(geo_ids, str)):
 			geo_ids = ','.join(geo_ids)
 
 		return self._get('/1.0/data/show/{}'.format(acs), params=dict(table_ids=table_ids, geo_ids=geo_ids))
@@ -55,7 +58,7 @@ class D3ApiClient(object):
 	def _get(self, table_id, field_name, geo_ids, layer_id):
 		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=json
 		url = self.base_url + '/' + table_id + '/FeatureServer/'+ layer_id +'/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
-		print url
+		print(url)
 		# using post
 		r = requests.post(url)
 		data = None
@@ -68,7 +71,7 @@ class D3ApiClient(object):
 
 	def get_data(self, table_id, field_name, geo_ids, layer_id='0'):
 
-		if hasattr(geo_ids, '__iter__'):
+		if (hasattr(geo_ids, '__iter__')) and not (isinstance(geo_ids, str)):
 			geo_ids = ','.join(geo_ids)
 
 		return self._get(table_id, field_name, geo_ids, layer_id)
@@ -93,7 +96,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 	# column headings
 	data['tables'][table_name]['columns'] = OrderedDict()
 
-	for key, field in fields.iteritems():
+	for key, field in six.iteritems(fields):
 		key = 'D3-' + key
 		data['tables'][table_name]['columns'][key] = OrderedDict()
 		data['tables'][table_name]['columns'][key]['name'] = field['name']
@@ -112,7 +115,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '040' and state_data:
 			try:
 				for feature in state_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -122,7 +125,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '050' and county_data:
 			try:
 				for feature in county_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -132,7 +135,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '060' and county_sd_data:
 			try:
 				for feature in county_sd_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -142,7 +145,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '140' and tract_data:
 			try:
 				for feature in tract_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0							
@@ -152,7 +155,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '150' and block_group_data:
 			try:
 				for feature in block_group_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -162,7 +165,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '310' and msa_data:
 			try:
 				for feature in msa_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -172,7 +175,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '500' and congressional_district_data:
 			try:
 				for feature in congressional_district_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -182,7 +185,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '610' and state_senate_data:
 			try:
 				for feature in state_senate_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -192,7 +195,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '620' and state_house_data:
 			try:
 				for feature in state_house_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -203,7 +206,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '860' and zcta_data:
 			try:
 				for feature in zcta_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -213,7 +216,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if (geo['sumlevel'] == '950' or geo['sumlevel'] == '960' or geo['sumlevel'] == '970') and school_district_data:
 			try:
 				for feature in school_district_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -244,7 +247,7 @@ def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
 	proportion = float(numerator) / denominator
 	try:
 		return math.sqrt(numerator_moe**2 - (proportion**2 * denominator_moe**2)) / float(denominator)
-	except ValueError, e:
+	except ValueError as e:
 		return moe_ratio(numerator, denominator, numerator_moe, denominator_moe)
 
 def moe_ratio(numerator, denominator, numerator_moe, denominator_moe):
@@ -256,7 +259,7 @@ def moe_ratio(numerator, denominator, numerator_moe, denominator_moe):
 ops = {
 	'+': operator.add,
 	'-': operator.sub,
-	'/': operator.div,
+	'/': operator.truediv,
 	'%': percentify,
 	'%%': rateify,
 }
@@ -339,7 +342,7 @@ def build_item(name, data, parents, rpn_string):
 		label = parent['relation']
 		geoid = parent['geoid']
 		data_for_geoid = dict(estimate={}, error={})
-		for table_id, table_data in data['data'][geoid].iteritems():
+		for table_id, table_data in six.iteritems(data['data'][geoid]):
 			data_for_geoid['estimate'].update(table_data['estimate'])
 			data_for_geoid['error'].update(table_data['error'])
 
@@ -1999,7 +2002,7 @@ def find_dicts_with_key(dictionary, searchkey):
 		d = stack.pop()
 		if searchkey in d:
 			dict_list.append(d)
-		for key, value in d.iteritems():
+		for key, value in six.iteritems(d):
 			if isinstance(value, dict) or isinstance(value, OrderedDict):
 				stack.append(value)
 
@@ -2008,7 +2011,7 @@ def find_dicts_with_key(dictionary, searchkey):
 def enhance_api_data(api_data):
 	dict_list = find_dicts_with_key(api_data, 'values')
 
-	print dict_list
+	print(dict_list)
 
 	for d in dict_list:
 		raw = {}
@@ -2089,4 +2092,4 @@ def enhance_api_data(api_data):
 	return api_data
 
 if __name__ == '__main__':
-	print json.dumps(geo_profile('04000US55'), indent=2)
+	print(json.dumps(geo_profile('04000US55'), indent=2))

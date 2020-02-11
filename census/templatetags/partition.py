@@ -15,7 +15,9 @@ A common use-case is for splitting a list into a table with columns::
     </table>
 """
 
+from __future__ import absolute_import
 from django.template import Library
+from six.moves import range
 
 register = Library()
 
