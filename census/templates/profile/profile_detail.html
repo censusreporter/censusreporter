@@ -81,6 +81,7 @@
             {% comment %} <option value="#">Jump to a section: </option> {% endcomment %}
             <optgroup label="Housing occupancy">
                 <option value="#occupancy">Housing occupancy</option>
+                <option value="#families-with-children">Families with children</option>
                 <option value="#vacancy-demolitions">Vacancy and demolitions</option>
                 <option value="#building-permits">Building permits</option>
                 <option value="#tax-foreclosures">Tax foreclosures</option>
@@ -102,12 +103,11 @@
             <optgroup label="Neighborhood demographics">
                 <option value="#households">Neighborhood demographics</option>
                 <option value="#households">Households</option>
-                <option value="#families-with-children">Families with children</option>
                 <option value="#youth-population">Youth population, sex &amp; age</option>
                 <option value="#income">Income</option>
                 <option value="#poverty">Poverty</option>
                 <option value="#vehicle-availability">Vehicle availability</option>
-                <option value="#voter-ages">Voter ages</option>
+                <option value="#voter-ages">Registered voter ages</option>
             </optgroup>
             <optgroup label="Neighborhood education">
                 <option value="#school-enrollment">Neighborhood education</option>
@@ -142,13 +142,26 @@
                   {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number stat_type='count' %}
               </div>
               <div class="column-half">
-                  <div id="chart-pie-housing-units-occupancy_distribution" data-chart-title="Distribution of occupancy" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.occupancy_distribution.metadata.universe }}"></div>
+                  <div id="chart-pie-housing-units-occupancy_distribution" data-chart-title="Distribution of occupancy (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.occupancy_distribution.metadata.universe }}"></div>
               </div>
         </section>
 
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
-              <div class="column-full" id="chart-grouped_column-housing-units-occupancy_by_race" data-stat-type="scaled-percentage" data-chart-title="Renter-occupied or owner-occupied by race" data-qualifier="Universe: {{ housing.units.occupancy_by_race.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+              <div class="column-full" id="chart-grouped_column-housing-units-occupancy_by_race" data-stat-type="scaled-percentage" data-chart-title="Renter-occupied or owner-occupied by race (2017)" data-qualifier="Universe: {{ housing.units.occupancy_by_race.metadata.universe }}; Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+        </section>
+
+        <section class="clearfix stat-row">
+            <aside>
+                <h2 class="header-for-columns"><a class="permalink section" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            </aside>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
+            </div>
+            <div class="column-third">
+                {% include 'profile/_blocks/_stat_list.html' with stat=families.households_with_children.percent_households_with_children stat_type='percentage' %}
+            </div>
+            <div class="column-third" id="chart-pie-families-family_types-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Own Children Under 18 Years by Family Type (2017)" data-qualifier="Universe: {{ families.family_types.children.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -171,12 +184,12 @@
                   {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.median_demo_cost stat_type='dollar' %}
               </div>
               <div class="column-two-thirds">
-                  <div id="chart-column-housing-units-demo_company_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of demolitions by company contracted for demolition (2019)" data-qualifier="Universe: {{ housing.units.demo_company_distribution.metadata.universe }}"></div>
+                  <div id="chart-column-housing-units-demo_company_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of demolitions by company contracted for demolition (2018)" data-qualifier="Universe: {{ housing.units.demo_company_distribution.metadata.universe }}"></div>
               </div>
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
-              <div class="column-full" id="chart-column-housing-units-demo_month_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of month structure demolished (2019)" data-qualifier="Universe: {{ housing.units.demo_month_distribution.metadata.universe }}"></div>
+              <div class="column-full" id="chart-column-housing-units-demo_month_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of month structure demolished (2018)" data-qualifier="Universe: {{ housing.units.demo_month_distribution.metadata.universe }}"></div>
         </section>
         <section class="clearfix stat-row">
             <aside>
@@ -260,10 +273,10 @@
                 <h2 class="header-for-columns"><a class="permalink section" href="#occupancy-tenure" id="occupancy-tenure" title="Permalink">Tenure status, rental size &amp; rents<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
               <div class="column-half">
-                  <div id="chart-pie-housing-units-tenure_distribution" data-chart-title="Distribution of occupancy by tenure status" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.tenure_distribution.metadata.universe }}"></div>                  
+                  <div id="chart-pie-housing-units-tenure_distribution" data-chart-title="Distribution of occupancy by tenure status (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.tenure_distribution.metadata.universe }}"></div>                  
               </div>
               <div class="column-half">
-                  <div id="chart-pie-housing-units-home_size_distribution" data-chart-title="Distributuon of rental unit size" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.home_size_distribution.metadata.universe }}"></div>
+                  <div id="chart-pie-housing-units-home_size_distribution" data-chart-title="Distributuon of rental unit size (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.home_size_distribution.metadata.universe }}"></div>
               </div>
         </section>
 
@@ -273,10 +286,10 @@
                 <h2 class="header-for-columns"><a class="permalink section" href="#rents-values" id="rents-values" title="Permalink">Rents &amp; housing values<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
               <div class="column-half">
-                  <div id="chart-column-housing-units-rent_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of rents" data-qualifier="Universe: {{ housing.units.rent_distribution.metadata.universe }}"></div>
+                  <div id="chart-column-housing-units-rent_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of rents (2017)" data-qualifier="Universe: {{ housing.units.rent_distribution.metadata.universe }}"></div>
               </div>
               <div class="column-half">
-                  <div id="chart-column-housing-units-value_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of owner-occupied housing value" data-qualifier="Universe: {{ housing.units.value_distribution.metadata.universe }}"></div>                
+                  <div id="chart-column-housing-units-value_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of owner-occupied housing value (2017)" data-qualifier="Universe: {{ housing.units.value_distribution.metadata.universe }}"></div>                
               </div>
         </section>        
 
@@ -284,7 +297,7 @@
             <aside>
                 <h2 class="header-for-columns"><a class="permalink section" href="#housing-burden" id="housing-burden" title="Permalink">Housing burden<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-              <div class="column-full" id="chart-grouped_column-housing-units-housing_burden" data-stat-type="scaled-percentage" data-chart-title="Housing burden by tenure" data-qualifier="Universe: {{ housing.units.housing_burden.metadata.universe }}"></div>
+              <div class="column-full" id="chart-grouped_column-housing-units-housing_burden" data-stat-type="scaled-percentage" data-chart-title="Housing burden by tenure (2017)" data-qualifier="Universe: {{ housing.units.housing_burden.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -295,7 +308,7 @@
                   {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_properties stat_type='number' %}
               </div>  
               <div class="column-two-thirds">
-                  <div id="chart-column-housing-units-pre_status_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of properties by PRE status (2018)" data-qualifier="Universe: {{ housing.units.pre_status_distribution.metadata.universe }}"></div>                
+                  <div id="chart-column-housing-units-pre_status_distribution" data-stat-type="number" data-chart-title="Distribution of properties by PRE status (2018)" data-qualifier="Universe: {{ housing.units.pre_status_distribution.metadata.universe }}"></div>                
               </div>              
         </section>
         <section class="clearfix stat-row grouped-row">
@@ -313,13 +326,13 @@
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
               <div class="column-full">
-                  <div id="chart-column-housing-units-sev_distribution" data-stat-type="dollar" data-chart-title="Distribution of properties by SEV (2018)" data-qualifier="Universe: {{ housing.units.sev_distribution.metadata.universe }}"></div>
+                  <div id="chart-column-housing-units-sev_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of properties by SEV (2018)" data-qualifier="Universe: {{ housing.units.sev_distribution.metadata.universe }}"></div>
               </div>   
         </section>
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
               <div class="column-full">
-                  <div id="chart-column-housing-units-taxable_status_distribution" data-stat-type="dollar" data-chart-title="Distribution of properties by taxable status (2018)" data-qualifier="Universe: {{ housing.units.taxable_status_distribution.metadata.universe }}"></div>
+                  <div id="chart-column-housing-units-taxable_status_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of properties by taxable status (2018)" data-qualifier="Universe: {{ housing.units.taxable_status_distribution.metadata.universe }}"></div>
               </div>   
         </section>
         <section class="clearfix stat-row">
@@ -378,10 +391,10 @@
             <aside>
             </aside>
               <div class="column-half">
-                  <div id="chart-pie-housing-units-owner_condition_distribution" data-chart-title="Owner-occupied housing units with substandard housing conditions" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.owner_condition_distribution.metadata.universe }}"></div>
+                  <div id="chart-pie-housing-units-owner_condition_distribution" data-chart-title="Owner-occupied housing units with substandard housing conditions (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.owner_condition_distribution.metadata.universe }}"></div>
               </div>
               <div class="column-half">
-                  <div id="chart-pie-housing-units-renter_condition_distribution" data-chart-title="Renter-occupied housing units with substandard housing conditions" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.renter_condition_distribution.metadata.universe }}"></div>
+                  <div id="chart-pie-housing-units-renter_condition_distribution" data-chart-title="Renter-occupied housing units with substandard housing conditions (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ housing.units.renter_condition_distribution.metadata.universe }}"></div>
               </div>
         </section>
 
@@ -448,20 +461,7 @@
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.households.persons_per_household stat_type='number' %}
             </div>
-            <div class="column-third" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Population by household type" data-qualifier="Universe: {{ families.households.distribution.metadata.universe }}"></div>
-        </section>
-
-        <section class="clearfix stat-row">
-            <aside>
-                <h2 class="header-for-columns"><a class="permalink section" href="#families-with-children" id="families-with-children" title="Permalink">Families with children <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            </aside>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.families_with_children.percent_familes_with_children stat_type='percentage' %}
-            </div>
-            <div class="column-third">
-                {% include 'profile/_blocks/_stat_list.html' with stat=families.households_with_children.percent_households_with_children stat_type='percentage' %}
-            </div>
-            <div class="column-third" id="chart-pie-families-family_types-children" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Own Children Under 18 Years by Family Type" data-qualifier="Universe: {{ families.family_types.children.metadata.universe }}"></div>
+            <div class="column-third" id="chart-pie-families-households-distribution" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Population by household type (2017)" data-qualifier="Universe: {{ families.households.distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -472,10 +472,10 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=demographics.child_pop.total stat_type='count' %}
             </div>
             <div class="column-third">
-                <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
+                <div id="chart-pie-demographics-child_sex" data-chart-title="Distribution of youth by sex (2017)" data-stat-type="percentage" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_sex.metadata.universe }}"></div>
             </div>        
             <div class="column-third">
-                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
+                <div id="chart-pie-demographics-child_age-distribution_by_category" data-stat-type="scaled-percentage" data-chart-title="Distribution of youth by age (2017)" data-initial-sort="-value" data-qualifier="Universe: {{ demographics.child_age.distribution_by_category.metadata.universe }}"></div>
             </div> 
         </section>
 
@@ -499,7 +499,7 @@
             <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.poverty.percent_below_poverty_line stat_type='percentage' %}
             </div>
-            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder" data-qualifier="Universe: {{ economics.poverty.poverty_family_educational_attainment.metadata.universe }}"></div>
+            <div class="column-three-quarters" id="chart-grouped_column-economics-poverty-poverty_family_educational_attainment" data-stat-type="scaled-percentage" data-chart-title="Family poverty rate by educational attainment of householder (2017)" data-qualifier="Universe: {{ economics.poverty.poverty_family_educational_attainment.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -509,18 +509,21 @@
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=economics.employment.mean_number_of_vehicles stat_type='number' stat_suffix='vehicles' %}
             </div>
-            <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
+            <div class="column-two-thirds" id="chart-histogram-economics-employment-distribution_vehicle_availabilty" data-chart-title="Vehicle available to workers, 16 years and over (2017)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ economics.employment.distribution_vehicle_availabilty.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
             <aside>
-              <h2 class="header-for-columns"><a class="permalink section" href="#voter-ages" id="voter-ages" title="Permalink">Voter ages <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+              <h2 class="header-for-columns"><a class="permalink section" href="#voter-ages" id="voter-ages" title="Permalink">Registered voter ages <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-            <div class="column-third">
+            <div class="column-quarter">
                 {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.voters stat_type='number' stat_suffix='' %}
             </div>
-              <div class="column-two-thirds">
-                  <div id="chart-column-housing-units-voter_age_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of voters by age group (2018)" data-qualifier="Universe: {{ housing.units.voter_age_distribution.metadata.universe }}"></div>
+            <div class="column-quarter">
+                {% include 'profile/_blocks/_stat_list.html' with stat=demographics.total_pop_18_plus.total stat_type='number' stat_suffix='' %}
+            </div>
+              <div class="column-half">
+                  <div id="chart-column-housing-units-voter_age_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of registered voters by age group (2019)" data-qualifier="Universe: {{ housing.units.voter_age_distribution.metadata.universe }}"></div>
               </div>
         </section>
 
@@ -567,10 +570,10 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='count' %}
             </div>
             <div class="column-third">
-                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
             </div>
             <div class="column-third">
-                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
             </div>
         </section>
 
@@ -580,7 +583,7 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='count' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
             </div>
         </section>
 

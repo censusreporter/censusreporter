@@ -342,9 +342,15 @@ def build_item(name, data, parents, rpn_string):
 		label = parent['relation']
 		geoid = parent['geoid']
 		data_for_geoid = dict(estimate={}, error={})
-		for table_id, table_data in six.iteritems(data['data'][geoid]):
-			data_for_geoid['estimate'].update(table_data['estimate'])
-			data_for_geoid['error'].update(table_data['error'])
+
+		#print(data['data'])
+		try:
+			for table_id, table_data in six.iteritems(data['data'][geoid]):
+				data_for_geoid['estimate'].update(table_data['estimate'])
+				data_for_geoid['error'].update(table_data['error'])
+		except KeyError as e:
+			data_for_geoid['estimate'].update({})
+			data_for_geoid['error'].update({})
 
 		value = None
 		error = None
@@ -381,6 +387,7 @@ def add_metadata(dictionary, table_id, universe, acs_release):
 def geo_profile(geoid, acs='latest'):
 	api = ApiClient(settings.API_URL)
 	d3_api = D3ApiClient(settings.D3_API_URL)
+	this_geoid = geoid
 
 	item_levels = api.get_parent_geoids(geoid)['parents']
 	comparison_geoids = [level['geoid'] for level in item_levels]
@@ -704,10 +711,18 @@ def geo_profile(geoid, acs='latest'):
 			doc['geography']['parents'][name]['total_population'] = _maybe_int(data['data'][the_geoid]['B01001']['estimate']['B01001001'])
 
 
+	# Demographics: Total Population
+	total_pop_dict = dict()
+	doc['demographics']['total_pop_18_plus'] = total_pop_dict
+	total_pop_dict['total'] = build_item('Total population 18 years and older (2017)', data, item_levels,
+		'B01001007 B01001008 + B01001009 + B01001010 + B01001011 + B01001012 + B01001013 + B01001014 + B01001015 + B01001016 + B01001017 + B01001018 + B01001019 + B01001020 + B01001021 + B01001022 + B01001023 + B01001024 + B01001025 + B01001031 + B01001032 + B01001033 + B01001034 + B01001035 + B01001036 + B01001037 + B01001038 + B01001039 + B01001040 + B01001041 + B01001042 + B01001043 + B01001044 + B01001045 + B01001046 + B01001047 + B01001048 + B01001049 +')
+	add_metadata(total_pop_dict['total'], 'B01001', 'Total population', acs_name)
+
+
 	# Demographics: Total number of Children
 	child_pop_dict = dict()
 	doc['demographics']['child_pop'] = child_pop_dict
-	child_pop_dict['total'] = build_item('Number of children under 18', data, item_levels,
+	child_pop_dict['total'] = build_item('Number of children under 18 (2017)', data, item_levels,
 		'B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 +')
 	add_metadata(child_pop_dict['total'], 'B01001', 'Total population', acs_name)
 
@@ -747,7 +762,7 @@ def geo_profile(geoid, acs='latest'):
 	income_dict = dict()
 	doc['economics']['income'] = income_dict
 
-	income_dict['per_capita_income_in_the_last_12_months'] = build_item('Per capita income', data, item_levels,
+	income_dict['per_capita_income_in_the_last_12_months'] = build_item('Per capita income (2017)', data, item_levels,
 		'B19301001')
 	add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
 
@@ -757,7 +772,7 @@ def geo_profile(geoid, acs='latest'):
 	data = api.get_data('B19013', comparison_geoids, acs)
 	acs_name = data['release']['name']
 
-	income_dict['median_household_income'] = build_item('Median household income', data, item_levels,
+	income_dict['median_household_income'] = build_item('Median household income (2017)', data, item_levels,
 		'B19013001')
 	add_metadata(income_dict['median_household_income'], 'B19013', 'Households', acs_name)
 
@@ -789,7 +804,7 @@ def geo_profile(geoid, acs='latest'):
 	poverty_dict = dict()
 	doc['economics']['poverty'] = poverty_dict
 
-	poverty_dict['percent_below_poverty_line'] = build_item('Persons below poverty line', data, item_levels,
+	poverty_dict['percent_below_poverty_line'] = build_item('Persons below poverty line (2017)', data, item_levels,
 		'B17001002 B17001001 / %')
 	add_metadata(poverty_dict['percent_below_poverty_line'], 'B17001', 'Population for whom poverty status is determined', acs_name)
 
@@ -905,7 +920,7 @@ def geo_profile(geoid, acs='latest'):
 	employment_dict = dict()
 	doc['economics']['employment'] = employment_dict
 
-	employment_dict['mean_number_of_vehicles'] = build_item('Mean number of vehicles available', data, item_levels,
+	employment_dict['mean_number_of_vehicles'] = build_item('Mean number of vehicles available (2017)', data, item_levels,
 		'B08015001 B08006002 /')
 	add_metadata(employment_dict['mean_number_of_vehicles'], 'B08006, B08015', 'Workers Whose Means of Transportation Is Car, Truck, or Van', acs_name)
 
@@ -958,7 +973,7 @@ def geo_profile(geoid, acs='latest'):
 	families_with_children = dict()
 	doc['families']['families_with_children'] = families_with_children
 
-	families_with_children['percent_familes_with_children'] = build_item('Percent of families with related children under 18', data, item_levels, 
+	families_with_children['percent_familes_with_children'] = build_item('Percent of families with related children under 18 (2017)', data, item_levels, 
 		'B11004003 B11004010 + B11004016 + B11004001 / %')
 	add_metadata(families_with_children['percent_familes_with_children'], 'B11004', 'Family Type by Presence and Age of Related Children Under 18 Years', acs_name)
 
@@ -971,7 +986,7 @@ def geo_profile(geoid, acs='latest'):
 
 	households_with_children = dict()
 	doc['families']['households_with_children'] = households_with_children
-	households_with_children['percent_households_with_children'] = build_item('Percent of households with children under 18', data, item_levels, 
+	households_with_children['percent_households_with_children'] = build_item('Percent of households with children under 18 (2017)', data, item_levels, 
 		'B11005002 B11005001 / %')
 	add_metadata(households_with_children['percent_households_with_children'], 'B11005', 'Households by Presence of People Under 18 Years by Household Type', acs_name)
 
@@ -984,11 +999,11 @@ def geo_profile(geoid, acs='latest'):
 	households_dict = dict()
 	doc['families']['households'] = households_dict
 
-	households_dict['number_of_households'] = build_item('Number of households', data, item_levels,
+	households_dict['number_of_households'] = build_item('Number of households (2017)', data, item_levels,
 		'B11001001')
 	add_metadata(households_dict['number_of_households'], 'B11001', 'Households', acs_name)
 
-	households_dict['persons_per_household'] = build_item('Persons per household', data, item_levels,
+	households_dict['persons_per_household'] = build_item('Persons per household (2017)', data, item_levels,
 		'B11002001 B11001001 /')
 	add_metadata(households_dict['persons_per_household'], 'B11001,b11002', 'Households', acs_name)
 
@@ -1074,7 +1089,7 @@ def geo_profile(geoid, acs='latest'):
 	units_dict = dict()
 	doc['housing']['units'] = units_dict
 
-	units_dict['number'] = build_item('Number of housing units', data, item_levels,
+	units_dict['number'] = build_item('Number of housing units (2017)', data, item_levels,
 		'B25002001')
 	add_metadata(units_dict['number'], 'B25002', 'Housing units', acs_name)
 
@@ -1119,9 +1134,9 @@ def geo_profile(geoid, acs='latest'):
 		'table_id': 'B25003D',
 		'name': 'Asian'
 	}
-	occupancy_by_race['native']['owner'] = build_item('Owner', data, item_levels,
+	occupancy_by_race['asian']['owner'] = build_item('Owner', data, item_levels,
 		'B25003D002 B25003D001 / %')	
-	occupancy_by_race['native']['renter'] = build_item('Renter', data, item_levels,
+	occupancy_by_race['asian']['renter'] = build_item('Renter', data, item_levels,
 		'B25003D003 B25003D001 / %')
 
 	#Black
@@ -1262,12 +1277,12 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Housing: Median Value and Distribution of Values
-	data = api.get_data('B25077', comparison_geoids, acs)
-	acs_name = data['release']['name']
+	# data = api.get_data('B25077', comparison_geoids, acs)
+	# acs_name = data['release']['name']
 
-	units_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
-		'B25077001')
-	add_metadata(units_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
+	# units_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
+	# 	'B25077001')
+	# add_metadata(units_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
 
 
 	data = api.get_data('B25075', comparison_geoids, acs)
@@ -1277,7 +1292,7 @@ def geo_profile(geoid, acs='latest'):
 	units_dict['value_distribution'] = value_distribution
 	add_metadata(value_distribution, 'B25075', 'Owner-occupied housing units', acs_name)
 
-	units_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
+	units_dict['total_value'] = build_item('Total value of owner-occupied housing units (2017)', data, item_levels,
 		'B25075001')
 
 	value_distribution['under_50'] = build_item('Under $50K', data, item_levels,
@@ -1431,7 +1446,9 @@ def geo_profile(geoid, acs='latest'):
 	#### START Housing Information Portal Parcel-based Data ####
 	d3_comparison_geoids = []
 	for geoid in comparison_geoids:
-		if geoid != '05000US26163' and geoid != '04000US26':
+		if geoid == '05000US26163':
+			d3_comparison_geoids.append('06000US2616322000')
+		elif geoid != '04000US26':
 			d3_comparison_geoids.append(geoid)
 
 	item_levels_minus_county_state = []
@@ -1439,7 +1456,7 @@ def geo_profile(geoid, acs='latest'):
 		if level['sumlevel'] != '040' and level['sumlevel'] != '050':
 			item_levels_minus_county_state.append(level)
 
-
+	print(d3_comparison_geoids)
 	# Vacant properties
 	data = api.get_data('B25999', d3_comparison_geoids , 'd3_present')
 	acs_name = data['release']['name']
@@ -1457,18 +1474,18 @@ def geo_profile(geoid, acs='latest'):
 	data = api.get_data('B25998', d3_comparison_geoids, 'd3_present')
 	acs_name = data['release']['name']
 
-	units_dict['number_demos'] = build_item('Total number of demolitions (2019)', data, item_levels_minus_county_state,
+	units_dict['number_demos'] = build_item('Total number of demolitions (2018)', data, item_levels_minus_county_state,
 		'B25998001')
-	add_metadata(units_dict['number_demos'], 'B25998', 'Total number of demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+	add_metadata(units_dict['number_demos'], 'B25998', 'Total number of demolitions', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
-	units_dict['median_demo_cost'] = build_item('Median demolition cost (2019)', data, item_levels_minus_county_state,
+	units_dict['median_demo_cost'] = build_item('Median demolition cost (2018)', data, item_levels_minus_county_state,
 		'B25998022')
-	add_metadata(units_dict['median_demo_cost'], 'B25998', 'Total number of demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+	add_metadata(units_dict['median_demo_cost'], 'B25998', 'Total number of demolitions', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 
 	demo_company_distribution = OrderedDict()
 	units_dict['demo_company_distribution'] = demo_company_distribution
-	add_metadata(demo_company_distribution, 'B25998', 'Total housing unit demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+	add_metadata(demo_company_distribution, 'B25998', 'Total housing unit demolitions', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	demo_company_distribution['adamo'] = build_item('Adamo Group, Inc', data, item_levels_minus_county_state,
 		'B25998002 B25998001 / %')
@@ -1487,7 +1504,7 @@ def geo_profile(geoid, acs='latest'):
 
 	demo_month_distribution = OrderedDict()
 	units_dict['demo_month_distribution'] = demo_month_distribution
-	add_metadata(demo_month_distribution, 'B25998', 'Total housing unit demolitions', 'City of Detroit Open Data Portal; ' + acs_name)
+	add_metadata(demo_month_distribution, 'B25998', 'Total housing unit demolitions', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	demo_month_distribution['january'] = build_item('January', data, item_levels_minus_county_state,
 		'B25998009 B25998001 / %')
@@ -1521,15 +1538,15 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['number_permits'] = build_item('Total number of building permits (2018)', data, item_levels_minus_county_state,
 		'B25997001')
-	add_metadata(units_dict['number_permits'], 'B25997', 'Total number of building permits', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['number_permits'], 'B25997', 'Total number of building permits', 'Detroit Buildings, Safety Engineering and Environmental Department (BSEED); ' + acs_name)
 
 	units_dict['median_permit_cost'] = build_item('Median estimated permit cost (2018)', data, item_levels_minus_county_state,
 		'B25997012')
-	add_metadata(units_dict['median_permit_cost'], 'B25997', 'Total number of building permits', 'SOURCE; ' + acs_name)	
+	add_metadata(units_dict['median_permit_cost'], 'B25997', 'Total number of building permits', 'Detroit Buildings, Safety Engineering and Environmental Department (BSEED); ' + acs_name)	
 
 	permit_type_distribution = OrderedDict()
 	units_dict['permit_type_distribution'] = permit_type_distribution
-	add_metadata(permit_type_distribution, 'B25997', 'Total number of building permits', 'SOURCE; ' + acs_name)
+	add_metadata(permit_type_distribution, 'B25997', 'Total number of building permits', 'Detroit Buildings, Safety Engineering and Environmental Department (BSEED); ' + acs_name)
 
 	permit_type_distribution['alterations'] = build_item('Alterations', data, item_levels_minus_county_state,
 		'B25997002 B25997001 / %')	
@@ -1554,11 +1571,11 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['number_blight_tickets'] = build_item('Total number of blight tickets (2018)', data, item_levels_minus_county_state,
 		'B25996001')
-	add_metadata(units_dict['number_blight_tickets'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['number_blight_tickets'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)
 
 	department_ticket_distribution = OrderedDict()
 	units_dict['department_ticket_distribution'] = department_ticket_distribution
-	add_metadata(units_dict['department_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['department_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)
 
 	department_ticket_distribution['building_dept'] = build_item('BSEED', data, item_levels_minus_county_state,
 		'B25996002 B25996001 / %')	
@@ -1569,7 +1586,7 @@ def geo_profile(geoid, acs='latest'):
 
 	ticket_month_distribution = OrderedDict()
 	units_dict['ticket_month_distribution'] = ticket_month_distribution
-	add_metadata(units_dict['ticket_month_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['ticket_month_distribution'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)
 
 	ticket_month_distribution['january'] = build_item('January', data, item_levels_minus_county_state,
 		'B25996005 B25996001 / %')
@@ -1599,7 +1616,7 @@ def geo_profile(geoid, acs='latest'):
 
 	ticket_type_distribution = OrderedDict()
 	units_dict['ticket_type_distribution'] = ticket_type_distribution
-	add_metadata(units_dict['ticket_type_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['ticket_type_distribution'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)
 
 	ticket_type_distribution['no_cert'] = build_item('No cert. of compliance', data, item_levels_minus_county_state,
 		'B25996017 B25996001 / %')	
@@ -1613,13 +1630,13 @@ def geo_profile(geoid, acs='latest'):
 		'B25996021 B25996001 / %')	
 
 
-	units_dict['upheld_blight_tickets'] = build_item('Precentage of tickets upheld by court (2018)', data, item_levels_minus_county_state,
+	units_dict['upheld_blight_tickets'] = build_item('Percentage of tickets upheld by court (2018)', data, item_levels_minus_county_state,
 		'B25996022 B25996001 / %')
-	add_metadata(units_dict['upheld_blight_tickets'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)	
+	add_metadata(units_dict['upheld_blight_tickets'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)	
 
 	upheld_ticket_distribution = OrderedDict()
 	units_dict['upheld_ticket_distribution'] = upheld_ticket_distribution
-	add_metadata(units_dict['upheld_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['upheld_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)
 
 	upheld_ticket_distribution['unpaid'] = build_item('Unpaid', data, item_levels_minus_county_state,
 		'B25996023 B25996001 / %')	
@@ -1630,11 +1647,11 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['amount_due'] = build_item('Total amount due for blight tickets upheld by court (2018)', data, item_levels_minus_county_state,
 		'B25996026')
-	add_metadata(units_dict['amount_due'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)	
+	add_metadata(units_dict['amount_due'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)	
 
 	owed_ticket_distribution = OrderedDict()
 	units_dict['owed_ticket_distribution'] = owed_ticket_distribution
-	add_metadata(units_dict['owed_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['owed_ticket_distribution'], 'B25996', 'Total number of blight tickets', 'Detroit Department of Administrative Hearings; ' + acs_name)
 
 	owed_ticket_distribution['unpaid'] = build_item('Unpaid', data, item_levels_minus_county_state,
 		'B25996027')	
@@ -1650,7 +1667,7 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['total_tax_foreclosures'] = build_item('Total Tax Foreclosures (2018)', data, item_levels_minus_county_state,
 		'B25995001')
-	add_metadata(units_dict['total_tax_foreclosures'], 'B25995', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['total_tax_foreclosures'], 'B25995', 'Housing units', 'Wayne County Treasurer; ' + acs_name)
 
 
 	# Property Transactions
@@ -1659,12 +1676,12 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['number_property_sales'] = build_item('Total number of property sales (2018)', data, item_levels_minus_county_state,
 		'B25994001')
-	add_metadata(units_dict['number_property_sales'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['number_property_sales'], 'B25994', 'Housing units', 'Detroit Assessor\'s Office; ' + acs_name)
 
 
 	sale_month_distribution = OrderedDict()
 	units_dict['sale_month_distribution'] = sale_month_distribution
-	add_metadata(sale_month_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+	add_metadata(sale_month_distribution, 'B25994', 'Total number of property sales', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	sale_month_distribution['january'] = build_item('January', data, item_levels_minus_county_state,
 		'B25994002 B25994001 / %')
@@ -1693,7 +1710,7 @@ def geo_profile(geoid, acs='latest'):
 
 	sale_type_distribution = OrderedDict()
 	units_dict['sale_type_distribution'] = sale_type_distribution
-	add_metadata(sale_type_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+	add_metadata(sale_type_distribution, 'B25994', 'Total number of property sales', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	sale_type_distribution['bank_sale_not_used'] = build_item('Bank sale not used', data, item_levels_minus_county_state,
 		'B25994014 B25994001 / %')
@@ -1719,7 +1736,7 @@ def geo_profile(geoid, acs='latest'):
 
 	sale_price_distribution = OrderedDict()
 	units_dict['sale_price_distribution'] = sale_price_distribution
-	add_metadata(sale_price_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+	add_metadata(sale_price_distribution, 'B25994', 'Total number of property sales', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	sale_price_distribution['lt_1000'] = build_item('Less than $1,000', data, item_levels_minus_county_state,
 		'B25994028 B25994001 / %')
@@ -1744,11 +1761,11 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['total_property_sales'] = build_item('Total property sales (2018)', data, item_levels_minus_county_state,
 		'B25994038')
-	add_metadata(units_dict['total_property_sales'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['total_property_sales'], 'B25994', 'Housing units', 'Detroit Assessor\'s Office; ' + acs_name)
 	
 	sale_type_dollar_distribution = OrderedDict()
 	units_dict['sale_type_dollar_distribution'] = sale_type_dollar_distribution
-	add_metadata(sale_type_dollar_distribution, 'B25994', 'Total number of property sales', 'SOURCE; ' + acs_name)
+	add_metadata(sale_type_dollar_distribution, 'B25994', 'Total number of property sales', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	sale_type_dollar_distribution['bank_sale_not_used'] = build_item('Bank sale not used', data, item_levels_minus_county_state,
 		'B25994051')
@@ -1773,28 +1790,28 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['min_price'] = build_item('Minimum price sold (2018)', data, item_levels_minus_county_state,
 		'B25994067')
-	add_metadata(units_dict['min_price'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['min_price'], 'B25994', 'Housing units', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	units_dict['max_price'] = build_item('Maximum price sold (2018)', data, item_levels_minus_county_state,
 		'B25994068')
-	add_metadata(units_dict['max_price'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['max_price'], 'B25994', 'Housing units', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	units_dict['median_price'] = build_item('Median price sold (2018)', data, item_levels_minus_county_state,
 		'B25994070')
-	add_metadata(units_dict['median_price'], 'B25994', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['median_price'], 'B25994', 'Housing units', 'Detroit Assessor\'s Office; ' + acs_name)
 
 
 	#voter age
 	data = api.get_data('B25993', d3_comparison_geoids , 'd3_present')
 	acs_name = data['release']['name']
 
-	units_dict['voters'] = build_item('Total registered voters (2018)', data, item_levels_minus_county_state,
+	units_dict['voters'] = build_item('Total registered voters (2019)', data, item_levels_minus_county_state,
 		'B25993001')
-	add_metadata(units_dict['voters'], 'B25993', 'Housing units', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['voters'], 'B25993', 'Housing units', 'State of Michigan Qualified Voter File; ' + acs_name)
 	
 	voter_age_distribution = OrderedDict()
 	units_dict['voter_age_distribution'] = voter_age_distribution
-	add_metadata(voter_age_distribution, 'B25993', 'Total registered voters', 'SOURCE; ' + acs_name)
+	add_metadata(voter_age_distribution, 'B25993', 'Total registered voters', 'State of Michigan Qualified Voter File; ' + acs_name)
 
 	voter_age_distribution['18_24'] = build_item('18-24', data, item_levels_minus_county_state,
 		'B25993002 B25993001 / %')
@@ -1814,11 +1831,11 @@ def geo_profile(geoid, acs='latest'):
 	
 	units_dict['total_properties'] = build_item('Total properties (2018)', data, item_levels_minus_county_state,
 		'B25992001')
-	add_metadata(units_dict['total_properties'], 'B25992', 'Total properties', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['total_properties'], 'B25992', 'Total properties', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	sev_distribution = OrderedDict()
 	units_dict['sev_distribution'] = sev_distribution
-	add_metadata(sev_distribution, 'B25992', 'Housing units with SEV', 'SOURCE; ' + acs_name)
+	add_metadata(sev_distribution, 'B25992', 'Housing units with SEV', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	sev_distribution['1_4000'] = build_item('$1-$4,000', data, item_levels_minus_county_state,
 		'B25992033 B25992032 / %')
@@ -1846,23 +1863,23 @@ def geo_profile(geoid, acs='latest'):
 
 	pre_status_distribution = OrderedDict()
 	units_dict['pre_status_distribution'] = pre_status_distribution
-	add_metadata(pre_status_distribution, 'B25992', 'Properties for which PRE status was determined', 'SOURCE; ' + acs_name)
+	add_metadata(pre_status_distribution, 'B25992', 'Properties for which PRE status was determined', 'Detroit Assessor\'s Office; ' + acs_name)
 
-	pre_status_distribution['0'] = build_item('0%', data, item_levels_minus_county_state,
-		'B25992046 B25992045 / %')
-	pre_status_distribution['0_50'] = build_item('0.1%-49.9%', data, item_levels_minus_county_state,
-		'B25992047 B25992045 / %')
-	pre_status_distribution['50'] = build_item('50%', data, item_levels_minus_county_state,
-		'B25992048 B25992045 / %')
-	pre_status_distribution['50_100'] = build_item('50.1%-99.9%', data, item_levels_minus_county_state,
-		'B25992049 B25992045 / %')
-	pre_status_distribution['100'] = build_item('100%', data, item_levels_minus_county_state,
-		'B25992050 B25992045 / %')
+	pre_status_distribution['1'] = build_item('0%', data, item_levels_minus_county_state,
+		'B25992046')
+	pre_status_distribution['2'] = build_item('0.1%-49.9%', data, item_levels_minus_county_state,
+		'B25992047')
+	pre_status_distribution['3'] = build_item('50%', data, item_levels_minus_county_state,
+		'B25992048')
+	pre_status_distribution['4'] = build_item('50.1%-99.9%', data, item_levels_minus_county_state,
+		'B25992049')
+	pre_status_distribution['5'] = build_item('100%', data, item_levels_minus_county_state,
+		'B25992050')
 
 
 	taxable_status_distribution = OrderedDict()
 	units_dict['taxable_status_distribution'] = taxable_status_distribution
-	add_metadata(taxable_status_distribution, 'B25992', 'Properties for which taxable status was determined', 'SOURCE; ' + acs_name)
+	add_metadata(taxable_status_distribution, 'B25992', 'Properties for which taxable status was determined', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	taxable_status_distribution['taxable'] = build_item('Taxable', data, item_levels_minus_county_state,
 		'B25992052 B25992051 / %')
@@ -1888,15 +1905,15 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['mean_sev_over_0'] = build_item('Mean SEV over $0 (2018)', data, item_levels_minus_county_state,
 		'B25992097')
-	add_metadata(units_dict['mean_sev_over_0'], 'B25992', 'Total properties', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['mean_sev_over_0'], 'B25992', 'Total properties', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	units_dict['median_sev_over_0'] = build_item('Median SEV over $0 (2018)', data, item_levels_minus_county_state,
 		'B25992098')
-	add_metadata(units_dict['median_sev_over_0'], 'B25992', 'Total properties', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['median_sev_over_0'], 'B25992', 'Total properties', 'Detroit Assessor\'s Office; ' + acs_name)
 
 	units_dict['total_sev'] = build_item('Total SEV (2018)', data, item_levels_minus_county_state,
 		'B25992099')
-	add_metadata(units_dict['total_sev'], 'B25992', 'Total properties', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['total_sev'], 'B25992', 'Total properties', 'Detroit Assessor\'s Office; ' + acs_name)
 
 
 	#DLBA Ownership
@@ -1905,7 +1922,7 @@ def geo_profile(geoid, acs='latest'):
 	
 	units_dict['dlba_total_properties'] = build_item('Total properties under DLBA ownership (2019)', data, item_levels_minus_county_state,
 		'B25991001')
-	add_metadata(units_dict['dlba_total_properties'], 'B25991', 'Total properties under DLBA ownership', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['dlba_total_properties'], 'B25991', 'Total properties under DLBA ownership', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	#DLBA Sales
 	data = api.get_data('B25990', d3_comparison_geoids , 'd3_present')
@@ -1913,12 +1930,12 @@ def geo_profile(geoid, acs='latest'):
 
 	units_dict['dlba_total_sales'] = build_item('Total DLBA sales (2019)', data, item_levels_minus_county_state,
 		'B25990001')
-	add_metadata(units_dict['dlba_total_sales'], 'B25990', 'Total DLBA sales', 'SOURCE; ' + acs_name)
+	add_metadata(units_dict['dlba_total_sales'], 'B25990', 'Total DLBA sales', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 
 	dlba_sale_type_distrubution = OrderedDict()
 	units_dict['dlba_sale_type_distrubution'] = dlba_sale_type_distrubution
-	add_metadata(dlba_sale_type_distrubution, 'B25990', 'Total DLBA sales', 'SOURCE; ' + acs_name)
+	add_metadata(dlba_sale_type_distrubution, 'B25990', 'Total DLBA sales', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	dlba_sale_type_distrubution['auction'] = build_item('Auction', data, item_levels_minus_county_state,
 		'B25990002 B25990001 / %')
@@ -1930,7 +1947,7 @@ def geo_profile(geoid, acs='latest'):
 
 	dlba_auction_buyer_type_distrubution = OrderedDict()
 	units_dict['dlba_auction_buyer_type_distrubution'] = dlba_auction_buyer_type_distrubution
-	add_metadata(dlba_auction_buyer_type_distrubution, 'B25990', 'Total DLBA auction sales', 'SOURCE; ' + acs_name)
+	add_metadata(dlba_auction_buyer_type_distrubution, 'B25990', 'Total DLBA auction sales', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	dlba_auction_buyer_type_distrubution['investor'] = build_item('Investor', data, item_levels_minus_county_state,
 		'B25990004 B25990002 / %')
@@ -1941,7 +1958,7 @@ def geo_profile(geoid, acs='latest'):
 
 	dlba_auction_price_distrubution = OrderedDict()
 	units_dict['dlba_auction_price_distrubution'] = dlba_auction_price_distrubution
-	add_metadata(dlba_auction_price_distrubution, 'B25990', 'DLBA auction sale price known', 'SOURCE; ' + acs_name)
+	add_metadata(dlba_auction_price_distrubution, 'B25990', 'DLBA auction sale price known', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	dlba_auction_price_distrubution['lt_2000'] = build_item('Less than $1,999', data, item_levels_minus_county_state,
 		'B25990008 B25990007 / %')
@@ -1958,7 +1975,7 @@ def geo_profile(geoid, acs='latest'):
 
 	dlba_cp_type_distrubution = OrderedDict()
 	units_dict['dlba_cp_type_distrubution'] = dlba_cp_type_distrubution
-	add_metadata(dlba_cp_type_distrubution, 'B25990', 'DLBA community partner sale; property class known', 'SOURCE; ' + acs_name)
+	add_metadata(dlba_cp_type_distrubution, 'B25990', 'DLBA community partner sale; property class known', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	dlba_cp_type_distrubution['accessory'] = build_item('Accessory structure', data, item_levels_minus_county_state,
 		'B25990017 B25990016 / %')
@@ -1976,7 +1993,7 @@ def geo_profile(geoid, acs='latest'):
 	#### END Housing Information Portal Parcel-based Data ####
 
 
-	geo_metadata = api.get_geoid_data(geoid)
+	geo_metadata = api.get_geoid_data(this_geoid)
 
 	if geo_metadata:
 		geo_metadata = geo_metadata['properties']
@@ -2010,8 +2027,6 @@ def find_dicts_with_key(dictionary, searchkey):
 
 def enhance_api_data(api_data):
 	dict_list = find_dicts_with_key(api_data, 'values')
-
-	print(dict_list)
 
 	for d in dict_list:
 		raw = {}

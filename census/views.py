@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from __future__ import print_function
 from collections import OrderedDict, defaultdict
 from six.moves.urllib.parse import unquote, quote
-from io import StringIO
 from io import BytesIO
 import gzip
 import re
@@ -1310,7 +1309,7 @@ class GeographyDetailView(TemplateView):
 		if s3:
 			keyname = self.s3_keyname(geo_id)
 			s3_object = s3.Object('d3-sd-child', keyname)
-				
+			
 		return s3_object
 
 	def write_profile_json(self, s3_object, data, geo_id):
@@ -1328,44 +1327,31 @@ class GeographyDetailView(TemplateView):
 		
 	def get_context_data(self, *args, **kwargs):
 		geography_id = self.geo_id
-		logger.warn(geography_id)	
+		logger.warn(geography_id)
+		s3_object = None
+		s3_object_exists = False
 		try:
 			s3_object = self.s3_profile_key(geography_id)
-		except:
-			s3_object = None
+			s3_object.load()
+			s3_object_exists = True
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				s3_object_exists = False
+			else:
+				logger.warn(e)
+				raise Http404
 
-		if s3_object:
-			try:
-				buf = BytesIO(s3_object.get()["Body"].read())
-				compressed = gzip.GzipFile(fileobj=buf)
-				# Read the decompressed JSON from S3
-				string_as_bytes = compressed.read()
-				profile_data_json = string_as_bytes.decode()
-				# Load it into a Python dict for the template
-				profile_data = json.loads(profile_data_json)
-				# Also mark it as safe for the charts on the profile
-				profile_data_json = SafeString(profile_data_json)
-			except botocore.exceptions.ClientError as e:
-				if e.response['Error']['Code'] == "404":
-					# The object does not exist.
-					profile_data = geo_profile(geography_id, 'acs2017_5yr')
-
-					if profile_data:
-						profile_data = enhance_api_data(profile_data)
-
-						profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
-
-						if s3_object is None:
-							logger.warn("Could not save to S3 because there was no connection to S3.")
-						else:
-							self.write_profile_json(s3_object, profile_data_json, geography_id)
-
-					else:
-						raise Http404				
-				else:
-					# Something else has gone wrong.
-					logger.warn(e)
-					raise Http404
+		logger.warn(s3_object_exists)
+		if s3_object_exists:
+			buf = BytesIO(s3_object.get()["Body"].read())
+			compressed = gzip.GzipFile(fileobj=buf)
+			# Read the decompressed JSON from S3
+			string_as_bytes = compressed.read()
+			profile_data_json = string_as_bytes.decode()
+			# Load it into a Python dict for the template
+			profile_data = json.loads(profile_data_json)
+			# Also mark it as safe for the charts on the profile
+			profile_data_json = SafeString(profile_data_json)
 		else:
 			# The object does exist.
 			profile_data = geo_profile(geography_id, 'acs2017_5yr')
