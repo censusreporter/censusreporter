@@ -19,7 +19,7 @@ var lat = '',
     clickableLayer = null,
     drawnItems = null,
     drawControl = null,
-    drawToggle = false,
+    drawHandler = null,
     mode = 'locate',
     dialog = '',
     form = '',
@@ -70,6 +70,7 @@ _.each(sumlevs,function(l) {
 // tab listeners to clear selections
 $("#locate-tab").click(function(){
     // check to see if active
+    console.log(mode);
     if (mode == 'draw') {
         clearDraw();
         mode = 'locate';
@@ -89,11 +90,8 @@ $("#draw-tab").click(function(){
 $("#sumlev-picker").change(function(e) {
     var sumlev = _.findWhere(sumlevs,{level: $(e.target).val()})
     if (sumlev) {
-        new L.Draw.Polygon(map, drawControl.options.polygon).enable();
-        drawToggle = true;
-
-        // Enable the draw button
-        //$("#draw-on-map").removeClass('disabled');
+        drawHandler = new L.Draw.Polygon(map, drawControl.options.polygon);
+        drawHandler.enable();
 
         if (typeof sumlev.layer == 'undefined') {
             sumlev.layer = makeClickableTileLayer(sumlev.level);
@@ -240,8 +238,6 @@ var clearDraw = function() {
     // reset dropdown menu
     $("#sumlev-picker").prop('disabled', false);
     $("#sumlev-picker")[0].selectedIndex = 0;
-    // disable the draw on map buttons
-    $("#draw-on-map").addClass('disabled');
     // hide clear and make dashboard buttons
     $("#map-action-buttons").addClass("hidden");
     // enable zoom buttons
@@ -254,14 +250,21 @@ var clearDraw = function() {
             map.removeLayer(sl.layer);
         }
     })
-    // set drawToggle to false
-    //drawToggle = false;
-    // loop through each layer and reset style and event listeners
-    //map.addLayer(clickableLayer);
-    map.removeLayer(toggleableLayer);
-    // clickableLayer.geojsonLayer.eachLayer(function(layer) {
-    //     setDefault(layer.feature, layer);
-    // });
+
+    if (toggleableLayer && map.hasLayer(toggleableLayer)) {
+        map.removeLayer(toggleableLayer);
+    } 
+
+    map.removeLayer(drawBackgroundTiles);
+    map.addLayer(regularBackgroundTiles);
+
+    // disable draw tool and rest variable to null
+    if (drawHandler) {
+        drawHandler.disable();
+        drawHandler = null;
+    }
+
+
 
 }
 
@@ -769,7 +772,6 @@ function initialize_map() {
 
     map.on('draw:created', function (e) {
         // take map out of draw mode
-        $("#draw-on-map").removeClass("active");
         map.removeLayer(drawBackgroundTiles);
         map.addLayer(regularBackgroundTiles);
 
@@ -802,7 +804,6 @@ function initialize_map() {
 
         });
 
-        drawToggle = false;
     });
 
     spinner.stop();

@@ -82,13 +82,13 @@
             </div>
             <div id="menu">
               <ul id="header-nav" class="">
-                <li><a href="">Home</a></li>
-                <li><a href="">Map</a></li>
-                <li><a href="">Topics</a></li>
-                <li><a href="">Gallery</a></li>
-                <li><a href="">Official Program<br />Reports</a></li>
-                <li><a href="">Information<br />Action Briefs</a></li>
-                <li><a href="">Blog</a></li>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'draw' %}">Map</a></li>
+                <li><a href="{% url 'topic_list' %}">Topics</a></li>
+                <li><a href="{% url 'gallery' %}">Gallery</a></li>
+                <li><a href="#">Official Program<br />Reports</a></li>
+                <li><a href="#">Information<br />Action Briefs</a></li>
+                <li><a href="#">Blog</a></li>
               </ul>
             </div>
         </header>
