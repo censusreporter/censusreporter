@@ -66,6 +66,27 @@ class IABDemolitionsIndexPage(Page):
         FieldPanel('intro', classname="full")
     ]
 
+class IABAffordabilityIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro', classname="full")
+    ]
+
+class IABHousingIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro', classname="full")
+    ]
+
+class IABForeclosuresIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro', classname="full")
+    ]
+
 class InformationForActionTagIndexPage(Page):
 
     def get_context(self, request):
