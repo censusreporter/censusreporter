@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-iabindexpage{% endblock %}
+
+{% block content %}
+      <div id="sub-header">
+        <div id="inner" class="wrapper">
+        <h1>{{ page.title }}</h1>
+
+        <div class="intro">{{ page.intro|richtext }}</div>
+
+        </div>
+      </div>
+
+      <div class="content-container wrapper clearfix">
+        <ul id="inner">
+        {% for post in page.get_children %}
+          <li class="iab-intro">
+            <a href="{% pageurl post %}">
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.specific.intro }}...</p>
+            </a>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+{% endblock %}

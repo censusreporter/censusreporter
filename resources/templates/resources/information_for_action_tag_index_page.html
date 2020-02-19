@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="content-container wrapper clearfix">
+    {% if request.GET.tag|length %}
+        <h4>Showing pages tagged "{{ request.GET.tag }}"</h4>
+    {% endif %}
+
+    {% for informationforactionpage in informationforactionpages %}
+
+          <p>
+              <strong><a href="{% pageurl informationforactionpage %}">{{ informationforactionpage.title }}</a></strong><br />
+              <small>Revised: {{ informationforactionpage.latest_revision_created_at }}</small><br />
+          </p>
+
+    {% empty %}
+        No pages found with that tag.
+    {% endfor %}
+</div>
+{% endblock %}

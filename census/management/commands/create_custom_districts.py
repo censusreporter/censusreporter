@@ -1,7 +1,11 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 from django.core.management.base import BaseCommand, CommandError
 from census.models import Districts
 import csv
+import six
+from six.moves import range
 
 
 class Command(BaseCommand):
@@ -9,13 +13,13 @@ class Command(BaseCommand):
     def load_districts(self):
         # create dictionary for each type of district
         # Wayne county commission district
-        WCCNums = range(1, 16)
+        WCCNums = list(range(1, 16))
         WCCDistricts = dict.fromkeys(WCCNums, '')
 
-        DPDNums = range(2, 13)
+        DPDNums = list(range(2, 13))
         DPDPrecincts = dict.fromkeys(DPDNums, '')        
 
-        DETCouncilDistNums = range(1, 8)
+        DETCouncilDistNums = list(range(1, 8))
         DETCouncilDists = dict.fromkeys(DETCouncilDistNums, '')     
 
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -32,21 +36,21 @@ class Command(BaseCommand):
                         DETCouncilDists[int(row[4])] = DETCouncilDists[int(row[4])] + '14000US' + row[1] + ','
 
         # now add to database
-        for i, d in WCCDistricts.iteritems():
+        for i, d in six.iteritems(WCCDistricts):
             district = Districts()
             district.dashboard_name = 'Wayne County Commission District ' + str(i)
             district.dashboard_slug = 'wayne-county-commission-district-' + str(i)
             district.dashboard_geoids = d.rstrip(',')
             district.save()
 
-        for i, d in DPDPrecincts.iteritems():
+        for i, d in six.iteritems(DPDPrecincts):
             district = Districts()
             district.dashboard_name = 'Detroit Police Department Precinct ' + str(i)
             district.dashboard_slug = 'detroit-police-department-precinct-' + str(i)
             district.dashboard_geoids = d.rstrip(',')
             district.save()            
 
-        for i, d in DETCouncilDists.iteritems():
+        for i, d in six.iteritems(DETCouncilDists):
             district = Districts()
             district.dashboard_name = 'Detroit City Council District ' + str(i)
             district.dashboard_slug = 'detroit-city-council-district-' + str(i)
@@ -55,6 +59,6 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        print "Loading Districts...."
+        print("Loading Districts....")
         self.load_districts()
-        print "Done."
+        print("Done.")

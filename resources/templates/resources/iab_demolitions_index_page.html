@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-iabdemolitionsindexpage{% endblock %}
+
+{% block content %}
+      <div id="sub-header">
+        <div id="inner" class="wrapper">
+        <h1>Info Action Brief</h1>
+
+        <div class="intro">{{ page.get_parent.intro|richtext }}Replace this text with the parent text from Info Action Briefs main page so that it stays the same across all of the IAB subpages. Et magnia con natem fugitio repuditiunt omnitatem estem fuga. Itatium ea sequossunt vendem aut mint. Cus numqui berferc hicaecest, toribusam dolor sit a qui reperibus poreiur mi.</div>
+
+        </div>
+      </div>
+
+      <div class="content-container wrapper clearfix">
+      <h1>{{ page.title }}</h1>
+
+      <div class="intro">{{ page.intro|richtext }}</div>
+        <ul id="inner">
+        {% for post in page.get_children %}
+          <li class="iab-intro">
+            <a href="{% pageurl post %}"><h2>{{ post.title }}</h2></a>
+            <p>{{ post.specific.intro }}...</p>
+          </li>
+        {% endfor %}
+        </ul>
+        <p><a href="{{ page.get_parent.url }}">Return to Action Briefs</a></p>
+      </div>
+{% endblock %}

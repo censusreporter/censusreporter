@@ -1,6 +1,8 @@
+from __future__ import absolute_import
 from django import template
 from django.utils.safestring import mark_safe
 from numpy import array
+import six
 
 register = template.Library()
 
@@ -51,7 +53,7 @@ def comparison_index_phrase(value):
     index = round(float(value))
     
     # get lower boundaries for each phrase in the map
-    thresholds = array(sorted([k for k,v in COMPARISON_PHRASE_MAP.iteritems()]))
+    thresholds = array(sorted([k for k,v in six.iteritems(COMPARISON_PHRASE_MAP)]))
 
     # get highest boundary that's less than the index value we've been passed
     phrase_key = max(thresholds[thresholds<=index])

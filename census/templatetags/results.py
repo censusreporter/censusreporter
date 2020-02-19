@@ -1,10 +1,11 @@
+from __future__ import absolute_import
 import re
 from collections import defaultdict
 
 from django import template
 from django.utils.safestring import mark_safe
 
-from censusreporter.apps.census.utils import parse_table_id, generic_table_description, table_link
+from ..utils import parse_table_id, generic_table_description, table_link
 
 register = template.Library()
 
