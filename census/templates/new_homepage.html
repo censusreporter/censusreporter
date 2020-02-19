@@ -143,7 +143,7 @@
         <p class="body-text">Here, you’ll find links to other resources that D3 has created over the years, including maps, blogs, raw data, and reports.</p>
         <ul>
           <li>
-            <a>
+            <a href="https://portal.datadrivendetroit.org/">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/map-icon.png" />
               </div>
@@ -151,7 +151,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a href="https://datadrivendetroit.org/?s=housing&et_pb_searchform_submit=et_search_proccess&et_pb_search_cat=572%2C571&et_pb_include_posts=yes">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/news-icon.png" />
               </div>
@@ -159,7 +159,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a href="https://portal.datadrivendetroit.org/search?q=housing">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/ffiec-icon.png" />
               </div>
@@ -167,7 +167,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a href="https://portal.datadrivendetroit.org/">
               <div class="image-holder">
                   <img class="icon" src="{{ STATIC_URL }}img/blog-icon.png" />
               </div>
@@ -180,11 +180,11 @@
     <footer>
         <div class="l-flex-space-between">
           <ul id=footer-nav>
-            <li><a href="">Home</a></li>
-            <li><a href="">Map</a></li>
-            <li><a href="">Case<br />Studies</a></li>
-            <li><a href="">Information<br />Action Briefs</a></li>
-            <li><a href="">Blog</a></li>
+            <li><a href="{% url 'homepage' %}">Home</a></li>
+            <li><a href="{% url 'draw' %}">Map</a></li>
+            <li><a href="#">Information<br />Action Briefs</a></li>
+            <li><a href="#">Official<br />Program Reports</a></li>
+            <li><a href="https://datadrivendetroit.org/?s=housing&et_pb_searchform_submit=et_search_proccess&et_pb_search_cat=572%2C571&et_pb_include_posts=yes">Blog</a></li>
           </ul>
           <div class="details">
             <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>
