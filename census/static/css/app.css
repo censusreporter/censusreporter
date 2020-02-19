@@ -566,6 +566,70 @@ article .section-container {
     border-left: 1px solid #2f2f2f;
 }
 
+div#sub-header {
+  background-color: #ecba66;
+  border-bottom: 1px solid #2f2f2f;
+}
+#inner {
+  display: flex;
+}
+div#sub-header div#inner {
+  justify-content: space-around;
+  padding-top: 2em;
+  align-items: center;
+}
+
+div#sub-header h1 {
+  color: #fcf2e1;
+  font-size: 3em;
+  border-right: 1px solid #2f2f2f;
+  padding-right: 1em;
+  margin-bottom: 0;
+  padding-bottom: .25em;
+}
+div#sub-header .intro {
+  margin-left: 3em;
+  flex-grow: 2;
+}
+.content-container ul#inner {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  list-style: none;
+  padding-left: 0;
+}
+li.iab-intro {
+  flex-basis: 48%;
+  background-color: #fcf2e1;
+  box-shadow: 6px 6px 0px #ecba66;
+  margin-bottom: 2em;
+}
+li.iab-intro a {
+  text-decoration: none;
+}
+li.iab-intro a:hover h2 {
+  background-color: #ecba66;
+}
+li.iab-intro h2 {
+  border-bottom: 1px solid #2f2f2f;
+  padding: 1em;
+}
+li.iab-intro p {
+  padding: 1em;
+  margin-bottom: 0;
+  text-decoration: none;
+}
+.iab h1 {
+  color: #ecba66;
+}
+.iab .intro p {
+  font-style: italic;
+}
+.rich-text h2 {
+  color: #ecba66;
+  margin-top: 3em;
+  margin-bottom: 1em;
+}
 /*header.section-contents h1,
 article .section-container,
 .card {
@@ -3446,6 +3510,20 @@ blockquote {
     }
     .header-container {
         padding-top: 1em;
+    }
+    div#sub-header div#inner {
+      display: block;
+    }
+    div#sub-header h1 {
+      padding-right: 0;
+      border-right: none;
+      font-size: 2.5em;
+    }
+    div#sub-header .intro {
+      margin-left: 0;
+    }
+    li.iab-intro {
+      flex-basis: 100%;
     }
     #draw-intro .intro-content {
       width: 75%;

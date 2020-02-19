@@ -5,11 +5,37 @@
 {% block body_class %}template-information-for-action-page{% endblock %}
 
 {% block content %}
+  <div class="content-container wrapper clearfix iab">
+
+{% with categories=page.categories.all %}
+    {% if categories %}
+        <h3>Posted in:</h3>
+        <ul>
+            {% for category in categories %}
+                <li style="display: inline">
+                    {{ category.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
     <h1>{{ page.title }}</h1>
     <p class="meta">{{ page.date }}</p>
 
-    <div class="intro">{{ page.intro }}</div>
+    <div class="intro"><p>{{ page.intro }}</p></div>
 
     {{ page.body|richtext }}
+
+    {% if page.tags.all.count %}
+        <div class="tags">
+            <h3>Tags</h3>
+            {% for tag in page.tags.all %}
+                <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button">{{ tag }}</button></a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <p><a href="{{ page.get_parent.url }}">Return to What We Know About Demolitions</a></p>
+  </div>
 
 {% endblock %}
