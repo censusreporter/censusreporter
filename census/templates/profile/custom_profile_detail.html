@@ -821,10 +821,8 @@ var makeCharts = function() {
             chartInitialSort = $(this).data('initial-sort'),
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
-            geographyData = profileData['geography'];
-
-        console.log(chartChartTitle);
-        console.log(chartData);
+            geographyData = profileData['geography'],
+            chartRelease = 'latest';
 
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
@@ -840,6 +838,10 @@ var makeCharts = function() {
         var thisRelease = chartData[key]['acs_release'],
             noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
+        if (thisRelease != defaultDataRelease) {
+            chartRelease = 'd3_present';
+        }
+
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
 
@@ -854,7 +856,8 @@ var makeCharts = function() {
             chartInitialSort: chartInitialSort,
             chartStatType: chartStatType,
             geographyData: geographyData,
-            chartColorScale: 'Kat2',
+            chartColorScale: 'HIP1',
+            release: chartRelease
         }
         try {
             Charts[i] = Chart(chartstuff);
