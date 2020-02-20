@@ -62,31 +62,39 @@ class IABIndexPage(Page):
     ]
 
 class IABDemolitionsIndexPage(Page):
-    intro = RichTextField(blank=True)
+    intro = models.CharField(max_length=250)
+    body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('intro', classname="full")
+        FieldPanel('intro'),
+        FieldPanel('body', classname="full")
     ]
 
 class IABAffordabilityIndexPage(Page):
-    intro = RichTextField(blank=True)
+    intro = models.CharField(max_length=250)
+    body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('intro', classname="full")
+        FieldPanel('intro'),
+        FieldPanel('body', classname="full")
     ]
 
 class IABHousingIndexPage(Page):
-    intro = RichTextField(blank=True)
+    intro = models.CharField(max_length=250)
+    body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('intro', classname="full")
+        FieldPanel('intro'),
+        FieldPanel('body', classname="full")
     ]
 
 class IABForeclosuresIndexPage(Page):
-    intro = RichTextField(blank=True)
+    intro = models.CharField(max_length=250)
+    body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel('intro', classname="full")
+        FieldPanel('intro'),
+        FieldPanel('body', classname="full")
     ]
 
 class InformationForActionTagIndexPage(Page):

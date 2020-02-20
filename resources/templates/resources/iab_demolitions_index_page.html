@@ -21,26 +21,30 @@
         <ul id="inner">
         {% for post in page.get_children %}
           <li class="iab-intro">
-            <a href="{% pageurl post %}"><h2>{{ post.title }}</h2></a>
-            <p>{{ post.specific.intro }}...</p>
+            <a href="{% pageurl post %}">
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.specific.intro }}...</p>
+            </a>
           </li>
         {% endfor %}
         </ul>
 
-
-        <h2>Demolitions In the News</h2>
+        <div class="iab-links">
+          <h2>Demolitions In the News</h2>
           <ul>
             <li><a href="https://www.greenbuildingadvisor.com/article/deconstruction-makes-sense-demolition">https://www.greenbuildingadvisor.com/article/deconstruction-makes-sense-demolition</a></li>
             <li><a href="http://asphaltmagazine.com/using-recycled-asphalt-shingles-in-asphalt-pavements/">http://asphaltmagazine.com/using-recycled-asphalt-shingles-in-asphalt-pavements/</a></li>
             <li><a href="https://marketurbanismreport.com/blog/does-demolition-equal-progress-in-detroit">https://marketurbanismreport.com/blog/does-demolition-equal-progress-in-detroit</a></li>
             <li><a href="https://www.bridgemi.com/detroit/can-mike-duggan-demolish-his-way-safer-detroit-studies-say-maybe">https://www.bridgemi.com/detroit/can-mike-duggan-demolish-his-way-safer-detroit-studies-say-maybe</a></li>
           </ul>
-        <h2>For More Information about Demolitions</h2>
+
+          <h2>For More Information about Demolitions</h2>
           <ul>
             <li><a href="https://detroitmi.gov/departments/detroit-building-authority/detroit-demolition-program">https://detroitmi.gov/departments/detroit-building-authority/detroit-demolition-program</a></li>
             <li><a href="https://www.epa.gov/large-scale-residential-demolition">https://www.epa.gov/large-scale-residential-demolition</a></li>
             <li><a href="https://www.epa.gov/sites/production/files/2016-09/documents/road-to-reuse-residential-demolition-bid-specification-201309.pdf">https://www.epa.gov/sites/production/files/2016-09/documents/road-to-reuse-residential-demolition-bid-specification-201309.pdf</a></li>
           </ul>
-          <p><a href="{{ page.get_parent.url }}">Return to Action Briefs</a></p>
+        </div>
+        <a id="return" href="{{ page.get_parent.url }}"><i class="fas fa-arrow-left"></i> Return to Action Briefs</a>
       </div>
 {% endblock %}
