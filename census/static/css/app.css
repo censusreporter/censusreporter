@@ -619,6 +619,7 @@ div#sub-header .intro {
   align-content: space-between;
   list-style: none;
   padding-left: 0;
+  margin-top: 2em;
 }
 li.iab-intro {
   flex-basis: 48%;

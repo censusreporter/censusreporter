@@ -42,7 +42,7 @@ class InformationForActionPage(Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=InformationForActionPageTag, blank=True)
     categories = ParentalManyToManyField('resources.InformationForActionCategory', blank=True)
-    author = models.CharField(max_length=100, default='None')
+    author = models.CharField(max_length=250, default='None')
 
 
     content_panels = Page.content_panels + [

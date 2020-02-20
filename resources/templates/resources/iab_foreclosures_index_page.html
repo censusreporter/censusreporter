@@ -17,7 +17,7 @@
       <div class="content-container wrapper clearfix">
       <h1>{{ page.title }}</h1>
 
-      <div class="intro">{{ page.intro|richtext }}</div>
+      <div class="intro">{{ page.body|richtext }}</div>
         <ul id="inner">
         {% for post in page.get_children %}
           <li class="iab-intro">
