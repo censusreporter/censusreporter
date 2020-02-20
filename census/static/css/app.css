@@ -708,6 +708,51 @@ li.iab-intro p {
   margin-top: 3em;
   margin-bottom: 1em;
 }
+.post-body {
+  border-bottom: 1px solid #2f2f2f;
+  margin-bottom: 2em;
+  padding-bottom: 1em;
+}
+div.tags h3 {
+  display: inline-block;
+  margin-right: .25em;
+}
+div.tags ul {
+  padding-left: 0;
+}
+div.tags ul li {
+  display: inline;
+  margin-right: 0.5em;
+  font-size: 1.17em;
+}
+div.iab-links h2 {
+  border-bottom: 1px solid #2f2f2f;
+  margin-bottom: 0;
+  padding-bottom: 0.5em;
+  display: inline-block;
+}
+div.iab-links ul {
+  margin-top: 0;
+  padding-top: .75em;
+  padding-left: 1em;
+  list-style: none;
+  border-left: 1px solid #2f2f2f;
+  margin-bottom: 3em;
+}
+div.iab-links ul li {
+  margin-bottom: 0.5em;
+}
+a#return {
+  background-color: #ecba66;
+  padding: 1em 2em;
+  text-decoration: none;
+  margin-top: 2em;
+  display: inline-block;
+}
+a#return:hover {
+  background-color: #fcf2e1;
+  border: 1px solid #ecba66;
+}
 /*header.section-contents h1,
 article .section-container,
 .card {
