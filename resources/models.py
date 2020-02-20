@@ -42,10 +42,12 @@ class InformationForActionPage(Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=InformationForActionPageTag, blank=True)
     categories = ParentalManyToManyField('resources.InformationForActionCategory', blank=True)
+    author = models.CharField(max_length=100, default='None')
 
 
     content_panels = Page.content_panels + [
         FieldPanel('date'),
+        FieldPanel('author'),
         FieldPanel('intro'),
         FieldPanel('tags'),
         FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
