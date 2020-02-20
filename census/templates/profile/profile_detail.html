@@ -74,7 +74,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="wrapper clearfix">
 <section class="clearfix column-half" id="query-topic-picker">
     <h2>Jump to a section: </h2>
     <div class="typeahead-container">
@@ -590,7 +589,6 @@
 
     </div>
 </article>
-</div>
 
 {% endblock %}
 
@@ -776,7 +774,8 @@ var makeCharts = function() {
             chartInitialSort = $(this).data('initial-sort'),
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
-            geographyData = profileData['geography'];
+            geographyData = profileData['geography'],
+            chartRelease = 'latest';
 
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
@@ -791,6 +790,10 @@ var makeCharts = function() {
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
         var thisRelease = chartData[key]['acs_release'],
             noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
+
+        if (thisRelease != defaultDataRelease) {
+            chartRelease = 'd3_present';
+        }
 
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
@@ -807,6 +810,7 @@ var makeCharts = function() {
             chartStatType: chartStatType,
             geographyData: geographyData,
             chartColorScale: 'HIP1',
+            release: chartRelease
         }
         try {
             Charts[i] = Chart(chartstuff);

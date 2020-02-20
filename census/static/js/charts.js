@@ -38,6 +38,10 @@ function Chart(options) {
         var geographyThis = options.geographyData['this'],
             geographyParents = options.geographyData.parents;
 
+        // add the release for urls
+        chart.release = options.release || 'latest';
+        
+
         chart.comparisonNames = {
             'this': (!!geographyThis) ? geographyThis.short_name : 'here',
             'place': (!!geographyParents.place) ? geographyParents.place.short_name : 'place',
@@ -1434,7 +1438,7 @@ function Chart(options) {
             clicked = d3.select(this),
             hide = clicked.classed("opened"),
             tableID = chart.capitalize(chart.initialData.metadata.table_id),
-            tableURL = '/data/table/?table='+tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+chart.geoIDs.join(',');
+            tableURL = '/data/table/?table='+tableID+'&primary_geo_id='+chart.primaryGeoID+'&geo_ids='+chart.geoIDs.join(',')+'&release='+chart.release;
         chart.dataDrawer = row.select(".data-drawer");
 
         // make sure we're in a pristine state

@@ -1954,8 +1954,8 @@ class DataView(TemplateView):
 		self.table = self.request.GET.get('table', None)
 		self.primary_geo_id = self.request.GET.get('primary_geo_id', None)
 		self.geo_ids = self.request.GET.get('geo_ids', '01000US')
-		self.release_slug = self.request.GET.get('release', None)
-		self.release = ACS_RELEASES.get(self.release_slug, None)
+		self.release = self.request.GET.get('release', 'latest')
+		#self.release = ACS_RELEASES.get(self.release_slug, None)
 
 		if not self.table or not self.geo_ids:
 			errors = {

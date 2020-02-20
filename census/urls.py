@@ -244,8 +244,8 @@ urlpatterns = [
     ),
 
     # e.g. /table/B01001/
-    path(
-        route   = 'data/<slug:format>%s/' % COMPARISON_FORMATS,
+    re_path(
+        route   = '^data/(?P<format>%s)/$' % COMPARISON_FORMATS,
         view    = cache_page(STANDARD_CACHE_TIME)(DataView.as_view()),
         kwargs  = {},
         name    = 'data_detail',

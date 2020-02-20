@@ -36,16 +36,18 @@ function Comparison(options, callback) {
         geoSearchAPI: API_URL + '/1.0/geo/search',
         rootGeoAPI: API_URL + '/1.0/geo/tiger2017/',
         childGeoAPI: API_URL + '/1.0/geo/show/tiger2017',
-        dataAPI: API_URL + '/1.0/data/show/latest',
+        dataAPI: API_URL + '/1.0/data/show/',
         d3DataAPI: 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
     };
 
     comparison.init = function(options) {
+        console.log(options);
         // establish our base vars
         comparison.tableID = options.tableID;
         comparison.dataFormat = options.dataFormat;
         comparison.geoIDs = options.geoIDs;
         comparison.primaryGeoID = options.primaryGeoID || ((comparison.geoIDs.length == 1) ? comparison.geoIDs[0] : null);
+        comparison.releaseSlug = options.release;
         comparison.chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
         // jQuery things
         comparison.$topicSelect = $(options.topicSelect);
@@ -2228,7 +2230,13 @@ function Comparison(options, callback) {
 
             } else {
                 // CR query
-                $.getJSON(comparison.dataAPI, params)
+                let apiURL
+                if (comparison.releaseSlug) {
+                    apiURL = comparison.dataAPI + comparison.releaseSlug
+                } else {
+                    apiURL = comparison.dataAPI + 'latest'
+                }
+                $.getJSON(apiURL, params)
                     .done(function(results) {
                         comparison.data = comparison.cleanData(results);
                         comparison.addStandardMetadata();
@@ -3882,7 +3890,8 @@ function Comparison(options, callback) {
         var dataFormat = dataFormat || comparison.dataFormat,
             tableID = tableID || comparison.tableID,
             geoIDs = geoIDs || comparison.geoIDs,
-            primaryGeoID = primaryGeoID || comparison.primaryGeoID;
+            primaryGeoID = primaryGeoID || comparison.primaryGeoID
+            releaseSlug = comparison.releaseSlug || 'latest';
 
         var url = '/data/'+dataFormat+'/?table='+tableID;
         if (!!geoIDs) {
@@ -3890,6 +3899,9 @@ function Comparison(options, callback) {
         }
         if (!!primaryGeoID) {
             url += '&primary_geo_id=' + primaryGeoID
+        }
+        if (!!releaseSlug) {
+            url += '&release=' + releaseSlug
         }
 
         if (!newSumLev) {
