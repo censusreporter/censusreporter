@@ -12,6 +12,9 @@ from taggit.models import TaggedItemBase
 
 from wagtail.snippets.models import register_snippet
 
+from wagtail.documents.models import Document
+from wagtail.documents.edit_handlers import DocumentChooserPanel
+
 @register_snippet
 class InformationForActionCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -43,6 +46,13 @@ class InformationForActionPage(Page):
     tags = ClusterTaggableManager(through=InformationForActionPageTag, blank=True)
     categories = ParentalManyToManyField('resources.InformationForActionCategory', blank=True)
     author = models.CharField(max_length=250, default='None')
+    pdf_file = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
 
     content_panels = Page.content_panels + [
@@ -52,6 +62,7 @@ class InformationForActionPage(Page):
         FieldPanel('tags'),
         FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
         FieldPanel('body', classname="full"),
+        DocumentChooserPanel('pdf_file')
     ]
 
 class IABIndexPage(Page):

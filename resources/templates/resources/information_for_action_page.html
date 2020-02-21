@@ -33,7 +33,10 @@
     <!--<p class="meta">{{ page.date }}</p>-->
     <div class="post-body">
       {{ page.body|richtext }}
+      <h4 id="pdf-download"><a href="{{ page.pdf_file.url }}"><i class="fas fa-file-alt"></i> Download PDF</a></h4>
     </div>
+
+
     {% if page.tags.all.count %}
 
     <div class="tags">

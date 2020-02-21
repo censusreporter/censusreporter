@@ -656,8 +656,24 @@ li.iab-intro p {
 }
 .post-body {
   border-bottom: 1px solid #2f2f2f;
-  margin-bottom: 2em;
-  padding-bottom: 1em;
+  margin-bottom: 5em;
+  padding-bottom: 2em;
+}
+h4#pdf-download {
+  float: left;
+  margin-top: 0.5em;
+}
+h4#pdf-download a {
+  background-color: #ecba66;
+  padding: 1em 2em;
+  text-decoration: none;
+  color: #2f2f2f;
+  display: inline-block;
+  border: 1px solid #ecba66;
+}
+h4#pdf-download a:hover {
+  background-color: #fcf2e1;
+  border: 1px solid #2f2f2f;
 }
 div.tags h3 {
   display: inline-block;
@@ -694,6 +710,8 @@ a#return {
   text-decoration: none;
   margin-top: 2em;
   display: inline-block;
+  border: 1px solid #ecba66;
+  float: left;
 }
 a#return:hover {
   background-color: #fcf2e1;
