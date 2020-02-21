@@ -97,7 +97,12 @@
         {% block header_content %}{% endblock header_content %}
         {% endblock %}
 
+        {% block sub_head_container%}
+          {% block sub_head_content %}{% endblock %}
+        {% endblock %}
+
         {% block content_container %}
+
         <div class="wrapper clearfix">
             {% block content %}{% endblock %}
         </div>

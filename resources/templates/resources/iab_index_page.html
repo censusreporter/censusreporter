@@ -3,16 +3,18 @@
 {% load wagtailcore_tags %}
 
 {% block body_class %}template-iabindexpage{% endblock %}
+{% block sub_head%}
+    {% block sub_head_content %}
+          <div id="sub-header">
+            <div id="inner" class="wrapper">
+              <h1>{{ page.title }}</h1>
+              <div class="intro">{{ page.intro|richtext }}</div>
+            </div>
+          </div>
+    {% endblock %}
+{% endblock %}
 
 {% block content %}
-      <div id="sub-header">
-        <div id="inner" class="wrapper">
-        <h1>{{ page.title }}</h1>
-
-        <div class="intro">{{ page.intro|richtext }}</div>
-
-        </div>
-      </div>
 
       <div class="content-container wrapper clearfix">
         <ul id="inner">
