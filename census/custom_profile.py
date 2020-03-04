@@ -412,7 +412,7 @@ def create_custom_profile(slug, profile_type):
 			doc['geography']['this']['short_geoid'] = None
 			doc['geography']['this']['full_name'] = dashboard.dashboard_name
 			doc['geography']['this']['number_of_geographies'] = 0
-			doc['geography']['this']['total_population'] = 0
+			doc['geography']['this']['total_population'] = 2
 			doc['geography']['this']['land_area'] = 0
 			doc['geography']['this']['full_geoids'] = []
 
