@@ -428,12 +428,12 @@ def create_custom_profile(slug, profile_type):
 		try:
 			doc['geography']['this']['land_area'] = profile_data['geography']['this']['land_area'] + doc['geography']['this']['land_area']
 		except TypeError as e:
-			pass
+			raise
 		doc['geography']['this']['full_geoids'].append(geo_id)
 		try:
 			doc['geography']['this']['total_population'] = profile_data['geography']['this']['total_population'] + doc['geography']['this']['total_population']
 		except TypeError as e:
-			pass
+			raise
 
 		#### demographics calculations ####
 
@@ -1049,7 +1049,7 @@ def create_custom_profile(slug, profile_type):
 	except TypeError as e:
 		square_miles = 0
 		pass
-	
+
 	total_pop = doc['geography']['this']['total_population']
 	population_density = get_division(total_pop, get_division(doc['geography']['this']['land_area'], 2589988, -1))
 	doc['geo_metadata']['square_miles'] = square_miles
