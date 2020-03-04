@@ -1043,8 +1043,13 @@ def create_custom_profile(slug, profile_type):
 
 
 	square_miles = get_division(doc['geography']['this']['land_area'], 2589988)
-	if square_miles < .1:
-		square_miles = get_division(doc['geography']['this']['land_area'], 2589988, 3)
+	try:
+		if square_miles < .1:
+			square_miles = get_division(doc['geography']['this']['land_area'], 2589988, 3)
+	except TypeError as e:
+		square_miles = 0
+		pass
+	
 	total_pop = doc['geography']['this']['total_population']
 	population_density = get_division(total_pop, get_division(doc['geography']['this']['land_area'], 2589988, -1))
 	doc['geo_metadata']['square_miles'] = square_miles
