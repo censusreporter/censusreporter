@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 from __future__ import print_function
+import copy
 import json
 import math
 import operator
@@ -407,7 +408,7 @@ def create_custom_profile(slug, profile_type):
 		# if the first time through the loop, copy the data over, then we'll overwrite the ['this'] dictionaries as we itterate  
 		if i == 0:
 			#custom geo metadata
-			doc['geography'] = profile_data['geography'].copy()
+			doc['geography'] = copy.deepcopy(profile_data['geography'])
 			doc['geography']['this']['short_name'] = dashboard.dashboard_name
 			doc['geography']['this']['short_geoid'] = None
 			doc['geography']['this']['full_name'] = dashboard.dashboard_name
@@ -417,11 +418,11 @@ def create_custom_profile(slug, profile_type):
 			doc['geography']['this']['full_geoids'] = []
 
 			#copy the data
-			doc['demographics'] = profile_data['demographics'].copy()
-			doc['economics'] = profile_data['economics'].copy()
-			doc['families'] = profile_data['families'].copy()
-			doc['housing'] = profile_data['housing'].copy()
-			doc['social'] = profile_data['social'].copy()
+			doc['demographics'] = copy.deepcopy(profile_data['demographics'])
+			doc['economics'] = copy.deepcopy(profile_data['economics'])
+			doc['families'] = copy.deepcopy(profile_data['families'])
+			doc['housing'] = copy.deepcopy(profile_data['housing'])
+			doc['social'] = copy.deepcopy(profile_data['social'])
 
 		#custom geo metadata
 		doc['geography']['this']['number_of_geographies'] += 1
