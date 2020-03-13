@@ -128,4 +128,52 @@ def delete_all_profiles(year_str):
       print(len(deleted))
 
 # most recently, I wanted to 
-delete_embed('ACS_2017_5-year', 'social-place_of_birth-distribution',delete=False)
+# delete_embed('ACS_2017_5-year', 'social-place_of_birth-distribution',delete=False)
+
+def delete_by_pattern(key_prefix,patterns,do_it=False):
+  """Given a prefix, look at every key matching that prefix, and, if 
+     the non-prefix part of the key matches any pattern, delete it
+     (or, if do_it is False, print that it would be done)
+  """
+  regexes = []
+  if isinstance(patterns,basestring):
+    print "patterns should be a sequence not a string"
+    return
+  for pat in patterns:
+    if type(pat) == '_sre.SRE_Pattern':
+      regexes.append(pat)
+    else:
+      regexes.append(re.compile(pat)) 
+  from collections import defaultdict
+  delete_dict = defaultdict(list)
+  for key in bucket.list(key_prefix):
+    fn = key.name.replace(key_prefix,'')
+    if fn[0] == '/': fn = fn[1:]
+    for pat in regexes:
+      if pat.match(fn):
+        delete_dict[pat.pattern].append(fn)
+        if do_it:
+          key.delete()
+        else:
+          print "would delete ",key.name
+        continue
+  for k,v in delete_dict.items():
+    print "Pattern", k, " - ", len(v)
+
+
+if __name__ == '__main__':
+  delete_by_pattern('1.0/data/profiles/2018/',
+    [
+      '05000US.*',
+      '31000US.*',
+      '33000US.*',
+    ],
+    do_it=True
+  )
+  delete_by_pattern('tiger2018/show/',
+    [
+      '05000US.*parents.json',
+      '31000US.*parents.json',
+    ],
+    do_it=True
+  )
