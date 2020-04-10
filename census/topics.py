@@ -31,29 +31,6 @@ TOPICS_LIST = [
     },
 
     {
-        'title': 'Births',
-        'slug': 'births',
-        'topics': ['births', 'children', 'families'],
-        'description': 'The Michigan Department of Health and Human Services collects a number of vital statistics, including data from the birth certificates of each birth recorded in the state.  Through this data we report a variety of health indicators and demographic information related to births. If there are less fewer than 6 observations, the information is suppressed for privacy reasons.',
-        'template_name': 'births.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'Children',
-        'slug': 'children',
-        'topics': ['family type', 'families', 'children'],
-        'description': 'Tables concerning Children. Helpful to consider in relation to Families.',
-        'template_name': 'children.html',
-        'question_images': ['relationship.png',],
-        'question_pdfs': [
-            ('Questions on Family Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
-        ]
-    },
-
-    {
         'title': 'Commute',
         'slug': 'commute',
         'topics': ['employment', 'commute'],
@@ -97,100 +74,11 @@ TOPICS_LIST = [
     },
 
     {
-        'title': 'Health Insurance',
-        'slug': 'health-insurance',
-        'topics': ['health insurance',],
-        'description': 'The ACS has a number of questions that deal with health insurance and many corresponding tables.',
-        'template_name': 'health-insurance.html',
-        'question_images': ['health-insurance.png',],
-        'question_pdfs': [
-            ('Questions on Health Insurance Coverage','http://www.census.gov/acs/www/Downloads/QbyQfact/health_insurance.pdf'),
-        ]
-    },
-
-    {
-        'title': 'Hospital visits through Medicaid',
-        'slug': 'hospital-visits-through-medicaid',
-        'topics': ['public health', 'children', 'families', 'health care'],
-        'description': 'The Michigan Department of Health and Human Services collects data on patients under 18 years of age who visited the hospital through Medicaid. This dataset includes information about the number of these visits that were to the Emergency Room, as well as the number of visits that were related to Asthma or Diabetes. If there were fewer than 6 observations, the information is suppressed for privacy reasons.',
-        'template_name': 'medicaid.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'Free and Reduced School Lunch',
-        'slug': 'free-and-reduced-school-lunch',
-        'topics': ['education', 'children', 'families', 'nutrition'],
-        'description': 'The Center for Educational Performance and Information (CEPI) collects the count of how many students (K-12) are eligible for free and/or reduced school lunch.  Free and reduced lunch eligibility is based on income thresholds based on household size. Non-public school and home-school students are excluded from CEPI\'s data.',
-        'template_name': 'school-lunch.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'College Readiness',
-        'slug': 'college-readiness',
-        'topics': ['education', 'children', 'families', 'higher education'],
-        'description': 'This dataset contains college readiness information, by Metropolitan Statistical Area (MSA), for the state of Michigan. This dataset is reporting score information from the 2017-2018 school year. Students were considered ready for college if they scored at or above the benchmark scores. The SAT Benchmarks represent the likelihood of success in entry-level college courses.  The benchmark for Evidenced-Based Reading and Writing (EBRW) is 480 and 530 for Math.  The SAT total score reported for Michigan is the combined Evidenced-Based Reading and Writing, and Math Student Score. The Total Score range is 400 - 1600.  Data Driven Detroit obtained this data from MiSchoolData.org in October 2018 at a building level and aggregated the data to a MSA level. See "Additional Notes" tab for more information.',
-        'template_name': 'college-readiness.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'College Enrollment',
-        'slug': 'college-enrollment',
-        'topics': ['education', 'children', 'families', 'higher education'],
-        'description': 'This dataset contains college enrollment information, by U.S. Census Block Group, for the state of Michigan. College enrollment was defined as the number of public high school students who graduated in 2017, who enrolled in a college or university. This dataset includes enrollment in two-year and four-year institutions of higher education.',
-        'template_name': 'college-enrollment.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
         'title': 'Blood Lead Level',
         'slug': 'blood-lead-level',
         'topics': ['health', 'children', 'families', 'public health'],
         'description': 'Data on the number of tests for elevated blood lead level is collected by the Michigan Department of Health and Human Services at the individual level. For this analysis, D3 anonymized the data and aggregated it up to various geographies. Geographies with less than 6 individuals with elevated blood lead levels (EBLLs) are suppressed to preserve anonymity. EBLLs are defined as a blood lead level greater than 4.5 micrograms per deciliter (the unit of measure used to determine lead levels which is micrograms of lead per deciliter of blood). There are two different types of samples, capillary and venous. Capillary testing is done by a pricking the skin of a fingertip or heel capillary. Venous testing is done by drawing blood directly from an arm vein. Some children receive both types of testing, but not all children receive venous testing. Venous is preferred for accuracy and used in the SDC tool as the method of identifying EBLL.',
         'template_name': 'blood-lead-level.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'Child Care',
-        'slug': 'child-care',
-        'topics': ['child care', 'children', 'families'],
-        'description': 'Great Start to Quality measures the quality of early childhood programs and providers in Michigan by using more than 40 program quality indicators aligned with Michigan\'s Early Childhood Standards of Quality for Infant and Toddler Programs and Early Childhood Standards of Quality for Prekindergarten. The program quality indicators are standards used to measure the quality of a program in a specific area. Each program quality indicator falls into one of five categories.',
-        'template_name': 'child-care.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'Infant Mortality',
-        'slug': 'infant-mortality',
-        'topics': ['births', 'children', 'families', 'health care'],
-        'description': 'Data on the number of infant deaths, unsafe sleep related infant deaths, and infant deaths due to assault or maltreatment collected by the State of Michigan Office of Vital Statistics at the state, county, county subdivision, and congressional district levels in Michigan.',
-        'template_name': 'infant-mortality.html',
-        'question_images': [],
-        'question_pdfs': [
-        ]
-    },
-
-    {
-        'title': 'Immunization',
-        'slug': 'immunization',
-        'topics': ['public health', 'children', 'families', 'health care'],
-        'description': 'Data on the number of fully or partially immunized people collected by the Michigan Care Improvement Agency at the county, county subdivision (in Wayne County), congressional district, State House district, State Senate district, and Census tract levels in Michigan. For this analysis, MDHHS determined immunization status using a National Immunization Survey (NIS) - like methodology, which is a count of both valid and invalid doses. This allows for comparisons with other states. Full immunization, denoted as "fully immunized," includes 4 DTaP, 3 Polio, 1 MMR, 3 Hib, 3 HepB, 1 Varicella, 4 PCV, and 2 HepA vaccinations. Partial immunization, minus HepA and minus PCV, lack HepA and/or PCV vaccinations, respectively. ',
-        'template_name': 'immunization.html',
         'question_images': [],
         'question_pdfs': [
         ]
@@ -332,7 +220,17 @@ TOPICS_LIST = [
         ]
     },
 
+    {
+        'title': 'Housing',
+        'slug': 'housing',
+        'topics': ['tenure', 'housing structure characteristics', 'resident information', 'housing costs', 'vehicles available'],
+        'description': 'The ACS collects a variety of information on housing, providing insights on housing markets and conditions at various geographic levels.',
+        'template_name': 'housing.html',
+        'question_images': [],
+        'question_pdfs': [
+        ]
+    },
+
 ]
 
 TOPICS_MAP = { topic['slug']: topic for topic in TOPICS_LIST }
-
