@@ -27,7 +27,6 @@ class ApiClient(object):
 		print(params)
 		r = requests.get(url, params=params)
 		data = None
-		# print r
 		time.sleep(1)
 		if r.status_code == 200:
 			data = r.json(object_pairs_hook=OrderedDict)
@@ -388,6 +387,11 @@ def geo_profile(geoid, acs='latest'):
 	api = ApiClient(settings.API_URL)
 	d3_api = D3ApiClient(settings.D3_API_URL)
 	this_geoid = geoid
+
+	if acs == 'latest' or acs == 'acs2017_5yr':
+		d3_schema = 'd3_present'
+	else:
+		d3_schema = 'd3_past'
 
 	item_levels = api.get_parent_geoids(geoid)['parents']
 	comparison_geoids = [level['geoid'] for level in item_levels]
@@ -1458,7 +1462,7 @@ def geo_profile(geoid, acs='latest'):
 
 	print(d3_comparison_geoids)
 	# Vacant properties
-	data = api.get_data('B25999', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25999', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']
 
 	units_dict['number_vacant'] = build_item('Total number of vacant housing units (Q3 2019)', data, item_levels_minus_county_state,
@@ -1471,7 +1475,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Demolitions
-	data = api.get_data('B25998', d3_comparison_geoids, 'd3_present')
+	data = api.get_data('B25998', d3_comparison_geoids, d3_schema)
 	acs_name = data['release']['name']
 
 	units_dict['number_demos'] = build_item('Total number of demolitions (2018)', data, item_levels_minus_county_state,
@@ -1533,7 +1537,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Building Permits
-	data = api.get_data('B25997', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25997', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']	
 
 	units_dict['number_permits'] = build_item('Total number of building permits (2018)', data, item_levels_minus_county_state,
@@ -1566,7 +1570,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Blight Violations
-	data = api.get_data('B25996', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25996', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']
 
 	units_dict['number_blight_tickets'] = build_item('Total number of blight tickets (2018)', data, item_levels_minus_county_state,
@@ -1662,7 +1666,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Total Tax Foreclosures
-	data = api.get_data('B25995', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25995', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']
 
 	units_dict['total_tax_foreclosures'] = build_item('Total Tax Foreclosures (2018)', data, item_levels_minus_county_state,
@@ -1671,7 +1675,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Property Transactions
-	data = api.get_data('B25994', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25994', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']
 
 	units_dict['number_property_sales'] = build_item('Total number of property sales (2018)', data, item_levels_minus_county_state,
@@ -1802,31 +1806,32 @@ def geo_profile(geoid, acs='latest'):
 
 
 	#voter age
-	data = api.get_data('B25993', d3_comparison_geoids , 'd3_present')
-	acs_name = data['release']['name']
+	if d3_schema == 'd3_present':
+		data = api.get_data('B25993', d3_comparison_geoids , d3_schema)
+		acs_name = data['release']['name']
 
-	units_dict['voters'] = build_item('Total registered voters (2019)', data, item_levels_minus_county_state,
-		'B25993001')
-	add_metadata(units_dict['voters'], 'B25993', 'Housing units', 'State of Michigan Qualified Voter File; ' + acs_name)
-	
-	voter_age_distribution = OrderedDict()
-	units_dict['voter_age_distribution'] = voter_age_distribution
-	add_metadata(voter_age_distribution, 'B25993', 'Total registered voters', 'State of Michigan Qualified Voter File; ' + acs_name)
+		units_dict['voters'] = build_item('Total registered voters (2019)', data, item_levels_minus_county_state,
+			'B25993001')
+		add_metadata(units_dict['voters'], 'B25993', 'Housing units', 'State of Michigan Qualified Voter File; ' + acs_name)
+		
+		voter_age_distribution = OrderedDict()
+		units_dict['voter_age_distribution'] = voter_age_distribution
+		add_metadata(voter_age_distribution, 'B25993', 'Total registered voters', 'State of Michigan Qualified Voter File; ' + acs_name)
 
-	voter_age_distribution['18_24'] = build_item('18-24', data, item_levels_minus_county_state,
-		'B25993002 B25993001 / %')
-	voter_age_distribution['25_34'] = build_item('25-34', data, item_levels_minus_county_state,
-		'B25993003 B25993001 / %')
-	voter_age_distribution['35_54'] = build_item('35-54', data, item_levels_minus_county_state,
-		'B25993004 B25993001 / %')
-	voter_age_distribution['55_64'] = build_item('55-64', data, item_levels_minus_county_state,
-		'B25993005 B25993001 / %')
-	voter_age_distribution['65_99'] = build_item('65+', data, item_levels_minus_county_state,
-		'B25993006 B25993001 / %')
+		voter_age_distribution['18_24'] = build_item('18-24', data, item_levels_minus_county_state,
+			'B25993002 B25993001 / %')
+		voter_age_distribution['25_34'] = build_item('25-34', data, item_levels_minus_county_state,
+			'B25993003 B25993001 / %')
+		voter_age_distribution['35_54'] = build_item('35-54', data, item_levels_minus_county_state,
+			'B25993004 B25993001 / %')
+		voter_age_distribution['55_64'] = build_item('55-64', data, item_levels_minus_county_state,
+			'B25993005 B25993001 / %')
+		voter_age_distribution['65_99'] = build_item('65+', data, item_levels_minus_county_state,
+			'B25993006 B25993001 / %')
 
 
 	#Tax and Values
-	data = api.get_data('B25992', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25992', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']	
 	
 	units_dict['total_properties'] = build_item('Total properties (2018)', data, item_levels_minus_county_state,
@@ -1917,15 +1922,16 @@ def geo_profile(geoid, acs='latest'):
 
 
 	#DLBA Ownership
-	data = api.get_data('B25991', d3_comparison_geoids , 'd3_present')
-	acs_name = data['release']['name']	
-	
-	units_dict['dlba_total_properties'] = build_item('Total properties under DLBA ownership (2019)', data, item_levels_minus_county_state,
-		'B25991001')
-	add_metadata(units_dict['dlba_total_properties'], 'B25991', 'Total properties under DLBA ownership', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
+	if d3_schema == 'd3_present':
+		data = api.get_data('B25991', d3_comparison_geoids , d3_schema)
+		acs_name = data['release']['name']	
+		
+		units_dict['dlba_total_properties'] = build_item('Total properties under DLBA ownership (2019)', data, item_levels_minus_county_state,
+			'B25991001')
+		add_metadata(units_dict['dlba_total_properties'], 'B25991', 'Total properties under DLBA ownership', 'Detroit Land Bank Authority (DLBA); ' + acs_name)
 
 	#DLBA Sales
-	data = api.get_data('B25990', d3_comparison_geoids , 'd3_present')
+	data = api.get_data('B25990', d3_comparison_geoids , d3_schema)
 	acs_name = data['release']['name']	
 
 	units_dict['dlba_total_sales'] = build_item('Total DLBA sales (2019)', data, item_levels_minus_county_state,

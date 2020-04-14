@@ -1480,114 +1480,37 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		# store static version on S3
 		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
 
-
-	def get_context_data(self, *args, **kwargs):
-		geography_id = self.geo_id
-
-		try:
-			s3_object = self.s3_profile_key(geography_id)
-		except:
-			s3_object = None
-
-		if s3_object:
-			try:
-				buf = BytesIO(s3_object.get()["Body"].read())
-				compressed = gzip.GzipFile(fileobj=buf)
-				# Read the decompressed JSON from S3
-				string_as_bytes = compressed.read()
-				profile_data_json = string_as_bytes.decode()
-				# Load it into a Python dict for the template
-				profile_data = json.loads(profile_data_json)
-				# Also mark it as safe for the charts on the profile
-				profile_data_json = SafeString(profile_data_json)
-			except botocore.exceptions.ClientError as e:
-				if e.response['Error']['Code'] == "404":
-					# The object does not exist.
-					profile_data = geo_profile(geography_id, 'acs2017_5yr')
-
-					if profile_data:
-						profile_data = enhance_api_data(profile_data)
-
-						profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
-
-						if s3_object is None:
-							logger.warn("Could not save to S3 because there was no connection to S3.")
-						else:
-							self.write_profile_json(s3_object, profile_data_json, geography_id)
-
-					else:
-						raise Http404				
-				else:
-					# Something else has gone wrong.
-					logger.warn(e)
-					raise Http404
-		else:
-			# The object does exist.
-			profile_data = geo_profile(geography_id, 'acs2017_5yr')
-
-			if profile_data:
-				profile_data = enhance_api_data(profile_data)
-
-				profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
-
-				if s3_object is None:
-					logger.warn("Could not save to S3 because there was no connection to S3.")
-				else:
-					self.write_profile_json(s3_object, profile_data_json, geography_id)
-
-			else:
-				raise Http404
-
-		page_context = {
-			'profile_data_json': profile_data_json
-		}
-		page_context.update(profile_data)
-
-
-
-
 	def get_context_data(self, *args, **kwargs):
 		geography_id = self.geo_id
 		current_year = self.current_year
 		past_year = self.past_year
+		logger.warn(geography_id)
 
-		# current year
+		# current year		
+		s3_object = None
+		s3_object_exists = False
 		try:
 			s3_object = self.s3_profile_key(current_year, geography_id)
-		except:
-			s3_object = None
+			s3_object.load()
+			s3_object_exists = True
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				s3_object_exists = False
+			else:
+				logger.warn(e)
+				raise Http404
 
-		if s3_object:
-			try:
-				buf = BytesIO(s3_object.get()["Body"].read())
-				compressed = gzip.GzipFile(fileobj=buf)
-				# Read the decompressed JSON from S3
-				string_as_bytes = compressed.read()
-				profile_data_json_current_year = string_as_bytes.decode()
-				# Load it into a Python dict for the template
-				profile_data_current_year = json.loads(profile_data_json_current_year)
-				# Also mark it as safe for the charts on the profile
-				profile_data_json_current_year = SafeString(profile_data_json_current_year)
-			except botocore.exceptions.ClientError as e:
-				if e.response['Error']['Code'] == "404":
-					# The object does not exist.
-					profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
-
-					if profile_data_current_year:
-						profile_data_current_year = enhance_api_data(profile_data_current_year)
-
-						profile_data_json_current_year = SafeString(json.dumps(profile_data_current_year, cls=LazyEncoder))
-
-						if s3_object is None:
-							logger.warn("Could not save to S3 because there was no connection to S3.")
-						else:
-							self.write_profile_json(s3_object, profile_data_current_year, current_year, geography_id)
-					else:
-						raise Http404				
-				else:
-					# Something else has gone wrong.
-					logger.warn(e)
-					raise Http404
+		logger.warn(s3_object_exists)
+		if s3_object_exists:
+			buf = BytesIO(s3_object.get()["Body"].read())
+			compressed = gzip.GzipFile(fileobj=buf)
+			# Read the decompressed JSON from S3
+			string_as_bytes = compressed.read()
+			profile_data_json_current_year = string_as_bytes.decode()
+			# Load it into a Python dict for the template
+			profile_data_current_year = json.loads(profile_data_json_current_year)
+			# Also mark it as safe for the charts on the profile
+			profile_data_json_current_year = SafeString(profile_data_json_current_year)
 		else:
 			# The object does exist.
 			profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
@@ -1601,6 +1524,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
 					self.write_profile_json(s3_object, profile_data_current_year, current_year, geography_id)
+
 			else:
 				raise Http404
 
@@ -1612,42 +1536,30 @@ class TimeSeriesGeographyDetailView(TemplateView):
  
 
 		# past year
+		s3_object = None
+		s3_object_exists = False
 		try:
 			s3_object = self.s3_profile_key(past_year, geography_id)
-		except:
-			s3_object = None
+			s3_object.load()
+			s3_object_exists = True
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				s3_object_exists = False
+			else:
+				logger.warn(e)
+				raise Http404
 
-		if s3_object:
-			try:
-				buf = BytesIO(s3_object.get()["Body"].read())
-				compressed = gzip.GzipFile(fileobj=buf)
-				# Read the decompressed JSON from S3
-				string_as_bytes = compressed.read()
-				profile_data_json_past_year = string_as_bytes.decode()
-				# Load it into a Python dict for the template
-				profile_data_past_year = json.loads(profile_data_json_past_year)
-				# Also mark it as safe for the charts on the profile
-				profile_data_json_past_year = SafeString(profile_data_json_past_year)
-			except botocore.exceptions.ClientError as e:
-				if e.response['Error']['Code'] == "404":
-					# The object does not exist.
-					profile_data_past_year = geo_profile(geography_id, 'acs2017_5yr')
-
-					if profile_data_past_year:
-						profile_data_past_year = enhance_api_data(profile_data_past_year)
-
-						profile_data_json_past_year = SafeString(json.dumps(profile_data_past_year, cls=LazyEncoder))
-
-						if s3_object is None:
-							logger.warn("Could not save to S3 because there was no connection to S3.")
-						else:
-							self.write_profile_json(s3_object, profile_data_past_year, past_year, geography_id)
-					else:
-						raise Http404				
-				else:
-					# Something else has gone wrong.
-					logger.warn(e)
-					raise Http404
+		logger.warn(s3_object_exists)
+		if s3_object_exists:
+			buf = BytesIO(s3_object.get()["Body"].read())
+			compressed = gzip.GzipFile(fileobj=buf)
+			# Read the decompressed JSON from S3
+			string_as_bytes = compressed.read()
+			profile_data_json_past_year = string_as_bytes.decode()
+			# Load it into a Python dict for the template
+			profile_data_past_year = json.loads(profile_data_json_past_year)
+			# Also mark it as safe for the charts on the profile
+			profile_data_json_past_year = SafeString(profile_data_json_past_year)
 		else:
 			# The object does exist.
 			profile_data_past_year = geo_profile(geography_id, 'acs2017_5yr')
@@ -1661,8 +1573,10 @@ class TimeSeriesGeographyDetailView(TemplateView):
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
 					self.write_profile_json(s3_object, profile_data_past_year, past_year, geography_id)
+
 			else:
 				raise Http404
+
 
 
 		page_context_past_year = {

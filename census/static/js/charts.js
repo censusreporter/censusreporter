@@ -93,10 +93,12 @@ function Chart(options) {
                 options.chartData.count = countCurrentYear;
             }
 
+            console.log(options.chartDataPastYear);
             var keys = Object.keys(options.chartDataPastYear);
             for (var i = 0; i < keys.length; i++) {
                 if (keys[i] != 'metadata') {
                     mergeTimeSeriesDatasets[keys[i]] = {};
+                    // TO DO: figure out how to pull years from data and not have them be hardcoded
                     mergeTimeSeriesDatasets[keys[i]][years[1]] = options.chartData[keys[i]];
                     mergeTimeSeriesDatasets[keys[i]][years[0]] = options.chartDataPastYear[keys[i]];
 

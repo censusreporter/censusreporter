@@ -33,7 +33,7 @@ else:
     s3 = None
 
 def s3_keyname(geoid):
-    return '1.0/data/hip-profiles/2017/%s.json' % geoid
+    return '1.0/data/hip-profiles/2012/%s.json' % geoid
 
 def get_s3_object(geoid):
     s3_object = None
@@ -59,7 +59,7 @@ def write_profile_json(s3_object, data, geoid):
 def seed(geoid):
     print("Working on {}".format(geoid))
     try:
-        api_data = geo_profile(geoid, 'acs2017_5yr')
+        api_data = geo_profile(geoid, 'acs2012_5yr')
         api_data = enhance_api_data(api_data)
 
         s3_object = get_s3_object(geoid)
