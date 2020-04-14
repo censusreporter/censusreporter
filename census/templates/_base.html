@@ -1,3 +1,5 @@
+{% load wagtailcore_tags %}
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -88,8 +90,8 @@
                 <li><a href="{% url 'draw' %}">Map</a></li>
                 <li><a href="{% url 'topic_list' %}">Topics</a></li>
                 <li><a href="{% url 'gallery' %}">Gallery</a></li>
-                <li><a href="#">Official Program<br />Reports</a></li>
-                <li><a href="#">Information<br />Action Briefs</a></li>
+                <li><a href="{% slugurl 'info-action-briefs' %}">Information<br />Action Briefs</a></li>
+                {% comment %} <li><a href="#">Official Program<br />Reports</a></li> {% endcomment %}
                 <li><a href="https://datadrivendetroit.org/?s=housing&et_pb_searchform_submit=et_search_proccess&et_pb_search_cat=572%2C571&et_pb_include_posts=yes">Blog</a></li>
               </ul>
             </div>
@@ -115,11 +117,11 @@
         <footer id="page-footer">
             <div class="l-flex-space-between">
               <ul id=footer-nav>
-                <li><a href="">Home</a></li>
-                <li><a href="">Map</a></li>
-                <li><a href="">Case<br />Studies</a></li>
-                <li><a href="">Information<br />Action Briefs</a></li>
-                <li><a href="">Blog</a></li>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'draw' %}">Map</a></li>
+                <li><a href="{% slugurl 'info-action-briefs' %}">Information<br />Action Briefs</a></li>
+                {% comment %} <li><a href="#">Official<br />Program Reports</a></li> {% endcomment %}
+                <li><a href="https://datadrivendetroit.org/?s=housing&et_pb_searchform_submit=et_search_proccess&et_pb_search_cat=572%2C571&et_pb_include_posts=yes">Blog</a></li>
               </ul>
               <div class="details">
                 <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>

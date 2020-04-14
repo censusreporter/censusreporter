@@ -1,4 +1,7 @@
+
 {% extends '_new_homepage_base.html' %}{% load humanize partition %}
+
+{% load wagtailcore_tags %}
 
 {% block head_title %}{{ block.super }} | Home{% endblock %}
 {% block head_meta_description %}{% endblock %}
@@ -76,7 +79,7 @@
         <p class="body-text">Looking to dive deeper? These links will take you to summaries of research, best practices, and resources about key topics related to housing in Detroit.</p>
         <ul>
           <li>
-            <a>
+            <a href="{% slugurl 'how-did-detroits-current-housing-situation-come-about' %}">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/housing-market-icon.png" />
               </div>
@@ -84,7 +87,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a href="{% slugurl 'what-does-affordability-mean-detroit' %}">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/inclusive-growth-icon.png" />
               </div>
@@ -92,7 +95,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a href="{% slugurl 'what-do-we-know-about-demolitions' %}">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/demolition-icon.png" />
               </div>
@@ -100,7 +103,7 @@
             </a>
           </li>
           <li>
-            <a>
+            <a href="{% slugurl 'what-do-we-know-about-tax-foreclosures-and-evictions-detroit' %}">
               <div class="image-holder">
                 <img class="icon" src="{{ STATIC_URL }}img/michigan-market-icon.png" />
               </div>
@@ -183,8 +186,8 @@
           <ul id=footer-nav>
             <li><a href="{% url 'homepage' %}">Home</a></li>
             <li><a href="{% url 'draw' %}">Map</a></li>
-            <li><a href="#">Information<br />Action Briefs</a></li>
-            <li><a href="#">Official<br />Program Reports</a></li>
+            <li><a href="{% slugurl 'info-action-briefs' %}">Information<br />Action Briefs</a></li>
+            {% comment %} <li><a href="#">Official<br />Program Reports</a></li> {% endcomment %}
             <li><a href="https://datadrivendetroit.org/?s=housing&et_pb_searchform_submit=et_search_proccess&et_pb_search_cat=572%2C571&et_pb_include_posts=yes">Blog</a></li>
           </ul>
           <div class="details">

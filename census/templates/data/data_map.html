@@ -1,5 +1,7 @@
 {% extends 'data/_base_data.html' %}{% load humanize %}
 
+{% load wagtailcore_tags %}
+
 {% block head_title %}Map View: {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
@@ -43,13 +45,13 @@
 
 <footer>
     <div class="l-flex-space-between">
-      <ul id=footer-nav>
-        <li><a href="">Home</a></li>
-        <li><a href="">Map</a></li>
-        <li><a href="">Case<br />Studies</a></li>
-        <li><a href="">Information<br />Action Briefs</a></li>
-        <li><a href="">Blog</a></li>
-      </ul>
+        <ul id=footer-nav>
+          <li><a href="{% url 'homepage' %}">Home</a></li>
+          <li><a href="{% url 'draw' %}">Map</a></li>
+          <li><a href="{% slugurl 'info-action-briefs' %}">Information<br />Action Briefs</a></li>
+          {% comment %} <li><a href="#">Official<br />Program Reports</a></li> {% endcomment %}
+          <li><a href="https://datadrivendetroit.org/?s=housing&et_pb_searchform_submit=et_search_proccess&et_pb_search_cat=572%2C571&et_pb_include_posts=yes">Blog</a></li>
+        </ul>
         <div class="details">
           <h2 class="subhead">INTERESTED IN ADDING DATA TO THE PORTAL?</h2>
             <p class="body-text">We are happy to explore additional partnerships to make this data portal more comprehensive.</p>
