@@ -1,7 +1,7 @@
 var gmaps_api_key = 'AIzaSyAQVmojih2QofQW7mMMFdfmI85aYF5yA9M';
 var GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?address=<%=query%>&components=administrative_area:MI|country:US&key=<%=token%>").template()
 
-var geoSearchAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/search';
+var geoSearchAPI = 'https://hipapi.datadrivendetroit.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
 
 var lat = '',

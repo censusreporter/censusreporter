@@ -47,10 +47,10 @@ class ApiClient(object):
 		return data
 
 	def get_parent_geoids(self, geoid):
-		return self._get('/1.0/geo/tiger2017/{}/parents'.format(geoid))
+		return self._get('/1.0/geo/tiger2018/{}/parents'.format(geoid))
 
 	def get_geoid_data(self, geoid):
-		return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
+		return self._get('/1.0/geo/tiger2018/{}'.format(geoid))
 
 	def get_data(self, table_ids, geo_ids, acs='latest'):
 		if (hasattr(table_ids, '__iter__')) and not (isinstance(table_ids, str)):
@@ -63,7 +63,7 @@ class ApiClient(object):
 
 
 def custom_s3_keyname(geo_id):
-	return '1.0/data/hip-profiles/2017/%s.json' % geo_id.upper()
+	return '1.0/data/hip-profiles/2018/%s.json' % geo_id.upper()
 
 def custom_make_s3():
 	if settings.AWS_KEY and settings.AWS_SECRET:

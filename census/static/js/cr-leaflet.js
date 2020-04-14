@@ -35,9 +35,9 @@ CensusReporter = {
         initialize: function(geoid_spec, options) {
             L.GeoJSON.prototype.initialize.call(this);
             var options = L.extend({
-                api_url: 'https://censusapi.datadrivendetroit.org:1443',
+                api_url: 'https://hipapi.datadrivendetroit.org',
                 censusreporter_url: 'https://censusreporter.org',
-                release: 'tiger2017',
+                release: 'tiger2018',
                 autoclick: true
             }, options);
             if (options.autoclick) {
@@ -347,7 +347,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
 
     _defaultOptions: {
         clipTiles: true,
-        release: 'tiger2017',
+        release: 'tiger2018',
         unique: function(feature) {
             return feature.properties.geoid;
         }
@@ -386,7 +386,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);
 
-        var url = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/' + options.release + '/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+        var url = 'https://hipapi.datadrivendetroit.org/1.0/geo/' + options.release + '/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         if (!('style' in geojsonOptions)) {
             geojsonOptions.style = this._defaultFeatureStyle;

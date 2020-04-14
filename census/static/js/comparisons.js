@@ -29,13 +29,13 @@ function Comparison(options, callback) {
     }
 
 
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443';
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://hipapi.datadrivendetroit.org';
 
     var comparison = {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
-        rootGeoAPI: API_URL + '/1.0/geo/tiger2017/',
-        childGeoAPI: API_URL + '/1.0/geo/show/tiger2017',
+        rootGeoAPI: API_URL + '/1.0/geo/tiger2018/',
+        childGeoAPI: API_URL + '/1.0/geo/show/tiger2018',
         dataAPI: API_URL + '/1.0/data/show/',
         d3DataAPI: 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
     };
@@ -2311,7 +2311,7 @@ function Comparison(options, callback) {
 
     // BEGIN THE MAP-SPECIFIC THINGS
     comparison.makeMapDisplay = function() {
-        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443';
+        var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://hipapi.datadrivendetroit.org';
 
         // some extra setup for map view
         // for triggering overflow-y: visible on table search
@@ -2334,7 +2334,7 @@ function Comparison(options, callback) {
             comparison.chosenColumn = comparison.columnKeys[0];
         }
 
-        var geoAPI = API_URL + "/1.0/geo/show/tiger2017?geo_ids=" + comparison.geoIDs.join(','),
+        var geoAPI = API_URL + "/1.0/geo/show/tiger2018?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
 
         d3.json(geoAPI, function(error, json) {

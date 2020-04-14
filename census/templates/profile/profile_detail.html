@@ -623,7 +623,7 @@ $.ajaxSetup({
 });
 
 // Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -787,7 +787,9 @@ var makeCharts = function() {
 
         // determine whether data point is from anything other
         // than the primary ACS release for this page
+        console.log(chartData);
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
+        console.log(key);
         var thisRelease = chartData[key]['acs_release'],
             noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
@@ -853,8 +855,8 @@ var thisSumlev = '{{ geography.this.sumlevel }}',
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2017/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2017/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2018/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'https://hipapi.datadrivendetroit.org/1.0/geo/tiger2018/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {

@@ -36,10 +36,10 @@ class ApiClient(object):
 		return data
 
 	def get_parent_geoids(self, geoid):
-		return self._get('/1.0/geo/tiger2017/{}/parents'.format(geoid))
+		return self._get('/1.0/geo/tiger2018/{}/parents'.format(geoid))
 
 	def get_geoid_data(self, geoid):
-		return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
+		return self._get('/1.0/geo/tiger2018/{}'.format(geoid))
 
 	def get_data(self, table_ids, geo_ids, acs='latest'):
 		if (hasattr(table_ids, '__iter__')) and not (isinstance(table_ids, str)):
@@ -388,7 +388,7 @@ def geo_profile(geoid, acs='latest'):
 	d3_api = D3ApiClient(settings.D3_API_URL)
 	this_geoid = geoid
 
-	if acs == 'latest' or acs == 'acs2017_5yr':
+	if acs == 'latest' or acs == 'acs2018_5yr':
 		d3_schema = 'd3_present'
 	else:
 		d3_schema = 'd3_past'
