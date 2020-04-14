@@ -583,7 +583,7 @@ header.section-contents-list {
 
 article .section-container {
     background-color: #fff;
-    margin-left: 16em;
+    margin-left: 16.05em;
     padding: .6em 1.2em 1.2em;
     border-left: 1px solid #2f2f2f;
 }
@@ -1006,6 +1006,52 @@ aside#facets {
     clear: both;
     width: 100%;
     margin: 0;
+}
+
+section#explore-topic-place-picker{
+  margin-bottom: 2.5em;
+}
+section#explore-topic-place-picker p.display-type{
+  float: left;
+  margin-top: 0.5em;
+}
+section#explore-topic-place-picker h1.article-header{
+  margin-left: 6.9em;
+}
+#table-display header.section-contents h1 {
+  padding-bottom: 0;
+}
+#table-display div.section-container {
+  padding-top: 0;
+}
+#table-display h2.help-text {
+  font-size: 1.25em;
+  margin-left: 0;
+  margin-top: 0;
+  font-weight: bold;
+}
+#table-display #topic-place-select-wrapper{
+  margin-bottom: 3em;
+}
+#table-display #topic-place-select {
+  width: 100%;
+}
+#table-display h2.header-for-columns {
+  text-align: left;
+  clear: none;
+}
+#table-display p.explain {
+  text-align: left;
+}
+#table-display aside {
+  margin-top: 1em;
+}
+#table-display aside ul {
+  list-style: none;
+  margin-right: 0;
+}
+#table-display aside ul li {
+  margin-bottom: .5em;
 }
 
 #cover-map {
@@ -2801,6 +2847,23 @@ section.chart-divider h2 {
 .topic aside li {
     font-size: 1.1em;
 }
+.topic aside.inline {
+  float: none;
+  width: 100%;
+  text-align: left;
+  margin-left: 0;
+  margin-bottom: 3em;
+}
+.topic aside.inline h3 {
+  margin-bottom: 2em;
+}
+.topic aside.inline div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.topic aside.inline div a.lightbox {
+}
 dl {
     clear: both;
     margin-top: 2em;
@@ -2846,6 +2909,7 @@ dd {
     width: 400px;
     margin-bottom: 1em;
 }
+
 #lightbox {
     position: fixed;
     top: 0;

@@ -23,8 +23,10 @@
         <ul id="inner">
         {% for post in page.get_children %}
           <li class="iab-intro">
-            <a href="{% pageurl post %}"><h2>{{ post.title }}</h2></a>
-            <p>{{ post.specific.intro }}...</p>
+            <a href="{% pageurl post %}">
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.specific.intro }}...</p>
+            </a>
           </li>
         {% endfor %}
         </ul>

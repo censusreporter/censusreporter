@@ -3,7 +3,7 @@
 {% block head_title %}{% if topic.title %}{{ topic.title }}{% else %}Topics{% endif %} - {{ block.super }}{% endblock %}
 
 {% block content_container %}
-<div class="content-container wrapper clearfix">    
+<div class="content-container wrapper clearfix">
     <article id="topics{% if topic.slug %}-{{ topic.slug }}{% endif %}" class="topic">
         <header>
             {% if topic.slug %}<p class="display-type"><a href="{% url 'topic_list' %}">&larr; Topics</a></p>{% endif %}

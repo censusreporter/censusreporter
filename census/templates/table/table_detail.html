@@ -24,14 +24,10 @@
 {% block body_class %}data-view{% endblock %}
 
 {% block header_content %}
-<div id="explore" class="wrapper clearfix header-container">
+<div id="explore topic-table-header" class="wrapper clearfix header-container">
     <section id="explore-topic-place-picker" class="clearfix big-action">
+      <p class="display-type"><a href="{% url 'topic_list' %}">&larr; Previous</a></p>
         <h1 class="article-header">Table {{ table.table_id }}: {{ table.simple_table_title }}</h1>
-        <h2 class="help-text">Show data from this table: Choose a place or summary level</h2>
-        <div id="topic-place-select-wrapper" class="input-wrapper">
-            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
-            {#}<p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>{#}
-        </div>
     </section>
     <section id="explore-topic-place-picker-parent" class="column-full clearfix big-action">
         <h1 class="article-header">in</h1>
@@ -52,15 +48,20 @@
     </header>
     <div class="section-container">
         <section class="clearfix">
+        <aside>
+            {% if tabulation.table_versions|length > 1 %}
+            <h5>Other versions of this table</h5>
+            <ul>{% for code, option in tabulation.table_versions.items %}
+                {% if code != table.table_id %}<li><a href="{% url 'table_detail' code %}">{{ option.version_name }}</a></li>{% endif %}
+            {% endfor %}</ul>
+            {% endif %}
+        </aside>
+            <h2 class="help-text">To show data from this table: Choose a place or summary level</h2>
+            <div id="topic-place-select-wrapper" class="input-wrapper">
+                <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Search for Michigan places or zip codes..." autocomplete="off">
+                {#}<p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>{#}
+            </div>
             <h2 class="header-for-columns">Table universe: <span class="normal">{{ table.universe }}</span></h2>
-            <aside>
-                {% if tabulation.table_versions|length > 1 %}
-                <h5>Other versions of this table</h5>
-                <ul>{% for code, option in tabulation.table_versions.items %}
-                    {% if code != table.table_id %}<li><a href="{% url 'table_detail' code %}">{{ option.version_name }}</a></li>{% endif %}
-                {% endfor %}</ul>
-                {% endif %}
-            </aside>
 
             <div class="column-golden-wide expanded-table">
                 <h4>Columns in this table</h4>

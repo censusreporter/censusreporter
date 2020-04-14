@@ -1,0 +1,83 @@
+{% extends 'topics/_base_topics.html' %}
+
+{% block content %}
+<section id="topic-overview">
+    {% include "topics/_question_aside.html" %}
+    <p>For a quick overview of housing, explore table <strong><a href="{% url 'table_detail' 'B25001' %}">B25001</a></strong>, which contains total housing units.</p>
+</section>
+<section id="topic-elsewhere">
+    <h2>Tenure</h2>
+    <p>In the context of housing data, tenure is the distinction between owner occupied and renter occupied. Insights into whether a housing unit is owner occupied or renter occupied are particularly useful for planning community development by identifying housing market trends.</p>
+    <p>Tenure data is presented in the <strong><a href="{% url 'table_detail' 'B25003' %}">B25003</a></strong> tables, which includes tables ending in A through I for various races, as an estimated number of owner occupied and renter occupied housing units. Tenure information surrounding the timeframe householders moved into housing units is in tables <strong><a href="{% url 'table_detail' 'B25038' %}">B25038</a></strong> and <strong><a href="{% url 'table_detail' 'B25039' %}">B25039</a></strong>.</p>
+    <p>Information about household occupant demographic characteristics by tenure is gathered tables <strong><a href="{% url 'table_detail' 'B25007' %}">B25007</a></strong> through <strong><a href="{% url 'table_detail' 'B25016' %}">B25016</a></strong>. Tenure by household type and age of residents can be found in tables <strong><a href="{% url 'table_detail' 'B25115' %}">B25115</a></strong> and <strong><a href="{% url 'table_detail' 'B25116' %}">B25116</a></strong>. Data on household income related to tenure is in tables <strong><a href="{% url 'table_detail' 'B25118' %}">B25118</a></strong> through <strong><a href="{% url 'table_detail' 'B25120' %}">B25120</a></strong>.</p>
+    <p>Additional housing characteristics by tenure are collected in tables <strong><a href="{% url 'table_detail' 'B25123' %}">B25123</a></strong> through <strong><a href="{% url 'table_detail' 'B25129' %}">B25129</a></strong>.</p>
+
+    <h3>Vacancy</h3>
+    <p>Vacancy (no tenure) status, or no tenure, is presented in table <strong><a href="{% url 'table_detail' 'B25004' %}">B25004</a></strong> and includes type of vacancy. Estimated number of vacant housing units compared to occupied housing units is collected in table <strong><a href="{% url 'table_detail' 'B25002' %}">B25002</a></strong>. Number of vacant housing units with current householders residing elsewhere is recorded in table <strong><a href="{% url 'table_detail' 'B25005' %}">B25005</a></strong>.</p>
+
+</section>
+
+<section id="topic-elsewhere">
+    <h2>Housing Structure Characteristics</h2>
+
+    <p>The ACS collects information about various housing structure characteristics in order to provide data about housing density and potential quality of life of residents. </p>
+    <h3>Year Structure Built</h3>
+    <p>Information on the year housing structures are built is collected to create data on housing age and availability, which is a factor used to determine the availability of affordable housing to community residents. Data on the year houses in an area were built can help track the possibility of lead paint exposure and trends in housing market health. Tables <strong><a href="{% url 'table_detail' 'B25034' %}">B25034</a></strong> through <strong><a href="{% url 'table_detail' 'B25037' %}">B25037</a></strong> provide data on the number of housing units that were built within specified timeframes.</p>
+    <aside class="inline">
+      <h3>Sample survey questions on this topic:</h3>
+      <div>
+        <a href="/static/img/questions/firstbuilt.png" class="lightbox"><img src="/static/img/questions/firstbuilt.png"></a>
+        <a href="/static/img/questions/movein.png" class="lightbox"><img src="/static/img/questions/movein.png"></a>
+      </div>
+    </aside>
+    <h3>Rooms / Units in Structure / Bedrooms</h3>
+    <p>The number of units per structure, rooms, and bedrooms are collected to determine types of housing and housing density, and to analyze whether adequate housing is available and affordable to residents of a community.</p> <p>Information about number of rooms is collected in tables <strong><a href="{% url 'table_detail' 'B25017' %}">B25017</a></strong> through <strong><a href="{% url 'table_detail' 'B25022' %}">B25022</a></strong>.</p>
+    <p>Data on bedrooms is collected in tables <strong><a href="{% url 'table_detail' 'B25041' %}">B25041</a></strong> and <strong><a href="{% url 'table_detail' 'B25042' %}">B25042</a></strong>. Units in structure data are housed in table <strong><a href="{% url 'table_detail' 'B25024' %}">B25024</a></strong>, and divided by tenure and occupant characteristics in the <strong><a href="{% url 'table_detail' 'B25032' %}">B25032</a></strong> series.</p>
+    <aside class="inline">
+      <h3>Sample survey questions on this topic:</h3>
+      <div>
+        <a href="/static/img/questions/buildingdescription.png" class="lightbox"><img src="/static/img/questions/buildingdescription.png"></a>
+        <a href="/static/img/questions/roomamount.png" class="lightbox"><img src="/static/img/questions/roomamount.png"></a>
+      </div>
+    </aside>
+
+    <h3>Plumbing Facilities / Kitchen Facilities / Telephone Services</h3>
+    <p>Information is collected about the presence of plumbing facilities, kitchen facilities, and telephone services in order to assess the availability of utilities that directly impact quality of life for residents. Data on these quality indicators is used to plan and fund programs that help people to access affordable, decent, safe, and sanitary housing, as well as to locate areas that are in danger of groundwater contamination.</p>
+    <p>Information on whether housing units have or lack complete plumbing facilities can be found in tables <strong><a href="{% url 'table_detail' 'B25047' %}">B25047</a></strong> through <strong><a href="{% url 'table_detail' 'B25050' %}">B25050</a></strong>. Number of housing units that have or lack complete kitchen facilities can be found in tables <strong><a href="{% url 'table_detail' 'B25051' %}">B25051</a></strong> through <strong><a href="{% url 'table_detail' 'B25054' %}">B25054</a></strong>.</p>
+    <p>Information on available telephone service, defined as the ability to make and receive phone calls from landline or mobile phone devices, is sorted by age in table <strong><a href="{% url 'table_detail' 'B25043' %}">B25043</a></strong>.</p>
+
+    <h3>Home Heating Fuel</h3>
+    <p>Information on home heating fuel is collected to create statistics on home energy use. This data is used to analyze community air quality and energy needs and how to address them, and to plan and fund programs to help low-income residents afford heat in their homes.</p>
+    <p>Information on type of heating fuel can be found in tables <strong><a href="{% url 'table_detail' 'B25040' %}">B25040</a></strong> and <strong><a href="{% url 'table_detail' 'B25117' %}">B25117</a></strong>.</p>
+
+<section id="topic-elsewhere">
+    <h2>Resident Information</h2>
+    <p>Various individual responses from the ACS are used in conjunction with housing questions to create useful data on the demographics of householders.</p>
+    <p>Current household income information is used with housing data to determine availability of affordable housing and to plan and fund assistance programs. Household income by home value and gross rent can be found in tables <strong><a href="{% url 'table_detail' 'B25121' %}">B25121</a></strong> and <strong><a href="{% url 'table_detail' 'B25122' %}">B25122</a></strong> respectively.</p>
+    <p>Demographics on the race of each householder are used to evaluate government programs and policies to ensure that all racial groups have access to decent and affordable housing. Race of householder information is collected in table <strong><a href="{% url 'table_detail' 'B25006' %}">B25006</a></strong>.</p>
+</section>
+<section id="topic-elsewhere">
+    <h2>Housing Costs</h2>
+    <p>Data about home value, mortgage, and rent is collected to determine the affordability of housing, with “affordable” being defined as conditions in which housing costs total no more than 30% of household income. This data is also used to fund housing assistance programs and to enforce housing laws. Data on monthly housing costs is collected in tables <strong><a href="{% url 'table_detail' 'B25104' %}">B25104</a></strong> through <strong><a href="{% url 'table_detail' 'B25106' %}">B25106</a></strong>.</p>
+
+    <h3>Home Value</h3>
+    <p>Data on home value is combined with data about owners’ or renters’ household income to help communities determine whether housing is affordable to residents. Information about home value can be found in tables <strong><a href="{% url 'table_detail' 'B25075' %}">B25075</a></strong> through <strong><a href="{% url 'table_detail' 'B25080' %}">B25080</a></strong> and <strong><a href="{% url 'table_detail' 'B25082' %}">B25082</a></strong>, and is sorted by year built and moved in year in tables <strong><a href="{% url 'table_detail' 'B25107' %}">B25107</a></strong> through <strong><a href="{% url 'table_detail' 'B25110' %}">B25110</a></strong>.</p>
+    <p>Information on price asked for housing units is collected in tables <strong><a href="{% url 'table_detail' 'B25085' %}">B25085</a></strong> and <strong><a href="{% url 'table_detail' 'B25086' %}">B25086</a></strong>.</p>
+
+    <h3>Mortgage</h3>
+    <p>Information about mortgages and other regular costs for homeowners is collected to produce data about monthly owner costs (tables <strong><a href="{% url 'table_detail' 'B25086' %}">B25086</a></strong> through <strong><a href="{% url 'table_detail' 'B25095' %}">B25095</a></strong>). These data are used to determine whether adequate housing is affordable for community residents and to provide and fund housing assistance programs.</p>
+    <p>Information on mortgage status is collected in tables <strong><a href="{% url 'table_detail' 'B25027' %}">B25027</a></strong>, <strong><a href="{% url 'table_detail' 'B25081' %}">B25081</a></strong>, and <strong><a href="{% url 'table_detail' 'B25096' %}">B25096</a></strong> through <strong><a href="{% url 'table_detail' 'B25103' %}">B25103</a></strong>.</p>
+
+    <h3>Rent</h3>
+    <p>Information about rent is used to better understand the housing market and to determine the availability of affordable rental housing for a community.</p>
+    <p>Information on contract rent totals, or estimated monthly rent rates to tenants, is collected in tables <strong><a href="{% url 'table_detail' 'B25056' %}">B25056</a></strong> through <strong><a href="{% url 'table_detail' '25060' %}">25060</a></strong>. Information about gross rent, or total estimated monthly housing costs to tenants including utilities, can be found in tables <strong><a href="{% url 'table_detail' 'B25031' %}">B25031</a></strong>, <strong><a href="{% url 'table_detail' 'B25064' %}">B25064</a></strong> through <strong><a href="{% url 'table_detail' 'B25068' %}">B25068</a></strong>, and <strong><a href="{% url 'table_detail' 'B25070' %}">B25070</a></strong> through <strong><a href="{% url 'table_detail' 'B25074' %}">B25074</a></strong>.</p>
+    <p>Tables <strong><a href="{% url 'table_detail' 'B25061' %}">B25061</a></strong> and <strong><a href="{% url 'table_detail' 'B25062' %}">B25062</a></strong> collect the number of housing units within certain various rent price ranges by rent asked. Data on gross rent by year structure built and year moved in are in tables <strong><a href="{% url 'table_detail' 'B25111' %}">B25111</a></strong> through <strong><a href="{% url 'table_detail' 'B25114' %}">B25114</a></strong>.</p>
+    <p>Additionally, data is collected on householders who have meals included in rent - table <strong><a href="{% url 'table_detail' 'B25055' %}">B25055</a></strong>, and housing units that include utilities in rent - table <strong><a href="{% url 'table_detail' 'B25069' %}">B25069</a></strong>.</p>
+</section>
+<section id="topic-elsewhere">
+    <h2>Vehicles Available</h2>
+    <p>Vehicle availability is information that’s essential to housing data as it helps to create data that can be used to improve transit infrastructure and develop public transportation. Information on vehicles available also allows an understanding of how people in geographical areas are traveling and can be used to evaluate pollution and access to reliable transportation.</p>
+    <p>Data on vehicles available per household is found in tables <strong><a href="{% url 'table_detail' 'B25044' %}">B25044</a></strong> through <strong><a href="{% url 'table_detail' 'B25046' %}">B25046</a></strong>.</p>
+
+</section>
+{% endblock %}
