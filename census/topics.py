@@ -31,18 +31,6 @@ TOPICS_LIST = [
     },
 
     {
-        'title': 'Children',
-        'slug': 'children',
-        'topics': ['family type', 'families', 'children'],
-        'description': 'Tables concerning Children. Helpful to consider in relation to Families.',
-        'template_name': 'children.html',
-        'question_images': ['relationship.png',],
-        'question_pdfs': [
-            ('Questions on Family Relationships','http://www.census.gov/acs/www/Downloads/QbyQfact/relationship.pdf'),
-        ]
-    },
-
-    {
         'title': 'Commute',
         'slug': 'commute',
         'topics': ['employment', 'commute'],
