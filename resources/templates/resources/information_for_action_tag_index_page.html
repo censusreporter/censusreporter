@@ -1,21 +1,36 @@
 {% extends "_base.html" %}
 {% load wagtailcore_tags %}
+{% block sub_head%}
+    {% block sub_head_content %}
+      <div id="sub-header">
+        <div id="inner" class="wrapper">
+          <h1>Info Action Brief</h1>
 
+          <div class="intro">{{ page.get_parent.specific.intro|richtext }}</div>
+        </div>
+      </div>
+    {% endblock %}
+{% endblock %}
 {% block content %}
-<div class="content-container wrapper clearfix">
+<div class="content-container wrapper clearfix tagged-posts">
     {% if request.GET.tag|length %}
-        <h4>Showing pages tagged "{{ request.GET.tag }}"</h4>
+        <h1>Showing pages tagged <span>"{{ request.GET.tag }}"</span></h1>
     {% endif %}
 
-    {% for informationforactionpage in informationforactionpages %}
 
-          <p>
-              <strong><a href="{% pageurl informationforactionpage %}">{{ informationforactionpage.title }}</a></strong><br />
-              <small>Revised: {{ informationforactionpage.latest_revision_created_at }}</small><br />
-          </p>
+      <ul id="inner">
+      {% for informationforactionpage in informationforactionpages %}
+        <li class="iab-intro">
+          <a href="{% pageurl informationforactionpage %}">
+            <h2>{{ informationforactionpage.title }}</h2>
+            <p>{{ informationforactionpage.specific.intro }}...</p>
+            <p>Revised: {{ informationforactionpage.latest_revision_created_at }}</p>
+          </a>
+        </li>
 
-    {% empty %}
-        No pages found with that tag.
-    {% endfor %}
+      {% empty %}
+          No pages found with that tag.
+      {% endfor %}
+      </ul>
 </div>
 {% endblock %}

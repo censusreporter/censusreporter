@@ -717,6 +717,14 @@ a#return:hover {
   background-color: #fcf2e1;
   border: 1px solid #ecba66;
 }
+
+
+.tagged-posts h1 {
+  color: #ecba66;
+}
+.tagged-posts h1 span {
+  color: #0f0f10;
+}
 /*header.section-contents h1,
 article .section-container,
 .card {
