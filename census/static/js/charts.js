@@ -32,6 +32,7 @@ function Chart(options) {
         chart.chartHeight = options.chartHeight || (chart.parentHeight < 180 ? 180 : chart.parentHeight);
         chart.chartColorScale = options.chartColorScale || 'Set2S';
         chart.chartPrecision = options.chartPrecision || null;
+        chart.chartLabel = options.chartLabel || 'yes';
         chart.screenPosition = document.getElementById(options.chartContainer).getBoundingClientRect();
 
         // add a bit of geodata for links and hovercards
@@ -93,14 +94,24 @@ function Chart(options) {
                 options.chartData.count = countCurrentYear;
             }
 
-            console.log(options.chartDataPastYear);
             var keys = Object.keys(options.chartDataPastYear);
+            let keyPresentYear, keyPastYear;
             for (var i = 0; i < keys.length; i++) {
                 if (keys[i] != 'metadata') {
                     mergeTimeSeriesDatasets[keys[i]] = {};
                     // TO DO: figure out how to pull years from data and not have them be hardcoded
-                    mergeTimeSeriesDatasets[keys[i]][years[1]] = options.chartData[keys[i]];
-                    mergeTimeSeriesDatasets[keys[i]][years[0]] = options.chartDataPastYear[keys[i]];
+                    if (options.chartData['metadata']) {
+                        keyPresentYear = options.chartData['metadata']['year'];
+                    } else {
+                        keyPresentYear = years[1];
+                    }
+                    if (options.chartDataPastYear['metadata']) {
+                        keyPastYear = options.chartDataPastYear['metadata']['year'];
+                    } else {
+                        keyPastYear = years[0];
+                    }
+                    mergeTimeSeriesDatasets[keys[i]][keyPresentYear] = options.chartData[keys[i]];
+                    mergeTimeSeriesDatasets[keys[i]][keyPastYear] = options.chartDataPastYear[keys[i]];
 
                     if (options.chartDataPastYear.metadata) {
                         mergeTimeSeriesDatasets[keys[i]].acs_release = options.chartDataPastYear.metadata.acs_release;
@@ -141,7 +152,6 @@ function Chart(options) {
         // keep the initial data for possible display later
         chart.initialData = options.chartData;
         chart.initialDataPastYear = options.chartDataPastYear;
-
 
         chart.chartDataValues = chart.chartDataValues.values().filter(function(n){return typeof(n) != 'function'}).map(function(d) {
             if (chart.chartType.indexOf('grouped_') != -1) {
@@ -374,16 +384,19 @@ function Chart(options) {
                                 .style("background-color", chart.colorbrewer[chart.chartColorScale][i])
                                 .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; });
 
-                            bar.append("span")
-                                .classed("label", true)
-                                .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-                                .html(function(d) {
-                                    if (chart.chartPrecision) {
-                                        return chart.getValueFmt(v, 'this', chart.chartPrecision);
-                                    } else {
-                                        return chart.getValueFmt(v);
-                                    }
-                                });
+                            if (chart.chartLabel == 'yes') {
+                                bar.append("span")
+                                    .classed("label", true)
+                                    .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
+                                    .html(function(d) {
+                                        if (chart.chartPrecision) {
+                                            return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                        } else {
+                                            return chart.getValueFmt(v);
+                                        }
+                                    });
+                            }
+
 
                             // add the specific label below the bar
                             g.append("h4")
@@ -408,17 +421,19 @@ function Chart(options) {
                     .style("background-color", chart.colorbrewer[chart.chartColorScale][0])
                     .style("width", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; });
 
-            chart.bars
-                .append("span")
-                    .classed("label", true)
-                    .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
-                    .html(function(d) {
-                        if (chart.chartPrecision) {
-                            return chart.getValueFmt(d, 'this', chart.chartPrecision);
-                        } else {
-                            return chart.getValueFmt(d);
-                        }
-                    });
+            if (chart.chartLabel == 'yes') {
+                chart.bars
+                    .append("span")
+                        .classed("label", true)
+                        .style("left", function(d) { return (chart.settings.displayWidth - chart.x(d.value)) + "px"; })
+                        .html(function(d) {
+                            if (chart.chartPrecision) {
+                                return chart.getValueFmt(d, 'this', chart.chartPrecision);
+                            } else {
+                                return chart.getValueFmt(d);
+                            }
+                        });
+            }
 
             // labels appear below bars
             chart.labels = chart.htmlBase
@@ -608,18 +623,21 @@ function Chart(options) {
                                 })
                                 .text(function(d) { return chart.capitalize(v.name); });
 
-                            column.append("span")
-                                .classed("label", true)
-                                .style("bottom", function(d) {
-                                    return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
-                                })
-                                .html(function(d) {
-                                    if (chart.chartPrecision) {
-                                        return chart.getValueFmt(v, 'this', chart.chartPrecision);
-                                    } else {
-                                        return chart.getValueFmt(v);
-                                    }
-                                });
+                            if (chart.chartLabel == 'yes') {
+                                column.append("span")
+                                    .classed("label", true)
+                                    .style("bottom", function(d) {
+                                        return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
+                                    })
+                                    .html(function(d) {
+                                        if (chart.chartPrecision) {
+                                            return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                        } else {
+                                            return chart.getValueFmt(v);
+                                        }
+                                    });
+                            }
+                            
                             });
                         });
 
@@ -655,19 +673,21 @@ function Chart(options) {
                         return d.name;
                     });
 
-            chart.labels = chart.columnAreas
-                .append("span")
-                    .classed("label", true)
-                    .style("bottom", function(d) {
-                        return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
-                    })
-                    .html(function(d) {
-                        if (chart.chartPrecision) {
-                            return chart.getValueFmt(d, 'this', chart.chartPrecision);
-                        } else {
-                            return chart.getValueFmt(d);
-                        }
-                    });
+            if (chart.chartLabel == 'yes') {
+                chart.labels = chart.columnAreas
+                    .append("span")
+                        .classed("label", true)
+                        .style("bottom", function(d) {
+                            return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
+                        })
+                        .html(function(d) {
+                            if (chart.chartPrecision) {
+                                return chart.getValueFmt(d, 'this', chart.chartPrecision);
+                            } else {
+                                return chart.getValueFmt(d);
+                            }
+                        });
+            }
         }
 
         // listen for column interactions
@@ -873,6 +893,16 @@ function Chart(options) {
                                             x_axis_label[0] = "W/O children";
                                         }
 
+                                        if (x_axis_label[0] === "Renter occupied") {
+                                            x_axis_label[0] = "Renter";
+                                        }
+                                        if (x_axis_label[0] === "Owner with mortgage") {
+                                            x_axis_label[0] = "Mortgage";
+                                        }
+                                        if (x_axis_label[0] === "Owner without mortgage") {
+                                            x_axis_label[0] = "No mortgage";
+                                        }
+
                                         return chart.capitalize(x_axis_label[0]);
                                     });
 
@@ -936,18 +966,21 @@ function Chart(options) {
                                        })
                                        .text(function(d) { return chart.capitalize(v.name); });
 
-                                   column.append("span")
-                                       .classed("label", true)
-                                       .style("bottom", function(d) {
-                                           return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
-                                       })
-                                       .html(function(d) {
-                                           if (chart.chartPrecision) {
-                                               return chart.getValueFmt(v, 'this', chart.chartPrecision);
-                                           } else {
-                                               return chart.getValueFmt(v);
-                                           }
-                                       });
+                                    if (chart.chartLabel == 'yes') {
+                                        column.append("span")
+                                            .classed("label", true)
+                                            .style("bottom", function(d) {
+                                                return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
+                                            })
+                                            .html(function(d) {
+                                                if (chart.chartPrecision) {
+                                                    return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                                } else {
+                                                    return chart.getValueFmt(v);
+                                                }
+                                            });
+                                    }
+
                                    });
 
 
@@ -1012,18 +1045,21 @@ function Chart(options) {
                                 })
                                 .text(function(d) { return chart.capitalize(v.name); });
 
-                            column.append("span")
-                                .classed("label", true)
-                                .style("bottom", function(d) {
-                                    return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
-                                })
-                                .html(function(d) {
-                                    if (chart.chartPrecision) {
-                                        return chart.getValueFmt(v, 'this', chart.chartPrecision);
-                                    } else {
-                                        return chart.getValueFmt(v);
-                                    }
-                                });
+                            if (chart.chartLabel == 'yes') {
+                                column.append("span")
+                                    .classed("label", true)
+                                    .style("bottom", function(d) {
+                                        return (chart.settings.displayHeight - chart.y(d.value) + 3) + "px";
+                                    })
+                                    .html(function(d) {
+                                        if (chart.chartPrecision) {
+                                            return chart.getValueFmt(v, 'this', chart.chartPrecision);
+                                        } else {
+                                            return chart.getValueFmt(v);
+                                        }
+                                    });
+                            }
+
                             });
                         });
 
@@ -1172,13 +1208,15 @@ function Chart(options) {
                 .classed("hovered", true);
 
             chart.centerLabel.text(data.data.name);
-            chart.centerValue.html(function(d) {
-                if (chart.chartPrecision) {
-                    return chart.getValueFmt(data.data, 'this', chart.chartPrecision);
-                } else {
-                    return chart.getValueFmt(data.data);
-                }
-            });
+            if (chart.chartLabel == 'yes') {
+                chart.centerValue.html(function(d) {
+                    if (chart.chartPrecision) {
+                        return chart.getValueFmt(data.data, 'this', chart.chartPrecision);
+                    } else {
+                        return chart.getValueFmt(data.data);
+                    }
+                });
+            }
 
             // also trigger standard mouseover
             chart.mouseover(data.data);
@@ -1192,13 +1230,15 @@ function Chart(options) {
                 .classed("hovered", false);
 
             chart.centerLabel.text(chart.initialSlice.data.name);
-            chart.centerValue.html(function(d) {
-                if (chart.chartPrecision) {
-                    return chart.getValueFmt(chart.initialSlice.data, 'this', chart.chartPrecision);
-                } else {
-                    return chart.getValueFmt(chart.initialSlice.data);
-                }
-            });
+            if (chart.chartLabel == 'yes') {
+                chart.centerValue.html(function(d) {
+                    if (chart.chartPrecision) {
+                        return chart.getValueFmt(chart.initialSlice.data, 'this', chart.chartPrecision);
+                    } else {
+                        return chart.getValueFmt(chart.initialSlice.data);
+                    }
+                });
+            }
 
             chart.mouseout();
         }

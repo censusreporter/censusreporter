@@ -219,7 +219,7 @@
             <aside>
                 <h2 class="header-for-columns"><a class="permalink section" href="#tax-foreclosures" id="tax-foreclosures" title="Permalink">Tax foreclosures<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-              <div class="column-full">
+              <div class="column-half">
                   <div id="chart-stat_timeseries-housing-units-total_tax_foreclosures" data-stat-type="number" data-chart-title="Distribution of building permit types" data-qualifier="Universe: {{ profile_data_current_year.housing.units.total_tax_foreclosures.metadata.universe }}"></div>
                   {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_tax_foreclosures stat_type='number' %} {% endcomment %}
               </div>
@@ -228,7 +228,7 @@
             <aside>
                 <h2 class="header-for-columns"><a class="permalink section" href="#property-transactions" id="property-transactions" title="Permalink">Property transactions<br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
-              <div class="column-full">
+              <div class="column-half">
                   <div id="chart-stat_timeseries-housing-units-number_property_sales" data-stat-type="number" data-chart-title="Total number of property sales" data-qualifier="Universe: {{ profile_data_current_year.housing.units.number_property_sales.metadata.universe }}"></div>
                   {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.number_property_sales stat_type='number' %} {% endcomment %}
               </div>
@@ -275,7 +275,7 @@
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
               <div class="column-full">
-                  <div id="chart-column_timeseries-housing-units-sale_type_dollar_distribution" data-stat-type="dollar" data-chart-title="Property sales amounts by type" data-qualifier="Universe: {{ profile_data_current_year.housing.units.sale_type_dollar_distribution.metadata.universe }}"></div>
+                  <div id="chart-column_timeseries-housing-units-sale_type_dollar_distribution" data-stat-type="dollar" data-label="no" data-chart-title="Property sales amounts by type" data-qualifier="Universe: {{ profile_data_current_year.housing.units.sale_type_dollar_distribution.metadata.universe }}"></div>
               </div>
         </section>
     </div>
@@ -369,8 +369,8 @@
                 <h2 class="header-for-columns"><a class="permalink section" href="#dlba" id="dlba" title="Permalink">DLBA ownership &amp; sales <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
               <div class="column-third">
-                  <div id="chart-stat_timeseries-housing-units-dlba_total_properties" data-stat-type="number" data-chart-title="Total properties under DLBA ownership" data-qualifier="Universe: {{ profile_data_current_year.housing.units.dlba_total_properties.metadata.universe }}"></div>
-                  {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.dlba_total_properties stat_type='number' %} {% endcomment %}
+                  {% comment %} <div id="chart-stat_timeseries-housing-units-dlba_total_properties" data-stat-type="number" data-chart-title="Total properties under DLBA ownership" data-qualifier="Universe: {{ profile_data_current_year.housing.units.dlba_total_properties.metadata.universe }}"></div> {% endcomment %}
+                  {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.housing.units.dlba_total_properties stat_type='number' %}
               </div>
               <div class="column-third">
                   <div id="chart-stat_timeseries-housing-units-dlba_total_sales" data-stat-type="number" data-chart-title="Total DLBA sales" data-qualifier="Universe: {{ profile_data_current_year.housing.units.dlba_total_sales.metadata.universe }}"></div>
@@ -568,15 +568,15 @@
               <h2 class="header-for-columns"><a class="permalink section" href="#voter-ages" id="voter-ages" title="Permalink">Registered voter ages <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             </aside>
             <div class="column-quarter">
-                <div id="chart-stat_timeseries-housing-units-voters" data-stat-type="number" data-chart-title="Total registered voters" data-qualifier="Universe: {{ profile_data_current_year.housing.units.voters.metadata.universe }}"></div>
-                {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.voters stat_type='number' stat_suffix='' %} {% endcomment %}
+                {% comment %} <div id="chart-stat_timeseries-housing-units-voters" data-stat-type="number" data-chart-title="Total registered voters" data-qualifier="Universe: {{ profile_data_current_year.housing.units.voters.metadata.universe }}"></div> {% endcomment %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.housing.units.voters stat_type='number' stat_suffix='' %}
             </div>
             <div class="column-quarter">
                 <div id="chart-stat_timeseries-demographics-total_pop_18_plus-total" data-stat-type="number" data-chart-title="Total population 18 years and older" data-qualifier="Universe: {{ profile_data_current_year.demographics.total_pop_18_plus.total.metadata.universe }}"></div>
                 {% comment %} {% include 'profile/_blocks/_stat_list.html' with stat=demographics.total_pop_18_plus.total stat_type='number' stat_suffix='' %} {% endcomment %}
             </div>
               <div class="column-half">
-                  <div id="chart-column_timeseries-housing-units-voter_age_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of registered voters by age group" data-qualifier="Universe: {{ profile_data_current_year.housing.units.voter_age_distribution.metadata.universe }}"></div>
+                  <div id="chart-column-housing-units-voter_age_distribution" data-stat-type="scaled-percentage" data-chart-title="Distribution of registered voters by age group (2019)" data-qualifier="Universe: {{ housing.units.voter_age_distribution.metadata.universe }}"></div>
               </div>
         </section>
 
@@ -840,6 +840,7 @@ var makeCharts = function() {
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
             chartPrecision = $(this).data('precision'),
+            chartLabel = $(this).data('label'),
             geographyData = profileData['geography'],
             chartColorScale;
 
@@ -888,6 +889,7 @@ var makeCharts = function() {
             chartPrecision: chartPrecision,
             geographyData: geographyData,
             chartColorScale: chartColorScale,
+            chartLabel: chartLabel,
         }
         try {
             Charts[i] = Chart(chartstuff);
