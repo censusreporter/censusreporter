@@ -43,4 +43,9 @@
     {% if stat.metadata.acs_release != geography.census_release %}
         <span class="chart-qualifier">* {{ stat.metadata.acs_release }} data</span>
     {% endif %}
+    {% if show_data %}
+        <div class="action-links">
+            <a class='chart-get-data' href='/data/table/?table={{ stat.metadata.table_id }}&geo_ids={{ stat_geoids }}&release={{ stat_release }}' style="font-size: 0.75em;">Show data</a>
+        </div>
+    {% endif %}
 {% if not stat_wrapper == 'false' %}</a>{% endif %}

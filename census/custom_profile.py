@@ -461,7 +461,7 @@ def create_custom_profile(slug, profile_type):
 										# if category == 'child_care':
 										# 	print doc_data
 										process_sub_categories(key, data, numerator, doc_data)
-									elif (key != 'name') and (key != 'acs_release') and (key != 'metadata'):
+									elif (key != 'name') and (key != 'acs_release') and (key != 'metadata') and (key != 'year'):
 										
 										try: 
 											numerator = data['numerators']['this']
@@ -474,7 +474,7 @@ def create_custom_profile(slug, profile_type):
 											if (sub_key == 'values') or (sub_key == 'error') or (sub_key == 'numerator_errors') or (sub_key == 'error_ratio') or (sub_key == 'index') or (sub_key == 'numerators'):
 												doc_data = doc[top_level][category][sub_category][key][sub_key]
 												process_sub_categories(sub_key, sub_data, numerator, doc_data)
-											elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
+											elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata') and (sub_key != 'year'):
 												numerator = sub_data['numerators']['this']
 												# data is one more rung down the ladder
 												for sub_sub_key, sub_sub_data in sorted(sub_data.items()):
@@ -510,6 +510,8 @@ def create_custom_profile(slug, profile_type):
 								keys.remove('acs_release')
 							if 'name' in keys:
 								keys.remove('name')
+							if 'year' in keys:
+								keys.remove('year')
 							# print('First Keys:')
 							# print(keys)
 
@@ -533,6 +535,8 @@ def create_custom_profile(slug, profile_type):
 									keys.remove('universe')
 								if 'table_id'in keys:
 									keys.remove('table_id')
+								if 'year' in keys:
+									keys.remove('year')
 								# print('Second Keys:')
 								# print(keys)
 								for k in keys:
@@ -566,6 +570,9 @@ def create_custom_profile(slug, profile_type):
 									keys.remove('universe')
 								if 'table_id'in keys:
 									keys.remove('table_id')
+								if 'year' in keys:
+									keys.remove('year')
+
 								for k in keys:
 									for j, d in sorted(data.items()):
 										if j == k:
@@ -608,6 +615,8 @@ def create_custom_profile(slug, profile_type):
 									keys.remove('universe')
 								if 'table_id'in keys:
 									keys.remove('table_id')
+								if 'year' in keys:
+									keys.remove('year')
 
 								denominator[key] = None
 								# for k in keys:
@@ -636,6 +645,7 @@ def create_custom_profile(slug, profile_type):
 
 							for key, data in sorted(sub_category_data.items()):
 								keys = list(data.keys())
+								print(keys)
 								if 'metadata' in keys:
 									keys.remove('metadata')
 								if 'acs_release' in keys:
@@ -646,8 +656,11 @@ def create_custom_profile(slug, profile_type):
 									keys.remove('universe')
 								if 'table_id'in keys:
 									keys.remove('table_id')
+								if 'year' in keys:
+									keys.remove('year')
 								for k in keys:
 									for j, d in sorted(data.items()):
+										print(d)
 										if j == k:
 											if 'numerators' in d:
 												if 'custom' in d['numerators']:
@@ -695,6 +708,8 @@ def create_custom_profile(slug, profile_type):
 								keys.remove('acs_release')
 							if 'name' in keys:
 								keys.remove('name')
+							if 'year' in keys:
+								keys.remove('year')
 							
 							if sub_category == 'children_distribution_by_age' or sub_category == 'poverty_family_educational_attainment':
 								print('Keys 579:')
@@ -750,6 +765,8 @@ def create_custom_profile(slug, profile_type):
 									parent_keys.remove('acs_release')
 								if 'name' in parent_keys:
 									parent_keys.remove('name')
+								if 'year' in keys:
+									keys.remove('year')
 
 								for pk in parent_keys:
 									numerator[pk] = dict()
@@ -761,7 +778,7 @@ def create_custom_profile(slug, profile_type):
 									print(data)
 
 									# numerators and denominators for poverty_family_educational_attainment
-								if (sub_category == 'poverty_family_educational_attainment') and (key != "metadata") and (key != "acs_release"):
+								if (sub_category == 'poverty_family_educational_attainment') and (key != "metadata") and (key != "acs_release") and (key != "year"):
 									if not numerator[key] and not denominator[key]:
 										keys = list(data.keys())
 										# print("Keys 721:")
@@ -771,7 +788,9 @@ def create_custom_profile(slug, profile_type):
 										if 'acs_release' in keys:
 											keys.remove('acs_release')
 										if 'name' in keys:
-											keys.remove('name')	
+											keys.remove('name')
+										if 'year' in keys:
+											keys.remove('year')	
 
 										for k in keys:
 											if 'numerators' in data[k]:
@@ -796,7 +815,7 @@ def create_custom_profile(slug, profile_type):
 									else:
 										normalize_sub_categories(key, data, numerator, denominator)
 
-								elif (key != 'name') and (key != 'acs_release') and (key != 'metadata'):
+								elif (key != 'name') and (key != 'acs_release') and (key != 'metadata')and (key != 'year'):
 
 									if denominator is None or not denominator:
 										keys = list(data.keys())
@@ -806,6 +825,8 @@ def create_custom_profile(slug, profile_type):
 											keys.remove('acs_release')
 										if 'name' in keys:
 											keys.remove('name')
+										if 'year' in keys:
+											keys.remove('year')
 
 										if sub_category == 'children_distribution_by_age':
 											# print('Second Keys:')
@@ -836,7 +857,9 @@ def create_custom_profile(slug, profile_type):
 										if 'acs_release' in keys:
 											keys.remove('acs_release')
 										if 'name' in keys:
-											keys.remove('name')										
+											keys.remove('name')	
+										if 'year' in keys:
+											keys.remove('year')									
 										for k in keys:
 											if 'numerators' in data[k]:
 												if 'custom' in data[k]['numerators']:
@@ -890,7 +913,7 @@ def create_custom_profile(slug, profile_type):
 											else:
 												normalize_sub_categories(sub_key, sub_data, numerator, denominator)
 											
-										elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata'):
+										elif (sub_key != 'name') and (sub_key != 'acs_release') and (sub_key != 'metadata') and (sub_key != 'year'):
 											if denominator is None or not bool(denominator):
 												#get keys
 												keys = list(sub_data.keys())
@@ -900,6 +923,8 @@ def create_custom_profile(slug, profile_type):
 													keys.remove('acs_release')
 												if 'name' in keys:
 													keys.remove('name')
+												if 'year' in keys:
+													keys.remove('year')
 												if sub_category == 'children_distribution_by_age':
 													# print 'Third Keys:'
 													# print keys
@@ -927,7 +952,10 @@ def create_custom_profile(slug, profile_type):
 												if 'acs_release' in keys:
 													keys.remove('acs_release')
 												if 'name' in keys:
-													keys.remove('name')										
+													keys.remove('name')
+												if 'year' in keys:
+													keys.remove('year')
+
 												for k in keys:
 													if 'numerators' in sub_data[k]:
 														if 'custom' in sub_data[k]['numerators']:
