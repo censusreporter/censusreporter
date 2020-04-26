@@ -1480,6 +1480,10 @@ def geo_profile(geoid, acs='latest'):
 		elif geoid != '04000US26':
 			d3_comparison_geoids.append(geoid)
 
+	## if camparison_geoids is just 04000US26, then add that to d3_comparison_geoids
+	if len(comparison_geoids) == 1 and comparison_geoids[0] == '04000US26':
+		d3_comparison_geoids.append('04000US26')
+
 	item_levels_minus_county_state = []
 	for level in item_levels:
 		if level['sumlevel'] != '040' and level['sumlevel'] != '050':
