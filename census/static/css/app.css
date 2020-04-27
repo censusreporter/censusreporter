@@ -1070,7 +1070,7 @@ section#explore-topic-place-picker h1.article-header{
 #slippy-map {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 84px);
     left: 0;
     top: 0px;
     border-bottom: 1px #686867 solid;
