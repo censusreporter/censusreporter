@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from django.contrib import admin
 
-from .models import SubjectConcept, SummaryLevel, Geography
+from .models import SubjectConcept, SummaryLevel, Geography, Dashboards, Districts
 
 class SubjectConceptAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -20,3 +20,5 @@ class SummaryLevelAdmin(admin.ModelAdmin):
 admin.site.register(SubjectConcept, SubjectConceptAdmin)
 admin.site.register(SummaryLevel, SummaryLevelAdmin)
 admin.site.register(Geography)
+admin.site.register(Dashboards)
+admin.site.register(Districts)
