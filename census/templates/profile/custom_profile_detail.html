@@ -304,6 +304,7 @@
         <section class="clearfix stat-row">
             <aside>
                 <h2 class="header-for-columns"><a class="permalink section" href="#tax-values" id="tax-values" title="Permalink">Tax &amp; values <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <p>PRE is an acroynym for Principal Residence Exemption.</p>
             </aside>
               <div class="column-third">
                   {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_properties stat_type='number' stat_release='d3_present' stat_geoids=geography.this.full_geoid %}
@@ -313,7 +314,7 @@
               </div>
         </section>
         <section class="clearfix stat-row grouped-row">
-            <aside></aside>
+            <aside><p>SEV is an acroynym for State Equalized Value.</p></aside>
               <div class="column-third">
                   {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.total_sev stat_type='dollar' stat_release='d3_present' stat_geoids=geography.this.full_geoid %}
               </div>
@@ -339,6 +340,7 @@
         <section class="clearfix stat-row">
             <aside>
                 <h2 class="header-for-columns"><a class="permalink section" href="#dlba" id="dlba" title="Permalink">DLBA ownership &amp; sales <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+                <p>DLBA is an acroynym for Detroit Land Bank Authority.</p>
             </aside>
               <div class="column-third">
                   {% include 'profile/_blocks/_stat_list.html' with stat=housing.units.dlba_total_properties stat_type='number' stat_release='d3_present' stat_geoids=geography.this.full_geoid %}
@@ -566,6 +568,7 @@
         <section class="clearfix stat-row">
             <aside>
             <h2 class="header-for-columns"><a class="permalink section" href="#child-care" id="child-care" title="Permalink">Child care <br /><i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <p>GSRP is an acroynym for Michigan's Great Start Readiness Program.</p>
             </aside>
             <div class="column-third">
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='count' stat_release='d3_present' stat_geoids=geography.this.full_geoid %}
