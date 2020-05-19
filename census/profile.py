@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import print_function
 import json
 import math
 import operator
@@ -10,6 +12,7 @@ from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 
 import logging
+import six
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 
@@ -20,11 +23,10 @@ class ApiClient(object):
 
 	def _get(self, path, params=None):
 		url = self.base_url + path
-		print url
-		print params
+		print(url)
+		print(params)
 		r = requests.get(url, params=params)
 		data = None
-		# print r
 		time.sleep(1)
 		if r.status_code == 200:
 			data = r.json(object_pairs_hook=OrderedDict)
@@ -34,16 +36,16 @@ class ApiClient(object):
 		return data
 
 	def get_parent_geoids(self, geoid):
-		return self._get('/1.0/geo/tiger2017/{}/parents'.format(geoid))
+		return self._get('/1.0/geo/tiger2018/{}/parents'.format(geoid))
 
 	def get_geoid_data(self, geoid):
-		return self._get('/1.0/geo/tiger2017/{}'.format(geoid))
+		return self._get('/1.0/geo/tiger2018/{}'.format(geoid))
 
 	def get_data(self, table_ids, geo_ids, acs='latest'):
-		if hasattr(table_ids, '__iter__'):
+		if (hasattr(table_ids, '__iter__')) and not (isinstance(table_ids, str)):
 			table_ids = ','.join(table_ids)
 
-		if hasattr(geo_ids, '__iter__'):
+		if (hasattr(geo_ids, '__iter__')) and not (isinstance(geo_ids, str)):
 			geo_ids = ','.join(geo_ids)
 
 		return self._get('/1.0/data/show/{}'.format(acs), params=dict(table_ids=table_ids, geo_ids=geo_ids))
@@ -55,7 +57,7 @@ class D3ApiClient(object):
 	def _get(self, table_id, field_name, geo_ids, layer_id):
 		#https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services/Births_bySD_2014/FeatureServer/0/query?outFields=*&where=GEOID10%20in%20(2636660,2636630)&f=json
 		url = self.base_url + '/' + table_id + '/FeatureServer/'+ layer_id +'/query?outFields=*&where='+ field_name +'%20in%20(' + geo_ids + ')&f=json'
-		print url
+		print(url)
 		# using post
 		r = requests.post(url)
 		data = None
@@ -68,7 +70,7 @@ class D3ApiClient(object):
 
 	def get_data(self, table_id, field_name, geo_ids, layer_id='0'):
 
-		if hasattr(geo_ids, '__iter__'):
+		if (hasattr(geo_ids, '__iter__')) and not (isinstance(geo_ids, str)):
 			geo_ids = ','.join(geo_ids)
 
 		return self._get(table_id, field_name, geo_ids, layer_id)
@@ -93,7 +95,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 	# column headings
 	data['tables'][table_name]['columns'] = OrderedDict()
 
-	for key, field in fields.iteritems():
+	for key, field in six.iteritems(fields):
 		key = 'D3-' + key
 		data['tables'][table_name]['columns'][key] = OrderedDict()
 		data['tables'][table_name]['columns'][key]['name'] = field['name']
@@ -112,7 +114,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '040' and state_data:
 			try:
 				for feature in state_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -122,7 +124,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '050' and county_data:
 			try:
 				for feature in county_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -132,7 +134,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '060' and county_sd_data:
 			try:
 				for feature in county_sd_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -142,7 +144,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '140' and tract_data:
 			try:
 				for feature in tract_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0							
@@ -152,7 +154,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '150' and block_group_data:
 			try:
 				for feature in block_group_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -162,7 +164,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '310' and msa_data:
 			try:
 				for feature in msa_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -172,7 +174,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '500' and congressional_district_data:
 			try:
 				for feature in congressional_district_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -182,7 +184,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '610' and state_senate_data:
 			try:
 				for feature in state_senate_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -192,7 +194,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '620' and state_house_data:
 			try:
 				for feature in state_house_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -203,7 +205,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if geo['sumlevel'] == '860' and zcta_data:
 			try:
 				for feature in zcta_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -213,7 +215,7 @@ def format_d3_data(years, table_name, title, universe, denominator_column_id, fi
 		if (geo['sumlevel'] == '950' or geo['sumlevel'] == '960' or geo['sumlevel'] == '970') and school_district_data:
 			try:
 				for feature in school_district_data['features']:
-					for key, value in feature['attributes'].iteritems():
+					for key, value in six.iteritems(feature['attributes']):
 						key = 'D3-' + key
 						data['data'][geo['geoid']][table_name]['estimate'][key] = value
 						data['data'][geo['geoid']][table_name]['error'][key] = 0
@@ -244,7 +246,7 @@ def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
 	proportion = float(numerator) / denominator
 	try:
 		return math.sqrt(numerator_moe**2 - (proportion**2 * denominator_moe**2)) / float(denominator)
-	except ValueError, e:
+	except ValueError as e:
 		return moe_ratio(numerator, denominator, numerator_moe, denominator_moe)
 
 def moe_ratio(numerator, denominator, numerator_moe, denominator_moe):
@@ -256,7 +258,7 @@ def moe_ratio(numerator, denominator, numerator_moe, denominator_moe):
 ops = {
 	'+': operator.add,
 	'-': operator.sub,
-	'/': operator.div,
+	'/': operator.truediv,
 	'%': percentify,
 	'%%': rateify,
 }
@@ -339,9 +341,15 @@ def build_item(name, data, parents, rpn_string):
 		label = parent['relation']
 		geoid = parent['geoid']
 		data_for_geoid = dict(estimate={}, error={})
-		for table_id, table_data in data['data'][geoid].iteritems():
-			data_for_geoid['estimate'].update(table_data['estimate'])
-			data_for_geoid['error'].update(table_data['error'])
+
+		#print(data['data'])
+		try:
+			for table_id, table_data in six.iteritems(data['data'][geoid]):
+				data_for_geoid['estimate'].update(table_data['estimate'])
+				data_for_geoid['error'].update(table_data['error'])
+		except KeyError as e:
+			data_for_geoid['estimate'].update({})
+			data_for_geoid['error'].update({})
 
 		value = None
 		error = None
@@ -368,16 +376,23 @@ def build_item(name, data, parents, rpn_string):
 
 	return val
 
-def add_metadata(dictionary, table_id, universe, acs_release):
+def add_metadata(dictionary, table_id, universe, acs_release, year):
 	val = dict(table_id=table_id,
 		universe=universe,
-		acs_release=acs_release,)
+		acs_release=acs_release,
+		year=year,)
 
 	dictionary['metadata'] = val
 
 def geo_profile(geoid, acs='latest'):
 	api = ApiClient(settings.API_URL)
 	d3_api = D3ApiClient(settings.D3_API_URL)
+	this_geoid = geoid
+
+	if acs == 'latest' or acs == 'acs2018_5yr':
+		d3_schema = 'd3_present'
+	else:
+		d3_schema = 'd3_past'
 
 	item_levels = api.get_parent_geoids(geoid)['parents']
 	comparison_geoids = [level['geoid'] for level in item_levels]
@@ -761,11 +776,11 @@ def geo_profile(geoid, acs='latest'):
 
 	graduation_dict['graduation_rate'] = build_item('Graduation Rate', data, d3_item_levels,
 		'D3-GradCnt D3-CohortCnt / %')
-	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
+	add_metadata(graduation_dict['graduation_rate'], 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017', '2017')
 
 	graduation_chart_data = OrderedDict()
 	doc['social']['graduation_chart_data'] = graduation_chart_data
-	add_metadata(graduation_chart_data, 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017')
+	add_metadata(graduation_chart_data, 'D3-Graduation-Rates', 'Number of students in the class that were on schedule to graduate in 2017', 'D3 Open Data Portal, State of Michigan Center for Educational Performance and Information, 2017', '2017')
 
 	graduation_chart_data['graduated'] = build_item('Graduated', data, d3_item_levels,
 		'D3-GradCnt D3-CohortCnt / %')
@@ -1143,15 +1158,15 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_dict['child_care_centers'] = build_item('Number of licensed child care facilities', data, d3_item_levels, 
 		'D3-Centers')
-	add_metadata(child_care_dict['child_care_centers'], 'D3-Child-Care-Centers', 'Number of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 
+	add_metadata(child_care_dict['child_care_centers'], 'D3-Child-Care-Centers', 'Number of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018', '2018') 
 
 	child_care_dict['child_care_capacity'] = build_item('Capacity of licensed child care facilities', data, d3_item_levels, 
 		'D3-Capacity')
-	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018') 	
+	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018', '2018') 	
 	
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
-	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018')
+	add_metadata(child_care_center_chart_data, 'D3-Child-Care-Centers', 'Licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018', '2018')
 
 	child_care_center_chart_data['LicCenCnt'] = build_item('Licensed child care centers', data, d3_item_levels,
 		'D3-LicCenCnt D3-Centers / %')
@@ -1162,7 +1177,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_program_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
-	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018')
+	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality, 2018', '2018')
 
 	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
 		'D3-EarlyHSCnt D3-LicCenCnt / %')
@@ -1173,7 +1188,7 @@ def geo_profile(geoid, acs='latest'):
 
 	child_care_capacity_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_capacity_chart_data'] = child_care_capacity_chart_data
-	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018')
+	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality, 2018', '2018')
 
 	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Early Head Start programs', data, d3_item_levels,
 		'D3-CapEarlyHS D3-Capacity / %')
@@ -1899,6 +1914,8 @@ def geo_profile(geoid, acs='latest'):
 	# CR queries
 	data = api.get_data('B01001', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
+
 	doc['geography']['census_release'] = acs_name
 
 	def convert_geography_data(row):
@@ -1923,17 +1940,25 @@ def geo_profile(geoid, acs='latest'):
 			doc['geography']['parents'][name]['total_population'] = _maybe_int(data['data'][the_geoid]['B01001']['estimate']['B01001001'])
 
 
+	# Demographics: Total Population
+	total_pop_dict = dict()
+	doc['demographics']['total_pop_18_plus'] = total_pop_dict
+	total_pop_dict['total'] = build_item('Total population 18 years and older', data, item_levels,
+		'B01001007 B01001008 + B01001009 + B01001010 + B01001011 + B01001012 + B01001013 + B01001014 + B01001015 + B01001016 + B01001017 + B01001018 + B01001019 + B01001020 + B01001021 + B01001022 + B01001023 + B01001024 + B01001025 + B01001031 + B01001032 + B01001033 + B01001034 + B01001035 + B01001036 + B01001037 + B01001038 + B01001039 + B01001040 + B01001041 + B01001042 + B01001043 + B01001044 + B01001045 + B01001046 + B01001047 + B01001048 + B01001049 +')
+	add_metadata(total_pop_dict['total'], 'B01001', 'Total population', acs_name, acs_year)
+
+
 	# Demographics: Total number of Children
 	child_pop_dict = dict()
 	doc['demographics']['child_pop'] = child_pop_dict
 	child_pop_dict['total'] = build_item('Number of children under 18', data, item_levels,
 		'B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 +')
-	add_metadata(child_pop_dict['total'], 'B01001', 'Total population', acs_name)
+	add_metadata(child_pop_dict['total'], 'B01001', 'Total population', acs_name, acs_year)
 
 	# Demographics: Child sex
 	child_sex_dict = OrderedDict()
 	doc['demographics']['child_sex'] = child_sex_dict
-	add_metadata(child_sex_dict, 'B01001', 'Population under 18 years of age', acs_name)
+	add_metadata(child_sex_dict, 'B01001', 'Population under 18 years of age', acs_name, acs_year)
 	child_sex_dict['percent_male'] = build_item('Male', data, item_levels,
 		'B01001003 B01001004 + B01001005 + B01001006 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
 	child_sex_dict['percent_female'] = build_item('Female', data, item_levels,
@@ -1947,7 +1972,7 @@ def geo_profile(geoid, acs='latest'):
 	child_cat_dict = OrderedDict()
 	child_age_dict['distribution_by_category'] = child_cat_dict
 	# this isn't the correct metadata
-	add_metadata(child_age_dict['distribution_by_category'], 'B01001', 'Population under 18 years of age', acs_name)
+	add_metadata(child_age_dict['distribution_by_category'], 'B01001', 'Population under 18 years of age', acs_name, acs_year)
 	child_cat_dict['percent_under_5'] = build_item('Under 5', data, item_levels,
 		'B01001003 B01001027 + B01001003 B01001004 + B01001005 + B01001006 + B01001027 + B01001028 + B01001029 + B01001030 + / %')
 	child_cat_dict['percent_5_to_9'] = build_item('5 to 9', data, item_levels,
@@ -2276,33 +2301,36 @@ def geo_profile(geoid, acs='latest'):
 	# Economics: Per-Capita Income
 	data = api.get_data('B19301', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	income_dict = dict()
 	doc['economics']['income'] = income_dict
 
 	income_dict['per_capita_income_in_the_last_12_months'] = build_item('Per capita income', data, item_levels,
 		'B19301001')
-	add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
+	add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name, acs_year)
 
 
 
 	# Economics: Median Household Income
 	data = api.get_data('B19013', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	income_dict['median_household_income'] = build_item('Median household income', data, item_levels,
 		'B19013001')
-	add_metadata(income_dict['median_household_income'], 'B19013', 'Households', acs_name)
+	add_metadata(income_dict['median_household_income'], 'B19013', 'Households', acs_name, acs_year)
 
 
 
 	# Economics: Household Income Distribution
 	data = api.get_data('B19001', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	income_distribution = OrderedDict()
 	income_dict['household_distribution'] = income_distribution
-	add_metadata(income_dict['household_distribution'], 'B19001', 'Households', acs_name)
+	add_metadata(income_dict['household_distribution'], 'B19001', 'Households', acs_name, acs_year)
 
 	income_distribution['under_50'] = build_item('Under $50K', data, item_levels,
 		'B19001002 B19001003 + B19001004 + B19001005 + B19001006 + B19001007 + B19001008 + B19001009 + B19001010 + B19001001 / %')
@@ -2318,24 +2346,25 @@ def geo_profile(geoid, acs='latest'):
 	# Economics: Poverty Rate
 	data = api.get_data('B17001', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	poverty_dict = dict()
 	doc['economics']['poverty'] = poverty_dict
 
 	poverty_dict['percent_below_poverty_line'] = build_item('Persons below poverty line', data, item_levels,
 		'B17001002 B17001001 / %')
-	add_metadata(poverty_dict['percent_below_poverty_line'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+	add_metadata(poverty_dict['percent_below_poverty_line'], 'B17001', 'Population for whom poverty status is determined', acs_name, acs_year)
 
 	poverty_children = OrderedDict()
 	poverty_seniors = OrderedDict()
 	poverty_dict['children'] = poverty_children
-	add_metadata(poverty_dict['children'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+	add_metadata(poverty_dict['children'], 'B17001', 'Population for whom poverty status is determined', acs_name, acs_year)
 	poverty_dict['seniors'] = poverty_seniors
-	add_metadata(poverty_dict['seniors'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+	add_metadata(poverty_dict['seniors'], 'B17001', 'Population for whom poverty status is determined', acs_name, acs_year)
 
 	poverty_children['Below'] = build_item('Children (Under 18) below poverty line', data, item_levels,
 		'B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001033 + B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + / %')
-	add_metadata(poverty_children['Below'], 'B17001', 'Population for whom poverty status is determined', acs_name)	
+	add_metadata(poverty_children['Below'], 'B17001', 'Population for whom poverty status is determined', acs_name, acs_year)	
 	poverty_children['above'] = build_item('Non-poverty', data, item_levels,
 		'B17001033 B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001033 + B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + / %')
 
@@ -2347,7 +2376,7 @@ def geo_profile(geoid, acs='latest'):
 	# Economics: Child Poverty by age category
 	poverty_children_distribution_by_age = OrderedDict()
 	poverty_dict['children_distribution_by_age'] = poverty_children_distribution_by_age
-	add_metadata(poverty_dict['children_distribution_by_age'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+	add_metadata(poverty_dict['children_distribution_by_age'], 'B17001', 'Population for whom poverty status is determined', acs_name, acs_year)
 	poverty_children_distribution_by_age['under_5'] = build_item('Under 5', data, item_levels,
 		'B17001004 B17001018 + B17001004 B17001018 + B17001033 + B17001047 + / %')
 
@@ -2381,10 +2410,11 @@ def geo_profile(geoid, acs='latest'):
 	# Economics: Poverty Status in the Past 12 Months of Families by Household Type by Educational Attainment of Householder
 	data = api.get_data('B17018', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	poverty_family_educational_attainment = OrderedDict()
 	doc['economics']['poverty']['poverty_family_educational_attainment'] = poverty_family_educational_attainment
-	add_metadata(poverty_family_educational_attainment, 'B17018', 'Families', acs_name)
+	add_metadata(poverty_family_educational_attainment, 'B17018', 'Families', acs_name, acs_year)
 
 	# Married Couples
 	poverty_family_educational_attainment['married_couples'] = OrderedDict()
@@ -2624,11 +2654,11 @@ def geo_profile(geoid, acs='latest'):
 
 	employment_dict['mean_number_of_vehicles'] = build_item('Mean number of vehicles available', data, item_levels,
 		'B08015001 B08006002 /')
-	add_metadata(employment_dict['mean_number_of_vehicles'], 'B08006, B08015', 'Workers Whose Means of Transportation Is Car, Truck, or Van', acs_name)
+	add_metadata(employment_dict['mean_number_of_vehicles'], 'B08006, B08015', 'Workers Whose Means of Transportation Is Car, Truck, or Van', acs_name, acs_year)
 
 	vehicle_availabilty_dict = OrderedDict()
 	employment_dict['distribution_vehicle_availabilty'] = vehicle_availabilty_dict
-	add_metadata(employment_dict['distribution_vehicle_availabilty'], 'B08006', 'Workers 16 years and over', acs_name)
+	add_metadata(employment_dict['distribution_vehicle_availabilty'], 'B08006', 'Workers 16 years and over', acs_name, acs_year)
 
 	vehicle_availabilty_dict['No_vehicle_available'] = build_item('No vehicle available', data, item_levels,
 		'B08014002 B08014001 / %')
@@ -2719,13 +2749,14 @@ def geo_profile(geoid, acs='latest'):
 	#### Useful for SODC report! ####
 	data = api.get_data('B09002', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	family_types = dict()
 	doc['families']['family_types'] = family_types
 
 	children_family_type_dict = OrderedDict()
 	family_types['children'] = children_family_type_dict
-	add_metadata(children_family_type_dict, 'B09002', 'Own children under 18 years', acs_name)
+	add_metadata(children_family_type_dict, 'B09002', 'Own children under 18 years', acs_name, acs_year)
 
 	children_family_type_dict['married_couple'] = build_item('Married couple', data, item_levels,
 		'B09002002 B09002001 / %')
@@ -2741,13 +2772,14 @@ def geo_profile(geoid, acs='latest'):
 	#### SODC ####
 	data = api.get_data('B11004', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	families_with_children = dict()
 	doc['families']['families_with_children'] = families_with_children
 
 	families_with_children['percent_familes_with_children'] = build_item('Percent of families with related children under 18', data, item_levels, 
 		'B11004003 B11004010 + B11004016 + B11004001 / %')
-	add_metadata(families_with_children['percent_familes_with_children'], 'B11004', 'Family Type by Presence and Age of Related Children Under 18 Years', acs_name)
+	add_metadata(families_with_children['percent_familes_with_children'], 'B11004', 'Family Type by Presence and Age of Related Children Under 18 Years', acs_name, acs_year)
 
 
 
@@ -2755,12 +2787,13 @@ def geo_profile(geoid, acs='latest'):
 	#### SODC ####
 	data = api.get_data('B11005', comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	households_with_children = dict()
 	doc['families']['households_with_children'] = households_with_children
 	households_with_children['percent_households_with_children'] = build_item('Percent of households with children under 18', data, item_levels, 
 		'B11005002 B11005001 / %')
-	add_metadata(households_with_children['percent_households_with_children'], 'B11005', 'Households by Presence of People Under 18 Years by Household Type', acs_name)
+	add_metadata(households_with_children['percent_households_with_children'], 'B11005', 'Households by Presence of People Under 18 Years by Household Type', acs_name, acs_year)
 
 
 
@@ -2800,21 +2833,22 @@ def geo_profile(geoid, acs='latest'):
 	# Families: Number of Households, Persons per Household, Household type distribution
 	data = api.get_data(['B11001', 'B11002'], comparison_geoids, acs)
 	acs_name = data['release']['name']
+	acs_year = data['release']['years'].split("-")[1]
 
 	households_dict = dict()
 	doc['families']['households'] = households_dict
 
 	households_dict['number_of_households'] = build_item('Number of households', data, item_levels,
 		'B11001001')
-	add_metadata(households_dict['number_of_households'], 'B11001', 'Households', acs_name)
+	add_metadata(households_dict['number_of_households'], 'B11001', 'Households', acs_name, acs_year)
 
 	households_dict['persons_per_household'] = build_item('Persons per household', data, item_levels,
 		'B11002001 B11001001 /')
-	add_metadata(households_dict['persons_per_household'], 'B11001,b11002', 'Households', acs_name)
+	add_metadata(households_dict['persons_per_household'], 'B11001,b11002', 'Households', acs_name, acs_year)
 
 	households_distribution_dict = OrderedDict()
 	households_dict['distribution'] = households_distribution_dict
-	add_metadata(households_dict['distribution'], 'B11001', 'Households', acs_name)
+	add_metadata(households_dict['distribution'], 'B11001', 'Households', acs_name, acs_year)
 
 	households_distribution_dict['married_couples'] = build_item('Married couples', data, item_levels,
 		'B11002003 B11002001 / %')
@@ -3238,11 +3272,11 @@ def geo_profile(geoid, acs='latest'):
 
 	# Social: Place of Birth
 	data = api.get_data('B05002', comparison_geoids, acs)
-	acs_name = data['release']['name']
+		acs_name = data['release']['name']
 
 	foreign_dict = dict()
 	doc['social']['place_of_birth'] = foreign_dict
-
+		
 	foreign_dict['percent_foreign_born'] = build_item('Foreign-born population', data, item_levels,
 		'B05002013 B05002001 / %')
 	add_metadata(foreign_dict['percent_foreign_born'], 'B05002', 'Total population', acs_name)
@@ -3251,7 +3285,7 @@ def geo_profile(geoid, acs='latest'):
 
 	data = api.get_data('B05006', comparison_geoids, acs)
 	acs_name = data['release']['name']
-
+	
 	place_of_birth_dict = OrderedDict()
 	foreign_dict['distribution'] = place_of_birth_dict
 	add_metadata(place_of_birth_dict, 'B05006', 'Foreign-born population', acs_name)
@@ -3269,7 +3303,7 @@ def geo_profile(geoid, acs='latest'):
 	place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
 		'B05006159 B05006001 / %')
 
-
+	
 
 	# Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
 	#### For some reason, thi svariable is no longer available at many geographies
@@ -3320,7 +3354,7 @@ def geo_profile(geoid, acs='latest'):
 		'B16007007 B16007002 / %')
 	language_adults['other'] = build_item('Other', data, item_levels,
 		'B16007013 B16007019 + B16007008 B16007014 + / %')
-
+		
 
 
 
@@ -3370,7 +3404,7 @@ def geo_profile(geoid, acs='latest'):
 		'B21001002 B21001001 / %')
 	add_metadata(veterans_dict['percentage'], 'B21001', 'Civilian population 18 years and over', acs_name)
 
-	geo_metadata = api.get_geoid_data(geoid)
+	geo_metadata = api.get_geoid_data(this_geoid)
 
 	if geo_metadata:
 		geo_metadata = geo_metadata['properties']
@@ -3396,7 +3430,7 @@ def find_dicts_with_key(dictionary, searchkey):
 		d = stack.pop()
 		if searchkey in d:
 			dict_list.append(d)
-		for key, value in d.iteritems():
+		for key, value in six.iteritems(d):
 			if isinstance(value, dict) or isinstance(value, OrderedDict):
 				stack.append(value)
 
@@ -3404,8 +3438,6 @@ def find_dicts_with_key(dictionary, searchkey):
 
 def enhance_api_data(api_data):
 	dict_list = find_dicts_with_key(api_data, 'values')
-
-	print dict_list
 
 	for d in dict_list:
 		raw = {}
@@ -3486,4 +3518,4 @@ def enhance_api_data(api_data):
 	return api_data
 
 if __name__ == '__main__':
-	print json.dumps(geo_profile('04000US55'), indent=2)
+	print(json.dumps(geo_profile('04000US55'), indent=2))

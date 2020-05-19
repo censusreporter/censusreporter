@@ -1,11 +1,11 @@
 var gmaps_api_key = 'AIzaSyAQVmojih2QofQW7mMMFdfmI85aYF5yA9M';
 var GEOCODE_URL = _("https://maps.googleapis.com/maps/api/geocode/json?address=<%=query%>&components=administrative_area:MI|country:US&key=<%=token%>").template()
 
-var geoSearchAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/search';
+var geoSearchAPI = 'https://hipapi.datadrivendetroit.org/1.0/geo/search';
 var place_template = _.template($("#place-result-template").html())
 
 var lat = '',
-    lon = '', 
+    lon = '',
     map = null,
     drawnLayer = null,
     drawnGeojson = null;
@@ -102,7 +102,7 @@ function makeTileLayer(thisSumlev) {
             style: invisibleStyle,
             onEachFeature: function(feature, layer) {}
         });
-    } 
+    }
     return geojsonTileLayer;
 }
 
@@ -169,12 +169,12 @@ function setInvisible(layer) {
         layer.setStyle(invisibleStyle);
     });
     layer.on('click', function() {
-        // add spinner to page load 
+        // add spinner to page load
         // var spinnerTarget = document.getElementById("body-spinner");
         // if (!spinnerTarget) {
         //    $('body').append('<div id="body-spinner"></div>');
         //    spinnerTarget = document.getElementById('body-spinner');
-        // } 
+        // }
         // spinner.spin(spinnerTarget);
         // window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
     });
@@ -221,7 +221,7 @@ function setDeselected(layer) {
         layer.setStyle(defaultStyle);
     });
     layer.on('click', function() {
-        layer.selected = true; 
+        layer.selected = true;
         setSelected(layer);
     });
 }
@@ -243,7 +243,7 @@ function listGeograpies() {
                             setSelected(layer);
                         } else {
                             setDeselected(layer);
-                        }  
+                        }
                     });
                 } else {
 
@@ -254,7 +254,7 @@ function listGeograpies() {
                     // }
                 }
             });
-            
+
         });
 
         $('.location-list li').click(function(e) {
@@ -269,7 +269,7 @@ function listGeograpies() {
     });
 
     $('body').trigger('glossaryUpdate', list);
-    
+
 }
 
 map.on('draw:created', function (e) {
@@ -285,7 +285,7 @@ map.on('draw:created', function (e) {
     map.addLayer(drawnLayer);
     drawnGeojson = drawnLayer.toGeoJSON();
 
-    // create selections and store for mouseover    
+    // create selections and store for mouseover
     _.each(sumlevs,function(l) {
         l.layer.geojsonLayer.eachLayer(function(layer) {
             //console.log(layer);
@@ -309,6 +309,3 @@ map.on('draw:created', function (e) {
 
     drawToggle = false;
 });
-
-
-

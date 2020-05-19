@@ -1,11 +1,11 @@
 # Django settings for censusreporter project.
+from __future__ import absolute_import
 import os
 
 dirname = os.path.dirname
 PROJECT_ROOT = os.path.abspath(os.path.join(dirname(__file__),"..",".."))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 # should be set by each settings file
 # ROOT_URLCONF = 'config.dev.urls'
 
@@ -27,6 +27,20 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'raven.contrib.django.raven_compat',
     'census',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
+    'modelcluster',
+    'taggit',
+    'resources',
 )
 
 ALLOWED_HOSTS = []
@@ -38,8 +52,9 @@ USE_L10N = True
 USE_TZ = True
 SECRET_KEY = ''
 
-MEDIA_ROOT = ''
-MEDIA_URL = ''
+MEDIA_ROOT = PROJECT_ROOT + '/media/'
+MEDIA_URL = '/media/'
+
 
 STATIC_ROOT = PROJECT_ROOT + '/static/'
 STATIC_URL = '/static/'
@@ -48,27 +63,41 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.media',
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
-    'django.contrib.auth.context_processors.auth',
-    'census.context_processors.api_url',
-)
+WAGTAIL_SITE_NAME = 'Housing Information Portal'
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
+                'census.context_processors.api_url',
+            ],
+        },
+    },
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+]
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'censusreporter.wsgi.application'
@@ -107,7 +136,9 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-API_URL = 'https://censusapi.datadrivendetroit.org:1443'
+#Eventually change API_URL to https://hipapi.datadrivendetroit.org
+
+API_URL = 'https://hipapi.datadrivendetroit.org'
 D3_API_URL = 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
 
 # AWS credentails

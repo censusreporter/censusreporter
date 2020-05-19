@@ -1,5 +1,6 @@
+from __future__ import absolute_import
 from django.conf import settings
-from django.conf.urls import url, patterns, include
+from django.conf.urls import url, include
 from config.base.urls import urlpatterns, handler500
 
 if settings.DEBUG:

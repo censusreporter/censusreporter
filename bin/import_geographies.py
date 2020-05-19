@@ -1,8 +1,11 @@
 '''
 This will run against the output from census-shapefile-utils
 '''
+from __future__ import absolute_import
+from __future__ import print_function
 import csv
 from apps.census.models import Geography
+import six
 
 def _to_unicode(str, verbose=False):
     '''attempt to fix non uft-8 string into utf-8, using a limited set of encodings'''
@@ -14,13 +17,13 @@ def _to_unicode(str, verbose=False):
     for enc in encodings:
         if u:  break
         try:
-            u = unicode(str,enc)
+            u = six.text_type(str,enc)
         except UnicodeDecodeError:
-            if verbose: print "error for %s into encoding %s" % (str, enc)
+            if verbose: print("error for %s into encoding %s" % (str, enc))
             pass
     if not u:
-        u = unicode(str, errors='replace')
-        if verbose:  print "using replacement character for %s" % str
+        u = six.text_type(str, errors='replace')
+        if verbose:  print("using replacement character for %s" % str)
     return u
     
 path = 'all_geographies.csv'
@@ -28,7 +31,7 @@ with open(path) as f:
        reader = csv.DictReader(f)
        
        for row in reader:
-           print row['FULL_NAME']
+           print(row['FULL_NAME'])
            record = Geography(
                full_geoid = row['FULL_GEOID'],
                full_name = _to_unicode(row['FULL_NAME']),

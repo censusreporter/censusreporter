@@ -1,11 +1,12 @@
 from __future__ import division
+from __future__ import absolute_import
 from collections import OrderedDict
 import re
 
-from django.utils import simplejson
+import json
 from django.utils.functional import lazy, Promise
-from django.utils.encoding import force_unicode
-from django.core.urlresolvers import reverse
+from django.utils.encoding import force_text
+from django.urls import reverse
 
 def get_object_or_none(klass, *args, **kwargs):
     try:
@@ -13,10 +14,10 @@ def get_object_or_none(klass, *args, **kwargs):
     except klass.DoesNotExist:
         return None
 
-class LazyEncoder(simplejson.JSONEncoder):
+class LazyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Promise):
-            return force_unicode(obj)
+            return force_text(obj)
         return obj
 
 def parse_table_id(table_id):
@@ -160,6 +161,14 @@ SUMLEV_CHOICES['Schools'] = [
 ]
 
 ACS_RELEASES = {
+    'd3_present': {'name': 'D3 Present Data', 'slug': 'd3_present', 'years': '2017-2019'},
+    'd3_past': {'name': 'D3 Past Data', 'slug': 'd3_past', 'years': '2013-2015'},
+    'acs2018_5yr': {'name': 'ACS 2018 5-Year', 'slug': 'acs2018_5yr', 'years': '2014-2018'},
+    'acs2018_1yr': {'name': 'ACS 2018 1-Year', 'slug': 'acs2018_1yr', 'years': '2018'},
+    'acs2017_5yr': {'name': 'ACS 2017 5-Year', 'slug': 'acs2017_5yr', 'years': '2013-2017'},
+    'acs2017_1yr': {'name': 'ACS 2017 1-Year', 'slug': 'acs2017_1yr', 'years': '2017'},
+    'acs2016_5yr': {'name': 'ACS 2016 5-Year', 'slug': 'acs2016_5yr', 'years': '2012-2016'},
+    'acs2016_1yr': {'name': 'ACS 2016 1-Year', 'slug': 'acs2016_1yr', 'years': '2016'},
     'acs2015_5yr': {'name': 'ACS 2015 5-Year', 'slug': 'acs2015_5yr', 'years': '2011-2015'},
     'acs2015_1yr': {'name': 'ACS 2015 1-Year', 'slug': 'acs2015_1yr', 'years': '2015'},
     'acs2014_5yr': {'name': 'ACS 2014 5-Year', 'slug': 'acs2014_5yr', 'years': '2010-2014'},

@@ -4,9 +4,9 @@ function Table(options) {
     if (!spinnerTarget) {
         $('body').append('<div id="body-spinner"></div>');
         spinnerTarget = document.getElementById('body-spinner');
-    } 
+    }
 
-    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://censusapi.datadrivendetroit.org:1443'; 
+    var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://hipapi.datadrivendetroit.org';
 
 
     var table = {
@@ -29,17 +29,17 @@ function Table(options) {
         table.$placeSelectContainer = $('#explore-topic-place-picker');
         table.$parentSelect = $('#topic-place-select-parent');
         table.$parentSelectContainer = $('#explore-topic-place-picker-parent');
-        
+
         // make the side preview expand and collapse
         table.makePreviewExpander();
-    
+
         // add the "change table" widget and listener
         table.makeTopicSelectWidget();
 
         table.$parentSelectContainer.hide();
         table.makePlaceSelectWidget();
         table.$placeSelect.focus();
-    
+
         return table;
     }
 
@@ -54,7 +54,7 @@ function Table(options) {
         previewTable
             .style('overflow', 'hidden')
             .style('height', previewCollapsedHeight);
-    
+
         var previewTableToggleControl = d3.select('.preview-table')
             .append('a')
                 .classed('expand-preview', true)
@@ -79,11 +79,11 @@ function Table(options) {
                 .transition()
                 .duration(500)
                 .style('height', targetHeight);
-    
+
             var toggleText = (toOpen) ? 'Collapse preview columns &#x25B2;' : previewExpandText;
             previewTableToggleControl.html(toggleText);
         }
-    
+
         return table
     }
 
@@ -109,11 +109,11 @@ function Table(options) {
                 var match_births = births.match(re);
                 console.log(match_births);
                 if (match_births) {
-                    // get all births tables and 
+                    // get all births tables and
                     var d3Response = d3BirthsTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // Math
                 var math = 'educationtestingelamaththird3rdgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolmath';
@@ -140,7 +140,7 @@ function Table(options) {
                     var d3Response = d3GradTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                }     
+                }
 
                 // infant mortality
                 var infantmortality = 'infantmortalitydeathschildrensleepsafeunsafeassultmaltreatmentbirth';
@@ -149,7 +149,7 @@ function Table(options) {
                     var d3Response = d3InfantMortalityTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                }               
+                }
 
                 // immunization
                 var immunization = 'immunizationvaccinationvaccinechildrenshotspreventablediseasedtappoliommrhibhepbvaricellapcvhepavaccinations';
@@ -158,7 +158,7 @@ function Table(options) {
                     var d3Response = d3ImmunizationTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // medicaid
                 var medicaid = 'hospitalervisitsmedicaidchildrenurgentcarehealthcareasthmadiabetestype1type2other';
@@ -167,8 +167,8 @@ function Table(options) {
                     var d3Response = d3MedicaidTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
-    
+                }
+
                 // child care
                 var childcare = 'licensedchildcarefacilitiesgrouphomefamilyhomeschildcarecentersearlyheadstartprogramsGSRPcapacity';
                 var match_childcare = childcare.match(re);
@@ -178,11 +178,11 @@ function Table(options) {
                     response.unshift(d3Response);
                     d3Response = d3ChildCareProgramsTable();
                     // insert response into the reponse
-                    response.unshift(d3Response);                
+                    response.unshift(d3Response);
                     d3Response = d3ChildCareCapacityTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // school lunch
                 var lunch = 'eligibilityfreereducedpriceschoollunchmigranthomelessstudentsdirectcertificationprocess';
@@ -191,7 +191,7 @@ function Table(options) {
                     var d3Response = d3FreeReducedLunchTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // college readiness
                 var collegereadiness = 'studentssatassessmentallsubjectsmathcollegereadinessproficiencyevidencedbasedreadingwriting';
@@ -200,7 +200,7 @@ function Table(options) {
                     var d3Response = d3CollegeReadinessTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // blood lead levels
                 var bloodlead = 'individualstestedelevatedbloodleadleveldefined4.5microgramsperdeciliter';
@@ -209,7 +209,7 @@ function Table(options) {
                     var d3Response = d3BloodLeadLevelsTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // college enrollment
                 var collegeenrollment = 'publichighschoolgraduatesreceiveddiplomagraduationenrolledcollege12twelvemonthsgraduationenrollment';
@@ -218,7 +218,7 @@ function Table(options) {
                     var d3Response = d3CollegeEnrollmentTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // Student Mobility
                 var studentmobility = 'publicschoolstudentsmobilityleavingenteringnewschoolduringschoolyear';
@@ -227,7 +227,7 @@ function Table(options) {
                     var d3Response = d3StudentMobilityTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                }             
+                }
 
                 // chronicabsenteeism
                 var chronicabsenteeism = 'publicschoolstudentschronicabsenteeismmissing10tenormoreschooldaysinaschoolyear';
@@ -236,7 +236,7 @@ function Table(options) {
                     var d3Response = d3ChronicAbsenteeismTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
                 // eighthgrademath
                 var eighthgrademath = 'educationtestingelamatheighth8thgradeproficientexpectationsexceednotmeetadvancedstudentschildrenschoolmath';
@@ -245,9 +245,9 @@ function Table(options) {
                     var d3Response = d38thGradeMathTable();
                     // insert response into the reponse
                     response.unshift(d3Response);
-                } 
+                }
 
-                
+
 
                 var resultNumber = response.length;
                 if (resultNumber === 0) {
@@ -282,7 +282,7 @@ function Table(options) {
         return response;
 
     }
-    
+
     var d3MathTable = function() {
         // state table
         var response = {
@@ -296,11 +296,11 @@ function Table(options) {
             'unique_key': "D3-Math-Proficiency",
             'universe': "Total students taking Math Assessment"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3ELATable = function() {
         // state table
         var response = {
@@ -314,9 +314,9 @@ function Table(options) {
             'unique_key': "D3-ELA-Proficiency",
             'universe': "Total students taking ELA Assessment"
         }
-    
+
         return response;
-    
+
     }
 
     var d3GradTable = function() {
@@ -332,9 +332,9 @@ function Table(options) {
             'unique_key': "D3-Graduation-Rates",
             'universe': "High School Graduation Rate"
         }
-    
+
         return response;
-    
+
     }
 
     var d3InfantMortalityTable = function() {
@@ -350,9 +350,9 @@ function Table(options) {
             'unique_key': "D3-Infant-Mortality",
             'universe': "Number of infant deaths"
         }
-    
+
         return response;
-    
+
     }
 
     var d3ImmunizationTable = function() {
@@ -368,9 +368,9 @@ function Table(options) {
             'unique_key': "D3-Immunization",
             'universe': "Immunized children aged 19-35 months"
         }
-    
+
         return response;
-    
+
     }
 
     var d3MedicaidTable = function() {
@@ -386,11 +386,11 @@ function Table(options) {
             'unique_key': "D3-Medicaid",
             'universe': "Total number of hospital or ER visits through Medicaid for children (under 18)"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3ChildCareCenterTable = function() {
         // state table
         var response = {
@@ -404,9 +404,9 @@ function Table(options) {
             'unique_key': "D3-Child-Care-Centers",
             'universe': "Number of licensed child care facilities"
         }
-    
+
         return response;
-    
+
     }
 
     var d3ChildCareProgramsTable = function() {
@@ -426,7 +426,7 @@ function Table(options) {
         return response;
 
     }
-    
+
     var d3ChildCareCapacityTable = function() {
         // state table
         var response = {
@@ -440,11 +440,11 @@ function Table(options) {
             'unique_key': "D3-Child-Care-Capacity",
             'universe': "Capacity of licensed child care facilities"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3FreeReducedLunchTable = function() {
         // state table
         var response = {
@@ -458,11 +458,11 @@ function Table(options) {
             'unique_key': "D3-School-Lunch",
             'universe': "Total number of student counts grade K-12, including ungraded"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3CollegeReadinessTable = function() {
         // state table
         var response = {
@@ -476,11 +476,11 @@ function Table(options) {
             'unique_key': "D3-College-Readiness",
             'universe': "The number of students who took the SAT assessment in all subjects"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3BloodLeadLevelsTable = function() {
         // state table
         var response = {
@@ -494,11 +494,11 @@ function Table(options) {
             'unique_key': "D3-Blood-Lead",
             'universe': "Number of individuals who were tested"
         }
-    
+
         return response;
-    
+
     }
-       
+
     var d3CollegeEnrollmentTable = function() {
         // state table
         var response = {
@@ -512,11 +512,11 @@ function Table(options) {
             'unique_key': "D3-College-Enrollment",
             'universe': "Number of public high school graduates who received a diploma during the high school graduation year"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3StudentMobilityTable = function() {
         // state table
         var response = {
@@ -530,11 +530,11 @@ function Table(options) {
             'unique_key': "D3-Student-Mobility",
             'universe': "Number of public school students"
         }
-    
+
         return response;
-    
+
     }
-    
+
     var d3ChronicAbsenteeismTable = function() {
         // state table
         var response = {
@@ -548,12 +548,12 @@ function Table(options) {
             'unique_key': "D3-Chronic-Absenteeism",
             'universe': "Number of public school students"
         }
-    
+
         return response;
-    
+
     }
-    
-    
+
+
     var d38thGradeMathTable = function() {
         // state table
         var response = {
@@ -567,21 +567,21 @@ function Table(options) {
             'unique_key': "D3-Eighth-Grade-Math-Assessment",
             'universe': "Number of students assessed in Math"
         }
-    
+
         return response;
-    
+
     }
 
 
-    
+
     table.makeTopicSelectWidget = function() {
         table.$displayWrapper.find('h1')
-            .append('<a href="#" id="change-table">Change</a>');
+            .append('<br /><a href="#" id="change-table">Change</a>');
 
         table.topicSelectEngine.initialize();
 
         var element = table.$topicSelect;
-        
+
         element.typeahead('destroy');
         element.typeahead({
             autoselect: true,
@@ -611,13 +611,13 @@ function Table(options) {
                 window.location = '/tables/'+table.tableID;
             }
         });
-        
+
         // standard listeners
         table.$pageWrapper.on('click', '#change-table, #cancel-search', function(e) {
             e.preventDefault();
             table.toggleTableSearch();
         });
-        
+
         return table;
     }
 
@@ -628,7 +628,7 @@ function Table(options) {
         table.$topicSelectContainer.toggle();
         table.$topicSelect.focus();
     }
-    
+
     table.placeSelectEngine = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.full_name); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -800,7 +800,7 @@ function Table(options) {
         if (!!primaryGeoID) {
             url += "&primary_geo_id=" + primaryGeoID
         }
-    
+
         return url
     }
 

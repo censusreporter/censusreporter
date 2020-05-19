@@ -2,8 +2,11 @@
 This will run against the output from census-table-metadata, assuming you drop
 the output csv in the same dir as this script, and point `path` to it
 '''
+from __future__ import absolute_import
+from __future__ import print_function
 import csv
 from apps.census.models import Table, Column
+import six
 
 def _to_unicode(str, verbose=False):
     '''attempt to fix non uft-8 string into utf-8, using a limited set of encodings'''
@@ -15,13 +18,13 @@ def _to_unicode(str, verbose=False):
     for enc in encodings:
         if u:  break
         try:
-            u = unicode(str,enc)
+            u = six.text_type(str,enc)
         except UnicodeDecodeError:
-            if verbose: print "error for %s into encoding %s" % (str, enc)
+            if verbose: print("error for %s into encoding %s" % (str, enc))
             pass
     if not u:
-        u = unicode(str, errors='replace')
-        if verbose:  print "using replacement character for %s" % str
+        u = six.text_type(str, errors='replace')
+        if verbose:  print("using replacement character for %s" % str)
     return u
     
 def split_release(release):
@@ -38,7 +41,7 @@ with open(path) as f:
     for row in reader:
         release_name = split_release(row['source'])
         if not row['column_id']:
-            print "Table: " + row['table_name']
+            print("Table: " + row['table_name'])
             record = Table(
                 release = release_name,
                 table_id = row['table_id'],
@@ -49,7 +52,7 @@ with open(path) as f:
             )
             record.save()
         else:
-            print "Column: " + row['column_name']
+            print("Column: " + row['column_name'])
             table = Table.objects.get(table_id = row['table_id'], release = release_name)
             record = Column(
                 table = table,

@@ -24,9 +24,12 @@ for applying things across that entire family of pages.
     </header>
     <div class="section-container">
         <section id="data-container" class="clearfix">
-            <h2 class="header-for-columns"></h2>
-            <aside>{% block aside_notes %}{% endblock %}</aside>
-            
+
+            <aside>
+              <h2 class="header-for-columns"></h2>
+              {% block aside_notes %}{% endblock %}
+            </aside>
+
             <div id="tool-notes" class="tool-set caption-tool-set"></div>
             <p class="caption">
                 <span id="table-universe" class="caption-group"></span>
@@ -80,6 +83,7 @@ var dataView = new Comparison({
     dataFormat: '{{ data_format }}',
     geoIDs: '{{ geo_ids }}'.split(','),
     primaryGeoID: '{{ primary_geo_id }}',
+    release: '{{ release }}',
     topicSelect: '#topic-select',
     topicSelectContainer: '#query-topic-picker',
     displayHeader: '#header-container',

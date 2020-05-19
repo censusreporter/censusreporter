@@ -14,6 +14,7 @@ var topicSelect = $('#topic-select'),
     parentSelect = $('#topic-place-select-parent'),
     parentSelectContainer = $('#explore-topic-place-picker-parent'),
     chosenTableID,
+    chosenRelease = 'latest',
     chosenSumlev,
     chosenSumlevPluralName,
     chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970',
@@ -654,7 +655,7 @@ function makePlaceSelectWidget(element) {
             parentSelect.focus();
         } else if (!!datum['full_geoid']) {
             chosenGeoID = datum['full_geoid'];
-            sendToDataView(chosenTableID, chosenGeoID);
+            sendToDataView(chosenTableID, chosenRelease, chosenGeoID);
         }
     });
 }
@@ -680,16 +681,16 @@ function makeParentSelectWidget(element) {
     element.on('typeahead:selected', function(obj, datum) {
         chosenGeoID = datum['full_geoid'];
         if (!!chosenGeoID) {
-            sendToDataView(chosenTableID, chosenGeoID, chosenSumlev);
+            sendToDataView(chosenTableID, chosenRelease, chosenGeoID, chosenSumlev);
         }
     });
 }
 
-function sendToDataView(chosenTableID, chosenGeoID, chosenSumlev) {
+function sendToDataView(chosenTableID, chosenRelease, chosenGeoID, chosenSumlev) {
     // add spinner to page load 
     spinner.spin(spinnerTarget);
     var theseGeoIDs = (!!chosenSumlev) ? chosenSumlev + '|' + chosenGeoID : chosenGeoID,
-        targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + theseGeoIDs + '&primary_geo_id=' + chosenGeoID;
+        targetURL = '/data/table/?table=' + chosenTableID + '&geo_ids=' + theseGeoIDs + '&primary_geo_id=' + chosenGeoID + '&release=' + chosenRelease;
     window.location.href = targetURL;
 }
 

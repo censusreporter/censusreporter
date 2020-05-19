@@ -1,6 +1,7 @@
 {% load humanize madlibs comparatives %}
 {% if not stat_wrapper == 'false' %}<a class="stat {{ stat_type }}{% if wrapper_class %} {{ wrapper_class }}{% endif %}">{% endif %}
     <span class="{% if stat_class %}{{ stat_class }}{% else %}primary{% endif %}">
+    <span class="name"><h3 class="chart-title">{{ stat.name }} ({{ stat.metadata.year }})</h3></span>
         <span class="value">
             {% if not stat.values.this %}
                 N/A
@@ -18,11 +19,7 @@
                 {% endif %}
             {% endif %}
         </span>
-        <span class="name">{{ stat.name }}</span>
-        {% if stat.metadata.acs_release != geography.census_release %}
-            <span class="small">* {{ stat.metadata.acs_release }} data</span>
-        {% endif %}
-        
+
         {% if stat_class == 'secondary' %}
             <span class="context">
                 {% if stat.error.this %}
@@ -42,5 +39,13 @@
             {% build_comparative_item sumlev stat stat_type geography %}
         {% endfor %}
     </ul>
+    {% endif %}
+    {% if stat.metadata.acs_release != geography.census_release %}
+        <span class="chart-qualifier">* {{ stat.metadata.acs_release }} data</span>
+    {% endif %}
+    {% if show_data %}
+        <div class="action-links">
+            <a class='chart-get-data' href='/data/table/?table={{ stat.metadata.table_id }}&geo_ids={{ stat_geoids }}&release={{ stat_release }}' style="font-size: 0.75em;">Show data</a>
+        </div>
     {% endif %}
 {% if not stat_wrapper == 'false' %}</a>{% endif %}
