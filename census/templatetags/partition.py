@@ -170,7 +170,7 @@ def columns(thelist, n):
         return [thelist]
     newlists = [list() for i in range(int(ceil(len(thelist) / float(n))))]
     for i, val in enumerate(thelist):
-        newlists[i/n].append(val)
+        newlists[i//n].append(val)
     return newlists
 
 register.filter(rows)

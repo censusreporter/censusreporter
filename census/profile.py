@@ -3272,7 +3272,7 @@ def geo_profile(geoid, acs='latest'):
 
 	# Social: Place of Birth
 	data = api.get_data('B05002', comparison_geoids, acs)
-		acs_name = data['release']['name']
+	acs_name = data['release']['name']
 
 	foreign_dict = dict()
 	doc['social']['place_of_birth'] = foreign_dict
