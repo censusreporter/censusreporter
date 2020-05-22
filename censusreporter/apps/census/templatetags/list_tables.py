@@ -14,13 +14,15 @@ register = template.Library()
 
 
 @register.inclusion_tag('topics/_blocks/_table_list.html')
-def list_tables(topics=None,prefix=None):
+def list_tables(topics=None,prefix=None,exclude_prefix=None):
     api = ApiClient(settings.API_URL)
-    # data = api.query_topics('housing')
+
+    if exclude_prefix:
+        exclude_prefix = ['00','98','99'] + map(lambda x: x.strip(),exclude_prefix.split(','))
     if prefix:
         data = api.query_prefix(prefix)
-    elif topics:
-        data = api.query_topics(topics)
+    elif topics: 
+        data = api.query_topics(topics,exclude_prefix)
     else:
         data = []
     tabulations = map(api_to_page,data)
@@ -44,10 +46,12 @@ def api_to_page(item):
     o = {
         'title': item['simple_table_title']
     }
+    all_tables = set()
     if item.get('tables_in_five_yr'):
-        o['code'] = item['tables_in_five_yr'][0]
-    else:
-        o['code'] = item['tables_in_one_yr'][0]
+        all_tables.update( item['tables_in_five_yr'] )
+    if item.get('tables_in_one_yr'):
+        all_tables.update( item['tables_in_one_yr'] )
+    o['code'] = list(sorted(all_tables))[0]
     o['notes'] = table_breakdown(item['tables_in_one_yr'],item['tables_in_five_yr'])
     
     return o
@@ -75,6 +79,17 @@ def table_notes(notes_for_all):
 
 
 
+def prefix_filter(exclude):
+    if not exclude:
+        return lambda x: True
+    def closure(tabulation):
+        for prefix in exclude:
+            if tabulation['tabulation_code'].startswith(prefix):
+                return False # don't pass
+        return True
+    return closure
+
+
 
 class ApiClient(object):
     TABLE_SEARCH_ROOT = '/1.0/tabulations'
@@ -98,11 +113,17 @@ class ApiClient(object):
         return data
 
 
-    def query_topics(self, topics): # topics should be a comma-separated string
+    def query_topics(self, topics, exclude_prefix=None): # topics should be a comma-separated string
         p = {
             'topics': topics
         }
-        return self._get(params=p)
+
+        data = self._get(params=p)
+
+        if exclude_prefix:
+            return filter(prefix_filter(exclude_prefix), data)
+
+        return data
 
     def query_prefix(self, prefix):
         p = {

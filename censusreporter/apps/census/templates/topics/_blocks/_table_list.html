@@ -9,7 +9,7 @@
     <tbody>
         {% for t in tabulations %}
         <tr>
-            <td><a href="/tables/{{ t.code}}/">{{ t.code }}</a>{{ t.notes|table_marks }}</td>
+            <td><strong><a href="{% url 'table_detail' t.code %}">{{ t.code }}</a></strong>{{ t.notes|table_marks }}</td>
             <td>{{ t.title }}</td>
         </tr>
         {% endfor %}
