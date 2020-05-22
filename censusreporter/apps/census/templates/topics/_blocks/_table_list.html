@@ -1,0 +1,26 @@
+{# to be called via `list_tables` inclusion tag #} {% load list_tables %}
+<table>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in tabulations %}
+        <tr>
+            <td><a href="/tables/{{ t.code}}/">{{ t.code }}</a>{{ t.notes|table_marks }}</td>
+            <td>{{ t.title }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% if notes_for_all %}
+    <tfoot>
+        <tr class="help-text">
+            <td colspan="2">
+                {{ notes_for_all|table_notes }}
+            </td>
+        </tr>
+    </tfoot>
+    {% endif %}
+</table>
