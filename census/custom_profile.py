@@ -63,7 +63,7 @@ class ApiClient(object):
 
 
 def custom_s3_keyname(geo_id):
-	return '1.0/data/hip-profiles/2018/%s.json' % geo_id.upper()
+	return '1.0/data/profiles/2017/%s.json' % geo_id.upper()
 
 def custom_make_s3():
 	if settings.AWS_KEY and settings.AWS_SECRET:

@@ -706,8 +706,8 @@ var theseGeoIDs = [];
 // Update the header's list of parent geographies
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.number_of_geographies }} {{ geography.this.sumlevel_name|capfirst }}{{ geography.this.number_of_geographies|pluralize }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2017/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2017/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2018/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2018/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 //**** Make the header map ****
 var allowMapDrag = (browserWidth > 480) ? true : false;
@@ -797,7 +797,7 @@ var group = new L.FeatureGroup();
 var geoids_processed = 0;
 var count_of_geoids = {{ geography.this.full_geoids|length }};
 {% for full_geoid in geography.this.full_geoids %}
-    d3.json(CR_API_URL + '/1.0/geo/tiger2017/{{ full_geoid }}?geom=true', function(error, json) {
+    d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ full_geoid }}?geom=true', function(error, json) {
         if (error) return console.warn(error);
         var featureLayer = L.geoJson(json, {
             style: {

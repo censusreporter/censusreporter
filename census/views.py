@@ -1294,7 +1294,7 @@ class GeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '1.0/data/hip-profiles/2018/%s.json' % geo_id.upper()
+		return '1.0/data/profiles/2017/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1361,7 +1361,7 @@ class GeographyDetailView(TemplateView):
 			profile_data_json = SafeString(profile_data_json)
 		else:
 			# The object does exist.
-			profile_data = geo_profile(geography_id, 'acs2018_5yr')
+			profile_data = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data:
 				profile_data = enhance_api_data(profile_data)
@@ -1412,8 +1412,8 @@ class TimeSeriesGeographyDetailView(TemplateView):
 	def dispatch(self, *args, **kwargs):
 
 		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
-		self.current_year = 2018
-		self.past_year = 2013
+		self.current_year = 2017
+		self.past_year = 2012
 
 		if self.slug is None:
 			geo = self.get_geography(self.geo_id)
@@ -1449,7 +1449,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, year, geo_id):
-		return '1.0/data/hip-profiles/%s/%s.json' % (year, geo_id.upper())
+		return '1.0/data/profiles/%s/%s.json' % (year, geo_id.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1520,7 +1520,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			profile_data_json_current_year = SafeString(profile_data_json_current_year)
 		else:
 			# The object does exist.
-			profile_data_current_year = geo_profile(geography_id, 'acs2018_5yr')
+			profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
 
 			if profile_data_current_year:
 				profile_data_current_year = enhance_api_data(profile_data_current_year)
@@ -1569,7 +1569,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			profile_data_json_past_year = SafeString(profile_data_json_past_year)
 		else:
 			# The object does exist.
-			profile_data_past_year = geo_profile(geography_id, 'acs2018_5yr')
+			profile_data_past_year = geo_profile(geography_id, 'acs2012_5yr')
 
 			if profile_data_past_year:
 				profile_data_past_year = enhance_api_data(profile_data_past_year)
