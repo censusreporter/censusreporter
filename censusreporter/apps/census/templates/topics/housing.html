@@ -1,0 +1,112 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+    <h2>Overview</h2>
+    <p>
+        While people often think of the Census as asking questions about people, the American Community Survey also gathers extensive data about the housing conditions of respondents, including whether they own or rent their home, <a href="#housing-units-and-costs">how much they spend on housing</a>,
+        and the <a href="#housing-characteristics">physical characteristics of homes</a>. The ACS primarily reports housing data in tables with codes beginning with 25.
+    </p>
+
+    <p>
+        Most of the tables count the number of housing units for a given characteristic. However, a few tables estimate the number of people living in owned or rented housing units.
+    </p>
+
+    <p>
+        A housing unit is anything from a house to an apartment or even a boat if a person is currently living there.
+    </p>
+
+</section>
+<section id='occupied-and-vacant'>
+    <h2>Occupied and Unoccupied Housing Units</h2>
+
+    <h3>Vacancy</h3>
+    <p>
+        Every housing unit is recorded as either occupied or vacant. Some vacancies are market related, such as houses for sale or apartments for rent. Other housing units are seasonally vacant. Table <a href="{% url 'table_detail' 'B25004' %}">B25004</a>        (Vacancy Status) records the number of vacancies in each category.
+    </p>
+
+    <h3>Tenure</h3>
+    <p>
+        Occupied housing units in the ACS are split into two categories: renter-occupied and owner-occupied. This distinction is known as “tenure” (think “tenant”).
+    </p>
+
+    {% list_tables query='tenure' exclude_prefix='00,98,99' %}
+
+</section>
+
+<section id='housing-units-and-costs'>
+    <h2>Housing Units and Costs</h2>
+    <h3>Value</h3>
+    <p>The ACS records estimated selling prices for housing units under “value”. Note that the values are calculated from self-reported estimates of occupied units and vacant units on the market. Therefore, estimates may become less reliable in a fluctuating
+        or falling housing market.
+    </p>
+    {% list_tables query='value' exclude_prefix='00,98,99' %}
+
+    <h3>Mortgage Status</h3>
+    <p>
+        Table <a href="{% url 'table_detail' 'B25081' %}">B25081</a> (Mortgage Status) records the type of mortgage on owner-occupied housing units. This includes first mortgages, second mortgages and home equity loans. A simpler classification, “with/without”,
+        is used in tables relating mortgage status to topics like real estate taxes, household income, and tenure.
+    </p>
+    {% list_tables query='mortgage' exclude_prefix='00,98,99' %}
+
+
+    <h3>Selected Monthly Owner Costs</h3>
+    <p>
+        Homeowners with and without mortgages have ongoing monthly costs, and the American Community Survey gathers data about these costs, which are reported in tables referring to "selected monthly owner costs." The costs are reported as either a percentage
+        of the household income or the number of housing units in a monthly cost range such as “$1,250 to $1,499”. The selected costs used for these estimates are:
+    </p>
+    <ul>
+        <li>payments for mortgages, or other debts on the property</li>
+        <li>real estate taxes</li>
+        <li>fire, hazard, and flood insurance</li>
+        <li>utilities (electricity, gas, and water and sewer)</li>
+        <li>fuel (oil, coal, kerosene, wood, etc)</li>
+        <li>monthly condominium fees (when applicable)</li>
+        <li>mobile home costs (when applicable)</li>
+    </ul>
+    {% list_tables query='monthly owner' exclude_prefix='00,98,99' %}
+
+
+
+    <h3>Rent</h3>
+    <p>There are two main categories for rent, contract and gross. Contract rent is the monthly rent agreed to without adjustments for utilities or other payments. Gross rent is similar to selected monthly owner costs. It is the sum of contract rent and
+        the average cost of the utilities (electricity, gas, and water and sewer) and fuel (oil, coal, kerosene, wood, etc).</p>
+
+    {% list_tables query='rent' exclude_prefix='00,98,99' %}
+</section>
+
+<section id='housing-characteristics'>
+    <h2>Housing Characteristics</h2>
+    <h3>Bedrooms</h3>
+    The ACS records the number of bedrooms for each housing unit in Table <a href="{% url 'table_detail' 'B25041' %}">B25041</a> and Table <a href="{% url 'table_detail' 'B25042' %}">B25042</a> (Tenure by Bedrooms). The number of bedrooms can also be
+    compared to Gross Rent in Tables <a href="{% url 'table_detail' 'B25068' %}">B25068</a> and <a href="{% url 'table_detail' 'B25031' %}">B25031</a>. Housing units with only one room are listed as having no bedrooms.
+
+    <h3>Facilities</h3>
+    <p>
+        The lack of complete facilities for housing units are recorded in two areas: kitchen and plumbing. A complete kitchen requires:
+        <ul>
+            <li>a sink with a faucet </li>
+            <li>a stove </li>
+            <li>a refrigerator</li>
+        </ul>
+        Complete plumbing requires:
+        <ul>
+            <li>
+                hot and cold running water
+            </li>
+            <li>
+                a bathtub or shower
+            </li>
+        </ul>
+        If a housing unit doesn’t have one of those items, it is recorded as lacking a complete kitchen or complete plumbing facilities.
+    </p>
+
+
+    <h3>Selected Conditions</h3>
+    “Selected Conditions” is a measure of substandard housing and can be found in Table <a href="{% url 'table_detail' 'B25123' %}">B25123</a>. The selected conditions are:
+    <ul>
+        <li>incomplete plumbing or kitchens</li>
+        <li>overcrowding</li>
+        <li>30% or more of the household income spent on rent or monthly owner costs</li>
+    </ul>
+
+</section>
+{% endblock %}

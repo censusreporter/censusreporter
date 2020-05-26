@@ -88,6 +88,18 @@ TOPICS_LIST = [
     },
 
     {
+        'title': 'Housing',
+        'slug': 'housing',
+        'topics': ['housing',],
+        'description': 'In addition to questions about people, Census collects extensive data about housing, including costs and physical characteristics of homes.',
+        'template_name': 'housing.html',
+        # 'question_images': ['health-insurance.png',],
+        # 'question_pdfs': [
+        #     ('Questions on Health Insurance Coverage','https://www2.census.gov/programs-surveys/acs/about/qbyqfact/2016/HealthInsurance.pdf'),
+        # ]
+    },
+
+    {
         'title': 'Race and Hispanic Origin',
         'slug': 'race-hispanic',
         'topics': ['race',],

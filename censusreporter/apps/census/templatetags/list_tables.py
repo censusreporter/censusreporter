@@ -14,7 +14,7 @@ register = template.Library()
 
 
 @register.inclusion_tag('topics/_blocks/_table_list.html')
-def list_tables(topics=None,prefix=None,exclude_prefix=None):
+def list_tables(topics=None,prefix=None,exclude_prefix=None,query=None):
     api = ApiClient(settings.API_URL)
 
     if exclude_prefix:
@@ -23,6 +23,8 @@ def list_tables(topics=None,prefix=None,exclude_prefix=None):
         data = api.query_prefix(prefix)
     elif topics: 
         data = api.query_topics(topics,exclude_prefix)
+    elif query: # catchall?
+        data = api.query(topics=topics,prefix=prefix,exclude_prefix=exclude_prefix,q=query)
     else:
         data = []
     tabulations = map(api_to_page,data)
@@ -130,6 +132,25 @@ class ApiClient(object):
             'prefix': prefix
         }
         return self._get(params=p)
+
+    def query(self, q=None, topics=None, prefix=None, exclude_prefix=None):
+        "Maybe we just want a single query?"
+        p = {
+
+        }
+        if q is not None:
+            p['q'] = q
+        if topics is not None:
+            p['topics'] = topics
+        if prefix is not None:
+            p['prefix'] = prefix
+        
+        data = self._get(params=p)
+
+        if exclude_prefix:
+            return filter(prefix_filter(exclude_prefix), data)
+
+        return data
 
 
 def table_breakdown(one_year_codes, five_year_codes):
