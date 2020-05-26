@@ -70,14 +70,20 @@
     <p>There are two main categories for rent, contract and gross. Contract rent is the monthly rent agreed to without adjustments for utilities or other payments. Gross rent is similar to selected monthly owner costs. It is the sum of contract rent and
         the average cost of the utilities (electricity, gas, and water and sewer) and fuel (oil, coal, kerosene, wood, etc).</p>
 
-    {% list_tables query='rent' exclude_prefix='00,98,99' %}
+    {% comment %} note that white space around 'rent' is necessary as we don't currently support regex syntax like 'word boundary' and many titles include 'rent' as part of a word {% endcomment %}
+    <!-- -->
+    {% list_tables query=' rent ' exclude_prefix='00,98,99' %}
 </section>
 
 <section id='housing-characteristics'>
     <h2>Housing Characteristics</h2>
     <h3>Bedrooms</h3>
-    The ACS records the number of bedrooms for each housing unit in Table <a href="{% url 'table_detail' 'B25041' %}">B25041</a> and Table <a href="{% url 'table_detail' 'B25042' %}">B25042</a> (Tenure by Bedrooms). The number of bedrooms can also be
-    compared to Gross Rent in Tables <a href="{% url 'table_detail' 'B25068' %}">B25068</a> and <a href="{% url 'table_detail' 'B25031' %}">B25031</a>. Housing units with only one room are listed as having no bedrooms.
+    <p>
+        The ACS records the number of bedrooms for each housing unit, and provides tables to relate that number to tenure and rent. Housing units with only one room are listed as having no bedrooms.
+    </p>
+
+    {% list_tables query='bedroom' exclude_prefix='00,98,99' %}
+
 
     <h3>Facilities</h3>
     <p>
@@ -98,6 +104,8 @@
         </ul>
         If a housing unit doesn’t have one of those items, it is recorded as lacking a complete kitchen or complete plumbing facilities.
     </p>
+
+    {% list_tables codes='25051,25052,25053,25054,25016,25047,25048,25049,25050' %}
 
 
     <h3>Selected Conditions</h3>

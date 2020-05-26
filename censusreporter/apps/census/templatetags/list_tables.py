@@ -14,7 +14,7 @@ register = template.Library()
 
 
 @register.inclusion_tag('topics/_blocks/_table_list.html')
-def list_tables(topics=None,prefix=None,exclude_prefix=None,query=None):
+def list_tables(topics=None,prefix=None,exclude_prefix=None,codes=None,query=None):
     api = ApiClient(settings.API_URL)
 
     if exclude_prefix:
@@ -23,8 +23,8 @@ def list_tables(topics=None,prefix=None,exclude_prefix=None,query=None):
         data = api.query_prefix(prefix)
     elif topics: 
         data = api.query_topics(topics,exclude_prefix)
-    elif query: # catchall?
-        data = api.query(topics=topics,prefix=prefix,exclude_prefix=exclude_prefix,q=query)
+    elif query or codes: # catchall?
+        data = api.query(topics=topics,prefix=prefix,exclude_prefix=exclude_prefix,q=query,codes=codes)
     else:
         data = []
     tabulations = map(api_to_page,data)
@@ -133,7 +133,7 @@ class ApiClient(object):
         }
         return self._get(params=p)
 
-    def query(self, q=None, topics=None, prefix=None, exclude_prefix=None):
+    def query(self, q=None, topics=None, prefix=None, exclude_prefix=None,codes=None):
         "Maybe we just want a single query?"
         p = {
 
@@ -144,6 +144,8 @@ class ApiClient(object):
             p['topics'] = topics
         if prefix is not None:
             p['prefix'] = prefix
+        if codes is not None:
+            p['codes'] = codes
         
         data = self._get(params=p)
 
