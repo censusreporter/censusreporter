@@ -389,7 +389,7 @@ def geo_profile(geoid, acs='latest'):
 	d3_api = D3ApiClient(settings.D3_API_URL)
 	this_geoid = geoid
 
-	if acs == 'latest' or acs == 'acs2017_5yr':
+	if acs == 'latest' or acs == 'acs2018_5yr':
 		d3_schema = 'd3_present'
 	else:
 		d3_schema = 'd3_past'

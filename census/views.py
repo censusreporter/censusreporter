@@ -1294,7 +1294,7 @@ class GeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '1.0/data/profiles/2017/%s.json' % geo_id.upper()
+		return '1.0/data/profiles/2018/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1361,7 +1361,7 @@ class GeographyDetailView(TemplateView):
 			profile_data_json = SafeString(profile_data_json)
 		else:
 			# The object does exist.
-			profile_data = geo_profile(geography_id, 'acs2017_5yr')
+			profile_data = geo_profile(geography_id, 'acs2018_5yr')
 
 			if profile_data:
 				profile_data = enhance_api_data(profile_data)
@@ -1412,8 +1412,8 @@ class TimeSeriesGeographyDetailView(TemplateView):
 	def dispatch(self, *args, **kwargs):
 
 		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
-		self.current_year = 2017
-		self.past_year = 2012
+		self.current_year = 2018
+		self.past_year = 2013
 
 		if self.slug is None:
 			geo = self.get_geography(self.geo_id)
@@ -1520,7 +1520,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			profile_data_json_current_year = SafeString(profile_data_json_current_year)
 		else:
 			# The object does exist.
-			profile_data_current_year = geo_profile(geography_id, 'acs2017_5yr')
+			profile_data_current_year = geo_profile(geography_id, 'acs2018_5yr')
 
 			if profile_data_current_year:
 				profile_data_current_year = enhance_api_data(profile_data_current_year)
@@ -1617,7 +1617,7 @@ class CustomGeographyDetailView(TemplateView):
 		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '1.0/data/hip-custom-profiles/%s.json' % (self.slug.upper())
+		return '1.0/data/custom-profiles/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1720,7 +1720,7 @@ class DistrictGeographyDetailView(TemplateView):
 		return super(DistrictGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '1.0/data/hip-districts/%s.json' % (self.slug.upper())
+		return '1.0/data/districts/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
