@@ -4,7 +4,7 @@ if (!spinnerTarget) {
     spinnerTarget = document.getElementById('body-spinner');
 } 
 
-var geoSearchAPI = CR_API_URL + '/1.0/geo/search',
+var geoSearchAPI = FREE_TEXT_SEARCH_API_URL + '/2.1/full-text/search',
     geoSelect = $('.geography-select'),
     chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
 
@@ -18,22 +18,22 @@ var geoSelectEngine = new Bloodhound({
     remote: {
         url: geoSearchAPI,
         replace: function (url, query) {
-            var re = new RegExp(query.toLowerCase(), 'g');
+            var re = new RegExp(query.toLowerCase().replace(/\s/g,''), 'g');
             // check query to see if district text shows up and print options
             
-            if ('wayne county commission district'.match(re)) {
+            if ('waynecountycommissiondistrict'.match(re)) {
                 wayneCountyCommission = true;
             } else {
                 wayneCountyCommission = false;
             }
 
-            if ('detroit police department precinct'.match(re)) {
+            if ('detroitpolicedepartmentprecinct'.match(re)) {
                 policeDept = true;
             } else {
                 policeDept = false;
             }
 
-            if ('detroit city council district'.match(re)) {
+            if ('detroitcitycouncildistrict'.match(re)) {
                 cityCouncil = true;
             } else {
                 cityCouncil = false;
@@ -44,11 +44,10 @@ var geoSelectEngine = new Bloodhound({
             chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
             return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
         },
-        filter: function(response) {
-            
+        filter: function(response) {            
             var results = [];
             // remove any non-Michigan responses
-            for (var i = response.results.length - 1; i >= 0; i--) {
+            for (let i = 0; i < response.results.length; i++) {
                 // all Michigan results have US26 as part of their geoID
                 console.log(response.results[i]);
                 if (response.results[i].full_geoid.search('US26') != -1) {
@@ -60,7 +59,7 @@ var geoSelectEngine = new Bloodhound({
                 }
                 if (response.results[i].full_geoid.search('86000US49') != -1) {
                     results.push(response.results[i]);
-                }
+                } 
             }
             _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];

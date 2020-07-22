@@ -8,7 +8,11 @@
     <h2>List of User Created Custom Profiles</h2>
     <ul>
         {% for dashboard in dashboards %}
-            <li><a href="/custom-profiles/{{ dashboard.dashboard_slug }}">{{ dashboard.dashboard_name }}</a></li>
+            <li><a href="/custom-profiles/{{ dashboard.dashboard_slug }}">{{ dashboard.dashboard_name }}</a> 
+            {% if dashboard.dashboard_organization %}
+                ({{ dashboard.dashboard_organization }})
+            {% endif %}
+            </li>
         {% endfor %}
     </ul>
 

@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
                 'census.context_processors.api_url',
+                'census.context_processors.free_text_search_api_url',
             ],
         },
     },
@@ -140,6 +141,7 @@ MANAGERS = ADMINS
 
 API_URL = 'https://hipapi.datadrivendetroit.org'
 D3_API_URL = 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
+FREE_TEXT_SEARCH_API_URL = 'https://api.censusreporter.org'
 
 # AWS credentails
 AWS_KEY = ''

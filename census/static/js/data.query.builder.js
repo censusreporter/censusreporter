@@ -5,7 +5,7 @@ if (!spinnerTarget) {
 } 
 
 var tableSearchAPI = CR_API_URL + '/1.0/table/search',
-    geoSearchAPI = CR_API_URL + '/1.0/geo/search';
+    geoSearchAPI = FREE_TEXT_SEARCH_API_URL + '/2.1/full-text/search';
 
 var topicSelect = $('#topic-select'),
     topicSelectContainer = $('#explore-topic-picker'),

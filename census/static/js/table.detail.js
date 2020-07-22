@@ -12,7 +12,7 @@ function Table(options) {
     var table = {
         geoIDs: [],
         tableSearchAPI: API_URL + '/1.0/table/search',
-        geoSearchAPI: API_URL + '/1.0/geo/search',
+        geoSearchAPI: FREE_TEXT_SEARCH_API_URL + '/2.1/full-text/search',
         chosenSumlevAncestorList: '040,050,060,250,252,254,310,500,610,620,860,950,960,970',
         queryString: ''
     }

@@ -33,7 +33,7 @@ function Comparison(options, callback) {
 
     var comparison = {
         tableSearchAPI: API_URL + '/1.0/table/search',
-        geoSearchAPI: API_URL + '/1.0/geo/search',
+        geoSearchAPI: FREE_TEXT_SEARCH_API_URL + '/2.1/full-text/search',
         rootGeoAPI: API_URL + '/1.0/geo/tiger2018/',
         childGeoAPI: API_URL + '/1.0/geo/show/tiger2018',
         dataAPI: API_URL + '/1.0/data/show/',
