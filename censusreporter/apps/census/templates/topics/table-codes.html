@@ -123,13 +123,33 @@
         <dd>Selected Social Characteristics in the US</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSDP1Y2018.DP02PR&hidePreview=true">DP02PR</a></dt>
         <dd>Selected Social Characteristics in Puerto Rico</dd>
-        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSDP1Y2018.DP003&hidePreview=true">DP03</a></dt>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSDP1Y2018.DP03&hidePreview=true">DP03</a></dt>
         <dd>Selected Economic Characteristics</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSDP1Y2018.DP04&hidePreview=true">DP04</a></dt>
         <dd>Selected Housing Characteristics</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSDP1Y2018.DP05&hidePreview=true">DP05</a></dt>
         <dd>ACS Demographic and Housing Characteristics</dd>
     </dl>
+
+    <h4>CP: Comparison Profiles</h4>
+    <p>The comparison profile (CP) tables provide a lot of popular statistics across subjects in a single table. Additionally, they provide data for those statistics across several years. Values are provided only as percentages, and the tables include flags
+        which indicate whether the change for any value between years is statistically significant.</p>
+
+    <p>The links below go to the given comparison profile for the entire United States, but comparison profiles are also available for all states (including DC and Puerto Rico), all metropolitan areas, all congressional districts, and counties and places
+        with a minimum population of 65,000 for the 1-year ACS and of 5,000 for the 5-year ACS.</p>
+    <dl class="dl-horizontal">
+        <dt><a href="https://data.census.gov/cedsci/table?hidePreview=true&tid=ACSCP1Y2018.CP02">CP02</a></dt>
+        <dd>Comparative Social Characteristics in the US</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSCP1Y2018.CP02PR&hidePreview=true">CP02PR</a></dt>
+        <dd>Comparative Social Characteristics in Puerto Rico</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSCP1Y2018.CP03&hidePreview=true">CP03</a></dt>
+        <dd>Comparative Economic Characteristics</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSCP1Y2018.CP04&hidePreview=true">CP04</a></dt>
+        <dd>Comparative Housing Characteristics</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSCP1Y2018.CP05&hidePreview=true">CP05</a></dt>
+        <dd>Comparative Demographic Characteristics</dd>
+    </dl>
+
 
     <h4>S: Subject tables</h4>
     <p>The subject tables are another collection of similar top-level statistics which may be more easily digested than the full detailed tables. As with data profiles, you must use <a href="https://data.census.gov/">data.census.gov</a> to get these tables.
@@ -258,9 +278,14 @@
     </dl>
 
     <h4>GCT: Geographic Comparison and R: Ranking</h4>
-    <p>The Geographic Comparison/Ranking tables take a single statistic and list its value for a number of geographies, including the US, states (including DC and Puerto Rico), metropolitan areas, metropolitan divisions, combined statistical areas (CSAs),
-        urban areas, school districts, counties, places and PUMAs. GCT files are generally (but not always) created for both the 1-year and 5-year ACS, with the same limitations that only places with population > 65,000 are included in the 1-year files.</p>
-    <p>These files are not offered in data.census.gov, but can be downloaded directly as CSV files.</p>
+    <p>The Geographic Comparison/Ranking tables take a single statistic and list its value for a number of geographies.</p>
+    <p>The GCT files include the US, states (including DC and Puerto Rico), metropolitan areas, metropolitan divisions, combined statistical areas (CSAs), urban areas, school districts, counties, places and PUMAs. GCT files are in CSV format and are generally
+        (but not always) created for both the 1-year and 5-year ACS, with the same limitations that only places with population > 65,000 are included in the 1-year files.</p>
+    <p>
+        The R files are much like the GCT files, except they are in Microsoft Excel format, and only include the US and states (including DC and Puerto Rico). In the Excel file, data users can select a state from a menu, and the file will compute whether each
+        of the other rows in the file is statistically significantly different from the selected geography.
+    </p>
+    <p>These files are not offered in data.census.gov, but can be downloaded directly from the Census Bureau's file server.</p>
 
     {% include "topics/_blocks/_gct-table-codes.html" %}
 
