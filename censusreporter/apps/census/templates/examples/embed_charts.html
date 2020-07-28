@@ -1,34 +1,32 @@
-{% extends 'examples/_base_examples.html' %}
-
-{% block head_title %}Embeddable Charts - {{ block.super }}{% endblock %}
-
-{% block head_css_extra %}
-<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/solarized_dark.min.css">
-{% endblock %}
-
-{% block content_container %}
+{% extends 'examples/_base_examples.html' %} {% block head_title %}Embeddable Charts - {{ block.super }}{% endblock %} {% block head_css_extra %}
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/solarized_dark.min.css"> {% endblock %} {% block content_container %}
 <div class="content-container wrapper clearfix">
     <article class="example">
         <header>
             <h1>Embedding Census Reporter profile charts</h1>
         </header>
         <section>
-            <p>You can embed any of the charts from Census Reporter&rsquo;s profile pages onto your own website. Just like our profile pages, embedded charts are responsive, so they&rsquo;ll work at desktop widths as well as on mobile devices. To embed a chart, you just need to copy and paste a couple lines of code into your HTML or content-management system. Here&rsquo;s what you need to know:</p>
+            <p>You can embed any of the charts from Census Reporter&rsquo;s profile pages onto your own website. Just like our profile pages, embedded charts are responsive, so they&rsquo;ll work at desktop widths as well as on mobile devices. To embed a
+                chart, you just need to copy and paste a couple lines of code into your HTML or content-management system. Here&rsquo;s what you need to know:</p>
 
             <p>First, visit a profile page and find the chart that you&rsquo;d like to embed, then click the &ldquo;Embed&rdquo; link underneath. That will open a panel where you can copy two lines of code. They&rsquo;ll look something like this:</p>
 
-<pre><code>&lt;iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&dataYear=2016&releaseID=ACS_2017_1-year&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 960px;"&gt;&lt;/iframe&gt;
+            <pre><code>&lt;iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&dataYear=2016&releaseID=ACS_2017_1-year&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 960px;"&gt;&lt;/iframe&gt;
 
 &lt;script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"&gt;&lt;/script&gt;
 </code></pre>
 
-            <p>The first line is the iframe container where the chart will be drawn onto your page. It contains all the information necessary to build the right kind of chart out of the right piece of data. The second line is a small piece of javascript that triggers that chart to be drawn, and then allows it to communicate with your page and respond to changes in size.</p>
+            <p>The first line is the iframe container where the chart will be drawn onto your page. It contains all the information necessary to build the right kind of chart out of the right piece of data. The second line is a small piece of javascript
+                that triggers that chart to be drawn, and then allows it to communicate with your page and respond to changes in size.</p>
 
-            <p>The example embed code above will make the column chart you see below, complete with hover information and contextual statistics. If you resize this page, the embedded chart will change dimensions (and convert to a bar chart if the page gets narrow enough).</p>
+            <p>The example embed code above will make the column chart you see below, complete with hover information and contextual statistics. If you resize this page, the embedded chart will change dimensions (and convert to a bar chart if the page gets
+                narrow enough).</p>
 
-            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&dataYear=2017&releaseID=ACS_2017_1-year&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 960px;"></iframe>
+            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_decade-total" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_decade-total&dataYear=2017&releaseID=ACS_2017_1-year&chartType=histogram&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+range&initialSort=&statType=scaled-percentage"
+                frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 960px;"></iframe>
 
-            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_category" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_category&dataYear=2017&releaseID=ACS_2017_1-year&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 300px; float: right;"></iframe>
+            <iframe id="cr-embed-16000US5367000-demographics-age-distribution_by_category" class="census-reporter-embed" src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/iframe.html?geoID=16000US5367000&chartDataID=demographics-age-distribution_by_category&dataYear=2017&releaseID=ACS_2017_1-year&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage"
+                frameborder="0" width="100%" height="300" style="margin: 1em; max-width: 300px; float: right;"></iframe>
 
             <p>Census Reporter&rsquo;s embedded charts work on Firefox, Safari and Chrome, and on IE8 and above.</p>
 
@@ -36,11 +34,12 @@
 
             <p>By default, embedded charts will know how wide they ought to be, although you can always edit the <code>max-width</code> number in your embed code to manually make adjustments.</p>
 
-            <p>The &ldquo;About&rdquo; panel for each embedded chart will give your readers further detail about the data underneath the chart: The ACS release that the data comes from, the data table code, and the Census universe for the table. It also provides a link to the full profile page for that geography.</p>
+            <p>The &ldquo;About&rdquo; panel for each embedded chart will give your readers further detail about the data underneath the chart: The ACS release that the data comes from, the data table code, and the Census universe for the table. It also
+                provides a link to the full profile page for that geography.</p>
 
             <p style="clear: both;">As you can see, you can embed multiple charts onto the same page. If you do, you only need to include the chart-making script on your page once, below all of the iframes. That&rsquo;s this line of code:</p>
 
-<pre><code>&lt;script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"&gt;</script></code></pre>
+            <pre><code>&lt;script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"&gt;</script></code></pre>
 
             <p>Happy charting!</p>
         </section>
@@ -54,30 +53,35 @@
             <dl>
                 <dt>Can I edit the appearance of an embedded chart?</dt>
                 <dd>
-                    <p>If you&rsquo;re familiar with the way URLs can pass parameters via querystring, you might have already noticed that&rsquo;s how our embed code tells the iframe which chart to draw. There are a few things you wouldn&rsquo;t want to change, like the <code>geoID</code> or <code>chartDataID</code> values. But if you wanted to, say, adjust the header above the chart, you can tweak the <code>chartTitle</code>.</p>
-                    <p>The embed code sets defaults for height, width and style of the iframe, and you can adjust those as well. The chart will be as smart as it can in filling the space you give it, but it&rsquo;s always a good idea to take a look before you publish. Some charts don&rsquo;t work as well in extremely wide or narrow spaces.</p>
+                    <p>If you&rsquo;re familiar with the way URLs can pass parameters via querystring, you might have already noticed that&rsquo;s how our embed code tells the iframe which chart to draw. There are a few things you wouldn&rsquo;t want to
+                        change, like the <code>geoID</code> or <code>chartDataID</code> values. But if you wanted to, say, adjust the header above the chart, you can tweak the <code>chartTitle</code>.</p>
+                    <p>The embed code sets defaults for height, width and style of the iframe, and you can adjust those as well. The chart will be as smart as it can in filling the space you give it, but it&rsquo;s always a good idea to take a look before
+                        you publish. Some charts don&rsquo;t work as well in extremely wide or narrow spaces.</p>
                 </dd>
 
                 <dt>Can I automate these embeds?</dt>
                 <dd>
-                    <p>Unfortunately, no. The data for embedded charts is stored in tiny, static files to keep bandwidth low and performance high. This also lets us lock the data for a chart according to the ACS release in use when you embedded it, so your numbers don&rsquo;t change just because we add new data to Census Reporter.</p>
-                    <p>The data files for a chart are created the first time someone clicks &ldquo;Embed&rdquo; next to that chart on Census Reporter, and then stored for any future use. If you copy some embed code and change, say, the <code>geoID</code> variable to reflect another geography, odds are that new data file won&rsquo;t have been created yet, and you&rsquo;ll get a broken chart.</p>
+                    <p>Unfortunately, no. The data for embedded charts is stored in tiny, static files to keep bandwidth low and performance high. This also lets us lock the data for a chart according to the ACS release in use when you embedded it, so your
+                        numbers don&rsquo;t change just because we add new data to Census Reporter.</p>
+                    <p>The data files for a chart are created the first time someone clicks &ldquo;Embed&rdquo; next to that chart on Census Reporter, and then stored for any future use. If you copy some embed code and change, say, the <code>geoID</code>                        variable to reflect another geography, odds are that new data file won&rsquo;t have been created yet, and you&rsquo;ll get a broken chart.</p>
                 </dd>
 
                 <dt>Can I embed these charts on my Wordpress site?</dt>
                 <dd>
                     <p>It depends.</p>
-                    <p>If you use Wordpress.com, the answer is no. <a href="http://en.support.wordpress.com/code/">Wordpress.com does not support iframe tags</a> for security reasons. There are workarounds, but we don&rsquo;t have any specific recommendations about how to work around it.</p>
-                    <p>If you have your own Wordpress site, then it depends on your <em>role</em> and on the site&rsquo;s security configuration. Specifically, only users with the <em><a href="https://codex.wordpress.org/Roles_and_Capabilities#unfiltered_html">unfiltered_html</a></em> capability can embed Census Reporter charts. By default, users with the <em>administrator</em> and <em>editor</em> roles have this capability. Be aware that if an administrator or editor adds the embed code to a post, and then later a user without the capability edits the post, the embed code will be stripped.</p>
+                    <p>If you use Wordpress.com, the answer is no. <a href="http://en.support.wordpress.com/code/">Wordpress.com does not support iframe tags</a> for security reasons. There are workarounds, but we don&rsquo;t have any specific recommendations
+                        about how to work around it.</p>
+                    <p>If you have your own Wordpress site, then it depends on your <em>role</em> and on the site&rsquo;s security configuration. Specifically, only users with the <em><a href="https://wordpress.org/support/article/roles-and-capabilities/#unfiltered_html">unfiltered_html</a></em>                        capability can embed Census Reporter charts. By default, users with the <em>administrator</em> and <em>editor</em> roles have this capability. Be aware that if an administrator or editor adds the embed code to a post, and then
+                        later a user without the capability edits the post, the embed code will be stripped.</p>
                 </dd>
             </dl>
         </section>
     </article>
 </div>
-{% endblock %}
-
-{% block body_javascript_extra %}
+{% endblock %} {% block body_javascript_extra %}
 <script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>
 <script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 {% endblock %}

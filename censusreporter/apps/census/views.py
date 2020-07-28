@@ -258,8 +258,8 @@ class GeographyDetailView(TemplateView):
         """
 
         def handle_long_geoid(geo_id):
-            """American FactFinder and Census API use seven characters for the 'sumlevel' part.
-               See https://factfinder.census.gov/service/GeographyIds.html for more info
+            """Census API uses seven characters for the 'sumlevel' part.
+               See https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html for more info
                Legislative district geoIDs sometimes have a strange bit in the first two characters
                after the sumlevel which we can't make sense of. Also, we only support component
                '00' so we just force to that.
