@@ -863,11 +863,9 @@ var makeCharts = function() {
             chartInitialSort = $(this).data('initial-sort'),
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
-            geographyData = profileData['geography'];
+            geographyData = profileData['geography'],
+            chartRelease = 'latest';
 
-        console.log(chartChartTitle);
-        console.log(chartData);
-        
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
         if (drilldown >= 2) {
@@ -878,9 +876,15 @@ var makeCharts = function() {
 
         // determine whether data point is from anything other
         // than the primary ACS release for this page
+        //console.log(chartData);
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
+        //console.log(key);
         var thisRelease = chartData[key]['acs_release'],
             noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
+
+        if (thisRelease != defaultDataRelease) {
+            chartRelease = 'd3_present';
+        }
 
         chartQualifier = Array(chartQualifier, noteRelease)
                 .filter(function(n) { return n }).join('; ');
@@ -897,6 +901,7 @@ var makeCharts = function() {
             chartStatType: chartStatType,
             geographyData: geographyData,
             chartColorScale: 'Kat2',
+            release: chartRelease
         }
         try {
             Charts[i] = Chart(chartstuff);
