@@ -2416,7 +2416,7 @@ function Comparison(options, callback) {
                 .classed('bigger', true)
                 .text(comparison.release.name);
         headerMetadataContainer.append('li')
-                .html('<br /><a id="change-table" href="#">Change table</a>');
+                .html('<a id="change-table" href="#">Change table</a>');
 
         comparison.headerContainer.selectAll('.caption').remove();
         comparison.headerContainer.append('p')
@@ -3191,7 +3191,7 @@ function Comparison(options, callback) {
     comparison.addContainerMetadata = function() {
         // tableID and change table link
         comparison.$displayWrapper.find('h1').text('Table ' + comparison.tableID)
-            .append('<br /><a href="#" id="change-table">Change</a>');
+            .append('<a href="#" id="change-table">Change</a>');
         comparison.$displayWrapper.find('h2').text(comparison.release.name);
     }
 

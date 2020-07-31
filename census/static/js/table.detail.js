@@ -576,7 +576,7 @@ function Table(options) {
 
     table.makeTopicSelectWidget = function() {
         table.$displayWrapper.find('h1')
-            .append('<br /><a href="#" id="change-table">Change</a>');
+            .append('<a href="#" id="change-table">Change</a>');
 
         table.topicSelectEngine.initialize();
 

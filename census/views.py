@@ -1569,7 +1569,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			profile_data_json_past_year = SafeString(profile_data_json_past_year)
 		else:
 			# The object does exist.
-			profile_data_past_year = geo_profile(geography_id, 'acs2012_5yr')
+			profile_data_past_year = geo_profile(geography_id, 'acs2013_5yr')
 
 			if profile_data_past_year:
 				profile_data_past_year = enhance_api_data(profile_data_past_year)
