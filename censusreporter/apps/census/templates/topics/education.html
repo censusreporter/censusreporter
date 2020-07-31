@@ -1,0 +1,133 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+    <h2>Overview</h2>
+    <p>
+        On the subject of education, the ACS includes two broad categories.
+    </p>
+    <p>
+        <strong>School Enrollment</strong>, which can be found in tables starting with <strong>14</strong>, provides information about people currently enrolled in school, from nursery school through graduate programs.
+    </p>
+    <p>
+        <strong>Educational Attainment</strong>, found in tables beginning with <strong>15</strong>, provides the highest level of education for persons at least 18 years old.
+    </p>
+    <section>
+
+        <h2>
+            School Enrollment
+        </h2>
+        <p>
+            A person is counted as enrolled in school if they currently attend a public school, private school, college or university. This count excludes vocational, technical or business schools such as trade schools or on the job training.
+        </p>
+
+        <p>
+            The ACS displays school enrollment by itself, in conjunction with the type of school, (public or private) or by the grade level. Table B14007 contains preschool, kindergarten and all 12 grades, but for most tables, enrollment is simply provided as “enrolled/not
+            enrolled” or in the categories below:
+        </p>
+        <ul>
+            <li>
+                Enrolled in school:
+                <ul>
+                    <li>
+                        Enrolled in nursery school, preschool
+                    </li>
+                    <li>
+                        Enrolled in kindergarten
+                    </li>
+                    <li>
+                        Enrolled in grade 1 to grade 4
+                    </li>
+                    <li>
+                        Enrolled in grade 5 to grade 8
+                    </li>
+                    <li>
+                        Enrolled in grade 9 to grade 12
+                    </li>
+                    <li>
+                        Enrolled in college, undergraduate years
+                    </li>
+                    <li>
+                        Graduate or professional school
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Not enrolled in school
+            </li>
+        </ul>
+        {% list_tables query="school enrollment" exclude_prefix="99" %}
+    </section>
+    <section>
+
+        <h2>
+            Educational Attainment
+        </h2>
+        <p>
+            In general, data about educational attainment is about people 25 years and older, although you should check the table <span class='glossary-term'>universe</span> to be sure.
+            <a href="{% url 'table_detail' 'B15003' %}">Table B15003, Educational Attainment</a>, contains very detailed counts of the educational attainment of persons 25 years or older, down to each primary and secondary school grade level, as well
+            as GED, partial college, and Associate's, Bachelor's, Master's, Professional and Doctorate degrees. <a href="{% url 'table_detail' 'B15002' %}">Table B15002: Sex by Educational Attainment</a> is nearly as detailed.
+        </p>
+
+        {% list_tables codes="15001,15002,15003" %}
+        <p>
+            Tables relating educational attainment to other subjects mostly use only four or five categories:
+        </p>
+        <ul>
+            <li>
+                Less than high school graduate
+            </li>
+            <li>
+                High school graduate (includes equivalency)
+            </li>
+            <li>
+                Some college or associate's degree
+            </li>
+            <li>
+                Bachelor's degree or higher
+            </li>
+            <li>
+                Graduate or professional degree (left out when only four categories are used)
+            </li>
+        </ul>
+
+        {% list_tables query="educational attainment" exclude_prefix="15,99" %}
+
+    </section>
+    <section>
+
+        <h2>
+            Field of Degree
+        </h2>
+        <p>Respondents who received a Bachelor's Degree or higher were asked to provide the subject of their original Bachelor’s degree. Three tables present this data in various forms.</p>
+        <p>
+            <a href="{% url 'table_detail' 'B15011' %}">Table B15011, Sex by Age by Field of Degree</a>, groups the responses into:
+            <ul>
+                <li>
+                    Science and Engineering
+                </li>
+                <li>
+                    Science and Engineering Related Fields
+                </li>
+                <li>
+                    Business
+                </li>
+                <li>
+                    Education
+                </li>
+                <li>
+                    Arts, Humanities and Other
+                </li>
+
+            </ul>
+            <p>
+                The other two tables, <a href="{% url 'table_detail' 'B15010' %}">B15010, Detailed Field of Bachelor’s Degree</a>, and <a href="{% url 'table_detail' 'B15012' %}">B15012, Total Fields of Bachelor's Degrees Reported</a>, both use a more
+                detailed set of categories, exactly the same in both tables. <strong>Note:</strong> to preserve individual privacy, table B15010 is only included in the 1-year ACS, and so, only contains data for areas of 65,000 or more.
+            </p>
+        </p>
+    </section>
+    {% list_tables codes="15010,15011,15012" %}
+
+
+
+</section>
+
+{% endblock %}

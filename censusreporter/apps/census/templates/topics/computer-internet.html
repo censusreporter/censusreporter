@@ -1,0 +1,22 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        The ACS asks about computer use and internet access per household. The Census Bureau added these three questions in 2013 as part of the 2008 Broadband Improvement Act, which mobilized several federal agencies to collect information to support broadband
+        expansion and access across the country.
+    </p>
+
+    <p>
+        Various kinds of computing devices fall under “computer”: desktop, laptop, smartphone, and tablet. Internet access is broadly categorized by cellular data, satellite, dial-up, and broadband connections.
+    </p>
+
+    <p>
+        Note that a household may have computing devices but no internet, or vice versa.
+    </p>
+
+    {% list_tables prefix='28' %}
+
+</section>
+
+{% endblock %}

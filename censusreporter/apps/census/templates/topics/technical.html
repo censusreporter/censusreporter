@@ -1,0 +1,37 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+    <p>
+        Because the ACS is a <span class='glossary-term'>survey</span>, data reported are estimates, not exact counts. Some tables included in each release provide information about the underlying details. This data is mostly used by the Census Bureau
+        to monitor the accuracy and reliability of the ACS and to inform updates to the survey design and methodology. We include them in Census Reporter because it's easier to keep them when we process the other data than to skip over them. If you're
+        using them for anything, <a href="http://censusreporter.uservoice.com/" data-uv-trigger>let us know</a>.
+    </p>
+</section>
+<section>
+    <h2>Unweighted Count</h2>
+    <p>
+        The ACS has an annual sample size of about 3.5 million addresses. The Unweighted Count tables indicate the actual number of people and households responding to the survey for each geography.
+    </p>
+    {% list_tables prefix="00" %}
+</section>
+<section>
+    <h2>Quality Measures</h2>
+    <p>
+        Tables beginning with <strong>98</strong> organize various data which survey methodology experts can use to assess the quality of data collected by the ACS. Data in these tables is limited to large summary levels: the nation, individual states,
+        and occasionally counties and/or <span class='glossary-term' data-keyword='place'>places</span>. Most users of Census Reporter will not have any need to use these tables.
+    </p>
+
+
+    {% list_tables prefix="98" %}
+</section>
+<section>
+    <h2>Imputations</h2>
+    <p>
+        <em>Imputation</em> is the process of correcting for "non-response": that is, when answers on the ACS questionnaire are not completed, or are completed with invalid values. <em>Allocation</em> is one strategy for responding to the non-response,
+        by using statistical procedures to impute ("fill in") missing values.
+    </p>
+    <p>
+        Tables beginning with <strong>99</strong> provide the allocation rate for nearly every question on the ACS questionnaire. Values are available for nearly all summary levels.
+    </p>
+    {% list_tables prefix="99" %}
+</section>
+{% endblock %}

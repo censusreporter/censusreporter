@@ -13,7 +13,7 @@
             <li>For a detailed explanation of the differences between the two ACS and CPS, see this <a href="https://www.census.gov/library/working-papers/2011/demo/SEHSD-WP2011-31.html">Census Bureau report</a>.</li>
         </ul>
     </aside>
-    {% include "topics/_question_aside.html" %}
+
 
     <h2>Overview</h2>
     <p>The Census Bureau asks a number of questions about whether individuals are employed, and if they are not unemployed or retired, about their occupation and industry. Census Reporter collects these together under the tag 'employment'. There are also
@@ -58,7 +58,7 @@
 
 
     <h2 id="industry-occupation-class-of-worker">Industry / Occupation / Class of Worker</h2>
-    <p>The ACS provides some pretty detailed information about the specific kinds of work Americans do. These tables are gathered together in a series whose table codes begin with <strong>B24</strong> and <strong>C24</strong>.</p>
+    <p>The ACS provides some pretty detailed information about the specific kinds of work Americans do. These tables are gathered together in a series whose <a href="{% url 'topic_detail' 'table-codes' %}">table codes</a> begin with <strong>B24</strong>        and <strong>C24</strong>.</p>
     <h3 id="occupation">Occupation</h3>
     <p>The "detailed occupation" tables include over 500 occupations, but are only available summarized at the national level. Below the national level, begin with tables <strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a></strong> and <strong><a href="{% url 'table_detail' 'B24020' %}">B24020</a></strong>        to analyze the work people do in a place. In these and the other occupation tables, occupations are organized into five high level groups:</p>
     <ul>
@@ -120,4 +120,7 @@
     <p><a href="#industry-occupation-class-of-worker">As mentioned above</a>, a few tables offer a very detailed breakdown of occupations&mdash;over 500 columns. However, data for these tables is only available for the United States as a whole, and not for
         any smaller geography.</p>
 
-    {% list_tables prefix='241' %} {% endblock %}
+    {% list_tables prefix='241' %}
+
+</section>
+{% endblock %}

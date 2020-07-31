@@ -1,0 +1,51 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        Although the word "disability" can be complex in its definition and application, the ACS uses six questions to determine if a person has a disability. Each question asks if a person has difficulty with a specific action or function. For each of these
+        six questions, there's a table which provides responses broken down by sex and age group.
+        <ul style="list-style-type: none">
+            <li><strong>Hearing difficulty ( <a href="{% url 'table_detail' 'B18102' %}">B18102</a>)</strong>: deaf or has serious difficulty hearing</li>
+
+
+            <li>
+                <strong>Vision difficulty ( <a href="{% url 'table_detail' 'B18103' %}">B18103</a>)</strong>: blind or has serious difficulty seeing even with glasses
+            </li>
+
+            <li>
+                <strong>Cognitive difficulty ( <a href="{% url 'table_detail' 'B18104' %}">B18104</a>)</strong>: has serious difficulty concentrating, remembering, or making decisions
+            </li>
+            <li>
+                <strong>Ambulatory difficulty ( <a href="{% url 'table_detail' 'B18105' %}">B18105</a>)</strong>: has serious difficulty walking or climbing stairs
+            </li>
+
+            <li>
+                <strong>Self-care difficulty ( <a href="{% url 'table_detail' 'B18106' %}">B18106</a>)</strong>: has difficulty dressing or bathing
+            </li>
+
+            <li>
+                <strong>Independent Living difficulty ( <a href="{% url 'table_detail' 'B18107' %}">B18107</a>)</strong>: has difficulty doing errands alone such as visiting a doctor’s office or shopping
+            </li>
+        </ul>
+
+    </p>
+    <h3>
+        Disability Status
+    </h3>
+    <p>
+        Disability status is simply defined as having one or more of the difficulties listed above. However, for children under five, only hearing and vision difficulties are considered. Independent living difficulty is also only applied to adults.
+    </p>
+    <p>The Census Bureau uses <a href="{% url 'topic_detail' 'table-codes' %}">table codes</a> beginning with <strong>18</strong> to organize the main tables on disability. Most of these tables simply indicate ‘With a disability/No disability,’ but a few
+        tables are further broken down by type of disability.
+    </p>
+    {% list_tables prefix='18' %}
+    <h3>Other tables</h3>
+    <p>Disability status is included in a small number of tables in other subject areas.</p>
+    {% list_tables topics='disability' exclude_prefix='18' %}
+
+
+
+</section>
+
+{% endblock %}

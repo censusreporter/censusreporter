@@ -20,11 +20,11 @@
         <dt>03</dt>
         <dd><a href="{% url 'topic_detail' 'race-latino' %}">Hispanic Origin</a></dd>
         <dt>04</dt>
-        <dd>Ancestry</dd>
+        <dd><a href="{% url 'topic_detail' 'ancestry' %}">Ancestry</a></dd>
         <dt>05</dt>
-        <dd>Foreign Born; Citizenship; Year or Entry; Nativity</dd>
+        <dd><a href="{% url 'topic_detail' 'citizenship' %}">Foreign Born; Citizenship; Year or Entry; Nativity</a></dd>
         <dt>06</dt>
-        <dd>Place of Birth</dd>
+        <dd><a href="{% url 'topic_detail' 'citizenship' %}">Place of Birth</a></dd>
         <dt>07</dt>
         <dd><a href="{% url 'topic_detail' 'migration' %}">Residence 1 Year Ago; Migration</a></dd>
         <dt>08</dt>
@@ -44,23 +44,23 @@
         <dt>15</dt>
         <dd>Educational Attainment</dd>
         <dt>16</dt>
-        <dd>Language Spoken at Home and Ability to Speak English</dd>
+        <dd><a href="{% url 'topic_detail' 'language' %}">Language Spoken at Home and Ability to Speak English</a></dd>
         <dt>17</dt>
         <dd><a href="{% url 'topic_detail' 'poverty' %}">Poverty</a></dd>
         <dt>18</dt>
-        <dd>Disability</dd>
+        <dd><a href="{% url 'topic_detail' 'disability' %}">Disability</a></dd>
         <dt>19</dt>
-        <dd>Income (Households and Families)</dd>
+        <dd><a href="{% url 'topic_detail' 'income' %}">Income (Households and Families)</a></dd>
         <dt>20</dt>
         <dd>Earnings (Individuals)</dd>
         <dt>21</dt>
-        <dd>Veteran Status</dd>
+        <dd><a href="{% url 'topic_detail' 'veterans' %}">Veteran Status</a></dd>
         <dt>22</dt>
         <dd><a href="{% url 'topic_detail' 'public-assistance' %}">Transfer Programs</a> (Public Assistance)</dd>
         <dt>23</dt>
         <dd><a href="{% url 'topic_detail' 'employment' %}">Employment Status; Work Experience; Labor Force</a></dd>
         <dt>24</dt>
-        <dd>Industry; Occupation; Class of Worker</dd>
+        <dd><a href="{% url 'topic_detail' 'employment' %}">Industry; Occupation; Class of Worker</a></dd>
         <dt>25</dt>
         <dd>Housing Characteristics</dd>
         <dt>26</dt>
@@ -68,9 +68,9 @@
         <dt>27</dt>
         <dd><a href="{% url 'topic_detail' 'health-insurance' %}">Health Insurance</a></dd>
         <dt>28</dt>
-        <dd>Computer and Internet Use</dd>
+        <dd><a href="{% url 'topic_detail' 'computer-internet' %}">Computer and Internet Use</a></dd>
         <dt>29</dt>
-        <dd>Citizen Voting-age Population</dd>
+        <dd><a href="{% url 'topic_detail' 'citizenship' %}">Citizen Voting-age Population</a></dd>
     </dl>
 
     <p>Three groups of tables reflect technical details about how the Census is administered. In general, you probably don't need to look at these too closely, but if you need to check for possible weaknesses in your data analysis, they may come into play.</p>
@@ -150,25 +150,38 @@
         <dd>Comparative Demographic Characteristics</dd>
     </dl>
 
+    <h4>NP: Narrative Profiles</h4>
+    <p>
+        Narrative profiles are not tables, but instead, documents with text and charts describing selected geographies. Narrative profiles based on the most recent 5-year ACS release are available for the Nation, states, counties, places, census tracts, ZIP Code
+        Tabulation Areas, Metropolitan/Micropolitan statistical areas, and American Indian Areas/Alaska Native Areas/Hawaiian Home Lands.
+    </p>
+    <p>
+        The Census Bureau provides <a href="https://www.census.gov/acs/www/data/data-tables-and-tools/narrative-profiles/">an interactive tool</a> for selecting the geography for a narrative profile. <a href="https://www.census.gov/acs/www/data/data-tables-and-tools/narrative-profiles/2018/report.php?geotype=nation&usVal=us">See this example of the narrative profile for the United States.</a>
+    </p>
 
     <h4>S: Subject tables</h4>
     <p>The subject tables are another collection of similar top-level statistics which may be more easily digested than the full detailed tables. As with data profiles, you must use <a href="https://data.census.gov/">data.census.gov</a> to get these tables.
         The links below go to the given subject table for the entire United States, but subject tables are also available for all states (including DC and Puerto Rico), all metropolitan areas, all congressional districts, all counties, all places and
         all tracts. (Note that Subject Tables are released as part of the 1-year and 5-year ACS, so tracts, counties, and places with population less than 65,000 you'll need to look for the ACS 5-year Subject tables.)</p>
-
     <dl class="dl-horizontal">
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0101&hidePreview=true">S0101</a></dt>
         <dd>Age And Sex</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0102&hidePreview=true">S0102</a></dt>
         <dd>Population 60 Years And Over In The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0102PR&hidePreview=true">S0102PR</a></dt>
+        <dd>Population 60 Years And Over In The Puerto Rico</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0103&hidePreview=true">S0103</a></dt>
         <dd>Population 65 Years And Over In The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0103PR&hidePreview=true">S0103PR</a></dt>
+        <dd>Population 65 Years And Over In The Puerto Rico</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0201&hidePreview=true">S0201</a></dt>
         <dd>Selected Population Profile In The United States</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0501&hidePreview=true">S0501</a></dt>
         <dd>Selected Characteristics Of The Native And Foreign-born Populations</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0502&hidePreview=true">S0502</a></dt>
         <dd>Selected Characteristics Of The Foreign-born Population By Period Of Entry Into The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0502PR&hidePreview=true">S0502PR</a></dt>
+        <dd>Selected Characteristics Of The Foreign-born Population By Period Of Entry Into The Puerto Rico</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0503&hidePreview=true">S0503</a></dt>
         <dd>Selected Characteristics Of The Foreign-born Population By Region Of Birth: Europe</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0504&hidePreview=true">S0504</a></dt>
@@ -179,8 +192,12 @@
         <dd>Selected Characteristics Of The Foreign-born Population By Region Of Birth: Latin America</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0601&hidePreview=true">S0601</a></dt>
         <dd>Selected Characteristics Of The Total And Native Populations In The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0601PR&hidePreview=true">S0601PR</a></dt>
+        <dd>Selected Characteristics Of The Total And Native Populations In The Puerto Rico</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0701&hidePreview=true">S0701</a></dt>
         <dd>Geographic Mobility By Selected Characteristics In The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0701PR&hidePreview=true">S0701PR</a></dt>
+        <dd>Geographic Mobility By Selected Characteristics In The Puerto Rico</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0801&hidePreview=true">S0801</a></dt>
         <dd>Commuting Characteristics By Sex</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S0802&hidePreview=true">S0802</a></dt>
@@ -207,6 +224,8 @@
         <dd>School Enrollment</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1501&hidePreview=true">S1501</a></dt>
         <dd>Educational Attainment</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1502&hidePreview=true">S1502</a></dt>
+        <dd>Field Of Bachelor's Degree For First Major</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1601&hidePreview=true">S1601</a></dt>
         <dd>Language Spoken At Home</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1602&hidePreview=true">S1602</a></dt>
@@ -222,7 +241,7 @@
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1810&hidePreview=true">S1810</a></dt>
         <dd>Disability Characteristics</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1811&hidePreview=true">S1811</a></dt>
-        <dd>Selected Economic Characteristics For The Civilian Noninstitutionalized Population By Disability Status</dd>
+        <dd>Selected Economic Characteristics for the Civilian Noninstitutionalized Population By Disability Status</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1901&hidePreview=true">S1901</a></dt>
         <dd>Income In The Past 12 Months</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S1902&hidePreview=true">S1902</a></dt>
@@ -242,23 +261,45 @@
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2303&hidePreview=true">S2303</a></dt>
         <dd>Work Status In The Past 12 Months</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2401&hidePreview=true">S2401</a></dt>
-        <dd>Occupation By Sex And Median Earnings In The Past 12 Months For The Civilian Employed Population 16 Years And Over</dd>
+        <dd>Occupation By Sex And Median Earnings In The Past 12 Months for the Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2402&hidePreview=true">S2402</a></dt>
         <dd>Occupation By Sex And Median Earnings In The Past 12 Months For Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2403&hidePreview=true">S2403</a></dt>
-        <dd>Industry By Sex And Median Earnings In The Past 12 Months For The Civilian Employed Population 16 Years And Over</dd>
+        <dd>Industry By Sex And Median Earnings In The Past 12 Months for the Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2404&hidePreview=true">S2404</a></dt>
-        <dd>Industry By Sex And Median Earnings In The Past 12 Months For The Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
+        <dd>Industry By Sex And Median Earnings In The Past 12 Months for the Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2405&hidePreview=true">S2405</a></dt>
-        <dd>Industry By Occupation For The Civilian Employed Population 16 Years And Over</dd>
+        <dd>Industry By Occupation for the Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2406&hidePreview=true">S2406</a></dt>
-        <dd>Occupation By Class Of Worker For The Civilian Employed Population 16 Years And Over</dd>
+        <dd>Occupation By Class Of Worker for the Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2407&hidePreview=true">S2407</a></dt>
-        <dd>Industry By Class Of Worker For The Civilian Employed Population 16 Years And Over</dd>
+        <dd>Industry By Class Of Worker for the Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2408&hidePreview=true">S2408</a></dt>
-        <dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months For The Civilian Employed Population 16 Years And Over</dd>
+        <dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months for the Civilian Employed Population 16 Years And Over</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2409&hidePreview=true">S2409</a></dt>
-        <dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months For The Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
+        <dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months for the Full-time, Year-round Civilian Employed Population 16 Years And Over</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2411&hidePreview=true">S2411</a></dt>
+        <dd>Occupation By Sex And Median Earnings In The Past 12 Months for The Civilian Employed Population 16 Years And Over</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2412&hidePreview=true">S2412</a></dt>
+        <dd>Occupation By Sex And Median Earnings In The Past 12 Months for The Full-Time, Year-Round Civilian Employed Population 16 Years And Over</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2413&hidePreview=true">S2413</a></dt>
+        <dd>Industry By Sex And Median Earnings In The Past 12 Months for The Civilian Employed Population 16 Years And Over</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2414&hidePreview=true">S2414</a></dt>
+        <dd>Industry By Sex And Median Earnings In The Past 12 Months for The Full-Time, Year-Round Civilian Employed Population 16 Years And Over</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2418&hidePreview=true">S2418</a></dt>
+        <dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months for The Civilian Employed Population 16 Years And Over</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2419&hidePreview=true">S2419</a></dt>
+        <dd>Class Of Worker By Sex And Median Earnings In The Past 12 Months for The Full-Time, Year-Round Civilian Employed Population 16 Years And Over</dd>
+
+
+
+
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2501&hidePreview=true">S2501</a></dt>
         <dd>Occupancy Characteristics</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2502&hidePreview=true">S2502</a></dt>
@@ -271,10 +312,42 @@
         <dd>Financial Characteristics For Housing Units With A Mortgage</dd>
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2507&hidePreview=true">S2507</a></dt>
         <dd>Financial Characteristics For Housing Units Without A Mortgage</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2601A&hidePreview=true">S2601A</a></dt>
+        <dd>Characteristics Of The Group Quarters Population In The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2601C&hidePreview=true">S2601C</a></dt>
+        <dd>Characteristics Of The Group Quarters Population In The United States</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2601CPR&hidePreview=true">S2601CPR</a></dt>
+        <dd>Characteristics Of The Group Quarters Population In Puerto Rico</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2602&hidePreview=true">S2602</a></dt>
+        <dd>Characteristics Of The Group Quarters Population By Group Quarters Type (3 Types)</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2603&hidePreview=true">S2603</a></dt>
+        <dd>Characteristics Of The Group Quarters Population By Group Quarters Type (5 Types)</dd>
+
+
+
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2701&hidePreview=true">S2701</a></dt>
-        <dd>Health Insurance Coverage Status</dd>
+        <dd>Selected Characteristics Of Health Insurance Coverage In The United States</dd>
+
         <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2702&hidePreview=true">S2702</a></dt>
         <dd>Selected Characteristics Of The Uninsured In The United States</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2702PR&hidePreview=true">S2702PR</a></dt>
+        <dd>Selected Characteristics Of The Uninsured In Puerto Rico</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2703&hidePreview=true">S2703</a></dt>
+        <dd>Private Health Insurance Coverage By Type And Selected Characteristics</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2704&hidePreview=true">S2704</a></dt>
+        <dd>Public Health Insurance Coverage By Type And Selected Characteristics</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2801&hidePreview=true">S2801</a></dt>
+        <dd>Types Of Computers And Internet Subscriptions</dd>
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2802&hidePreview=true">S2802</a></dt>
+        <dd>Types Of Internet Subscriptions By Selected Characteristics</dd>
+
+        <dt><a href="https://data.census.gov/cedsci/table?tid=ACSST1Y2018.S2901&hidePreview=true">S2901</a></dt>
+        <dd>Citizen, Voting-Age Population By Selected Characteristics</dd>
+
+
     </dl>
 
     <h4>GCT: Geographic Comparison and R: Ranking</h4>

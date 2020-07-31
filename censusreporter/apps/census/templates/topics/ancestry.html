@@ -1,0 +1,28 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        The ACS asks each respondent to write their ancestry or ethnic origin, and records up to two ancestries per person (the first two ancestries written by the respondent).
+    </p>
+    <p>
+        Ancestry does not necessarily equate with place of birth, as a person can be generations removed from the ancestors they choose to identify with. Some respondents also write “American” as their ancestry for various reasons, whether their ancestors have
+        been in the United States for a long time or they are foreign born but consider themselves part of American society.
+    </p>
+
+    <p>
+        The table for <a href="{% url 'table_detail' 'B04004' %}">People Reporting Single Ancestry (B04004)</a> shows data for those who reported only one ancestry, while <a href="{% url 'table_detail' 'B04005' %}">People Reporting Multiple Ancestry (B04005)</a>        shows data for those who reported more than one ancestry. <a href="{% url 'table_detail' 'B04006' %}">People Reporting Ancestry (B04006)</a> shows data for those who reported any ancestry, regardless of whether it was the only ancestry or part
+        of multiple ancestries they reported.
+    </p>
+    <p>
+        <strong>Note:</strong> this means that values in B04005 and B04006 will not necessarily add up to match totals, because one person may be represented under more than one ancestry.
+    </p>
+
+    <p>
+        This information is often used to enforce nondiscrimination and equal opportunity laws.
+    </p>
+
+    {% list_tables prefix='04' %}
+
+</section>
+{% endblock %}

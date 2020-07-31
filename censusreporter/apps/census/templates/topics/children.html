@@ -1,11 +1,19 @@
 {% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
 <section id="topic-overview">
-    {% include "topics/_question_aside.html" %}
+
     <h2>Overview</h2>
+    <h3>Children</h3>
     <p>The ACS tables beginning with <strong>09</strong> are about children and relationships. In the listing below, table names have been simplified in some cases. References to children and grandchildren almost always mean under 18 years old. Income is
         for the last 12 months, adjusted for inflation to the value of dollars in the last year of the survey period. References to poverty status/level, receipt of food stamps/SNAP, and work status are all for the last 12 months.</p>
 
     {% list_tables prefix='09' %}
+    <h3>Fertility</h3>
+
+    <p>
+        The ACS asks about women who have given birth in the last 12 months to better understand changing household dynamics and population growth.
+    </p>
+
+    {% list_tables prefix='13' %}
 
     <h2>Other ACS Tables That Include Children</h2>
 

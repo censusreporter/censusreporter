@@ -1,0 +1,17 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        The ACS asks questions about people's marital status and marital history to help understand marriage trends, and, when combined with other data, to help communities understand if the available social services and programs are meeting residents’ needs.
+    </p>
+
+    {% list_tables prefix="12" %}
+
+</section>
+<section>
+    <h2>Other tables</h2>
+    <p>In addition to the core tables listed above, marital status is a factor in several tables associated with other subject areas.</p>
+    {% list_tables topics='marital status' exclude_prefix="12" %}
+</section>
+{% endblock %}

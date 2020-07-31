@@ -1,0 +1,80 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        While most of the tables in the American Community Survey deal with people living in houses, apartments, or even mobile homes and boats, all of which are "housing units," there is also data about persons living in college dormitories, nursing facilities,
+        military barracks, and correctional facilities, all of which are considered "group quarters."
+    </p>
+    <p>
+        More generally, "group quarters" are defined as places where "people live or stay, in a group living arrangement, that is owned or managed by an entity or organization providing housing and/or services for the residents." (<a href="https://www.census.gov/glossary/#term_GroupQuartersGQ">Census glossary</a>)
+        Persons who live in group quarters are not normally related to each other.
+    </p>
+    <p>
+        For the ACS, the Census Bureau gathers data about group quarters circumstances through a different process than the main ACS questionnaire. In the first phase, they coordinate with the facilty administrators to verify information. At that time, they also
+        work with the facility to randomly select residents to participate in the ACS. Generally, those residents participate in a personal interview with an ACS field respresentative, although in some cases, participants respond via a paper questionnaire.
+    </p>
+
+    <p>
+        Table <a href="{% url 'table_detail' 'B26001' %}">B26001</a> counts the number of persons in group quarters for a given geography. This is the only group quarters table widely available across different geographic summary levels. </p>
+    <p>
+        The remaining tables in the subject are produced twice, once with three categories of facility, (Type 3 tables), and once with five categories, (Type 5). Although most of the category titles are self explanatory, a few may bear a little more explanation.
+    </p>
+    <p>
+        <strong>Adult Correctional Facilities</strong> is a term used to categorize a number of correctional facilities including federal and state prisons, local jails and federal detention centers.
+    </p>
+    <p>
+        <strong>Juvenile Facilities</strong> is a term used to describe locations such as group homes, residential treatment centers and correctional facilities for juveniles.
+    </p>
+    <p><strong>Household Population</strong> designates the number of persons not in group quarters. Since respondents to the ACS are either categorized as living in households or group quarters, this is the rest of the population for a given area.
+    </p>
+</section>
+<section>
+    <h3>
+        3 Types
+    </h3>
+    <p>
+        All Type 3 table codes begin with <strong>261</strong>. These tables are available at the national, divisional, regional and state levels, and have three detailed categories:
+    </p>
+    <ul>
+        <li>
+            Adult correctional facilities
+        </li>
+        <li>
+            Nursing facilities/skilled nursing facilities
+        </li>
+        <li>
+            College/university student housing
+        </li>
+    </ul>
+    {% list_tables prefix='261' %}
+</section>
+<section>
+    <h4>
+        Type 5
+    </h4>
+    <p>
+        All Type 5 table codes begin with 262. Data is only provided at the national level but the tables contain five detailed categories:
+        <ul>
+            <li>
+                Adult correctional facilities
+            </li>
+            <li>
+                Nursing facilities/skilled nursing facilities
+            </li>
+            <li>
+                Juvenile facilities
+            </li>
+            <li>
+                College/university student housing
+            </li>
+            <li>
+                Military quarters/military ships
+            </li>
+        </ul>
+    </p>
+    {% list_tables prefix='262' %}
+
+</section>
+
+{% endblock %}

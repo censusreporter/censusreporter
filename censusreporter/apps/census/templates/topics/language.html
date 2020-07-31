@@ -1,0 +1,49 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        The ACS asks respondents if they speak a language other than English at home, then asks those who do to specify which language. These respondents are also asked to self-report how well they speak English, so these terms are up to individual interpretation:
+        <ul>
+            <li>Very well</li>
+            <li>Well</li>
+            <li>Not well </li>
+            <li>Not at all</li>
+        </ul>
+    </p>
+    <p>
+        Except for tables <a href="{% url 'table_detail' 'B16001' %}">B16001</a> and <a href="{% url 'table_detail' 'C16001' %}">C16001</a>, which are quite detailed, languages are broadly categorized into:
+        <ul>
+            <li>
+                English
+            </li>
+            <li>
+                Spanish
+            </li>
+            <li>
+                Other Indo-European languages
+            </li>
+            <li>
+                Asian and Pacific Island languages
+            </li>
+            <li>
+                Other languages
+            </li>
+        </ul>
+
+    </p>
+    <p>
+        This information is used to support language assistance, such as providing translations of documents or interpreters for services.
+
+    </p>
+</section>
+<section id="table-listing">
+
+    {% list_tables prefix='16' %}
+
+    <h2>Other ACS Tables Referencing Language</h2>
+    {% list_tables topics='language' exclude_prefix='16' %}
+
+</section>
+
+{% endblock %}
