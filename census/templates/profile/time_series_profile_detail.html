@@ -102,9 +102,8 @@
                 <option value="#language">Language</option>
             </optgroup>
             <optgroup label="Education">
-                <option value="#ela-proficiency">Education</option>
-                <option value="#ela-proficiency">Third grade english language arts (ELA) proficiency</option>
-                {% comment %} <option value="#math-proficiency">Third grade math proficiency</option> {% endcomment %}
+                <option value="#third-grade-ela-proficiency">Education</option>
+                <option value="#third-grade-ela-proficiency">Third grade english language arts (ELA) proficiency</option>
                 <option value="#eighth-grade-math-proficiency">Eighth grade math proficiency</option>
                 <option value="#school-enrollment">School enrollment</option>
                 <option value="#graduation-rate">High school graduation</option>
@@ -300,29 +299,17 @@
     <div class="section-container">
 
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#ela-proficiency" id="ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink section" href="#third-grade-ela-proficiency" id="third-grade-ela-proficiency" title="Permalink">Third grade english language arts (ELA) proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
-                {% comment %} <div id="chart-stat_timeseries-social-ela_math-percent_met_expectaions_in_ela" data-stat-type="scaled-percentage" data-chart-title="Students who met or exceeded expectations in ELA" data-qualifier="Universe: {{ profile_data_current_year.social.ela_math.percent_met_expectaions_in_ela.metadata.universe }}"></div> {% endcomment %}
-                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.ela_math.percent_met_expectaions_in_ela stat_type='percentage' %}
+                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.third_grade_ela.percent_met stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-pie-social-ela_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.ela_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-pie-social-third_grade_ela-third_grade_ela_chart_data" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.third_grade_ela.third_grade_ela_chart_data.metadata.universe }}"></div>
         </section>
 
-        {% comment %} <section class="clearfix stat-row alt">
-            <h2><a class="permalink section" href="#math-proficiency" id="math-proficiency" title="Permalink">Third grade math proficiency (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
-            <aside>
-            </aside>
-            <div class="column-half">
-                <div id="chart-stat_timeseries-social-ela_math-percent_met_expectaions_in_math" data-stat-type="scaled-percentage" data-chart-title="Students who met or exceeded expectations in Math" data-qualifier="Universe: {{ profile_data_current_year.social.ela_math.percent_met_expectaions_in_math.metadata.universe }}"></div>
-                {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.ela_math.percent_met_expectaions_in_math stat_type='percentage' %}
-            </div>
-            <div class="column-half" id="chart-pie-social-math_distribution" data-stat-type="percentage" data-qualifier="Universe: {{ profile_data_current_year.social.math_distribution.metadata.universe }}"></div>
-        </section> {% endcomment %}
-
         <section class="clearfix stat-row">
-            <h2><a class="permalink section" href="#eighth-grade-math-proficiency" id="eighth-grade-math-proficiency" title="Permalink">Eighth grade math proficiency (2017-2018 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink section" href="#eighth-grade-math-proficiency" id="eighth-grade-math-proficiency" title="Permalink">Eighth grade math proficiency <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
@@ -349,7 +336,7 @@
         </section>
 
         <section class="clearfix stat-row alt">
-            <h2><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation (2015-2016 school year) <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
+            <h2><a class="permalink section" href="#graduation-rate" id="graduation-rate" title="Permalink">High school graduation <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside>
             </aside>
             <div class="column-half">
