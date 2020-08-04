@@ -12,6 +12,7 @@
 
     <h4 id="table-subjects">Table subjects</h4>
     <p>The first two digits after <strong>B/C</strong> indicate the broad subject of a table. Note that many tables have more than one subject, but this reflects the main subject.</p>
+    <p>Links in the table below are to Census Reporter's help pages relevant to each subject.</p>
     <dl class="dl-horizontal">
         <dt>01</dt>
         <dd><a href="{% url 'topic_detail' 'age-sex' %}">Age and Sex</a></dd>
@@ -24,7 +25,7 @@
         <dt>05</dt>
         <dd><a href="{% url 'topic_detail' 'citizenship' %}">Foreign Born; Citizenship; Year or Entry; Nativity</a></dd>
         <dt>06</dt>
-        <dd><a href="{% url 'topic_detail' 'citizenship' %}">Place of Birth</a></dd>
+        <dd><a href="{% url 'topic_detail' 'citizenship' %}#place-of-birth">Place of Birth</a></dd>
         <dt>07</dt>
         <dd><a href="{% url 'topic_detail' 'migration' %}">Residence 1 Year Ago; Migration</a></dd>
         <dt>08</dt>
@@ -36,13 +37,13 @@
         <dt>11</dt>
         <dd><a href="{% url 'topic_detail' 'families' %}">Household Type; Family Type; Subfamilies</a></dd>
         <dt>12</dt>
-        <dd>Marital Status and History</dd>
+        <dd><a href="{% url 'topic_detail' 'marital-status' %}">Marital Status and History</a></dd>
         <dt>13</dt>
-        <dd>Fertility</dd>
+        <dd><a href="{% url 'topic_detail' 'children' %}#fertility">Fertility</a></dd>
         <dt>14</dt>
-        <dd>School Enrollment</dd>
+        <dd><a href="{% url 'topic_detail' 'education' %}">School Enrollment</a></dd>
         <dt>15</dt>
-        <dd>Educational Attainment</dd>
+        <dd><a href="{% url 'topic_detail' 'education' %}">Educational Attainment</a></dd>
         <dt>16</dt>
         <dd><a href="{% url 'topic_detail' 'language' %}">Language Spoken at Home and Ability to Speak English</a></dd>
         <dt>17</dt>
@@ -52,7 +53,7 @@
         <dt>19</dt>
         <dd><a href="{% url 'topic_detail' 'income' %}">Income (Households and Families)</a></dd>
         <dt>20</dt>
-        <dd>Earnings (Individuals)</dd>
+        <dd><a href="{% url 'topic_detail' 'income' %}">Earnings (Individuals)</a></dd>
         <dt>21</dt>
         <dd><a href="{% url 'topic_detail' 'veterans' %}">Veteran Status</a></dd>
         <dt>22</dt>
@@ -60,17 +61,17 @@
         <dt>23</dt>
         <dd><a href="{% url 'topic_detail' 'employment' %}">Employment Status; Work Experience; Labor Force</a></dd>
         <dt>24</dt>
-        <dd><a href="{% url 'topic_detail' 'employment' %}">Industry; Occupation; Class of Worker</a></dd>
+        <dd><a href="{% url 'topic_detail' 'employment' %}#industry-occupation-class-of-worker">Industry; Occupation; Class of Worker</a></dd>
         <dt>25</dt>
-        <dd>Housing Characteristics</dd>
+        <dd><a href="{% url 'topic_detail' 'housing' %}">Housing Characteristics</a></dd>
         <dt>26</dt>
-        <dd>Group Quarters</dd>
+        <dd><a href="{% url 'topic_detail' 'group-quarters' %}">Group Quarters</a></dd>
         <dt>27</dt>
         <dd><a href="{% url 'topic_detail' 'health-insurance' %}">Health Insurance</a></dd>
         <dt>28</dt>
         <dd><a href="{% url 'topic_detail' 'computer-internet' %}">Computer and Internet Use</a></dd>
         <dt>29</dt>
-        <dd><a href="{% url 'topic_detail' 'citizenship' %}">Citizen Voting-age Population</a></dd>
+        <dd><a href="{% url 'topic_detail' 'citizenship' %}#cvap">Citizen Voting-age Population</a></dd>
     </dl>
 
     <p>Three groups of tables reflect technical details about how the Census is administered. In general, you probably don't need to look at these too closely, but if you need to check for possible weaknesses in your data analysis, they may come into play.</p>

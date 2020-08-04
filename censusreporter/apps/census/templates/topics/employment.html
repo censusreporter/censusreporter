@@ -1,23 +1,24 @@
 {% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<aside>
+    <h3>Should I use American Community Survey data for this?</h3>
+    <p>The ACS is only one Census product offering employment data, and may not always be the best for your purposes. Another source of data about the labor force is the <a href="http://www.bls.gov/cps/">Current Population Survey, or CPS</a>. The CPS is
+        the official source of employment statistics that make for monthly news pegs (the "jobs numbers"). Simplistically, the CPS is better for timely data (it's reported monthly), is better for change over time (data has been collected for much longer
+        than the ACS) and is a survey directly targeted at information about employment; meanwhile, the ACS data can be found for smaller geographies, and is more readily comparable to non-employment statistics. </p>
+    <p>The Census Bureau also partners with the U.S. states to produce the <a href="http://www.census.gov/ces/dataproducts/lehddata.html">Longitudinal Employer–Household Dynamics (LEHD)</a> data. Compared to the ACS, this data provides more direct information
+        on changes in the workforce (hiring, quits and layoffs), and can also give insight into commuting flows.</p>
+    <ul>
+        <li>For a general introduction to using the CPS for journalism, watch <a href="http://cronkite.asu.edu/census2010#cas">this presentation by New York Times reporter Rob Gebeloff</a>. </li>
+        <li>For a general introduction to using the LEHD data for journalism, watch <a href="http://cronkite.asu.edu/census2010#lehd">this presentation by USA Today reporter Paul Overberg</a>. </li>
+        <li>For a detailed explanation of the differences between the two ACS and CPS, see this <a href="https://www.census.gov/library/working-papers/2011/demo/SEHSD-WP2011-31.html">Census Bureau report</a>.</li>
+    </ul>
+</aside>
 <section id="topic-overview">
-    <aside>
-        <h3>Should I use American Community Survey data for this?</h3>
-        <p>The ACS is only one Census product offering employment data, and may not always be the best for your purposes. Another source of data about the labor force is the <a href="http://www.bls.gov/cps/">Current Population Survey, or CPS</a>. The CPS
-            is the official source of employment statistics that make for monthly news pegs (the "jobs numbers"). Simplistically, the CPS is better for timely data (it's reported monthly), is better for change over time (data has been collected for much
-            longer than the ACS) and is a survey directly targeted at information about employment; meanwhile, the ACS data can be found for smaller geographies, and is more readily comparable to non-employment statistics. </p>
-        <p>The Census Bureau also partners with the U.S. states to produce the <a href="http://www.census.gov/ces/dataproducts/lehddata.html">Longitudinal Employer–Household Dynamics (LEHD)</a> data. Compared to the ACS, this data provides more direct information
-            on changes in the workforce (hiring, quits and layoffs), and can also give insight into commuting flows.</p>
-        <ul>
-            <li>For a general introduction to using the CPS for journalism, watch <a href="http://cronkite.asu.edu/census2010#cas">this presentation by New York Times reporter Rob Gebeloff</a>. </li>
-            <li>For a general introduction to using the LEHD data for journalism, watch <a href="http://cronkite.asu.edu/census2010#lehd">this presentation by USA Today reporter Paul Overberg</a>. </li>
-            <li>For a detailed explanation of the differences between the two ACS and CPS, see this <a href="https://www.census.gov/library/working-papers/2011/demo/SEHSD-WP2011-31.html">Census Bureau report</a>.</li>
-        </ul>
-    </aside>
-
-
     <h2>Overview</h2>
+
     <p>The Census Bureau asks a number of questions about whether individuals are employed, and if they are not unemployed or retired, about their occupation and industry. Census Reporter collects these together under the tag 'employment'. There are also
         questions about where geographically people are employed, how they get to work, how long it takes to get to work, and similar questions, which Census Reporter collects under the tag <a href="{% url 'topic_detail' 'commute'  %}">'commute'</a>.</p>
+</section>
+<section>
     <h2 id="employment-status">Employment Status</h2>
     <p>When talking about employment status, the Census Bureau divides the population 16 years and older into two categories: <em>in the labor force</em> or <em>not in the labor force</em>. People who have never worked or who are retired are not in the labor
         force. People who are not currently working but have recently and would like to work are considered in the labor force, but unemployed. People who are actively working are described as either in the civilian labor force or in the armed forces.
@@ -55,8 +56,8 @@
         for children under 18 years.
     </p>
     {% list_tables prefix='23' %}
-
-
+</section>
+<section>
     <h2 id="industry-occupation-class-of-worker">Industry / Occupation / Class of Worker</h2>
     <p>The ACS provides some pretty detailed information about the specific kinds of work Americans do. These tables are gathered together in a series whose <a href="{% url 'topic_detail' 'table-codes' %}">table codes</a> begin with <strong>B24</strong>        and <strong>C24</strong>.</p>
     <h3 id="occupation">Occupation</h3>
@@ -92,28 +93,34 @@
         <li>Wholesale trade</li>
     </ul>
     <h3 id="class-of-worker">Class of Worker</h3>
-    <p>These are the tabulation options for "class of worker."
-        <ul class="compact">
-            <li>Private for-profit wage and salary workers:</li>
+    <p>These are the tabulation options for "class of worker."</p>
+    <ul class="compact">
+        <li>Private for-profit wage and salary workers:
             <ul>
                 <li>Employee of private company workers</li>
                 <li>Self-employed in own incorporated business workers</li>
             </ul>
-            <li>Private not-for-profit wage and salary workers</li>
-            <li>Local government workers</li>
-            <li>State government workers</li>
-            <li>Federal government workers</li>
-            <li>Self-employed in own not incorporated business workers</li>
-            <li>Unpaid family workers</li>
-        </ul>
-    </p>
+        </li>
+        <li>Private not-for-profit wage and salary workers</li>
+        <li>Local government workers</li>
+        <li>State government workers</li>
+        <li>Federal government workers</li>
+        <li>Self-employed in own not incorporated business workers</li>
+        <li>Unpaid family workers</li>
+    </ul>
+
     <p>In some cross-tabulations, the three classes of government work are collapsed into one. Also, in some cross-tabulations, "Self-employed in own not incorporated business workers" and "unpaid family workers" are combined.</p>
+</section>
+<section>
     <h2 id="industry-occupation-class-of-worker-table-details">Industry / Occupation / Class of Worker table details</h2>
 
     <p>Below is a summary of tables that the Census Bureau includes in the "Industry / Occupation / Class of Worker" series. For the following tables, all references to employment are for the civilian population 16 years and older. Median earnings are for
         the last 12 months in dollars adjusted to the year of the ACS release.</p>
 
     {% list_tables prefix='240' %}
+
+</section>
+<section>
 
     <h2 id="detailed-occupation">Detailed Occupation data</h2>
 

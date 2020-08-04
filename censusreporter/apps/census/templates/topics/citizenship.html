@@ -28,12 +28,12 @@
     <p>The Census Bureau classifies <a href="{% url 'topic_detail' 'table-codes' %}">table codes</a> beginning with <strong>05</strong> as about citizenship.</p>
     {% list_tables prefix='05' %}
 
-    <h4>Place of Birth tables</h4>
+    <h4 id='place-of-birth'>Place of Birth tables</h4>
     <p>The Census Bureau classifies table codes beginning with <strong>06</strong> as about place of birth.</p>
     {% list_tables prefix='06' %}
 
 
-    <h4>Citizen, Voting-age population (CVAP) tables</h4>
+    <h4 id='cvap'>Citizen, Voting-age population (CVAP) tables</h4>
     <p>The Census Bureau classifies table codes beginning with <strong>29</strong> as about the citizen voting-age population.</p>
     {% list_tables prefix='29' %}
 
