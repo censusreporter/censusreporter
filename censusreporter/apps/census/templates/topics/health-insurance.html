@@ -1,4 +1,16 @@
-{% extends 'topics/_base_topics.html' %} {% block content %}
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block top_aside %}
+<aside>
+    <h3>Should I use American Community Survey data for this?</h3>
+    <p>
+        The annual ACS 1-year <span class='glossary-term'>release</span> only includes places with a population of 65,000 or more. That means that almost 75% of US counties are not included in the 1-year release. (<a href="https://www2.census.gov/programs-surveys/sahie/reference-maps/2018/REF2_MP_2018.pdf">See a map of counties published in ACS 1-year estimates</a>.)
+        To analyze all counties requires using data collected over 5-years, which may obscure important patterns or changes.
+    </p>
+    <p>
+        To address this, the Census Bureau conducts the <a href="https://www.census.gov/programs-surveys/sahie.html">Small Areas Health Insurance Estimates (SAHIE) program</a>. SAHIE is the only source for single-year estimates of health insurance coverage
+        for all US counties. If you are working with county-level analysis, it is probably a better source than the ACS.
+    </p>
+</aside>
+{% endblock %}{% block content %}
 <section id="topic-overview">
 
     <h2>Overview</h2>
@@ -11,116 +23,7 @@
 
     <p>Tables <strong><a href="{% url 'table_detail' 'B27002' %}">B27002</a>/<a href="{% url 'table_detail' 'C27002' %}">C27002</a></strong> through <strong><a href="{% url 'table_detail' 'B27009' %}">B27009</a>/<a href="{% url 'table_detail' 'C27009' %}">C27009</a></strong>        are structured indentically, but only count specific types of coverage. There are no racial iterations for these tables.</p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Title</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a><sup>†‡</sup></strong></td>
-                <td>Health Insurance Coverage Status by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27002' %}">B27002</a><sup>‡</sup></strong></td>
-                <td>Private Health Insurance Status by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27003' %}">B27003</a><sup>‡</sup></strong></td>
-                <td>Public Health Insurance Status by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27004' %}">B27004</a><sup>‡</sup></strong></td>
-                <td>Employer-based Health Insurance by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27005' %}">B27005</a><sup>‡</sup></strong></td>
-                <td>Direct-purchase Health Insurance by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27006' %}">B27006</a><sup>‡</sup></strong></td>
-                <td>Medicare Coverage by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27007' %}">B27007</a><sup>‡</sup></strong></td>
-                <td>Medicaid/Means-tested Public Coverage by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27008' %}">B27008</a><sup>‡</sup></strong></td>
-                <td>Tricare/Military Health Coverage by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27009' %}">B27009</a><sup>‡</sup></strong></td>
-                <td>VA Health Care by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27010' %}">B27010</a><sup>‡</sup></strong></td>
-                <td>Types of Health Insurance Coverage by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27011' %}">B27011</a></strong></td>
-                <td>Health Insurance Coverage Status and Type by Employment Status by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27012' %}">B27012</a><sup>‡</sup></strong></td>
-                <td>Health Insurance Coverage Status and Type by Work Experience by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27013' %}">B27013</a><sup>‡</sup></strong></td>
-                <td>Private Health Insurance by Work Experience by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27014' %}">B27014</a><sup>‡</sup></strong></td>
-                <td>Public Health Insurance by Work Experience by Sex by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27015' %}">B27015</a></strong></td>
-                <td>Health Insurance Coverage Status and Type by Household Income in the Past 12 Months (In 2012 Inflation-adjusted Dollars)</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27016' %}">B27016</a><sup>‡</sup></strong></td>
-                <td>Health Insurance Coverage Status and Type by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27017' %}">B27017</a><sup>‡</sup></strong></td>
-                <td>Private Health Insurance by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27018' %}">B27018</a><sup>‡</sup></strong></td>
-                <td>Public Health Insurance by Ratio of Income to Poverty Level in the Past 12 Months by Age</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27019' %}">B27019</a></strong></td>
-                <td>Health Insurance Coverage Status and Type by Age by Educational Attainment</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27020' %}">B27020</a></strong></td>
-                <td>Health Insurance Coverage Status and Type by Citizenship Status</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27021' %}">B27021</a></strong></td>
-                <td>Health Insurance Coverage Status and Type by Living Arrangement</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27022' %}">B27022</a></strong></td>
-                <td>Health Insurance Coverage Status by Sex by Enrollment Status for Young Adults Aged 19 to 25</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27023' %}">B27023</a></strong></td>
-                <td>Private Health Insurance by Sex by Enrollment Status for Young Adults Aged 19 to 25</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr class="help-text">
-                <td colspan="2">
-                    <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
-                    <sup>†</sup>Tables <strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a></strong>, <strong><a href="{% url 'table_detail' 'C27001' %}">C27001</a></strong> also available in <a href="{% url 'topic_detail' 'race-latino' %}#topic-elsewhere">racial iterations</a>.
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+    {% list_tables prefix='27' %}
 
 </section>
 {% endblock %}

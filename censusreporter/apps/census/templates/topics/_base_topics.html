@@ -9,6 +9,7 @@
             <h1>{{ topic.title }}</h1>
             <p>{{ topic.description }}</p>
         </header>
+        {%block top_aside %}{% endblock %}
         {% include "topics/_question_aside.html" %} {% block content %}{% endblock %}
     </article>
 </div>

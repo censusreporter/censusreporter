@@ -1,18 +1,16 @@
-{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block top_aside %}
+<aside>
+    <h3>Should I use American Community Survey data for this?</h3>
+    <p>The IRS also provides data about <a href="http://www.irs.gov/uac/SOI-Tax-Stats-Migration-Data">county-to-county migration</a>, based on aggregate information from individual tax returns. This data also includes information about When writing about
+        this data, use caution: it does not count people who do not file tax returns, so a careless formulation might be misleading or outright wrong. However, <a href="http://web.archive.org/web/20150221120353/http://www.urbanophile.com/2012/12/19/irs-cancels-then-uncancels-migration-data-program/">data analysis expert Aaron Renn says</a>        "This is the best source of data available, in my opinion, because it is place to place, the data set of tax returns is so large, and income data is included. This data lets you map where people are moving from and where they are moving to at
+        a reasonably granular level." </p>
+</aside>
+{% endblock% } {% block content %}
 
 <section id="topic-overview">
-    <aside>
-        <h3>Should I use American Community Survey data for this?</h3>
-        <p>The IRS also provides data about <a href="http://www.irs.gov/uac/SOI-Tax-Stats-Migration-Data">county-to-county migration</a>, based on aggregate information from individual tax returns. This data also includes information about When writing about
-            this data, use caution: it does not count people who do not file tax returns, so a careless formulation might be misleading or outright wrong. However, <a href="http://web.archive.org/web/20150221120353/http://www.urbanophile.com/2012/12/19/irs-cancels-then-uncancels-migration-data-program/">data analysis expert Aaron Renn says</a>            "This is the best source of data available, in my opinion, because it is place to place, the data set of tax returns is so large, and income data is included. This data lets you map where people are moving from and where they are moving to
-            at a reasonably granular level." </p>
-    </aside>
 
 
     <h2>Overview</h2>
-
-    <h2>Should I Use Census Data For This?</h2>
-
 
     <p>This set of tables appears very complicated, but breaks down into two major groups:</p>
 

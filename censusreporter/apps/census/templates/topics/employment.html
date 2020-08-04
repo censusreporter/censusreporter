@@ -1,4 +1,4 @@
-{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block top_aside %}
 <aside>
     <h3>Should I use American Community Survey data for this?</h3>
     <p>The ACS is only one Census product offering employment data, and may not always be the best for your purposes. Another source of data about the labor force is the <a href="http://www.bls.gov/cps/">Current Population Survey, or CPS</a>. The CPS is
@@ -12,6 +12,7 @@
         <li>For a detailed explanation of the differences between the two ACS and CPS, see this <a href="https://www.census.gov/library/working-papers/2011/demo/SEHSD-WP2011-31.html">Census Bureau report</a>.</li>
     </ul>
 </aside>
+{% endblock %} {% block content %}
 <section id="topic-overview">
     <h2>Overview</h2>
 
@@ -130,4 +131,5 @@
     {% list_tables prefix='241' %}
 
 </section>
+
 {% endblock %}

@@ -1,4 +1,16 @@
-{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block top_aside %}
+<aside>
+    <h3>Should I use American Community Survey data for this?</h3>
+    <p>
+        The annual ACS 1-year <span class='glossary-term'>releases</span> only includes places with a population of 65,000 or more. That means that almost 75% of US counties are not included in the 1-year release. (<a href="https://www2.census.gov/programs-surveys/sahie/reference-maps/2018/REF2_MP_2018.pdf">See a map of counties published in ACS 1-year estimates</a>.)
+        To analyze all counties requires using data collected over 5-years, which may obscure important patterns or changes.
+    </p>
+    <p>
+        To address this, the Census Bureau conducts the <a href="https://www.census.gov/programs-surveys/saipe.html">Small Area Income and Poverty Estimates (SAIPE) program</a>. SAIPE produces annual estimates of children in poverty for all states, counties,
+        and school districts, as well as median household income for states and counties.
+    </p>
+</aside>
+{% endblock %}{% block content %}
 <section id="topic-overview">
 
     <h2>Overview</h2>

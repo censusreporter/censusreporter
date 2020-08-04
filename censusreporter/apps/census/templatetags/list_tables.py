@@ -19,11 +19,7 @@ def list_tables(topics=None,prefix=None,exclude_prefix=None,codes=None,query=Non
 
     if exclude_prefix:
         exclude_prefix = ['00','98','99'] + map(lambda x: x.strip(),exclude_prefix.split(','))
-    if prefix:
-        data = api.query_prefix(prefix)
-    elif topics: 
-        data = api.query_topics(topics,exclude_prefix)
-    elif query or codes: # catchall?
+    if prefix or topics or query or codes:
         data = api.query(topics=topics,prefix=prefix,exclude_prefix=exclude_prefix,q=query,codes=codes)
     else:
         data = []
