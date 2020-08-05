@@ -1,0 +1,48 @@
+{% extends '_base.html' %} {% block head_title %}About Census Reporter - {{ block.super }}{% endblock %} {% block content %}
+<article id="about-census-reporter">
+    <header>
+        <h1>About Census Reporter</h1>
+    </header>
+
+    <section>
+        <div class="column-two-thirds">
+            <p>Census Reporter is an independent project to make data from the American Community Survey easier to use. We are unaffiliated with the U.S. Census Bureau. </p>
+            <p>
+                A <a href="http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">News Challenge grant from the <strong>Knight Foundation</strong></a> funded the initial build-out of the site. <strong>Joe Germuska</strong>                developed the grant proposal and is the project lead. Our original project advisory board consisted of <strong>Joe Germuska</strong>, <strong>John Keefe</strong>, and <strong>Ryan Pitts</strong>. We are grateful to <a href="https://ire.org"><strong>Investigative Reporters and Editors (IRE)</strong></a>,
+                who served as the fiscal agent for our original grant funds.
+            </p>
+            <p>
+                <strong>Sara Schnadt</strong> served as the original designer and community coordinator. <strong>Ryan Pitts</strong> and <strong>Ian Dees</strong> were the primary software development team. <strong>Joe Germuska</strong> served as project
+                manager and wrangler, and, with <strong>John Keefe</strong>, contributed to project design and planning.
+            </p>
+            <p>
+                Since the development of the initial site, additional contributions of code and/or documentation have been made by
+                <strong>Avriana Allen</strong>,
+                <strong>Durell Gill</strong>,
+                <strong>Cathy He</strong>,
+                <strong>Kristen Li</strong>,
+                <strong>Joon Park</strong>,
+                <strong>Tushar Samant</strong>, and
+                <strong>Sumin Woo</strong>
+            </p>
+            <p>We are grateful to the <a href="https://www.medill.northwestern.edu/"><strong>Medill School of Journalism</strong></a> at <a href="https://northwestern.edu"><strong>Northwestern University</strong></a>, home of <a href="https://knightlab.northwestern.edu"><strong>Knight Lab</strong></a>,
+                which provides in-kind support for ongoing development of Census Reporter. Thanks also to <a href="https://www.mapbox.com/"><strong>Mapbox</strong></a> and <a href="https://aws.amazon.com/"><strong>Amazon Web Services</strong></a> for
+                subsidizing some of our technology costs.</p>
+        </div>
+        <div class="column-third"></div>
+    </section>
+</article>
+{% endblock %}
+
+
+<section class="clearfix stat-row">
+    <aside></aside>
+    <div class="column-third">
+        <h2 class="header-for-columns"><a class="permalink" href="#sex" id="sex">Sex <i class="fa fa-link"></i></a></h2>
+        <div id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
+    </div>
+    <div class="column-two-thirds">
+        <h2 class="header-for-columns"><a class="permalink" href="#race" id="race">Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
+        <div id="chart-column-demographics-race" data-stat-type="scaled-percentage" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
+    </div>
+</section>

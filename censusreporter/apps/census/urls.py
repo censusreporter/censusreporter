@@ -142,6 +142,13 @@ urlpatterns = [
     ),
 
     url(
+        regex='^about/$',
+        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="about.html")),
+        kwargs={},
+        name='about',
+    ),
+
+    url(
         regex='^locate/$',
         view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html")),
         kwargs={},
