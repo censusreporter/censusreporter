@@ -2526,12 +2526,17 @@ dt {
     margin-bottom: .67em;
 }
 
+dl.topics {
+    margin-top: .5em;
+}
+
 .topics dt {
-    font-size: 1.5em;
+    font-size: 1.25em;
+    margin-left: 1em;
 }
 
 dd {
-    margin: 0 0 2em 1em;
+    margin: 0 0 2em 2.5em;
 }
 
 .topic h2,

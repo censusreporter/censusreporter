@@ -22,6 +22,43 @@ Possible topics for matching table metadata:
 # Name
 
 TOPICS_LIST = [
+
+    {
+        'title': 'Geography',
+        'slug': 'geography',
+        'description': "Geography is fundamental to the Census Bureau's process of tabulating data. Here are the key concepts you need to understand.",
+        'template_name': 'geography.html',
+        'group': 'about_census'
+    },
+
+    {
+        'title': 'Table Codes',
+        'slug': 'table-codes',
+        'description': 'While Census Reporter hopes to save you from the details, you may be interested to understand some of the rationale behind American Community Survey table identifiers.',
+        'template_name': 'table-codes.html',
+        'group': 'about_census'
+    },
+
+
+    {
+        'title': 'Getting Started',
+        'slug': 'getting-started',
+        'description': "The Census is a big subject and there's a lot to learn, but you don't have to learn it all at once. Here's some help knowing the lay of the land.",
+        'short_description': "The Census is a big subject and there's a lot to learn, but you don't have to learn it all at once.",
+        'template_name': 'getting_started.html',
+        'priority': 0,
+        'group': 'about_census'
+    },
+
+    {
+        'title': 'About the Census',
+        'slug': 'about-census',
+        'description': "A brief overview of the many data products produced by the Census Bureau, most of which are not available through Census Reporter.",
+        'short_description': "A brief overview of the many data products produced by the Census Bureau, most of which are not available through Census Reporter.",
+        'template_name': 'about_census.html',
+        'group': 'about_census'
+    },
+
     {
         'title': 'Age and Sex',
         'slug': 'age-sex',
@@ -32,7 +69,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Age and Date of Birth','https://www.census.gov/acs/www/about/why-we-ask-each-question/age/'),
             ('Why We Ask: Sex','https://www.census.gov/acs/www/about/why-we-ask-each-question/sex/')
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -44,7 +82,8 @@ TOPICS_LIST = [
         'question_images': ['ancestry_600_q13.png'],
         'more_info_links': [
             ('Why We Ask: Ancestry','https://www.census.gov/acs/www/about/why-we-ask-each-question/ancestry/')
-        ]
+        ],
+        'group': 'topical_help'
     },
 
 
@@ -58,8 +97,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Family / Relationship to Householder','https://www.census.gov/acs/www/about/why-we-ask-each-question/relationship/'),
             ('Why We Ask: Fertility','https://www.census.gov/acs/www/about/why-we-ask-each-question/fertility/'),
-            
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -71,7 +110,8 @@ TOPICS_LIST = [
         'question_images': ['citizenship_q7.png','citizenship_q8.png','citizenship_q9.png'],
         'more_info_links': [
             ('Why We Ask: Place of Birth, Citizenship, Year of Entry','https://www.census.gov/acs/www/about/why-we-ask-each-question/citizenship/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -84,7 +124,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Commuting / Journey to Work','https://www.census.gov/acs/www/about/why-we-ask-each-question/commuting/'),
             ('Why We Ask: Vehicles Available','https://www.census.gov/acs/www/about/why-we-ask-each-question/vehicles/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -96,7 +137,8 @@ TOPICS_LIST = [
         'question_images': ['9_10_11_computer.png',],
         'more_info_links': [
             ('Why We Ask: Computer and Internet Use','https://www.census.gov/acs/www/about/why-we-ask-each-question/computer/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -108,7 +150,8 @@ TOPICS_LIST = [
         'question_images': ['18_disability_1.png','19_disability_2.png','20_disability_3.png',],
         'more_info_links': [
             ('Why We Ask: Disability','https://www.census.gov/acs/www/about/why-we-ask-each-question/disability/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
     {
         'title': 'Education',
@@ -120,7 +163,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: School Enrollment','https://www.census.gov/acs/www/about/why-we-ask-each-question/school/'),
             ('Why We Ask: Educational Attainment, Undergraduate Field of Degree','https://www.census.gov/acs/www/about/why-we-ask-each-question/education/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
        {
@@ -133,15 +177,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Family / Relationship to Householder','https://www.census.gov/acs/www/about/why-we-ask-each-question/relationship/'),
             ('Why We Ask: Marital Status / Marital History','https://www.census.gov/acs/www/about/why-we-ask-each-question/marital/'),
-            
-        ]
-    },
-
-    {
-        'title': 'Geography',
-        'slug': 'geography',
-        'description': "Geography is fundamental to the Census Bureau's process of tabulating data. Here are the key concepts you need to understand.",
-        'template_name': 'geography.html',
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -150,12 +187,12 @@ TOPICS_LIST = [
         'topics': ['group-quarters',],
         'description': 'The ACS has special processes for gathering and reporting data about people who live in college dormitories, nursing facilities, military barracks, and correctional facilities.',
         'template_name': 'group-quarters.html',
-        # 'question_images': [],
         'more_info_links': [
             ('American Community Survey: Group Quarters Data Collection','https://www.census.gov/content/dam/Census/programs-surveys/acs/Library/OutreachMaterials/ACSFlyers/2017%20Group%20Quarters%20flyer_508.pdf'),
             ('2018 ACS Group Quarters Form','https://www2.census.gov/programs-surveys/acs/methodology/questionnaires/2018/quest18GQ.pdf?#'),
             ('2018 ACS Group Quarters Instructions','https://www2.census.gov/programs-surveys/acs/methodology/questionnaires/2018/guide18GQ.pdf'),
-        ]
+        ],
+        'group': 'topical_help'
     },
     {
         'title': 'Health Insurance',
@@ -166,7 +203,8 @@ TOPICS_LIST = [
         'question_images': ['16_health_1.png','17_health_2.png'],
         'more_info_links': [
             ('Why We Ask: Health Insurance Coverage','https://www.census.gov/acs/www/about/why-we-ask-each-question/health/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -198,7 +236,8 @@ TOPICS_LIST = [
             ('Why We Ask: Units in Structure, Rooms, Bedrooms','https://www.census.gov/acs/www/about/why-we-ask-each-question/rooms/'),
             ('Why We Ask: Year Built and Year Moved In','https://www.census.gov/acs/www/about/why-we-ask-each-question/year-built/'),
             ('Why We Ask: Home Heating Fuel','https://www.census.gov/acs/www/about/why-we-ask-each-question/heating/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -210,7 +249,8 @@ TOPICS_LIST = [
         'question_images': ['language_600_q14.png'],
         'more_info_links': [
             ('Why We Ask: Language Spoken at Home ','https://www.census.gov/acs/www/about/why-we-ask-each-question/language/')
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -222,7 +262,8 @@ TOPICS_LIST = [
         'question_images': ['21_22_23_24_marital_1.png'],
         'more_info_links': [
             ('Why We Ask: Marital Status/Marital History','https://www.census.gov/acs/www/about/why-we-ask-each-question/marital/')
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -235,7 +276,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Race','https://www.census.gov/acs/www/about/why-we-ask-each-question/race/'),
             ('Why We Ask: Hispanic or Latino Origin','https://www.census.gov/acs/www/about/why-we-ask-each-question/ethnicity/')
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -247,8 +289,8 @@ TOPICS_LIST = [
          'question_images': ['migration_600_q15.png',],
         'more_info_links': [
             ('Why We Ask: Residence 1 Year Ago/Migration','https://www.census.gov/acs/www/about/why-we-ask-each-question/migration/')
-
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -265,7 +307,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Income','https://www.census.gov/acs/www/about/why-we-ask-each-question/income/'),
             ('Why We Ask: Food Stamps/Supplemental Nutrition Assistance Program (SNAP)','https://www.census.gov/acs/www/about/why-we-ask-each-question/food-stamps/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -279,7 +322,8 @@ TOPICS_LIST = [
         ],
         'more_info_links': [
             ('Why We Ask: Food Stamps/Supplemental Nutrition Assistance Program (SNAP)','https://www.census.gov/acs/www/about/why-we-ask-each-question/food-stamps/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -293,7 +337,8 @@ TOPICS_LIST = [
             ('Why We Ask: Family / Relationship to Householder','https://www.census.gov/acs/www/about/why-we-ask-each-question/relationship/'),
             ('Same-Sex Couples Data and Documents','https://www.census.gov/topics/families/same-sex-couples.html'),
             ('Frequently Asked Questions About Same-Sex Couple Households', 'https://www2.census.gov/topics/families/same-sex-couples/faq/sscplfactsheet-final.pdf'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -305,16 +350,9 @@ TOPICS_LIST = [
         'question_images': ['43_income_1.png', '44_income_2.png',],
         'more_info_links': [
             ('Why We Ask: Income','https://www.census.gov/acs/www/about/why-we-ask-each-question/income/')
-        ]
+        ],
+        'group': 'topical_help'
     },
-
-    {
-        'title': 'Table Codes',
-        'slug': 'table-codes',
-        'description': 'While Census Reporter hopes to save you from the details, you may be interested to understand some of the rationale behind American Community Survey table identifiers.',
-        'template_name': 'table-codes.html',
-    },
-
     {
         'title': 'Employment',
         'slug': 'employment',
@@ -328,8 +366,8 @@ TOPICS_LIST = [
             ('Why We Ask: Employment Status','https://www.census.gov/acs/www/about/why-we-ask-each-question/employment/'),
             ('Why We Ask: Industry, Occupation, and Class of Worker ','https://www.census.gov/acs/www/about/why-we-ask-each-question/occupation/'),
             ('Why We Ask: Work Status Last Year','https://www.census.gov/acs/www/about/why-we-ask-each-question/work/'),
-
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -343,7 +381,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Grandparents as Caregivers','https://www.census.gov/acs/www/about/why-we-ask-each-question/grandparents/'),
             ('Why We Ask: Age and Date of Birth','https://www.census.gov/acs/www/about/why-we-ask-each-question/age/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -357,25 +396,8 @@ TOPICS_LIST = [
             ('American Community Survey: Response Rates Definitions','https://www.census.gov/programs-surveys/acs/methodology/sample-size-and-data-quality/response-rates-definitions.html'),
             ('American Community Survey: Coverage Rates Definitions','https://www.census.gov/programs-surveys/acs/methodology/sample-size-and-data-quality/coverage-rates-definitions.html'),
             ('American Community Survey: Item Allocation Rates Definitions','https://www.census.gov/programs-surveys/acs/methodology/sample-size-and-data-quality/item-allocation-rates-definitions.html'),
-
-
-        ]
-    },
-
-    {
-        'title': 'Getting Started',
-        'slug': 'getting-started',
-        'description': "The Census is a big subject and there's a lot to learn, but you don't have to learn it all at once. Here's some help knowing the lay of the land.",
-        'short_description': "The Census is a big subject and there's a lot to learn, but you don't have to learn it all at once.",
-        'template_name': 'getting_started.html',
-    },
-
-    {
-        'title': 'About the Census',
-        'slug': 'about-census',
-        'description': "A brief overview of the many data products produced by the Census Bureau, most of which are not available through Census Reporter.",
-        'short_description': "A brief overview of the many data products produced by the Census Bureau, most of which are not available through Census Reporter.",
-        'template_name': 'about_census.html',
+        ],
+        'group': 'topical_help'
     },
 
     {
@@ -387,9 +409,19 @@ TOPICS_LIST = [
         'question_images': ['27_28_veterans_1.png','29_veterans_2.png'],
         'more_info_links': [
             ('Why We Ask: Veteran Status','https://www.census.gov/acs/www/about/why-we-ask-each-question/veterans/'),
-        ]
+        ],
+        'group': 'topical_help'
     },
 
 ]
 
 TOPICS_MAP = dict((topic['slug'], topic) for topic in TOPICS_LIST)
+TOPIC_GROUP_LABELS = {
+    'about_census': 'About the Census',
+    'topical_help': 'Census Subjects',
+}
+def sort_topics(topic_map):
+    # force "getting started" to the top of the list, and serve the rest alphabetically.
+    to_sort = [(v['group'], v.get('priority',10000), k, v) for k,v in topic_map.items()]
+    return [x[-1] for x in sorted(to_sort)]
+

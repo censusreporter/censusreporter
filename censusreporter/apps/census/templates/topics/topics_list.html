@@ -1,14 +1,11 @@
-{% extends 'topics/_base_topics.html' %}
-
-{% block content %}
-<section id="topic-list">
+{% extends 'topics/_base_topics.html' %} {% load dict_key %} {% block content %} {% regroup topics_list by group as grouped_topics %} {% for group in grouped_topics %}
+<section id="{{ group.grouper }}">
+    <h2>{{ topic_group_labels|dict_key:group.grouper }}</h2>
     <dl class="topics">
-    {% for topic in topics_list %}
+        {% for topic in group.list %}
         <dt id="topic-{{ topic.slug }}"><a href="{% url 'topic_detail' topic.slug %}">{{ topic.title }}</a></dt>
         <dd>{{ topic.description|safe|linebreaks }}</dd>
-    {% endfor %}
+        {% endfor %}
     </dl>
 </section>
-{% endblock %}
-
-
+{% endfor %} {% endblock %}

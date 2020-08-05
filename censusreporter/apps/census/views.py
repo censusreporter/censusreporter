@@ -26,7 +26,7 @@ from .utils import (
     ACS_RELEASES,
 )
 from .profile import geo_profile, enhance_api_data
-from .topics import TOPICS_MAP
+from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -440,7 +440,8 @@ class TopicView(TemplateView):
                     'slug': '',
                     'description': 'Pages describing the concepts and tables covered by the Census and American Community Survey.',
                 },
-                'topics_list': sort_topics(TOPICS_MAP)
+                'topics_list': sort_topics(TOPICS_MAP),
+                'topic_group_labels': TOPIC_GROUP_LABELS,
             }
 
         return page_context
@@ -767,10 +768,6 @@ class SitemapProfilesView(TemplateView):
         context = self.get_context_data()
         return self.render_to_response(context, content_type="text/xml; charset=utf-8")
 
-
-def sort_topics(topic_map):
-    # force "getting started" to the top of the list, and serve the rest alphabetically.
-    return [topic_map['getting-started']] + [v for k, v in sorted(topic_map.items()) if k != 'getting-started']
 
 
 def uniurlquote(s):
