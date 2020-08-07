@@ -1530,7 +1530,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_object, profile_data_current_year, current_year, geography_id)
+					self.write_profile_json(s3_object, profile_data_json_current_year, current_year, geography_id)
 
 			else:
 				raise Http404
@@ -1579,7 +1579,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 				if s3_object is None:
 					logger.warn("Could not save to S3 because there was no connection to S3.")
 				else:
-					self.write_profile_json(s3_object, profile_data_past_year, past_year, geography_id)
+					self.write_profile_json(s3_object, profile_data_json_past_year, past_year, geography_id)
 
 			else:
 				raise Http404
@@ -1720,7 +1720,7 @@ class DistrictGeographyDetailView(TemplateView):
 		return super(DistrictGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '1.0/data/districts/%s.json' % (self.slug.upper())
+		return '1.0/data/districts/2018/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1735,21 +1735,21 @@ class DistrictGeographyDetailView(TemplateView):
 
 		return s3
 
-	def s3_profile_key(self, geo_id):
+	def s3_profile_key(self):
 		s3 = self.make_s3()
 
 		s3_object = None
 		if s3:
-			keyname = self.s3_keyname(geo_id)
+			keyname = self.s3_keyname()
 			s3_object = s3.Object('d3-sd-child', keyname)
 				
 		return s3_object
 
-	def write_profile_json(self, s3_object, data, geo_id):
+	def write_profile_json(self, s3_object, data):
 		# create gzipped version of json in memory
 		memfile = BytesIO()
 		#memfile.write(data)
-		keyname = self.s3_keyname(geo_id)
+		keyname = self.s3_keyname()
 		data_as_bytes = str.encode(data)
 		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
 			gzip_data.write(data_as_bytes)
@@ -1760,13 +1760,10 @@ class DistrictGeographyDetailView(TemplateView):
 
 
 	def get_context_data(self, *args, **kwargs):
-		geography_id = self.geo_id
-		logger.warn(geography_id)	
-
 		s3_object = None
 		s3_object_exists = False
 		try:
-			s3_object = self.s3_profile_key(geography_id)
+			s3_object = self.s3_profile_key()
 			s3_object.load()
 			s3_object_exists = True
 		except botocore.exceptions.ClientError as e:

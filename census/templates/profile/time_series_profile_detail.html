@@ -911,6 +911,8 @@ var gracefulType = function(chartType) {
 var makeCharts = function() {
 
     $.each(chartContainers, function(i, obj) {
+        console.log(profileDataPastYear);
+        console.log($(this).prop('id'));
         $(obj).empty();
         var chartID = $(this).prop('id'),
             chartDataKey = chartID.replace('chart-','').replace('alt-',''),
@@ -941,19 +943,28 @@ var makeCharts = function() {
         if (drilldown >= 2) {
             for (var n = 2; n <= drilldown; n++) {
                 chartData = chartData[chartDataID[n]];
-                chartDataPastYear = chartDataPastYear[chartDataID[n]];
+                if (chartDataID[n] in chartDataPastYear) {
+                    chartDataPastYear = chartDataPastYear[chartDataID[n]];
+                }
             }
         }
 
         // determine whether data point is from anything other
         // than the primary ACS release for this page
-        //console.log(chartData);
         for (var key in chartData) if (chartData.hasOwnProperty(key)) break;
-        //console.log(key);
-        if (chartData['metadata']['acs_release'] && chartData['metadata']['acs_release'] == 'ACS 2018 5-year') {
+        let acs_release;
+        for (var k in chartData) {
+            if (k == 'metadata') {
+                acs_release = chartData[k]['acs_release']
+            } else if (k == 'total') {
+                acs_release = chartData[k]['metadata']['acs_release']
+            }
+        } 
+        
+        if (acs_release && acs_release == 'ACS 2018 5-year') {
             var thisRelease = "ACS 2013 and 2018 5-year";
-        } else if (chartData['metadata']['acs_release']) {
-            var thisRelease = chartData['metadata']['acs_release'];
+        } else if (acs_release) {
+            var thisRelease = acs_release;
             chartRelease = 'd3_present';
         } else {
             var thisRelease = '';

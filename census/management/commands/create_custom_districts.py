@@ -24,7 +24,7 @@ class Command(BaseCommand):
 
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
         # open csv, parse dump into Districts table
-        with open(os.path.join(__location__, 'tracts_to_districts.csv'), 'rb') as f:
+        with open(os.path.join(__location__, 'tracts_to_districts.csv'), 'r') as f:
             reader = csv.reader(f)
             for row in reader:
                 if row[0] != 'OBJECTID': # Ignore the header row, import everything else

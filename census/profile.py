@@ -2684,7 +2684,7 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Economics: Employment, Mean Travel Time to Work, Means of Transportation to Work
-	if acs != 'acs2012_5yr' and acs != 'acs2012_1yr':
+	if acs != 'acs2013_5yr' and acs != 'acs2013_1yr':
 		data = api.get_data(['B23025', 'B23027'], comparison_geoids, acs)
 	else:
 		data = api.get_data(['B23025'], comparison_geoids, acs)
@@ -2698,7 +2698,7 @@ def geo_profile(geoid, acs='latest'):
 		'B23025005 B23025003 / %')
 	add_metadata(employment_dict['unemployment_rate'], 'B23025', 'Population 16 years and over', acs_name, acs_year)
 
-	if acs != 'acs2012_5yr' and acs != 'acs2012_1yr':
+	if acs != 'acs2013_5yr' and acs != 'acs2013_1yr':
 		employment_dict['nowork_rate'] = build_item('Persons 16-64 who have not worked in the last 12 months', data, item_levels,
 			'B23027006 B23027011 + B23027016 + B23027021 + B23027026 + B23027002 B23027007 + B23027012 + B23027017 + B23027022 + / %')
 		add_metadata(employment_dict['nowork_rate'], 'B23027', 'Population 16 years and over', acs_name, acs_year)
