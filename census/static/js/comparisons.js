@@ -1080,13 +1080,15 @@ function Comparison(options, callback) {
         comparison.d3fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
         comparison.d3fields['Fully_Immunized_43133142']['indent'] = 1
 
+        comparison.d3fields['Partially_Immunized_4313314'] = {};
+        comparison.d3fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA)"
+        comparison.d3fields['Partially_Immunized_4313314']['indent'] = 1
+
         comparison.d3fields['Partially_Immunized_431331'] = {};
-        comparison.d3fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
+        comparison.d3fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA and PCV)"
         comparison.d3fields['Partially_Immunized_431331']['indent'] = 1
 
-        comparison.d3fields['Partially_Immunized_4313314'] = {};
-        comparison.d3fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
-        comparison.d3fields['Partially_Immunized_4313314']['indent'] = 1
+
 
         comparison.ajaxCount = 0;
 

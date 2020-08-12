@@ -900,13 +900,15 @@ def geo_profile(geoid, acs='latest'):
 	fields['Fully_Immunized_43133142']['name'] = "Number fully immunized"
 	fields['Fully_Immunized_43133142']['indent'] = 1
 
+	fields['Partially_Immunized_4313314'] = OrderedDict()	
+	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA)"
+	fields['Partially_Immunized_4313314']['indent'] = 1
+
 	fields['Partially_Immunized_431331'] = OrderedDict()	
-	fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA)"
+	fields['Partially_Immunized_431331']['name'] = "Number partially immunized (minus HepA and PCV)"
 	fields['Partially_Immunized_431331']['indent'] = 1
 
-	fields['Partially_Immunized_4313314'] = OrderedDict()	
-	fields['Partially_Immunized_4313314']['name'] = "Number partially immunized (minus HepA and PCV)"
-	fields['Partially_Immunized_4313314']['indent'] = 1
+
 
 
 	data = format_d3_data("2015", "D3-Immunization", "Number fully immunized", "Immunized children aged 19-35 months", "Immunization_Population", fields, state_data, county_data, tract_data, block_group_data, county_sd_data, msa_data, congressional_district_data, state_senate_data, state_house_data, school_district_data, zcta_data, d3_item_levels,
@@ -925,10 +927,11 @@ def geo_profile(geoid, acs='latest'):
 
 	immunization_chart_data['Fully_Immunized_43133142'] = build_item('Fully immunized', data, d3_item_levels,
 		'D3-Fully_Immunized_43133142 D3-Immunization_Population / %')
-	immunization_chart_data['Partially_Immunized_431331'] = build_item('Partially immunized (minus HepA)', data, d3_item_levels,
-		'D3-Partially_Immunized_431331 D3-Immunization_Population / %')
-	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus HepA and PCV)', data, d3_item_levels,
+	immunization_chart_data['Partially_Immunized_4313314'] = build_item('Partially immunized (minus HepA)', data, d3_item_levels,
 		'D3-Partially_Immunized_4313314 D3-Immunization_Population / %')
+	immunization_chart_data['Partially_Immunized_431331'] = build_item('Partially immunized (minus HepA and PCV)', data, d3_item_levels,
+		'D3-Partially_Immunized_431331 D3-Immunization_Population / %')
+
 
 
 	# get D3 data on Medicaid CY2017

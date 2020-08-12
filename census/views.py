@@ -425,15 +425,17 @@ class D3TableDetailViewImmunization(TemplateView):
 		table['columns']['Fully_Immunized_43133142']['indent'] = 1
 		table['columns']['Fully_Immunized_43133142']['parent_column_id'] = 'Immunization_Population'
 
+		table['columns']['Partially_Immunized_4313314'] = OrderedDict()
+		table['columns']['Partially_Immunized_4313314']['column_title'] = 'Number partially immunized (minus HepA)'
+		table['columns']['Partially_Immunized_4313314']['indent'] = 1
+		table['columns']['Partially_Immunized_4313314']['parent_column_id'] = 'Immunization_Population'
+
 		table['columns']['Partially_Immunized_431331'] = OrderedDict()
-		table['columns']['Partially_Immunized_431331']['column_title'] = 'Number partially immunized (minus HepA)'
+		table['columns']['Partially_Immunized_431331']['column_title'] = 'Number partially immunized (minus HepA and PCV)'
 		table['columns']['Partially_Immunized_431331']['indent'] = 1
 		table['columns']['Partially_Immunized_431331']['parent_column_id'] = 'Immunization_Population'
 
-		table['columns']['Partially_Immunized_4313314'] = OrderedDict()
-		table['columns']['Partially_Immunized_4313314']['column_title'] = 'Number partially immunized (minus HepA and PCV)'
-		table['columns']['Partially_Immunized_4313314']['indent'] = 1
-		table['columns']['Partially_Immunized_4313314']['parent_column_id'] = 'Immunization_Population'
+
 
 		page_context = {
 			'table': table,
