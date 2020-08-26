@@ -13,9 +13,18 @@ at /topics/{{ slug }}/. The contents of an individual page should go inside
 Screenshots of survey questions should be placed in /static/img/questions,
 and the filenames listed in {{ question_images }} for each entry.
 
+A bonus thing to keep track of -- the TopicParser in census-api which loads topic text into the 
+text search index expects all information to be in one of two <section> elements, 
+with specific IDs: 'topic-overview' or 'topic-elsewhere'.  asides are not indexed, nor is other 
+content on the page. We could probably change that to just index all sections but 
+right now, that's how it is.
+
 Possible topics for matching table metadata:
 
-    'topics': ['age', 'ancestry',  'children',  'citizenship',  'commute',  'computer',  'costs and value',  'cvap',  'disability',  'education',  'employment',  'families',  'family type',  'fertility',  'grandparents',  'group quarters',  'health insurance',  'housing',  'income',  'internet',  'language',  'migration',  'mortgage',  'occupancy',  'physical characteristics',  'place of birth',  'poverty',  'public assistance',  'race',  'roommates',  'seniors',  'sex',  'technical',  'tenure',  'veterans']'''
+    'topics': ['age', 'ancestry',  'children',  'citizenship',  'commute',  'computer',  'costs and value',  'cvap',  'disability',  'education',  'employment',  'families',  'family type',  'fertility',  'grandparents',  'group quarters',  'health insurance',  'housing',  'income',  'internet',  'language',  'migration',  'mortgage',  'occupancy',  'physical characteristics',  'place of birth',  'poverty',  'public assistance',  'race',  'roommates',  'seniors',  'sex',  'technical',  'tenure',  'veterans']
+    
+    
+'''
 
 # missing from https://www.census.gov/acs/www/about/why-we-ask-each-question/index.php
 # Acreage and Agricultural Sales

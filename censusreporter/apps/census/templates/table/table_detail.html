@@ -27,7 +27,7 @@
 <div id="explore" class="wrapper clearfix header-container">
     <section id="explore-topic-place-picker" class="clearfix big-action">
         <h1 class="article-header">Table {{ table.table_id }}: {{ table.simple_table_title }}</h1>
-        <h2 class="help-text">Show data from this table: Choose a place or summary level</h2>
+        <h2 class="help-text">Show data from this table: Choose a place or <span class="glossary-term">summary level</span></h2>
         <div id="topic-place-select-wrapper" class="input-wrapper">
             <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Show data by choosing a place or summary level…" autocomplete="off">
             {#}<p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>{#}
@@ -52,7 +52,7 @@
     </header>
     <div class="section-container">
         <section class="clearfix">
-            <h2 class="header-for-columns">Table universe: <span class="normal">{{ table.universe }}</span></h2>
+            <h2 class="header-for-columns">Table <span class='glossary-term'>universe</span>: <span class="normal">{{ table.universe }}</span></h2>
             <aside>
                 {% if tabulation.table_versions|length > 1 %}
                 <h5>Other versions of this table</h5>
@@ -107,5 +107,6 @@ var table = new Table({
     displayHeader: '#header-container',
     displayWrapper: '#table-display',
 });
+Glossary.init("{% url 'glossary' %}", ".glossary-term");
 </script>
 {% endblock %}

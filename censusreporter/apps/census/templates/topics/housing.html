@@ -14,9 +14,7 @@
         A housing unit is anything from a house to an apartment or even a boat if a person is currently living there.
     </p>
 
-</section>
-<section id='occupied-and-vacant'>
-    <h2>Occupied and Unoccupied Housing Units</h2>
+    <h2 id='occupied-and-vacant'>Occupied and Unoccupied Housing Units</h2>
 
     <h3>Vacancy</h3>
     <p>
@@ -30,10 +28,7 @@
 
     {% list_tables query='tenure' exclude_prefix='00,98,99' %}
 
-</section>
-
-<section id='housing-units-and-costs'>
-    <h2>Housing Units and Costs</h2>
+    <h2 id='housing-units-and-costs'>Housing Units and Costs</h2>
     <h3>Value</h3>
     <p>The ACS records estimated selling prices for housing units under “value”. Note that the values are calculated from self-reported estimates of occupied units and vacant units on the market. Therefore, estimates may become less reliable in a fluctuating
         or falling housing market.
@@ -73,10 +68,8 @@
     {% comment %} note that white space around 'rent' is necessary as we don't currently support regex syntax like 'word boundary' and many titles include 'rent' as part of a word {% endcomment %}
     <!-- -->
     {% list_tables query=' rent ' exclude_prefix='00,98,99' %}
-</section>
 
-<section id='housing-characteristics'>
-    <h2>Housing Characteristics</h2>
+    <h2 id='housing-characteristics'>Housing Characteristics</h2>
     <h3>Bedrooms</h3>
     <p>
         The ACS records the number of bedrooms for each housing unit, and provides tables to relate that number to tenure and rent. Housing units with only one room are listed as having no bedrooms.
