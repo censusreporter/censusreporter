@@ -251,7 +251,6 @@
             <h2><a class="permalink section" href="#births" id="births" title="Permalink">Births <i class="fa fa-link"></i></a> <a class="permalink" href="#" title="Back to top"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i></a></h2>
             <aside></aside>
             <div class="column-quarter">
-                <h3 class="chart-title">Total Births (2017)</h3>
                 {% comment %} <div id="chart-stat_timeseries-families-births-total" data-stat-type="number" data-chart-title="Total births" data-qualifier="Universe: {{ profile_data_current_year.families.births.total.metadata.universe }}"></div> {% endcomment %}
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.births.total stat_type='number' %}
             </div>
@@ -428,7 +427,7 @@
                 <div id="chart-stat_timeseries-social-college_enrollment-percent_enrolled" data-stat-type="scaled-percentage" data-chart-title="Percent of public high school graduates who have enrolled in college within 12 months of graduation" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.percent_enrolled.metadata.universe }}"></div>
 
             </div> {% endcomment %}
-            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 12 months of graduation (2017)" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
+            <div class="column-third" id="chart-pie-social-college_enrollment-college_enrollment_chart_data" data-stat-type="percentage" data-initial-sort="-value" data-chart-title="Percent of public high school graduates who have enrolled or not enrolled in college within 12 months of graduation (2018)" data-qualifier="Universe: {{ profile_data_current_year.social.college_enrollment.college_enrollment_chart_data.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row grouped-row">
@@ -660,7 +659,7 @@
             <div class="column-half">
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.social.blood_lead.percent_elevated stat_type='percentage' %}
             </div>
-            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level (defined as > 4.5 micrograms per deciliter), by age" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>            
+            <div class="column-half" id="chart-column-social-blood_lead-blood_lead_chart_data" data-chart-title="Percent of individuals tested with an elevated blood lead level, defined as > 4.5 micrograms per deciliter, by age (2018)" data-stat-type="scaled-percentage" data-qualifier="Universe: {{ profile_data_current_year.social.blood_lead.blood_lead_chart_data.metadata.universe }}"></div>            
         </section>
 
         <section class="clearfix stat-row">
@@ -1085,10 +1084,12 @@ if (!!parentLinkContainer) {
 }
 
 // add citations for each data release used for page
+/*
 if (releases.length > 1) {
     var explain = '<p class="explain"><em>This profile displays data from more than one ACS release. Charts not derived from ' + defaultDataRelease + ' data are noted with an *.</em></p>'
     $('.content-container').append(explain);
 }
+*/
 
 // polyfill for String.prototype.startsWith
 if (!String.prototype.startsWith) {
@@ -1100,9 +1101,8 @@ if (!String.prototype.startsWith) {
 
 var makeCitation = function(year, release) {
 	if (release.startsWith('D3 Open Data Portal')) {
-		var citation = '<p class="explain"><strong>Citation:</strong> ' +
-	    'Data Driven Detroit Open Data Portal (<span id="cite-release-year">' + year + '</span>). ' +
-	    'Retrieved from <em>State of the Detroit Child Profile page for {% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
+		var citation = '<p class="explain"><strong>Citation:</strong> ' + release + 
+	    '. Retrieved from <em>State of the Detroit Child Profile page for {% firstof profile_data_current_year.geography.this.full_name profile_data_current_year.geography.this.short_name %}</em> <a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></p>';
 	} else {
 		var citation = '<p class="explain"><strong>Citation:</strong> ' +
 	    'U.S. Census Bureau (<span id="cite-release-year">' + year + '</span>). ' +
@@ -1114,19 +1114,36 @@ var makeCitation = function(year, release) {
     $('.content-container').append(citation);
 }
 
+var acs_2018 = 0;
+var acs_2013 = 0;
+var d3_citation = 0;
+
 $.each($.unique(releases), function(i, v) {
+
     var bits = v.split(" "),
         year = bits[1],
         release = bits[2];
 
     // handle exception for D3 open data portal
     // TO DO: update releases to add year for D3 content
-    if (year == 'Open' || year == 'data') {
-    	year = '2014';
+    if ((year == 'Open' || year == 'data') && d3_citation == 0) {
+    	year = '2020';
     	release = 'D3 Open Data Portal'
+        makeCitation(year, release);
+        d3_citation = 1;
     }
 
-    makeCitation(year, release);
+    if (acs_2018 == 0 && bits[0] == 'ACS' && year == '2018') {
+        makeCitation(year, release);
+        acs_2018 = 1;
+    }
+
+    if (acs_2013 == 0 && bits[0] == 'ACS' && year == '2013') {
+        makeCitation(year, release);
+        acs_2013 = 1;
+    }    
+
+    
 });
 
 Glossary.init("{% url 'glossary' %}",".glossary-term");

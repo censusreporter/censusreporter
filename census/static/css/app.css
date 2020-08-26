@@ -1092,6 +1092,7 @@ h1.article-header-right {
 }
 .stat .secondary {
     display: block;
+    margin-bottom: 1em;
 }
 #cover-profile .stat .secondary {
     margin-bottom: .67em;
