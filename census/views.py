@@ -2740,7 +2740,7 @@ class DataView(TemplateView):
 			d3_congressional_district_link = None
 			d3_school_district_link = None
 			d3_zcta_link = None
-			download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
+			download_link_prefix = settings.API_URL + '/1.0/data/download/%s?table_ids=%s&geo_ids=%s' % (self.release, self.table, self.geo_ids)
 
 		page_context = {
 			'table': self.table or '',
