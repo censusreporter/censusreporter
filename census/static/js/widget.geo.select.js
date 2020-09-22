@@ -7,7 +7,6 @@ if (!spinnerTarget) {
 var geoSearchAPI = FREE_TEXT_SEARCH_API_URL + '/2.1/full-text/search',
     geoSelect = $('.geography-select'),
     chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
-
 var wayneCountyCommission = false;
 var policeDept = false;
 var cityCouncil = false;
@@ -42,6 +41,7 @@ var geoSelectEngine = new Bloodhound({
             var latitude = 42.3487;
             var longitude = -83.0587;
             chosenSumlevAncestorList = '040,050,060,250,252,254,310,500,610,620,860,950,960,970';
+            console.log(url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList)
             return url += '?q=' + query + '&sumlevs=' + chosenSumlevAncestorList;
         },
         filter: function(response) {            
@@ -49,17 +49,11 @@ var geoSelectEngine = new Bloodhound({
             // remove any non-Michigan responses
             for (let i = 0; i < response.results.length; i++) {
                 // all Michigan results have US26 as part of their geoID
-                console.log(response.results[i]);
-                if (response.results[i].full_geoid.search('US26') != -1) {
-                    results.push(response.results[i]);
-                }
                 // all Michigan zip codes begin with 49 or 49
-                if (response.results[i].full_geoid.search('86000US48') != -1) {
+                // remove Places
+                if ((response.results[i].full_geoid.search('US26') != -1 || response.results[i].full_geoid.search('86000US48') != -1 || response.results[i].full_geoid.search('86000US49') != -1) && response.results[i].sumlevel != '160') {
                     results.push(response.results[i]);
                 }
-                if (response.results[i].full_geoid.search('86000US49') != -1) {
-                    results.push(response.results[i]);
-                } 
             }
             _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];

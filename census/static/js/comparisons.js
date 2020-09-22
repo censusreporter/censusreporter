@@ -3474,14 +3474,9 @@ function Comparison(options, callback) {
                 // remove any non-Michigan responses
                 for (var i = response.results.length - 1; i >= 0; i--) {
                     // all Michigan results have US26 as part of their geoID
-                    if (response.results[i].full_geoid.search('US26') != -1) {
-                        results.push(response.results[i]);
-                    }
                     // all Michigan zip codes begin with 49 or 49
-                    if (response.results[i].full_geoid.search('86000US48') != -1) {
-                        results.push(response.results[i]);
-                    }
-                    if (response.results[i].full_geoid.search('86000US49') != -1) {
+                    // remove Places
+                    if ((response.results[i].full_geoid.search('US26') != -1 || response.results[i].full_geoid.search('86000US48') != -1 || response.results[i].full_geoid.search('86000US49') != -1) && response.results[i].sumlevel != '160') {
                         results.push(response.results[i]);
                     }
                 }
