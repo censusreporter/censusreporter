@@ -1184,11 +1184,11 @@ def geo_profile(geoid, acs='latest'):
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
 	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality', '2018')
 
-	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start (0-3 years)', data, d3_item_levels,
+	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start (age 0-3)', data, d3_item_levels,
 		'D3-EarlyHSCnt D3-LicCenCnt / %')
-	child_care_program_chart_data['GSRPCnt'] = build_item('GSRP (4 years)', data, d3_item_levels,
+	child_care_program_chart_data['GSRPCnt'] = build_item('GSRP (age 4)', data, d3_item_levels,
 		'D3-GSRPCnt D3-LicCenCnt / %')
-	child_care_program_chart_data['HSCnt'] = build_item('Head Start (3-5 years)', data, d3_item_levels,
+	child_care_program_chart_data['HSCnt'] = build_item('Head Start (age 3-5)', data, d3_item_levels,
 		'D3-HSCnt D3-LicCenCnt / %')
 
 	child_care_capacity_chart_data = OrderedDict()
@@ -2817,17 +2817,17 @@ def geo_profile(geoid, acs='latest'):
 
 
 	# Family and Economic Security: Vehicle Avaialabilty
-	data = api.get_data(['B08006', 'B08014', 'B08015'], comparison_geoids, acs)
+	data = api.get_data(['B25046', 'B08014'], comparison_geoids, acs)
 	acs_name = data['release']['name']
 	acs_year = data['release']['years'].split("-")[1]
 
-	employment_dict['mean_number_of_vehicles'] = build_item('Mean number of vehicles available', data, item_levels,
-		'B08015001 B08006002 /')
-	add_metadata(employment_dict['mean_number_of_vehicles'], 'B08006, B08015', 'Workers Whose Means of Transportation Is Car, Truck, or Van', acs_name, acs_year)
+	employment_dict['mean_number_of_vehicles'] = build_item('Average number of vehicles available', data, item_levels,
+		'B25046001 B08014008 B08014015 + /')
+	add_metadata(employment_dict['mean_number_of_vehicles'], 'B25046, B08014', 'Workers 16 years and over in households', acs_name, acs_year)
 
 	vehicle_availabilty_dict = OrderedDict()
 	employment_dict['distribution_vehicle_availabilty'] = vehicle_availabilty_dict
-	add_metadata(employment_dict['distribution_vehicle_availabilty'], 'B08006', 'Workers 16 years and over', acs_name, acs_year)
+	add_metadata(employment_dict['distribution_vehicle_availabilty'], 'B08014', 'Workers 16 years and over in households', acs_name, acs_year)
 
 	vehicle_availabilty_dict['No_vehicle_available'] = build_item('No vehicle available', data, item_levels,
 		'B08014002 B08014001 / %')
