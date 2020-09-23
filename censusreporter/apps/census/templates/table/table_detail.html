@@ -3,21 +3,18 @@
 <meta property="og:site_name" content="Census Reporter" />
 <meta property="og:url" content="https://censusreporter.org{% url 'table_detail' table.table_id %}" />
 <meta property="og:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}." />
-<meta property="og:type" content="article" /> {#}
-<meta property="og:image" content="" />{#} {% endblock %} {% block head_twitter_tags %}
+<meta property="og:type" content="article" /> {% endblock %} {% block head_twitter_tags %}
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@CensusReporter">
 <meta name="twitter:creator" content="@CensusReporter">
 <meta name="twitter:title" content="Census tabulation detail: {{ table.simple_table_title }}">
-<meta name="twitter:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}."> {#}
-<meta name="twitter:image" content="">{#} {% endblock %} {% block body_id %}table{% endblock %} {% block body_class %}data-view{% endblock %} {% block header_content %}
+<meta name="twitter:description" content="Description and table metadata for Census tabulation {{ table.table_id }}: {{ table.table_title }}."> {% endblock %} {% block body_id %}table{% endblock %} {% block body_class %}data-view{% endblock %} {% block header_content %}
 <div id="explore" class="wrapper clearfix header-container">
     <section id="explore-topic-place-picker" class="clearfix big-action">
         <h1 class="article-header">Table {{ table.table_id }}: {{ table.simple_table_title }}</h1>
-        <h2 class="help-text">Show data from this table: Choose a place or <span class="glossary-term">summary level</span></h2>
+        <h2 class="help-text">Show data from this table: choose a place or <span class="glossary-term">summary level</span>.</h2>
         <div id="topic-place-select-wrapper" class="input-wrapper">
-            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Show data by choosing a place or summary level…" autocomplete="off"> 
-            {#}<p class="help-text">Search for a place to explore data, or choose a geographic summary level to build a comparison.</p>{#}
+            <input name="topic_place_select" id="topic-place-select" type="text" placeholder="Show data by choosing a place or summary level…" autocomplete="off">
         </div>
     </section>
     <section id="explore-topic-place-picker-parent" class="column-full clearfix big-action">
