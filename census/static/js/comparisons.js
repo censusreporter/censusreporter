@@ -1390,14 +1390,14 @@ function Comparison(options, callback) {
         comparison.d3DataReleaseName = 'Data Driven Detroit Open Data Portal, Great Start to Quality';
         comparison.d3DataYears = '2018';
         comparison.d3table_name = 'D3-Child-Care-Capacity';
-        comparison.d3title = 'Capacity of licensed child care facilities';
-        comparison.d3universe = 'Capacity of licensed child care facilities';
+        comparison.d3title = 'Total capacity of licensed child care facilities';
+        comparison.d3universe = 'Total capacity of licensed child care facilities';
         comparison.d3denominator_column_id ='D3-Capacity';
 
         // table columns
         comparison.d3fields = {};
         comparison.d3fields['Capacity'] = {};
-        comparison.d3fields['Capacity']['name'] = "Capacity of licensed child care facilities"
+        comparison.d3fields['Capacity']['name'] = "Total capacity of licensed child care facilities"
         comparison.d3fields['Capacity']['indent'] = 0
 
         comparison.d3fields['CapEarlyHS'] = {};

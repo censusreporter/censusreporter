@@ -338,10 +338,10 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_centers stat_type='count' %}
             </div>
             <div class="column-third">
-                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Licensed child care facilities by type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_center_chart_data.metadata.universe }}"></div>
             </div>
             <div class="column-third">
-                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Free child care programs by type(2018)" data-qualifier="Universe: {{ families.child_care.child_care_program_chart_data.metadata.universe }}"></div>
             </div> 
         </section>
 
@@ -351,7 +351,7 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=families.child_care.child_care_capacity stat_type='count' %}
             </div>
             <div class="column-two-thirds">
-                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity in free child care programs, by program type (2018)" data-qualifier="Universe: {{ families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>
             </div> 
         </section>
 

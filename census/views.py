@@ -646,16 +646,16 @@ class D3TableDetailViewChildCareCapacity(TemplateView):
 	def get_context_data(self, *args, **kwargs):
 		table = OrderedDict()
 		table['table_id'] = 'D3-Child-Care-Capacity'
-		table['table_title'] = 'Capacity of licensed child care facilities'
-		table['simple_table_title'] = 'Capacity of licensed child care facilities'
+		table['table_title'] = 'Total capacity of licensed child care facilities'
+		table['simple_table_title'] = 'Total capacity of licensed child care facilities'
 		table['subject_area'] = 'Education'
-		table['universe'] = 'Capacity of licensed child care facilities'
+		table['universe'] = 'Total capacity of licensed child care facilities'
 		table['denominator_column_id'] = 'Capacity'
 		table['topics'] = ["education", "children"]
 
 		table['columns'] = OrderedDict()
 		table['columns']['Capacity'] = OrderedDict()
-		table['columns']['Capacity']['column_title'] = 'Capacity of licensed child care facilities:'
+		table['columns']['Capacity']['column_title'] = 'Total capacity of licensed child care facilities:'
 		table['columns']['Capacity']['indent'] = 0
 		table['columns']['Capacity']['parent_column_id'] = None
 

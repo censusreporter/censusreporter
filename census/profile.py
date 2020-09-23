@@ -1115,7 +1115,7 @@ def geo_profile(geoid, acs='latest'):
 	fields['Centers']['indent'] = 0
 
 	fields['Capacity'] = OrderedDict()
-	fields['Capacity']['name'] = "Capacity of licensed child care facilities"
+	fields['Capacity']['name'] = "Total capacity of licensed child care facilities"
 	fields['Capacity']['indent'] = 1
 
 	fields['GrpHmeCnt'] = OrderedDict()
@@ -1165,9 +1165,9 @@ def geo_profile(geoid, acs='latest'):
 		'D3-Centers')
 	add_metadata(child_care_dict['child_care_centers'], 'D3-Child-Care-Centers', 'Number of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality', '2018') 
 
-	child_care_dict['child_care_capacity'] = build_item('Capacity of licensed child care facilities', data, d3_item_levels, 
+	child_care_dict['child_care_capacity'] = build_item('Total capacity of licensed child care facilities', data, d3_item_levels, 
 		'D3-Capacity')
-	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality', '2018') 	
+	add_metadata(child_care_dict['child_care_capacity'], 'D3-Child-Care-Capacity', 'Total capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality', '2018') 	
 	
 	child_care_center_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_center_chart_data'] = child_care_center_chart_data
@@ -1184,23 +1184,24 @@ def geo_profile(geoid, acs='latest'):
 	doc['families']['child_care']['child_care_program_chart_data'] = child_care_program_chart_data
 	add_metadata(child_care_program_chart_data, 'D3-Child-Care-Programs', 'Licensed child care centers', 'D3 Open Data Portal, Great Start to Quality', '2018')
 
-	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start', data, d3_item_levels,
+	child_care_program_chart_data['EarlyHSCnt'] = build_item('Early Head Start (0-3 years)', data, d3_item_levels,
 		'D3-EarlyHSCnt D3-LicCenCnt / %')
-	child_care_program_chart_data['GSRPCnt'] = build_item('GSRP', data, d3_item_levels,
+	child_care_program_chart_data['GSRPCnt'] = build_item('GSRP (4 years)', data, d3_item_levels,
 		'D3-GSRPCnt D3-LicCenCnt / %')
-	child_care_program_chart_data['HSCnt'] = build_item('Head Start', data, d3_item_levels,
+	child_care_program_chart_data['HSCnt'] = build_item('Head Start (3-5 years)', data, d3_item_levels,
 		'D3-HSCnt D3-LicCenCnt / %')
 
 	child_care_capacity_chart_data = OrderedDict()
 	doc['families']['child_care']['child_care_capacity_chart_data'] = child_care_capacity_chart_data
-	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Capacity', 'Capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality', '2018')
+	add_metadata(child_care_capacity_chart_data, 'D3-Child-Care-Capacity', 'Total capacity of licensed child care facilities', 'D3 Open Data Portal, Great Start to Quality', '2018')
 
 	child_care_capacity_chart_data['CapEarlyHS'] = build_item('Early Head Start programs', data, d3_item_levels,
 		'D3-CapEarlyHS D3-Capacity / %')
-	child_care_capacity_chart_data['CapHS'] = build_item('Head Start programs', data, d3_item_levels,
-		'D3-CapHS D3-Capacity / %')
 	child_care_capacity_chart_data['CapGSRP'] = build_item('GSRP programs', data, d3_item_levels,
 		'D3-CapGSRP D3-Capacity / %')
+	child_care_capacity_chart_data['CapHS'] = build_item('Head Start programs', data, d3_item_levels,
+		'D3-CapHS D3-Capacity / %')
+
 
 
 

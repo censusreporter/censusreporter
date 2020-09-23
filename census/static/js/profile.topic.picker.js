@@ -364,14 +364,14 @@ var d3ChildCareCapacityTable = function() {
     // state table
     var response = {
         'id': "D3-Child-Care-Capacity",
-        'simple_table_name': "Capacity of licensed child care facilities",
+        'simple_table_name': "Total capacity of licensed child care facilities",
         'table_id': "D3-Child-Care-Capacity",
-        'table_name': "Capacity of licensed child care facilities",
+        'table_name': "Total capacity of licensed child care facilities",
         'topic_string': "health care, children",
         'topics': ['child care','children'],
         'type': "table",
         'unique_key': "D3-Child-Care-Capacity",
-        'universe': "Capacity of licensed child care facilities"
+        'universe': "Total capacity of licensed child care facilities"
     }
 
     return response;

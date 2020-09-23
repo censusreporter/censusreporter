@@ -371,25 +371,25 @@
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.child_care.child_care_centers stat_type='count' %}
             </div>
             <div class="column-third">
-                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div> {% endcomment %}
-                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care facilities by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div>                
+                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Licensed child care facilities by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div> {% endcomment %}
+                <div id="chart-column-families-child_care-child_care_center_chart_data" data-stat-type="scaled-percentage" data-chart-title="Licensed child care facilities by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_center_chart_data.metadata.universe }}"></div>                
             </div>
             <div class="column-third">
-                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div> {% endcomment %}
-                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Child care programs by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div>                
+                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Free child care programs by type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div> {% endcomment %}
+                <div id="chart-column-families-child_care-child_care_program_chart_data" data-stat-type="scaled-percentage" data-chart-title="Free child care programs by type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_program_chart_data.metadata.universe }}"></div>                
             </div> 
         </section>
 
         <section class="clearfix stat-row grouped-row">
             <aside></aside>
             <div class="column-third">
-                {% comment %} <div id="chart-stat_timeseries-families-child_care-child_care_capacity" data-stat-type="scaled-percentage" data-chart-title="Capacity of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity.metadata.universe }}"></div> {% endcomment %}
+                {% comment %} <div id="chart-stat_timeseries-families-child_care-child_care_capacity" data-stat-type="scaled-percentage" data-chart-title="Total capacity of licensed child care facilities" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity.metadata.universe }}"></div> {% endcomment %}
                 
                 {% include 'profile/_blocks/_stat_list.html' with stat=profile_data_current_year.families.child_care.child_care_capacity stat_type='count' %}
             </div>
             <div class="column-two-thirds">
-                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div> {% endcomment %}
-                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity at child care facilities, by program type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>                
+                {% comment %} <div id="chart-column_timeseries-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity in free child care programs, by program type" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div> {% endcomment %}
+                <div id="chart-column-families-child_care-child_care_capacity_chart_data" data-stat-type="scaled-percentage" data-chart-title="Percent of total capacity in free child care programs, by program type (2018)" data-qualifier="Universe: {{ profile_data_current_year.families.child_care.child_care_capacity_chart_data.metadata.universe }}"></div>                
             </div> 
         </section>
 
