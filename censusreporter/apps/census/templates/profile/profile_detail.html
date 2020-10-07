@@ -347,7 +347,7 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ geography.this.full_geoid }}?geom=tr
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
     // draw a geom
-    var map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+    var map = L.map('slippy-map', {
         scrollWheelZoom: false,
         zoomControl: false,
         doubleClickZoom: false,
@@ -356,7 +356,8 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ geography.this.full_geoid }}?geom=tr
         dragging: allowMapDrag,
         touchZoom: allowMapDrag
     });
-
+    var base_layer = new L.StamenTileLayer("toner-lite");
+    map.addLayer(base_layer);    
     if (allowMapDrag) {
         map.addControl(new L.Control.Zoom({
             position: 'topright'

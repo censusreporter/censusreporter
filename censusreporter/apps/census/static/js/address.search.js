@@ -333,7 +333,7 @@ if (!(lat && lng)) {
 
 function initialize_map() {
     var map_center = new L.latLng(lat, lng);
-    window.map = L.mapbox.map('slippy-map', 'censusreporter.map-j9q076fv', {
+    window.map = L.map('slippy-map', {
         center: map_center,
         zoom: 13,
         scrollWheelZoom: true,
@@ -344,6 +344,8 @@ function initialize_map() {
         dragging: true,
         touchZoom: true
     });
+    var base_layer = new L.StamenTileLayer("toner-lite");
+    map.addLayer(base_layer);    
 
     map.addControl(new L.Control.Zoom({
         position: 'topright'
