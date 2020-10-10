@@ -330,7 +330,7 @@ class GeographyDetailView(TemplateView):
         pass
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2018/%s' % self.geo_id
+        endpoint = settings.API_URL + '/1.0/geo/tiger2019/%s' % self.geo_id
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -340,7 +340,7 @@ class GeographyDetailView(TemplateView):
         return None
 
     def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2018/%s.json' % geo_id.upper()
+        return '/1.0/data/profiles/2018-2019/%s.json' % geo_id.upper()
 
     def make_s3(self):
         if AWS_KEY and AWS_SECRET:
