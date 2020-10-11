@@ -1,7 +1,7 @@
 boto==2.49.0
 Django==1.11.29
 Fabric==1.13.1
-python-memcached==1.59
+django-redis-cache==2.1.3
 raven==6.10.0
 requests==2.22.0
 six==1.13.0
