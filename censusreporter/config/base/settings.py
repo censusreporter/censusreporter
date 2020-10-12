@@ -109,7 +109,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-API_URL = 'https://api.censusreporter.org'
+API_URL = os.environ.get('CENSUSREPORTER_API_URL', 'https://api.censusreporter.org')
 
 import raven
 

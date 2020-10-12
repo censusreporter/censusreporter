@@ -1,4 +1,4 @@
-from config.base.settings import *
+from censusreporter.config.base.settings import *
 import os
 
 DEBUG = False
@@ -14,6 +14,6 @@ ALLOWED_HOSTS = [
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': [os.environ.get('REDIS_URL')],
+        'LOCATION': os.environ.get('REDIS_URL'),
     }
 }
