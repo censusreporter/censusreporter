@@ -32,7 +32,7 @@ SECRET_KEY = '!%j-u4&(q8qu4@dq=ukth27+q!v-!h^jck14bf=spqht847$4q'
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 
-STATIC_ROOT = PROJECT_ROOT + 'staticfiles'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
