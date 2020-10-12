@@ -316,7 +316,7 @@ class GeographyDetailView(TemplateView):
             try:
                 # get slug from geo
                 return slugify(geo['properties']['display_name'])
-            except Exception, e:
+            except Exception as e:
                 # if we have a strange situation where there's no
                 # display name attached to the geography, we should
                 # go ahead and display the profile page
@@ -767,7 +767,6 @@ class SitemapProfilesView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         return self.render_to_response(context, content_type="text/xml; charset=utf-8")
-
 
 
 def uniurlquote(s):

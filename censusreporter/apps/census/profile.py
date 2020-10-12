@@ -1034,4 +1034,4 @@ def enhance_api_data(api_data):
     return api_data
 
 if __name__ == '__main__':
-    print json.dumps(geo_profile('04000US55'), indent=2)
+    print(json.dumps(geo_profile('04000US55'), indent=2))

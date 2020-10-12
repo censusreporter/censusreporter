@@ -1,4 +1,3 @@
-import re
 from collections import defaultdict
 
 from django import template
@@ -7,6 +6,7 @@ from django.utils.safestring import mark_safe
 from censusreporter.apps.census.utils import parse_table_id, generic_table_description, table_link
 
 register = template.Library()
+
 
 @register.filter
 def format_subtables_for_results(table_ids):
@@ -50,10 +50,7 @@ def format_subtables_for_results(table_ids):
 
 """.format(group_table_id, label, group_table_id, contents)
                 parts.append(iter_wrapper)
-        except Exception, e:
+        except Exception as e:
             parts.append(e.message)
-
-
-
 
     return mark_safe(', '.join(parts))
