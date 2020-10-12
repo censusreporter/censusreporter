@@ -9,6 +9,7 @@ WSGI_APPLICATION = "config.prod.wsgi.application"
 ALLOWED_HOSTS = [
     'censusreporter.org',
     'www.censusreporter.org',
+    'censusreporter.dokku.censusreporter.org',
 ]
 
 CACHES = {
