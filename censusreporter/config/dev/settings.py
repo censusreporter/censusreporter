@@ -1,4 +1,4 @@
-from config.base.settings import *
+from censusreporter.config.base.settings import *
 
 DEBUG = True
 ROOT_URLCONF = 'config.dev.urls'

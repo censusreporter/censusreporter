@@ -1,1 +1,1 @@
-from config.base.urls import urlpatterns, handler500
+from censusreporter.config.base.urls import urlpatterns, handler500

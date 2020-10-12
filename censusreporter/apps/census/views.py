@@ -31,7 +31,7 @@ from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 try:
-    from config.dev.local import AWS_KEY, AWS_SECRET
+    from censusreporter.config.dev.local import AWS_KEY, AWS_SECRET
 except Exception:
     AWS_KEY = AWS_SECRET = None
 
