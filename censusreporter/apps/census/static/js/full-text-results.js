@@ -1,5 +1,5 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
-const GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
+var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
 const selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : 'https://api.censusreporter.org';
 const MIN_LENGTH = 3;
@@ -84,18 +84,16 @@ function locationDataRequest(fulltext_data, request_term) {
 }
 
 function addResultsLink(all_data, request_term) {
-    var results = [
-        { // Add this as first result
-            label: "Don't see what you're looking for?",
-            value: "Don't see what you're looking for?",
-            subline: "View all search results for " + request_term,
-            url: "/search/?q=" + request_term
-        }
-    ];
+    var results = [{ // Add this as first result
+        label: "Don't see what you're looking for?",
+        value: "Don't see what you're looking for?",
+        subline: "View all search results for " + request_term,
+        url: "/search/?q=" + request_term
+    }];
     return results.concat(all_data);
 }
 
-const select = function (event, ui) {
+const select = function(event, ui) {
     window.location = ui.item.url;
     return false;
 };
@@ -137,9 +135,9 @@ $(function() {
         minLength: MIN_LENGTH
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
-        return $("<li>").append("<div class='autocomplete-label'>" + item.label
-            + "</div><div class='autocomplete-subline'>"
-            + item.subline + "</div>").appendTo(ul);
+        return $("<li>").append("<div class='autocomplete-label'>" + item.label +
+            "</div><div class='autocomplete-subline'>" +
+            item.subline + "</div>").appendTo(ul);
     };
 
     // Initialize autocomplete
@@ -151,9 +149,9 @@ $(function() {
         minLength: MIN_LENGTH
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
-        const liItem = $("<li>").append("<div class='autocomplete-label'>" + item.label
-            + "</div><div class='autocomplete-subline'>"
-            + item.subline + "</div>").appendTo(ul);
+        const liItem = $("<li>").append("<div class='autocomplete-label'>" + item.label +
+            "</div><div class='autocomplete-subline'>" +
+            item.subline + "</div>").appendTo(ul);
         liItem.addClass('header-autocomplete');
         return liItem;
     };
@@ -161,7 +159,7 @@ $(function() {
     // These two are for the home page
     $("#geography-full-text").autocomplete({
         // Grab source from ajax call
-        source: function (request, response) {
+        source: function(request, response) {
             // Order of last three arguments to fulltextDataRequest: profile, table, topic
             // If argument set to true, corresponding type of page is included in search result.
             fulltextDataRequest(API_URL, request.term, true, false, false)
@@ -180,15 +178,15 @@ $(function() {
         minLength: MIN_LENGTH
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
-        return $("<li>").append("<div class='autocomplete-label'>" + item.label
-            + "</div><div class='autocomplete-subline'>"
-            + item.subline + "</div>").appendTo(ul);
+        return $("<li>").append("<div class='autocomplete-label'>" + item.label +
+            "</div><div class='autocomplete-subline'>" +
+            item.subline + "</div>").appendTo(ul);
     };
 
     // Initialize autocomplete
     $("#topic-full-text").autocomplete({
         // Grab source from ajax call
-        source: function (request, response) {
+        source: function(request, response) {
             // Order of last three arguments to fulltextDataRequest: profile, table, topic
             // If argument set to true, corresponding type of page is included in search result.
             fulltextDataRequest(API_URL, request.term, false, true, true)
@@ -204,14 +202,14 @@ $(function() {
         minLength: MIN_LENGTH
     }).autocomplete("instance")._renderItem = function(ul, item) {
         // Format autocomplete dropdown.
-        return $("<li>").append("<div class='autocomplete-label'>" + item.label
-            + "</div><div class='autocomplete-subline'>"
-            + item.subline + "</div>").appendTo(ul);
+        return $("<li>").append("<div class='autocomplete-label'>" + item.label +
+            "</div><div class='autocomplete-subline'>" +
+            item.subline + "</div>").appendTo(ul);
     };
 
     // Constrain autocomplete box width
     // http://stackoverflow.com/questions/5643767/jquery-ui-autocomplete-width-not-set-correctly
-    jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+    jQuery.ui.autocomplete.prototype._resizeMenu = function() {
         var ul = this.menu.element;
         ul.outerWidth(this.element.outerWidth());
     };

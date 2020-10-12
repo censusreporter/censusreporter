@@ -179,8 +179,14 @@ function Comparison(options, callback) {
                 dragging: allowMapDrag,
                 touchZoom: allowMapDrag
             });
-            var base_layer = new L.StamenTileLayer("toner-lite");
-            comparison.map.addLayer(base_layer);
+            L.tileLayer(
+                'https://{s}.tiles.mapbox.com/styles/v1/censusreporter/ckfyfj0v707ob19qdo047ndoq/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    subdomains: 'abcd',
+                    detectRetina: true,
+                    attribution: '© <a href="https://apps.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(comparison.map);
 
             if (allowMapDrag) {
                 comparison.map.addControl(new L.Control.Zoom({

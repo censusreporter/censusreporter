@@ -19,7 +19,7 @@ var lat = '',
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
-    spinner = new Spinner();
+spinner = new Spinner();
 
 window.onpopstate = function(event) {
     if (event.state) {
@@ -31,18 +31,19 @@ window.onpopstate = function(event) {
         }
     }
 }
+
 function updateLocation(lat, lng, label) {
     if (!label) {
-        reverseGeocode({lat: lat, lng: lng}, function(label) {
+        reverseGeocode({ lat: lat, lng: lng }, function(label) {
             updateLocation(lat, lng, label);
         })
     } else {
         setMap(lat, lng);
         findPlaces(lat, lng, label);
         placeMarker(lat, lng, label);
-        var state = {lat: lat, lng: lng, address: label}
-        if (!(_.isEqual(history.state,state))) {
-            history.pushState(state,push_state_title_template(state),push_state_url_template(state));
+        var state = { lat: lat, lng: lng, address: label }
+        if (!(_.isEqual(history.state, state))) {
+            history.pushState(state, push_state_title_template(state), push_state_url_template(state));
         }
     }
 }
@@ -66,12 +67,12 @@ var addressSearchEngine = new Bloodhound({
     limit: 10,
     remote: {
         url: GEOCODE_URL,
-        replace: function (url, query) {
-          if (window.browser_location) {
-            return PROXIMITY_GEOCODE_URL({query: encodeURIComponent(query), token: L.mapbox.accessToken, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude})
-          } else {
-            return url({query: query, token: L.mapbox.accessToken});
-          }
+        replace: function(url, query) {
+            if (window.browser_location) {
+                return PROXIMITY_GEOCODE_URL({ query: encodeURIComponent(query), token: L.mapbox.accessToken, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude })
+            } else {
+                return url({ query: query, token: L.mapbox.accessToken });
+            }
         },
         filter: processGeocoderResults
     }
@@ -124,7 +125,7 @@ function makeAddressSearchWidget(element) {
 
 makeAddressSearchWidget($searchInput);
 
-function basicLabel(lat,lng) {
+function basicLabel(lat, lng) {
     if (!lng) {
         lng = lat.lng;
         lat = lat.lat;
@@ -133,18 +134,19 @@ function basicLabel(lat,lng) {
 }
 
 if (navigator.geolocation) {
-  // cache current location for proximity biasing
-  navigator.geolocation.getCurrentPosition(function(position) { window.browser_location = position; }, function() {}, {timeout:10000});
+    // cache current location for proximity biasing
+    navigator.geolocation.getCurrentPosition(function(position) { window.browser_location = position; }, function() {}, { timeout: 10000 });
 
-    $("#use-location").on("click",function() {
+    $("#use-location").on("click", function() {
         $("#address-search-message").hide();
         spinner.spin(spinnerTarget);
+
         function foundLocation(position) {
             window.browser_location = position;
             spinner.stop();
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-            updateLocation(lat,lng)
+            updateLocation(lat, lng)
         }
 
         function noLocation() {
@@ -152,14 +154,14 @@ if (navigator.geolocation) {
             $("#address-search-message").html('Sorry, your browser was unable to determine your location.');
             $("#address-search-message").show();
         }
-        navigator.geolocation.getCurrentPosition(foundLocation, noLocation, {timeout:10000});
+        navigator.geolocation.getCurrentPosition(foundLocation, noLocation, { timeout: 10000 });
     })
 } else {
     $("#use-location").hide();
 }
 
-function reverseGeocode(ll,callback) {
-    var url = REVERSE_GEOCODE_URL({lat: ll.lat, lng: ll.lng, token: L.mapbox.accessToken});
+function reverseGeocode(ll, callback) {
+    var url = REVERSE_GEOCODE_URL({ lat: ll.lat, lng: ll.lng, token: L.mapbox.accessToken });
     $.getJSON(url, function(data, status) {
         if (status == 'success' && data.features) {
             var results = processGeocoderResults(data);
@@ -175,7 +177,7 @@ function reverseGeocode(ll,callback) {
 
 
 function geocodeAddress(query, callback) {
-    var url = GEOCODE_URL({query: encodeURIComponent(query), token: L.mapbox.accessToken});
+    var url = GEOCODE_URL({ query: encodeURIComponent(query), token: L.mapbox.accessToken });
     $.getJSON(url, callback);
 }
 
@@ -189,8 +191,8 @@ var POLYGON_STYLE = {
 }
 
 function makeLayer(d) {
-    var layer = L.geoJson(d.geom,{style: POLYGON_STYLE})
-    layer.bindLabel(d.full_name, {noHide: true, direction: 'auto'});
+    var layer = L.geoJson(d.geom, { style: POLYGON_STYLE })
+    layer.bindLabel(d.full_name, { noHide: true, direction: 'auto' });
     layer.on('mouseover', function() {
         layer.setStyle({
             "fillOpacity": 0.5,
@@ -204,21 +206,22 @@ function makeLayer(d) {
     });
     return layer;
 }
-function findPlaces(lat,lng,address) {
+
+function findPlaces(lat, lng, address) {
     spinner.spin(spinnerTarget);
     $(".location-list").hide();
-    _(PLACE_LAYERS).each(function(v){map.removeLayer(v)});
+    _(PLACE_LAYERS).each(function(v) { map.removeLayer(v) });
 
     if (address) {
         $("#address-search-message").html(address);
         $("#address-search-message").show();
     } else {
-        $("#address-search-message").html("Your location: " + basicLabel(lat,lng));
+        $("#address-search-message").html("Your location: " + basicLabel(lat, lng));
         $("#address-search-message").show();
     }
     var has_map = (window.map != null);
     params = { 'lat': lat, 'lon': lng, 'sumlevs': '010,020,030,040,050,060,140,150,160,250,310,400,500,610,620,795,860,950,960,970', geom: has_map }
-    $.getJSON(geoSearchAPI,params, function(data, status) {
+    $.getJSON(geoSearchAPI, params, function(data, status) {
         spinner.stop();
         if (status == 'success') {
             window.PLACE_LAYERS = {}
@@ -226,7 +229,7 @@ function findPlaces(lat,lng,address) {
             var list = $("<ul class='location-list'></ul>");
             list.appendTo($("#data-display"));
 
-            var results = _.sortBy(data.results,function(x){ return sumlevMap[x.sumlevel].size_sort });
+            var results = _.sortBy(data.results, function(x) { return sumlevMap[x.sumlevel].size_sort });
             if (results.length == 0) {
                 var label = $("#address-search-message").html();
                 label += " is not in any Census geographies."
@@ -248,9 +251,9 @@ function findPlaces(lat,lng,address) {
                 }
             }
             if (has_map) {
-                $('.location-list li').on('mouseover',function(evt) {
+                $('.location-list li').on('mouseover', function(evt) {
                     var this_layer = $(evt.currentTarget).data('geoid');
-                    _(PLACE_LAYERS).each(function(v,k) {
+                    _(PLACE_LAYERS).each(function(v, k) {
                         if (k == this_layer) {
                             v.addTo(map);
                         } else {
@@ -285,11 +288,11 @@ function placeMarker(lat, lng, label) {
         if (point_marker) {
             point_marker.hideLabel();
             point_marker.getLabel().setContent(label);
-            point_marker.setLatLng(L.latLng(lat,lng));
+            point_marker.setLatLng(L.latLng(lat, lng));
         } else {
-            point_marker = new L.CircleMarker(L.latLng(lat,lng),{ fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5});
+            point_marker = new L.CircleMarker(L.latLng(lat, lng), { fillColor: "#66c2a5", fillOpacity: 1, stroke: false, radius: 5 });
             map.addLayer(point_marker);
-            point_marker.bindLabel(label, {noHide: true});
+            point_marker.bindLabel(label, { noHide: true });
         }
         point_marker.showLabel();
     }
@@ -311,13 +314,13 @@ function init_from_params(params) {
         lat = parseFloat(lat);
         lng = parseFloat(lng);
         if (!(isNaN(lat) || isNaN(lng))) {
-            updateLocation(lat,lng, address);
+            updateLocation(lat, lng, address);
         }
     } else if (address) {
         geocodeAddress(address, function(data) {
             var results = processGeocoderResults(data);
             if (results && results.length > 0) {
-                selectAddress(null,results[0]);
+                selectAddress(null, results[0]);
             } else {
                 console.log("no results for " + address);
             }
@@ -344,15 +347,23 @@ function initialize_map() {
         dragging: true,
         touchZoom: true
     });
-    var base_layer = new L.StamenTileLayer("toner-lite");
-    map.addLayer(base_layer);    
+
+    L.tileLayer(
+        'https://{s}.tiles.mapbox.com/styles/v1/censusreporter/ckfyfj0v707ob19qdo047ndoq/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+            tileSize: 512,
+            zoomOffset: -1,
+            subdomains: 'abcd',
+            detectRetina: true,
+            attribution: '© <a href="https://apps.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
     map.addControl(new L.Control.Zoom({
         position: 'topright'
     }));
 
-    map.on("dblclick",function(evt) {
-        var lat = evt.latlng.lat, lng = evt.latlng.lng;
+    map.on("dblclick", function(evt) {
+        var lat = evt.latlng.lat,
+            lng = evt.latlng.lng;
         updateLocation(lat, lng);
     })
 }

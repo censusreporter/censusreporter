@@ -337,6 +337,7 @@ class GeographyDetailView(TemplateView):
         if status_code == 200:
             geo_data = r.json(object_pairs_hook=OrderedDict)
             return geo_data
+        import pdb; pdb.set_trace()
         return None
 
     def s3_keyname(self, geo_id):
