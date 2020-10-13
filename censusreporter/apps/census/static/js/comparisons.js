@@ -29,7 +29,8 @@ function Comparison(options, callback) {
         geoSearchAPI: API_URL + '/1.0/geo/search',
         fulltextSearchAPI: API_URL + '/2.1/full-text/search',
         rootGeoAPI: API_URL + '/1.0/geo/tiger2019/',
-        dataAPI: API_URL + '/1.0/data/show/latest'
+        dataAPI: API_URL + '/1.0/data/show/latest',
+        downloadAPI: API_URL + '/1.0/data/download' // incomplete without a /release appended in makeDownloadMenu
     };
 
     comparison.init = function(options) {
@@ -67,8 +68,9 @@ function Comparison(options, callback) {
             $.getJSON(comparison.dataAPI, params)
                 .done(function(results) {
                     comparison.data = comparison.cleanData(results);
-                    comparison.addStandardMetadata();
-                    comparison.makeDataDisplay();
+                    comparison.addStandardMetadata(); // these three are also called together
+                    comparison.makeDataDisplay(); // in comparison.removeGeoID 
+                    comparison.makeDownloadMenu(); // can we extract for shared use?
                     if (typeof callback === "function") {
                         callback(comparison);
                     }
@@ -131,7 +133,31 @@ function Comparison(options, callback) {
         }
     }
 
+    // use to construct URLs like
+    // https://api.censusreporter.org/1.0/data/download/latest?table_ids=B08006&geo_ids=05000US56025,04000US56,01000US&format=csv
+    // by tapping comparison.downloadAPI
+    // appending the release that matches the results from the dataAPI
+    // and appending table_ids and geo_ids from page context
+    // and format as the key in this dict, with the value being the label
+    var DOWNLOAD_FORMATS = {
+        csv: 'CSV',
+        xlsx: 'Excel',
+        geojson: 'GeoJSON',
+        kml: 'KML',
+        shp: 'Shapefile',
+    }
 
+    comparison.makeDownloadMenu = function() {
+        var tableID = comparison.tableID,
+            geoIDs = comparison.geoIDs.join(',');
+
+        $("#download-data-menu").html(''); // clear it
+        Object.keys(DOWNLOAD_FORMATS).forEach(function(k) {
+            var label = DOWNLOAD_FORMATS[k],
+                downloadUrl = `${comparison.downloadAPI}/${comparison.data.release.id}?table_ids=${tableID}&geo_ids=${geoIDs}&format=${k}`
+            $("#download-data-menu").append(`<li><a target="_new" href="${downloadUrl}">${label}</a></li>`)
+        })
+    }
 
 
     // BEGIN THE MAP-SPECIFIC THINGS
@@ -1567,6 +1593,7 @@ function Comparison(options, callback) {
         window.history.pushState({}, "", comparison.buildComparisonURL());
         comparison.addStandardMetadata();
         comparison.makeDataDisplay();
+        comparison.makeDownloadMenu();
     }
 
     comparison.setResultsContainerHeight = _.debounce(function() {
