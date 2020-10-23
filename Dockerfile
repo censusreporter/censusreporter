@@ -8,4 +8,4 @@ ENV DJANGO_SETTINGS_MODULE=config.prod.settings \
 
 ADD . /censusreporter
 
-CMD gunicorn --workers 3 --bind 0.0.0.0:$PORT censusreporter.config.prod.wsgi
+CMD gunicorn --workers 3 --bind 0.0.0.0:$PORT --statsd-host telegraf.web:8125 --statsd-prefix censusreporter censusreporter.config.prod.wsgi
