@@ -636,7 +636,7 @@ class SearchResultsView(TemplateView):
 
         if cr_resp.status_code == 200:
             cr_data = cr_resp.json().get('results')
-            cr_data = filter(lambda x: x.get('sumlevel') not in ['140', '150'], cr_data)
+            cr_data = list(filter(lambda x: x.get('sumlevel') not in ['140', '150'], cr_data))
             search_data_all['has_query'] = True
 
         mb_data = []
