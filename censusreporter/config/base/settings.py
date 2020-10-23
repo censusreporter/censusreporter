@@ -1,8 +1,7 @@
 # Django settings for censusreporter project.
 import os
 
-dirname = os.path.dirname
-PROJECT_ROOT = os.path.abspath(os.path.join(dirname(__file__),"..",".."))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 DEBUG = True
 # should be set by each settings file
@@ -33,7 +32,7 @@ SECRET_KEY = '!%j-u4&(q8qu4@dq=ukth27+q!v-!h^jck14bf=spqht847$4q'
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 
-STATIC_ROOT = PROJECT_ROOT + '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -67,7 +66,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 )
 
 # Python dotted path to the WSGI application used by Django's runserver.

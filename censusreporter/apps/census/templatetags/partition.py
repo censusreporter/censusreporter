@@ -19,6 +19,7 @@ from django.template import Library
 
 register = Library()
 
+
 def rows(thelist, n):
     """
     Break a list into ``n`` rows, filling up each row to the maximum equal
@@ -55,7 +56,8 @@ def rows(thelist, n):
 
     if list_len % n != 0:
         split += 1
-    return [thelist[split*i:split*(i+1)] for i in range(n)]
+    return [thelist[split * i:split * (i + 1)] for i in range(n)]
+
 
 def rows_distributed(thelist, n):
     """
@@ -96,14 +98,15 @@ def rows_distributed(thelist, n):
     rows = []
     for i in range(n):
         if remainder:
-            start, end = (split+1)*i, (split+1)*(i+1)
+            start, end = (split + 1) * i, (split + 1) * (i + 1)
         else:
-            start, end = split*i+offset, split*(i+1)+offset
+            start, end = split * i + offset, split * (i + 1) + offset
         rows.append(thelist[start:end])
         if remainder:
             remainder -= 1
             offset += 1
     return rows
+
 
 def columns_distributed(thelist, n):
     """
@@ -148,9 +151,10 @@ def columns_distributed(thelist, n):
     if list_len % n != 0:
         split += 1
     return [thelist[i::split] for i in range(split)]
-    
+
+
 def columns(thelist, n):
-    """ Break a list into n peices, but "horizontally." That is, 
+    """ Break a list into n peices, but "horizontally." That is,
     columns_distributed(range(10), 3) gives::
 
             [[0, 1, 2],
@@ -161,24 +165,31 @@ def columns(thelist, n):
         Clear as mud?
     """
     from math import ceil
+
     try:
         n = int(n)
         thelist = list(thelist)
     except (ValueError, TypeError):
         return [thelist]
+
     newlists = [list() for i in range(int(ceil(len(thelist) / float(n))))]
+
     for i, val in enumerate(thelist):
-        newlists[i/n].append(val)
+        newlists[i // n].append(val)
+
     return newlists
+
 
 register.filter(rows)
 register.filter(rows_distributed)
 register.filter(columns)
 register.filter(columns_distributed)
 
+
 def _test():
     import doctest
     doctest.testmod()
+
 
 if __name__ == "__main__":
     _test()
