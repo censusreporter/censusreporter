@@ -938,7 +938,7 @@ def geo_profile(geoid, acs='latest'):
         # add a few last things
         # make square miles http://www.census.gov/geo/www/geo_defn.html#AreaMeasurement
         square_miles = get_division(geo_metadata['aland'], 2589988)
-        if square_miles < .1:
+        if square_miles is None or square_miles < .1:
             square_miles = get_division(geo_metadata['aland'], 2589988, 3)
         total_pop = doc['geography']['this']['total_population']
         population_density = get_division(total_pop, get_division(geo_metadata['aland'], 2589988, -1))
