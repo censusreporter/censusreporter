@@ -40,10 +40,10 @@ class ApiClient(object):
         return self._get('/1.0/geo/tiger2019/{}'.format(geoid))
 
     def get_data(self, table_ids, geo_ids, acs='latest'):
-        if hasattr(table_ids, '__iter__'):
+        if isinstance(table_ids, (list, tuple)):
             table_ids = ','.join(table_ids)
 
-        if hasattr(geo_ids, '__iter__'):
+        if isinstance(geo_ids, (list, tuple)):
             geo_ids = ','.join(geo_ids)
 
         return self._get('/1.0/data/show/{}'.format(acs), params=dict(table_ids=table_ids, geo_ids=geo_ids))
