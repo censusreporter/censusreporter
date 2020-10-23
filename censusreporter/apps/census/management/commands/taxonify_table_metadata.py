@@ -91,33 +91,32 @@ class Command(BaseCommand):
     help = 'Uses dicts above to apply taxonomy to Census table names.'
     def handle(self, *args, **options):
         table_list = Table.objects.all()
-        
+
         for table in table_list:
             table_name = table.table_name
             subject_area = table.subject_area
             topics = []
-            print table_name
+            print(table_name)
 
             if subject_area in SUBJECT_AREA_TO_TOPICS:
                 # only keep the rows in the subject areas we want
                 topics.extend(
                     [topic.strip() for topic in SUBJECT_AREA_TO_TOPICS[subject_area].split(',')]
                 )
-                
+
                 for key in TABLE_NAME_TEXT_TO_TOPICS:
                     if key in table_name.lower():
                         topics.extend(
                             [topic.strip() for topic in TABLE_NAME_TEXT_TO_TOPICS[key].split(',')]
                         )
-                
+
                 # for now, we're storing these in the same place
                 for key in TABLE_NAME_TEXT_TO_FACETS:
                     if key in table_name.lower():
                         topics.extend(
                             [facet.strip() for facet in TABLE_NAME_TEXT_TO_FACETS[key].split(',')]
                         )
-                
+
                 topics = ', '.join(sorted(set(topics)))
                 table.topics = topics
                 table.save()
-                

@@ -1,11 +1,10 @@
-from __future__ import division
 from collections import OrderedDict, defaultdict
-from urllib2 import quote
-import cStringIO
+from urllib.parse import quote
+import io
 import gzip
 import re
 import requests
-import topics
+from . import topics
 import json
 
 from django.conf import settings
@@ -31,7 +30,7 @@ from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 try:
-    from config.dev.local import AWS_KEY, AWS_SECRET
+    from censusreporter.config.dev.local import AWS_KEY, AWS_SECRET
 except Exception:
     AWS_KEY = AWS_SECRET = None
 
@@ -205,8 +204,8 @@ class TableDetailView(TemplateView):
             'preview': {},
         }
 
-        for group, group_values in tables.iteritems():
-            preview_table = next(group_values.iteritems())[0]
+        for group, group_values in tables.items():
+            preview_table = next(group_values.items())[0]
             try:
                 tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
                 tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
@@ -316,7 +315,7 @@ class GeographyDetailView(TemplateView):
             try:
                 # get slug from geo
                 return slugify(geo['properties']['display_name'])
-            except Exception, e:
+            except Exception as e:
                 # if we have a strange situation where there's no
                 # display name attached to the geography, we should
                 # go ahead and display the profile page
@@ -368,7 +367,7 @@ class GeographyDetailView(TemplateView):
         s3_key.metadata['Content-Encoding'] = 'gzip'
 
         # create gzipped version of json in memory
-        memfile = cStringIO.StringIO()
+        memfile = io.BytesIO()
         with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data)
         memfile.seek(0)
@@ -385,7 +384,7 @@ class GeographyDetailView(TemplateView):
             s3_key = None
 
         if s3_key and s3_key.exists():
-            memfile = cStringIO.StringIO()
+            memfile = io.BytesIO()
             s3_key.get_file(memfile)
             memfile.seek(0)
             compressed = gzip.GzipFile(fileobj=memfile)
@@ -561,7 +560,7 @@ class S3Conn(object):
         s3_key.storage_class = 'STANDARD'
 
         # create gzipped version of json in memory
-        memfile = cStringIO.StringIO()
+        memfile = io.BytesIO()
         with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data)
         memfile.seek(0)
@@ -695,7 +694,7 @@ class SearchResultsView(TemplateView):
 
                 # Change format from { sumlevel: [sumlevel_name, count] }
                 # to { sumlevel_name: count }
-                page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.iteritems())
+                page_context['sumlevel_names'] = OrderedDict((value[0], value[1]) for key, value in sumlevels.items())
 
             elif item['type'] == "table":
                 has_tables = True
@@ -767,7 +766,6 @@ class SitemapProfilesView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         return self.render_to_response(context, content_type="text/xml; charset=utf-8")
-
 
 
 def uniurlquote(s):
