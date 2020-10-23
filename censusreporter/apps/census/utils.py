@@ -1,9 +1,6 @@
 from collections import OrderedDict
-import json
 import re
 
-from django.utils.functional import lazy, Promise
-from django.utils.encoding import force_unicode
 from django.core.urlresolvers import reverse
 
 def get_object_or_none(klass, *args, **kwargs):
@@ -11,12 +8,6 @@ def get_object_or_none(klass, *args, **kwargs):
         return klass._default_manager.get(*args, **kwargs)
     except klass.DoesNotExist:
         return None
-
-class LazyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Promise):
-            return force_unicode(obj)
-        return obj
 
 def parse_table_id(table_id):
     table_id = table_id.upper()

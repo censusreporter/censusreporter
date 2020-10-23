@@ -18,7 +18,6 @@ from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .utils import (
-    LazyEncoder,
     parse_table_id,
     TOPIC_FILTERS,
     SUMLEV_CHOICES,
@@ -401,7 +400,7 @@ class GeographyDetailView(TemplateView):
             if profile_data:
                 profile_data = enhance_api_data(profile_data)
 
-                profile_data_json = SafeString(json.dumps(profile_data, cls=LazyEncoder))
+                profile_data_json = SafeString(json.dumps(profile_data))
 
                 if s3_key is None:
                     logger.warn("Could not save to S3 because there was no connection to S3.")
@@ -601,7 +600,7 @@ class MakeJSONView(View):
 
         nested_set(data, path_to_make, chart_data)
 
-        chart_data_json = SafeString(json.dumps(data, cls=LazyEncoder))
+        chart_data_json = SafeString(json.dumps(data))
 
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
         s3 = S3Conn()
