@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from urlparse import urljoin
+from urllib.parse import urljoin
 from collections import OrderedDict
 
 from django import template
@@ -14,19 +14,19 @@ register = template.Library()
 
 
 @register.inclusion_tag('topics/_blocks/_table_list.html')
-def list_tables(topics=None,prefix=None,exclude_prefix=None,codes=None,query=None):
+def list_tables(topics=None, prefix=None, exclude_prefix=None, codes=None, query=None):
     api = ApiClient(settings.API_URL)
 
     if exclude_prefix:
-        exclude_prefix = ['00','98','99'] + map(lambda x: x.strip(),exclude_prefix.split(','))
+        exclude_prefix = ['00', '98', '99'] + map(lambda x: x.strip(), exclude_prefix.split(','))
     if prefix or topics or query or codes:
-        data = api.query(topics=topics,prefix=prefix,exclude_prefix=exclude_prefix,q=query,codes=codes)
+        data = api.query(topics=topics, prefix=prefix, exclude_prefix=exclude_prefix, q=query, codes=codes)
     else:
         data = []
-    tabulations = map(api_to_page,data)
+    tabulations = map(api_to_page, data)
     notes_for_all = dict(BLANK_DICT)
     for t in tabulations:
-        for k,v in t['notes'].items():
+        for k, v in t['notes'].items():
             if v:
                 notes_for_all[k] = True
     item_context = {
@@ -36,9 +36,8 @@ def list_tables(topics=None,prefix=None,exclude_prefix=None,codes=None,query=Non
         'note_text': NOTE_TEXT
     }
 
-
-
     return item_context
+
 
 def api_to_page(item):
     o = {
@@ -46,12 +45,12 @@ def api_to_page(item):
     }
     all_tables = set()
     if item.get('tables_in_five_yr'):
-        all_tables.update( item['tables_in_five_yr'] )
+        all_tables.update(item['tables_in_five_yr'])
     if item.get('tables_in_one_yr'):
-        all_tables.update( item['tables_in_one_yr'] )
+        all_tables.update(item['tables_in_one_yr'])
     o['code'] = list(sorted(all_tables))[0]
-    o['notes'] = table_breakdown(item['tables_in_one_yr'],item['tables_in_five_yr'])
-    
+    o['notes'] = table_breakdown(item['tables_in_one_yr'], item['tables_in_five_yr'])
+
     return o
 
 
@@ -65,28 +64,28 @@ def table_marks(mark_dict):
         return mark_safe(u"<sup>{}</sup>".format(u''.join(symbols)))
     return ''
 
+
 @register.filter
 def table_notes(notes_for_all):
     lines = []
     for k, v in NOTE_MARKS.items():
         if notes_for_all.get(k, False):
-            lines.append(u"<sup>{}</sup>{}".format(v,NOTE_TEXT[k]))
+            lines.append(u"<sup>{}</sup>{}".format(v, NOTE_TEXT[k]))
     if lines:
         return mark_safe('<br>'.join(lines))
     return ''
 
 
-
 def prefix_filter(exclude):
     if not exclude:
         return lambda x: True
+
     def closure(tabulation):
         for prefix in exclude:
             if tabulation['tabulation_code'].startswith(prefix):
-                return False # don't pass
+                return False  # don't pass
         return True
     return closure
-
 
 
 class ApiClient(object):
@@ -100,7 +99,7 @@ class ApiClient(object):
         ))
 
     def _get(self, params=None):
-        url = urljoin(self.base_url,self.TABLE_SEARCH_ROOT)
+        url = urljoin(self.base_url, self.TABLE_SEARCH_ROOT)
         r = requests.get(url, params=params, headers={'User-Agent': 'censusreporter.org frontend table lister'})
         data = None
         if r.status_code == 200:
@@ -110,8 +109,7 @@ class ApiClient(object):
 
         return data
 
-
-    def query_topics(self, topics, exclude_prefix=None): # topics should be a comma-separated string
+    def query_topics(self, topics, exclude_prefix=None):  # topics should be a comma-separated string
         p = {
             'topics': topics
         }
@@ -129,7 +127,7 @@ class ApiClient(object):
         }
         return self._get(params=p)
 
-    def query(self, q=None, topics=None, prefix=None, exclude_prefix=None,codes=None):
+    def query(self, q=None, topics=None, prefix=None, exclude_prefix=None, codes=None):
         "Maybe we just want a single query?"
         p = {
 
@@ -142,7 +140,7 @@ class ApiClient(object):
             p['prefix'] = prefix
         if codes is not None:
             p['codes'] = codes
-        
+
         data = self._get(params=p)
 
         if exclude_prefix:
@@ -160,11 +158,11 @@ def table_breakdown(one_year_codes, five_year_codes):
     if five_year_codes is None:
         five_year_codes = []
 
-    analyzed = dict(BLANK_DICT) # copy it
+    analyzed = dict(BLANK_DICT)  # copy it
 
     analyzed['1'] = bool(one_year_codes)
     analyzed['5'] = bool(five_year_codes)
-    codes = one_year_codes + five_year_codes    
+    codes = one_year_codes + five_year_codes
     for code in codes:
         analyzed[code[0]] = True
         if code.endswith('PR'):
@@ -181,32 +179,32 @@ def table_breakdown(one_year_codes, five_year_codes):
         analyzed['C_only'] = True
     if analyzed['B'] and analyzed['C']:
         analyzed['C_available'] = True
-        
-            
-    return analyzed 
+
+    return analyzed
+
 
 NOTE_MARKS = OrderedDict({
-    'B_only': u'ª', 
-    'C_only': u'*', 
-    'C_available': u'‡', 
-    'I': u'†', 
-    'PR': u'§', 
-    '1_only': u'º', 
+    'B_only': u'ª',
+    'C_only': u'*',
+    'C_available': u'‡',
+    'I': u'†',
+    'PR': u'§',
+    '1_only': u'º',
     '5_only': u'ˆ'
 })
 
 NOTE_TEXT = {
-    'B_only': "No 'C' (collapsed) table is offered.", 
+    'B_only': "No 'C' (collapsed) table is offered.",
     'C_only': u"""No basic 'B' table is offered.""",
     'C_available': u"""Table also available in "collapsed" version: change "B" to "C" for table code.""",
     'I': u"""Also available in <a href="/topics/race-latino/#topic-elsewhere">racial iterations</a>.""",
     'PR': u"""Tabulated for Puerto Rico. Add 'PR' to the table code. Column names may vary slightly from non-PR version.""",
-    '1_only': "Only available in the 1-year ACS release.", 
-    '5_only': "Only available in the 5-year ACS release." 
+    '1_only': "Only available in the 1-year ACS release.",
+    '5_only': "Only available in the 5-year ACS release."
 }
 
 KEYS = list(NOTE_MARKS.keys()) + ['B', 'C', '1', '5']
-BLANK_DICT = dict((k,False) for k in KEYS)
+BLANK_DICT = dict((k, False) for k in KEYS)
 
 
 class ApiException(Exception):

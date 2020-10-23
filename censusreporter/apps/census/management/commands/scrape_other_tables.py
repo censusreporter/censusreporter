@@ -2,10 +2,9 @@ from django.core.management.base import BaseCommand
 import requests
 import argparse
 from lxml.html import fromstring
-from lxml.etree import dump
-from urlparse import urljoin
+from urllib.parse import urljoin
 from collections import OrderedDict
-from io import StringIO, BytesIO
+from io import BytesIO
 import unicodecsv
 
 # These will change each year
@@ -20,15 +19,15 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
 
-        parser.add_argument('outfile', 
-            nargs='?', 
+        parser.add_argument('outfile',
+            nargs='?',
             type=argparse.FileType('w'),
-            default=self.stdout) # maybe censusreporter/apps/census/templates/topics/_blocks/_gct-table-codes.html
+            default=self.stdout)  # maybe censusreporter/apps/census/templates/topics/_blocks/_gct-table-codes.html
 
     def scrape_gct_data(self, data_key, url):
-        """Given a Census www2 URL, grab it and, for each link to a 
-           .csv file, add or update an entry to this command's data dict. 
-           The entry will be under a key expected to look like GCT0101 and 
+        """Given a Census www2 URL, grab it and, for each link to a
+           .csv file, add or update an entry to this command's data dict.
+           The entry will be under a key expected to look like GCT0101 and
            the value for that entry will be a dict. We'll add a key, `data_key`
            to that dict, value being a URL to get the appropriate CSV data file.
         """
@@ -37,13 +36,13 @@ class Command(BaseCommand):
         for a in doc.xpath('..//a'):
             try:
                 href = a.attrib['href']
-                if href.endswith('.csv'): # depends upon file names not changing
+                if href.endswith('.csv'):  # depends upon file names not changing
                     k = href.split('.')[0]
                     k = k.upper()
-                    gct = self.gct_data.get(k,{})
-                    gct[data_key] = urljoin(url,href)
+                    gct = self.gct_data.get(k, {})
+                    gct[data_key] = urljoin(url, href)
                     self.gct_data[k] = gct
-            except KeyError as e: 
+            except KeyError:
                 pass
 
     def scrape_ranking_data(self, url):
@@ -52,13 +51,13 @@ class Command(BaseCommand):
         for a in doc.xpath('..//a'):
             try:
                 href = a.attrib['href']
-                if href.endswith('.xlsx'): # depends upon file names not changing
+                if href.endswith('.xlsx'):  # depends upon file names not changing
                     k = href.split('.')[0]
-                    k = k.upper().replace('R','GCT')
-                    gct = self.gct_data.get(k,{})
-                    gct['ranking'] = urljoin(url,href)
+                    k = k.upper().replace('R', 'GCT')
+                    gct = self.gct_data.get(k, {})
+                    gct['ranking'] = urljoin(url, href)
                     self.gct_data[k] = gct
-            except KeyError as e: 
+            except KeyError:
                 pass
 
     def scrape_gct_titles(self):
@@ -79,15 +78,15 @@ class Command(BaseCommand):
                     try:
                         # annoying hack -- experience shows this character snarls things
                         # for at least one table (GCT1001)
-                        r = unicodecsv.reader(BytesIO(resp.content.replace('\xa0',' ')))
-                        h = next(r) # skip header
+                        r = unicodecsv.reader(BytesIO(resp.content.replace('\xa0', ' ')))
+                        h = next(r)  # skip header
                         v['title'] = next(r)[1].title()
                     except Exception as e:
                         self.stderr.write("Error scraping title: {}".format(url))
                         self.stderr.write(e)
                         v['title'] = '*** ERROR ***'
                 else:
-                    self.stderr.write("{} {}".format(url,resp.status_code))
+                    self.stderr.write("{} {}".format(url, resp.status_code))
 
     def assemble_markup(self):
         buffer = ["<dl class='dl-horizontal'>"]
@@ -101,40 +100,40 @@ class Command(BaseCommand):
             if "ranking" in v:
                 r_url = v['ranking']
                 filename = r_url.split('/')[-1]
-                parts.append('[<a href="{}">{}</a>]'.format(v['ranking'],filename))
+                parts.append('[<a href="{}">{}</a>]'.format(v['ranking'], filename))
             buffer.append('<dd>{}<br>{}</dd>'.format(v["title"], ' '.join(parts)))
-        buffer.append("</dl>")    
+        buffer.append("</dl>")
         return buffer
 
     def handle(self, *args, **options):
         # we scrape both because in 2018 file-name capitalization was different in
         # 1-yr and 5-yr and three tables were not available in the 5-yr for some reason.
-        # 
+        #
         self.stdout.write("GCT - get 1 yr")
         self.scrape_gct_data('1yr', GCT1_ROOT)
-        
+
         self.stdout.write("GCT - get 5 yr")
         self.scrape_gct_data('5yr', GCT5_ROOT)
-        
+
         self.stdout.write("R - scrape urls")
         self.scrape_ranking_data(RANKING_ROOT)
-        
+
         self.stdout.write("GCT - titles")
         self.scrape_gct_titles()
 
-        # this one special case isn't worth trying to read 
+        # this one special case isn't worth trying to read
         # all of the XLS files for titles, esp. because the acronym in the title
         # (removed here) doesn't work well with title-case algos.
         if 'GCT1304' in self.gct_data and 'title' not in self.gct_data['GCT1304']:
             self.stdout.write("Still no GCT1304 to match R1304 so add the title instead of grabbing XLS")
             self.gct_data['GCT1304']['title'] = 'Total Fertility Rate Of Women (Per 1,000 Women)'
-        
+
         self.stdout.write("assemble")
         buffer = self.assemble_markup()
-        
+
         self.stdout.write("write")
         options['outfile'].write('\n'.join(buffer))
 
         import json
-        json.dump(self.gct_data,open("/tmp/gct.json","w"))
+        json.dump(self.gct_data, open("/tmp/gct.json", "w"))
         self.stdout.write("dumped JSON")
