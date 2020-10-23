@@ -204,7 +204,7 @@ class TableDetailView(TemplateView):
         }
 
         for group, group_values in tables.items():
-            preview_table = next(group_values.items())[0]
+            preview_table = next(iter(group_values.items()))[0]
             try:
                 tabulation_data['related_tables']['preview'][preview_table] = self.get_table_data(preview_table)
                 tabulation_data['related_tables']['preview'][preview_table]['table_type'] = self.TABLE_TYPE_TRANSLATE_DICT[preview_table.upper()[0]]
