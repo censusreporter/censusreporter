@@ -3,3 +3,6 @@ node_modules/
 censusreporter/config/dev/local.py
 .vagrant
 .vscode
+.envrc
+.python-version
+
