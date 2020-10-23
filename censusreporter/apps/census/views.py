@@ -377,38 +377,38 @@ class GeographyDetailView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
 
-        try:
-            s3_key = self.s3_profile_key(geography_id)
-        except Exception:
-            s3_key = None
+        # try:
+        #     s3_key = self.s3_profile_key(geography_id)
+        # except Exception:
+        #     s3_key = None
 
-        if s3_key and s3_key.exists():
-            memfile = io.BytesIO()
-            s3_key.get_file(memfile)
-            memfile.seek(0)
-            compressed = gzip.GzipFile(fileobj=memfile)
+        # if s3_key and s3_key.exists():
+        #     memfile = io.BytesIO()
+        #     s3_key.get_file(memfile)
+        #     memfile.seek(0)
+        #     compressed = gzip.GzipFile(fileobj=memfile)
 
-            # Read the decompressed JSON from S3
-            profile_data_json = compressed.read()
-            # Load it into a Python dict for the template
-            profile_data = json.loads(profile_data_json)
-            # Also mark it as safe for the charts on the profile
-            profile_data_json = SafeString(profile_data_json)
+        #     # Read the decompressed JSON from S3
+        #     profile_data_json = compressed.read()
+        #     # Load it into a Python dict for the template
+        #     profile_data = json.loads(profile_data_json)
+        #     # Also mark it as safe for the charts on the profile
+        #     profile_data_json = SafeString(profile_data_json)
+        # else:
+        profile_data = geo_profile(geography_id)
+
+        if profile_data:
+            profile_data = enhance_api_data(profile_data)
+
+            profile_data_json = SafeString(json.dumps(profile_data))
+
+            # if s3_key is None:
+            #     logger.warn("Could not save to S3 because there was no connection to S3.")
+            # else:
+            #     self.write_profile_json(s3_key, profile_data_json)
+
         else:
-            profile_data = geo_profile(geography_id)
-
-            if profile_data:
-                profile_data = enhance_api_data(profile_data)
-
-                profile_data_json = SafeString(json.dumps(profile_data))
-
-                if s3_key is None:
-                    logger.warn("Could not save to S3 because there was no connection to S3.")
-                else:
-                    self.write_profile_json(s3_key, profile_data_json)
-
-            else:
-                raise Http404
+            raise Http404
 
         page_context = {
             'profile_data_json': profile_data_json,
@@ -602,20 +602,20 @@ class MakeJSONView(View):
 
         chart_data_json = SafeString(json.dumps(data))
 
-        key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
-        s3 = S3Conn()
+        # key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
+        # s3 = S3Conn()
 
-        try:
-            s3_key = s3.s3_key(key_name)
-        except Exception:
-            s3_key = None
+        # try:
+        #     s3_key = s3.s3_key(key_name)
+        # except Exception:
+        #     s3_key = None
 
-        if s3_key and s3_key.exists():
-            pass
-        elif s3_key:
-            s3.write_json(s3_key, chart_data_json)
-        else:
-            logger.warn("Could not save to S3 because there was no connection to S3.")
+        # if s3_key and s3_key.exists():
+        #     pass
+        # elif s3_key:
+        #     s3.write_json(s3_key, chart_data_json)
+        # else:
+        #     logger.warn("Could not save to S3 because there was no connection to S3.")
 
         return render_json_to_response({'success': 'true'})
 
