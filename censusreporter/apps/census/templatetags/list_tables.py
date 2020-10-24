@@ -18,17 +18,18 @@ def list_tables(topics=None, prefix=None, exclude_prefix=None, codes=None, query
     api = ApiClient(settings.API_URL)
 
     if exclude_prefix:
-        exclude_prefix = ['00', '98', '99'] + map(lambda x: x.strip(), exclude_prefix.split(','))
+        exclude_prefix = ['00', '98', '99'] + list(map(lambda x: x.strip(), exclude_prefix.split(',')))
     if prefix or topics or query or codes:
         data = api.query(topics=topics, prefix=prefix, exclude_prefix=exclude_prefix, q=query, codes=codes)
     else:
         data = []
-    tabulations = map(api_to_page, data)
+    tabulations = list(map(api_to_page, data))
     notes_for_all = dict(BLANK_DICT)
     for t in tabulations:
         for k, v in t['notes'].items():
             if v:
                 notes_for_all[k] = True
+
     item_context = {
         'tabulations': tabulations,
         'notes_for_all': notes_for_all,
