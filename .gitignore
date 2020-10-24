@@ -4,5 +4,6 @@ censusreporter/config/dev/local.py
 .vagrant
 .vscode
 .envrc
+.env
 .python-version
 
