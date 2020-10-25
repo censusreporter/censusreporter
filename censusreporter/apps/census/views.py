@@ -26,12 +26,8 @@ from .utils import (
 from .profile import geo_profile, enhance_api_data
 from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 
-from boto.s3.connection import S3Connection
+from boto.s3.connection import S3Connection, OrdinaryCallingFormat
 from boto.s3.key import Key
-try:
-    from censusreporter.config.dev.local import AWS_KEY, AWS_SECRET
-except Exception:
-    AWS_KEY = AWS_SECRET = None
 
 
 import logging
@@ -337,75 +333,14 @@ class GeographyDetailView(TemplateView):
             return geo_data
         return None
 
-    def s3_keyname(self, geo_id):
-        return '/1.0/data/profiles/2018-2019/%s.json' % geo_id.upper()
-
-    def make_s3(self):
-        if AWS_KEY and AWS_SECRET:
-            s3 = S3Connection(AWS_KEY, AWS_SECRET)
-        else:
-            try:
-                s3 = S3Connection()
-            except Exception:
-                s3 = None
-        return s3
-
-    def s3_profile_key(self, geo_id):
-        s3 = self.make_s3()
-
-        key = None
-        if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
-            keyname = self.s3_keyname(geo_id)
-            key = Key(bucket, keyname)
-
-        return key
-
-    def write_profile_json(self, s3_key, data):
-        s3_key.metadata['Content-Type'] = 'application/json'
-        s3_key.metadata['Content-Encoding'] = 'gzip'
-
-        # create gzipped version of json in memory
-        memfile = io.BytesIO()
-        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-            gzip_data.write(data)
-        memfile.seek(0)
-
-        # store static version on S3
-        s3_key.set_contents_from_file(memfile)
-
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
-
-        # try:
-        #     s3_key = self.s3_profile_key(geography_id)
-        # except Exception:
-        #     s3_key = None
-
-        # if s3_key and s3_key.exists():
-        #     memfile = io.BytesIO()
-        #     s3_key.get_file(memfile)
-        #     memfile.seek(0)
-        #     compressed = gzip.GzipFile(fileobj=memfile)
-
-        #     # Read the decompressed JSON from S3
-        #     profile_data_json = compressed.read()
-        #     # Load it into a Python dict for the template
-        #     profile_data = json.loads(profile_data_json)
-        #     # Also mark it as safe for the charts on the profile
-        #     profile_data_json = SafeString(profile_data_json)
-        # else:
         profile_data = geo_profile(geography_id)
 
         if profile_data:
             profile_data = enhance_api_data(profile_data)
 
             profile_data_json = SafeString(json.dumps(profile_data))
-
-            # if s3_key is None:
-            #     logger.warn("Could not save to S3 because there was no connection to S3.")
-            # else:
-            #     self.write_profile_json(s3_key, profile_data_json)
 
         else:
             raise Http404
@@ -535,11 +470,13 @@ class ComparisonBuilder(TemplateView):
 
 class S3Conn(object):
     def make_s3(self):
-        if AWS_KEY and AWS_SECRET:
-            s3 = S3Connection(AWS_KEY, AWS_SECRET)
+        if settings.AWS_ACCESS_KEY_ID and settings.AWS_SECRET_ACCESS_KEY:
+            s3 = S3Connection(settings.AWS_ACCESS_KEY_ID,
+                              settings.AWS_SECRET_ACCESS_KEY,
+                              calling_format=OrdinaryCallingFormat())
         else:
             try:
-                s3 = S3Connection()
+                s3 = S3Connection(calling_format=OrdinaryCallingFormat())
             except Exception:
                 s3 = None
         return s3
@@ -561,7 +498,7 @@ class S3Conn(object):
         # create gzipped version of json in memory
         memfile = io.BytesIO()
         with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
-            gzip_data.write(data)
+            gzip_data.write(data.encode('utf-8'))
         memfile.seek(0)
 
         # store static version on S3
@@ -602,20 +539,22 @@ class MakeJSONView(View):
 
         chart_data_json = SafeString(json.dumps(data))
 
-        # key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
-        # s3 = S3Conn()
+        key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
+        s3 = S3Conn()
 
-        # try:
-        #     s3_key = s3.s3_key(key_name)
-        # except Exception:
-        #     s3_key = None
+        try:
+            s3_key = s3.s3_key(key_name)
+        except Exception:
+            s3_key = None
 
-        # if s3_key and s3_key.exists():
-        #     pass
-        # elif s3_key:
-        #     s3.write_json(s3_key, chart_data_json)
-        # else:
-        #     logger.warn("Could not save to S3 because there was no connection to S3.")
+        if s3_key and s3_key.exists():
+            logger.debug(f'chart JSON already exists at {key_name}')
+        elif s3_key:
+            s3.write_json(s3_key, chart_data_json)
+            logger.debug(f'wrote chart JSON to {key_name}')
+        else:
+            logger.warn("Could not save to S3 because there was no connection to S3.")
+            return render_json_to_response({'success': 'false'})
 
         return render_json_to_response({'success': 'true'})
 
