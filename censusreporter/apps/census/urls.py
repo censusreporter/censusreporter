@@ -21,7 +21,7 @@ from .views import (
 
 admin.autodiscover()
 
-STANDARD_CACHE_TIME = 60 * 60 * 24  # 24-hour cache
+STANDARD_CACHE_TIME = 60 * 60 * 24 * 7  # 1 week cache
 COMPARISON_FORMATS = 'map|table|distribution'
 BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
