@@ -9,6 +9,9 @@ from requests.packages.urllib3.util import Retry
 from requests.adapters import HTTPAdapter
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
+import logging
+logging.basicConfig()
+logger = logging.getLogger(__name__)
 
 class ApiException(Exception):
     pass
@@ -451,9 +454,13 @@ def geo_profile(geoid, acs='latest'):
     employment_dict = dict()
     doc['economics']['employment'] = employment_dict
 
-    employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
-        'B08013001 B08006001 B08006017 - /')
-    add_metadata(employment_dict['mean_travel_time'], 'B08006, B08013', 'Workers 16 years and over who did not work at home', acs_name)
+    try:
+        employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
+            'B08013001 B08006001 B08006017 - /')
+        add_metadata(employment_dict['mean_travel_time'], 'B08006, B08013', 'Workers 16 years and over who did not work at home', acs_name)
+    except KeyError as e:
+        logger.warn(f"profile [{geoid}]: missing data error [mean_travel_time] [{e}]")
+        employment_dict['mean_travel_time'] = None
 
     data = api.get_data('B08006', comparison_geoids, acs)
     acs_name = data['release']['name']
@@ -684,32 +691,18 @@ def geo_profile(geoid, acs='latest'):
     doc['housing']['length_of_tenure'] = length_of_tenure_dict
     add_metadata(length_of_tenure_dict, 'B25026', 'Total population in occupied housing units', acs_name)
 
-    if '2017' in acs_name:
-        length_of_tenure_dict['Before_1980'] = build_item('Before 1980', data, item_levels,
-            'B25026008 B25026015 + B25026001 / %')
-        length_of_tenure_dict['1980s'] = build_item('1980s', data, item_levels,
-            'B25026007 B25026014 + B25026001 / %')
-        length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
-            'B25026006 B25026013 + B25026001 / %')
-        length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
-            'B25026005 B25026012 + B25026001 / %')
-        length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
-            'B25026004 B25026011 + B25026001 / %')
-        length_of_tenure_dict['since_2015'] = build_item('Since 2015', data, item_levels,
-            'B25026003 B25026010 + B25026001 / %')
-    elif '2018' in acs_name:
-        length_of_tenure_dict['Before_1990'] = build_item('Before 1990', data, item_levels,
-            'B25026008 B25026015 + B25026001 / %')
-        length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
-            'B25026007 B25026014 + B25026001 / %')
-        length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
-            'B25026006 B25026013 + B25026001 / %')
-        length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
-            'B25026005 B25026012 + B25026001 / %')
-        length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
-            'B25026004 B25026011 + B25026001 / %')
-        length_of_tenure_dict['since_2017'] = build_item('Since 2017', data, item_levels,
-            'B25026003 B25026010 + B25026001 / %')
+    length_of_tenure_dict['Before_1990'] = build_item('Before 1990', data, item_levels,
+        'B25026008 B25026015 + B25026001 / %')
+    length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
+        'B25026007 B25026014 + B25026001 / %')
+    length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
+        'B25026006 B25026013 + B25026001 / %')
+    length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
+        'B25026005 B25026012 + B25026001 / %')
+    length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
+        'B25026004 B25026011 + B25026001 / %')
+    length_of_tenure_dict['since_2017'] = build_item('Since 2017', data, item_levels,
+        'B25026003 B25026010 + B25026001 / %')
 
     # Housing: Mobility
     data = api.get_data('B07003', comparison_geoids, acs)
