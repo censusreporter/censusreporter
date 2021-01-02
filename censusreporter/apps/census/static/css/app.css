@@ -253,6 +253,15 @@ img.screenshot {
     color: #f7f8f3;
     text-decoration: none;
 }
+#page-header-title p {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #f7f8f3;
+	margin: .33em 0 0;
+}
+#page-header-title p a {
+	color: #e0e4d4;
+	text-decoration: underline;
+}
 
 #page-header-title a.title {
     font-size: 21px;

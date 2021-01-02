@@ -1,5 +1,23 @@
 {% extends '_base.html' %}{% load humanize partition %} {% block head_title %}{{ block.super }}: Making Census Data Easy to Use{% endblock %} {% block head_meta_description %}Census Reporter provides useful facts about every place in America. Compare
-places using tables and maps, download data, and embed charts on your site!{% endblock %} {% block body_id %}homepage{% endblock %} {% block content_container %}
+places using tables and maps, download data, and embed charts on your site!{% endblock %} {% block body_id %}homepage{% endblock %}
+{% block header %}
+<header id="page-header">
+    <div id="page-header-title" class="wrapper clearfix">
+        {% if not hide_nav_tools %}
+        <i id="menu-toggle" class="fa fa-bars"></i> {% endif %}
+        <a class="title" href="{% url 'homepage' %}">
+            <img src="{{ STATIC_URL }}img/logo.png"> Census Reporter
+        </a>
+        {% if not hide_nav_tools %}
+        <div id="menu">
+		    <p><i class="fa fa-arrow-circle-o-right"></i> <a href="https://opencollective.com/censusreporter">Your donations</a> help us add new data and keep this site running!</p>
+        </div>
+        {% endif %}
+    </div>
+</header>
+{% block header_content %}{% endblock header_content %} {% endblock %}
+
+{% block content_container %}
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
         <section class="column-full clearfix big-action">
