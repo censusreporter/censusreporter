@@ -377,9 +377,12 @@ a.action-button,
 }
 
 #page-footer ul.ul-icon-list {
-    padding-left: 0;
-    text-align: center;
     line-height: 2;
+}
+footer .trailer {
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-top: 1.5em;
+	padding: 0 1em;
 }
 
 .content-container {
@@ -3210,9 +3213,6 @@ blockquote {
         clear: none;
         width: 47%;
         margin-right: 3%;
-    }
-    #page-footer ul.ul-icon-list {
-        text-align: left;
     }
     #page-footer li {
         margin-bottom: .5em;
