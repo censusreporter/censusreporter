@@ -3,7 +3,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/40000US75270-riverdale-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US81901-sierra-vista-az-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US08920-bonham-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US28738-fairfield-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US23311-deltona-fl-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US64567-ocala-fl-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69022-petoskey-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US54955-marshall-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61732-newaygo-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US25876-east-tawas-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US87220-texas-city-tx-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61084-napoleon-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US67024-palacios-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -23,6 +67,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US75270-riverdale-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US24445-dos-palos-ca-urban-cluster/</loc>
     </url>
     
@@ -39,11 +87,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US86059-swanton-vt-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US73936-red-springs-nc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US81901-sierra-vista-az-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US96508-winnsboro-sc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -52,42 +100,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US48340-lawrenceville-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18100-clintonville-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US06166-bedford-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US96994-woodland-ca-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18289-coalinga-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US25579-earlimart-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US75799-rockland-me-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US53524-malone-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US04195-augusta-me-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US44425-kennebunk-me-urban-cluster/</loc>
     </url>
     
     <url>
@@ -119,6 +131,54 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US18100-clintonville-wi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US06166-bedford-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US96994-woodland-ca-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18289-coalinga-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US25579-earlimart-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US47233-lake-wildwood-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US94996-whiteville-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US37405-hartsville-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US23446-denmark-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US46918-lake-murray-north-shore-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US45289-kingstree-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US54982-marshall-mn-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US76690-rumford-me-urban-cluster/</loc>
     </url>
     
@@ -131,11 +191,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US06625-bellevue-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37162-harrisonburg-va-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70156-plattsburgh-ny-urban-cluster/</loc>
     </url>
     
     <url>
@@ -143,19 +199,31 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US75799-rockland-me-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US53524-malone-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US04195-augusta-me-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US44425-kennebunk-me-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US50041-lindsay-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47233-lake-wildwood-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US19909-coopersville-mi-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US70156-plattsburgh-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US08920-bonham-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70291-plymouth-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -164,18 +232,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US23500-dentonlewisville-tx-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US64594-oceana-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US26875-elkins-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US11269-buena-vista-va-urban-cluster/</loc>
     </url>
     
     <url>
@@ -215,7 +271,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US28738-fairfield-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US86059-swanton-vt-urban-cluster/</loc>
     </url>
     
     <url>
@@ -224,18 +280,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US27380-emerald-bay-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US84024-spring-hill-fl-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US23311-deltona-fl-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US64567-ocala-fl-urbanized-area/</loc>
     </url>
     
     <url>
@@ -255,11 +299,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US50797-lockport-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US19774-constantine-mi-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US65161-olean-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US07246-berne-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US53902-manistee-mi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -311,11 +359,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US75664-rochester-ny-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US02845-arcade-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US84024-spring-hill-fl-urbanized-area/</loc>
     </url>
     
     <url>
@@ -343,19 +387,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US19909-coopersville-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US86315-tabor-city-ncsc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US70291-plymouth-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70270-pleasant-view-tn-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US69022-petoskey-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54955-marshall-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US76366-rose-hill-ks-urban-cluster/</loc>
     </url>
     
     <url>
@@ -395,35 +435,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US61732-newaygo-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US35974-gun-barrel-city-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US25876-east-tawas-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US42427-jacksonville-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US19774-constantine-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US80038-scott-city-mo-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US07246-berne-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US53497-malden-mo-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US53902-manistee-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US73936-red-springs-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39821-honeoye-falls-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US10418-brockport-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US69346-piggott-ar-urban-cluster/</loc>
     </url>
     
     <url>
@@ -451,51 +479,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US96724-winters-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US57952-mobridge-sd-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86315-tabor-city-ncsc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US70270-pleasant-view-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US96508-winnsboro-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US94996-whiteville-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37405-hartsville-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US23446-denmark-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US46918-lake-murray-north-shore-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US45289-kingstree-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US42870-jefferson-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US03358-asheville-nc-urbanized-area/</loc>
     </url>
     
     <url>
@@ -503,43 +487,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US81199-shelby-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00982-albemarle-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US10027-brevard-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18262-clyde-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US75691-rockdale-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US77500-st-helena-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US16696-chowchilla-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US58519-montevideo-mn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US67024-palacios-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69616-piqua-oh-urban-cluster/</loc>
     </url>
     
     <url>
@@ -548,18 +496,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US42184-jackson-mn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US06841-bemidji-mn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US22995-delano-mn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US01306-alexandria-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -579,10 +515,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US49042-lemoore-station-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US93241-wayne-ne-urban-cluster/</loc>
     </url>
     
@@ -591,55 +523,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US22501-dayton-nv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US61057-napa-ca-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US45775-kuna-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US74260-rexburg-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36217-hailey-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US40996-idaho-falls-id-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US59707-mountain-home-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US65539-ontario-orid-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US11620-burley-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US24433-dorr-mi-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US07624-big-rapids-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US76744-rupert-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US74962-rigby-id-urban-cluster/</loc>
     </url>
     
     <url>
@@ -684,10 +572,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US86383-tahlequah-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US60976-nampa-id-urbanized-area/</loc>
     </url>
     
     <url>
@@ -800,10 +684,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US77203-st-anthony-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US06868-bend-or-urbanized-area/</loc>
     </url>
     
     <url>
@@ -943,6 +823,18 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US49042-lemoore-station-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US22501-dayton-nv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61057-napa-ca-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US06261-beecher-il-urban-cluster/</loc>
     </url>
     
@@ -955,11 +847,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US24283-dixon-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US55375-mascoutah-il-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US89083-turlock-ca-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US85465-sullivan-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US45775-kuna-id-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1003,7 +899,47 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US61084-napoleon-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US60195-mount-poconoemerald-lakes-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US80227-scranton-pa-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US60652-muncy-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US70465-pocono-woodland-lakes-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57439-miltonlewisburg-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00199-aberdeenbel-air-southbel-air-north-md-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US50770-lock-haven-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US95455-williamsport-pa-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52174-lykens-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US04006-attica-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US74260-rexburg-id-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1012,6 +948,34 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US68106-paw-paw-lakehartford-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36217-hailey-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US40996-idaho-falls-id-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US59707-mountain-home-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65539-ontario-orid-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US11620-burley-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US76744-rupert-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US74962-rigby-id-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1107,6 +1071,22 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US06868-bend-or-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US24283-dixon-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US89083-turlock-ca-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18680-coldwater-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US70815-poplarcotton-center-ca-urban-cluster/</loc>
     </url>
     
@@ -1119,7 +1099,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US73747-red-bud-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US42870-jefferson-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US03358-asheville-nc-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US81199-shelby-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00982-albemarle-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US10027-brevard-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18262-clyde-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US75691-rockdale-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1135,15 +1139,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US18680-coldwater-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US42913-jefferson-oh-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US10702-brookshire-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US87220-texas-city-tx-urbanized-area/</loc>
     </url>
     
     <url>
@@ -1199,11 +1199,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US50797-lockport-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65161-olean-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US79930-schulenburg-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US59059-moorhead-ms-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US44020-karnes-city-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1231,6 +1239,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US59059-moorhead-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US53551-malvern-ar-urban-cluster/</loc>
     </url>
     
@@ -1239,7 +1251,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US76663-ruleville-ms-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US87895-toledo-or-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US75664-rochester-ny-urbanized-area/</loc>
     </url>
     
     <url>
@@ -1271,19 +1287,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US78553-san-angelo-tx-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US20908-crescent-city-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US01927-amarillo-tx-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US77230-st-augustine-fl-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US18829-colorado-city-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US30196-folkston-ga-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US13537-cape-girardeau-moil-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US61300-nassau-villageratliff-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US02845-arcade-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US39821-honeoye-falls-ny-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1303,7 +1327,39 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US83602-spearman-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US46558-lake-city-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US84439-starke-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US54658-marion-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US64054-norwalk-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57277-millersburg-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62218-newcomerstown-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US60463-mount-vernon-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US10418-brockport-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US96724-winters-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1315,27 +1371,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47827-laramie-wy-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US24553-douglas-wy-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US73531-rawlins-wy-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US11377-buffalo-wy-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US76366-rose-hill-ks-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US68779-perryville-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US76663-ruleville-ms-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1355,27 +1391,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US35974-gun-barrel-city-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US78553-san-angelo-tx-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US42427-jacksonville-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US01927-amarillo-tx-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US80038-scott-city-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US18829-colorado-city-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US53497-malden-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69346-piggott-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US38903-hillsboro-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US56791-middleport-ohwv-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1387,6 +1415,42 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US64648-ocean-park-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US06652-bellingham-wa-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00172-aberdeen-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52228-lynden-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US71560-port-townsend-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US70939-port-angeles-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US28468-everson-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58469-montesanoelma-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US30412-forks-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US07867-bishop-tx-urban-cluster/</loc>
     </url>
     
@@ -1395,11 +1459,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US55375-mascoutah-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US83602-spearman-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US85465-sullivan-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US47827-laramie-wy-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US24553-douglas-wy-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US73531-rawlins-wy-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US11377-buffalo-wy-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US26024-eatonville-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US09865-breese-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1451,15 +1535,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US18667-coldwater-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US77311-st-clair-mo-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US31735-fremont-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US01765-alton-ilmo-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US01441-allegan-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US06922-bennington-vt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US92485-waterbury-ct-urbanized-area/</loc>
     </url>
     
     <url>
@@ -1475,7 +1563,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US60195-mount-poconoemerald-lakes-pa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US30331-forest-city-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1499,39 +1587,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US80227-scranton-pa-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US16183-chester-sc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US60652-muncy-pa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US76582-royston-ga-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US70465-pocono-woodland-lakes-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57439-miltonlewisburg-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00199-aberdeenbel-air-southbel-air-north-md-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US50770-lock-haven-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US95455-williamsport-pa-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US52174-lykens-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US04006-attica-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US84155-spruce-pine-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1543,11 +1607,63 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US73554-raymond-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US90676-ville-platte-la-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US60546-muldrowroland-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61543-neosho-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US63946-north-wilkesborowilkesboro-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US15670-charlotte-ncsc-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US48151-laurens-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US50813-locust-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US32653-gastonia-ncsc-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US67231-paloma-creek-southpaloma-creek-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US30439-forney-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00118-aberdeen-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US85600-sumiton-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US08866-bolivar-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US75394-roanoke-al-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1603,6 +1719,18 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US18667-coldwater-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31735-fremont-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US01441-allegan-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US11944-butler-in-urban-cluster/</loc>
     </url>
     
@@ -1615,11 +1743,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62461-new-lebanon-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US48313-lawrenceburggreendaleaurora-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US73747-red-bud-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1707,23 +1831,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US05572-batesville-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US13537-cape-girardeau-moil-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US14833-cedarville-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US68779-perryville-mo-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62964-new-richmond-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US43264-johnstown-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US35191-greensburg-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US38903-hillsboro-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1736,34 +1852,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US52363-mcalester-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US22301-darbydale-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US35407-greenville-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US12889-cambridge-city-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US71236-portland-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78607-san-carlos-az-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US79255-san-saba-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US34478-granite-shoals-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1791,7 +1879,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US44020-karnes-city-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US20962-cresco-ia-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1803,35 +1891,47 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US87895-toledo-or-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US87263-the-dalles-orwa-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US20908-crescent-city-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US77230-st-augustine-fl-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US30196-folkston-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US61300-nassau-villageratliff-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US46558-lake-city-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US84439-starke-fl-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US81577-sheridan-or-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US75080-rio-hondo-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78121-salem-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US67483-paris-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US59842-mount-carmel-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US66484-owensboro-ky-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US63865-north-vernon-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US64729-ocilla-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US87436-thomasville-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78026-st-simons-ga-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1855,15 +1955,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US20962-cresco-ia-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US83872-springfield-ga-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US87263-the-dalles-orwa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US44290-kelseyville-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US81577-sheridan-or-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US77500-st-helena-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US16696-chowchilla-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69616-piqua-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US22393-david-city-ne-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1903,43 +2015,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US78121-salem-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US06841-bemidji-mn-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US67483-paris-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US22995-delano-mn-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US59842-mount-carmel-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US01306-alexandria-mn-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66484-owensboro-ky-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US66997-paintsville-ky-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US63865-north-vernon-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US64729-ocilla-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US87436-thomasville-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78026-st-simons-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US83872-springfield-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US44290-kelseyville-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US47476-lancaster-ky-urban-cluster/</loc>
     </url>
     
     <url>
@@ -1987,6 +2079,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US80875-shady-cove-or-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US23095-delhi-la-urban-cluster/</loc>
     </url>
     
@@ -2003,19 +2099,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US34921-greenfield-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36271-half-moon-bay-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78931-sanger-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US79039-san-jose-ca-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US39416-holiday-shores-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2027,7 +2111,35 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US96562-winona-mn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US25309-dyersburg-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US45235-kingsport-tnva-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US45991-lafayette-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US27037-ellijay-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US45640-knoxville-tn-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US46153-la-follette-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65431-oneida-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US34894-greeneville-tn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2064,6 +2176,22 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US64378-oak-harbor-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58870-monticellobig-lake-mn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62505-new-london-mn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US24850-duluth-mnwi-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US92215-waseca-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2123,11 +2251,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US39416-holiday-shores-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US56872-middletown-in-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US25309-dyersburg-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US03385-ashland-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US87598-tiffin-oh-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2135,19 +2267,83 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US58870-monticellobig-lake-mn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US06625-bellevue-oh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62505-new-london-mn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US37162-harrisonburg-va-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US24850-duluth-mnwi-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US64594-oceana-wv-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US92215-waseca-mn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US26875-elkins-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US11269-buena-vista-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US74584-richlands-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49285-lewisburg-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US21448-crozet-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US35758-grottoes-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US94658-weyers-cave-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52201-lynchburg-va-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US06220-bedford-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US94969-white-sulphur-springs-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US76015-rocky-mount-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65674-orange-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US72694-pulaski-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US85627-summersville-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49555-lexington-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US46909-lake-monticello-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US66276-otisville-ny-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2160,6 +2356,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US95563-williamstown-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65026-okeechobeetaylor-creek-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US54307-marathon-fl-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2227,15 +2431,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US56872-middletown-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US13618-carey-oh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US03385-ashland-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US02773-apple-valley-oh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US87598-tiffin-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US67051-palatka-fl-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2244,58 +2448,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US09801-breaux-bridge-la-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US74584-richlands-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49285-lewisburg-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US21448-crozet-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US35758-grottoes-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US94658-weyers-cave-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US52201-lynchburg-va-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US06220-bedford-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US94969-white-sulphur-springs-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US76015-rocky-mount-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US65674-orange-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72694-pulaski-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US85627-summersville-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49555-lexington-va-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2315,19 +2467,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US46909-lake-monticello-va-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US62461-new-lebanon-oh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66276-otisville-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US48313-lawrenceburggreendaleaurora-in-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US65026-okeechobeetaylor-creek-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54307-marathon-fl-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US05572-batesville-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2351,6 +2499,46 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US14833-cedarville-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62964-new-richmond-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US43264-johnstown-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US35191-greensburg-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US22301-darbydale-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US35407-greenville-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US12889-cambridge-city-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US71236-portland-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78607-san-carlos-az-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US79255-san-saba-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US15454-charleston-mo-urban-cluster/</loc>
     </url>
     
@@ -2364,6 +2552,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US29251-farmington-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US34478-granite-shoals-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2431,42 +2623,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US13618-carey-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US02773-apple-valley-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US67051-palatka-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US42913-jefferson-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54658-marion-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US64054-norwalk-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57277-millersburg-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US62218-newcomerstown-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US60463-mount-vernon-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US88371-trenton-fl-urban-cluster/</loc>
     </url>
     
@@ -2496,10 +2652,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US42346-jacksonville-fl-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US56791-middleport-ohwv-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2551,26 +2703,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US06652-bellingham-wa-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00172-aberdeen-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US52228-lynden-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US71560-port-townsend-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US70939-port-angeles-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US89407-ulysses-ks-urban-cluster/</loc>
     </url>
     
@@ -2587,47 +2719,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US28468-everson-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US58469-montesanoelma-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US30412-forks-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US26024-eatonville-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US09865-breese-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US04303-aurora-ne-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US77311-st-clair-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US34921-greenfield-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US01765-alton-ilmo-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US06922-bennington-vt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US92485-waterbury-ct-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US34570-granville-nyvt-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US36271-half-moon-bay-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2635,19 +2735,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US30331-forest-city-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US78931-sanger-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US16183-chester-sc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US79039-san-jose-ca-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US76582-royston-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US84155-spruce-pine-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US96562-winona-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2711,42 +2807,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US73554-raymond-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US90676-ville-platte-la-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US60546-muldrowroland-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US61543-neosho-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US63946-north-wilkesborowilkesboro-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US15670-charlotte-ncsc-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US48151-laurens-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US50813-locust-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US32653-gastonia-ncsc-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US82495-slippery-rock-pa-urban-cluster/</loc>
     </url>
     
@@ -2768,22 +2828,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US72424-prineville-or-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00118-aberdeen-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US85600-sumiton-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US08866-bolivar-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US75394-roanoke-al-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2823,7 +2867,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US64648-ocean-park-wa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US34570-granville-nyvt-urban-cluster/</loc>
     </url>
     
     <url>
@@ -2935,6 +2979,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US27592-enfield-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US29510-fearrington-village-nc-urban-cluster/</loc>
     </url>
     
@@ -2951,11 +2999,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US74601-richlands-south-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57655-minot-nd-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US96859-wolf-point-mt-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US44263-kellogg-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US29089-fargo-ndmn-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US07921-bismarck-nd-urbanized-area/</loc>
     </url>
     
     <url>
@@ -2968,6 +3032,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US70237-pleasanton-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US91864-warrensburg-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3143,7 +3211,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US22393-david-city-ne-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US61867-newberry-mi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3155,11 +3223,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US44857-key-west-fl-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US66160-oshkosh-wi-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US61867-newberry-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US53200-madison-wi-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US92445-washoe-valley-nv-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3203,19 +3275,27 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66997-paintsville-ky-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US22717-decatur-il-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47476-lancaster-ky-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US54496-marinettemenominee-wimi-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66160-oshkosh-wi-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US41100-incline-village-nvca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US53200-madison-wi-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US17938-clinton-iail-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US02764-appleton-wi-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US68833-perulasalle-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3223,15 +3303,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US80875-shady-cove-or-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US22717-decatur-il-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54496-marinettemenominee-wimi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US38580-heyworth-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3267,23 +3339,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US45235-kingsport-tnva-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US79714-sault-ste-marie-mi-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US45991-lafayette-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US27037-ellijay-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US45640-knoxville-tn-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US46153-la-follette-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US31681-freeport-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3295,11 +3355,35 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US65431-oneida-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US07408-bethel-oh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US34894-greeneville-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US61705-newark-oh-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US19693-connersville-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US83980-springfield-oh-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US40834-huron-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49594-lexington-parkcaliforniachesapeake-ranch-estates-md-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US81002-shannondale-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US20632-country-lakes-md-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3311,11 +3395,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US50878-lodi-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US97366-wrightsville-ga-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US78526-saluda-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US43966-kapaau-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US39862-honokaa-hi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3383,7 +3479,39 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US44925-kilauea-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US72640-pukalanimakawaohaikupauwela-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49771-lihue-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US64577-ocala-estates-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US37716-hawaiian-paradise-park-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US43939-kapaa-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US44236-kekaha-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US89770-urban-honolulu-hi-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US39565-holly-springs-ms-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3391,7 +3519,83 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US09082-booneville-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US21340-crossett-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US80659-senatobia-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US66889-pagosa-springs-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51175-longmont-co-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US88516-trinidad-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US20827-craig-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US30628-fort-collins-co-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US05410-basaltel-jebel-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36136-gypsum-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US72613-pueblo-co-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00847-alamosa-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00676-air-force-academy-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US84790-sterling-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62110-new-castle-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US03520-aspen-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US30007-florence-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US36433-hamilton-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31478-fraser-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51634-louisburg-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3424,6 +3628,18 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US76231-rome-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US92404-washington-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US91378-wallace-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US37675-havelock-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3595,6 +3811,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US44857-key-west-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US11323-buffalo-mo-urban-cluster/</loc>
     </url>
     
@@ -3636,6 +3856,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US82913-somerset-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US64432-oakhurst-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -3828,6 +4052,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US06274-beeville-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US12268-cairo-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4028,10 +4256,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US74449-richgrove-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US64432-oakhurst-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4387,11 +4611,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US44803-keyser-wvmd-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US47395-lamesa-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47395-lamesa-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US44803-keyser-wvmd-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4444,6 +4668,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US43102-jesup-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58060-momence-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4679,10 +4907,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US38580-heyworth-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US77662-st-johns-mi-urban-cluster/</loc>
     </url>
     
@@ -4691,15 +4915,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US79714-sault-ste-marie-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US74206-rensselaer-in-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US04087-auburn-ne-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US92539-waterford-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4711,35 +4931,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66322-ottawa-ks-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US07408-bethel-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US61705-newark-oh-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US19693-connersville-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US83980-springfield-oh-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US85411-sullivan-il-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US75718-rockford-il-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US58060-momence-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4787,11 +4983,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US41050-imlay-city-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US23257-delta-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US04087-auburn-ne-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4803,15 +4995,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US23230-delta-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US74935-rifle-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US25390-eagle-co-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US66322-ottawa-ks-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4835,7 +5019,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47908-las-animas-co-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US41050-imlay-city-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US23257-delta-oh-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4859,6 +5047,14 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US23230-delta-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US74935-rifle-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US11971-butler-mo-urban-cluster/</loc>
     </url>
     
@@ -4876,6 +5072,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US03142-arkansas-city-ks-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US25390-eagle-co-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4923,6 +5123,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US01171-albuquerque-nm-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US67915-paulding-oh-urban-cluster/</loc>
     </url>
     
@@ -4932,6 +5136,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US58546-monte-vista-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US47908-las-animas-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US39524-holloman-afb-nm-urban-cluster/</loc>
     </url>
     
     <url>
@@ -4951,10 +5163,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US01171-albuquerque-nm-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US98047-yuma-co-urban-cluster/</loc>
     </url>
     
@@ -4964,10 +5172,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US23527-denveraurora-co-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39524-holloman-afb-nm-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5223,7 +5427,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US89542-union-city-pa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US12592-calipatria-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5235,59 +5439,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US27766-erie-pa-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US26416-el-centrocalexico-ca-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62623-new-martinsville-wvoh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US23716-desert-hot-springs-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US61030-nantyglo-pa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US82981-somerton-az-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US10810-brookville-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US94726-wheeling-wvoh-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US40699-huntingdon-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US21745-cumberland-mdwvpa-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US17209-clarion-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78202-salem-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US93376-waynesburg-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US25687-east-liverpool-ohwvpa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US67672-parkersburg-wvoh-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US70831-portage-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US55900-meadville-pa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US73288-ramona-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5307,26 +5471,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US55441-masontown-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57601-minerva-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US41185-indiana-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US12322-caldwell-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69130-philipsburg-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US06436-bellefontaine-oh-urban-cluster/</loc>
     </url>
     
@@ -5336,10 +5480,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US18991-columbia-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US12268-cairo-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5355,14 +5495,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US57304-millersburg-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39835-honesdale-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US89596-union-grove-wi-urban-cluster/</loc>
     </url>
     
@@ -5372,38 +5504,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US02825-arbuckle-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US43064-jersey-shore-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37081-harrisburg-pa-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US47530-lancaster-pa-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69076-philadelphia-panjdemd-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US71776-pottsville-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US80985-shamokinmount-carmel-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US59501-moscow-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US27300-elverson-pa-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5427,11 +5527,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US65566-oostburg-wi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57466-milwaukee-wi-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US50473-live-oak-sutter-county-ca-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US92539-waterford-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US52352-mabton-wa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62930-newport-waid-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5483,7 +5595,47 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US18451-coeur-dalene-id-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US89910-vail-az-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US96616-winslow-az-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US04600-bad-axe-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86491-tallassee-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65485-oneonta-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US89029-tupelo-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US01036-albertville-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86437-talladega-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US02143-amory-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69265-piedmont-al-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5508,6 +5660,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US77554-st-ignace-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US68806-peru-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US15535-charlestown-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5560,6 +5720,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US84817-sterling-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US55225-martinsville-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5623,10 +5787,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US03493-ashville-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US24646-downs-il-urban-cluster/</loc>
     </url>
     
@@ -5659,6 +5819,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US03493-ashville-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US21178-crittenden-ky-urban-cluster/</loc>
     </url>
     
@@ -5680,6 +5844,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US36028-gunnison-ut-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US14995-central-citygreenville-ky-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US46018-lafayette-in-urbanized-area/</loc>
     </url>
     
     <url>
@@ -5799,6 +5971,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US12376-caledonia-mn-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US81388-shelley-id-urban-cluster/</loc>
     </url>
     
@@ -5832,6 +6008,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US24175-dillon-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US60976-nampa-id-urbanized-area/</loc>
     </url>
     
     <url>
@@ -5875,11 +6055,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US12592-calipatria-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US26416-el-centrocalexico-ca-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US89542-union-city-pa-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5891,15 +6067,75 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US23716-desert-hot-springs-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US27766-erie-pa-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US82981-somerton-az-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US62623-new-martinsville-wvoh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US73288-ramona-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US61030-nantyglo-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US10810-brookville-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US94726-wheeling-wvoh-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US40699-huntingdon-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US21745-cumberland-mdwvpa-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US17209-clarion-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78202-salem-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US93376-waynesburg-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US25687-east-liverpool-ohwvpa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US67672-parkersburg-wvoh-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US70831-portage-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US55900-meadville-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US55441-masontown-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57601-minerva-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US41185-indiana-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US12322-caldwell-oh-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5911,6 +6147,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US69130-philipsburg-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US28576-fairbury-il-urban-cluster/</loc>
     </url>
     
@@ -5919,19 +6159,55 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US43129-jim-thorpe-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57304-millersburg-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US39835-honesdale-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US43064-jersey-shore-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US37081-harrisburg-pa-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US80848-seymour-outagamie-county-wi-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US65566-oostburg-wi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US47530-lancaster-pa-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US71776-pottsville-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US80985-shamokinmount-carmel-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US59501-moscow-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US27300-elverson-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69076-philadelphia-panjdemd-urbanized-area/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US52660-mackinaw-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57466-milwaukee-wi-urbanized-area/</loc>
     </url>
     
     <url>
@@ -5944,14 +6220,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US96350-winneconne-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US89910-vail-az-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US96616-winslow-az-urban-cluster/</loc>
     </url>
     
     <url>
@@ -5988,10 +6256,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US85276-sturgeon-bay-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US12376-caledonia-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -6307,7 +6571,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US52352-mabton-wa-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US49312-lewiston-idwa-urbanized-area/</loc>
     </url>
     
     <url>
@@ -6315,43 +6579,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62930-newport-waid-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18451-coeur-dalene-id-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US26578-el-dorado-springs-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86491-tallassee-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US65485-oneonta-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US89029-tupelo-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US01036-albertville-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86437-talladega-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US02143-amory-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69265-piedmont-al-urban-cluster/</loc>
     </url>
     
     <url>
@@ -6363,31 +6591,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US15535-charlestown-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US55225-martinsville-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US14995-central-citygreenville-ky-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US63271-nine-mile-falls-wa-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US49312-lewiston-idwa-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US19666-connell-wa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US46018-lafayette-in-urbanized-area/</loc>
     </url>
     
     <url>
@@ -6795,10 +7003,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US31627-fredericktown-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US84223-stamford-tx-urban-cluster/</loc>
     </url>
     
@@ -6819,11 +7023,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US18694-coleman-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US31627-fredericktown-mo-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US23905-devine-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US18694-coleman-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -6852,6 +7056,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US62056-new-carlisle-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US23905-devine-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7115,7 +7323,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US31870-friona-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US97885-yountville-ca-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7127,7 +7335,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US11175-buckhead-bryan-county-ga-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US42967-jefferson-city-mo-urbanized-area/</loc>
     </url>
     
     <url>
@@ -7155,15 +7363,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US08749-boiling-spring-lakes-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US64660-ocean-pines-mdde-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47557-lancaster-sc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US09190-boonville-mo-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US18964-columbia-sc-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US21151-crisfield-md-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7203,43 +7411,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US46612-lake-city-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US48178-laurinburg-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US06895-bennettsville-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US83818-spout-springs-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US33031-georgetown-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US85708-sumter-sc-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US80695-seven-lakes-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69517-pinehurstsouthern-pines-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36585-hampstead-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US24499-douglas-az-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US27290-elroy-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US82684-snowflake-az-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7287,6 +7467,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US09568-brady-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US06139-beckley-wv-urbanized-area/</loc>
     </url>
     
@@ -7295,19 +7479,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US27290-elroy-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82684-snowflake-az-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US68050-pawnee-il-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US68995-petersburg-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US09568-brady-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7316,10 +7492,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US08515-bluefield-wvva-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US68050-pawnee-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7336,10 +7508,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US78499-salt-lake-citywest-valley-city-ut-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US11296-buffalo-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7411,15 +7579,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US96778-winterset-ia-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US52714-mcleansboro-il-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US13861-carmi-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US68806-peru-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7435,7 +7599,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US83521-sparta-wi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70993-port-arthur-tx-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49690-liberty-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7443,7 +7611,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US51796-lowell-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US96886-wonder-lake-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7451,7 +7619,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US96886-wonder-lake-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US18748-college-stationbryan-tx-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US09973-brenham-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51755-louisvillejefferson-county-kyin-urbanized-area/</loc>
     </url>
     
     <url>
@@ -7472,6 +7648,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US23392-de-motte-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51796-lowell-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7535,23 +7715,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US70993-port-arthur-tx-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49690-liberty-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18748-college-stationbryan-tx-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US09973-brenham-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US51755-louisvillejefferson-county-kyin-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US28333-evansville-inky-urbanized-area/</loc>
     </url>
     
     <url>
@@ -7559,7 +7723,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US52714-mcleansboro-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US81766-sibley-ia-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US28900-fairmount-in-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US73774-redding-ca-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US97912-yreka-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US97939-yuba-city-ca-urbanized-area/</loc>
     </url>
     
     <url>
@@ -7567,7 +7747,35 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US28333-evansville-inky-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US40861-huron-sd-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52768-mcminnville-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57115-milan-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61273-nashvilledavidson-tn-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58438-monterey-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US40078-hopkinsville-ky-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52633-mckenzie-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US39268-hohenwald-tn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7600,6 +7808,18 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US95553-williamstown-ky-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US12565-california-city-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US46774-lake-isabella-ca-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US76123-rolla-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7647,23 +7867,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US28900-fairmount-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US73774-redding-ca-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US97912-yreka-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US97939-yuba-city-ca-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US05275-barrow-ak-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US96778-winterset-ia-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US83521-sparta-wi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -7991,46 +8203,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US24796-dubois-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82927-somerset-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US94321-weston-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US27085-ellwood-city-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US31411-franklin-venango-county-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US42319-jackson-wy-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US62191-newcastle-wy-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US16237-cheyenne-wy-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US61570-nephi-ut-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US27361-ely-nv-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US47638-lander-wy-urban-cluster/</loc>
     </url>
     
@@ -8064,6 +8236,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US27631-enid-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61570-nephi-ut-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US27361-ely-nv-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8159,11 +8339,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US64702-ocean-view-de-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US74125-refugio-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US74125-refugio-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US64702-ocean-view-de-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8287,6 +8467,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US05329-bartlesville-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US05977-beardstown-il-urban-cluster/</loc>
     </url>
     
@@ -8315,6 +8499,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US22253-danville-vanc-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US03331-asheboro-nc-urban-cluster/</loc>
     </url>
     
@@ -8324,10 +8512,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US53443-maiden-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86761-taylorsville-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8352,6 +8536,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US71695-potosi-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86761-taylorsville-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8451,6 +8639,38 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US24796-dubois-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US82927-somerset-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US94321-weston-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US27085-ellwood-city-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31411-franklin-venango-county-pa-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US42319-jackson-wy-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62191-newcastle-wy-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US16237-cheyenne-wy-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US97318-worland-wy-urban-cluster/</loc>
     </url>
     
@@ -8491,7 +8711,43 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US85168-story-city-ia-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US09406-bowling-green-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US34678-great-barrington-ma-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18613-cold-spring-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US73477-ravena-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31060-fort-walton-beachnavarrewright-fl-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US53335-magee-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US21043-crestview-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69211-picayune-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57925-mobile-al-urbanized-area/</loc>
     </url>
     
     <url>
@@ -8523,10 +8779,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US05329-bartlesville-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US95212-wilburton-ok-urban-cluster/</loc>
     </url>
     
@@ -8539,7 +8791,83 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US37959-headland-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US65458-oneill-ne-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US67807-pascagoula-ms-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US75502-robertsdale-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18910-columbia-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US24472-dothan-al-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US66690-ozark-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US03034-arecibo-pr-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78985-san-germncabo-rojosabana-grande-pr-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US83359-southold-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58420-montauk-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US84115-springs-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US54442-marianna-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51920-lucedale-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US15805-chattahoochee-fl-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US82468-slidell-la-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US37594-hattiesburg-ms-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US10081-brewton-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US60139-mount-pleasant-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US63217-new-yorknewark-nynjct-urbanized-area/</loc>
     </url>
     
     <url>
@@ -8547,7 +8875,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US14320-carthage-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US39403-holdrege-ne-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US54010-mannford-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US83953-springfield-mo-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US65107-okmulgee-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18478-coffeyville-ksok-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8591,10 +8939,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US30748-fort-leonard-wood-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US15346-chariton-ia-urban-cluster/</loc>
     </url>
     
@@ -8612,6 +8956,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US11431-bullhead-city-aznv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US30748-fort-leonard-wood-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8667,15 +9015,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US81766-sibley-ia-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US40861-huron-sd-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US46315-la-grange-nc-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US90325-vermillion-sd-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US09460-box-elder-sd-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8687,35 +9035,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US52768-mcminnville-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US35690-grifton-nc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US57115-milan-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US95509-williamston-nc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US61273-nashvilledavidson-tn-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US66592-oxford-nc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US58438-monterey-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US40078-hopkinsville-ky-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US52633-mckenzie-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39268-hohenwald-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US09460-box-elder-sd-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US11728-burlington-nc-urbanized-area/</loc>
     </url>
     
     <url>
@@ -8728,26 +9060,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US69724-pittsfield-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39214-hobbs-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US26551-eldorado-at-santa-fe-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US76447-roswell-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US58087-monahans-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US68266-pecos-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -8788,10 +9100,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US32140-gaffney-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US22253-danville-vanc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9007,7 +9315,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US46315-la-grange-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US46868-lake-meade-pa-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9019,23 +9327,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US35690-grifton-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US53726-manchester-md-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US95509-williamston-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US05958-bealeton-va-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66592-oxford-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US33760-golden-beach-md-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US11728-burlington-nc-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US25201-durant-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86842-teague-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US22427-davis-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US87166-terrell-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9051,11 +9367,31 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US89893-vado-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US15292-chaparral-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US76636-ruidoso-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US94345-weston-lakes-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US26389-el-campo-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18208-clovis-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US72127-presidio-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9067,11 +9403,31 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US39214-hobbs-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US12349-caldwell-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US53372-magnolia-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US26551-eldorado-at-santa-fe-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US76447-roswell-nm-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58087-monahans-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US68266-pecos-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9099,7 +9455,27 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US21718-cumberland-ky-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51580-louisa-kywv-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US93457-weatherford-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US17128-claremore-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US81982-siloam-springs-arok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US09676-branson-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9119,11 +9495,59 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US19045-columbia-falls-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US81793-sidney-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US79876-sayre-ok-urban-cluster/</loc>
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US65890-orofino-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US38161-helena-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US70588-polson-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US81172-shelby-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31158-four-corners-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US02251-anadarko-ok-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US94375-west-plains-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US32032-fulton-kytn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US68941-petersburg-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49906-lincoln-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US84736-steeleville-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9139,7 +9563,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US24904-dumas-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US41941-itta-bena-ms-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9151,7 +9575,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US86167-sweetwater-tx-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US81523-sheridan-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69940-plainview-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9159,15 +9587,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US12565-california-city-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US83791-spooner-wi-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US46774-lake-isabella-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US76123-rolla-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US45964-ladysmith-wi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9187,7 +9611,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US85168-story-city-ia-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US88165-tornillo-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9227,39 +9651,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US34678-great-barrington-ma-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US26200-edgewood-nm-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US18613-cold-spring-ny-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US82738-socorro-nm-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US73477-ravena-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US31060-fort-walton-beachnavarrewright-fl-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US53335-magee-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US21043-crestview-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US69211-picayune-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57925-mobile-al-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37959-headland-al-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US51418-los-alamos-nm-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9275,83 +9675,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US67807-pascagoula-ms-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US24904-dumas-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US75502-robertsdale-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18910-columbia-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US24472-dothan-al-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US66690-ozark-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US03034-arecibo-pr-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78985-san-germncabo-rojosabana-grande-pr-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US63217-new-yorknewark-nynjct-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US83359-southold-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US58420-montauk-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US84115-springs-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54442-marianna-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US51920-lucedale-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US15805-chattahoochee-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82468-slidell-la-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37594-hattiesburg-ms-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US10081-brewton-al-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US86167-sweetwater-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US20854-crane-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US60139-mount-pleasant-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US58675-montgomery-city-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9403,22 +9735,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US14320-carthage-tn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US89461-union-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78094-salem-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82562-smithton-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US58020-mojave-ca-urban-cluster/</loc>
     </url>
     
@@ -9436,22 +9752,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US51985-lufkin-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54010-mannford-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US83953-springfield-mo-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US65107-okmulgee-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18478-coffeyville-ksok-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9647,7 +9947,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US15157-chaffee-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US33409-gladwin-mi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9659,27 +9959,19 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US00766-akron-oh-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US02359-andalusia-al-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US80740-seville-oh-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US73018-quincy-fl-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US27592-enfield-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US48043-laurel-ms-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US74601-richlands-south-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57655-minot-nd-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US29089-fargo-ndmn-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US22933-de-funiak-springs-fl-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9695,11 +9987,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US31789-fremont-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US07921-bismarck-nd-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US66700-ozark-ar-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9728,18 +10016,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US48205-laurium-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US46868-lake-meade-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US53726-manchester-md-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US05958-bealeton-va-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9779,22 +10055,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US33760-golden-beach-md-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US25201-durant-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86842-teague-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US87166-terrell-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US35839-guadalupe-ca-urban-cluster/</loc>
     </url>
     
@@ -9804,10 +10064,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US50095-lindsborg-ks-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US89893-vado-nm-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9839,22 +10095,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US15292-chaparral-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US76636-ruidoso-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18208-clovis-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72127-presidio-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US70777-poplar-mt-urban-cluster/</loc>
     </url>
     
@@ -9863,27 +10103,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US21718-cumberland-ky-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US51580-louisa-kywv-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US64216-nowata-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US17128-claremore-ok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US81982-siloam-springs-arok-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US09676-branson-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9908,14 +10128,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US14536-cassville-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US19045-columbia-falls-mt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US81793-sidney-mt-urban-cluster/</loc>
     </url>
     
     <url>
@@ -9959,26 +10171,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US65890-orofino-id-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US38161-helena-mt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US70588-polson-mt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US81172-shelby-mt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US31158-four-corners-mt-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US65767-orangetree-fl-urban-cluster/</loc>
     </url>
     
@@ -9991,11 +10183,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US57520-minden-ne-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US94375-west-plains-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US15157-chaffee-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10031,19 +10219,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US32032-fulton-kytn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US80740-seville-oh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US68941-petersburg-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49906-lincoln-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US84736-steeleville-il-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US00766-akron-oh-urbanized-area/</loc>
     </url>
     
     <url>
@@ -10067,7 +10247,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US41941-itta-bena-ms-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US31789-fremont-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31870-friona-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10087,7 +10271,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US81523-sheridan-ar-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US11175-buckhead-bryan-county-ga-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10100,6 +10284,54 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US06692-bells-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US08749-boiling-spring-lakes-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US47557-lancaster-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US18964-columbia-sc-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US46612-lake-city-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US48178-laurinburg-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58675-montgomery-city-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US89461-union-mo-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78094-salem-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US82562-smithton-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57520-minden-ne-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US06895-bennettsville-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US83818-spout-springs-nc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10123,19 +10355,31 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US69940-plainview-mn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US33031-georgetown-sc-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US83791-spooner-wi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US85708-sumter-sc-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US45964-ladysmith-wi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US80695-seven-lakes-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US69517-pinehurstsouthern-pines-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36585-hampstead-nc-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US68131-paxton-il-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US11296-buffalo-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10519,10 +10763,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US43129-jim-thorpe-pa-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US53875-manila-ar-urban-cluster/</loc>
     </url>
     
@@ -10807,10 +11047,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US72100-prescott-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US20665-covington-in-urban-cluster/</loc>
     </url>
     
@@ -10828,10 +11064,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US34489-grants-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US30358-forest-lake-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10939,7 +11171,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US70210-pleasant-hill-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US29062-falls-city-ne-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52903-mcpherson-ks-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10967,15 +11203,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US70102-platte-city-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US29062-falls-city-ne-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US52903-mcpherson-ks-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70210-pleasant-hill-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -10992,6 +11220,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US58992-moorefield-wv-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US70102-platte-city-mo-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11051,51 +11283,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US66700-ozark-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US70750-poolesville-md-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US00334-abingdon-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US21691-culpeper-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US64891-oelwein-ia-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US33409-gladwin-mi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US02359-andalusia-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US73018-quincy-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US48043-laurel-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US22933-de-funiak-springs-fl-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39457-hollandale-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US15427-charleston-ms-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11155,27 +11343,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US39457-hollandale-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US15427-charleston-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US64475-oakland-tn-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US17641-cleveland-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US70318-plymouth-nh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54778-marks-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US38080-heber-springs-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US92512-waterbury-vt-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11191,67 +11371,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US54982-marshall-mn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US54778-marks-ms-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US92445-washoe-valley-nv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US41100-incline-village-nvca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US17938-clinton-iail-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US02764-appleton-wi-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US68833-perulasalle-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US31681-freeport-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82387-skowhegan-me-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US77176-st-albans-vt-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US38080-heber-springs-ar-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US92647-watertown-mn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US40834-huron-ca-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49594-lexington-parkcaliforniachesapeake-ranch-estates-md-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US81002-shannondale-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US20632-country-lakes-md-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49339-lewiston-me-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US29224-farmington-me-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11267,39 +11395,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US50878-lodi-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57331-millinocket-me-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US07192-berlin-nh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US17263-clarksdale-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US00091-abbotsford-wi-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US87949-tomahawk-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US19801-conway-ar-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US67456-paris-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US66106-osceola-ar-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11315,14 +11415,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62758-newport-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US91459-walnut-ridge-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US26912-elko-new-market-mn-urban-cluster/</loc>
     </url>
     
@@ -11332,22 +11424,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US78310-salinas-ca-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US34219-grand-forks-ndmn-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US42508-jamestown-nd-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US24094-dickinson-nd-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US87355-thief-river-falls-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11387,7 +11463,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US41239-indianola-ia-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US72100-prescott-wi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US30358-forest-lake-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11399,27 +11479,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US30007-florence-co-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US12457-calhoun-ga-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US31478-fraser-co-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US88526-trinity-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US51634-louisburg-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US92404-washington-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US91378-wallace-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37675-havelock-nc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US07489-bicknell-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11459,115 +11527,15 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US41239-indianola-ia-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US68644-perry-ia-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US43669-kailua-honolulu-countykaneohe-hi-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US43966-kapaau-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39862-honokaa-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US44925-kilauea-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72640-pukalanimakawaohaikupauwela-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49771-lihue-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US37716-hawaiian-paradise-park-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US43939-kapaa-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US44236-kekaha-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US89770-urban-honolulu-hi-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US39565-holly-springs-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US09082-booneville-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US21340-crossett-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US80659-senatobia-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US66889-pagosa-springs-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US51175-longmont-co-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US88516-trinidad-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US20827-craig-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US30628-fort-collins-co-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US05410-basaltel-jebel-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36136-gypsum-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72613-pueblo-co-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00847-alamosa-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00676-air-force-academy-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US84790-sterling-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US62110-new-castle-co-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US03520-aspen-co-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11655,11 +11623,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US49934-lincoln-nd-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70750-poolesville-md-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US20449-corydon-in-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US21691-culpeper-va-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11667,23 +11635,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US05059-bardstown-ky-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US19126-columbus-in-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US55576-mattoon-il-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US77824-st-martinville-la-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US65593-opelousas-la-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US64891-oelwein-ia-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11704,10 +11656,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US02581-anna-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US22042-dallasfort-wortharlington-tx-urbanized-area/</loc>
     </url>
     
     <url>
@@ -11735,11 +11683,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US28009-etowah-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US70318-plymouth-nh-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US85208-strawberry-plains-tn-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US22042-dallasfort-wortharlington-tx-urbanized-area/</loc>
     </url>
     
     <url>
@@ -11767,11 +11715,59 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US71506-portsmouth-nhme-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US92512-waterbury-vt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US82387-skowhegan-me-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US77176-st-albans-vt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49339-lewiston-me-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US29224-farmington-me-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57331-millinocket-me-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US07192-berlin-nh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US17263-clarksdale-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US19801-conway-ar-urbanized-area/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US90282-venus-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US03844-atlanta-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US67456-paris-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US66106-osceola-ar-urban-cluster/</loc>
     </url>
     
     <url>
@@ -11783,7 +11779,31 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US62758-newport-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US91459-walnut-ridge-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US39712-homesteads-addition-tx-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US34219-grand-forks-ndmn-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US42508-jamestown-nd-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US24094-dickinson-nd-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US87355-thief-river-falls-mn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12023,7 +12043,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US97885-yountville-ca-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US49934-lincoln-nd-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US20449-corydon-in-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12063,15 +12087,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US42967-jefferson-city-mo-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US05059-bardstown-ky-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US64660-ocean-pines-mdde-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US19126-columbus-in-urbanized-area/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US09190-boonville-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US55576-mattoon-il-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12083,23 +12107,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US21151-crisfield-md-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US77824-st-martinville-la-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US88165-tornillo-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US26200-edgewood-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82738-socorro-nm-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US51418-los-alamos-nm-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US65593-opelousas-la-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12111,7 +12123,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US91864-warrensburg-mo-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US28009-etowah-tn-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US85208-strawberry-plains-tn-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12275,18 +12291,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US12457-calhoun-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US88526-trinity-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US07489-bicknell-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US78688-san-diego-tx-urban-cluster/</loc>
     </url>
     
@@ -12423,10 +12427,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US71506-portsmouth-nhme-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US23689-dermott-ar-urban-cluster/</loc>
     </url>
     
@@ -12519,19 +12519,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US64000-norton-ks-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US23149-delphi-in-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US31762-fremont-ne-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US24337-dodge-city-ks-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12567,14 +12555,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US15600-charles-townranson-wv-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US16264-chicago-ilin-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US42805-jeanerette-la-urban-cluster/</loc>
     </url>
     
@@ -12584,26 +12564,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US46980-lake-of-the-woodspinetoplakeside-az-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US89263-twin-rivershightstown-nj-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US10189-bridgeton-nj-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36541-hammonton-nj-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US91252-walden-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US49663-liberty-ny-urban-cluster/</loc>
     </url>
     
     <url>
@@ -12951,6 +12911,26 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US72721-pulaski-wi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US08407-bloomingtonnormal-il-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57169-miles-city-mt-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US66093-osburn-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US14968-central-city-ne-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US01144-albion-pa-urban-cluster/</loc>
     </url>
     
@@ -12980,22 +12960,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US81064-shawano-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72721-pulaski-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US08407-bloomingtonnormal-il-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57169-miles-city-mt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US66093-osburn-id-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13031,11 +12995,47 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US57763-missouri-valley-ia-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US21799-cut-bank-mt-urban-cluster/</loc>
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US92134-warwick-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US89263-twin-rivershightstown-nj-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US10189-bridgeton-nj-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36541-hammonton-nj-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US91252-walden-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US49663-liberty-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US34435-grangeville-id-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US64000-norton-ks-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US31762-fremont-ne-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13047,19 +13047,55 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US24337-dodge-city-ks-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US76852-russell-ks-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US14968-central-city-ne-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US15600-charles-townranson-wv-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US57763-missouri-valley-ia-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US16264-chicago-ilin-urbanized-area/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US69157-phillipsburg-ks-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US33695-gloucester-courthouse-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US21124-crewe-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US82549-smithfield-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US95411-williamsburg-va-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86680-tappahannock-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US48367-lawrenceville-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US74746-richmond-va-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US27550-emporia-va-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13068,6 +13104,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US40915-hutchinson-ks-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US96589-winona-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US59680-mountain-home-ar-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13107,10 +13151,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US92134-warwick-ny-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US92470-watchtower-ny-urban-cluster/</loc>
     </url>
     
@@ -13119,11 +13159,39 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US55603-mauldinsimpsonville-sc-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US55252-martinsville-va-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86248-sylvester-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36798-hardeeville-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78634-sandersville-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US11917-bushnell-il-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US47449-lanai-city-hi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US01468-allendale-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US87625-tifton-ga-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36649-hampton-sc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13131,15 +13199,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US43615-kahului-hi-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US63460-north-adams-mavt-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US72410-princeville-hi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US57088-milan-mi-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US46180-lago-vista-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13159,46 +13223,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US33695-gloucester-courthouse-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US21124-crewe-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US82549-smithfield-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US95411-williamsburg-va-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86680-tappahannock-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US48367-lawrenceville-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US74746-richmond-va-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US27550-emporia-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US77851-st-marys-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US58924-montpelier-oh-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US94537-west-union-oh-urban-cluster/</loc>
     </url>
     
@@ -13215,11 +13239,95 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US96589-winona-ms-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US95391-williamsburg-ia-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US59680-mountain-home-ar-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US47449-lanai-city-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US43615-kahului-hi-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US72410-princeville-hi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US83548-spartanburg-sc-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US96670-winstonsalem-nc-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US73300-ramseur-nc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US97102-woodruff-sc-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US59605-moundville-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US36396-hamilton-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US72244-priceville-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US14239-carthage-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US78472-saltillo-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US80524-selma-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US51742-louisville-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US86194-sylacauga-al-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US30871-fort-polk-la-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US12916-camden-ar-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US00037-abbeville-la-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US62677-new-orleans-la-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US52471-mccomb-ms-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US05680-baton-rouge-la-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US61327-natchez-msla-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13267,10 +13375,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US75340-riversidesan-bernardino-ca-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US38215-hemet-ca-urbanized-area/</loc>
     </url>
     
@@ -13291,39 +13395,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US55603-mauldinsimpsonville-sc-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US55252-martinsville-va-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86248-sylvester-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36798-hardeeville-sc-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US75340-riversidesan-bernardino-ca-urbanized-area/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US97359-wrightstown-wi-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78634-sandersville-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US01468-allendale-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US87625-tifton-ga-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36649-hampton-sc-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13344,14 +13420,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US52579-mcgehee-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US63460-north-adams-mavt-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US46180-lago-vista-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13431,55 +13499,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US10162-bridgeportstamford-ctny-urbanized-area/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US38794-highland-oaks-tx-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US95391-williamsburg-ia-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US50743-lockhart-tx-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US83548-spartanburg-sc-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US96670-winstonsalem-nc-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US73300-ramseur-nc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US97102-woodruff-sc-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US59605-moundville-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US36396-hamilton-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72244-priceville-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US14239-carthage-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US78472-saltillo-ms-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13495,47 +13519,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US80524-selma-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US51742-louisville-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US86194-sylacauga-al-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US30871-fort-polk-la-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US12916-camden-ar-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US00037-abbeville-la-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US61597-nevada-ia-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US62677-new-orleans-la-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US79174-san-manuel-az-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US52471-mccomb-ms-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US05680-baton-rouge-la-urbanized-area/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US61327-natchez-msla-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US72112-prescott-valleyprescott-az-urbanized-area/</loc>
     </url>
     
     <url>
@@ -13544,6 +13536,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US71857-prairie-du-chien-wiia-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US33679-globe-az-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13567,15 +13563,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US54477-maricopa-az-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US81712-show-low-az-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US94213-west-liberty-ia-urban-cluster/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US79174-san-manuel-az-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US72112-prescott-valleyprescott-az-urbanized-area/</loc>
+        <loc>https://censusreporter.org/profiles/40000US07057-benton-ky-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13607,15 +13607,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US33679-globe-az-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US54477-maricopa-az-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US81712-show-low-az-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US68212-pearsall-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13627,15 +13619,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US07057-benton-ky-urban-cluster/</loc>
+        <loc>https://censusreporter.org/profiles/40000US18856-colorado-springs-co-urbanized-area/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US13753-carlisle-ia-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US68212-pearsall-tx-urban-cluster/</loc>
     </url>
     
     <url>
@@ -13648,10 +13636,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US04357-austin-mn-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US18856-colorado-springs-co-urbanized-area/</loc>
     </url>
     
     <url>
@@ -14035,15 +14019,15 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/40000US02901-arcadia-wi-urban-cluster/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/40000US33193-giddings-tx-urban-cluster/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US94870-whiteman-afb-mo-urban-cluster/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/40000US02901-arcadia-wi-urban-cluster/</loc>
     </url>
     
     <url>
@@ -14088,6 +14072,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US53848-manhattan-ks-urbanized-area/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US91648-wamego-ks-urban-cluster/</loc>
     </url>
     
     <url>
@@ -14343,10 +14331,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/40000US91648-wamego-ks-urban-cluster/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/40000US11701-burlington-ks-urban-cluster/</loc>
     </url>
     
@@ -14364,6 +14348,18 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US29775-firestonefrederick-co-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US57088-milan-mi-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US77851-st-marys-oh-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US58924-montpelier-oh-urban-cluster/</loc>
     </url>
     
     <url>
@@ -14404,6 +14400,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/40000US16171-chester-ny-urban-cluster/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/40000US10162-bridgeportstamford-ctny-urbanized-area/</loc>
     </url>
     
 </urlset>

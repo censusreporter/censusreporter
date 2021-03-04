@@ -3,18 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/33500US775-portlandlewistonsouth-portland-me-combined-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/33500US790-springfieldhartfordwest-hartford-mact-combined-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/33500US725-claremontlebanon-nhvt-combined-necta/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/33500US710-augustawaterville-me-combined-necta/</loc>
     </url>
     
@@ -27,7 +15,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/33500US725-lebanonclaremont-nhvt-combined-necta/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/33500US770-pittsfieldnorth-adams-mavt-combined-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/33500US775-portlandlewistonsouth-portland-me-combined-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/33500US790-springfieldhartfordeast-hartford-mact-combined-necta/</loc>
     </url>
     
 </urlset>

@@ -3,14 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/35000US79600-worcester-mact-metropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US72500-claremont-nh-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/35000US70450-athol-ma-micropolitan-necta/</loc>
     </url>
     
@@ -31,18 +23,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US77200-providencewarwick-rima-metropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US77650-rutland-vt-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US77950-sanford-me-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/35000US78100-springfield-mact-metropolitan-necta/</loc>
     </url>
     
@@ -59,7 +39,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US71650-bostoncambridgenashua-manh-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US71650-bostoncambridgenewton-manh-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -72,6 +52,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/35000US72400-burlingtonsouth-burlington-vt-metropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US72500-claremont-nh-micropolitan-necta/</loc>
     </url>
     
     <url>
@@ -91,7 +75,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US73450-hartfordwest-hartfordeast-hartford-ct-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US73450-hartfordeast-hartfordmiddletown-ct-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -147,6 +131,18 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/35000US77200-providencewarwick-rima-metropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US77650-rutland-vt-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US77950-sanford-me-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/35000US78500-vineyard-haven-ma-micropolitan-necta/</loc>
     </url>
     
@@ -156,6 +152,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/35000US78850-waterville-me-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US79300-willimantic-ct-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US79600-worcester-mact-metropolitan-necta/</loc>
     </url>
     
 </urlset>
