@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
+from django.views.decorators.csrf import csrf_exempt
 
 from .views import (
     DataView,
@@ -51,7 +52,7 @@ urlpatterns = [
 
     url(
         regex='^make-json/charts/$',
-        view=MakeJSONView.as_view(),
+        view=csrf_exempt(MakeJSONView.as_view()),
         kwargs={},
         name='make_json_charts',
     ),
