@@ -6,5 +6,5 @@ raven==6.10.0
 requests==2.22.0
 six==1.13.0
 unicodecsv==0.14.1
-lxml==4.5.2
+lxml==4.6.3
 whitenoise==5.2.0
