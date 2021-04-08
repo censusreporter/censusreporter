@@ -647,6 +647,14 @@
 
 {% endblock %}
 
+{% block sticky_buttons %}
+<!-- Add sticky buttons for time series vers one year views -->
+<div class="sticky-time-series-buttons">
+    <a id="one-year" class='action-button active' href="#">One year</a>
+    <a id="over-time" class='action-button' href="#">Over time</a>
+</div>
+{% endblock %}
+
 {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
 <!--[if gt IE 9]><!-->
@@ -1037,7 +1045,24 @@ $.each($.unique(releases), function(i, v) {
 
 Glossary.init("{% url 'glossary' %}",".glossary-term");
 
-// set up dropdown menu listeners
+// set up scroll listener to change the linked location to multi year data
+$(function () {
+    let currentHash = '#';
+    const currentURL = window.location.href.split('custom-profiles');
+    const minusHash = currentURL[1].split('#');
+    $('#over-time').attr("href", currentURL[0] + "time-series-custom-profiles" + minusHash[0]);
+    $(document).scroll(function () {
+        $('.section').each(function () {
+            const top = window.pageYOffset;
+            const distance = top - $(this).offset().top;
+            const hash = $(this).attr('href');
+            if (distance < 30 && distance > -30 && currentHash != hash) {
+                $('#over-time').attr("href", currentURL[0] + "time-series-custom-profiles" + minusHash[0] + hash);
+                currentHash = hash;
+            }
+        });
+    });
+});
 
 
 </script>

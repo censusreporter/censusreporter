@@ -1619,7 +1619,7 @@ class CustomGeographyDetailView(TemplateView):
 		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '1.0/data/custom-profiles/%s.json' % (self.slug.upper())
+		return '1.0/data/custom-profiles/2018/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1684,8 +1684,8 @@ class CustomGeographyDetailView(TemplateView):
 			# Also mark it as safe for the charts on the profile
 			profile_data_json = SafeString(profile_data_json)
 		else:
-			# The object does exist.
-			profile_data = create_custom_profile(self.slug, 'custom')
+			# The object does not exist.
+			profile_data = create_custom_profile(self.slug, 'custom', 2018)
 
 			if profile_data:
 				#profile_data = enhance_api_data(profile_data)
@@ -1706,6 +1706,201 @@ class CustomGeographyDetailView(TemplateView):
 		page_context.update(profile_data)
 
 		return page_context
+
+class TimeSeriesCustomGeographyDetailView(TemplateView):
+	template_name = 'profile/time_series_custom_profile_detail.html'
+
+	def parse_fragment(self,fragment):
+		"""Given a URL, return a (geoid,slug) tuple. slug may be None.
+		GeoIDs are not tested for structure, but are simply the part of the URL
+		before any '-' character, also allowing for the curiosity of Vermont
+		legislative districts.
+		(see https://github.com/censusreporter/censusreporter/issues/50)
+		"""
+		parts = fragment.split('-',1)
+		if len(parts) == 1:
+			return (fragment,None)
+
+		geoid,slug = parts
+		if len(slug) == 1:
+			geoid = '{}-{}'.format(geoid,slug)
+			slug = None
+		else:
+			parts = slug.split('-')
+			if len(parts) > 1 and len(parts[0]) == 1:
+				geoid = '{}-{}'.format(geoid,parts[0])
+				slug = '-'.join(parts[1:])
+
+		return (geoid,slug)
+
+	def dispatch(self, *args, **kwargs):
+
+		self.current_year = 2018
+		self.past_year = 2013
+
+		self.slug = kwargs.get('fragment')
+
+		if self.slug is None:
+			# if folk come here without a slug, pass through for 404
+			pass
+
+		return super(TimeSeriesCustomGeographyDetailView, self).dispatch(*args, **kwargs)
+
+	def s3_keyname(self, year):
+		return '1.0/data/custom-profiles/%s/%s.json' % (year, self.slug.upper())
+
+	def make_s3(self):
+		if settings.AWS_KEY and settings.AWS_SECRET:
+			s3_session = boto3.Session(
+				aws_access_key_id=settings.AWS_KEY,
+				aws_secret_access_key=settings.AWS_SECRET,
+				region_name='us-east-2'
+			)
+			s3 = s3_session.resource('s3')
+		else:
+			s3 = None
+
+		return s3
+
+	def s3_profile_key(self, year):
+		s3 = self.make_s3()
+
+		s3_object = None
+		if s3:
+			keyname = self.s3_keyname(year)
+			s3_object = s3.Object('d3-sd-child', keyname)
+				
+		return s3_object
+
+	def write_profile_json(self, s3_object, data, year):
+		# create gzipped version of json in memory
+		memfile = BytesIO()
+		#memfile.write(data)
+		keyname = self.s3_keyname(year)
+		data_as_bytes = str.encode(data)
+		with gzip.GzipFile(filename=keyname, mode='wb', fileobj=memfile) as gzip_data:
+			gzip_data.write(data_as_bytes)
+		memfile.seek(0)
+
+		# store static version on S3
+		s3_object.put(Body=memfile, ContentType='application/json', ContentEncoding='gzip', StorageClass='REDUCED_REDUNDANCY')
+
+	def get_context_data(self, *args, **kwargs):
+		current_year = self.current_year
+		past_year = self.past_year
+
+		# current year		
+		s3_object = None
+		s3_object_exists = False
+		try:
+			s3_object = self.s3_profile_key(current_year)
+			s3_object.load()
+			s3_object_exists = True
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				s3_object_exists = False
+			else:
+				logger.warn(e)
+				raise Http404
+
+		logger.warn(s3_object_exists)
+		if s3_object_exists:
+			buf = BytesIO(s3_object.get()["Body"].read())
+			compressed = gzip.GzipFile(fileobj=buf)
+			# Read the decompressed JSON from S3
+			string_as_bytes = compressed.read()
+			profile_data_json_current_year = string_as_bytes.decode()
+			# Load it into a Python dict for the template
+			profile_data_current_year = json.loads(profile_data_json_current_year)
+			# Also mark it as safe for the charts on the profile
+			profile_data_json_current_year = SafeString(profile_data_json_current_year)
+		else:
+			# The object does exist.
+			profile_data_current_year = create_custom_profile(self.slug, 'custom', current_year)
+			#profile_data_current_year = geo_profile(geography_id, 'acs2018_5yr')
+
+			if profile_data_current_year:
+				profile_data_current_year = enhance_api_data(profile_data_current_year)
+
+				profile_data_json_current_year = SafeString(json.dumps(profile_data_current_year, cls=LazyEncoder))
+
+				if s3_object is None:
+					logger.warn("Could not save to S3 because there was no connection to S3.")
+				else:
+					self.write_profile_json(s3_object, profile_data_json_current_year, current_year)
+
+			else:
+				raise Http404
+
+
+		page_context_current_year = {
+			'profile_data_json_current_year': profile_data_json_current_year
+		}
+		page_context_current_year.update(profile_data_current_year)
+ 
+
+		# past year
+		s3_object = None
+		s3_object_exists = False
+		try:
+			s3_object = self.s3_profile_key(past_year)
+			s3_object.load()
+			s3_object_exists = True
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == "404":
+				s3_object_exists = False
+			else:
+				logger.warn(e)
+				raise Http404
+
+		logger.warn(s3_object_exists)
+		if s3_object_exists:
+			buf = BytesIO(s3_object.get()["Body"].read())
+			compressed = gzip.GzipFile(fileobj=buf)
+			# Read the decompressed JSON from S3
+			string_as_bytes = compressed.read()
+			profile_data_json_past_year = string_as_bytes.decode()
+			# Load it into a Python dict for the template
+			profile_data_past_year = json.loads(profile_data_json_past_year)
+			# Also mark it as safe for the charts on the profile
+			profile_data_json_past_year = SafeString(profile_data_json_past_year)
+		else:
+			# The object does not exist.
+			profile_data_past_year = create_custom_profile(self.slug, 'custom', past_year)
+			#profile_data_past_year = geo_profile(geography_id, 'acs2013_5yr')
+
+			if profile_data_past_year:
+				profile_data_past_year = enhance_api_data(profile_data_past_year)
+
+				profile_data_json_past_year = SafeString(json.dumps(profile_data_past_year, cls=LazyEncoder))
+
+				if s3_object is None:
+					logger.warn("Could not save to S3 because there was no connection to S3.")
+				else:
+					self.write_profile_json(s3_object, profile_data_json_past_year, past_year)
+
+			else:
+				raise Http404
+
+
+
+		page_context_past_year = {
+			'profile_data_json_past_year': profile_data_json_past_year
+		}
+		page_context_past_year.update(profile_data_past_year)
+
+		page_context = {
+			'current_year': current_year,
+			'past_year': past_year,
+			'profile_data_current_year': profile_data_current_year,
+			'profile_data_past_year': profile_data_past_year, 
+			'profile_data_json_current_year': page_context_current_year['profile_data_json_current_year'],
+			'profile_data_json_past_year': page_context_past_year['profile_data_json_past_year'],
+		}
+
+		return page_context
+
+
 
 
 class DistrictGeographyDetailView(TemplateView):

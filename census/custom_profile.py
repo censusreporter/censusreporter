@@ -62,8 +62,8 @@ class ApiClient(object):
 		return self._get('/1.0/data/show/{}'.format(acs), params=dict(table_ids=table_ids, geo_ids=geo_ids))
 
 
-def custom_s3_keyname(geo_id):
-	return '1.0/data/profiles/2018/%s.json' % geo_id.upper()
+def custom_s3_keyname(geo_id, year):
+	return '1.0/data/profiles/%s/%s.json' % (year, geo_id.upper())
 
 def custom_make_s3():
 	if settings.AWS_KEY and settings.AWS_SECRET:
@@ -78,23 +78,24 @@ def custom_make_s3():
 
 	return s3
 
-def custom_s3_profile_object(geo_id):
+def custom_s3_profile_object(geo_id, year):
 	custom_s3 = custom_make_s3()
 
 	custom_object = None
 	if custom_s3:
-		custom_keyname = custom_s3_keyname(geo_id)
+		custom_keyname = custom_s3_keyname(geo_id, year)
 		custom_object = custom_s3.Object('d3-sd-child', custom_keyname)
 
 	return custom_object
 
-def get_data(geo_id):
+def get_data(geo_id, year):
 	print(geo_id)
+	print(year)
 
 	custom_s3_object = None
 	custom_s3_object_exists = False
 	try:
-		custom_s3_object = custom_s3_profile_object(geo_id)
+		custom_s3_object = custom_s3_profile_object(geo_id, year)
 		custom_s3_object.load()
 		custom_s3_object_exists = True
 	except botocore.exceptions.ClientError as e:
@@ -383,7 +384,7 @@ def normalize_by_geography(key, data):
 			data['this'] = data['custom'] / data['geos_in_use']
 
 
-def create_custom_profile(slug, profile_type):
+def create_custom_profile(slug, profile_type, year):
 	# look up geoids in database
 	if profile_type == 'custom':
 		dashboard = Dashboards.objects.get(dashboard_slug=slug)
@@ -403,7 +404,7 @@ def create_custom_profile(slug, profile_type):
 	doc['geo_metadata'] = dict()
 
 	for i, geo_id in enumerate(geoids):
-		profile_data = get_data(geo_id)
+		profile_data = get_data(geo_id, year)
 
 		# if the first time through the loop, copy the data over, then we'll overwrite the ['this'] dictionaries as we itterate  
 		if i == 0:

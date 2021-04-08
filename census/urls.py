@@ -13,7 +13,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from .utils import GEOGRAPHIES_MAP
-from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, DistrictGeographyDetailView, GeographySearchView,
+from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, TimeSeriesCustomGeographyDetailView, DistrictGeographyDetailView, GeographySearchView,
     D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCarePrograms, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, D3TableDetailViewStudentMobility, D3TableDetailViewChronicAbsenteeism, D3TableDetailView8thGradeMath, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
     MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard, CustomDrawnProfilesView, DrawProfilesView)
@@ -51,6 +51,13 @@ urlpatterns = [
         view    = cache_page(STANDARD_CACHE_TIME)(CustomGeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'custom_geography_detail',
+    ),
+
+    path(
+        route   = 'time-series-custom-profiles/<slug:fragment>/',
+        view    = cache_page(STANDARD_CACHE_TIME)(TimeSeriesCustomGeographyDetailView.as_view()),
+        kwargs  = {},
+        name    = 'time_series_custom_geography_detail',
     ),
 
     path(
