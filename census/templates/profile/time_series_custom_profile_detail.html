@@ -762,106 +762,142 @@ $.ajaxSetup({
     }
 });
 
-// Make the header map
-d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ profile_data_current_year.geography.this.full_geoid }}?geom=true', function(error, json) {
-    if (error) return console.warn(error);
-    var allowMapDrag = (browserWidth > 480) ? true : false;
+// Add note to rows with flagged MOE
+var flaggedMOE = $('.stat-row sup'),
+    daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
 
-    // draw a geom
-    var map = L.map('slippy-map', {
-        scrollWheelZoom: false,
-        zoomControl: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        keyboard: false,
-        dragging: allowMapDrag,
-        touchZoom: allowMapDrag
-    });
+flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
 
-    // set a tile layer
-    var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
-    });
 
-    // add these tiles to our map
-    map.addLayer(tiles);
+// Enable the single-table topic picker
+var thisSumlev = '{{ profile_data_current_year.geography.this.sumlevel }}',
+    thisGeoShortName = '{{ profile_data_current_year.geography.this.short_name }}',
+    thisGeoID = '{{ profile_data_current_year.geography.this.full_geoid }}',
+    placeGeoID = '{{ profile_data_current_year.geography.parents.place.full_geoid }}',
+    CBSAGeoID = '{{ profile_data_current_year.geography.parents.CBSA.full_geoid }}',
+    countyGeoID = '{{ profile_data_current_year.geography.parents.county.full_geoid }}',
+    stateGeoID = '{{ profile_data_current_year.geography.parents.state.full_geoid }}',
+    nationGeoID = '{{ profile_data_current_year.geography.parents.nation.full_geoid }}';
 
-    if (allowMapDrag) {
-        map.addControl(new L.Control.Zoom({
-            position: 'topright'
-        }));
-    }
+// Update the header's list of parent geographies
+var parentLinkContainer = $('#header-box .caption'),
+    parentLinksPrefix = '<span class="glossary-term">{{ profile_data_current_year.geography.this.number_of_geographies }} {{ profile_data_current_year.geography.this.sumlevel_name|capfirst }}{{ profile_data_current_year.geography.this.number_of_geographies|pluralize }}</span> in: ',
+    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2018/' + thisGeoID + '/parents',
+    tilesGeoAPI = 'https://hipapi.datadrivendetroit.org/1.0/geo/tiger2018/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
-    if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
-        var defaultStyle = {
-                "clickable": true,
-                "color": "#76AFF2",
-                "fillColor": "#f1f1f2",
-                "weight": 1,
-                "opacity": 0.5,
-                "fillOpacity": 0.3,
-            },
-        geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
-            {
-            style: defaultStyle,
-            onEachFeature: function(feature, layer) {
-                if (feature.properties.geoid == thisGeoID)
-                    return;
+//**** Make the header map ****
+var allowMapDrag = (browserWidth > 480) ? true : false;
 
-                // filter out non-Michingan results
-                if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
-                    layer.bindLabel(feature.properties.name, {direction: 'auto'});
-                    layer.on('mouseover', function() {
-                        layer.setStyle({
-                            "weight": 2,
-                            "fillOpacity": 0.4,
-                            "fillColor": "#76AFF2",
-                        });
+// draw a geom
+var map = L.map('slippy-map', {
+    scrollWheelZoom: false,
+    zoomControl: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    dragging: allowMapDrag,
+    touchZoom: allowMapDrag
+});
+
+// set a tile layer
+var tiles = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png', { attribution: 'Map tiles by <a href=\"http://stamen.com\">Stamen Design</a>, under <a href=\"https://creativecommons.org/licenses/by/3.0/\" target=\"_blank\">CC BY 3.0</a>. Data by <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, under ODbL.'
+});
+
+// add these tiles to our map
+map.addLayer(tiles);
+
+if (allowMapDrag) {
+    map.addControl(new L.Control.Zoom({
+        position: 'topright'
+    }));
+}
+
+if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
+    var defaultStyle = {
+            "clickable": true,
+            "color": "#76AFF2",
+            "fillColor": "#f1f1f2",
+            "weight": 1,
+            "opacity": 0.5,
+            "fillOpacity": 0.3,
+        },
+    geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {},
+        {
+        style: defaultStyle,
+        onEachFeature: function(feature, layer) {
+
+            // filter out non-Michingan results
+            if (feature.properties.name.search(', MI') != -1 || feature.properties.geoid.search('86000US48') != -1 || feature.properties.geoid.search('86000US49') != -1) {
+                layer.bindLabel(feature.properties.name, {direction: 'auto'});
+                layer.on('mouseover', function() {
+                    layer.setStyle({
+                        "weight": 2,
+                        "fillOpacity": 0.4,
+                        "fillColor": "#76AFF2",
                     });
-                    layer.on('mouseout', function() {
-                        layer.setStyle(defaultStyle);
-                    });
-                    layer.on('click', function() {
-                        // add spinner to page load 
-                        var spinnerTarget = document.getElementById("body-spinner");
-                        if (!spinnerTarget) {
-                            $('body').append('<div id="body-spinner"></div>');
-                            spinnerTarget = document.getElementById('body-spinner');
-                        } 
-                        spinner.spin(spinnerTarget);
-                        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                    });
-                } else {
-                    var invisibleStyle = {
-                        "clickable": false,
-                        "color": "#fff",
-                        "fillColor": "#fff",
-                        "weight": 0,
-                        "opacity": 0,
-                        "fillOpacity": 0,
-                    }
-                    layer.setStyle(invisibleStyle);
+                });
+                layer.on('mouseout', function() {
+                    layer.setStyle(defaultStyle);
+                });
+                layer.on('click', function() {
+                    // add spinner to page load 
+                    var spinnerTarget = document.getElementById("body-spinner");
+                    if (!spinnerTarget) {
+                        $('body').append('<div id="body-spinner"></div>');
+                        spinnerTarget = document.getElementById('body-spinner');
+                    } 
+                    spinner.spin(spinnerTarget);
+                    window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                });
+            } else {
+                var invisibleStyle = {
+                    "clickable": false,
+                    "color": "#fff",
+                    "fillColor": "#fff",
+                    "weight": 0,
+                    "opacity": 0,
+                    "fillOpacity": 0,
                 }
-
+                layer.setStyle(invisibleStyle);
             }
-        });
-        map.addLayer(geojsonTileLayer);
-    }
 
-    var featureLayer = L.geoJson(json, {
-        style: {
-            "fillColor": "#A975D7",
-            "fillOpacity": 0.5,
-            "color": "#686867",
-            "weight": 2,
-            "clickable": false
         }
     });
-    map.addLayer(featureLayer);
-    var objBounds = featureLayer.getBounds();
+    map.addLayer(geojsonTileLayer);
+}
+//**** end make the header map ****
 
-    if (thisSumlev === "010") {
-        objBounds = L.latLngBounds(L.latLng(24.396, -124.849), L.latLng(49.384, -66.885));
-    }
+
+// Itterate thorough geoids and add them to map
+var group = new L.FeatureGroup();
+var geoids_processed = 0;
+var count_of_geoids = {{ profile_data_current_year.geography.this.full_geoids|length }};
+{% for full_geoid in profile_data_current_year.geography.this.full_geoids %}
+    d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ full_geoid }}?geom=true', function(error, json) {
+        if (error) return console.warn(error);
+        var featureLayer = L.geoJson(json, {
+            style: {
+                "fillColor": "#A975D7",
+                "fillOpacity": 0.5,
+                "color": "#686867",
+                "weight": 2,
+                "clickable": false
+            }
+        });
+        group.addLayer(featureLayer);
+
+        geoids_processed++;
+
+        if (geoids_processed === count_of_geoids) {
+            addDataAndPositionMap();
+        }
+
+    })
+{% endfor %}
+
+var addDataAndPositionMap = function() {
+    map.addLayer(group);
+    var objBounds = group.getBounds();
 
     if (browserWidth > 768) {
         var z;
@@ -880,7 +916,11 @@ d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ profile_data_current_year.geography.
     } else {
         map.fitBounds(objBounds);
     }
-})
+} 
+
+
+
+
 
 // Create all the charts
 var Charts = {},
@@ -910,8 +950,8 @@ var gracefulType = function(chartType) {
 var makeCharts = function() {
 
     $.each(chartContainers, function(i, obj) {
-        console.log(profileDataPastYear);
-        console.log($(this).prop('id'));
+        //console.log(profileDataPastYear);
+        //console.log($(this).prop('id'));
         $(obj).empty();
         var chartID = $(this).prop('id'),
             chartDataKey = chartID.replace('chart-','').replace('alt-',''),
@@ -1012,27 +1052,6 @@ var lazyRedrawCharts = _.debounce(function() {
 }, 50);
 $(window).resize(lazyRedrawCharts);
 
-// Add note to rows with flagged MOE
-var flaggedMOE = $('.stat-row sup'),
-    daggerNote = '<p><sup>&dagger;</sup> Margin of error is at least 10 percent of the total value. Take care with this statistic.</p>';
-
-flaggedMOE.closest('.stat-row').find('aside').html(daggerNote);
-
-// Enable the single-table topic picker
-var thisSumlev = '{{ profile_data_current_year.geography.this.sumlevel }}',
-    thisGeoShortName = '{{ profile_data_current_year.geography.this.short_name }}',
-    thisGeoID = '{{ profile_data_current_year.geography.this.full_geoid }}',
-    placeGeoID = '{{ profile_data_current_year.geography.parents.place.full_geoid }}',
-    CBSAGeoID = '{{ profile_data_current_year.geography.parents.CBSA.full_geoid }}',
-    countyGeoID = '{{ profile_data_current_year.geography.parents.county.full_geoid }}',
-    stateGeoID = '{{ profile_data_current_year.geography.parents.state.full_geoid }}',
-    nationGeoID = '{{ profile_data_current_year.geography.parents.nation.full_geoid }}';
-
-// Update the header's list of parent geographies
-var parentLinkContainer = $('#header-box .caption'),
-    parentLinksPrefix = '<span class="glossary-term">{{ profile_data_current_year.geography.this.sumlevel_name|capfirst }}</span> in: ',
-    parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2018/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2018/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 // for touch devices, still allow context toggle
 $('.stat-row').on('click', '.stat', function() {
@@ -1151,16 +1170,16 @@ Glossary.init("{% url 'glossary' %}",".glossary-term");
 // set up scroll listener to change the linked locaiton to one year data
 $(function () {
     let currentHash = '#';
-    const currentURL = window.location.href.split('time-series-profiles');
+    const currentURL = window.location.href.split('time-series-custom-profiles');
     const minusHash = currentURL[1].split('#');
-    $('#one-year').attr("href", currentURL[0] + "profiles" + minusHash[0]);
+    $('#one-year').attr("href", currentURL[0] + "custom-profiles" + minusHash[0]);
     $(document).scroll(function () {
         $('.section').each(function () {
             const top = window.pageYOffset;
             const distance = top - $(this).offset().top;
             const hash = $(this).attr('href');
             if (distance < 30 && distance > -30 && currentHash != hash) {
-                $('#one-year').attr("href", currentURL[0] + "profiles" + minusHash[0] + hash);
+                $('#one-year').attr("href", currentURL[0] + "custom-profiles" + minusHash[0] + hash);
                 currentHash = hash;
             }
         });

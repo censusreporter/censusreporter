@@ -704,7 +704,7 @@ var theseGeoIDs = [];
 var parentLinkContainer = $('#header-box .caption'),
     parentLinksPrefix = '<span class="glossary-term">{{ geography.this.number_of_geographies }} {{ geography.this.sumlevel_name|capfirst }}{{ geography.this.number_of_geographies|pluralize }}</span> in: ',
     parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2018/' + thisGeoID + '/parents',
-    tilesGeoAPI = 'https://censusapi.datadrivendetroit.org:1443/1.0/geo/tiger2018/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+    tilesGeoAPI = 'https://hipapi.datadrivendetroit.org/1.0/geo/tiger2018/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
 //**** Make the header map ****
 var allowMapDrag = (browserWidth > 480) ? true : false;
