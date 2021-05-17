@@ -3143,3 +3143,10 @@ a.ui-button:active,
     display: inline-block;
     text-decoration: none;
 }
+
+.download-pdf-button {
+    display: inline-block !important;
+    float: right;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}

@@ -2,6 +2,12 @@
 
 {% block head_title %}Profile data - {{ block.super }}{% endblock %}
 
+{% block download_pdf %}
+<div class="print-button">
+    <a class='action-button download-pdf-button' onclick="print_button();">Print</a>
+</div>
+{% endblock %}
+
 
 {% comment %}
 At some point, we may end up needing to branch the profile page template

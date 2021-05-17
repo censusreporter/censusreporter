@@ -24,11 +24,7 @@
 {% block head_css_extra %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/leaflet.label.css" />
-<style type="text/css">
-    section h2 {
-        font-size: 1.25em;
-    }
-</style>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/print.css">
 {% endblock %}
 
 {% block head_javascript_extra %}
@@ -77,7 +73,7 @@
             {% endif %}
 
             <div class="column-full">
-                <p class="caption"><strong>Census data:</strong> {{ profile_data_current_year.geography.census_release }} and {{ profile_data_past_year.geography.census_release }} unless noted</p>
+                <p class="caption"><strong>Census data:</strong> {{ profile_data_current_year.geography.census_release }} and {{ profile_data_past_year.geography.census_release }} unless noted. For non-Census datasets, previous and current years of data collection many vary.</p>
             </div>
         </article>
     </div>
@@ -726,7 +722,6 @@
                 </a>
             </div> {% endcomment %}
         </section>
-        <p class="">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information. </p>
     </div>
 
 </article>
@@ -763,12 +758,13 @@ $.ajaxSetup({
 });
 
 // Make the header map
+var map;
 d3.json(CR_API_URL + '/1.0/geo/tiger2018/{{ profile_data_current_year.geography.this.full_geoid }}?geom=true', function(error, json) {
     if (error) return console.warn(error);
     var allowMapDrag = (browserWidth > 480) ? true : false;
 
     // draw a geom
-    var map = L.map('slippy-map', {
+    map = L.map('slippy-map', {
         scrollWheelZoom: false,
         zoomControl: false,
         doubleClickZoom: false,
@@ -1166,6 +1162,12 @@ $(function () {
         });
     });
 });
+
+function print_button() {
+    map.panBy(new L.Point(400, 0), {animate: false});
+    window.print();
+    map.panBy(new L.Point(-400, 0), {animate: false});
+}
 
 
 </script>

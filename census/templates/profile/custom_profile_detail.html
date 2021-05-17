@@ -24,6 +24,7 @@
 {% block head_css_extra %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.2/dist/leaflet.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/leaflet.label.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/print.css">
 {% endblock %}
 
 {% block head_javascript_extra %}
@@ -640,7 +641,6 @@
                 </a>
             </div>
         </section>
-        <p class="">Interact with charts and statistics for <span class="glossary-term" data-keyword="margin-of-error">margins of error</span> and additional information.</p>
     </div>
 
 </article>
@@ -1063,6 +1063,13 @@ $(function () {
         });
     });
 });
+
+function print_button() {
+    map.panBy(new L.Point(400, 0), {animate: false});
+    window.print();
+    map.panBy(new L.Point(-400, 0), {animate: false});
+}
+
 
 
 </script>

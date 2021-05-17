@@ -1,0 +1,50 @@
+/**
+* Print stylesheet for SDC
+* @version         1.0
+* @lastmodified    5/13/21
+*/
+@media print {
+    .content-container {
+        width: 100%; 
+        margin: 0; 
+        float: none;
+    }
+    /** Setting margins */       
+    @page { 
+        margin: 2cm 
+    }
+
+    /** Specfic elements **/
+    .tool-group, 
+    #query-topic-picker, 
+    .explain, 
+    .print-button, 
+    .leaflet-control-zoom,
+    .action-links,
+    .sticky-time-series-buttons,
+    footer{
+        display: none;
+    }
+
+    header.section-contents {
+        float: none;
+        width: 100%;
+    }
+
+    article .section-container {
+        margin-left: 0;
+    }
+
+    footer, #page-footer {
+        background-color: white;
+        border-top: 0px solid white;
+    }
+
+    section {
+        break-inside: avoid;
+    }
+
+
+
+
+}

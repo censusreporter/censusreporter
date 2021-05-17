@@ -95,6 +95,8 @@
         {% block header_content %}{% endblock header_content %}
         {% endblock %}
 
+        {% block download_pdf %}{% endblock %}
+
         {% block content_container %}
         <div class="content-container wrapper clearfix">
             {% block content %}{% endblock %}
@@ -172,7 +174,8 @@
         <script src="{{ STATIC_URL }}js/app.js"></script>
         <script src="{{ STATIC_URL }}js/glossary.js"></script>
         <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
-        {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
+        {% block body_javascript_extra %}{% endblock %}
+        {% endblock body_javascript %}
         <!-- <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script> -->
     </body>
 </html>
