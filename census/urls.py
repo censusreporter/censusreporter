@@ -16,7 +16,7 @@ from .utils import GEOGRAPHIES_MAP
 from .views import (HomepageView, GeographyDetailView, TimeSeriesGeographyDetailView, CustomGeographyDetailView, TimeSeriesCustomGeographyDetailView, DistrictGeographyDetailView, GeographySearchView,
     D3TableDetailViewBirths, D3TableDetailViewELAProficiency, D3TableDetailViewMathProficiency, D3TableDetailViewGraduationRates, D3TableDetailViewInfantMortality, D3TableDetailViewImmunization, D3TableDetailViewMedicaid, D3TableDetailViewChildCareCenters, D3TableDetailViewChildCarePrograms, D3TableDetailViewChildCareCapacity, D3TableDetailViewFreeReducedLunch, D3TableDetailViewCollegeReadiness, D3TableDetailViewCollegeEnrollment, D3TableDetailViewLeadBloodLevels, D3TableDetailViewStudentMobility, D3TableDetailViewChronicAbsenteeism, D3TableDetailView8thGradeMath, TableDetailView, TableSearchView, PlaceSearchJson, GeoSearch,
     HealthcheckView, DataView, TopicView, ExampleView, Elasticsearch,
-    MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard, CustomDrawnProfilesView, DrawProfilesView, GeographyWritePDFView)
+    MakeJSONView, SitemapTopicsView, SearchResultsView, make_dashboard, CustomDrawnProfilesView, DrawProfilesView)
 
 STANDARD_CACHE_TIME = 60*15 # 15-minute cache
 COMPARISON_FORMATS = 'map|table|distribution'
@@ -37,13 +37,6 @@ urlpatterns = [
         view    = cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
         kwargs  = {},
         name    = 'geography_detail',
-    ),
-
-    path(
-        route   = 'profiles-pdf/<slug:fragment>/',
-        view    = cache_page(STANDARD_CACHE_TIME)(GeographyWritePDFView.as_view()),
-        kwargs  = {},
-        name    = 'geography_pdf',
     ),
 
     path(
