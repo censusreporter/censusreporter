@@ -125,10 +125,10 @@ uncomment for separate inclusion into embed iframes */
 /* force column and area graphs to print correctly
  * see http://stackoverflow.com/questions/6553439/div-background-color-in-print-page-dont-work */
 @media print {
-    /* .bar .area,
+    .bar .area,
     .column .area {
         box-shadow: inset 0 0 0 1000px grey;
-    } */
+    }
 }
 
 .column .label,
