@@ -34,8 +34,8 @@ function Comparison(options, callback) {
     var comparison = {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: FREE_TEXT_SEARCH_API_URL + '/2.1/full-text/search',
-        rootGeoAPI: API_URL + '/1.0/geo/tiger2018/',
-        childGeoAPI: API_URL + '/1.0/geo/show/tiger2018',
+        rootGeoAPI: API_URL + '/1.0/geo/tiger2019/',
+        childGeoAPI: API_URL + '/1.0/geo/show/tiger2019',
         dataAPI: API_URL + '/1.0/data/show/',
         d3DataAPI: 'https://services2.arcgis.com/HsXtOCMp1Nis1Ogr/arcgis/rest/services'
     };
@@ -2336,7 +2336,7 @@ function Comparison(options, callback) {
             comparison.chosenColumn = comparison.columnKeys[0];
         }
 
-        var geoAPI = API_URL + "/1.0/geo/show/tiger2018?geo_ids=" + comparison.geoIDs.join(','),
+        var geoAPI = API_URL + "/1.0/geo/show/tiger2019?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
 
         d3.json(geoAPI, function(error, json) {
