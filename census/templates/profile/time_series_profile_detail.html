@@ -887,7 +887,8 @@ var Charts = {},
     profileDataPastYear = {{ profile_data_json_past_year }},
     years = [];
     years[0] = '{{ past_year }}';
-    years[1] = '{{ current_year }}';
+    years[1] = '{{ current_year }}',
+    latestWorkingRelease = 'acs2018_5yr';
 
 // TO DO: Update to include time series charts
 var gracefulType = function(chartType) {
@@ -924,8 +925,7 @@ var makeCharts = function() {
             chartLabel = $(this).data('label'),
             geographyData = profileData['geography'],
             chartColorScale = '',
-            chartRelease = 'acs2018_5yr';
-            //chartRelease = 'latest';
+            chartRelease = latestWorkingRelease;
             
 
         // toggle color scale if new section

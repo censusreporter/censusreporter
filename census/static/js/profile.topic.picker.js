@@ -537,7 +537,7 @@ function makeTopicSelectWidget(element) {
         chosenTableID = datum['table_id'];
         if (!!chosenTableID) {
             spinner.spin(spinnerTarget);
-            window.location = '/data/table/?table=' + chosenTableID + "&geo_ids=" + thisGeoID + "&primary_geo_id=" + thisGeoID;
+            window.location = '/data/table/?table=' + chosenTableID + "&geo_ids=" + thisGeoID + "&primary_geo_id=" + thisGeoID + "&release=" + latestWorkingRelease;
         }
     });
 }

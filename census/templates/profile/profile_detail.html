@@ -803,7 +803,8 @@ var Charts = {},
     chartContainers = $('[id^=chart-]'),
     defaultDataRelease = '{{ geography.census_release }}',
     releases = [defaultDataRelease],
-    profileData = {{ profile_data_json }};
+    profileData = {{ profile_data_json }},
+    latestWorkingRelease = 'acs2018_5yr';
 
 var gracefulType = function(chartType) {
     // convert certain chart types to more readable versions at narrow widths
@@ -831,8 +832,7 @@ var makeCharts = function() {
             chartStatType = $(this).data('stat-type'),
             chartQualifier = $(this).data('qualifier') || null,
             geographyData = profileData['geography'],
-            chartRelease = 'acs2018_5yr';
-            //chartRelease = 'latest';
+            chartRelease = latestWorkingRelease;
 
         // allow arbitrary nesting in API data structure
         var drilldown = chartDataID.length - 1;
