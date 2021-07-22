@@ -4,13 +4,13 @@ import argparse
 from lxml.html import fromstring
 from urllib.parse import urljoin
 from collections import OrderedDict
-from io import BytesIO
-import unicodecsv
+from io import BytesIO, StringIO
+import csv
 
 # These will change each year
-GCT1_ROOT = 'https://www2.census.gov/programs-surveys/acs/summary_file/2018/data/1_year_geographic_comparison_tables/'
-GCT5_ROOT = 'https://www2.census.gov/programs-surveys/acs/summary_file/2018/data/5_year_geographic_comparison_tables/'
-RANKING_ROOT = 'https://www2.census.gov/programs-surveys/acs/summary_file/2018/data/1_year_ranking/'
+GCT1_ROOT = 'https://www2.census.gov/programs-surveys/acs/summary_file/2019/data/1_year_geographic_comparison_tables/'
+#GCT5_ROOT = 'https://www2.census.gov/programs-surveys/acs/summary_file/2018/data/5_year_geographic_comparison_tables/'
+RANKING_ROOT = 'https://www2.census.gov/programs-surveys/acs/summary_file/2019/data/1_year_ranking/'
 
 class Command(BaseCommand):
     help = 'Scrape Census web site for details about GCT and R tables and dump it to STDOUT'
@@ -78,12 +78,12 @@ class Command(BaseCommand):
                     try:
                         # annoying hack -- experience shows this character snarls things
                         # for at least one table (GCT1001)
-                        r = unicodecsv.reader(BytesIO(resp.content.replace('\xa0', ' ')))
+                        r = csv.reader(StringIO(resp.text))
                         h = next(r)  # skip header
                         v['title'] = next(r)[1].title()
                     except Exception as e:
                         self.stderr.write("Error scraping title: {}".format(url))
-                        self.stderr.write(e)
+                        self.stderr.write(f"{e}")
                         v['title'] = '*** ERROR ***'
                 else:
                     self.stderr.write("{} {}".format(url, resp.status_code))
@@ -91,8 +91,9 @@ class Command(BaseCommand):
     def assemble_markup(self):
         buffer = ["<dl class='dl-horizontal'>"]
         for k in sorted(self.gct_data):
+            parts = []
             v = self.gct_data[k]
-            buffer.append(['<dt>{}</dt>'.format(k)])
+            buffer.append('<dt>{}</dt>'.format(k))
             if "1yr" in v:
                 parts.append('[<a href="{}">GCT 1yr</a>]'.format(v['1yr']))
             if "5yr" in v:
@@ -112,8 +113,9 @@ class Command(BaseCommand):
         self.stdout.write("GCT - get 1 yr")
         self.scrape_gct_data('1yr', GCT1_ROOT)
 
-        self.stdout.write("GCT - get 5 yr")
-        self.scrape_gct_data('5yr', GCT5_ROOT)
+        # GCT 5 year was not published in 2019. Not yet clear if it will be in the future.
+        # self.stdout.write("GCT - get 5 yr")
+        # self.scrape_gct_data('5yr', GCT5_ROOT)
 
         self.stdout.write("R - scrape urls")
         self.scrape_ranking_data(RANKING_ROOT)
