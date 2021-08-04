@@ -1,0 +1,17 @@
+{% extends '_base.html' %} {% block head_css_extra %}
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet"> {% endblock head_css_extra %} {% block head_javascript_extra %}
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<script src="{{ STATIC_URL }}js/aggregate.js"></script>
+{% endblock head_javascript_extra %} {% block content %}
+
+<div id="content">
+    {% if message == 'OK' %}
+    <h1>{{ user_geo_name }}</h1>
+    <p><em>Uploaded on {{ created_at|date:"D, N j Y" }}</em></p>
+    <p><em>Status {{ status }}</em></p>
+    {% else %}
+    <h1>Error</h1>
+    <p>{{ message }}
+    {% endif %}
+</div>
+{% endblock content %}

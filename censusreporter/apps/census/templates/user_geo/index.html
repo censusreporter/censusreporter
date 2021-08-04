@@ -1,0 +1,116 @@
+{% extends '_base.html' %} {% block head_css_extra %}
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #content {
+        display: grid;
+        height: 100vh;
+        grid-template-columns: 300px 1fr;
+        grid-template-rows: 1fr;
+    }
+    
+    #page-header {
+        grid-column: span 2;
+    }
+    
+    #map {
+        /* grid-column: span *; */
+    }
+    
+    #intro-explainer {
+        transition: all .75s ease-out;
+    }
+    
+    .hidden {
+        display: none;
+    }
+    
+    #file-upload-message {
+        color: red;
+    }
+    
+    #user-input {
+        margin: 10px 5px 2px 10px;
+        grid-column: 1;
+    }
+    
+    #upload {
+        margin-left: 10px;
+    }
+    
+    #details {
+        margin: 25px 0 0 10px;
+    }
+    
+    #details input,
+    #details select {
+        width: 100%;
+    }
+    
+    input:invalid,
+    select:invalid {
+        border-color: #900;
+        background-color: #FDD;
+    }
+    
+    #details .input label {
+        display: block;
+        margin-top: 10px;
+        text-align: left;
+    }
+    
+    #details .input {
+        margin: 2px 0;
+    }
+    
+    #details p.form-help {
+        font-size: smaller;
+        font-style: italic;
+    }
+</style>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/loading.css"> {% endblock head_css_extra %} {% block head_javascript_extra %}
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<script src="{{ STATIC_URL }}js/aggregate.js"></script>
+{% endblock head_javascript_extra %} {% block content %}
+
+<div id="content">
+    <div id="user-input">
+        <h1>Neighborhood Data</h1>
+        <p id="intro-explainer">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium vitae, sed natus unde perspiciatis quas et reprehenderit repellendus expedita dolorem atque deserunt at repudiandae sint impedit error. Commodi, quia et?</p>
+        <div id="upload">
+            <h2>Upload a map</h2>
+            <p>GeoJSON or a ZIPfile containing a single set of ESRI Shapefile files</p>
+            <input type="file" name="file-picker" id="file-picker">
+            <div id='file-upload-message' class='hidden'></div>
+        </div>
+        <div id="details" class="hidden">
+            <p>If everything looks right:</p>
+            <button class='import-geojson-button'>Import</button>
+
+            <p>Or, if you think this map would be useful to other people, tell us more about it, and we'll make it easy for other people to get the data without having to find the map.</p>
+            <h3>Tell us more</h3>
+            <div class='input'><label for="dataset_name">Name</label><input type="text" name="dataset_name" id="dataset_name">
+                <p class='form-help'>a simple description of what this map shows</p>
+            </div>
+            <div class='input'><label for="source_url">Source URL</label><input type="url" name="source_url" id="source_url">
+                <p class='form-help'>a page on the web where someone could download the same file you are uploading</p>
+            </div>
+            <div class='input'><label for="name_field">Name field</label><select name="name_field" id="name_field"></select>
+                <p class='form-help'>which field in the data attached to the map has the name for a given shape? Leave blank if there isn't one.</p>
+
+            </div>
+            <div class='input'><label for="id_field">ID Field</label><select name="id_field" id="id_field"></select>
+                <p class='form-help'>which field in the data attached to the map has the unique ID for a given shape? Leave blank if there isn't one.</p>
+            </div>
+            <button class='import-geojson-button'>Import</button>
+        </div>
+    </div>
+    <div id="map">
+        <div id="loading-indicator"></div>
+    </div>
+</div>
+{% endblock content %}

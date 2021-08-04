@@ -18,6 +18,7 @@ from .views import (
     SitemapTopicsView,
     TableDetailView,
     TopicView,
+    UserGeographyDetailView,
 )
 
 admin.autodiscover()
@@ -154,6 +155,20 @@ urlpatterns = [
         view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html")),
         kwargs={},
         name='locate',
+    ),
+
+    url(
+        regex='^user_geo/$',
+        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="user_geo/index.html")),
+        kwargs={},
+        name='glossary',
+    ),
+
+    url(
+        regex='^user_geo/(?P<hash_digest>[A-Fa-f0-9]{32})/$',
+        view=cache_page(STANDARD_CACHE_TIME)(UserGeographyDetailView.as_view(template_name="user_geo/detail.html")),
+        kwargs={},
+        name='example_detail',
     ),
 
     url(

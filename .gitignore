@@ -6,4 +6,4 @@ censusreporter/config/dev/local.py
 .envrc
 .env
 .python-version
-
+.parcel-cache

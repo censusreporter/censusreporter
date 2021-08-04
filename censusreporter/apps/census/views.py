@@ -6,6 +6,7 @@ import re
 import requests
 from . import topics
 import json
+from datetime import datetime
 
 from django.conf import settings
 from django.contrib import messages
@@ -115,7 +116,7 @@ class TableDetailView(TemplateView):
                 table_argument = table_argument.replace('PR', 'APR')
             else:
                 table_argument = table_argument + 'A'
-            endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_argument
+            endpoint = f"{settings.API_URL}/2.0/table/latest/{table_argument}"
 
             if r_session.get(endpoint).status_code == 200:
                 return HttpResponseRedirect(
@@ -124,7 +125,7 @@ class TableDetailView(TemplateView):
             raise e
 
     def get_tabulation_data(self, table_code):
-        endpoint = settings.API_URL + '/1.0/tabulation/%s' % table_code
+        endpoint = f"{settings.API_URL}/1.0/tabulation/{table_code}"
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -220,7 +221,7 @@ class TableDetailView(TemplateView):
         return related_topic_pages
 
     def get_table_data(self, table_code):
-        endpoint = settings.API_URL + '/2.0/table/latest/%s' % table_code
+        endpoint = f"{settings.API_URL}/2.0/table/latest/{table_code}"
         r = r_session.get(endpoint)
 
         if r.status_code == 200:
@@ -324,7 +325,7 @@ class GeographyDetailView(TemplateView):
         pass
 
     def get_geography(self, geo_id):
-        endpoint = settings.API_URL + '/1.0/geo/tiger2019/%s' % self.geo_id
+        endpoint = f"{settings.API_URL}/1.0/geo/tiger2019/{self.geo_id}"
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -423,7 +424,7 @@ class DataView(TemplateView):
         return super(DataView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
-        download_link_prefix = settings.API_URL + '/1.0/data/download/latest?table_ids=%s&geo_ids=%s' % (self.table, self.geo_ids)
+        download_link_prefix = f"{settings.API_URL}/1.0/data/download/latest?table_ids={self.table}&geo_ids={self.geo_ids}"
 
         page_context = {
             'table': self.table or '',
@@ -569,7 +570,7 @@ class SearchResultsView(TemplateView):
         search_data_all = {}
 
         cr_data = []
-        search_url = settings.API_URL + "/2.1/full-text/search"
+        search_url = f"{settings.API_URL}/2.1/full-text/search"
         cr_resp = r_session.get(search_url, params={"q": query})
 
         if cr_resp.status_code == 200:
@@ -704,6 +705,34 @@ class SitemapProfilesView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         return self.render_to_response(context, content_type="text/xml; charset=utf-8")
+
+
+class UserGeographyDetailView(TemplateView):
+    template_name = 'user_geo/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        hash_digest = kwargs['hash_digest']
+
+        endpoint = f'{settings.API_URL}/1.0/user_geo/{hash_digest}'
+        try:
+            r = r_session.get(endpoint)
+
+            if r.status_code == 404:
+                raise Http404
+            if r.status_code == 200:
+                user_geo_record = r.json(object_pairs_hook=OrderedDict)
+                context['user_geo_record'] = user_geo_record
+                context['status'] = user_geo_record['status']
+                context['user_geo_name'] = user_geo_record.get('name','Untitled Geography')
+                context['datasource_url'] = user_geo_record.get('source_url')
+                context['created_at'] = datetime.fromtimestamp(user_geo_record['unix_timestamp'])
+                context['message'] = 'OK'
+            else:
+                context['message'] = f'ERROR: {r.status_code}'
+        except Exception as e:
+            context['message'] = f'ERROR: {e}'
+        return context
 
 
 def uniurlquote(s):
