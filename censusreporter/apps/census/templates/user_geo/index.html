@@ -25,6 +25,11 @@
         transition: all .75s ease-out;
     }
     
+    a.import-geojson-button {
+        width: 75%;
+        margin: 10px auto;
+    }
+    
     .hidden {
         display: none;
     }
@@ -51,16 +56,29 @@
         width: 100%;
     }
     
+    input#share_map {
+        width: 1.5em;
+        display: inline;
+    }
+    
     input:invalid,
     select:invalid {
         border-color: #900;
         background-color: #FDD;
     }
     
+    input#file-picker {
+        margin-top: 10px;
+    }
+    
     #details .input label {
         display: block;
         margin-top: 10px;
         text-align: left;
+    }
+    
+    #details .input label.inline {
+        display: inline;
     }
     
     #details .input {
@@ -70,6 +88,7 @@
     #details p.form-help {
         font-size: smaller;
         font-style: italic;
+        margin-top: 3px;
     }
 </style>
 {% endblock head_css_extra %} {% block head_javascript_extra %}
@@ -79,25 +98,20 @@
 
 <div id="content">
     <div id="user-input">
-        <h1>Neighborhood Data</h1>
-        <p id="intro-explainer">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium vitae, sed natus unde perspiciatis quas et reprehenderit repellendus expedita dolorem atque deserunt at repudiandae sint impedit error. Commodi, quia et?</p>
+        <h1>Upload a map</h1>
+        <p id="intro-explainer">Upload a map of neighborhoods or other shapes, and we'll roll up 2020 Decennial Census redistricting data to give you statistics on those places. <a href="{% url '2020' %}"><em>Learn more</em></a></p>
         <div id="upload">
-            <h2>Upload a map</h2>
-            <p>GeoJSON or a ZIPfile containing a single set of ESRI Shapefile files</p>
+            <label for="file-picker">Upload a GeoJSON file, or a ZIPfile containing a single set of ESRI Shapefile files</label>
             <input type="file" name="file-picker" id="file-picker">
             <div id='file-upload-message' class='hidden'></div>
         </div>
         <div id="details" class="hidden">
-            <p>If everything looks right:</p>
-            <button class='import-geojson-button'>Import</button>
-
-            <p>Or, if you think this map would be useful to other people, tell us more about it, and we'll make it easy for other people to get the data without having to find the map.</p>
             <h3>Tell us more</h3>
-            <div class='input'><label for="dataset_name">Name</label><input type="text" name="dataset_name" id="dataset_name">
-                <p class='form-help'>a simple description of what this map shows</p>
+            <div class='input'><label for="dataset_name">Name</label><input type="text" name="dataset_name" id="dataset_name" required>
+                <p class='form-help'>required: a simple description of what this map shows. It's nice if you can change it from the filename!</p>
             </div>
             <div class='input'><label for="source_url">Source URL</label><input type="url" name="source_url" id="source_url">
-                <p class='form-help'>a page on the web where someone could download the same file you are uploading</p>
+                <p class='form-help'>optional: a page on the web where someone could download the same file you are uploading</p>
             </div>
             <div class='input'><label for="name_field">Name field</label><select name="name_field" id="name_field"></select>
                 <p class='form-help'>which field in the data attached to the map has the name for a given shape? Leave blank if there isn't one.</p>
@@ -106,7 +120,13 @@
             <div class='input'><label for="id_field">ID Field</label><select name="id_field" id="id_field"></select>
                 <p class='form-help'>which field in the data attached to the map has the unique ID for a given shape? Leave blank if there isn't one.</p>
             </div>
-            <button class='import-geojson-button'>Import</button>
+
+            <div class='input'><input type="checkbox" name="share_map" id="share_map"><label class="inline" for="share-map">Share map</label>
+                <p class='form-help'>Check this box if we can let other people see this map and download the associated data.</p>
+            </div>
+
+
+            <a href="{% url 'user_geo' %}" class="action-button import-geojson-button">Import</a>
         </div>
     </div>
     <div id="map">

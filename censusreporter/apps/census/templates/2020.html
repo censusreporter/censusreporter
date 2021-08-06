@@ -1,0 +1,137 @@
+{% extends '_base.html' %} {% block head_title %}The 2020 Decennial Census - {{ block.super }}{% endblock %} {% block head_css_extra %}
+<style>
+    .action-button {
+        width: 33%;
+        margin: 10px auto;
+    }
+    
+    dl {
+        margin-left: 2em;
+    }
+</style>
+
+{% endblock %} {% block content %}
+<article id="2020-decennial-census">
+    <header>
+        <h1>Census Data for Your Neighborhood</h1>
+    </header>
+
+    <section>
+        <div class="column-two-thirds">
+            <p>
+                While the Census Bureau provides plenty of data, they don't always provide it in the format you need. Specifically, the Census Bureau doesn't tabulate data for city neighborhoods and other kinds of locally important geographies. While it's technically
+                possible to add up (or "aggregate") data for Census blocks, block groups, or tracts, the process of identifying, gathering, and summing the right data can be pretty complicated.
+            </p>
+            <p><strong>Census Reporter makes it easy</strong></p>
+            <p>
+                Census Reporter has created a new tool to make this as easy as we can. All you need is a digital map (GeoJSON or ESRI Shapefile format). <a href="{% url 'user_geo' %}">Upload the file to Census Reporter</a> and we'll link it to the Census
+                blocks that are inside the shapes on your map. Once that's done, you can download files that add up the block level data for various files in the 2020 Redistricting data release.
+            </p>
+            <a href="{% url 'user_geo' %}" class="action-button">Let's do it!</a>
+            <h2 class="subhead">Q &amp; A</h2>
+            <div class='qa-pair'>
+                <h3>What data can I get with this tool?</h3>
+                <p>For now, the tool is limited to the 2020 Decennial Census "redistricting" data release. You can choose from five tables that support comparing 2020 to 2010, plus one file which is new, so only has 2020 data.</p>
+                <dl class='dl-horizontal'>
+                    <dt>P1</dt>
+                    <dd>Race</dd>
+                    <dt>P2</dt>
+                    <dd>Hispanic or Latino, and not Hispanic or Latino by Race</dd>
+                    <dt>P3</dt>
+                    <dd>Race for the Population 18 Years and Over</dd>
+                    <dt>P4</dt>
+                    <dd>Hispanic or Latino, and not Hispanic or Latino by Race for the Population 18 Years and Over</dd>
+                    <dt>P5</dt>
+                    <dd>Group Quarters Population by Major Group Quarters Type (2020 only)</dd>
+                    <dt>H1</dt>
+                    <dd>Occupancy Status</dd>
+                </dl>
+                <p>
+                    We haven't decided yet whether to extend this to work with the full 2020 Decennial data release. We've wanted to provide a tool like this for a long time, but there are methodological challenges with doing this for <abbr title="American Community Survey">ACS</abbr>                    data. We are hoping that this provides us with a starting point to explore extending this to ACS data in the future.
+                </p>
+            </div>
+
+            <div class='qa-pair'>
+                <h3>Where can I find maps?</h3>
+                <p>
+                    It's becoming more and more common for local governments to publish maps in the format needed for this tool on open data portals. Try a search for your city or town plus "GIS" or "shapefile." If you find them, you may be able to download (or "export")
+                    them in multiple formats. For this, you should choose "GeoJSON" if it's available, or "Shapefile" (sometimes "ESRI Shapefile"). The "Shapefile" download should end in <code>.zip</code>&mdash;despite the name, "shapefiles"
+                    are actually a collection of related files. For this tool, you need to upload them all together in a ZIPfile, not just the one that ends in <code>.shp</code>.
+                </p>
+                <p>
+                    For another project, we started making <a href="https://github.com/censusreporter/acs-aggregate/blob/master/BOUNDARIES.md">a list of some sources</a> that may help.
+                </p>
+            </div>
+            <div class='qa-pair'>
+                <h3>Can I draw my own map?</h3>
+                <p>Yes! We did not create a map drawing tool, but you can use the amazing <a href="https://GeoJSON.io">GeoJSON.io</a> to draw your own. When you're done, just use the "Save" menu to save it as "GeoJSON", and then upload that to our tool.
+                    If you draw more than one shape, we strongly recommend using the "properties" popup available for each shape you draw to add a name or other identifier so you can distinguish the data after you download it.</p>
+            </div>
+            <div class='qa-pair'>
+                <h3>Are there limitations on what kind of map I can upload?</h3>
+                <p>
+                    The only limitation is that the total area of your map must be less
+                </p>
+            </div>
+
+            <div class='qa-pair'>
+                <h3>In which formats can I get data?</h3>
+                <p>To keep things simple, for each of the tables above you can download a single ZIP file. The file will contain a CSV file with one row for each geography in your uploaded map, and a GeoJSON file which has the same data already linked to
+                    each geography. For the tables which offer 2010 comparison data, there will be three data points for each table column: the 2020 data, the 2010 data, and the percent change between 2020 and 2010 for that table column. The ZIP file
+                    also includes a <code>metadata.json</code> file which translates the coded column identifiers, like <code>P0010009</code> into an understandable label, like <em>P1-9: Population of two or more races</em>.</p>
+            </div>
+            <div class='qa-pair'>
+
+                <h3>When I upload a map, it asks me for the "name" and "ID" fields. What does that mean?</h3>
+                <p>
+                    In short, this is how we make sure that when you download data, you can tell which of the geographies from your map it describes. Map files come in a wide variety of formats. They almost always have some data linked to each geography, but the field names
+                    for that data vary wildly, so we need your help.
+                </p>
+                <p>
+                    The "name" field is whichever field has a readable, meaningful name for the geography. The "ID" field would be whichever field you might want to use to link data you download from Census Reporter to other data you work with. Your map may only have one
+                    of these. If you're not sure, use your best guess. Our tool will help you see example values for the different shapes to help you choose.
+                </p>
+            </div>
+            <div class='qa-pair'>
+
+                <h3>Who can see my map?</h3>
+                <p>
+                    When you upload your map, we ask if it's ok to "share". If you give us permission, we may include the map in lists or searches so that people who haven't found the same map can benefit from the data aggregation.
+                </p>
+                <p>
+                    <strong>Note:</strong> even if you don't check "share," your map is not strictly private. Anyone with the URL could see the map and download the data, but the URLs are not easy to guess. We simply couldn't afford the resources to lock
+                    down the maps more completely.
+                </p>
+            </div>
+            <div class='qa-pair'>
+
+                <h3>How do you actually compute the numbers?</h3>
+                <p>
+                    The Census Bureau's Geography division computes an <em>internal point</em> for every Census block (and other geography). The internal point is the mathematical center of the geography, but adjusted to ensure that it is inside the shape.
+                    (This is related to the concept of a geographic "centroid", but for some shapes, centroids fall outside of the boundaries.) When you upload your map, we link every block with an internal point that falls within one of your geographies
+                    to that geography. (Of course, it's possible that some blocks don't fall completely within a single one of your geographies, but because blocks tend to be small in both size and population, we decided that this was an acceptable simplification.)
+                    When you request a data file, we just add up the numbers for each block in each geography.
+                </p>
+                <p>
+                    This is a fairly standard method, although approaches can vary slightly. When we compared our numbers for Chicago Community Areas to <a href="https://datahub.cmap.illinois.gov/dataset/2010-census-data-summarized-to-chicago-community-areas">another report</a>,
+                    most of the numbers matched exactly. In a few cases, our numbers differed slightly. Treat this as a reminder that <strong>these numbers are inexact</strong>. Also, remember that in 2020, the Census Bureau implemented <a href="https://www.npr.org/2021/05/19/993247101/for-the-u-s-census-keeping-your-data-anonymous-and-useful-is-a-tricky-balance">a "disclosure avoidance" method</a>                    which may introduce another kind of imprecision to this process.
+                </p>
+            </div>
+            <div class='qa-pair'>
+                <h3>What about my other question you haven't answered here?</h3>
+                <p>You can ask us questions using <a href="http://censusreporter.uservoice.com/" data-uv-trigger>our UserVoice system</a></p>
+            </div>
+        </div>
+
+        <div class="column-third">
+            <h2>More help with 2020 Decennial Data</h2>
+            <p>This tool is part of the 2020 Census Data Co-op. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons to 2010 data,
+                making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong>Big Local News at Stanford University</strong>, and are available to anyone—AP membership is not required.</p>
+        </div>
+    </section>
+</article>
+{% endblock %} {% block body_javascript_extra %}
+<script>
+    Glossary.init("{% url 'glossary' %}", ".glossary-term");
+</script>
+{% endblock %}

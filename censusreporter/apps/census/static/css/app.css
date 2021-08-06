@@ -253,14 +253,16 @@ img.screenshot {
     color: #f7f8f3;
     text-decoration: none;
 }
+
 #page-header-title p {
     font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #f7f8f3;
-	margin: .33em 0 0;
+    margin: .33em 0 0;
 }
+
 #page-header-title p a {
-	color: #e0e4d4;
-	text-decoration: underline;
+    color: #e0e4d4;
+    text-decoration: underline;
 }
 
 #page-header-title a.title {
@@ -388,10 +390,11 @@ a.action-button,
 #page-footer ul.ul-icon-list {
     line-height: 2;
 }
+
 footer .trailer {
-	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	margin-top: 1.5em;
-	padding: 0 1em;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-top: 1.5em;
+    padding: 0 1em;
 }
 
 .content-container {
@@ -1615,6 +1618,7 @@ form label {
 }
 
 input[type="text"],
+input[type="url"],
 select,
 .select-wrapper,
 .filter-group,

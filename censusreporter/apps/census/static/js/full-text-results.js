@@ -1,4 +1,4 @@
-L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiM3BfZ080cyJ9.1qg3pnpZZP5-iLWMNoaLIQ';
 var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
 const selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : 'https://api.censusreporter.org';
@@ -58,7 +58,7 @@ function locationDataRequest(fulltext_data, request_term) {
     return $.ajax({
         url: GEOCODE_URL({
             query: encodeURIComponent(request_term),
-            token: L.mapbox.accessToken
+            token: MAPBOX_ACCESS_TOKEN
         }),
         dataFilter: function(data) {
             data = JSON.parse(data);

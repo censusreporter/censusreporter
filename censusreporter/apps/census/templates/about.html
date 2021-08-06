@@ -8,8 +8,10 @@
         <div class="column-two-thirds">
             <p>Census Reporter is an independent project to make data from the American Community Survey easier to use. We are unaffiliated with the U.S. Census Bureau. </p>
             <p>
-                A <a href="https://web.archive.org/web/20151207075007/http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">News Challenge grant from the <strong>Knight Foundation</strong></a> funded the initial build-out of the site. <strong>Joe Germuska</strong>                developed the grant proposal and is the project lead. Our original project advisory board consisted of <strong>Joe Germuska</strong>, <strong>John Keefe</strong>, and <strong>Ryan Pitts</strong>. We are grateful to <a href="https://ire.org"><strong>Investigative Reporters and Editors (IRE)</strong></a>,
-                who served as the fiscal agent for our original grant funds. After the original grant was spent, we incorporated as Census Reporter, NFP, an Illinois not-for-profit corporation.
+                A <a href="https://web.archive.org/web/20151207075007/http://www.knightfoundation.org/press-room/press-release/six-ventures-bring-data-public-winners-knight-news/">News Challenge grant from the <strong>Knight Foundation</strong></a> funded
+                the initial build-out of the site. <strong>Joe Germuska</strong> developed the grant proposal and is the project lead. Our original project advisory board consisted of <strong>Joe Germuska</strong>, <strong>John Keefe</strong>, and <strong>Ryan Pitts</strong>.
+                We are grateful to <a href="https://ire.org"><strong>Investigative Reporters and Editors (IRE)</strong></a>, who served as the fiscal agent for our original grant funds. After the original grant was spent, we incorporated as Census Reporter,
+                NFP, an Illinois not-for-profit corporation.
             </p>
             <p>
                 <strong>Sara Schnadt</strong> served as the original designer and community coordinator. <strong>Ryan Pitts</strong> and <strong>Ian Dees</strong> were the primary software development team. <strong>Joe Germuska</strong> served as project
@@ -25,23 +27,18 @@
                 <strong>Tushar Samant</strong>, and
                 <strong>Sumin Woo</strong>. <strong>Ian Dees</strong> has donated a substantial amount of his time each year to update Census Reporter with new <abbr title="American Community Survey">ACS</abbr> releases.
             </p>
+            <p>Support for our <a href="{% url '2020' %}">2020 Decennial Census features</a> was provided by the Google News Initiative.</p>
             <p>We are grateful to the <a href="https://www.medill.northwestern.edu/"><strong>Medill School of Journalism</strong></a> at <a href="https://northwestern.edu"><strong>Northwestern University</strong></a>, home of <a href="https://knightlab.northwestern.edu"><strong>Knight Lab</strong></a>,
-                which provides in-kind support for some of Census Reporter's ongoing development. Thanks also to <a href="https://www.mapbox.com/"><strong>Mapbox</strong></a> and <a href="https://aws.amazon.com/"><strong>Amazon Web Services</strong></a>                for subsidizing some of our technology costs.</p>
+                which provides in-kind support for some of Census Reporter's ongoing development. Most of our server hosting infrastructure is generously provided by the <a href="https://osuosl.org/">Oregon State University Open Source Lab</a>. Thanks
+                also to <a href="https://www.mapbox.com/"><strong>Mapbox</strong></a> for subsidizing some of our technology costs, and <a href="https://aws.amazon.com/"><strong>Amazon Web Services</strong></a> for similar support in the past.</p>
+
+            <p>We are especially grateful to the individuals who directly support Census Reporter through contributions via <a href="https://opencollective.com/censusreporter">Open Collective</a>.</p>
+
+            <p>If you would like to contact us about anything, please use <a href="http://censusreporter.uservoice.com/" data-uv-trigger>our UserVoice system</a>.</p>
+
+
         </div>
         <div class="column-third"></div>
     </section>
 </article>
 {% endblock %}
-
-
-<section class="clearfix stat-row">
-    <aside></aside>
-    <div class="column-third">
-        <h2 class="header-for-columns"><a class="permalink" href="#sex" id="sex">Sex <i class="fa fa-link"></i></a></h2>
-        <div id="chart-pie-demographics-sex" data-stat-type="percentage" data-initial-sort="-value"></div>
-    </div>
-    <div class="column-two-thirds">
-        <h2 class="header-for-columns"><a class="permalink" href="#race" id="race">Race &amp; Ethnicity <i class="fa fa-link"></i></a></h2>
-        <div id="chart-column-demographics-race" data-stat-type="scaled-percentage" data-qualifier="Hispanic includes respondents of any race. Other categories are non-Hispanic."></div>
-    </div>
-</section>
