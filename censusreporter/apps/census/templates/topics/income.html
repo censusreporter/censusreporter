@@ -23,6 +23,15 @@
     </p>
 
     <p>Income is reported in a number of ways: as a median value, or as a series of medians for groups within a total population; as a number of people or households earning in a certain bracket; as well as a few other structures.</p>
+
+
+    <h2>Income brackets</h2>
+    <p>
+        A few tables provide counts of the number of households (or in one case, individuals) in each of a series of income brackets.
+    </p>
+
+    {% list_tables codes="19001,19101,19201,19037,19131,19325" %}
+
     <h2>Median Income</h2>
     <p>Median incomes are reported by household, with subsets for only family households and also for nonfamily households. One table, <a href="{% url 'table_detail' 'B19326' %}">B19326</a> reports median income for individuals by sex.</p>
 
@@ -45,6 +54,48 @@
 
     {% list_tables prefix="19" query="aggregate" %}
 
+    <h2>Types of income</h2>
+
+    <p>
+        While people often think of income as salary, or wages, the Census Bureau includes several components of income, as can be seen in the sample questions on this page. Specifically, total income is the sum of income from these sources:
+        <ul>
+            <li>Earnings, which includes:
+                <ul>
+                    <li>Wage or Salary Income</li>
+                    <li>Self-employment Income</li>
+                </ul>
+            </li>
+            <li>Interest, Dividends, or Net Rental Income</li>
+            <li>Social Security Income</li>
+            <li>Supplemental Security Income (SSI)</li>
+            <li>Public Assistance Income</li>
+            <li>Retirement Income</li>
+            <li>Other Types of Income</li>
+        </ul>
+    </p>
+
+    <p>For these eight types of income, as well as "Earnings" (the combination of wages and self-employment income), the ACS includes tables which report the estimated number of households who had any of that type of income, as well as tables which report
+        the aggregate dollar amount of that kind of income for a geography.
+    </p>
+
+    {% list_tables prefix="19" query="for households" %}
+
+    <h2>Income distribution and Inequality</h2>
+    <p>
+        A few tables in the American Community Survey can be used to understand how income is distributed in given geographies. Two of these tables divide the population of an area into five "quintiles," each with approximately the same number of households in
+        it. For households in those quintiles, you can find the highest income for each quintile, the mean (average) income for each quintile, and the share (percentage) of total income taken in by each quintile.
+    </p>
+    <p>
+        There is also a table reporting the Gini index for each geography, which summarizes the income distribution in that place. The Gini index is a number between 0 and 1, where lower numbers reflect more equality, and higher numbers indicate greater inequality.
+        You can learn more about the Gini index <a href="https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html">on this page from the Census Bureau</a>
+    </p>
+
+    {% list_tables prefix="1908" %}
+
+    <h2>Family income</h2>
+    <p>A number of tables provide insight into family income, and some related tables account for nonfamily households. Some, but not all, of the tables in the list below also appear in lists above.</p>
+
+    {% list_tables prefix="19" query="family" %}
 
 </section>
 {% endblock %}
