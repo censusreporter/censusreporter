@@ -358,7 +358,8 @@ TOPICS_LIST = [
         'template_name': 'income.html',
         'question_images': ['43_income_1.png', '44_income_2.png',],
         'more_info_links': [
-            ('Why We Ask: Income','https://www.census.gov/acs/www/about/why-we-ask-each-question/income/')
+            ('Why We Ask: Income','https://www.census.gov/acs/www/about/why-we-ask-each-question/income/'),
+            ('US Census Bureau: Topics: Income','https://www.census.gov/topics/income-poverty/income.html')
         ],
         'group': 'topical_help'
     },
@@ -433,4 +434,3 @@ def sort_topics(topic_map):
     # force "getting started" to the top of the list, and serve the rest alphabetically.
     to_sort = [(v['group'], v.get('priority',10000), k, v) for k,v in topic_map.items()]
     return [x[-1] for x in sorted(to_sort)]
-
