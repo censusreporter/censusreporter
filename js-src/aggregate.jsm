@@ -4,10 +4,6 @@ import { toWgs84 } from './reproject'
 import { bbox, area as turfArea, pointToLineDistance } from '@turf/turf'
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 
-window.toWgs84 = toWgs84
-window.bbox = bbox
-window.turfArea = turfArea
-
 const MAXIMUM_AREA_IN_SQ_M = 2000000000; // only 5 Census places are larger than 2 billion sq m.
 const EASING = {
     'InOutSine': (x) => -(Math.cos(Math.PI * x) - 1) / 2
@@ -70,8 +66,6 @@ function updateDetailsForm(geojson) {
     })
     showDetailsForm()
 }
-
-window.addGeojsonToMap = addGeojsonToMap
 
 function showFileUploadMessage(msg) {
     const msgDiv = document.querySelector('#file-upload-message')
@@ -255,9 +249,6 @@ window.addEventListener("DOMContentLoaded", e => {
         })
     }
 
-    window.readShapefile = readShapefile
-
-
     /**
      * 
      * @param zipfile_dict {Object} an object with filenames for keys and readable streams representing the contents of those streams
@@ -308,7 +299,6 @@ window.addEventListener("DOMContentLoaded", e => {
             }
             if (file.type == 'application/zip') {
                 file.arrayBuffer().then(JSZip.loadAsync).then(zip => {
-                    window.stash = zip
                     const files = validateShapefileZip(zip.files)
 
                     if (!files.shp) {
@@ -319,7 +309,6 @@ window.addEventListener("DOMContentLoaded", e => {
                         files.prj.async('string').then(prj => {
                             readShapefile(files).then(geojson => {
                                 geojson = toWgs84(geojson, prj)
-                                window.geojson = geojson
                                 if (geojson.features.length > 0) {
                                     if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw 'Uploaded map area is too large.'
                                     addGeojsonToMap(geojson, map)
@@ -345,7 +334,6 @@ window.addEventListener("DOMContentLoaded", e => {
             } else if (probablyJson(file)) {
                 file.text().then(geojson => {
                     const parsed = JSON.parse(geojson);
-                    window.geojson = parsed;
                     addGeojsonToMap(parsed, map)
                 })
             }
@@ -382,8 +370,6 @@ function setLoading(bool) {
     }
 }
 
-window.turfArea = turfArea
-
 function importGeoJSON(geojson, metadata) {
     if (!metadata) metadata = {}
     var request = new XMLHttpRequest();
@@ -401,7 +387,6 @@ function importGeoJSON(geojson, metadata) {
             console.log(response)
             setLoading(false)
             showFileUploadMessage(response.message)
-            window.stash = response
         }
     }
     request.onerror = function(evt) {
@@ -439,10 +424,4 @@ function extractProperties(geoJSON) {
         headers: headers,
         data: data
     }
-}
-
-window.importGeoJSON = importGeoJSON
-
-if (module.hot) {
-    module.hot.accept();
 }

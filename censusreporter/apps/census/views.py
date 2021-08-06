@@ -728,6 +728,7 @@ class UserGeographyDetailView(TemplateView):
                 context['datasource_url'] = user_geo_record.get('source_url')
                 context['created_at'] = datetime.fromtimestamp(user_geo_record['unix_timestamp'])
                 context['message'] = 'OK'
+                context['endpoint'] = endpoint
             else:
                 context['message'] = f'ERROR: {r.status_code}'
         except Exception as e:

@@ -1,17 +1,56 @@
 {% extends '_base.html' %} {% block head_css_extra %}
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet"> {% endblock head_css_extra %} {% block head_javascript_extra %}
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
+
+<style>
+    #status-spinner {
+        margin-left: 2em;
+    }
+</style>
+{% endblock head_css_extra %} {% block head_javascript_extra %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
 <script src="{{ STATIC_URL }}js/aggregate.js"></script>
+<script>
+    function makeEvent(status) {
+        return new CustomEvent('status_update', {
+            detail: {
+                status: status
+            }
+        })
+    }
+
+    document.addEventListener('status_update', e => {
+        let status = e.detail.status;
+        document.getElementById('status_message').innerText = status;
+        if (status == 'READY') {
+            spinner.stop()
+            document.getElementById('download-links').classList.remove('hidden')
+        } else {
+            spinner.spin(document.getElementById('status-spinner'))
+            setTimeout((evt) => {
+                fetch('{{ endpoint }}').then(response => response.json()).then(data => {
+                    document.dispatchEvent(makeEvent(data.status))
+                })
+            }, 10000)
+        }
+    })
+    document.addEventListener('DOMContentLoaded', e => {
+        let evt = makeEvent('{{status}}')
+        document.dispatchEvent(evt)
+    })
+</script>
+
 {% endblock head_javascript_extra %} {% block content %}
 
 <div id="content">
     {% if message == 'OK' %}
     <h1>{{ user_geo_name }}</h1>
     <p><em>Uploaded on {{ created_at|date:"D, N j Y" }}</em></p>
-    <p><em>Status {{ status }}</em></p>
+    <p>Status: <em id="status_message">{{ status }}</em><span id="status-spinner"></span></p>
     {% else %}
     <h1>Error</h1>
-    <p>{{ message }}
-    {% endif %}
+    <p>{{ message }}</p> {% endif %}
+    <div id="download-links" class='hidden'>
+        <p>git yr fresh downloads here</p>
+    </div>
 </div>
 {% endblock content %}
