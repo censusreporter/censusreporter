@@ -13,7 +13,7 @@
 {% endblock %} {% block content %}
 <article id="2020-decennial-census">
     <header>
-        <h1>Census Data for Your Neighborhood</h1>
+        <h1>2020 Census Data for Your Neighborhood</h1>
     </header>
 
     <section>
@@ -47,7 +47,8 @@
                     <dd>Occupancy Status</dd>
                 </dl>
                 <p>
-                    We haven't decided yet whether to extend this to work with the full 2020 Decennial data release. We've wanted to provide a tool like this for a long time, but there are methodological challenges with doing this for <abbr title="American Community Survey">ACS</abbr>                    data. We are hoping that this provides us with a starting point to explore extending this to ACS data in the future.
+                    We've wanted to provide a tool like this for a long time, and we're excited to have this chance to try it. For various reasons, extending it to the full 2020 Decennial Census release or the American Community Survey are still complicated. Because of this,
+                    we are not actively planning to extend this tool to include other Census data sources, but we will consider it, and we welcome your <a href="http://censusreporter.uservoice.com/" data-uv-trigger>feedback</a>.
                 </p>
             </div>
 
@@ -127,6 +128,15 @@
             <h2>More help with 2020 Decennial Data</h2>
             <p>This tool is part of the 2020 Census Data Co-op. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons to 2010 data,
                 making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong>Big Local News at Stanford University</strong>, and are available to anyone—AP membership is not required.</p>
+            {% if public_geos %}
+            <h2>Available Geographies</h2>
+            <p>These are maps which have already been uploaded using this tool. The data you need may be ready to download!</p>
+            <ul>
+                {% for pg in public_geos %}
+                <li><a href="{% url 'user_geo_detail' hash_digest=pg.hash_digest %}">{{ pg.name }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </section>
 </article>

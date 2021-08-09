@@ -19,6 +19,7 @@ from .views import (
     TableDetailView,
     TopicView,
     UserGeographyDetailView,
+    Census2020View,
 )
 
 admin.autodiscover()
@@ -152,7 +153,7 @@ urlpatterns = [
 
     url(
         regex='^2020/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="2020.html")),
+        view=cache_page(60 * 5)(Census2020View.as_view(template_name="2020.html")),
         kwargs={},
         name='2020',
     ),
@@ -174,7 +175,7 @@ urlpatterns = [
         regex='^user_geo/(?P<hash_digest>[A-Fa-f0-9]{32})/$',
         view=cache_page(STANDARD_CACHE_TIME)(UserGeographyDetailView.as_view(template_name="user_geo/detail.html")),
         kwargs={},
-        name='example_detail',
+        name='user_geo_detail',
     ),
 
     url(

@@ -4,7 +4,7 @@
     "description": "",
     "browser": true,
     "scripts": {
-        "start": "parcel js-src/aggregate.jsm --hmr-port 34471",
+        "start": "parcel watch js-src/aggregate.jsm --hmr-port 34471",
         "build": "parcel build js-src/aggregate.jsm"
     },
     "author": "",

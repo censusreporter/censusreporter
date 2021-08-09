@@ -1,7 +1,7 @@
 import JSZip from "jszip/dist/jszip" // https://github.com/Stuk/jszip/issues/673
 import { open as openShapefile } from 'shapefile'
 import { toWgs84 } from './reproject'
-import { bbox, area as turfArea, pointToLineDistance } from '@turf/turf'
+import { bbox, area as turfArea } from '@turf/turf'
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 
 const MAXIMUM_AREA_IN_SQ_M = 2000000000; // only 5 Census places are larger than 2 billion sq m.
@@ -16,6 +16,13 @@ const FIT_BOUNDS_OPTIONS = {
     easing: EASING.InOutSine
 }
 
+function bboxWithFallback(geojson) {
+    return geojson.bbox || bbox(geojson)
+}
+
+window.bboxWithFallback = bboxWithFallback
+
+
 /**
  * Add the given geojson to the given map, and do some clean-up. Geojson 
  * should be in WGS84 projection already.
@@ -23,6 +30,7 @@ const FIT_BOUNDS_OPTIONS = {
  * @param map 
  */
 function addGeojsonToMap(geojson, map) {
+    window.geojson = geojson; // we'll need to get at it later to upload, etc
     document.querySelector('#intro-explainer').classList.add('hidden')
 
     for (let popup of document.getElementsByClassName('mapboxgl-popup')) {
@@ -30,7 +38,7 @@ function addGeojsonToMap(geojson, map) {
     }
 
     map.getSource('user-geo').setData(geojson)
-    let bb = geojson.bbox || bbox(geojson)
+    let bb = bboxWithFallback(geojson)
     if (bb && bb.length && bb.length > 0 && isFinite(bb[0])) {
         // if we add empty geojson the bbox is infinite
         map.fitBounds(bb, FIT_BOUNDS_OPTIONS)
@@ -137,6 +145,11 @@ function initMap(map, geojson) {
         data: geojson
     })
 
+
+    if (geojson) {
+        map.fitBounds(bboxWithFallback(geojson), { duration: 0 })
+    }
+
     map.addLayer({
         id: `user-geo-fill`,
         type: 'fill',
@@ -173,13 +186,13 @@ function initMap(map, geojson) {
     });
 
     // Change the cursor to a pointer when
-    // the mouse is over the states layer.
+    // the mouse is over the layer.
     map.on('mouseenter', 'user-geo-fill', function() {
         map.getCanvas().style.cursor = 'pointer';
     });
 
     // Change the cursor back to a pointer
-    // when it leaves the states layer.
+    // when it leaves the layer.
     map.on('mouseleave', 'user-geo-fill', function() {
         map.getCanvas().style.cursor = '';
     });
@@ -189,7 +202,7 @@ window.addEventListener("DOMContentLoaded", e => {
 
     document.querySelectorAll('.import-geojson-button').forEach(e => {
         e.addEventListener('click', () => {
-            if (validateForm()) {
+            if (!window.loading && validateForm()) {
                 const metadata = {
                     dataset_name: document.getElementById('dataset_name').value || null,
                     source_url: document.getElementById('source_url').value || null,
@@ -209,14 +222,24 @@ window.addEventListener("DOMContentLoaded", e => {
     }
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiM3BfZ080cyJ9.1qg3pnpZZP5-iLWMNoaLIQ';
-    var map = new mapboxgl.Map({
-        container: 'map', // container id
-        style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq', // style URL
-        center: [-87.750691, 41.976544], // starting position [lng, lat]
-        zoom: 9 // starting zoom
-    });
-    map.on('style.load', () => initMap(map))
-    window.map = map;
+    if (document.getElementById('map')) {
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq', // style URL
+            center: [-87.750691, 41.976544], // starting position [lng, lat]
+            zoom: 9 // starting zoom
+        });
+        let geojson = null;
+        if (document.getElementById('initial-geojson')) {
+            try {
+                geojson = JSON.parse(document.getElementById('initial-geojson').textContent);
+            } catch (e) {
+                console.log(`Error parsing json: ${e}`)
+            }
+        }
+        map.on('style.load', () => initMap(map, geojson))
+        window.map = map;
+    }
 
     function featureCollectionHandler(fc) {
         fc.type = 'FeatureCollection'
@@ -363,11 +386,12 @@ function minimalFeatureCollection() {
 }
 
 function setLoading(bool) {
-    var e = document.getElementById('loading-indicator')
+    window.loading = bool
+    var e = document.querySelector('#upload')
     if (bool) {
-        e.classList.add('loading')
+        spinner.spin(e)
     } else {
-        e.classList.remove('loading')
+        spinner.stop()
     }
 }
 
@@ -382,7 +406,11 @@ function importGeoJSON(geojson, metadata) {
         console.log('------------------')
         let response = JSON.parse(this.response)
         if (response.ok && response.hash_digest) {
-            window.location.href += response.hash_digest
+            if (response.existing) {
+                window.location.href += `${response.hash_digest}?existing=true`
+            } else {
+                window.location.href += response.hash_digest
+            }
         } else {
             console.log('error importing')
             console.log(response)
@@ -425,4 +453,8 @@ function extractProperties(geoJSON) {
         headers: headers,
         data: data
     }
+}
+
+if (module.hot) {
+    module.hot.accept()
 }

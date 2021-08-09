@@ -25,9 +25,11 @@
         transition: all .75s ease-out;
     }
     
-    a.import-geojson-button {
-        width: 75%;
+    button.action-button {
         margin: 10px auto;
+        width: 75%;
+        padding: 0 9px;
+        line-height: 1.9em;
     }
     
     .hidden {
@@ -125,12 +127,10 @@
                 <p class='form-help'>Check this box if we can let other people see this map and download the associated data.</p>
             </div>
 
-
-            <a href="{% url 'user_geo' %}" class="action-button import-geojson-button">Import</a>
+            <button class="action-button import-geojson-button">Import</button>
         </div>
     </div>
     <div id="map">
-        <div id="loading-indicator"></div>
     </div>
 </div>
 {% endblock content %}

@@ -5,17 +5,65 @@
     #status-spinner {
         margin-left: 2em;
     }
+    
+    #map {
+        float: left;
+        width: 100%;
+        height: 40vh;
+    }
+    
+    #map-source-link {
+        margin-left: 1em;
+        font-size: smaller;
+    }
+    
+    #download-explainer {
+        font-size: smaller;
+    }
+    
+    #download-links h2 {
+        font-size: larger;
+    }
+    
+    #download-links ul {
+        list-style: none;
+    }
+    
+    #download-links li {
+        line-height: 2em;
+    }
+    
+    #breadcrumb {
+        font-size: smaller;
+        margin-bottom: 1.25em;
+    }
 </style>
 {% endblock head_css_extra %} {% block head_javascript_extra %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
 <script src="{{ STATIC_URL }}js/aggregate.js"></script>
+
+{{ geojson|cr_json_script:"initial-geojson" }}
 <script>
-    function makeEvent(status) {
+    function makeEvent(status) { // centralize boilerplate
         return new CustomEvent('status_update', {
             detail: {
                 status: status
             }
         })
+    }
+
+    function addGeoJSONToMap(geojson) {
+        for (let popup of document.getElementsByClassName('mapboxgl-popup')) {
+            popup.remove()
+        }
+        map.getSource('user-geo').setData(geojson)
+        let bb = bboxWithFallback(geojson)
+        if (bb && bb.length && bb.length > 0 && isFinite(bb[0])) {
+            // if we add empty geojson the bbox is infinite
+            map.fitBounds(bb, {
+                duration: 0
+            })
+        }
     }
 
     document.addEventListener('status_update', e => {
@@ -24,10 +72,11 @@
         if (status == 'READY') {
             spinner.stop()
             document.getElementById('download-links').classList.remove('hidden')
+            document.getElementById('status-wrapper').classList.add('hidden')
         } else {
             spinner.spin(document.getElementById('status-spinner'))
             setTimeout((evt) => {
-                fetch('{{ endpoint }}').then(response => response.json()).then(data => {
+                fetch('{{ status_endpoint }}').then(response => response.json()).then(data => {
                     document.dispatchEvent(makeEvent(data.status))
                 })
             }, 10000)
@@ -40,17 +89,50 @@
 </script>
 
 {% endblock head_javascript_extra %} {% block content %}
-
 <div id="content">
-    {% if message == 'OK' %}
-    <h1>{{ user_geo_name }}</h1>
-    <p><em>Uploaded on {{ created_at|date:"D, N j Y" }}</em></p>
-    <p>Status: <em id="status_message">{{ status }}</em><span id="status-spinner"></span></p>
-    {% else %}
-    <h1>Error</h1>
-    <p>{{ message }}</p> {% endif %}
-    <div id="download-links" class='hidden'>
-        <p>git yr fresh downloads here</p>
+    <div id="breadcrumb">
+        <a href="{% url '2020' %}">&lt; 2020 Neighborhood Data</a>
     </div>
+    {% if message != 'OK' %}
+    <h1>Error</h1>
+    <p>{{ message }}</p>
+    {% else %}
+
+    <h1>{{ user_geo_name }}</h1>
+    <p><em>Uploaded on {{ created_at|date:"D, N j Y" }}</em> {% if datasource_url %} <span id='map-source-link'>(<a href="{{ datasource_url }}">map source</a>)</span>{% endif %}</p>
+    {% if existing_message %}
+    <p><strong><em>This map has already been imported. Previous import metadata has not been changed.</em></strong></p>{% endif %}
+    <div id="map-container" class="column-third">
+        <div id="map"></div>
+    </div>
+</div>
+<div class="column-two-thirds">
+    <p id="status-wrapper">Status: <em id="status_message">{{ status }}</em><span id="status-spinner"></span></p>
+    <div id="download-links" class='hidden'>
+        <h2>
+            2020 Decennial Census Redistricting data release
+        </h2>
+
+        <ul class='dl-horizontal'>
+            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P1" target="_new">P1: Race</a></li>
+            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P2" target="_new">P2: Hispanic or Latino, and not Hispanic or Latino by Race</a></li>
+            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P3" target="_new">P3: Race for the Population 18 Years and Over</a></li>
+            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P4" target="_new">P4: Hispanic or Latino, and not Hispanic or Latino by Race for the Population 18 Year<a href=""></a>s and Over</a>
+            </li>
+            <li><a href="{{ download_url_base }}/dec2020_pl94/P5" target="_new">P5: Group Quarters Population by Major Group Quarters Type (2020 only)</a></li>
+            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/H1" target="_new">H1: Occupancy Status</a></li>
+        </ul>
+        <p id="download-explainer">Each link will download a ZIP file containing the data for the given table in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format. Except where noted, data includes counts for 2020 and 2010, as well as precomputed percent-change.</p>
+
+
+    </div>
+</div>
+
+{% endif %}
+<!-- 
+
+{{ geojson }}
+
+-->
 </div>
 {% endblock content %}
