@@ -298,6 +298,7 @@
 <!--<![endif]-->
 <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script>
 <script type="text/javascript">
+    L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
     // Allow Ajax POST requests to bypass Django's CSRF check
     // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
     var csrftoken = '{{ csrf_token }}';
