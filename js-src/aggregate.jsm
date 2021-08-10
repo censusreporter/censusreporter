@@ -139,10 +139,10 @@ function hideDetailsForm() {
 
 
 function initMap(map, geojson) {
-    if (!geojson) geojson = minimalFeatureCollection()
+    let init_geojson = geojson || minimalFeatureCollection()
     map.addSource('user-geo', {
         'type': 'geojson',
-        data: geojson
+        data: init_geojson
     })
 
 
