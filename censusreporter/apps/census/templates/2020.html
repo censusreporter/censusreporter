@@ -1,8 +1,12 @@
-{% extends '_base.html' %} {% block head_title %}The 2020 Decennial Census - {{ block.super }}{% endblock %} {% block head_css_extra %}
+{% extends '_base.html' %} {% block head_title %} 2020 Census Data for Your Neighborhood - {{ block.super }}{% endblock %} {% block head_css_extra %}
 <style>
     .action-button {
         width: 33%;
         margin: 10px auto;
+    }
+    
+    #begin-upload-button {
+        background-color: grey;
     }
     
     dl {
@@ -24,10 +28,10 @@
             </p>
             <p><strong>Census Reporter makes it easy</strong></p>
             <p>
-                Census Reporter has created a new tool to make this as easy as we can. All you need is a digital map (GeoJSON or ESRI Shapefile format). <a href="{% url 'user_geo' %}">Upload the file to Census Reporter</a> and we'll link it to the Census
-                blocks that are inside the shapes on your map. Once that's done, you can download files that add up the block level data for various files in the 2020 Redistricting data release.
+                Census Reporter has created a new tool to make this as easy as we can. All you need is a digital map (GeoJSON or ESRI Shapefile format). Upload the file to Census Reporter and we'll process it so that you can download the 2020 Redistricting data summarized
+                for your places.
             </p>
-            <a href="{% url 'user_geo' %}" class="action-button">Let's do it!</a>
+            <a id="begin-upload-button" class="action-button">Coming August 12th, 2021</a>
             <h2 class="subhead">Q &amp; A</h2>
             <div class='qa-pair'>
                 <h3>What data can I get with this tool?</h3>
@@ -126,8 +130,10 @@
 
         <div class="column-third">
             <h2>More help with 2020 Decennial Data</h2>
-            <p>This tool is part of the 2020 Census Data Co-op. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons to 2010 data,
-                making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong>Big Local News at Stanford University</strong>, and are available to anyone—AP membership is not required.</p>
+            <p>This tool is part of the <strong>2020 Census Data Co-op</strong>. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons
+                to 2010 data, making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong><a href="https://biglocalnews.org/">Big Local News at Stanford University</a></strong>, and are
+                available to anyone—AP membership is not required.</p>
+            <p><em>The 2020 Redistricting data is scheduled for release on August 12, 2021. We'll start processing the data as soon as we can, and hope to have our tools ready sometime that day.</em></p>
             {% if public_geos %}
             <h2>Available Geographies</h2>
             <p>These are maps which have already been uploaded using this tool. The data you need may be ready to download!</p>

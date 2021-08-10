@@ -1,6 +1,5 @@
 {% extends '_base.html' %}{% load humanize partition %} {% block head_title %}{{ block.super }}: Making Census Data Easy to Use{% endblock %} {% block head_meta_description %}Census Reporter provides useful facts about every place in America. Compare
-places using tables and maps, download data, and embed charts on your site!{% endblock %} {% block body_id %}homepage{% endblock %}
-{% block header %}
+places using tables and maps, download data, and embed charts on your site!{% endblock %} {% block body_id %}homepage{% endblock %} {% block header %}
 <header id="page-header">
     <div id="page-header-title" class="wrapper clearfix">
         {% if not hide_nav_tools %}
@@ -10,14 +9,29 @@ places using tables and maps, download data, and embed charts on your site!{% en
         </a>
         {% if not hide_nav_tools %}
         <div id="menu">
-		    <p><i class="fa fa-arrow-circle-o-right"></i> <a href="https://opencollective.com/censusreporter">Your donations</a> help us add new data and keep this site running!</p>
+            <p><i class="fa fa-arrow-circle-o-right"></i> <a href="https://opencollective.com/censusreporter">Your donations</a> help us add new data and keep this site running!</p>
         </div>
         {% endif %}
     </div>
 </header>
-{% block header_content %}{% endblock header_content %} {% endblock %}
-
-{% block content_container %}
+{% block header_content %}
+<style>
+    #homepage-bulletin {
+        background-color: #a1d0c6;
+        padding: 1em 1.5em;
+        font-weight: bold;
+    }
+    
+    #homepage-bulletin::before {
+        content: "⚡️";
+        font-size: 24px;
+        vertical-align: middle;
+    }
+</style>
+{% endblock header_content %} {% endblock %} {% block content_container %}
+<div id='homepage-bulletin'>
+    Working with 2020 Decennial Census Redistricting data? <a href="{% url '2020' %}">Census Reporter and the 2020 Census Data Co-op have tools to help.</a>
+</div>
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
         <section class="column-full clearfix big-action">
