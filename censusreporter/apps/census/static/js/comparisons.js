@@ -19,6 +19,7 @@ You may optionally pass in a callback function, which will be exectued
 after Comparison() retrieves data from the API. This callback should
 accept a `comparison` object.
 */
+L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
 
 function Comparison(options, callback) {
 
