@@ -208,8 +208,10 @@ window.addEventListener("DOMContentLoaded", e => {
                     source_url: document.getElementById('source_url').value || null,
                     name_field: document.getElementById('name_field').value || null,
                     id_field: document.getElementById('id_field').value || null,
+                    share_checked: document.getElementById('share_map').checked
 
                 }
+                let geojson = map.getSource('user-geo')._data
                 importGeoJSON(geojson, metadata)
             }
         })
@@ -398,8 +400,6 @@ function setLoading(bool) {
 function importGeoJSON(geojson, metadata) {
     if (!metadata) metadata = {}
     var request = new XMLHttpRequest();
-    const name = metadata.dataset_name || 'Untitled'
-    console.log(`${name} Input geojson total area is ${turfArea(geojson)} sq. meters`)
     request.open('POST', `${CR_API_URL}/1.0/user_geo/import`, true);
     request.setRequestHeader('Content-Type', 'application/json');
     request.onload = function() {
@@ -429,7 +429,8 @@ function importGeoJSON(geojson, metadata) {
         dataset_name: metadata.dataset_name,
         source_url: metadata.source_url,
         name_field: metadata.name_field,
-        id_field: metadata.id_field
+        id_field: metadata.id_field,
+        share_checked: metadata.share_checked
     }
 
     clearDetailsForm()
