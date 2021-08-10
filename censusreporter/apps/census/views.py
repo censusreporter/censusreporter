@@ -725,6 +725,7 @@ class UserGeographyDetailView(TemplateView):
                 context['user_geo_record'] = user_geo_record
                 context['hash_digest'] = hash_digest
                 context['status'] = user_geo_record['status']
+                context['public'] = user_geo_record['public']
                 context['user_geo_name'] = user_geo_record.get('name','Untitled Geography')
                 context['datasource_url'] = user_geo_record.get('source_url')
                 context['created_at'] = datetime.fromtimestamp(user_geo_record['unix_timestamp'])

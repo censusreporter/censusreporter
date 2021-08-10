@@ -100,7 +100,9 @@
 
     <h1>{{ user_geo_name }}</h1>
     <p><em>Uploaded on {{ created_at|date:"D, N j Y" }}</em> {% if datasource_url %} <span id='map-source-link'>(<a href="{{ datasource_url }}">map source</a>)</span>{% endif %}</p>
-    {% if existing_message %}
+    {% if not public %}
+    <p><em>⚠️ This map is not public. Only people with the URL will see it. You must save the URL to return to it later.</em></p>
+    {% endif %} {% if existing_message %}
     <p><strong><em>This map has already been imported. Previous import metadata has not been changed.</em></strong></p>{% endif %}
     <div id="map-container" class="column-third">
         <div id="map"></div>
