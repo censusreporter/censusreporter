@@ -5,10 +5,6 @@
         margin: 10px auto;
     }
     
-    #begin-upload-button {
-        background-color: grey;
-    }
-    
     dl {
         margin-left: 2em;
     }
@@ -31,7 +27,7 @@
                 Census Reporter has created a new tool to make this as easy as we can. All you need is a digital map (GeoJSON or ESRI Shapefile format). Upload the file to Census Reporter and we'll process it so that you can download the 2020 Redistricting data summarized
                 for your places.
             </p>
-            <a id="begin-upload-button" class="action-button">Coming August 12th, 2021</a>
+            <a href="{% url 'user_geo' %}" class="action-button">Let's do it!</a>
             <h2 class="subhead">Q &amp; A</h2>
             <div class='qa-pair'>
                 <h3>What data can I get with this tool?</h3>

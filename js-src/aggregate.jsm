@@ -336,7 +336,7 @@ window.addEventListener("DOMContentLoaded", e => {
                             readShapefile(files).then(geojson => {
                                 geojson = toWgs84(geojson, prj)
                                 if (geojson.features.length > 0) {
-                                    if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw 'Uploaded map area is too large.'
+                                    if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw 'Uploaded map area is too large. (Maximum area 2000 sq. km/about 770 sq. mi.)'
                                     addGeojsonToMap(geojson, map)
                                 } else {
                                     console.log(`no features, but prj ${prj}`)
