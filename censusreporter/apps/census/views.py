@@ -745,18 +745,18 @@ class UserGeographyDetailView(TemplateView):
 class Census2020View(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        endpoint = f'{settings.API_URL}/1.0/user_geo/list'
-        try:
-            r = r_session.get(endpoint)
+        # endpoint = f'{settings.API_URL}/1.0/user_geo/list'
+        # try:
+        #     r = r_session.get(endpoint)
 
-            if r.status_code == 404:
-                raise Http404
-            if r.status_code == 200:
-                response = r.json()
-                if response['ok']:
-                    context['public_geos'] = response['geos']
-        except Exception as e:
-            context['message'] = f'ERROR: {e}'
+        #     if r.status_code == 404:
+        #         raise Http404
+        #     if r.status_code == 200:
+        #         response = r.json()
+        #         if response['ok']:
+        #             context['public_geos'] = response['geos']
+        # except Exception as e:
+        #     context['message'] = f'ERROR: {e}'
         return context
 
 
