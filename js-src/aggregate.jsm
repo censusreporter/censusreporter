@@ -323,7 +323,7 @@ window.addEventListener("DOMContentLoaded", e => {
                 showFileUploadMessage("Uploaded file must be either a ZIP file or GeoJSON.")
                 return;
             }
-            document.getElementById('dataset_name').value = file.name
+
             if (file.type == 'application/zip') {
                 file.arrayBuffer().then(JSZip.loadAsync).then(zip => {
                     const files = validateShapefileZip(zip.files)
