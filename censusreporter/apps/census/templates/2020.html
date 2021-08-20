@@ -135,7 +135,7 @@
             <p>This tool is part of the <strong>2020 Census Data Co-op</strong>. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons
                 to 2010 data, making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong><a href="https://biglocalnews.org/">Big Local News at Stanford University</a></strong>, and are
                 available to anyone—AP membership is not required.</p>
-            <!-- {% if public_geos %}
+            {% if public_geos %}
             <h2>Available Geographies</h2>
             <p>These are maps which have already been uploaded using this tool. The data you need may be ready to download!</p>
             <ul>
@@ -143,7 +143,7 @@
                 <li><a href="{% url 'user_geo_detail' hash_digest=pg.hash_digest %}">{{ pg.name }}</a></li>
                 {% endfor %}
             </ul>
-            {% endif %} -->
+            {% endif %}
         </div>
     </section>
 </article>
