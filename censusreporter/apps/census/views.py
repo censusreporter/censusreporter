@@ -715,31 +715,29 @@ class UserGeographyDetailView(TemplateView):
         hash_digest = kwargs['hash_digest']
 
         endpoint = f'{settings.API_URL}/1.0/user_geo/{hash_digest}'
-        try:
-            r = r_session.get(endpoint)
+        r = r_session.get(endpoint)
 
-            if r.status_code == 404:
-                raise Http404
-            if r.status_code == 200:
-                user_geo_record = r.json(object_pairs_hook=OrderedDict)
-                context['user_geo_record'] = user_geo_record
-                context['hash_digest'] = hash_digest
-                context['status'] = user_geo_record['status']
-                context['public'] = user_geo_record['public']
-                context['user_geo_name'] = user_geo_record.get('name','Untitled Geography')
-                context['datasource_url'] = user_geo_record.get('source_url')
-                context['created_at'] = datetime.fromtimestamp(user_geo_record['unix_timestamp'])
-                context['message'] = 'OK'
-                context['status_endpoint'] = endpoint
-                context['download_url_base'] = f"{settings.API_URL}/1.0/aggregate/{ hash_digest }"
-                context['geojson'] = user_geo_record['geojson']
-                existing_flag = self.request.GET.get('existing',False)
-                context['existing_message'] = (existing_flag == 'true')
+        if r.status_code == 404:
+            raise Http404
+        if r.status_code == 200:
+            user_geo_record = r.json(object_pairs_hook=OrderedDict)
+            context['user_geo_record'] = user_geo_record
+            context['hash_digest'] = hash_digest
+            context['status'] = user_geo_record['status']
+            context['public'] = user_geo_record['public']
+            context['user_geo_name'] = user_geo_record.get('name','Untitled Geography')
+            context['datasource_url'] = user_geo_record.get('source_url')
+            context['created_at'] = datetime.fromtimestamp(user_geo_record['unix_timestamp'])
+            context['message'] = 'OK'
+            context['status_endpoint'] = endpoint
+            context['download_url_base'] = f"{settings.API_URL}/1.0/aggregate/{ hash_digest }"
+            context['geojson'] = user_geo_record['geojson']
+            existing_flag = self.request.GET.get('existing',False)
+            context['existing_message'] = (existing_flag == 'true')
 
-            else:
-                context['message'] = f'ERROR: {r.status_code}'
-        except Exception as e:
-            context['message'] = f'ERROR: {e}'
+        else:
+            print(f'ERROR: code {r.status_code}')
+            context['message'] = f'ERROR: code {r.status_code}'
         return context
 
 class Census2020View(TemplateView):

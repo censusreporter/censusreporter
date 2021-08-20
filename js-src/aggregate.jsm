@@ -198,6 +198,7 @@ function initMap(map, geojson) {
     });
 }
 
+const UPLOAD_TOO_LARGE_ERROR = 'Uploaded map area is too large. (Maximum area 2000 sq. km/about 770 sq. mi.)';
 window.addEventListener("DOMContentLoaded", e => {
 
     document.querySelectorAll('.import-geojson-button').forEach(e => {
@@ -322,7 +323,7 @@ window.addEventListener("DOMContentLoaded", e => {
                 showFileUploadMessage("Uploaded file must be either a ZIP file or GeoJSON.")
                 return;
             }
-            document.getElementById('dataset_name').value = file.name
+
             if (file.type == 'application/zip') {
                 file.arrayBuffer().then(JSZip.loadAsync).then(zip => {
                     const files = validateShapefileZip(zip.files)
@@ -336,7 +337,7 @@ window.addEventListener("DOMContentLoaded", e => {
                             readShapefile(files).then(geojson => {
                                 geojson = toWgs84(geojson, prj)
                                 if (geojson.features.length > 0) {
-                                    if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw 'Uploaded map area is too large.'
+                                    if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw UPLOAD_TOO_LARGE_ERROR
                                     addGeojsonToMap(geojson, map)
                                 } else {
                                     console.log(`no features, but prj ${prj}`)
@@ -346,7 +347,7 @@ window.addEventListener("DOMContentLoaded", e => {
                     } else {
                         readShapefile(files).then(geojson => {
                             if (geojson.features.length > 0) {
-                                if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw 'Uploaded map area is too large.'
+                                if (turfArea(geojson) > MAXIMUM_AREA_IN_SQ_M) throw UPLOAD_TOO_LARGE_ERROR
                                 console.log(`Adding to map in given projection`)
                                 addGeojsonToMap(geojson, map)
                             } else {
@@ -360,8 +361,9 @@ window.addEventListener("DOMContentLoaded", e => {
             } else if (probablyJson(file)) {
                 file.text().then(geojson => {
                     const parsed = JSON.parse(geojson);
+                    if (turfArea(parsed) > MAXIMUM_AREA_IN_SQ_M) throw UPLOAD_TOO_LARGE_ERROR
                     addGeojsonToMap(parsed, map)
-                })
+                }).catch(e => showFileUploadMessage(e))
             }
 
         }

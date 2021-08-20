@@ -1,4 +1,4 @@
-{% extends '_base.html' %} {% block head_title %}The 2020 Decennial Census - {{ block.super }}{% endblock %} {% block head_css_extra %}
+{% extends '_base.html' %} {% block head_title %} 2020 Census Data for Your Neighborhood - {{ block.super }}{% endblock %} {% block head_css_extra %}
 <style>
     .action-button {
         width: 33%;
@@ -22,12 +22,18 @@
                 While the Census Bureau provides plenty of data, they don't always provide it in the format you need. Specifically, the Census Bureau doesn't tabulate data for city neighborhoods and other kinds of locally important geographies. While it's technically
                 possible to add up (or "aggregate") data for Census blocks, block groups, or tracts, the process of identifying, gathering, and summing the right data can be pretty complicated.
             </p>
-            <p><strong>Census Reporter makes it easy</strong></p>
+            <p><strong>Census Reporter makes it easier</strong></p>
             <p>
-                Census Reporter has created a new tool to make this as easy as we can. All you need is a digital map (GeoJSON or ESRI Shapefile format). <a href="{% url 'user_geo' %}">Upload the file to Census Reporter</a> and we'll link it to the Census
-                blocks that are inside the shapes on your map. Once that's done, you can download files that add up the block level data for various files in the 2020 Redistricting data release.
+                Census Reporter has created a new tool to make this as easy as we can. We're working on making it completely self-service, but for now, we are taking requests for offline processing.
+                <!-- All you need is a digital map (GeoJSON or ESRI Shapefile format). Upload the file to Census Reporter and we'll process it so that you can download the 2020 Redistricting data summarized
+                for your places. -->
             </p>
-            <a href="{% url 'user_geo' %}" class="action-button">Let's do it!</a>
+            <p>
+                To make a request, identify a page on the web where a digital map (GeoJSON or ESRI Shapefile format) can be downloaded. Use the button below to send us the link, and any other information we would need. Note that the map you submit will be made available
+                to anyone who visits the Census Reporter site. We'll process the request as soon as we can and email you with links to download the data when it's ready.
+            </p>
+            <a data-uv-trigger class="action-button">Submit a Request</a>
+            <!-- <a href="{% url 'user_geo' %}" class="action-button">Let's do it!</a> -->
             <h2 class="subhead">Q &amp; A</h2>
             <div class='qa-pair'>
                 <h3>What data can I get with this tool?</h3>
@@ -120,16 +126,16 @@
             </div>
             <div class='qa-pair'>
                 <h3>What about my other question you haven't answered here?</h3>
-                <p>You can ask us questions using <a href="http://censusreporter.uservoice.com/" data-uv-trigger>our UserVoice system</a></p>
+                <p>You can ask us questions using <a href="http://censusreporter.uservoice.com/" data-uv-trigger>our UserVoice system</a>.</p>
             </div>
         </div>
 
         <div class="column-third">
             <h2>More help with 2020 Decennial Data</h2>
-            <p>This tool is part of the 2020 Census Data Co-op. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons to 2010 data,
-                making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong><a href="https://biglocalnews.org/">Big Local News at Stanford University</a></strong>, and are available to
-                anyone—AP membership is not required.</p>
-            {% if public_geos %}
+            <p>This tool is part of the <strong>2020 Census Data Co-op</strong>. Our partners at <strong>the Associated Press</strong> (AP) are creating easy to use datafiles out of the unwieldy format provided by the Census Bureau, and adding in comparisons
+                to 2010 data, making sure those comparisons correctly account for decennial adjustments to map boundaries. Those files are served by <strong><a href="https://biglocalnews.org/">Big Local News at Stanford University</a></strong>, and are
+                available to anyone—AP membership is not required.</p>
+            <!-- {% if public_geos %}
             <h2>Available Geographies</h2>
             <p>These are maps which have already been uploaded using this tool. The data you need may be ready to download!</p>
             <ul>
@@ -137,7 +143,7 @@
                 <li><a href="{% url 'user_geo_detail' hash_digest=pg.hash_digest %}">{{ pg.name }}</a></li>
                 {% endfor %}
             </ul>
-            {% endif %}
+            {% endif %} -->
         </div>
     </section>
 </article>
