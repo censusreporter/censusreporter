@@ -115,19 +115,25 @@
             2020 Decennial Census Redistricting data release
         </h2>
 
-        <ul class='dl-horizontal'>
-            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P1" target="_blank">P1: Race</a></li>
-            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P2" target="_blank">P2: Hispanic or Latino, and not Hispanic or Latino by Race</a></li>
-            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P3" target="_blank">P3: Race for the Population 18 Years and Over</a></li>
-            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/P4" target="_blank">P4: Hispanic or Latino, and not Hispanic or Latino by Race for the Population 18 Years and Over</a>
+        <ul>
+            <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/P1">P1: Race</a></li>
+            <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/P2">P2: Hispanic or Latino, and not Hispanic or Latino by Race</a></li>
+            <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/P3">P3: Race for the Population 18 Years and Over</a></li>
+            <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/P4">P4: Hispanic or Latino, and not Hispanic or Latino by Race for the Population 18 Years and Over</a>
             </li>
-            <li><a href="{{ download_url_base }}/dec2020_pl94/P5" target="_blank">P5: Group Quarters Population by Major Group Quarters Type (2020 only)</a></li>
-            <li><a href="{{ download_url_base }}/dec_pl94_compare_2020_2010/H1" target="_blank">H1: Occupancy Status</a></li>
+            <li><a href="{{ download_aggregate_url_base }}/dec2020_pl94/P5">P5: Group Quarters Population by Major Group Quarters Type (2020 only)</a></li>
+            <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/H1">H1: Occupancy Status</a></li>
         </ul>
         <p id="download-explainer" class="explainer">Each link will download a ZIP file containing the data for the given table in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format. Except where noted, data includes counts for 2020 and 2010, as well as precomputed percent-change.</p>
-        <p class="explainer"><strong>Note:</strong> Downloads may take 1-2 minutes to download, and may not work for large maps (e.g. Chicago, New York City). If you see a message, "We're sorry, but something went wrong," then this is the issue. We're hard at work on a fix.
-            If you see this, please feel free to click the "feedback" tab on this page and let us know.
-        </p>
+        <h2>
+            Census Reporter Block Assignment Files
+        </h2>
+        <ul>
+            <li><a href="{{ download_user_geo_url_base }}/blocks/2020">2020 Census Blocks</a></li>
+            <li><a href="{{ download_user_geo_url_base }}/blocks/2010">2010 Census Blocks</a></li>
+        </ul>
+        <p id="download-explainer" class="explainer">Each link will download a ZIP file containing the Census blocks for the given year in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format, as they are associated with the various geographies in this map. The Block Assignment
+            Files also include the total population and housing unit count for each block, as well as the Census state/place FIPS codes, which can be useful for auditing the automated block assignment process.</p>
 
 
     </div>
