@@ -167,15 +167,14 @@ urlpatterns = [
 
     url(
         regex='^user_geo/$',
-        # view=RedirectView.as_view(url=reverse_lazy('2020')),
-       view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="user_geo/index.html")),
+        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="user_geo/index.html")),
         kwargs={},
         name='user_geo',
     ),
     url(
         regex='^user_geo/(?P<hash_digest>[A-Fa-f0-9]{32})/$',
-        # view=RedirectView.as_view(url=reverse_lazy('2020')),
-       view=cache_page(STANDARD_CACHE_TIME)(UserGeographyDetailView.as_view(template_name="user_geo/detail.html")),
+        # don't cache as it mucks with acknowledging the async processing
+        view=UserGeographyDetailView.as_view(template_name="user_geo/detail.html"),
         kwargs={},
         name='user_geo_detail',
     ),
