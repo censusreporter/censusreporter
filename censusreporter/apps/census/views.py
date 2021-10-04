@@ -1,3 +1,4 @@
+from django.core.handlers import exception
 from collections import OrderedDict, defaultdict
 from urllib.parse import quote
 import io
@@ -10,7 +11,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader, TemplateDoesNotExist

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
@@ -22,8 +22,6 @@ from .views import (
     Census2020View,
 )
 
-admin.autodiscover()
-
 STANDARD_CACHE_TIME = 60 * 60 * 24 * 7  # 1 week cache
 COMPARISON_FORMATS = 'map|table|distribution'
 BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
@@ -36,8 +34,6 @@ urlpatterns = [
         name='homepage',
     ),
 
-    # e.g. /profiles/16000US5367000/ (Spokane, WA)
-    # this should redirect to slugged version of the URL above
     url(
         regex='^profiles/(?P<fragment>[a-zA-Z0-9\-]+)/$',
         view=cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),

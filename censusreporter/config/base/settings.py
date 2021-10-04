@@ -1,6 +1,6 @@
 # Django settings for censusreporter project.
 import os
-
+from django.contrib.sessions.middleware import SessionMiddleware
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 DEBUG = True
@@ -9,7 +9,6 @@ DEBUG = True
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
     'django.contrib.messages',
@@ -60,7 +59,8 @@ TEMPLATES = [
     },
 ]
 
-MIDDLEWARE_CLASSES = (
+APPEND_SLASH = True # True is default but it isn't working?
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

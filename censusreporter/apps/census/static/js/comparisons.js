@@ -648,7 +648,7 @@ function Comparison(options, callback) {
         comparison.sortedPlaces.forEach(function(g) {
             var geoID = g.geoID,
                 geoName = (comparison.data.geography[geoID]) ? comparison.data.geography[geoID].name : 'N/A';
-            gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '">' + geoName + '</a>');
+            gridHeaderBits.push('<a href="/profiles/' + geoID + '-' + slugify(geoName) + '/">' + geoName + '</a>');
         })
 
         comparison.gridData.Head = [gridHeaderBits];

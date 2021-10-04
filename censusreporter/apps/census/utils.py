@@ -1,7 +1,7 @@
 from collections import OrderedDict
 import re
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 def get_object_or_none(klass, *args, **kwargs):

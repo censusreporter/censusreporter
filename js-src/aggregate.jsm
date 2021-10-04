@@ -224,7 +224,7 @@ window.addEventListener("DOMContentLoaded", e => {
         inputElement.addEventListener("change", handleFiles, false);
     }
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiM3BfZ080cyJ9.1qg3pnpZZP5-iLWMNoaLIQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
     if (document.getElementById('map')) {
         var map = new mapboxgl.Map({
             container: 'map', // container id
