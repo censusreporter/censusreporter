@@ -572,7 +572,7 @@ class SearchResultsView(TemplateView):
 
         cr_data = []
         search_url = f"{settings.API_URL}/2.1/full-text/search"
-        cr_resp = r_session.get(search_url, params={"q": query})
+        cr_resp = r_session.get(search_url, params={"q": query, "limit": 1000})
 
         if cr_resp.status_code == 200:
             cr_data = cr_resp.json().get('results')
