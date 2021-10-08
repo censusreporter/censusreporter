@@ -1286,7 +1286,7 @@ class GeographyDetailView(TemplateView):
 		return super(GeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def get_geography(self, geo_id):
-		endpoint = settings.API_URL + '/1.0/geo/tiger2018/%s' % self.geo_id
+		endpoint = settings.API_URL + '/1.0/geo/tiger2019/%s' % self.geo_id
 		r = requests.get(endpoint)
 		status_code = r.status_code
 
@@ -1296,7 +1296,7 @@ class GeographyDetailView(TemplateView):
 		return None
 
 	def s3_keyname(self, geo_id):
-		return '1.0/data/profiles/2018/%s.json' % geo_id.upper()
+		return '1.0/data/profiles/2019/%s.json' % geo_id.upper()
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1414,8 +1414,8 @@ class TimeSeriesGeographyDetailView(TemplateView):
 	def dispatch(self, *args, **kwargs):
 
 		self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
-		self.current_year = 2018
-		self.past_year = 2013
+		self.current_year = 2019
+		self.past_year = 2014
 
 		if self.slug is None:
 			geo = self.get_geography(self.geo_id)
@@ -1441,7 +1441,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 		return super(TimeSeriesGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def get_geography(self, geo_id):
-		endpoint = settings.API_URL + '/1.0/geo/tiger2018/%s' % self.geo_id
+		endpoint = settings.API_URL + '/1.0/geo/tiger2019/%s' % self.geo_id
 		r = requests.get(endpoint)
 		status_code = r.status_code
 
@@ -1571,7 +1571,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			profile_data_json_past_year = SafeString(profile_data_json_past_year)
 		else:
 			# The object does exist.
-			profile_data_past_year = geo_profile(geography_id, 'acs2013_5yr')
+			profile_data_past_year = geo_profile(geography_id, 'acs2014_5yr')
 
 			if profile_data_past_year:
 				profile_data_past_year = enhance_api_data(profile_data_past_year)
@@ -1619,7 +1619,7 @@ class CustomGeographyDetailView(TemplateView):
 		return super(CustomGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '1.0/data/custom-profiles/2018/%s.json' % (self.slug.upper())
+		return '1.0/data/custom-profiles/2019/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -1685,7 +1685,7 @@ class CustomGeographyDetailView(TemplateView):
 			profile_data_json = SafeString(profile_data_json)
 		else:
 			# The object does not exist.
-			profile_data = create_custom_profile(self.slug, 'custom', 2018)
+			profile_data = create_custom_profile(self.slug, 'custom', 2019)
 
 			if profile_data:
 				#profile_data = enhance_api_data(profile_data)
@@ -1735,8 +1735,8 @@ class TimeSeriesCustomGeographyDetailView(TemplateView):
 
 	def dispatch(self, *args, **kwargs):
 
-		self.current_year = 2018
-		self.past_year = 2013
+		self.current_year = 2019
+		self.past_year = 2014
 
 		self.slug = kwargs.get('fragment')
 
@@ -1866,7 +1866,6 @@ class TimeSeriesCustomGeographyDetailView(TemplateView):
 		else:
 			# The object does not exist.
 			profile_data_past_year = create_custom_profile(self.slug, 'custom', past_year)
-			#profile_data_past_year = geo_profile(geography_id, 'acs2013_5yr')
 
 			if profile_data_past_year:
 				profile_data_past_year = enhance_api_data(profile_data_past_year)
@@ -1916,7 +1915,7 @@ class DistrictGeographyDetailView(TemplateView):
 		return super(DistrictGeographyDetailView, self).dispatch(*args, **kwargs)
 
 	def s3_keyname(self):
-		return '1.0/data/districts/2018/%s.json' % (self.slug.upper())
+		return '1.0/data/districts/2019/%s.json' % (self.slug.upper())
 
 	def make_s3(self):
 		if settings.AWS_KEY and settings.AWS_SECRET:
@@ -2095,7 +2094,7 @@ class DataView(TemplateView):
 			geo_ids = self.geo_ids.split(",")  
 			for geo_id in geo_ids:
 				if geo_id.find('|') != -1:
-					childGeoAPI = settings.API_URL + '/1.0/geo/show/tiger2018'
+					childGeoAPI = settings.API_URL + '/1.0/geo/show/tiger2019'
 					api_params = {
 						'geo_ids': geo_id,
 					}
