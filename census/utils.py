@@ -161,8 +161,10 @@ SUMLEV_CHOICES['Schools'] = [
 ]
 
 ACS_RELEASES = {
-    'd3_present': {'name': 'D3 Present Data', 'slug': 'd3_present', 'years': '2017-2019'},
-    'd3_past': {'name': 'D3 Past Data', 'slug': 'd3_past', 'years': '2013-2015'},
+    'd3_present': {'name': 'D3 Present Data', 'slug': 'd3_present', 'years': '2017-2020'},
+    'd3_past': {'name': 'D3 Past Data', 'slug': 'd3_past', 'years': '2013-2016'},
+    'acs2019_5yr': {'name': 'ACS 2019 5-Year', 'slug': 'acs2019_5yr', 'years': '2015-2019'},
+    'acs2019_1yr': {'name': 'ACS 2019 1-Year', 'slug': 'acs2019_1yr', 'years': '2019'},
     'acs2018_5yr': {'name': 'ACS 2018 5-Year', 'slug': 'acs2018_5yr', 'years': '2014-2018'},
     'acs2018_1yr': {'name': 'ACS 2018 1-Year', 'slug': 'acs2018_1yr', 'years': '2018'},
     'acs2017_5yr': {'name': 'ACS 2017 5-Year', 'slug': 'acs2017_5yr', 'years': '2013-2017'},

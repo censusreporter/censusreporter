@@ -1363,7 +1363,7 @@ class GeographyDetailView(TemplateView):
 			profile_data_json = SafeString(profile_data_json)
 		else:
 			# The object does exist.
-			profile_data = geo_profile(geography_id, 'acs2018_5yr')
+			profile_data = geo_profile(geography_id, 'acs2019_5yr')
 
 			if profile_data:
 				profile_data = enhance_api_data(profile_data)
@@ -1522,7 +1522,7 @@ class TimeSeriesGeographyDetailView(TemplateView):
 			profile_data_json_current_year = SafeString(profile_data_json_current_year)
 		else:
 			# The object does exist.
-			profile_data_current_year = geo_profile(geography_id, 'acs2018_5yr')
+			profile_data_current_year = geo_profile(geography_id, 'acs2019_5yr')
 
 			if profile_data_current_year:
 				profile_data_current_year = enhance_api_data(profile_data_current_year)
@@ -1817,7 +1817,6 @@ class TimeSeriesCustomGeographyDetailView(TemplateView):
 		else:
 			# The object does exist.
 			profile_data_current_year = create_custom_profile(self.slug, 'custom', current_year)
-			#profile_data_current_year = geo_profile(geography_id, 'acs2018_5yr')
 
 			if profile_data_current_year:
 				profile_data_current_year = enhance_api_data(profile_data_current_year)
