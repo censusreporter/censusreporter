@@ -23,14 +23,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US78100-springfield-mact-metropolitan-necta/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/35000US78400-torrington-ct-micropolitan-necta/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/35000US71350-bennington-vt-micropolitan-necta/</loc>
     </url>
     
@@ -39,11 +31,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US71650-bostoncambridgenewton-manh-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US71650-boston-cambridge-newton-ma-nh-metropolitan-necta/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US71950-bridgeportstamfordnorwalk-ct-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US71950-bridgeport-stamford-norwalk-ct-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -51,7 +43,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US72400-burlingtonsouth-burlington-vt-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US72400-burlington-south-burlington-vt-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -67,7 +59,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US73050-doverdurham-nhme-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US73050-dover-durham-nh-me-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -75,7 +67,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US73450-hartfordeast-hartfordmiddletown-ct-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US73450-hartford-east-hartford-middletown-ct-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -87,15 +79,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US74350-lebanon-nhvt-micropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US74350-lebanon-nh-vt-micropolitan-necta/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US74500-leominstergardner-ma-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US74500-leominster-gardner-ma-metropolitan-necta/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US74650-lewistonauburn-me-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US74650-lewiston-auburn-me-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -111,11 +103,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US76150-north-adams-mavt-micropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US76150-north-adams-ma-vt-micropolitan-necta/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US76450-norwichnew-londonwesterly-ctri-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US76450-norwich-new-london-westerly-ct-ri-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -123,15 +115,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US76750-portlandsouth-portland-me-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US76750-portland-south-portland-me-metropolitan-necta/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US76900-portsmouth-nhme-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US76900-portsmouth-nh-me-metropolitan-necta/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US77200-providencewarwick-rima-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US77200-providence-warwick-ri-ma-metropolitan-necta/</loc>
     </url>
     
     <url>
@@ -140,6 +132,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/35000US77950-sanford-me-micropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US78100-springfield-ma-ct-metropolitan-necta/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/35000US78400-torrington-ct-micropolitan-necta/</loc>
     </url>
     
     <url>
@@ -159,7 +159,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/35000US79600-worcester-mact-metropolitan-necta/</loc>
+        <loc>https://censusreporter.org/profiles/35000US79600-worcester-ma-ct-metropolitan-necta/</loc>
     </url>
     
 </urlset>
