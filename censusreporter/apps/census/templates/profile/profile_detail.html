@@ -1,4 +1,5 @@
-{% extends 'profile/_base_profile.html' %}{% load humanize madlibs %} {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %} {% block head_meta_description %}Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %} {% block head_facebook_tags %}
+{% extends 'profile/_base_profile.html' %}{% load humanize madlibs %} {% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %} {% block head_meta_description %}Census data for {{ geography.this.full_name
+}} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more.{% endblock %} {% block head_facebook_tags %}
 <meta property="og:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}" />
 <meta property="og:site_name" content="Census Reporter" />
 <meta property="og:url" content="{{ canonical_url }}" />
@@ -248,7 +249,7 @@
                     {% include 'profile/_blocks/_stat_list.html' with stat=social.educational_attainment.percent_bachelor_degree_or_higher stat_type='percentage' %}
                 </div>
             </div>
-            <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by minimum level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
+            <div class="column-half" id="chart-histogram-social-educational_attainment_distribution" data-stat-type="scaled-percentage" data-chart-title="Population by highest level of education" data-qualifier="Universe: {{ social.educational_attainment_distribution.metadata.universe }}"></div>
         </section>
 
         <section class="clearfix stat-row">
@@ -422,7 +423,11 @@
         chartContainers = $('[id^=chart-]'),
         defaultDataRelease = '{{ geography.census_release }}',
         releases = [defaultDataRelease],
-        profileData = {{ profile_data_json }};
+        profileData = {
+            {
+                profile_data_json
+            }
+        };
 
     var gracefulType = function(chartType) {
         // convert certain chart types to more readable versions at narrow widths
