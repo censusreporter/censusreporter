@@ -1981,7 +1981,7 @@ class DistrictGeographyDetailView(TemplateView):
 			profile_data_json = SafeString(profile_data_json)
 		else:
 			# The object does exist.
-			profile_data = create_custom_profile(self.slug, 'district')
+			profile_data = create_custom_profile(self.slug, 'district', 2019)
 
 			if profile_data:
 				#profile_data = enhance_api_data(profile_data)
