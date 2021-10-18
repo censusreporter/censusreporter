@@ -185,7 +185,7 @@ urlpatterns = [
     url(
         regex='^robots.txt$',
         view=lambda r: HttpResponse(
-            "User-agent: *\n%s: /" % ('Disallow' if BLOCK_ROBOTS else 'Allow'),
+            "User-agent: *\n%s: /\n\nSitemap: https://censusreporter.org/static/sitemap/sitemap.xml\n" % ('Disallow' if BLOCK_ROBOTS else 'Allow'),
             content_type="text/plain"
         )
     ),
