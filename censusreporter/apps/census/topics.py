@@ -316,6 +316,8 @@ TOPICS_LIST = [
         'more_info_links': [
             ('Why We Ask: Income','https://www.census.gov/acs/www/about/why-we-ask-each-question/income/'),
             ('Why We Ask: Food Stamps/Supplemental Nutrition Assistance Program (SNAP)','https://www.census.gov/acs/www/about/why-we-ask-each-question/food-stamps/'),
+            ('How the Census Bureau Measures Poverty', 'https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html'),
+            ('Census Bureau: Poverty Threshold tables', 'https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-thresholds.html'),
         ],
         'group': 'topical_help'
     },
