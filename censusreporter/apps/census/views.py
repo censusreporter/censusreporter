@@ -730,13 +730,13 @@ class UserGeographyDetailView(TemplateView):
             context['datasource_url'] = user_geo_record.get('source_url')
             context['created_at'] = datetime.fromtimestamp(user_geo_record['unix_timestamp'])
             context['message'] = 'OK'
+            context['notes_html'] = user_geo_record.get('notes_html')
             context['status_endpoint'] = endpoint
             context['download_aggregate_url_base'] = f"{settings.API_URL}/1.0/aggregate/{ hash_digest }"
             context['download_user_geo_url_base'] = f"{settings.API_URL}/1.0/user_geo/{ hash_digest }"
             context['geojson'] = user_geo_record['geojson']
             existing_flag = self.request.GET.get('existing',False)
             context['existing_message'] = (existing_flag == 'true')
-
         else:
             print(f'ERROR: code {r.status_code}')
             context['message'] = f'ERROR: code {r.status_code}'

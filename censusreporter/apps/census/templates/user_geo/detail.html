@@ -10,6 +10,7 @@
         float: left;
         width: 100%;
         height: 40vh;
+        margin-bottom: 20px;
     }
     
     #map-source-link {
@@ -106,14 +107,29 @@
     <p><strong><em>This map has already been imported. Previous import metadata has not been changed.</em></strong></p>{% endif %}
     <div id="map-container" class="column-third">
         <div id="map"></div>
+        {% if notes_html %}
+        <div id="notes">
+        <h3>Notes</h3>
+        {{ notes_html|safe }}
+        </div>
+        {% endif %}
     </div>
 </div>
 <div class="column-two-thirds">
     <p id="status-wrapper">Status: <em id="status_message">{{ status }}</em><span id="status-spinner"></span></p>
     <div id="download-links" class='hidden'>
+        <h2>How to use these Neighborhood Data Files</h2>
+<p>This map shows areas that aren't represented in the Census Bureau's standard geographies. Data is computed for these areas by assigning Census blocks to the areas where the center point (“internal point”) of the blocks fall, and then totalling the block-level data as reported by Census.</p>
+<p>While this is a standard method which generally works well, this process can be imprecise, missing blocks that a local person would recognize as part of a neighborhood, or including blocks which are outside of the mapped area, such as in a neighboring city.</p>
+<p>Without local knowledge, we can't make accurate adjustments to this automated process. You should treat this data as approximate—suitable for making general observations but not for precise comparisons.</p>
+<p>Do you have a suggestion to improve the block assignment for this map? <a data-uv-trigger>Tell us!</a>
+</p>
+
         <h2>
             2020 Decennial Census Redistricting data release
         </h2>
+        <p id="download-explainer" class="explainer">Each link will download a ZIP file containing the data for the given table in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format. Except where noted, data includes counts for 2020 and 2010, as well as precomputed percent-change.
+            Consult the <code>metadata.json</code> file in the ZIP file for a mapping from column codenames to their meanings.</p>
 
         <ul>
             <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/P1">P1: Race</a></li>
@@ -124,17 +140,15 @@
             <li><a href="{{ download_aggregate_url_base }}/dec2020_pl94/P5">P5: Group Quarters Population by Major Group Quarters Type (2020 only)</a></li>
             <li><a href="{{ download_aggregate_url_base }}/dec_pl94_compare_2020_2010/H1">H1: Occupancy Status</a></li>
         </ul>
-        <p id="download-explainer" class="explainer">Each link will download a ZIP file containing the data for the given table in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format. Except where noted, data includes counts for 2020 and 2010, as well as precomputed percent-change.
-            Consult the <code>metadata.json</code> file in the ZIP file for a mapping from column codenames to their meanings.</p>
         <h2>
             Census Reporter Block Assignment Files
         </h2>
+        <p id="download-explainer" class="explainer">Each link will download a ZIP file containing the Census blocks for the given year in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format, as they are associated with the various geographies in this map. The Block Assignment
+            Files also include the total population and housing unit count for each block, as well as the Census state/place FIPS codes, which can be useful for auditing the automated block assignment process.</p>
         <ul>
             <li><a href="{{ download_user_geo_url_base }}/blocks/2020">2020 Census Blocks</a></li>
             <li><a href="{{ download_user_geo_url_base }}/blocks/2010">2010 Census Blocks</a></li>
         </ul>
-        <p id="download-explainer" class="explainer">Each link will download a ZIP file containing the Census blocks for the given year in both <abbr title="Comma-separated Values">CSV</abbr> and GeoJSON format, as they are associated with the various geographies in this map. The Block Assignment
-            Files also include the total population and housing unit count for each block, as well as the Census state/place FIPS codes, which can be useful for auditing the automated block assignment process.</p>
 
 
     </div>
