@@ -1033,12 +1033,6 @@ def enhance_api_data(api_data):
     except:
         pass
 
-    # ProPublica Opportunity Gap app doesn't include smallest schools.
-    # Originally, this also enabled links to Census narrative profiles,
-    # but those disappeared.
-    if release_level in ['1','3'] and sumlevel in ['950', '960', '970']:
-        api_data['geography']['this']['show_extra_links'] = True
-
     return api_data
 
 if __name__ == '__main__':
