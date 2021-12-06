@@ -4,7 +4,7 @@ import { toWgs84 } from './reproject'
 import { bbox, area as turfArea } from '@turf/turf'
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 
-const MAXIMUM_AREA_IN_SQ_M = 2000000000; // only 5 Census places are larger than 2 billion sq m.
+const MAXIMUM_AREA_IN_SQ_M = 2500000000; // only 5 Census places are larger than 2 billion sq m.
 const EASING = {
     'InOutSine': (x) => -(Math.cos(Math.PI * x) - 1) / 2
 }
@@ -198,7 +198,7 @@ function initMap(map, geojson) {
     });
 }
 
-const UPLOAD_TOO_LARGE_ERROR = 'Uploaded map area is too large. (Maximum area 2000 sq. km/about 770 sq. mi.)';
+const UPLOAD_TOO_LARGE_ERROR = 'Uploaded map area is too large. (Maximum area 2500 sq. km/about 965 sq. mi.)';
 window.addEventListener("DOMContentLoaded", e => {
 
     document.querySelectorAll('.import-geojson-button').forEach(e => {
