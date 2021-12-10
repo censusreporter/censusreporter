@@ -150,61 +150,147 @@
                     <div class="l-flex-center">
                         <p class="body-text">The State of the Detroit Child is designed to give you quick answers to questions you have about the well-being of Detroit's kids. Here are a sample of the critcal questions this tool can help answer.</p>
                     </div>
-                    <ul>
+                    <ul class="timeline">
                         <li>
-                            <a href="/data/map/?table=B01001&geo_ids=06000US2616322000,05000US26163,04000US26,860|06000US2616322000&primary_geo_id=06000US2616322000#column|B01001027,sumlev|860">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration1.png"/>
-                                </div>
-                                <p>Where do children in Detroit live? </p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#ela-proficiency">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration2.png"/>
-                                </div>
-                                <p>How many third graders are proficient in English Language Arts? </p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/data/map/?table=B17006&geo_ids=06000US2616322000,860|06000US2616322000&primary_geo_id=06000US2616322000#column|B17006002,sumlev|860">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration3.png"/>
-                                </div>
-                                <p>How does child poverty differ across the city? </p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#graduation-rate">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration4.png"/>
-                                </div>
-                                <p>What’s the high school graduation rate?</p>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#employment">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration5.png"/>
-                                </div>
-                                <p>How many youth are neither in school nor working?</p>
-                            </a>
-
+                          <i class="triangle"></i>
                         </li>
                         <li>
                             <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#births">
-                                <div class="image-holder">
-                                    <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration6.png"/>
-                                </div>
-                                <p>How many mothers in Detroit did not receive adequate prenatal care?</p>
+                              <img src="{{ STATIC_URL }}img/access-pre-k.png"/>
+                              <p>Prenatal Care</p>
                             </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#child-care">
+                                <img src="{{ STATIC_URL }}img/kindergarten-readiness.png"/>
+                                <p>Access to Childcare</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#school-enrollment">
+                                <img src="{{ STATIC_URL }}img/school-enrollment.png"/>
+                                <p>School Enrollment Numbers</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#student-mobility-absenteeism">
+                                <img src="{{ STATIC_URL }}img/DataDrivenDetroit-Illustration1.png"/>
+                                <p>Absenteeism</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="profiles/06000US2616322000-detroit-city-wayne-county-mi/#third-grade-ela-proficiency">
+                                <img src="{{ STATIC_URL }}img/third-grade-reading.png"/>
+                                <p>Third Grade Reading Proficiency</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#eighth-grade-math-proficiency">
+                                <img src="{{ STATIC_URL }}img/eighth-grade.png"/>
+                                <p>Eighth Grade Math Proficiency</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#college-enrollment-readiness">
+                                <img src="{{ STATIC_URL }}img/SAT-scores.png"/>
+                                <p>SAT Scores</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#graduation-rate">
+                                <img src="{{ STATIC_URL }}img/high-school.png"/>
+                                <p>High School Graudation Rate</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#college-enrollment-readiness">
+                                <img src="{{ STATIC_URL }}img/college-readiness.png"/>
+                                <p>College Readiness</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#college-enrollment-readiness">
+                                <img src="{{ STATIC_URL }}img/college-enrollment.png"/>
+                                <p>College Enrollment Numbers</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                            <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/#employment">
+                                <img src="{{ STATIC_URL }}img/young-adult-careers.png"/>
+                                <p>Young Adult Employment & Careers</p>
+                            </a>
+                            <i class="circle-stop"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
+                        </li>
+                        <li>
+                          <i class="triangle"></i>
                         </li>
                     </ul>
+                    <div class="l-flex-center">
+                        <a href="/profiles/06000US2616322000-detroit-city-wayne-county-mi/">
+                            <button>
+                                See how children in Detroit are doing
+                            </button>
+                        </a>
+                    </div>
+                    <div class="l-flex-center">
+                        <a href="{% url 'draw' %}">
+                            <button>
+                                <img src="{{ STATIC_URL }}img/map-pin.svg"/>Start exploring your own local area
+                            </button>
+                        </a>
+                    </div>
                     <div class="l-flex-center">
                         <img class="c-arrow" src="{{ STATIC_URL }}img/section-arrow.svg" />
                     </div>
@@ -293,7 +379,7 @@
                 <a href="https://www.mischooldata.org/ParentDashboard">
                     <img src="{{ STATIC_URL }}img/MIDeptofEducation-Logo.svg" alt="" />
                 </a>
-                <a href="https://www.mischooldata.org/ParentDashboard">    
+                <a href="https://www.mischooldata.org/ParentDashboard">
                     <span>
                         <p class="body-text body-text-bold">Parent Dashboard for School Transparency</p>
                         <p class="body-text body-text-ligher">A dashboard that provides performance data for all public schools, including charters, in the state of Michigan;
