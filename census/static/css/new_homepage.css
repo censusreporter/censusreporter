@@ -1176,6 +1176,9 @@ footer .designed-by span {
     .c-critical-questions-panel ul.timeline li a img {
       opacity: 1;
     }
+    .c-critical-questions-panel ul li p {
+      color: black;
+    }
     .c-critical-questions-panel i.circle-stop {
       border-width: 6px;
     }
@@ -1361,8 +1364,8 @@ footer .designed-by span {
         height: 165px;
     }.c-critical-questions-panel ul.timeline {
       display:grid;
-      grid-auto-rows:25em;
-      grid-template-columns:2fr 3fr 1fr 3fr 2fr;
+      grid-auto-rows:16em;
+      grid-template-columns:1fr 3fr 1fr 3fr 1fr;
       grid-auto-flow:dense;
       width: 94%;
       margin: 0 auto;
@@ -1383,10 +1386,10 @@ footer .designed-by span {
       grid-column:3;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 3) i.triangle {
-      border-top: 20px solid transparent;
-      border-left: 40px solid #a9d858;
-      border-bottom: 20px solid transparent;
-      bottom: -1.58em;
+      border-top: 15px solid transparent;
+      border-left: 30px solid #a9d858;
+      border-bottom: 15px solid transparent;
+      bottom: -1.21em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 4) {
       grid-column:4;
@@ -1413,10 +1416,10 @@ footer .designed-by span {
       border-top: 4px solid #a9d858;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 7) i.triangle {
-      border-right: 22px solid transparent;
-      border-left: 22px solid transparent;
-      border-top: 44px solid #a9d858;
-      left: 1.72em;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+      border-top: 30px solid #a9d858;
+      left: 1.22em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 8) {
       grid-column:3;
@@ -1429,10 +1432,10 @@ footer .designed-by span {
       border-bottom-right-radius: 0;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 8) i.triangle {
-      border-top: 20px solid transparent;
-      border-right: 40px solid #a9d858;
-      border-bottom: 20px solid transparent;
-      bottom: -1.58em;
+      border-top: 15px solid transparent;
+      border-right: 30px solid #a9d858;
+      border-bottom: 15px solid transparent;
+      bottom: -1.21em;
       border-left: none;
       right: 0;
     }
@@ -1460,10 +1463,11 @@ footer .designed-by span {
       right: 2.3em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 12) i.triangle {
-      border-right: 22px solid transparent;
-      border-left: 22px solid transparent;
-      border-top: 44px solid #a9d858;
-      right: 1.72em;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+      border-top: 30px solid #a9d858;
+      right: 1.17em;
+      bottom: -1em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 13) {
       grid-column:4;
@@ -1476,10 +1480,10 @@ footer .designed-by span {
       border-bottom: 4px solid #a9d858;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 14) i.triangle {
-      border-top: 20px solid transparent;
-      border-left: 40px solid #a9d858;
-      border-bottom: 20px solid transparent;
-      bottom: -1.58em;
+      border-top: 15px solid transparent;
+      border-left: 30px solid #a9d858;
+      border-bottom: 15px solid transparent;
+      bottom: -1.21em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 15) {
       grid-column:5;
@@ -1506,10 +1510,10 @@ footer .designed-by span {
       border-bottom-right-radius: 50%;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 17) i.triangle {
-      border-right: 22px solid transparent;
-      border-left: 22px solid transparent;
-      border-top: 44px solid #a9d858;
-      left: 1.72em;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+      border-top: 30px solid #a9d858;
+      left: 1.22em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 18) {
       grid-column:2;
@@ -1520,10 +1524,10 @@ footer .designed-by span {
       align-items: flex-end;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 19) i.triangle {
-      border-top: 20px solid transparent;
-      border-right: 40px solid #a9d858;
-      border-bottom: 20px solid transparent;
-      bottom: -1.58em;
+      border-top: 15px solid transparent;
+      border-right: 30px solid #a9d858;
+      border-bottom: 15px solid transparent;
+      bottom: -1.21em;
       border-left: none;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 20) {
@@ -1544,10 +1548,10 @@ footer .designed-by span {
       border-left: 4px solid #a9d858;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 22) i.triangle {
-      border-right: 22px solid transparent;
-      border-left: 22px solid transparent;
-      border-top: 44px solid #a9d858;
-      right: 1.72em;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+      border-top: 30px solid #a9d858;
+      right: 1.17em;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 23) {
       grid-column:4;
@@ -1556,10 +1560,10 @@ footer .designed-by span {
       grid-column:3;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 24) i.triangle {
-      border-top: 20px solid transparent;
-      border-left: 40px solid #a9d858;
-      border-bottom: 20px solid transparent;
-      bottom: -1.58em;
+      border-top: 15px solid transparent;
+      border-left: 30px solid #a9d858;
+      border-bottom: 15px solid transparent;
+      bottom: -1.21em;
       border-right: 0;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 25) {
@@ -1583,18 +1587,23 @@ footer .designed-by span {
       border-bottom-right-radius: 50%;
     }
     .c-critical-questions-panel .timeline > li:nth-child(27n + 27) i.triangle {
-      border-right: 22px solid transparent;
-      border-left: 22px solid transparent;
-      border-top: 44px solid #a9d858;
-      left: 1.72em;
+      border-right: 15px solid transparent;
+      border-left: 15px solid transparent;
+      border-top: 30px solid #a9d858;
+      left: 1.22em;
     }
     .c-critical-questions-panel ul.timeline li a img {
       opacity: 1;
     }
+    .c-critical-questions-panel ul li p {
+      font-size: 1em;
+      line-height: 1.3em;
+      color: black;
+    }
     .c-critical-questions-panel i.circle-stop {
-      border-width: 4px;
-      height: 50px;
-      width: 50px;
+      border-width: 3px;
+      height: 30px;
+      width: 30px;
     }
     .c-explore-panel .section-main-image {
         padding: 45px 0;
