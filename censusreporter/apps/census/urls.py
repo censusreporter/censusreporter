@@ -155,6 +155,13 @@ urlpatterns = [
     ),
 
     url(
+        regex='^acs-2020-update/$',
+        view=cache_page(60 * 5)(Census2020View.as_view(template_name="acs-2020-update.html")),
+        kwargs={},
+        name='acs-2020-update',
+    ),
+
+    url(
         regex='^locate/$',
         view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html")),
         kwargs={},
