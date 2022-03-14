@@ -353,7 +353,7 @@ TOPICS_LIST = [
     },
 
     {
-        'title': 'Income',
+        'title': 'Income and Earnings',
         'slug': 'income',
         'topics': ['poverty', 'income'],
         'description': 'How the Census approaches the topic of income.',
@@ -361,7 +361,9 @@ TOPICS_LIST = [
         'question_images': ['43_income_1.png', '44_income_2.png',],
         'more_info_links': [
             ('Why We Ask: Income','https://www.census.gov/acs/www/about/why-we-ask-each-question/income/'),
-            ('US Census Bureau: Topics: Income','https://www.census.gov/topics/income-poverty/income.html')
+            ('US Census Bureau: Topics: Income','https://www.census.gov/topics/income-poverty/income.html'),
+            ('US Census Bureau: Income vs. Earnings','https://www.census.gov/newsroom/blogs/random-samplings/2010/09/income-vs-earnings.html'),
+
         ],
         'group': 'topical_help'
     },
