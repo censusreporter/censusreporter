@@ -8,20 +8,20 @@
         <div class="column-two-thirds">
             <h2>American Community Survey</h2>
             <p>
-                Many people using Census Reporter have noticed that our data is still based on the 2019 American Community Survey (ACS), and have asked us when the data will be updated.
+                Census Reporter has been updated with the ACS 2016-2020 5-year data release. 
             </p>
             <p>
                 As with so many other things, the COVID-19 pandemic severely impacted the Census Bureau's operations. With the ACS, specifically, issues with survey response rates led the Bureau to cancel the normal 1-year      <span class="glossary-term">release</span>. In its place, they have released <a href="https://www.census.gov/programs-surveys/acs/data/experimental-data.html">"experimental" estimates</a> which are limited to data for the nation as a whole, the 50 states, and the District of Columbia. Because the format and coverage of this data release is so different from what is otherwise in Census Reporter, we are not able to adapt our site to include this data.
             </p>
             <p>
-                <a href="https://www.census.gov/programs-surveys/acs/news/data-releases/2020/release.html#ABC">The Census Bureau has announced</a> that they plan to publish the ACS 2016-2020 5-year <span class="glossary-term">release</span> on March 17, 2022. Nothing in the Census announcements suggests that this data will be incompatible with past ACS 5-year releases; if this is the case, we will update our data as promptly as we can once the release is published. At that time, Census Reporter will only serve data from the 5-year release, until the next ACS data is released. In normal times, the 1-year release is published in September, and the 5-year release is published in December. We have no information now about whether either release for data covering 2021 will be impacted by the pandemic.
+                We had previously stated that Census Reporter will only serve data from the 2020 5-year release, until the next ACS data is released. For the sake of clarity: we will no longer serve data from the 2019 5-year release. (Census Reporter has never served historical ACS releases once they are superseded.) We have retained the 2019 1-year release data, and configured our system to return that data for geographies which are not included in the 2020 5-year release. We have not actually verified that there are any such geographies, but this is the place where we can tell you how we did it, so that's how we did it.
             </p>
             <h2>2020 Decennial Census</h2>
             <p>
                 Census Reporter was never designed to serve data from the Decennial Census. However, as part of the <a href="https://sites.google.com/stanford.edu/census-data-co-op">2020 Census Data Co-op</a>, we secured support to develop a new tool which summarizes the "redistricting data" from the 2020 Decennial Census for neighborhoods and other geographies that the Census Bureau doesn't support. There are no plans to integrate 2020 Decennial Census data into Census Reporter's profiles or data search tools.
             </p>
             <p><strong><a href="{% url '2020' %}">Learn more about the 2020 Neighborhood Data tool.</a></strong></p>
-            <p class="message message-help display-type">Last updated February 16, 2022</p>
+            <p class="message message-help display-type">Last updated March 23, 2022</p>
         </div>
 
         <div class="column-third">
