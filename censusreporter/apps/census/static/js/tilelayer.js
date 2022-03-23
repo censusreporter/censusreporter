@@ -316,7 +316,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
             throw "Unsupported or invalid summary level."
         }
 
-        var url = 'https://embed.censusreporter.org/1.0/geo/tiger2019/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
+        var url = 'https://embed.censusreporter.org/1.0/geo/tiger2020/tiles/' + summary_level + '/{z}/{x}/{y}.geojson';
 
         options = L.Util.extend(this._defaultOptions, options);
         geojsonOptions = L.Util.extend(this._defaultGeojsonOptions, geojsonOptions);

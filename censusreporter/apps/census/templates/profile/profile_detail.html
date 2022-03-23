@@ -316,7 +316,7 @@
     });
 
     // Make the header map
-    d3.json(CR_API_URL + '/1.0/geo/tiger2019/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+    d3.json(CR_API_URL + '/1.0/geo/tiger2020/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
         if (error) return console.warn(error);
         var allowMapDrag = (browserWidth > 480) ? true : false;
 
@@ -518,8 +518,8 @@
     // Update the header's list of parent geographies
     var parentLinkContainer = $('#header-box .caption'),
         parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-        parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2019/' + thisGeoID + '/parents',
-        tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2019/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+        parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2020/' + thisGeoID + '/parents',
+        tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2020/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
     // for touch devices, still allow context toggle
     $('.stat-row').on('click', '.stat', function() {
@@ -560,8 +560,8 @@
         // Update the header's list of parent geographies
         var parentLinkContainer = $('#header-box .caption'),
             parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2019/' + thisGeoID + '/parents',
-            tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2019/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2020/' + thisGeoID + '/parents',
+            tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2020/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
 
         // for touch devices, still allow context toggle
         $('.stat-row').on('click', '.stat', function() {
