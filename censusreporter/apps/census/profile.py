@@ -846,53 +846,12 @@ def geo_profile(geoid, acs='latest'):
         place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
             'B05006166 B05006001 / %')
 
-    # Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
-    data = api.get_data('B16001', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
-    language_dict = dict()
+    language_dict = {}
+    try:
+        language_dict = build_social_language_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching language data: f{e}')
     doc['social']['language'] = language_dict
-
-    language_dict['percent_non_english_at_home'] = build_item('Persons with language other than English spoken at home', data, item_levels,
-        'B16001001 B16001002 - B16001001 / %')
-    add_metadata(language_dict['percent_non_english_at_home'], 'B16001', 'Population 5 years and over', acs_name)
-
-
-    data = api.get_data('B16007', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
-    language_children = OrderedDict()
-    language_adults = OrderedDict()
-    language_dict['children'] = language_children
-    add_metadata(language_dict['children'], 'B16007', 'Population 5 years and over', acs_name)
-    language_dict['adults'] = language_adults
-    add_metadata(language_dict['adults'], 'B16007', 'Population 5 years and over', acs_name)
-
-    language_children['english'] = build_item('English only', data, item_levels,
-        'B16007003 B16007002 / %')
-    language_adults['english'] = build_item('English only', data, item_levels,
-        'B16007009 B16007015 + B16007008 B16007014 + / %')
-
-    language_children['spanish'] = build_item('Spanish', data, item_levels,
-        'B16007004 B16007002 / %')
-    language_adults['spanish'] = build_item('Spanish', data, item_levels,
-        'B16007010 B16007016 + B16007008 B16007014 + / %')
-
-    language_children['indoeuropean'] = build_item('Indo-European', data, item_levels,
-        'B16007005 B16007002 / %')
-    language_adults['indoeuropean'] = build_item('Indo-European', data, item_levels,
-        'B16007011 B16007017 + B16007008 B16007014 + / %')
-
-    language_children['asian_islander'] = build_item('Asian/Islander', data, item_levels,
-        'B16007006 B16007002 / %')
-    language_adults['asian_islander'] = build_item('Asian/Islander', data, item_levels,
-        'B16007012 B16007018 + B16007008 B16007014 + / %')
-
-    language_children['other'] = build_item('Other', data, item_levels,
-        'B16007007 B16007002 / %')
-    language_adults['other'] = build_item('Other', data, item_levels,
-        'B16007013 B16007019 + B16007008 B16007014 + / %')
-
 
     # Social: Number of Veterans, Wartime Service, Sex of Veterans
     data = api.get_data('B21002', comparison_geoids, acs)
@@ -954,6 +913,57 @@ def geo_profile(geoid, acs='latest'):
         doc['geo_metadata']['population_density'] = population_density
 
     return doc
+
+def build_social_language_dict(api, acs, item_levels, comparison_geoids):
+    # TODO: consider refactoring into two methods to produce and return 
+    # language_adultes
+    # Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
+    data = api.get_data('B16001', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    language_dict = dict()
+
+    language_dict['percent_non_english_at_home'] = build_item('Persons with language other than English spoken at home', data, item_levels,
+        'B16001001 B16001002 - B16001001 / %')
+    add_metadata(language_dict['percent_non_english_at_home'], 'B16001', 'Population 5 years and over', acs_name)
+
+
+    data = api.get_data('B16007', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    language_children = OrderedDict()
+    language_adults = OrderedDict()
+    language_dict['children'] = language_children
+    add_metadata(language_dict['children'], 'B16007', 'Population 5 years and over', acs_name)
+    language_dict['adults'] = language_adults
+    add_metadata(language_dict['adults'], 'B16007', 'Population 5 years and over', acs_name)
+
+    language_children['english'] = build_item('English only', data, item_levels,
+        'B16007003 B16007002 / %')
+    language_adults['english'] = build_item('English only', data, item_levels,
+        'B16007009 B16007015 + B16007008 B16007014 + / %')
+
+    language_children['spanish'] = build_item('Spanish', data, item_levels,
+        'B16007004 B16007002 / %')
+    language_adults['spanish'] = build_item('Spanish', data, item_levels,
+        'B16007010 B16007016 + B16007008 B16007014 + / %')
+
+    language_children['indoeuropean'] = build_item('Indo-European', data, item_levels,
+        'B16007005 B16007002 / %')
+    language_adults['indoeuropean'] = build_item('Indo-European', data, item_levels,
+        'B16007011 B16007017 + B16007008 B16007014 + / %')
+
+    language_children['asian_islander'] = build_item('Asian/Islander', data, item_levels,
+        'B16007006 B16007002 / %')
+    language_adults['asian_islander'] = build_item('Asian/Islander', data, item_levels,
+        'B16007012 B16007018 + B16007008 B16007014 + / %')
+
+    language_children['other'] = build_item('Other', data, item_levels,
+        'B16007007 B16007002 / %')
+    language_adults['other'] = build_item('Other', data, item_levels,
+        'B16007013 B16007019 + B16007008 B16007014 + / %')
+    
+    return language_dict
 
 def find_dicts_with_key(dictionary, searchkey):
     stack = [dictionary]
