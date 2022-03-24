@@ -438,12 +438,10 @@
 
     var makeCharts = function() {
         $.each(chartContainers, function(i, obj) {
-            $(obj).empty();
             var chartID = $(this).prop('id'),
                 chartDataKey = chartID.replace('chart-', '').replace('alt-', ''),
                 chartDataID = chartDataKey.split('-'),
                 chartType = gracefulType(chartDataID[0]),
-                chartData = profileData[chartDataID[1]],
                 chartChartTitle = $(this).data('chart-title'),
                 chartChartShowYAxis = $(this).data('chart-show-y-axis'),
                 chartInitialSort = $(this).data('initial-sort'),
@@ -451,48 +449,56 @@
                 chartQualifier = $(this).data('qualifier') || null,
                 geographyData = profileData['geography'];
 
-            // allow arbitrary nesting in API data structure
-            var drilldown = chartDataID.length - 1;
-            if (drilldown >= 2) {
-                for (var n = 2; n <= drilldown; n++) {
-                    chartData = chartData[chartDataID[n]]
-                }
-            }
-
-            // determine whether data point is from anything other
-            // than the primary ACS release for this page
-            for (var key in chartData)
-                if (chartData.hasOwnProperty(key)) break;
-            var thisRelease = chartData[key]['acs_release'],
-                noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
-
-            chartQualifier = Array(chartQualifier, noteRelease)
-                .filter(function(n) {
-                    return n
-                }).join('; ');
-
-            var chartstuff = {
-                chartContainer: chartID,
-                chartDataKey: chartDataKey,
-                chartType: chartType,
-                chartHeight: 160,
-                chartData: chartData,
-                chartQualifier: chartQualifier,
-                chartChartTitle: chartChartTitle,
-                chartInitialSort: chartInitialSort,
-                chartStatType: chartStatType,
-                geographyData: geographyData
-            }
             try {
-                Charts[i] = Chart(chartstuff);
-            } catch (e) {
-                console.log("Error making chart " + chartID)
-                console.log(chartstuff);
-            }
+                var chartData = profileData[chartDataID[1]];
+                $(obj).empty();
+                // allow arbitrary nesting in API data structure
+                var drilldown = chartDataID.length - 1;
+                if (drilldown >= 2) {
+                    for (var n = 2; n <= drilldown; n++) {
+                        chartData = chartData[chartDataID[n]]
+                    }
+                }
 
-            // build array of releases used on this page for citations
-            if (noteRelease) {
-                releases.push(noteRelease)
+                // determine whether data point is from anything other
+                // than the primary ACS release for this page
+                for (var key in chartData)
+                    if (chartData.hasOwnProperty(key)) break;
+                var thisRelease = chartData[key]['acs_release'],
+                    noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
+
+                chartQualifier = Array(chartQualifier, noteRelease)
+                    .filter(function(n) {
+                        return n
+                    }).join('; ');
+
+                var chartstuff = {
+                    chartContainer: chartID,
+                    chartDataKey: chartDataKey,
+                    chartType: chartType,
+                    chartHeight: 160,
+                    chartData: chartData,
+                    chartQualifier: chartQualifier,
+                    chartChartTitle: chartChartTitle,
+                    chartInitialSort: chartInitialSort,
+                    chartStatType: chartStatType,
+                    geographyData: geographyData
+                }
+                try {
+                    Charts[i] = Chart(chartstuff);
+                } catch (e) {
+                    console.log("Error making chart " + chartID)
+                    console.log(chartstuff);
+                }
+
+                // build array of releases used on this page for citations
+                if (noteRelease) {
+                    releases.push(noteRelease)
+                }
+
+            } catch(e) {
+                console.log(`Error making chart for chartID ${chartID} ${e}`)
+                $(obj).html(`<h3 class="chart-title">${chartChartTitle}</h3><p class="chart-qualifier">No data available</p>`)
             }
         });
     }
