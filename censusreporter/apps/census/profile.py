@@ -395,69 +395,26 @@ def geo_profile(geoid, acs='latest'):
 
 
     # Economics: Poverty Rate
-    data = api.get_data('B17001', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     poverty_dict = dict()
+    try:
+        poverty_dict = build_economics_poverty_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching poverty data: f{e}')
+
     doc['economics']['poverty'] = poverty_dict
 
-    poverty_dict['percent_below_poverty_line'] = build_item('Persons below poverty line', data, item_levels,
-        'B17001002 B17001001 / %')
-    add_metadata(poverty_dict['percent_below_poverty_line'], 'B17001', 'Population for whom poverty status is determined', acs_name)
-
-    poverty_children = OrderedDict()
-    poverty_seniors = OrderedDict()
-    poverty_dict['children'] = poverty_children
-    add_metadata(poverty_dict['children'], 'B17001', 'Population for whom poverty status is determined', acs_name)
-    poverty_dict['seniors'] = poverty_seniors
-    add_metadata(poverty_dict['seniors'], 'B17001', 'Population for whom poverty status is determined', acs_name)
-
-    poverty_children['Below'] = build_item('Poverty', data, item_levels,
-        'B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001033 + B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + / %')
-    poverty_children['above'] = build_item('Non-poverty', data, item_levels,
-        'B17001033 B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001033 + B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + / %')
-
-    poverty_seniors['Below'] = build_item('Poverty', data, item_levels,
-        'B17001015 B17001016 + B17001029 + B17001030 + B17001015 B17001016 + B17001029 + B17001030 + B17001044 + B17001045 + B17001058 + B17001059 + / %')
-    poverty_seniors['above'] = build_item('Non-poverty', data, item_levels,
-        'B17001044 B17001045 + B17001058 + B17001059 + B17001015 B17001016 + B17001029 + B17001030 + B17001044 + B17001045 + B17001058 + B17001059 + / %')
-
     # Economics: Mean Travel Time to Work, Means of Transportation to Work
-    data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     employment_dict = dict()
-    doc['economics']['employment'] = employment_dict
 
     try:
-        employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
-            'B08013001 B08006001 B08006017 - /')
-        add_metadata(employment_dict['mean_travel_time'], 'B08006, B08013', 'Workers 16 years and over who did not work at home', acs_name)
+        employment_dict = build_economics_employment_dict(api, acs, item_levels, comparison_geoids)
     except KeyError as e:
         logger.warn(f"profile [{geoid}]: missing data error [mean_travel_time] [{e}]")
         employment_dict['mean_travel_time'] = None
 
-    data = api.get_data('B08006', comparison_geoids, acs)
-    acs_name = data['release']['name']
+    doc['economics']['employment'] = employment_dict
 
-    transportation_dict = OrderedDict()
-    employment_dict['transportation_distribution'] = transportation_dict
-    add_metadata(employment_dict['transportation_distribution'], 'B08006', 'Workers 16 years and over', acs_name)
 
-    transportation_dict['drove_alone'] = build_item('Drove alone', data, item_levels,
-        'B08006003 B08006001 / %')
-    transportation_dict['carpooled'] = build_item('Carpooled', data, item_levels,
-        'B08006004 B08006001 / %')
-    transportation_dict['public_transit'] = build_item('Public transit', data, item_levels,
-        'B08006008 B08006001 / %')
-    transportation_dict['Bicycle'] = build_item('Bicycle', data, item_levels,
-        'B08006014 B08006001 / %')
-    transportation_dict['walked'] = build_item('Walked', data, item_levels,
-        'B08006015 B08006001 / %')
-    transportation_dict['other'] = build_item('Other', data, item_levels,
-        'B08006016 B08006001 / %')
-    transportation_dict['worked_at_home'] = build_item('Worked at home', data, item_levels,
-        'B08006017 B08006001 / %')
 
     # Families: Marital Status by Sex
     data = api.get_data('B12001', comparison_geoids, acs)
@@ -545,34 +502,12 @@ def geo_profile(geoid, acs='latest'):
         'B09002015 B09002001 / %')
 
     # Families: Birth Rate by Women's Age
-    data = api.get_data('B13016', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     fertility = dict()
+    try:
+        fertility = build_families_fertility_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching fertility data {e}')
     doc['families']['fertility'] = fertility
-
-    fertility['total'] = build_item('Women 15-50 who gave birth during past year', data, item_levels,
-        'B13016002 B13016001 / %')
-    add_metadata(fertility['total'], 'B13016', 'Women 15 to 50 years', acs_name)
-
-    fertility_by_age_dict = OrderedDict()
-    fertility['by_age'] = fertility_by_age_dict
-    add_metadata(fertility['by_age'], 'B13016', 'Women 15 to 50 years', acs_name)
-
-    fertility_by_age_dict['15_to_19'] = build_item('15-19', data, item_levels,
-        'B13016003 B13016003 B13016011 + / %')
-    fertility_by_age_dict['20_to_24'] = build_item('20-24', data, item_levels,
-        'B13016004 B13016004 B13016012 + / %')
-    fertility_by_age_dict['25_to_29'] = build_item('25-29', data, item_levels,
-        'B13016005 B13016005 B13016013 + / %')
-    fertility_by_age_dict['30_to_34'] = build_item('30-35', data, item_levels,
-        'B13016006 B13016006 B13016014 + / %')
-    fertility_by_age_dict['35_to_39'] = build_item('35-39', data, item_levels,
-        'B13016007 B13016007 B13016015 + / %')
-    fertility_by_age_dict['40_to_44'] = build_item('40-44', data, item_levels,
-        'B13016008 B13016008 B13016016 + / %')
-    fertility_by_age_dict['45_to_50'] = build_item('45-50', data, item_levels,
-        'B13016009 B13016009 B13016017 + / %')
 
     # Families: Number of Households, Persons per Household, Household type distribution
     data = api.get_data(['B11001', 'B11002'], comparison_geoids, acs)
@@ -659,51 +594,22 @@ def geo_profile(geoid, acs='latest'):
     ownership_distribution_dict['renter'] = build_item('Renter occupied', data, item_levels,
         'B25003003 B25003001 / %')
 
-    data = api.get_data('B25026', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     length_of_tenure_dict = OrderedDict()
+    try:
+        length_of_tenure_dict = build_housing_length_of_tenure_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching length of tenure data: {e}')
     doc['housing']['length_of_tenure'] = length_of_tenure_dict
-    add_metadata(length_of_tenure_dict, 'B25026', 'Total population in occupied housing units', acs_name)
-
-    length_of_tenure_dict['Before_1990'] = build_item('Before 1990', data, item_levels,
-        'B25026008 B25026015 + B25026001 / %')
-    length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
-        'B25026007 B25026014 + B25026001 / %')
-    length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
-        'B25026006 B25026013 + B25026001 / %')
-    length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
-        'B25026005 B25026012 + B25026001 / %')
-    length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
-        'B25026004 B25026011 + B25026001 / %')
-    length_of_tenure_dict['since_2017'] = build_item('Since 2017', data, item_levels,
-        'B25026003 B25026010 + B25026001 / %')
 
     # Housing: Mobility
-    data = api.get_data('B07003', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     migration_dict = dict()
+    migration_distribution_dict = {}
+    try:
+        (migration_dict, migration_distribution_dict) = build_housing_migration_dicts(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching migration_dict data: {e}')
     doc['housing']['migration'] = migration_dict
-
-    migration_dict['moved_since_previous_year'] = build_item('Moved since previous year', data, item_levels,
-        'B07003007 B07003010 + B07003013 + B07003016 + B07003001 / %')
-    add_metadata(migration_dict['moved_since_previous_year'], 'B07003', 'Population 1 year and over in the United States', acs_name)
-
-    migration_distribution_dict = OrderedDict()
     doc['housing']['migration_distribution'] = migration_distribution_dict
-    add_metadata(migration_distribution_dict, 'B07003', 'Population 1 year and over in the United States', acs_name)
-
-    migration_distribution_dict['same_house_year_ago'] = build_item('Same house year ago', data, item_levels,
-        'B07003004 B07003001 / %')
-    migration_distribution_dict['moved_same_county'] = build_item('From same county', data, item_levels,
-        'B07003007 B07003001 / %')
-    migration_distribution_dict['moved_different_county'] = build_item('From different county', data, item_levels,
-        'B07003010 B07003001 / %')
-    migration_distribution_dict['moved_different_state'] = build_item('From different state', data, item_levels,
-        'B07003013 B07003001 / %')
-    migration_distribution_dict['moved_from_abroad'] = build_item('From abroad', data, item_levels,
-        'B07003016 B07003001 / %')
 
     # Housing: Median Value and Distribution of Values
     data = api.get_data('B25077', comparison_geoids, acs)
@@ -774,58 +680,19 @@ def geo_profile(geoid, acs='latest'):
         'B15002016 B15002017 + B15002018 + B15002033 + B15002034 + B15002035 + B15002001 / %')
 
     # Social: Place of Birth
-    data = api.get_data('B05002', comparison_geoids, acs)
-    acs_name = data['release']['name']
 
     foreign_dict = dict()
+    try:
+        foreign_dict = build_social_foreign_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching foreign data: {e}')
     doc['social']['place_of_birth'] = foreign_dict
-
-    foreign_dict['percent_foreign_born'] = build_item('Foreign-born population', data, item_levels,
-        'B05002013 B05002001 / %')
-    add_metadata(foreign_dict['percent_foreign_born'], 'B05002', 'Total population', acs_name)
-
-    data = api.get_data('B05006', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
-    place_of_birth_dict = OrderedDict()
-    foreign_dict['distribution'] = place_of_birth_dict
-    add_metadata(place_of_birth_dict, 'B05006', 'Foreign-born population', acs_name)
-
-    # Note that minor changes to B05006 will throw this off. We've been bitten thrice.
-    # https://github.com/censusreporter/censusreporter/issues/87
-
-    if '2018' in data['release']['name']:
-        place_of_birth_dict['europe'] = build_item('Europe', data, item_levels,
-            'B05006002 B05006001 / %')
-        place_of_birth_dict['asia'] = build_item('Asia', data, item_levels,
-            'B05006047 B05006001 / %')
-        place_of_birth_dict['africa'] = build_item('Africa', data, item_levels,
-            'B05006091 B05006001 / %')
-        place_of_birth_dict['oceania'] = build_item('Oceania', data, item_levels,
-            'B05006117 B05006001 / %')
-        place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
-            'B05006124 B05006001 / %')
-        place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
-            'B05006160 B05006001 / %')
-    else:
-        place_of_birth_dict['europe'] = build_item('Europe', data, item_levels,
-            'B05006002 B05006001 / %')
-        place_of_birth_dict['asia'] = build_item('Asia', data, item_levels,
-            'B05006047 B05006001 / %')
-        place_of_birth_dict['africa'] = build_item('Africa', data, item_levels,
-            'B05006091 B05006001 / %')
-        place_of_birth_dict['oceania'] = build_item('Oceania', data, item_levels,
-            'B05006122 B05006001 / %')
-        place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
-            'B05006130 B05006001 / %')
-        place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
-            'B05006166 B05006001 / %')
 
     language_dict = {}
     try:
         language_dict = build_social_language_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching language data: f{e}')
+        logger.warn(f'Error fetching language data: {e}')
     doc['social']['language'] = language_dict
 
     # Social: Number of Veterans, Wartime Service, Sex of Veterans
@@ -902,7 +769,7 @@ def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
         add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
     except Exception as e:
         # TODO: this is field surgery refactoring and ought to disentangle things a lot more...
-        logger.warn(f'Error fetching B19301 per_capita_income_in_the_last_12_months data: f{e}')
+        logger.warn(f'Error fetching B19301 per_capita_income_in_the_last_12_months data: {e}')
         income_dict['per_capita_income_in_the_last_12_months'] = {
             "name": 'Per capita income'
         }
@@ -920,7 +787,7 @@ def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
         income_dict['median_household_income'] = {
             "name": 'Median household income'
         }
-        logger.warn(f'Error fetching B19013 median_household_income data: f{e}')
+        logger.warn(f'Error fetching B19013 median_household_income data: {e}')
 
     try:
         # Economics: Household Income Distribution
@@ -940,12 +807,186 @@ def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
             'B19001017 B19001001 / %')
     except Exception as e:
         income_dict['household_distribution'] = {}
-        logger.warn(f'Error fetching B19001 household_distribution data: f{e}')
+        logger.warn(f'Error fetching B19001 household_distribution data: {e}')
         acs_name = "No data available"
     add_metadata(income_dict['household_distribution'], 'B19001', 'Households', acs_name)
 
 
     return income_dict
+
+def build_economics_poverty_dict(api, acs, item_levels, comparison_geoids):
+    poverty_dict = {
+        'percent_below_poverty_line': None,
+        'children': None,
+        'seniors': None
+    }
+
+    try:
+        data = api.get_data('B17001', comparison_geoids, acs)
+        acs_name = data['release']['name']
+
+        poverty_dict['percent_below_poverty_line'] = build_item('Persons below poverty line', data, item_levels,
+            'B17001002 B17001001 / %')
+
+        poverty_children = OrderedDict()
+
+        poverty_children['Below'] = build_item('Poverty', data, item_levels,
+            'B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001033 + B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + / %')
+        poverty_children['above'] = build_item('Non-poverty', data, item_levels,
+            'B17001033 B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + B17001004 B17001005 + B17001006 + B17001007 + B17001008 + B17001009 + B17001018 + B17001019 + B17001020 + B17001021 + B17001022 + B17001023 + B17001033 + B17001034 + B17001035 + B17001036 + B17001037 + B17001038 + B17001047 + B17001048 + B17001049 + B17001050 + B17001051 + B17001052 + / %')
+        poverty_dict['children'] = poverty_children
+
+        poverty_seniors = OrderedDict()
+        poverty_seniors['Below'] = build_item('Poverty', data, item_levels,
+            'B17001015 B17001016 + B17001029 + B17001030 + B17001015 B17001016 + B17001029 + B17001030 + B17001044 + B17001045 + B17001058 + B17001059 + / %')
+        poverty_seniors['above'] = build_item('Non-poverty', data, item_levels,
+            'B17001044 B17001045 + B17001058 + B17001059 + B17001015 B17001016 + B17001029 + B17001030 + B17001044 + B17001045 + B17001058 + B17001059 + / %')
+        poverty_dict['seniors'] = poverty_seniors
+        add_metadata(poverty_dict['percent_below_poverty_line'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+        add_metadata(poverty_dict['children'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+        add_metadata(poverty_dict['seniors'], 'B17001', 'Population for whom poverty status is determined', acs_name)
+    except Exception as e:
+        logger.warn(f'Error fetching B17001 percent_below_poverty_line data: {e}')
+
+
+    return poverty_dict
+
+def build_economics_employment_dict(api, acs, item_levels, comparison_geoids):
+    employment_dict = {
+        'mean_travel_time': None,
+        'transportation_distribution': None
+    }
+
+    try:
+        data = api.get_data(['B08006', 'B08013'], comparison_geoids, acs)
+        acs_name = data['release']['name']
+
+        employment_dict['mean_travel_time'] = build_item('Mean travel time to work', data, item_levels,
+            'B08013001 B08006001 B08006017 - /')
+
+        data = api.get_data('B08006', comparison_geoids, acs)
+        acs_name = data['release']['name']
+
+        transportation_dict = OrderedDict()
+        transportation_dict['drove_alone'] = build_item('Drove alone', data, item_levels,
+            'B08006003 B08006001 / %')
+        transportation_dict['carpooled'] = build_item('Carpooled', data, item_levels,
+            'B08006004 B08006001 / %')
+        transportation_dict['public_transit'] = build_item('Public transit', data, item_levels,
+            'B08006008 B08006001 / %')
+        transportation_dict['Bicycle'] = build_item('Bicycle', data, item_levels,
+            'B08006014 B08006001 / %')
+        transportation_dict['walked'] = build_item('Walked', data, item_levels,
+            'B08006015 B08006001 / %')
+        transportation_dict['other'] = build_item('Other', data, item_levels,
+            'B08006016 B08006001 / %')
+        transportation_dict['worked_at_home'] = build_item('Worked at home', data, item_levels,
+            'B08006017 B08006001 / %')
+        employment_dict['transportation_distribution'] = transportation_dict
+
+        add_metadata(employment_dict['mean_travel_time'], 'B08006, B08013', 'Workers 16 years and over who did not work at home', acs_name)
+        add_metadata(employment_dict['transportation_distribution'], 'B08006', 'Workers 16 years and over', acs_name)
+
+    except Exception as e:
+        logger.warn(f'Error fetching B08006,B08013 mean_travel_time data: {e}')
+        acs_name = "No data available"
+
+    return employment_dict
+
+def build_families_fertility_dict(api, acs, item_levels, comparison_geoids):
+    # set up defaults to insulate against missing data
+    fertility = {
+        'total': None,
+        'by_age': None
+    }
+    
+    universe = None
+    acs_name = "No data available"
+
+    try:
+        data = api.get_data('B13016', comparison_geoids, acs)
+        acs_name = data['release']['name']
+
+        fertility['total'] = build_item('Women 15-50 who gave birth during past year', data, item_levels,
+            'B13016002 B13016001 / %')
+
+        fertility_by_age_dict = OrderedDict()
+        fertility_by_age_dict['15_to_19'] = build_item('15-19', data, item_levels,
+            'B13016003 B13016003 B13016011 + / %')
+        fertility_by_age_dict['20_to_24'] = build_item('20-24', data, item_levels,
+            'B13016004 B13016004 B13016012 + / %')
+        fertility_by_age_dict['25_to_29'] = build_item('25-29', data, item_levels,
+            'B13016005 B13016005 B13016013 + / %')
+        fertility_by_age_dict['30_to_34'] = build_item('30-35', data, item_levels,
+            'B13016006 B13016006 B13016014 + / %')
+        fertility_by_age_dict['35_to_39'] = build_item('35-39', data, item_levels,
+            'B13016007 B13016007 B13016015 + / %')
+        fertility_by_age_dict['40_to_44'] = build_item('40-44', data, item_levels,
+            'B13016008 B13016008 B13016016 + / %')
+        fertility_by_age_dict['45_to_50'] = build_item('45-50', data, item_levels,
+            'B13016009 B13016009 B13016017 + / %')
+        universe = 'Women 15 to 50 years'
+        fertility['by_age'] = fertility_by_age_dict
+    except Exception as e:
+        logger.warn(f'Error fetching B13016 fertility data: {e}')
+
+    add_metadata(fertility['total'], 'B13016', universe, acs_name)
+    add_metadata(fertility['by_age'], 'B13016', universe, acs_name)
+
+
+    return fertility
+
+def build_housing_length_of_tenure_dict(api, acs, item_levels, comparison_geoids):
+    data = api.get_data('B25026', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    length_of_tenure_dict = OrderedDict()
+
+    add_metadata(length_of_tenure_dict, 'B25026', 'Total population in occupied housing units', acs_name)
+
+    length_of_tenure_dict['Before_1990'] = build_item('Before 1990', data, item_levels,
+        'B25026008 B25026015 + B25026001 / %')
+    length_of_tenure_dict['1990s'] = build_item('1990s', data, item_levels,
+        'B25026007 B25026014 + B25026001 / %')
+    length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
+        'B25026006 B25026013 + B25026001 / %')
+    length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
+        'B25026005 B25026012 + B25026001 / %')
+    length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
+        'B25026004 B25026011 + B25026001 / %')
+    length_of_tenure_dict['since_2017'] = build_item('Since 2017', data, item_levels,
+        'B25026003 B25026010 + B25026001 / %')
+
+
+    return length_of_tenure_dict
+
+def build_housing_migration_dicts(api, acs, item_levels, comparison_geoids):
+    migration_dict = dict()
+    data = api.get_data('B07003', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    migration_dict['moved_since_previous_year'] = build_item('Moved since previous year', data, item_levels,
+        'B07003007 B07003010 + B07003013 + B07003016 + B07003001 / %')
+    add_metadata(migration_dict['moved_since_previous_year'], 'B07003', 'Population 1 year and over in the United States', acs_name)
+
+    migration_distribution_dict = OrderedDict()
+    add_metadata(migration_distribution_dict, 'B07003', 'Population 1 year and over in the United States', acs_name)
+
+    migration_distribution_dict['same_house_year_ago'] = build_item('Same house year ago', data, item_levels,
+        'B07003004 B07003001 / %')
+    migration_distribution_dict['moved_same_county'] = build_item('From same county', data, item_levels,
+        'B07003007 B07003001 / %')
+    migration_distribution_dict['moved_different_county'] = build_item('From different county', data, item_levels,
+        'B07003010 B07003001 / %')
+    migration_distribution_dict['moved_different_state'] = build_item('From different state', data, item_levels,
+        'B07003013 B07003001 / %')
+    migration_distribution_dict['moved_from_abroad'] = build_item('From abroad', data, item_levels,
+        'B07003016 B07003001 / %')
+
+    # awkward to return two dicts from one method but better than making a second redundant API call
+    # look for a way to make this less weird
+    return migration_dict, migration_distribution_dict
+
 
 def build_social_language_dict(api, acs, item_levels, comparison_geoids):
     # TODO: consider refactoring into two methods to produce and return components, and possibly 
@@ -998,6 +1039,43 @@ def build_social_language_dict(api, acs, item_levels, comparison_geoids):
         'B16007013 B16007019 + B16007008 B16007014 + / %')
     
     return language_dict
+
+def build_social_foreign_dict(api, acs, item_levels, comparison_geoids):
+    foreign_dict = dict()
+
+    data = api.get_data('B05002', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    foreign_dict['percent_foreign_born'] = build_item('Foreign-born population', data, item_levels,
+        'B05002013 B05002001 / %')
+    add_metadata(foreign_dict['percent_foreign_born'], 'B05002', 'Total population', acs_name)
+
+    data = api.get_data('B05006', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    place_of_birth_dict = OrderedDict()
+    foreign_dict['distribution'] = place_of_birth_dict
+    add_metadata(place_of_birth_dict, 'B05006', 'Foreign-born population', acs_name)
+
+    # Note that minor changes to B05006 will throw this off. We've been bitten thrice.
+    # https://github.com/censusreporter/censusreporter/issues/87
+    # as of 2020, we don't need a conditional, but it's possible we'll have a period
+    # where we have to check data['release']['name'] or something similar to 
+    # set different numerator columns for these items.
+    place_of_birth_dict['europe'] = build_item('Europe', data, item_levels,
+        'B05006002 B05006001 / %')
+    place_of_birth_dict['asia'] = build_item('Asia', data, item_levels,
+        'B05006047 B05006001 / %')
+    place_of_birth_dict['africa'] = build_item('Africa', data, item_levels,
+        'B05006091 B05006001 / %')
+    place_of_birth_dict['oceania'] = build_item('Oceania', data, item_levels,
+        'B05006122 B05006001 / %')
+    place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
+        'B05006130 B05006001 / %')
+    place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
+        'B05006166 B05006001 / %')
+
+    return foreign_dict
 
 def find_dicts_with_key(dictionary, searchkey):
     stack = [dictionary]

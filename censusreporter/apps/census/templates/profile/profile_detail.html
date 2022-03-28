@@ -463,7 +463,12 @@
                 // determine whether data point is from anything other
                 // than the primary ACS release for this page
                 for (var key in chartData)
-                    if (chartData.hasOwnProperty(key)) break;
+                    if (key && chartData.hasOwnProperty(key)) break;
+                
+                if (!chartData[key]) {
+                    console.log(`chartData[${key}] is undefined`)
+                    debugger
+                }
                 var thisRelease = chartData[key]['acs_release'],
                     noteRelease = (thisRelease && thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
