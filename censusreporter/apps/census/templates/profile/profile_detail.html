@@ -465,7 +465,7 @@
                 for (var key in chartData)
                     if (chartData.hasOwnProperty(key)) break;
                 var thisRelease = chartData[key]['acs_release'],
-                    noteRelease = (thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
+                    noteRelease = (thisRelease && thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
 
                 chartQualifier = Array(chartQualifier, noteRelease)
                     .filter(function(n) {

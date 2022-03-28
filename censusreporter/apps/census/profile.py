@@ -156,36 +156,38 @@ def build_item(name, data, parents, rpn_string):
         ('numerator_errors', dict())])
 
     for parent in parents:
-        label = parent['relation']
-        geoid = parent['geoid']
-        data_for_geoid = dict(estimate={}, error={})
-        for table_id, table_data in data['data'][geoid].items():
-            data_for_geoid['estimate'].update(table_data['estimate'])
-            data_for_geoid['error'].update(table_data['error'])
+        try:
+            label = parent['relation'] # relation 'this' is the root
+            geoid = parent['geoid']
+            data_for_geoid = dict(estimate={}, error={})
+            for table_id, table_data in data['data'][geoid].items():
+                data_for_geoid['estimate'].update(table_data['estimate'])
+                data_for_geoid['error'].update(table_data['error'])
 
-        value = None
-        error = None
-        numerator = None
-        numerator_moe = None
+            value = None
+            error = None
+            numerator = None
+            numerator_moe = None
 
-        if data_for_geoid:
-            (value, error, numerator, numerator_moe) = value_rpn_calc(data_for_geoid, rpn_string)
+            if data_for_geoid:
+                (value, error, numerator, numerator_moe) = value_rpn_calc(data_for_geoid, rpn_string)
 
-        # provide 2 decimals of precision, let client decide how much to use
-        if value is not None:
-            value = round(value, 2)
-            # if error is 'None' should it be 0?
-            error = round(error, 2) if error else 0
+            # provide 2 decimals of precision, let client decide how much to use
+            if value is not None:
+                value = round(value, 2)
+                # if error is 'None' should it be 0?
+                error = round(error, 2) if error else 0
 
-        if numerator is not None:
-            numerator = round(numerator, 2)
-            numerator_moe = round(numerator_moe, 2)
+            if numerator is not None:
+                numerator = round(numerator, 2)
+                numerator_moe = round(numerator_moe, 2)
 
-        val['values'][label] = value
-        val['error'][label] = error
-        val['numerators'][label] = numerator
-        val['numerator_errors'][label] = numerator_moe
-
+            val['values'][label] = value
+            val['error'][label] = error
+            val['numerators'][label] = numerator
+            val['numerator_errors'][label] = numerator_moe
+        except Exception as e:
+            logger.warn(f'Error fetching {name} for {label} {e}')
     return val
 
 def add_metadata(dictionary, table_id, universe, acs_release):
@@ -383,41 +385,14 @@ def geo_profile(geoid, acs='latest'):
     race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
         'B03002012 B03002001 / %')
 
-    # Economics: Per-Capita Income
-    data = api.get_data('B19301', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     income_dict = dict()
+    try:
+        income_dict = build_economics_income_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'Error fetching income data: f{e}')
+
     doc['economics']['income'] = income_dict
 
-    income_dict['per_capita_income_in_the_last_12_months'] = build_item('Per capita income', data, item_levels,
-        'B19301001')
-    add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
-
-    # Economics: Median Household Income
-    data = api.get_data('B19013', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
-    income_dict['median_household_income'] = build_item('Median household income', data, item_levels,
-        'B19013001')
-    add_metadata(income_dict['median_household_income'], 'B19013', 'Households', acs_name)
-
-    # Economics: Household Income Distribution
-    data = api.get_data('B19001', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
-    income_distribution = OrderedDict()
-    income_dict['household_distribution'] = income_distribution
-    add_metadata(income_dict['household_distribution'], 'B19001', 'Households', acs_name)
-
-    income_distribution['under_50'] = build_item('Under $50K', data, item_levels,
-        'B19001002 B19001003 + B19001004 + B19001005 + B19001006 + B19001007 + B19001008 + B19001009 + B19001010 + B19001001 / %')
-    income_distribution['50_to_100'] = build_item('$50K - $100K', data, item_levels,
-        'B19001011 B19001012 + B19001013 + B19001001 / %')
-    income_distribution['100_to_200'] = build_item('$100K - $200K', data, item_levels,
-        'B19001014 B19001015 + B19001016 + B19001001 / %')
-    income_distribution['over_200'] = build_item('Over $200K', data, item_levels,
-        'B19001017 B19001001 / %')
 
     # Economics: Poverty Rate
     data = api.get_data('B17001', comparison_geoids, acs)
@@ -914,9 +889,68 @@ def geo_profile(geoid, acs='latest'):
 
     return doc
 
+def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
+
+    # Economics: Per-Capita Income
+
+    income_dict = {}
+    try:
+        data = api.get_data('B19301', comparison_geoids, acs)
+        acs_name = data['release']['name']
+        income_dict['per_capita_income_in_the_last_12_months'] = build_item('Per capita income', data, item_levels,
+            'B19301001')
+        add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
+    except Exception as e:
+        # TODO: this is field surgery refactoring and ought to disentangle things a lot more...
+        logger.warn(f'Error fetching B19301 per_capita_income_in_the_last_12_months data: f{e}')
+        income_dict['per_capita_income_in_the_last_12_months'] = {
+            "name": 'Per capita income'
+        }
+
+
+
+    try:
+        # Economics: Median Household Income
+        data = api.get_data('B19013', comparison_geoids, acs)
+        acs_name = data['release']['name']
+        income_dict['median_household_income'] = build_item('Median household income', data, item_levels,
+            'B19013001')
+        add_metadata(income_dict['median_household_income'], 'B19013', 'Households', acs_name)
+    except Exception as e:
+        income_dict['median_household_income'] = {
+            "name": 'Median household income'
+        }
+        logger.warn(f'Error fetching B19013 median_household_income data: f{e}')
+
+    try:
+        # Economics: Household Income Distribution
+        data = api.get_data('B19001', comparison_geoids, acs)
+        acs_name = data['release']['name']
+
+        income_distribution = OrderedDict()
+        income_dict['household_distribution'] = income_distribution
+
+        income_distribution['under_50'] = build_item('Under $50K', data, item_levels,
+            'B19001002 B19001003 + B19001004 + B19001005 + B19001006 + B19001007 + B19001008 + B19001009 + B19001010 + B19001001 / %')
+        income_distribution['50_to_100'] = build_item('$50K - $100K', data, item_levels,
+            'B19001011 B19001012 + B19001013 + B19001001 / %')
+        income_distribution['100_to_200'] = build_item('$100K - $200K', data, item_levels,
+            'B19001014 B19001015 + B19001016 + B19001001 / %')
+        income_distribution['over_200'] = build_item('Over $200K', data, item_levels,
+            'B19001017 B19001001 / %')
+    except Exception as e:
+        income_dict['household_distribution'] = {}
+        logger.warn(f'Error fetching B19001 household_distribution data: f{e}')
+        acs_name = "No data available"
+    add_metadata(income_dict['household_distribution'], 'B19001', 'Households', acs_name)
+
+
+    return income_dict
+
 def build_social_language_dict(api, acs, item_levels, comparison_geoids):
-    # TODO: consider refactoring into two methods to produce and return 
-    # language_adultes
+    # TODO: consider refactoring into two methods to produce and return components, and possibly 
+    # have one succeed where others fail
+    # language_adults
     # Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
     data = api.get_data('B16001', comparison_geoids, acs)
     acs_name = data['release']['name']

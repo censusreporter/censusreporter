@@ -20,7 +20,7 @@
             {% endif %}
         </span>
         <span class="name">{{ stat.name }}</span>
-        {% if stat.metadata.acs_release != geography.census_release %}
+        {% if stat.metadata.acs_release and stat.metadata.acs_release != geography.census_release %}
             <span class="small">* {{ stat.metadata.acs_release }} data</span>
         {% endif %}
         
