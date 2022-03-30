@@ -334,20 +334,15 @@ def geo_profile(geoid, acs='latest'):
     sex_dict['percent_female'] = build_item('Female', data, item_levels,
         'B01001026 B01001001 / %')
 
-    data = api.get_data('B01002', comparison_geoids, acs)
-    acs_name = data['release']['name']
+    median_age_dict = {
+        "total": { "name": "Median age"}
+    }
+    try:
+        median_age_dict = build_demographics_median_age_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f'profile {geoid} exception fetching median_age data: {e}')
 
-    median_age_dict = dict()
     age_dict['median_age'] = median_age_dict
-    median_age_dict['total'] = build_item('Median age', data, item_levels,
-        'B01002001')
-    add_metadata(median_age_dict['total'], 'B01002', 'Total population', acs_name)
-    median_age_dict['male'] = build_item('Median age male', data, item_levels,
-        'B01002002')
-    add_metadata(median_age_dict['male'], 'B01002', 'Total population', acs_name)
-    median_age_dict['female'] = build_item('Median age female', data, item_levels,
-        'B01002003')
-    add_metadata(median_age_dict['female'], 'B01002', 'Total population', acs_name)
 
     # Demographics: Race
     data = api.get_data('B03002', comparison_geoids, acs)
@@ -389,7 +384,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         income_dict = build_economics_income_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching income data: f{e}')
+        logger.warn(f'profile {geoid} Error fetching income data: f{e}')
 
     doc['economics']['income'] = income_dict
 
@@ -399,7 +394,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         poverty_dict = build_economics_poverty_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching poverty data: f{e}')
+        logger.warn(f'profile [{geoid}]: Error fetching poverty data: f{e}')
 
     doc['economics']['poverty'] = poverty_dict
 
@@ -506,7 +501,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         fertility = build_families_fertility_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching fertility data {e}')
+        logger.warn(f'profile [{geoid}]: Error fetching fertility data {e}')
     doc['families']['fertility'] = fertility
 
     # Families: Number of Households, Persons per Household, Household type distribution
@@ -598,7 +593,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         length_of_tenure_dict = build_housing_length_of_tenure_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching length of tenure data: {e}')
+        logger.warn(f'profile [{geoid}]: Error fetching length of tenure data: {e}')
     doc['housing']['length_of_tenure'] = length_of_tenure_dict
 
     # Housing: Mobility
@@ -607,17 +602,17 @@ def geo_profile(geoid, acs='latest'):
     try:
         (migration_dict, migration_distribution_dict) = build_housing_migration_dicts(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching migration_dict data: {e}')
+        logger.warn(f'profile [{geoid}]: Error fetching migration_dict data: {e}')
     doc['housing']['migration'] = migration_dict
     doc['housing']['migration_distribution'] = migration_distribution_dict
 
     # Housing: Median Value and Distribution of Values
-    data = api.get_data('B25077', comparison_geoids, acs)
-    acs_name = data['release']['name']
+    try:
+        ownership_dict['median_value'] = build_housing_median_value_dict(api, acs, item_levels, comparison_geoids)
+    except Exception as e:
+        logger.warn(f"profile [{geoid}]: Exception building housing median_value {e}")
+        ownership_dict['median_value'] = {"name": "Median value of owner-occupied housing units"}
 
-    ownership_dict['median_value'] = build_item('Median value of owner-occupied housing units', data, item_levels,
-        'B25077001')
-    add_metadata(ownership_dict['median_value'], 'B25077', 'Owner-occupied housing units', acs_name)
 
     data = api.get_data('B25075', comparison_geoids, acs)
     acs_name = data['release']['name']
@@ -685,14 +680,17 @@ def geo_profile(geoid, acs='latest'):
     try:
         foreign_dict = build_social_foreign_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching foreign data: {e}')
+        logger.warn(f'profile [{geoid}]: Error fetching foreign data: {e}')
     doc['social']['place_of_birth'] = foreign_dict
 
     language_dict = {}
     try:
         language_dict = build_social_language_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'Error fetching language data: {e}')
+        logger.warn(f'profile [{geoid}]: Error fetching language data: {e}')
+        language_dict['percent_non_english_at_home'] = {
+            'name': 'Persons with language other than English spoken at home'
+        }
     doc['social']['language'] = language_dict
 
     # Social: Number of Veterans, Wartime Service, Sex of Veterans
@@ -755,6 +753,24 @@ def geo_profile(geoid, acs='latest'):
         doc['geo_metadata']['population_density'] = population_density
 
     return doc
+
+def build_demographics_median_age_dict(api, acs, item_levels, comparison_geoids):
+    median_age_dict = {}
+
+    data = api.get_data('B01002', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    median_age_dict['total'] = build_item('Median age', data, item_levels,
+        'B01002001')
+    add_metadata(median_age_dict['total'], 'B01002', 'Total population', acs_name)
+    median_age_dict['male'] = build_item('Median age male', data, item_levels,
+        'B01002002')
+    add_metadata(median_age_dict['male'], 'B01002', 'Total population', acs_name)
+    median_age_dict['female'] = build_item('Median age female', data, item_levels,
+        'B01002003')
+    add_metadata(median_age_dict['female'], 'B01002', 'Total population', acs_name)
+
+    return median_age_dict
 
 def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
 
@@ -959,6 +975,17 @@ def build_housing_length_of_tenure_dict(api, acs, item_levels, comparison_geoids
 
 
     return length_of_tenure_dict
+
+def build_housing_median_value_dict(api, acs, item_levels, comparison_geoids):
+    data = api.get_data('B25077', comparison_geoids, acs)
+    acs_name = data['release']['name']
+
+    d = build_item('Median value of owner-occupied housing units', data, item_levels,
+        'B25077001')
+    add_metadata(d, 'B25077', 'Owner-occupied housing units', acs_name)
+
+    return d
+
 
 def build_housing_migration_dicts(api, acs, item_levels, comparison_geoids):
     migration_dict = dict()
