@@ -340,7 +340,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         median_age_dict = build_demographics_median_age_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile {geoid} exception fetching median_age data: {e}')
+        logger.info(f'profile {geoid} exception fetching median_age data: {e}')
 
     age_dict['median_age'] = median_age_dict
 
@@ -384,7 +384,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         income_dict = build_economics_income_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile {geoid} Error fetching income data: f{e}')
+        logger.info(f'profile {geoid} Error fetching income data: f{e}')
 
     doc['economics']['income'] = income_dict
 
@@ -394,7 +394,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         poverty_dict = build_economics_poverty_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile [{geoid}]: Error fetching poverty data: f{e}')
+        logger.info(f'profile [{geoid}]: Error fetching poverty data: f{e}')
 
     doc['economics']['poverty'] = poverty_dict
 
@@ -404,7 +404,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         employment_dict = build_economics_employment_dict(api, acs, item_levels, comparison_geoids)
     except KeyError as e:
-        logger.warn(f"profile [{geoid}]: missing data error [mean_travel_time] [{e}]")
+        logger.info(f"profile [{geoid}]: missing data error [mean_travel_time] [{e}]")
         employment_dict['mean_travel_time'] = None
 
     doc['economics']['employment'] = employment_dict
@@ -501,7 +501,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         fertility = build_families_fertility_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile [{geoid}]: Error fetching fertility data {e}')
+        logger.info(f'profile [{geoid}]: Error fetching fertility data {e}')
     doc['families']['fertility'] = fertility
 
     # Families: Number of Households, Persons per Household, Household type distribution
@@ -593,7 +593,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         length_of_tenure_dict = build_housing_length_of_tenure_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile [{geoid}]: Error fetching length of tenure data: {e}')
+        logger.info(f'profile [{geoid}]: Error fetching length of tenure data: {e}')
     doc['housing']['length_of_tenure'] = length_of_tenure_dict
 
     # Housing: Mobility
@@ -602,7 +602,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         (migration_dict, migration_distribution_dict) = build_housing_migration_dicts(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile [{geoid}]: Error fetching migration_dict data: {e}')
+        logger.info(f'profile [{geoid}]: Error fetching migration_dict data: {e}')
     doc['housing']['migration'] = migration_dict
     doc['housing']['migration_distribution'] = migration_distribution_dict
 
@@ -610,7 +610,7 @@ def geo_profile(geoid, acs='latest'):
     try:
         ownership_dict['median_value'] = build_housing_median_value_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f"profile [{geoid}]: Exception building housing median_value {e}")
+        logger.info(f"profile [{geoid}]: Exception building housing median_value {e}")
         ownership_dict['median_value'] = {"name": "Median value of owner-occupied housing units"}
 
 
@@ -680,14 +680,14 @@ def geo_profile(geoid, acs='latest'):
     try:
         foreign_dict = build_social_foreign_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile [{geoid}]: Error fetching foreign data: {e}')
+        logger.info(f'profile [{geoid}]: Error fetching foreign data: {e}')
     doc['social']['place_of_birth'] = foreign_dict
 
     language_dict = {}
     try:
         language_dict = build_social_language_dict(api, acs, item_levels, comparison_geoids)
     except Exception as e:
-        logger.warn(f'profile [{geoid}]: Error fetching language data: {e}')
+        logger.info(f'profile [{geoid}]: Error fetching language data: {e}')
         language_dict['percent_non_english_at_home'] = {
             'name': 'Persons with language other than English spoken at home'
         }
@@ -785,7 +785,7 @@ def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
         add_metadata(income_dict['per_capita_income_in_the_last_12_months'], 'B19301', 'Total population', acs_name)
     except Exception as e:
         # TODO: this is field surgery refactoring and ought to disentangle things a lot more...
-        logger.warn(f'Error fetching B19301 per_capita_income_in_the_last_12_months data: {e}')
+        logger.info(f'Error fetching B19301 per_capita_income_in_the_last_12_months data: {e}')
         income_dict['per_capita_income_in_the_last_12_months'] = {
             "name": 'Per capita income'
         }
@@ -803,7 +803,7 @@ def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
         income_dict['median_household_income'] = {
             "name": 'Median household income'
         }
-        logger.warn(f'Error fetching B19013 median_household_income data: {e}')
+        logger.info(f'Error fetching B19013 median_household_income data: {e}')
 
     try:
         # Economics: Household Income Distribution
@@ -823,7 +823,7 @@ def build_economics_income_dict(api, acs, item_levels, comparison_geoids):
             'B19001017 B19001001 / %')
     except Exception as e:
         income_dict['household_distribution'] = {}
-        logger.warn(f'Error fetching B19001 household_distribution data: {e}')
+        logger.info(f'Error fetching B19001 household_distribution data: {e}')
         acs_name = "No data available"
     add_metadata(income_dict['household_distribution'], 'B19001', 'Households', acs_name)
 
@@ -862,7 +862,7 @@ def build_economics_poverty_dict(api, acs, item_levels, comparison_geoids):
         add_metadata(poverty_dict['children'], 'B17001', 'Population for whom poverty status is determined', acs_name)
         add_metadata(poverty_dict['seniors'], 'B17001', 'Population for whom poverty status is determined', acs_name)
     except Exception as e:
-        logger.warn(f'Error fetching B17001 percent_below_poverty_line data: {e}')
+        logger.info(f'Error fetching B17001 percent_below_poverty_line data: {e}')
 
 
     return poverty_dict
@@ -904,7 +904,7 @@ def build_economics_employment_dict(api, acs, item_levels, comparison_geoids):
         add_metadata(employment_dict['transportation_distribution'], 'B08006', 'Workers 16 years and over', acs_name)
 
     except Exception as e:
-        logger.warn(f'Error fetching B08006,B08013 mean_travel_time data: {e}')
+        logger.info(f'Error fetching B08006,B08013 mean_travel_time data: {e}')
         acs_name = "No data available"
 
     return employment_dict
@@ -944,7 +944,7 @@ def build_families_fertility_dict(api, acs, item_levels, comparison_geoids):
         universe = 'Women 15 to 50 years'
         fertility['by_age'] = fertility_by_age_dict
     except Exception as e:
-        logger.warn(f'Error fetching B13016 fertility data: {e}')
+        logger.info(f'Error fetching B13016 fertility data: {e}')
 
     add_metadata(fertility['total'], 'B13016', universe, acs_name)
     add_metadata(fertility['by_age'], 'B13016', universe, acs_name)
