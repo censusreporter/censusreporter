@@ -117,7 +117,23 @@
                 <p>A Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> representing officially incorporated governments such as cities, towns, villages, and boroughs. Census &ldquo;places&rdquo; also include unincorporated areas
                     which are identifiable by name: the Census Bureau calls these CDPs, or &ldquo;Census Designated Places.&rdquo;</p>
                 <p>In some parts of the country (especially New England, New York, Wisconsin and Alaska), <a href="{% url 'glossary' %}#term-county-subdivision">county subdivisions</a> are a more appropriate unit of comparison than Census places.</p>
-                <p>For more technical details, see the <a href="http://www.census.gov/geo/reference/gtc/gtc_place.html">Census documentation on places</a>.</p>
+                <p>For more details, see the "Places" chapter of the <a href="https://www.census.gov/programs-surveys/geography/guidance/geographic-areas-reference-manual.html">Geographic Areas Reference Manual</a>.</p>
+            </dd>
+
+            <dt id="term-public-use-microdata-sample">Public Use Microdata Sample</dt>
+            <dd>
+                <p>Often abbreviated as PUMS, the Public Use Microdata Sample is a component of the American Community Survey data releases. PUMS data can effectively be used to create "custom tabulations" matching variables which are not included together in any ACS detailed tables.</p>
+                <p>Census Reporter does not provide any tools for working with PUMS data. The Census Bureau provides the <a href="https://data.census.gov/mdat/#/">Microdata Access Tool</a>, or MDAT. Another very useful resource, <a href="https://usa.ipums.org/usa/">IPUMS</a>, can actually be used to compare recent data from the PUMS program even with Census data that predates PUMS. (Like Census Reporter, IPUMS is an independent project unaffiliated with the US Census Bureau.)</p>
+                <p>To learn more about the PUMS data, see Rob Gebeloff's <a href="https://source.opennews.org/articles/when-and-how-use-census-microdata/">When and How to Use Census Microdata</a>, or for even more information, <a href="https://www.census.gov/programs-surveys/acs/library/handbooks/pums.html">Understanding and Using the American Community Survey Public Use Microdata Sample Files: What Data Users Need to Know</a>.
+                </p>
+            </dd>
+
+
+            <dt id="term-puma">PUMA</dt>
+            <dd>
+                <p>Short for "public-use metadata area", a PUMA is the smallest Census <a href="{% url 'glossary' %}#term-summary-level">summary level</a> for which the ACS <a href="{% url 'glossary' %}#term-public-use-microdata-sample">public-use microdata</a> can be used. PUMAs are redrawn after every decennial census. When they are drawn, PUMAs have a population of at least 100,000 people, and, without overlapping, cover the entire US, as well as Puerto Rico, the US Virgin Islands, and Guam.</p> 
+                <p>Data for many ACS detailed tables is tabulated at the PUMA level to facilitate comparison with PUMS tabulations.</p>
+                <p>For more technical details, see the <a href="https://www.census.gov/programs-surveys/geography/guidance/geo-areas/pumas.html">Census documentation on PUMAs</a>.</p>
             </dd>
 
             <dt id='term-release'>Release</dt>
