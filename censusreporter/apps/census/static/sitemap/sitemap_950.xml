@@ -3,10 +3,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
-        <loc>https://censusreporter.org/profiles/95000US0100195-pike-road-city-school-district-al/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US0400004-clarkdale-jerome-elementary-district-az/</loc>
     </url>
     
@@ -4251,6 +4247,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/95000US2314842-limestone-public-schools-me/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/95000US2500014-chesterfield-goshen-school-district-ma/</loc>
     </url>
     
@@ -4271,15 +4271,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US2502550-berlin-school-district-ma/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US2502880-boxford-school-district-ma/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US2502910-boylston-school-district-ma/</loc>
     </url>
     
     <url>
@@ -4635,10 +4627,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US2717460-lake-benton-public-school-district-mn/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US2718390-lynd-public-school-district-mn/</loc>
     </url>
     
@@ -4652,6 +4640,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US2733720-nett-lake-public-school-district-mn/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US2791448-norman-county-west-school-district-mn/</loc>
     </url>
     
     <url>
@@ -5440,10 +5432,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US3013395-harlem-elementary-school-district-mt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US3013440-harlowton-elementary-school-district-mt/</loc>
     </url>
     
     <url>
@@ -7399,10 +7387,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US4029340-swink-public-school-ok/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US4029520-tannehill-public-school-ok/</loc>
     </url>
     
@@ -7604,6 +7588,18 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US5007650-st-johnsbury-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5099906-bennington-rutland-supervisory-union-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5099908-kingdom-east-supervisory-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5099924-grand-isle-supervisory-union-vt/</loc>
     </url>
     
     <url>

@@ -83,6 +83,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/97000US0100195-pike-road-city-school-district-al/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/97000US0100210-auburn-city-school-district-al/</loc>
     </url>
     
@@ -2811,7 +2815,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US0620130-la-canada-unified-school-district-ca/</loc>
+        <loc>https://censusreporter.org/profiles/97000US0620130-la-caaada-unified-school-district-ca/</loc>
     </url>
     
     <url>
@@ -3607,7 +3611,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US0802790-canon-city-school-district-re-1-co/</loc>
+        <loc>https://censusreporter.org/profiles/97000US0802790-caaon-city-school-district-re-1-co/</loc>
     </url>
     
     <url>
@@ -3667,7 +3671,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US0803300-del-norte-school-district-c-7-co/</loc>
+        <loc>https://censusreporter.org/profiles/97000US0803300-upper-rio-grande-school-district-c-7-co/</loc>
     </url>
     
     <url>
@@ -3735,7 +3739,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US0803870-el-paso-county-school-district-49-co/</loc>
+        <loc>https://censusreporter.org/profiles/97000US0803870-school-district-49-co/</loc>
     </url>
     
     <url>
@@ -7135,7 +7139,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US1726400-moline-unit-school-district-40-il/</loc>
+        <loc>https://censusreporter.org/profiles/97000US1726400-moline-coal-valley-school-district-40-il/</loc>
     </url>
     
     <url>
@@ -7399,7 +7403,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US1734410-rock-island-school-district-41-il/</loc>
+        <loc>https://censusreporter.org/profiles/97000US1734410-rock-island-milan-school-district-41-il/</loc>
     </url>
     
     <url>
@@ -9451,10 +9455,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US1913530-harmony-community-school-district-ia/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US1913660-hartley-melvin-sanborn-community-school-district-ia/</loc>
     </url>
     
@@ -9775,15 +9775,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US1921060-north-winneshiek-community-school-district-ia/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US1921090-northeast-community-school-district-ia/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US1921120-northeast-hamilton-community-school-district-ia/</loc>
     </url>
     
     <url>
@@ -10047,7 +10039,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US1928980-van-buren-community-school-district-ia/</loc>
+        <loc>https://censusreporter.org/profiles/97000US1928980-van-buren-county-community-school-district-ia/</loc>
     </url>
     
     <url>
@@ -11947,10 +11939,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2105370-silver-grove-independent-school-district-ky/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US2105400-simpson-county-school-district-ky/</loc>
     </url>
     
@@ -12528,10 +12516,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US2305360-eastport-me/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US2305380-east-range-community-school-district-me/</loc>
     </url>
     
     <url>
@@ -13219,10 +13203,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2314830-cary-plantation-public-schools-me/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US2314833-regional-school-unit-56-me/</loc>
     </url>
     
@@ -13431,7 +13411,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2501780-adams-cheshire-school-district-ma/</loc>
+        <loc>https://censusreporter.org/profiles/97000US2501780-hoosac-valley-school-district-ma/</loc>
     </url>
     
     <url>
@@ -13496,6 +13476,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US2502530-berkshire-hills-school-district-ma/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/97000US2502580-berlin-boylston-school-district-ma/</loc>
     </url>
     
     <url>
@@ -14287,6 +14271,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/97000US2601103-detroit-public-schools-community-district-mi/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/97000US2601890-adams-township-school-district-mi/</loc>
     </url>
     
@@ -14827,10 +14815,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2612000-detroit-city-school-district-mi/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US2612030-dexter-community-school-district-mi/</loc>
     </url>
     
@@ -15000,10 +14984,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US2615450-galesburg-augusta-community-school-district-mi/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US2615480-galien-township-school-district-mi/</loc>
     </url>
     
     <url>
@@ -16803,7 +16783,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2711370-elk-river-public-school-district-mn/</loc>
+        <loc>https://censusreporter.org/profiles/97000US2711370-elk-river-school-district-mn/</loc>
     </url>
     
     <url>
@@ -17008,6 +16988,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US2717250-la-crescent-hokah-school-district-mn/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/97000US2717460-lake-benton-public-school-district-mn/</loc>
     </url>
     
     <url>
@@ -17415,7 +17399,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2733540-st-francis-public-school-district-mn/</loc>
+        <loc>https://censusreporter.org/profiles/97000US2733540-st-francis-area-schools-mn/</loc>
     </url>
     
     <url>
@@ -17583,10 +17567,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2791448-norman-county-west-school-district-mn/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US2791449-win-e-mac-school-district-mn/</loc>
     </url>
     
@@ -17628,6 +17608,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US2800196-winona-montgomery-county-consolidated-school-district-ms/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/97000US2800198-greenwood-leflore-consolidated-school-district-ms/</loc>
     </url>
     
     <url>
@@ -17779,10 +17763,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US2801650-greenwood-public-school-district-ms/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US2801680-grenada-school-district-ms/</loc>
     </url>
     
@@ -17884,10 +17864,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US2802550-lee-county-school-district-ms/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US2802580-leflore-county-school-district-ms/</loc>
     </url>
     
     <url>
@@ -20032,6 +20008,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US3013260-hamilton-k-12-schools-mt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/97000US3013470-harlowton-k-12-schools-mt/</loc>
     </url>
     
     <url>
@@ -23043,7 +23023,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US3500900-espanola-municipal-schools-nm/</loc>
+        <loc>https://censusreporter.org/profiles/97000US3500900-espaaola-municipal-schools-nm/</loc>
     </url>
     
     <url>
@@ -23191,7 +23171,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US3502040-penasco-independent-schools-nm/</loc>
+        <loc>https://censusreporter.org/profiles/97000US3502040-peaasco-independent-schools-nm/</loc>
     </url>
     
     <url>
@@ -23392,6 +23372,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US3601107-oppenheim-ephratah-st-johnsville-central-school-district-ny/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/97000US3601189-boquet-valley-central-school-district-at-elizabethtown-lewis-westport-ny/</loc>
     </url>
     
     <url>
@@ -24048,10 +24032,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US3610410-eldred-central-school-district-ny/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US3610440-elizabethtown-lewis-central-school-district-ny/</loc>
     </url>
     
     <url>
@@ -25627,7 +25607,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US3628320-ramapo-central-school-district-suffern-ny/</loc>
+        <loc>https://censusreporter.org/profiles/97000US3628320-suffern-central-school-district-ny/</loc>
     </url>
     
     <url>
@@ -25864,10 +25844,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US3631050-westmoreland-central-school-district-ny/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US3631080-westport-central-school-district-ny/</loc>
     </url>
     
     <url>
@@ -34279,18 +34255,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US4503150-orangeburg-school-district-3-sc/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US4503180-orangeburg-school-district-4-sc/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US4503210-orangeburg-school-district-5-sc/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US4503330-pickens-county-school-district-sc/</loc>
     </url>
     
@@ -34364,6 +34328,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US4503908-marion-school-district-10-sc/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/97000US4503910-orangeburg-county-school-district-sc/</loc>
     </url>
     
     <url>
@@ -34831,7 +34799,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US4665460-shannon-county-school-district-65-1-sd/</loc>
+        <loc>https://censusreporter.org/profiles/97000US4665460-oglala-lakota-county-school-district-65-1-sd/</loc>
     </url>
     
     <url>
@@ -34871,7 +34839,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US4674520-viborg-hurley-60-6-sd/</loc>
+        <loc>https://censusreporter.org/profiles/97000US4674520-viborg-hurley-school-district-60-6-sd/</loc>
     </url>
     
     <url>
@@ -34963,7 +34931,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US4680445-corsica-stickney-21-3-sd/</loc>
+        <loc>https://censusreporter.org/profiles/97000US4680445-corsica-stickney-school-district-21-3-sd/</loc>
     </url>
     
     <url>
@@ -38651,10 +38619,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US4838160-roxton-independent-school-district-tx/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/97000US4838190-royal-independent-school-district-tx/</loc>
     </url>
     
@@ -39787,19 +39751,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US5099904-addison-rutland-supervisory-union-vt/</loc>
+        <loc>https://censusreporter.org/profiles/97000US5099904-addison-rutland-supervisory-district-vt/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US5099905-southwest-vermont-supervisory-union-vt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US5099906-bennington-rutland-supervisory-union-vt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US5099908-kingdom-east-supervisory-district-vt/</loc>
     </url>
     
     <url>
@@ -39832,10 +39788,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US5099923-maple-run-unified-school-district-vt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US5099924-grand-isle-supervisory-union-vt/</loc>
     </url>
     
     <url>
@@ -39884,10 +39836,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/97000US5099936-rutland-northeast-supervisory-union-vt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/97000US5099941-washington-northeast-supervisory-union-vt/</loc>
     </url>
     
     <url>
@@ -40647,11 +40595,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US5301560-columbia-school-district-wa/</loc>
+        <loc>https://censusreporter.org/profiles/97000US5301560-columbia-stevens-school-district-wa/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US5301590-columbia-school-district-walla-walla-wa/</loc>
+        <loc>https://censusreporter.org/profiles/97000US5301590-columbia-walla-walla-school-district-wa/</loc>
     </url>
     
     <url>
@@ -40903,7 +40851,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US5304020-kiona-benton-school-district-wa/</loc>
+        <loc>https://censusreporter.org/profiles/97000US5304020-kiona-benton-city-school-district-wa/</loc>
     </url>
     
     <url>
@@ -41583,11 +41531,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US5309690-west-valley-school-district-wa/</loc>
+        <loc>https://censusreporter.org/profiles/97000US5309690-west-valley-school-district-spokane-wa/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/97000US5309720-west-valley-school-district-wa/</loc>
+        <loc>https://censusreporter.org/profiles/97000US5309720-west-valley-school-district-yakima-wa/</loc>
     </url>
     
     <url>
