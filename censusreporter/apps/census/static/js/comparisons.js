@@ -674,7 +674,7 @@ function Comparison(options, callback) {
                     gridRowCol = '';
 
                 // add raw numbers
-                if (thisValue >= 0) {
+                if (!!thisValue) {
                     gridRowCol += '<span class="value number">' + valFmt(thisValue, thisFmt) + '</span>';
                     gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, thisFmt) + '</span>';
                 }
