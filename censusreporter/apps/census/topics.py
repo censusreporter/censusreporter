@@ -159,6 +159,7 @@ TOPICS_LIST = [
         'question_images': ['18_disability_1.png','19_disability_2.png','20_disability_3.png',],
         'more_info_links': [
             ('Why We Ask: Disability','https://www.census.gov/acs/www/about/why-we-ask-each-question/disability/'),
+            ('Guidance for Data Users: How Disability Data are Collected from The American Community Survey','https://www.census.gov/topics/health/disability/guidance/data-collection-acs.html'),
         ],
         'group': 'topical_help'
     },
