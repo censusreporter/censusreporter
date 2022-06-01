@@ -23,6 +23,12 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn
 
 function Comparison(options, callback) {
 
+    function truish(v) {
+        // original pervasive use of !! as a truth test couldn't distinguish zero from undefined
+        if (v == 0) return true;
+        return !!v;
+    }
+
     var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : API_URL + 'https://api.censusreporter.org';
 
     var comparison = {
@@ -91,16 +97,16 @@ function Comparison(options, callback) {
         comparison.table = comparison.data.tables[comparison.tableID];
         comparison.release = comparison.data.release;
         comparison.values = comparison.data.data;
-        comparison.thisSumlev = (!!comparison.primaryGeoID) ? comparison.primaryGeoID.substr(0, 3) : null;
+        comparison.thisSumlev = (truish(comparison.primaryGeoID)) ? comparison.primaryGeoID.substr(0, 3) : null;
         comparison.statType = comparison.getStatType(),
             comparison.sortedPlaces = comparison.getSortedPlaces('name');
 
-        comparison.denominatorColumn = (!!comparison.table.denominator_column_id) ? jQuery.extend({ id: comparison.table.denominator_column_id }, comparison.table.columns[comparison.table.denominator_column_id]) : null;
-        comparison.valueType = (!!comparison.denominatorColumn) ? 'percentage' : 'estimate';
+        comparison.denominatorColumn = (truish(comparison.table.denominator_column_id)) ? jQuery.extend({ id: comparison.table.denominator_column_id }, comparison.table.columns[comparison.table.denominator_column_id]) : null;
+        comparison.valueType = (truish(comparison.denominatorColumn)) ? 'percentage' : 'estimate';
         comparison.valueType = comparison.hash.valueType || comparison.valueType;
 
         // prep the column keys and names
-        if (!!comparison.denominatorColumn) {
+        if (truish(comparison.denominatorColumn)) {
             delete comparison.table.columns[comparison.denominatorColumn.id]
                 // add percentage values to column data
             comparison.addPercentageDataValues();
@@ -109,7 +115,7 @@ function Comparison(options, callback) {
         comparison.prefixColumnNames(comparison.table.columns);
 
         // determine whether we have a primary geo to key off of
-        if (!!comparison.primaryGeoID && !!comparison.data.geography[comparison.primaryGeoID]) {
+        if (truish(comparison.primaryGeoID) && truish(comparison.data.geography[comparison.primaryGeoID])) {
             comparison.primaryGeoName = comparison.data.geography[comparison.primaryGeoID].name
         } else {
             // case where primaryGeoID is passed as param, but not part of data returned by API
@@ -230,7 +236,7 @@ function Comparison(options, callback) {
 
         comparison.changeMapControls();
         comparison.addGeographyCompareTools();
-        if (!!comparison.denominatorColumn) {
+        if (truish(comparison.denominatorColumn)) {
             comparison.addMapNumberToggle(comparison.showChoropleth);
         }
 
@@ -340,7 +346,7 @@ function Comparison(options, callback) {
                 return makeColumnChoice(d);
             });
 
-        if (!!comparison.denominatorColumn) {
+        if (truish(comparison.denominatorColumn)) {
             var columnChoiceDenominator = '<li class="indent-' + comparison.denominatorColumn.indent + '"><span class="label">' + comparison.denominatorColumn.name + '</span></li>';
             columnChoices.insert('li', ':first-child')
                 .html(columnChoiceDenominator);
@@ -457,26 +463,26 @@ function Comparison(options, callback) {
     }
 
     comparison.makeMapLabel = function(feature, column) {
-        if (!!feature.properties.data) {
+        if (truish(feature.properties.data)) {
             var thisValue = feature.properties.data.estimate[column],
                 thisValueMOE = feature.properties.data.error[column],
-                thisIsValue = !!thisValue && comparison.valueType == 'estimate',
-                thisPct = (!!comparison.denominatorColumn) ? feature.properties.data.percentage[column] : null,
-                thisPctMOE = (!!comparison.denominatorColumn) ? feature.properties.data.percentage_error[column] : null,
-                thisIsPct = !!thisPct && comparison.valueType == 'percentage',
+                thisIsValue = truish(thisValue) && comparison.valueType == 'estimate',
+                thisPct = (truish(comparison.denominatorColumn)) ? feature.properties.data.percentage[column] : null,
+                thisPctMOE = (truish(comparison.denominatorColumn)) ? feature.properties.data.percentage_error[column] : null,
+                thisIsPct = truish(thisPct) && comparison.valueType == 'percentage',
                 label = '<span class="label-title">' + feature.properties.name + '</span>',
                 pctLabel = '',
                 valLabel = '',
                 strLabelNumbers;
 
-            if (!!thisPct) {
+            if (truish(thisPct)) {
                 var openParen = (thisIsValue) ? '(' : '',
                     closeParen = (thisIsValue) ? ')' : '';
                 pctLabel = '<span class="inline-stat">' + openParen + valFmt(thisPct, 'percentage');
                 pctLabel += '<span class="context">&plusmn;' + valFmt(thisPctMOE, 'percentage') + '</span>';
                 pctLabel += closeParen + '</span>';
             }
-            if (!!thisValue) {
+            if (truish(thisValue)) {
                 var openParen = (thisIsPct) ? '(' : '',
                     closeParen = (thisIsPct) ? ')' : '';
                 valLabel = '<span class="inline-stat">' + openParen + valFmt(thisValue, comparison.statType);
@@ -674,7 +680,7 @@ function Comparison(options, callback) {
                     gridRowCol = '';
 
                 // add raw numbers
-                if (!!thisValue) {
+                if (truish(thisValue)) {
                     gridRowCol += '<span class="value number">' + valFmt(thisValue, thisFmt) + '</span>';
                     gridRowCol += '<span class="context number">&plusmn;' + valFmt(thisValueMOE, thisFmt) + '</span>';
                 }
@@ -743,7 +749,7 @@ function Comparison(options, callback) {
     }
 
     comparison.addGridControls = function() {
-            if (!!comparison.denominatorColumn) {
+            if (truish(comparison.denominatorColumn)) {
                 comparison.addNumberToggles(comparison.makeGridRows);
             }
 
@@ -803,8 +809,8 @@ function Comparison(options, callback) {
                 var geoID = g.geoID,
                     thisValue = comparison.values[geoID][comparison.tableID].estimate[k],
                     thisValueMOE = comparison.values[geoID][comparison.tableID].error[k],
-                    thisPct = (!!comparison.denominatorColumn) ? comparison.values[geoID][comparison.tableID].percentage[k] : null,
-                    thisPctMOE = (!!comparison.denominatorColumn) ? comparison.values[geoID][comparison.tableID].percentage_error[k] : null;
+                    thisPct = (truish(comparison.denominatorColumn)) ? comparison.values[geoID][comparison.tableID].percentage[k] : null,
+                    thisPctMOE = (truish(comparison.denominatorColumn)) ? comparison.values[geoID][comparison.tableID].percentage_error[k] : null;
 
                 comparison.chartColumnData[k].geographies[geoID] = {
                     name: comparison.data.geography[geoID].name,
@@ -903,7 +909,7 @@ function Comparison(options, callback) {
             .text(function(d) { return d.name });
 
         var addPct = function() {
-            if (!!comparison.denominatorColumn) {
+            if (truish(comparison.denominatorColumn)) {
                 chartPointLabels.append('span')
                     .classed('value', true)
                     .text(function(d) { return valFmt(d.percentage, 'percentage') })
@@ -932,7 +938,7 @@ function Comparison(options, callback) {
 
     comparison.addDistributionControls = function() {
         var notes = d3.select('#tool-notes');
-        if (!!comparison.denominatorColumn) {
+        if (truish(comparison.denominatorColumn)) {
             comparison.addNumberToggles(comparison.showDistributionCharts);
         }
 
@@ -1052,7 +1058,7 @@ function Comparison(options, callback) {
                     });
                 }
                 response.map(function(item) {
-                    if (!!item['topics']) {
+                    if (truish(item['topics'])) {
                         item['topic_string'] = item['topics'].join(', ');
                     }
                 });
@@ -1090,7 +1096,7 @@ function Comparison(options, callback) {
 
         element.on('typeahead:selected', function(obj, datum) {
             comparison.tableID = datum['table_id'];
-            if (!!comparison.tableID) {
+            if (truish(comparison.tableID)) {
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat) + ' View', 'Change table', comparison.tableID);
 
                 window.location = comparison.buildComparisonURL();
@@ -1208,7 +1214,7 @@ function Comparison(options, callback) {
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
 
-            if (!datum['full_geoid'] && !!datum['sumlev']) {
+            if (!datum['full_geoid'] && truish(datum['sumlev'])) {
                 // we have a sumlev choice, so provide a parent input
                 comparison.chosenSumlev = datum['sumlev'];
                 comparison.chosenSumlevPluralName = datum['plural_name'];
@@ -1218,7 +1224,7 @@ function Comparison(options, callback) {
                 comparison.makeParentSelectWidget();
                 $('#geography-add-parent-container').slideDown();
                 $('#geography-add-parent').focus();
-            } else if (!!datum['full_geoid']) {
+            } else if (truish(datum['full_geoid'])) {
                 // we have a geoID, so add it
                 comparison.geoIDs.push(datum['full_geoid']);
                 comparison.trackEvent(comparison.capitalize(comparison.dataFormat) + ' View', 'Add geography', datum['full_geoid']);
@@ -1274,7 +1280,7 @@ function Comparison(options, callback) {
 
         element.on('typeahead:selected', function(event, datum) {
             event.stopPropagation();
-            if (!!datum['full_geoid']) {
+            if (truish(datum['full_geoid'])) {
                 var geoGroup = comparison.chosenSumlev + '|' + datum['full_geoid']
                 comparison.geoIDs.push(geoGroup);
                 comparison.primaryGeoID = datum['full_geoid'];
@@ -1289,7 +1295,7 @@ function Comparison(options, callback) {
         // no tribbles!
         d3.selectAll('#comparison-parents').remove();
 
-        if (!!comparison.primaryGeoID && comparison.thisSumlev != '010') {
+        if (truish(comparison.primaryGeoID) && comparison.thisSumlev != '010') {
             var parentGeoAPI = comparison.rootGeoAPI + comparison.primaryGeoID + '/parents',
                 parentOptionsContainer = comparison.aside.append('div')
                 .attr('class', 'aside-block hidden')
@@ -1329,7 +1335,7 @@ function Comparison(options, callback) {
         // no tribbles!
         d3.selectAll('#comparison-children').remove();
 
-        if (!!comparison.primaryGeoID && comparison.thisSumlev != '150') {
+        if (truish(comparison.primaryGeoID) && comparison.thisSumlev != '150') {
             var childOptionsContainer = comparison.aside.append('div')
                 .attr('class', 'aside-block hidden')
                 .attr('id', 'comparison-children');
@@ -1410,7 +1416,7 @@ function Comparison(options, callback) {
 
     comparison.toggleGeoControls = function() {
         $('#comparison-chosen-geos, #comparison-add, #comparison-parents, #comparison-children, #map-controls #data-display').toggle();
-        if (!!comparison.lockedParent) {
+        if (truish(comparison.lockedParent)) {
             var toggledY = (comparison.lockedParent.css('overflow-y') == 'auto') ? 'visible' : 'auto';
             comparison.lockedParent.css('overflow-y', toggledY);
         }
@@ -1425,7 +1431,7 @@ function Comparison(options, callback) {
         comparison.$displayHeader.toggle();
         comparison.$displayWrapper.toggle();
 
-        if (!!comparison.lockedParent) {
+        if (truish(comparison.lockedParent)) {
             comparison.lockedParent.find('aside').toggle();
             comparison.lockedParent.css('overflow-y', 'visible');
         }
@@ -1444,7 +1450,7 @@ function Comparison(options, callback) {
         comparison.makeGeoSelectWidget();
 
         // fallback again in case we're redrawing without refresh
-        if (!!comparison.primaryGeoID && !!comparison.primaryGeoName) {
+        if (truish(comparison.primaryGeoID) && truish(comparison.primaryGeoName)) {
             // create shortcuts for adding groups of geographies to comparison
             comparison.makeParentOptions();
             comparison.makeChildOptions();
@@ -1482,7 +1488,7 @@ function Comparison(options, callback) {
             // update the URL and redraw the page
             comparison.valueType = (comparison.valueType == 'estimate') ? 'percentage' : 'estimate';
             comparison.updateHashObj('valueType', comparison.valueType);
-            if (!!redrawFunction) {
+            if (truish(redrawFunction)) {
                 redrawFunction();
             }
         })
@@ -1505,7 +1511,7 @@ function Comparison(options, callback) {
 
     comparison.buildComparisonURL = function(dataFormat, tableID, geoIDs, primaryGeoID) {
         // pass in vars to create arbitrary destinations
-        if (!!tableID) {
+        if (truish(tableID)) {
             // if we're changing tables, need to get rid of hash params
             // that might not be valid in the next table
             comparison.hash = {};
@@ -1517,10 +1523,10 @@ function Comparison(options, callback) {
             primaryGeoID = primaryGeoID || comparison.primaryGeoID;
 
         var url = '/data/' + dataFormat + '/?table=' + tableID;
-        if (!!geoIDs) {
+        if (truish(geoIDs)) {
             url += '&geo_ids=' + geoIDs.join(',')
         }
-        if (!!primaryGeoID) {
+        if (truish(primaryGeoID)) {
             url += '&primary_geo_id=' + primaryGeoID
         }
 
@@ -1530,7 +1536,7 @@ function Comparison(options, callback) {
             if (comparison.chosenSumlev) comparison.hash.sumlev = comparison.chosenSumlev;
         }
 
-        if (!!comparison.hash) {
+        if (truish(comparison.hash)) {
             var hashArray = [];
             _.each(comparison.hash, function(v, k) {
                 hashArray.push(k + '|' + v)
