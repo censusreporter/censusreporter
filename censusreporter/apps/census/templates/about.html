@@ -39,7 +39,17 @@
 
 
         </div>
-        <div class="column-third"></div>
+        <div class="column-third">
+        <h2>About the Data</h2>
+        <p>Data presented in Census Reporter is collected by the U.S. Census Bureau. In almost all cases, the data is from the most recently released American Community Survey (<abbr title="American Community Survey">ACS</abbr>).
+        </p>
+        
+        <p>At this time, the data is from the <strong>2016-2020 5-year ACS</strong>. In normal times, we would also be serving the most recent 1-year ACS, but the COVID-19 pandemic severely impacted data collection in 2020. In mid-2021, the <a href="https://www.census.gov/newsroom/press-releases/2021/changes-2020-acs-1-year.html">Census Bureau announced</a>  the replacement of the standard 1-year estimates with <a href="https://www.census.gov/programs-surveys/acs/data/experimental-data/1-year.html">an experimental release</a>. Because of the limited geographic coverage and substantial differences from the data that our tool was designed to support, we have chosen not to attempt to use any of that data in Census Reporter.</p>
+        
+        <p>ACS data is typically released in September and December of the year following the data collection year. We update Census Reporter as soon as we can after that data is released. Census Reporter does not currently offer any access to past data. We recommend <a href="data.census.gov">data.census.gov</a> or <a href="https://www.ipums.org/">ipums.org</a> for those who need data from earlier ACS releases or other Census data products.</p>
+
+        <p>Our <a href="{% url '2020' %}">2020 Census Data for Your Neighborhood</a> service is built on data from the 2020 Decennial Census redistricting data release.</p>
+        </div>
     </section>
 </article>
 {% endblock %}
