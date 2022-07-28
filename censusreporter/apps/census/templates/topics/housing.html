@@ -14,6 +14,11 @@
         A housing unit is anything from a house to an apartment or even a boat if a person is currently living there.
     </p>
 
+    <h2 id='basic-counts'>Basic Counts</h2>
+    <p>The Census provides a couple of tables which establish basic counts of housing units, as well as their occupancy status.</p>
+
+    {% list_tables codes='25001,25002' %}
+
     <h2 id='occupied-and-vacant'>Occupied and Unoccupied Housing Units</h2>
 
     <h3>Vacancy</h3>
@@ -23,10 +28,17 @@
 
     <h3>Tenure</h3>
     <p>
-        Occupied housing units in the ACS are split into two categories: renter-occupied and owner-occupied. This distinction is known as “tenure” (think “tenant”).
+        Occupied housing units in the ACS are split into two categories: renter-occupied and owner-occupied. This distinction is known as “tenure” (think “tenant”). There are dozens of tables in the primary "housing" category which crosstabulate tenure with other responses.
     </p>
 
-    {% list_tables query='tenure' exclude_prefix='00,98,99' %}
+    {% list_tables query='tenure' prefix='25' %}
+
+
+    <p>
+        In addition to the "tenure" tables in the primary "housing" category, there are several linked to non-housing questions.
+    </p>
+
+    {% list_tables query='tenure' exclude_prefix='25' %}
 
     <h2 id='housing-units-and-costs'>Housing Units and Costs</h2>
     <h3>Value</h3>
