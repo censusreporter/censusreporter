@@ -59,6 +59,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/sitemap_170.xml</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/sitemap_230.xml</loc>
     </url>
     
@@ -68,6 +72,14 @@
     
     <url>
         <loc>https://censusreporter.org/sitemap_251.xml</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/sitemap_252.xml</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/sitemap_254.xml</loc>
     </url>
     
     <url>

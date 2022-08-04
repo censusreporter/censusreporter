@@ -875,10 +875,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US3220R-rohnerville-rancheria/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25200US3235R-rosebud-indian-reservation/</loc>
     </url>
     
@@ -1275,7 +1271,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US5560R-cheyenne-arapaho-otsa/</loc>
+        <loc>https://censusreporter.org/profiles/25200US5560R-cheyenne-and-arapaho-otsa/</loc>
     </url>
     
     <url>
@@ -2239,6 +2235,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25200US7705R-uyak-anvsa/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25200US7725R-venetie-anvsa/</loc>
     </url>
     
@@ -2267,11 +2267,23 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25200US8150R-chickahominy-tdsa/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25200US8160R-eastern-chickahominy-tdsa/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25200US8300R-ione-band-of-miwok-tdsa/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25200US8450R-mechoopda-tdsa/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25200US8700R-rappahannock-tdsa/</loc>
     </url>
     
     <url>
@@ -2319,11 +2331,15 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US9510R-adais-caddo-sdtsa/</loc>
+        <loc>https://censusreporter.org/profiles/25200US9510R-adai-caddo-sdtsa/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25200US9515R-apache-choctaw-sdtsa/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25200US9520R-bayou-lafourche-sdtsa/</loc>
     </url>
     
     <url>
@@ -2339,10 +2355,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US9580R-chickahominy-sdtsa/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25200US9630R-clifton-choctaw-sdtsa/</loc>
     </url>
     
@@ -2351,11 +2363,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US9675R-eastern-chickahominy-sdtsa/</loc>
+        <loc>https://censusreporter.org/profiles/25200US9680R-echota-cherokee-sdtsa/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US9680R-echota-cherokee-sdtsa/</loc>
+        <loc>https://censusreporter.org/profiles/25200US9690R-edisto-natchez-kusso-sdtsa/</loc>
     </url>
     
     <url>
@@ -2363,7 +2375,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25200US9730R-georgia-tribe-of-eastern-cherokee-sdtsa/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25200US9735R-grand-cailloudulac-sdtsa/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25200US9745R-haliwa-saponi-sdtsa/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25200US9775R-isle-de-jean-charles-sdtsa/</loc>
     </url>
     
     <url>
@@ -2391,11 +2415,19 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25200US9836R-natchitoches-sdtsa/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25200US9838R-occaneechi-saponi-sdtsa/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/25200US9844R-pee-dee-sdtsa/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25200US9849R-pointe-au-chien-sdtsa/</loc>
     </url>
     
     <url>
@@ -2411,7 +2443,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25200US9880R-star-muskogee-creek-sdtsa/</loc>
+        <loc>https://censusreporter.org/profiles/25200US9880R-southeastern-mvskoke-nation-sdtsa/</loc>
     </url>
     
     <url>
