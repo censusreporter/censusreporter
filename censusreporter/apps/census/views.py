@@ -770,6 +770,7 @@ def robots(request):
     robots_txt = f"""
 User-agent: *
 {allow_or_not}: /
+Disallow: /data/
 crawl-delay: 3
 
 Sitemap: https://censusreporter.org/static/sitemap/sitemap.xml
