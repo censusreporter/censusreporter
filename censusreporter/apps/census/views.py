@@ -763,3 +763,15 @@ class Census2020View(TemplateView):
 def uniurlquote(s):
     """urllib2.quote doesn't tolerate unicode strings, so make sure to encode..."""
     return quote(s.encode('utf-8'))
+
+def robots(request):
+    BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
+    allow_or_not = 'Disallow' if BLOCK_ROBOTS else 'Allow'
+    robots_txt = f"""
+User-agent: *
+{allow_or_not}: /
+crawl-delay: 3
+
+Sitemap: https://censusreporter.org/static/sitemap/sitemap.xml
+"""
+    return HttpResponse(robots_txt,content_type="text/plain")

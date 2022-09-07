@@ -20,6 +20,7 @@ from .views import (
     TopicView,
     UserGeographyDetailView,
     Census2020View,
+    robots
 )
 
 STANDARD_CACHE_TIME = 60 * 60 * 24 * 7  # 1 week cache
@@ -191,10 +192,7 @@ urlpatterns = [
 
     url(
         regex='^robots.txt$',
-        view=lambda r: HttpResponse(
-            "User-agent: *\n%s: /\n\nSitemap: https://censusreporter.org/static/sitemap/sitemap.xml\n" % ('Disallow' if BLOCK_ROBOTS else 'Allow'),
-            content_type="text/plain"
-        )
+        view=robots
     ),
 
     url(
