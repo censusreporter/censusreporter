@@ -9,4 +9,4 @@ ENV DJANGO_SETTINGS_MODULE=censusreporter.config.prod.settings \
 ADD . .
 RUN ./manage.py collectstatic --noinput
 
-CMD gunicorn --workers 3 --bind 0.0.0.0:$PORT --statsd-host telegraf.web:8125 --statsd-prefix censusreporter censusreporter.config.prod.wsgi
+CMD gunicorn --workers 5 --bind 0.0.0.0:$PORT --statsd-host telegraf.web:8125 --statsd-prefix censusreporter censusreporter.config.prod.wsgi
