@@ -182,13 +182,4 @@ places using tables and maps, download data, and embed charts on your site!{% en
 
 
 
-{% endblock %} {% block body_javascript_extra %}{{ block.super }}
-<script>
-    // show 'use my current location' button
-    if (Modernizr.geolocation) {
-        $('.geolocate-only').show();
-    }
-    // geoSelect already defined by widget.geo.select.js
-    geoSelect.focus()
-</script>
-{% endblock %}
+{% endblock %} 
