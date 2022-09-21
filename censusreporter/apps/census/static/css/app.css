@@ -1026,7 +1026,7 @@ h1.article-header-right {
     padding-left: 36px;
 }
 
-.callout h3 {
+.callout h2 {
     font-size: 24px;
 }
 
@@ -3327,7 +3327,7 @@ blockquote {
     #homepage #topic-full-text {
         font-size: 1.2em;
     }
-    .callout h3 {
+    .callout h2 {
         font-size: 21px;
     }
     #homepage .content-container {
