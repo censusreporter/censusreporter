@@ -28,7 +28,11 @@ places using tables and maps, download data, and embed charts on your site!{% en
         vertical-align: middle;
     }
 </style>
-{% endblock header_content %} {% endblock %} {% block content_container %}
+{% endblock header_content %} {% endblock %} 
+{% block head_javascript_extra %}
+<script type="module" src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.4.0/lite-youtube.js"></script>
+{% endblock %}
+{% block content_container %}
 <div id='homepage-bulletin'>
     Now serving 2020 ACS data! <a href="{% url 'acs-2020-update' %}">Learn more about how the pandemic affected the ACS and Census Reporter.</a>
 </div>
@@ -108,28 +112,38 @@ places using tables and maps, download data, and embed charts on your site!{% en
         <section id="videos" class="card-container clearfix">
             <h2 class="column-full subhead">Videos</h2>
             <div class="column-third card">
-                <iframe class="yt-embed" loading="lazy" title="Video: Introduction to Census Reporter"
-                 src="https://www.youtube.com/embed/HgRZbzp69FQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <lite-youtube
+                videotitle="Video: Introduction to Census Reporter"
+                videoid="HgRZbzp69FQ"
+                ></lite-youtube>
                 <span class="caption">Introduction</span>
             </div>
             <div class="column-third card">
-                <iframe class="yt-embed" loading="lazy" title="Video: Using Profile Pages"
-                src="https://www.youtube.com/embed/MgjTqhsYo1o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <lite-youtube
+                videotitle="Video: Using Profile Pages"
+                videoid="MgjTqhsYo1o"
+                ></lite-youtube>
                 <span class="caption">Using Profile Pages</span>
             </div>
             <div class="column-third card">
-                <iframe class="yt-embed" loading="lazy" title="Video: Using Data Search"
-                src="https://www.youtube.com/embed/sKJZimjABWs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <lite-youtube
+                videotitle="Video: Using Data Search"
+                videoid="sKJZimjABWs"
+                ></lite-youtube>
                 <span class="caption">Using Data Search</span>
             </div>
             <div class="column-third card">
-                <iframe class="yt-embed" loading="lazy" title="Video: Using Address Search"
-                src="https://www.youtube.com/embed/CbVXnqUkzT0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <lite-youtube
+                videotitle="Video: Using Address Search"
+                videoid="CbVXnqUkzT0"
+                ></lite-youtube>
                 <span class="caption">Using Address Search</span>
             </div>
             <div class="column-third card">
-                <iframe class="yt-embed" loading="lazy" title="Video: Understanding Census Geography"
-                src="https://www.youtube.com/embed/y58vRDRwFPg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <lite-youtube
+                videotitle="Video: Understanding Census Geography"
+                videoid="y58vRDRwFPg"
+                ></lite-youtube>
                 <span class="caption">Understanding Census Geography</span>
             </div>
         </section>

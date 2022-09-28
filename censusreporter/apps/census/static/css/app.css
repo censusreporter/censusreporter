@@ -1,7 +1,6 @@
 @import 'charts.css';
-@import url(https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css);
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
-@import url(https://fonts.googleapis.com/css?family=Merriweather);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Merriweather&display=swap);
 
 /*
 teals: #02aeab; #027b7a; #014948;
