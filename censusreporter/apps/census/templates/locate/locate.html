@@ -1,5 +1,9 @@
 {% extends '_base.html' %}
 
+{% block head_javascript_extra %}
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js' async></script>
+{% endblock %}
+
 {% block head_css_extra %}
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
 <link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />

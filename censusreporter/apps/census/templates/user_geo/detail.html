@@ -1,4 +1,5 @@
-{% extends '_base.html' %} {% block head_css_extra %}
+{% extends '_base.html' %} 
+{% block head_css_extra %}
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
 
 <style>
@@ -39,7 +40,8 @@
         margin-bottom: 1.25em;
     }
 </style>
-{% endblock head_css_extra %} {% block head_javascript_extra %}
+{% endblock head_css_extra %} 
+{% block head_javascript_extra %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
 <script src="{{ STATIC_URL }}js/aggregate.js"></script>
 
@@ -89,7 +91,9 @@
     })
 </script>
 
-{% endblock head_javascript_extra %} {% block content %}
+{% endblock head_javascript_extra %} 
+
+{% block content %}
 <div id="content">
     <div id="breadcrumb">
         <a href="{% url '2020' %}">&lt; 2020 Neighborhood Data</a>

@@ -93,10 +93,13 @@
         margin-top: 3px;
     }
 </style>
-{% endblock head_css_extra %} {% block head_javascript_extra %}
+{% endblock head_css_extra %} 
+
+{% block head_javascript_extra %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
 <script src="{{ STATIC_URL }}js/aggregate.js"></script>
-{% endblock head_javascript_extra %} {% block content %}
+{% endblock head_javascript_extra %} 
+{% block content %}
 
 <div id="content">
     <div id="user-input">
