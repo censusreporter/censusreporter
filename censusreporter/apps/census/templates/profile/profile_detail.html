@@ -432,6 +432,8 @@
             releases = [defaultDataRelease],
             profileData = {{ profile_data_json }};
 
+        window.profileData = profileData; // embeds need this window-scoped
+
         var gracefulType = function(chartType) {
             // convert certain chart types to more readable versions at narrow widths
             if (browserWidth <= 640) {
