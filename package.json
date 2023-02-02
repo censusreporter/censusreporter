@@ -18,7 +18,7 @@
     "dependencies": {
         "@turf/turf": "^6.4.0",
         "epsg": "^0.5.0",
-        "jszip": "^3.6.0",
+        "jszip": "^3.8.0",
         "mapbox-gl": "^2.3.1",
         "proj4": "^2.7.5",
         "shapefile": "^0.6.6"
