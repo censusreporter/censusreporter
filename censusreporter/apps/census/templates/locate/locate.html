@@ -1,12 +1,19 @@
 {% extends '_base.html' %}
 
 {% block head_javascript_extra %}
-<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+<script src='https://cdn.jsdelivr.net/combine/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.js,npm/@turf/turf@6.5.0/turf.min.js'></script>
+
 {% endblock %}
 
 {% block head_css_extra %}
-<link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
-<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' />
+<style>
+    #circle-marker {
+        display: none;
+    }
+</style>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+<!-- TODO: replace label system? -->
+<!-- link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' /-->
 {% endblock %}
 
 {% block body_id %}locate{% endblock %}
@@ -32,6 +39,9 @@
     </div>
 </div>
 <div id="slippy-map"></div>
+<svg id="circle-marker" viewBox="0 0 10 10" width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+  <circle fill="#66c2a5" cx="5" cy="5" r="5" />
+</svg>
 <script id="place-result-template" type="text/template">
     <li data-geoid="<%= full_geoid %>">
         <a href="/profiles/<%= full_geoid %>">
@@ -44,7 +54,8 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src='{{STATIC_URL}}js/vendor/leaflet.label.js'></script>
+<!-- TODO: replace label solution? -->
+<!-- <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script> -->
 <script src="{{STATIC_URL}}js/address.search.js"></script>
 <script>
 Glossary.init("{% url 'glossary' %}",".glossary-term");
