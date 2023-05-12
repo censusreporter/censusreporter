@@ -14,12 +14,13 @@ var lat = '',
     lng = '',
     address = '',
     point_marker = null,
-    map = null;
-
+    map = null,
+    hoveredStateId = null;
 // prepare spinner
 $('body').append('<div id="body-spinner"></div>');
 var spinnerTarget = document.getElementById('body-spinner');
 spinner = new Spinner();
+
 
 window.onpopstate = function(event) {
     if (event.state) {
@@ -39,7 +40,6 @@ function updateLocation(lngLat, label) {
         })
     } else {
         map.panTo(lngLat)
-        // TODO: restore all these
         findPlaces(lngLat, label);
         placeMarker(lngLat, label);
         var state = { lat: lngLat.lat, lng: lngLat.lng, address: label }
@@ -191,23 +191,6 @@ var POLYGON_STYLE = {
     "fillOpacity": 0.3,
 }
 
-function makeLayer(d) {
-    var layer = L.geoJson(d.geom, { style: POLYGON_STYLE })
-    layer.bindLabel(d.full_name, { noHide: true, direction: 'auto' });
-    layer.on('mouseover', function() {
-        layer.setStyle({
-            "fillOpacity": 0.5,
-        });
-    });
-    layer.on('mouseout', function() {
-        layer.setStyle(POLYGON_STYLE);
-    });
-    layer.on('click', function() {
-        window.location.href = '/profiles/' + d.full_geoid;
-    });
-    return layer;
-}
-
 function findPlaces(lngLat, address) {
     spinner.spin(spinnerTarget);
     $(".location-list").hide();
@@ -223,6 +206,7 @@ function findPlaces(lngLat, address) {
     var has_map = (window.map != null);
     params = { 'lat': lngLat.lat, 'lon': lngLat.lng, 'sumlevs': '010,020,030,040,050,060,140,150,160,250,310,400,500,610,620,795,860,950,960,970', geom: has_map }
     $.getJSON(geoSearchAPI, params, function(data, status) {
+
         spinner.stop();
         if (status == 'success') {
             window.PLACE_LAYERS = {}
@@ -247,30 +231,25 @@ function findPlaces(lngLat, address) {
                 d['SUMLEVELS'] = sumlevMap;
                 $(place_template(d)).appendTo(list);
                 if (has_map) {
-                    // TODO: put them on the map
                     window.PLACE_LAYERS[d['full_geoid']] = d
                 }
             }
+
             if (has_map) {
+
+
                 $('.location-list li').on('mouseover', function(evt) {
-                    // var this_layer = $(evt.currentTarget).data('geoid');
-                    // _(PLACE_LAYERS).each(function(v, k) {
-                    //     if (k == this_layer) {
-                    //         v.addTo(map);
-                    //     } else {
-                    //         map.removeLayer(v);
-                    //     }
-                    // });
+                    var this_layer = $(evt.currentTarget).data('geoid');
+                    showLayer(map, this_layer)
                 })
                 $('.zoom-to-layer').click(function(e) {
-                    // e.stopPropagation();
-                    // e.preventDefault();
-                    // var geoid = $(this).parents('li').data('geoid');
-                    // if (PLACE_LAYERS[geoid]) {
-                    //     var layer = PLACE_LAYERS[geoid];
-                    //     layer.addTo(map);
-                    //     map.fitBounds(layer.getBounds());
-                    // }
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var geoid = $(this).parents('li').data('geoid');
+                    if (PLACE_LAYERS[geoid]) {
+                        fitLayer(map, geoid)
+                        showLayer(map, geoid)
+                    }
                 });
 
             }
@@ -334,26 +313,25 @@ if (!(lat && lng)) {
     lng = '-87.67';
 }
 
-function polyFeatureCollection(geoid) {
-    let features = {
-        type: 'FeatureCollection',
-        'features': []
-    }
+function fitLayer(map, geoid) {
+    var layer = PLACE_LAYERS[geoid];
+    map.fitBounds(turf.bbox(layer.geom), {
+        duration: 1500
+    });
+}
 
-    if (PLACE_LAYERS[geoid]) {
-        features.features.push(PLACE_LAYERS[geoid].geom)
-    }
-
-    return features
+function showLayer(map, geoid) {
+    var layer = PLACE_LAYERS[geoid];
+    let feature = turf.feature(layer.geom)
+    feature.properties['full_name'] = layer['full_name']
+    feature.properties['full_geoid'] = layer['full_geoid']
+    let polyfc = turf.featureCollection([feature])
+    map.getSource('polys-source').setData(polyfc)
 }
 
 function labelFeatureCollection(lngLat, label) {
 
-    let label_features = {
-        type: 'FeatureCollection',
-        'features': []
-    }
-
+    features = []
     if (lngLat && label) {
         let feature = {
             'type': 'Feature',
@@ -366,10 +344,10 @@ function labelFeatureCollection(lngLat, label) {
                 'coordinates': lngLat
             }
         }
-        label_features.features.push(feature)
-
+        features.push(feature)
     }
-    return label_features
+
+    return turf.featureCollection(features)
 }
 
 function initialize_map() {
@@ -427,7 +405,8 @@ function initialize_map() {
             data: {
                 type: 'FeatureCollection',
                 features: []
-            }
+            },
+            promoteId: 'full_geoid'
         })
 
         map.addLayer({
@@ -454,6 +433,34 @@ function initialize_map() {
         init_from_params($.parseParams());
  
     })
+    const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    map.on('mouseenter', 'polys-layer-fill', (e) => {
+        map.getCanvas().style.cursor = 'pointer';
+        const full_name = e.features[0].properties.full_name
+        popup.setLngLat(e.lngLat).setHTML(full_name).addTo(map);
+    })
+    map.on('mousemove', 'polys-layer-fill', (e) => {
+        map.setPaintProperty('polys-layer-fill', 'fill-opacity', 0.5)
+        popup.setLngLat(e.lngLat)
+    });
+
+    map.on('mouseleave', 'polys-layer-fill', (e) => {
+        map.setPaintProperty('polys-layer-fill', 'fill-opacity', 0.3, { animate: false })
+        map.getCanvas().style.cursor = '';
+        popup.remove()
+    });
+
+    map.on('click', 'polys-layer-fill', (e) => {
+        if (e && e.features && e.features.length > 0) {
+            window.location.href = '/profiles/' + e.features[0].properties.full_geoid;
+
+        }
+    })
+
 }
 var should_show_map = true; // eventually base on viewport or similar
 if (should_show_map) {
