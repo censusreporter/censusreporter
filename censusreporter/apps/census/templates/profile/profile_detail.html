@@ -11,7 +11,7 @@
 <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
 <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more."> {% endblock %} {% block head_css_extra %}
 <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
-<link href='{{STATIC_URL}}css/vendor/leaflet.label.css' rel='stylesheet' /> {% endblock %} {% block body_id %}profile{% endblock %} {% block header_content %}
+{% endblock %} {% block body_id %}profile{% endblock %} {% block header_content %}
 <div id="cover-map" class="clearfix">
     <div id="slippy-map">
         <!-- Add mapbox watermark -->
@@ -54,7 +54,11 @@
         </article>
     </div>
 </div>
-{% endblock %} {% block content %}
+{% endblock %} 
+{% block head_javascript_extra %}
+<script src='https://cdn.jsdelivr.net/combine/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.js,npm/@turf/turf@6.5.0/turf.min.js'></script>
+{% endblock %}
+{% block content %}
 <section class="clearfix" id="query-topic-picker">
     <h2>Find data for this place</h2>
     <div class="typeahead-container">
@@ -293,6 +297,8 @@
 <!-- TODO: replace label solution? -->
 <!-- <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script> -->
 <script type="text/javascript">
+    // access token is defined in full-text-results.js ; seems fragile to trust that but cant redef constants so
+    // const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
     // Enable the single-table topic picker
     var thisSumlev = '{{ geography.this.sumlevel }}',
         thisGeoShortName = '{{ geography.this.short_name }}',
@@ -304,7 +310,6 @@
         nationGeoID = '{{ geography.parents.nation.full_geoid }}';
 
     document.addEventListener('DOMContentLoaded', function() {
-        L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
         // Allow Ajax POST requests to bypass Django's CSRF check
         // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
         var csrftoken = '{{ csrf_token }}';
@@ -323,12 +328,25 @@
 
         // Make the header map
         d3.json(CR_API_URL + '/1.0/geo/tiger2021/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+            window.stash = json
+            let objBounds = null;
+            if (thisSumlev === "010") {
+                objBounds = new mapboxgl.LngLatBounds([-124.849, 24.396], [-66.885, 49.384]);
+            } else {
+                objBounds = new mapboxgl.LngLatBounds(turf.bbox(json))
+            }
+            window.objBounds = objBounds // TODO hide this maybe?
             if (error) return console.warn(error);
             var allowMapDrag = (browserWidth > 480) ? true : false;
 
             // draw a geom
-            var map = L.map('slippy-map', {
-                scrollWheelZoom: false,
+            mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+
+            window.map = new mapboxgl.Map({        
+                container: 'slippy-map',
+                center: objBounds.getCenter(),
+                zoom: 13,
+                style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq',
                 zoomControl: false,
                 doubleClickZoom: false,
                 boxZoom: false,
@@ -336,91 +354,134 @@
                 dragging: allowMapDrag,
                 touchZoom: allowMapDrag
             });
+            
+            map.on('load', () => {
+                if (allowMapDrag) {
+                    map.addControl(new mapboxgl.NavigationControl({
+                        showZoom: true,
+                        showCompass: false
+                    }), 'top-right')
+                }
 
-            L.tileLayer(
-                'https://{s}.tiles.mapbox.com/styles/v1/censusreporter/ckfyfj0v707ob19qdo047ndoq/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
-                    tileSize: 512,
-                    zoomOffset: -1,
-                    subdomains: 'abcd',
-                    detectRetina: true,
-                    attribution: '© <a href="https://apps.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(map);
-
-
-            if (allowMapDrag) {
-                map.addControl(new L.Control.Zoom({
-                    position: 'topright'
-                }));
-            }
-
-            if (CensusReporter.SummaryLevelLayer && thisSumlev !== "010") {
-                var defaultStyle = {
-                        "clickable": true,
-                        "color": "#00d",
-                        "fillColor": "#ccc",
-                        "weight": 1.0,
-                        "opacity": 0.3,
-                        "fillOpacity": 0.3,
-                    },
-                    geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, {
-                        style: defaultStyle,
-                        onEachFeature: function(feature, layer) {
-                            if (feature.properties.geoid == thisGeoID)
-                                return;
-
-                            layer.bindLabel(feature.properties.name, {
-                                direction: 'auto'
-                            });
-                            layer.on('mouseover', function() {
-                                layer.setStyle({
-                                    "fillOpacity": 0.5,
-                                });
-                            });
-                            layer.on('mouseout', function() {
-                                layer.setStyle(defaultStyle);
-                            });
-                            layer.on('click', function() {
-                                window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                            });
-                        }
+                if (thisSumlev !== "010") {
+                    // TODO: add tile layer in mapboxgl terms
+                    // https://docs.mapbox.com/mapbox-gl-js/example/third-party/
+                    // here's a start
+                    map.addSource('sumlev-tiles-source', {
+                        type: 'vector',
+                        tiles: ['https://embed.censusreporter.org/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'],
+                        // minzoom: 6, // this is from example; is it right?
+                        // maxzoom: 14 // this is from example; is it right?
                     });
-                map.addLayer(geojsonTileLayer);
-            }
+                    map.addLayer({
+                        id: 'sumlev-tiles-layer-line',
+                        type: 'line',
+                        source: 'sumlev-tiles-source',
+                        "source-layer": "default",
+                        paint: {
+                            "line-color": "#00d",
+                            "line-width": 1,
+                            "line-opacity": 0.3,
+                        }
+                    })
 
-            var featureLayer = L.geoJson(json, {
-                style: {
-                    "fillColor": "#66c2a5",
-                    "color": "#777",
-                    "weight": 2,
-                    "clickable": false
+                    map.addLayer({
+                        id: 'sumlev-tiles-layer-fill',
+                        type: 'fill',
+                        source: 'sumlev-tiles-source',
+                        "source-layer": "default",
+                        paint: {
+                            "fill-color": "#ccc",
+                            "fill-opacity": 0.3,
+                        }
+                    })
+                    // but we need MVT, not geoJSON
+                    // var defaultStyle = {
+                    //         "clickable": true,
+                    //         "color": "#00d",
+                    //         "fillColor": "#ccc",
+                    //         "weight": 1.0,
+                    //         "opacity": 0.3,
+                    //         "fillOpacity": 0.3,
+                    //     },
+                    //     geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, {
+                    //         style: defaultStyle,
+                    //         onEachFeature: function(feature, layer) {
+                    //             if (feature.properties.geoid == thisGeoID)
+                    //                 return;
+
+                    //             layer.bindLabel(feature.properties.name, {
+                    //                 direction: 'auto'
+                    //             });
+                    //             layer.on('mouseover', function() {
+                    //                 layer.setStyle({
+                    //                     "fillOpacity": 0.5,
+                    //                 });
+                    //             });
+                    //             layer.on('mouseout', function() {
+                    //                 layer.setStyle(defaultStyle);
+                    //             });
+                    //             layer.on('click', function() {
+                    //                 window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                    //             });
+                    //         }
+                    //     });
+                    // map.addLayer(geojsonTileLayer);
+                    
                 }
-            });
-            map.addLayer(featureLayer);
-            var objBounds = featureLayer.getBounds();
+                map.addSource('this-geo-source', {
+                    type: 'geojson',
+                    data: json
+                })
 
-            if (thisSumlev === "010") {
-                objBounds = L.latLngBounds(L.latLng(24.396, -124.849), L.latLng(49.384, -66.885));
-            }
-
-            if (browserWidth > 768) {
-                var z;
-                for (z = 16; z > 2; z--) {
-                    var swPix = map.project(objBounds.getSouthWest(), z),
-                        nePix = map.project(objBounds.getNorthEast(), z),
-                        pixWidth = Math.abs(nePix.x - swPix.x),
-                        pixHeight = Math.abs(nePix.y - swPix.y);
-                    if (pixWidth < 500 && pixHeight < 400) {
-                        break;
+                map.addLayer({
+                    id: 'this-geo-layer-line',
+                    type: 'line',
+                    source: 'this-geo-source',
+                    paint: {
+                        "line-color": "#777",
+                        "line-width": 2,
+                        "line-opacity": 0.3,
                     }
-                }
+                })
 
-                map.setView(objBounds.getCenter(), z);
-                map.panBy([-270, 0], {
-                    animate: false
-                });
-            } else {
-                map.fitBounds(objBounds);
-            }
+                map.addLayer({
+                    id: 'this-geo-layer-fill',
+                    type: 'fill',
+                    source: 'this-geo-source',
+                    paint: {
+                        "fill-color": "#66c2a5",
+                        "fill-opacity": 0.3,
+                    }
+                })
+
+                map.fitBounds(objBounds); // with leaflet, the code below made a better map position at large screens
+                                          // but mapboxgl map.project doesn't take a zoom level so until we find a 
+                                          // different algorithm, just fit bounds in all cases.
+                // if (browserWidth > 768) {
+                //     var z;
+                //     for (z = 16; z > 2; z--) {
+                //         var swPix = map.project(objBounds.getSouthWest(), z),
+                //             nePix = map.project(objBounds.getNorthEast(), z),
+                //             pixWidth = Math.abs(nePix.x - swPix.x),
+                //             pixHeight = Math.abs(nePix.y - swPix.y);
+                //             console.log(`z ${z} pixWidth: ${pixWidth} pixHeight: ${pixHeight}`)
+                //             console.log(`swPix.x: ${swPix.x} .y ${swPix.y}`)
+                //             console.log(`nePix.x: ${nePix.x} .y ${nePix.y}`)
+                //         if (pixWidth < 500 && pixHeight < 400) {
+                //             break;
+                //         }
+                //     }
+                //     console.log(`browserWidth: ${browserWidth} computed zoom: ${z}`)
+                //     // map.setCenter(objBounds.getCenter());
+                //     // map.setZoom(z)
+                //     map.panBy([-270, 0], {
+                //         animate: false
+                //     });
+                // } else {
+                //     map.fitBounds(objBounds);
+                // }
+            })
         })
 
         // Create all the charts
