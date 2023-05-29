@@ -9,9 +9,19 @@
 <meta name="twitter:site" content="@CensusReporter">
 <meta name="twitter:creator" content="@CensusReporter">
 <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
-<meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more."> {% endblock %} {% block head_css_extra %}
+<meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more."> {% endblock %} 
+{% block head_css_extra %}
+<style>
+    .mapboxgl-popup {
+        max-width: 400px;
+        font: 12px/1.4em 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.css">
-{% endblock %} {% block body_id %}profile{% endblock %} {% block header_content %}
+{% endblock %} 
+{% block body_id %}profile{% endblock %} 
+{% block header_content %}
 <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
     <div id="cover-profile" class="wrapper">
@@ -291,8 +301,6 @@
 </article>
 {% endblock %} {% block body_javascript_extra %}{{ block.super }}
 <script src="{{ STATIC_URL }}js/charts.js"></script>
-<!-- TODO: replace label solution? -->
-<!-- <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script> -->
 <script type="text/javascript">
     // access token is defined in full-text-results.js ; seems fragile to trust that but cant redef constants so
     // const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
@@ -361,12 +369,9 @@
                 }
 
                 if (thisSumlev !== "010") {
-                    // TODO: add tile layer in mapboxgl terms
-                    // https://docs.mapbox.com/mapbox-gl-js/example/third-party/
-                    // here's a start
                     map.addSource('sumlev-tiles-source', {
                         type: 'vector',
-                        tiles: ['http://localhost:5000/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'], // TODO change URL
+                        tiles: ['http://embed.censusreporter.org/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'], 
                         'minzoom': 6,
                         'maxzoom': 14
                     });
@@ -393,15 +398,55 @@
                         }
                     })
 
-                    // behavior to restore in MVT:
-                    // for each feature that isn't thisGeoID
-                    // show a label ${feature.properties.name}
-                    // onmouseover show label which tracks cursor
-                    // onmouseover set fill opacity to 0.5
-                    // onmouseout restore fill opacity
-                    // onclick go to window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+                    const popup = new mapboxgl.Popup({
+                        closeButton: false,
+                        closeOnClick: false
+                    });
+                    
+                    function showPopup(e) {
+                            map.getCanvas().style.cursor = 'pointer';
+                            map.setPaintProperty('sumlev-tiles-layer-fill', 
+                                                 'fill-opacity', 
+                                                 ['match',
+                                                  ['get', 'full_geoid'],
+                                                  e.features[0].properties.full_geoid,
+                                                  0.5, 0.3 ], { animate: false })
+                            const full_name = e.features[0].properties.display_name // maybe change to be consistent with address search?
+                            popup.setLngLat(e.lngLat).setHTML(full_name).addTo(map);
+                    }
 
+                    function removePopup() { // remove it but also revert some things
+                            map.setPaintProperty('sumlev-tiles-layer-fill', 'fill-opacity', 0.3, { animate: false })
+                            map.getCanvas().style.cursor = '';
+                            popup.remove()
+                    }
+                    map.on('mouseenter', 'sumlev-tiles-layer-fill', (e) => {
+                        if (e.features[0].properties.full_geoid != thisGeoID) {
+                            showPopup(e)
+                        } else {
+                            removePopup()
+                        }
+                    })
+                    map.on('mousemove', 'sumlev-tiles-layer-fill', (e) => {
+                        if (e.features[0].properties.full_geoid != thisGeoID) {
+                            showPopup(e)
+                        } else {
+                            removePopup()
+                        }
+                    });
 
+                    map.on('mouseleave', 'sumlev-tiles-layer-fill', (e) => {
+                            removePopup()
+                    });
+
+                    map.on('click', 'sumlev-tiles-layer-fill', (e) => {
+                        if (e.features[0].properties.full_geoid != thisGeoID) {
+                            if (e && e.features && e.features.length > 0) {
+                                window.location.href = '/profiles/' + e.features[0].properties.full_geoid;
+
+                            }
+                        }
+                    })                    
                     
                 }
                 // show the featured geography in a highlighted state
