@@ -1428,18 +1428,10 @@ h1.article-header-right {
     float: right;
 }
 
-.leaflet-label.hovercard {
-    white-space: normal;
-    width: 250px;
-}
-
-.leaflet-label.hovercard .value {
-    font-weight: normal;
-}
-
-.leaflet-label.hovercard {
-    font-size: 13px;
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+.mapboxgl-popup {
+    max-width: 400px;
+    font: 13/1.4em "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
     padding: .83em 1em;
 }
 

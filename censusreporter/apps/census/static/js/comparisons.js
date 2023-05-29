@@ -1,3 +1,4 @@
+// to use this library, you must also load mapboxgl JS and CSS
 /*
 Pass in an options object, fetch data, get back a comparison view.
 
@@ -19,10 +20,8 @@ You may optionally pass in a callback function, which will be exectued
 after Comparison() retrieves data from the API. This callback should
 accept a `comparison` object.
 */
-L.mapbox.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
-
 function Comparison(options, callback) {
-
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
     function truish(v) {
         // original pervasive use of !! as a truth test couldn't distinguish zero from undefined
         if (v == 0) return true;
@@ -206,32 +205,28 @@ function Comparison(options, callback) {
                 // in case we're redrawing without refresh
                 comparison.map.remove();
             }
-            comparison.map = L.map('slippy-map', {
+            comparison.map = new mapboxgl.Map({
+                container: 'slippy-map',
+                style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq',
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: allowMapDrag,
                 touchZoom: allowMapDrag
             });
-            L.tileLayer(
-                'https://{s}.tiles.mapbox.com/styles/v1/censusreporter/ckfyfj0v707ob19qdo047ndoq/tiles/256/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
-                    tileSize: 512,
-                    zoomOffset: -1,
-                    subdomains: 'abcd',
-                    detectRetina: true,
-                    attribution: '© <a href="https://apps.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(comparison.map);
+            comparison.map.on('load', () => {
+                if (allowMapDrag) {
+                    comparison.map.addControl(new mapboxgl.NavigationControl({
+                        showZoom: true,
+                        showCompass: false
+                    }), 'top-right')
+                }
+                comparison.showChoropleth();
 
-            if (allowMapDrag) {
-                comparison.map.addControl(new L.Control.Zoom({
-                    position: 'topright'
-                }));
-            }
+                comparison.sumlevSelector.fadeIn();
+                comparison.mapLegend.fadeIn();
+                comparison.dataSelector.fadeIn();
+            })
 
-            comparison.showChoropleth();
-
-            comparison.sumlevSelector.fadeIn();
-            comparison.mapLegend.fadeIn();
-            comparison.dataSelector.fadeIn();
         })
 
         comparison.changeMapControls();
@@ -464,11 +459,15 @@ function Comparison(options, callback) {
 
     comparison.makeMapLabel = function(feature, column) {
         if (truish(feature.properties.data)) {
-            var thisValue = feature.properties.data.estimate[column],
-                thisValueMOE = feature.properties.data.error[column],
+            let data = feature.properties.data
+            if (typeof(data) == 'string') {
+                data = JSON.parse(data)
+            }
+            var thisValue = data.estimate[column],
+                thisValueMOE = data.error[column],
                 thisIsValue = truish(thisValue) && comparison.valueType == 'estimate',
-                thisPct = (truish(comparison.denominatorColumn)) ? feature.properties.data.percentage[column] : null,
-                thisPctMOE = (truish(comparison.denominatorColumn)) ? feature.properties.data.percentage_error[column] : null,
+                thisPct = (truish(comparison.denominatorColumn)) ? data.percentage[column] : null,
+                thisPctMOE = (truish(comparison.denominatorColumn)) ? data.percentage_error[column] : null,
                 thisIsPct = truish(thisPct) && comparison.valueType == 'percentage',
                 label = '<span class="label-title">' + feature.properties.name + '</span>',
                 pctLabel = '',
@@ -494,7 +493,7 @@ function Comparison(options, callback) {
             label += '<span class="name">' + comparison.table.columns[column]['prefixed_name'] + '</span>';
             label += '<span class="value">' + strLabelNumbers + '</span>';
         }
-        return label;
+        return `<span class='hovercard'>${label}</span>`;
     }
 
     comparison.mergeMapData = function() {
@@ -506,19 +505,16 @@ function Comparison(options, callback) {
 
     comparison.showChoropleth = function() {
             // build map based on specific column of data
-            if (comparison.featureLayer) {
-                comparison.map.removeLayer(comparison.featureLayer);
-            }
-
             var viewGeoData = _.filter(comparison.geoFeatures, function(g) {
                 var thisSumlev = g.properties.geoid.slice(0, 3);
                 return thisSumlev == comparison.chosenSumlev;
             })
 
+            var viewGeoData_fc = turf.featureCollection(viewGeoData)
+
             var values = d3.values(viewGeoData).map(function(d) {
                 return d.properties.data[comparison.valueType][comparison.chosenColumn];
             });
-
 
             // create the legend
             var quintileColors = ['#d9ece8', '#a1cfc6', '#68b3a3', '#428476', '#264b44'];
@@ -572,60 +568,106 @@ function Comparison(options, callback) {
                     }
                 });
 
-            var styleFeature = function(feature) {
-                return {
-                    fillColor: comparison.colors[
-                        comparison.quantize(feature.properties.data[comparison.valueType][comparison.chosenColumn])
-                    ],
-                    weight: 1.0,
-                    opacity: 1.0,
-                    color: '#fff',
-                    fillOpacity: .90
-                };
+                viewGeoData.forEach(f => {
+                f.properties.color = comparison.colors[
+                    comparison.quantize(f.properties.data[comparison.valueType][comparison.chosenColumn])
+                ]
+            })                
+
+            if (comparison.map.getSource('geojson-source')) {
+                comparison.map.getSource('geojson-source').setData(viewGeoData_fc)
+            } else {
+                comparison.map.addSource('geojson-source', {
+                    'type': 'geojson',
+                    'data': viewGeoData_fc
+                });
+                comparison.map.addLayer({ // this won't need to be changed each time
+                    id: 'geojson-layer-line',
+                    type: 'line',
+                    source: 'geojson-source',
+                    paint: {
+                        "line-color": "#fff",
+                        "line-width": 2,
+                        "line-opacity": 1.0,
+                    }
+                })
+                comparison.map.addLayer({
+                    id: 'geojson-layer-fill',
+                    type: 'fill',
+                    source: 'geojson-source',
+                    paint: {
+                        'fill-color': ['get', 'color'],
+                        'fill-outline-color': '#fff',
+                        'fill-opacity': 0.8
+                    }
+                })
+
+                const popup = new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: false
+                });
+
+                comparison.map.on('mouseenter', 'geojson-layer-fill', (e) => {
+                    comparison.map.getCanvas().style.cursor = 'pointer';
+                    const label = comparison.makeMapLabel(e.features[0], comparison.chosenColumn)
+                    popup.setLngLat(e.lngLat).setHTML(label).addTo(comparison.map);
+                })
+                comparison.map.on('mousemove', 'geojson-layer-fill', (e) => {
+                    const label = comparison.makeMapLabel(e.features[0], comparison.chosenColumn)
+                    popup.setLngLat(e.lngLat).setHTML(label).addTo(comparison.map);
+                });
+                comparison.map.on('mouseleave', 'geojson-layer-fill', (e) => {
+                    comparison.map.getCanvas().style.cursor = '';
+                    popup.remove()
+                });
+
+                comparison.map.on('click', 'geojson-layer-fill', (e) => {
+                    if (e && e.features && e.features.length > 0) {
+                        const props = e.features[0].properties
+                        comparison.trackEvent('Map View', 'Click to visit geo detail page', props.name);
+                        window.location.href = '/profiles/' + props.geoid;
+
+                    }
+                })
+
             }
 
-            comparison.featureLayer = L.geoJson(viewGeoData, {
-                style: styleFeature,
-                onEachFeature: function(feature, layer) {
-                    var label = comparison.makeMapLabel(feature, comparison.chosenColumn);
-                    layer.bindLabel(label, { className: 'hovercard', direction: 'auto' });
-                    layer.on('click', function() {
-                        comparison.trackEvent('Map View', 'Click to visit geo detail page', feature.properties.name);
-                        window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                    });
-                }
-            });
-            comparison.map.addLayer(comparison.featureLayer);
-            var objBounds = comparison.featureLayer.getBounds();
+            var objBounds = turf.bbox(viewGeoData_fc);
             if (comparison.chosenSumlev === '040') {
-                var geoIDList = _.map(viewGeoData, function(g) {
+                var geoIDList = _.map(viewGeoData, function (g) {
                     return g.properties.geoid
                 })
                 if ((_.indexOf(geoIDList, '04000US02') > -1) || (_.indexOf(geoIDList, '04000US15') > -1)) {
-                    objBounds = L.latLngBounds(L.latLng(17.831509, -179.231086), L.latLng(71.4410, -66.9406));
+                    objBounds = [{ lat: 17.831509, lng: -179.231086 }, { lat: 71.4410, lng: -66.9406 }]
                 }
             }
 
-            if (browserWidth > 768) {
-                var z,
-                    targetWidth = browserWidth - 100,
-                    targetHeight = browserHeight - 100;
-                for (z = 16; z > 2; z--) {
-                    var swPix = comparison.map.project(objBounds.getSouthWest(), z),
-                        nePix = comparison.map.project(objBounds.getNorthEast(), z),
-                        pixWidth = Math.abs(nePix.x - swPix.x),
-                        pixHeight = Math.abs(nePix.y - swPix.y);
-                    if (pixWidth < targetWidth && pixHeight < targetHeight) {
-                        break;
-                    }
-                }
-                comparison.map.setView(objBounds.getCenter(), z);
-                if (browserWidth < 1600) {
-                    comparison.map.panBy([-200, 0], { animate: false });
-                }
-            } else {
-                comparison.map.fitBounds(objBounds);
-            }
+            comparison.map.fitBounds(objBounds, {
+                duration: 0
+            });
+
+            comparison.map.fitBounds(objBounds);
+            // mapboxgl map.project doesn't take a zoom level, so this needs to be reimplemented to replace line above
+            // if (browserWidth > 768) {
+            //     var z,
+            //         targetWidth = browserWidth - 100,
+            //         targetHeight = browserHeight - 100;
+            //     for (z = 16; z > 2; z--) {
+            //         var swPix = comparison.map.project(objBounds.getSouthWest(), z),
+            //             nePix = comparison.map.project(objBounds.getNorthEast(), z),
+            //             pixWidth = Math.abs(nePix.x - swPix.x),
+            //             pixHeight = Math.abs(nePix.y - swPix.y);
+            //         if (pixWidth < targetWidth && pixHeight < targetHeight) {
+            //             break;
+            //         }
+            //     }
+            //     comparison.map.setView(objBounds.getCenter(), z);
+            //     if (browserWidth < 1600) {
+            //         comparison.map.panBy([-200, 0], { animate: false });
+            //     }
+            // } else {
+            //     comparison.map.fitBounds(objBounds);
+            // }
         }
         // DONE WITH THE MAP-SPECIFIC THINGS
 

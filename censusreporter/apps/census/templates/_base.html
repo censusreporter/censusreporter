@@ -53,6 +53,10 @@
     <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" /> {% block head_facebook_tags %}{% endblock %} {% block head_twitter_tags %}{% endblock %}
     <link href="{{ STATIC_URL }}css/vendor/fontawesome/font-awesome-4.7.0.css" rel="preload" as="style">
     <link href="{{ STATIC_URL }}css/vendor/fontawesome/font-awesome-4.7.0.css" rel="stylesheet">
+    <script> // needed for full-text search among other things so just define it once and for all
+        const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
+    </script>
+
     <!-- Page generated: {% now "Y-m-d H:i:s.u" %} -->
 </head>
 

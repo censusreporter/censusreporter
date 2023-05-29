@@ -7,6 +7,13 @@ for applying things across that entire family of pages.
 
 {% block head_title %}Table {% if table %}{{ table }}{% endif %} {% if release.name %}({{ release.name }}){% endif %} - {{ block.super }}{% endblock %}
 
+{% block head_javascript_extra %}
+<script src='https://cdn.jsdelivr.net/combine/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.js,npm/@turf/turf@6.5.0/turf.min.js'></script>
+{% endblock %}
+{% block head_css_extra %}
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+{% endblock %}
+
 {% block body_class %}data-view{% endblock %}
 
 {% block header_content %}
