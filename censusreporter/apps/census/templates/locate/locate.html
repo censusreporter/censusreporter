@@ -52,8 +52,6 @@
 {% endblock %}
 
 {% block body_javascript_extra %}
-<!-- TODO: replace label solution? -->
-<!-- <script src="{{ STATIC_URL }}js/vendor/leaflet.label.js"></script> -->
 <script src="{{STATIC_URL}}js/address.search.js"></script>
 <script>
 Glossary.init("{% url 'glossary' %}",".glossary-term");
