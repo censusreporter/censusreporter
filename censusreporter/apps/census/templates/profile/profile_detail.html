@@ -10,13 +10,10 @@
 <meta name="twitter:creator" content="@CensusReporter">
 <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
 <meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more."> {% endblock %} {% block head_css_extra %}
-<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.css">
 {% endblock %} {% block body_id %}profile{% endblock %} {% block header_content %}
 <div id="cover-map" class="clearfix">
-    <div id="slippy-map">
-        <!-- Add mapbox watermark -->
-        <a href="http://mapbox.com/about/maps" class='mapbox-maplogo' target="_blank">MapBox</a>
-    </div>
+    <div id="slippy-map"></div>
     <div id="cover-profile" class="wrapper">
         <article class="clearfix column-half">
             <header id="header-box" class="column-full">
@@ -369,9 +366,9 @@
                     // here's a start
                     map.addSource('sumlev-tiles-source', {
                         type: 'vector',
-                        tiles: ['https://embed.censusreporter.org/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'],
-                        // minzoom: 6, // this is from example; is it right?
-                        // maxzoom: 14 // this is from example; is it right?
+                        tiles: ['http://localhost:5000/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'], // TODO change URL
+                        'minzoom': 6,
+                        'maxzoom': 14
                     });
                     map.addLayer({
                         id: 'sumlev-tiles-layer-line',
@@ -395,40 +392,19 @@
                             "fill-opacity": 0.3,
                         }
                     })
-                    // but we need MVT, not geoJSON
-                    // var defaultStyle = {
-                    //         "clickable": true,
-                    //         "color": "#00d",
-                    //         "fillColor": "#ccc",
-                    //         "weight": 1.0,
-                    //         "opacity": 0.3,
-                    //         "fillOpacity": 0.3,
-                    //     },
-                    //     geojsonTileLayer = new CensusReporter.SummaryLevelLayer(thisSumlev, {}, {
-                    //         style: defaultStyle,
-                    //         onEachFeature: function(feature, layer) {
-                    //             if (feature.properties.geoid == thisGeoID)
-                    //                 return;
 
-                    //             layer.bindLabel(feature.properties.name, {
-                    //                 direction: 'auto'
-                    //             });
-                    //             layer.on('mouseover', function() {
-                    //                 layer.setStyle({
-                    //                     "fillOpacity": 0.5,
-                    //                 });
-                    //             });
-                    //             layer.on('mouseout', function() {
-                    //                 layer.setStyle(defaultStyle);
-                    //             });
-                    //             layer.on('click', function() {
-                    //                 window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
-                    //             });
-                    //         }
-                    //     });
-                    // map.addLayer(geojsonTileLayer);
+                    // behavior to restore in MVT:
+                    // for each feature that isn't thisGeoID
+                    // show a label ${feature.properties.name}
+                    // onmouseover show label which tracks cursor
+                    // onmouseover set fill opacity to 0.5
+                    // onmouseout restore fill opacity
+                    // onclick go to window.location.href = '/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name);
+
+
                     
                 }
+                // show the featured geography in a highlighted state
                 map.addSource('this-geo-source', {
                     type: 'geojson',
                     data: json
@@ -588,8 +564,7 @@
         // Update the header's list of parent geographies
         var parentLinkContainer = $('#header-box .caption'),
             parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2021/' + thisGeoID + '/parents',
-            tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2021/' + thisGeoID + '/parents';
 
         // for touch devices, still allow context toggle
         $('.stat-row').on('click', '.stat', function() {
@@ -630,8 +605,7 @@
             // Update the header's list of parent geographies
             var parentLinkContainer = $('#header-box .caption'),
                 parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-                parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2021/' + thisGeoID + '/parents',
-                tilesGeoAPI = 'https://embed.censusreporter.org/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.geojson';
+                parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2021/' + thisGeoID + '/parents'; 
 
             // for touch devices, still allow context toggle
             $('.stat-row').on('click', '.stat', function() {
