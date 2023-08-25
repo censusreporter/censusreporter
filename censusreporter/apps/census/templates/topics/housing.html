@@ -19,12 +19,17 @@
 
     {% list_tables codes='25001,25002' %}
 
+    <p>One table,  <a href="{% url 'table_detail' 'B25006' %}">B25006</a> provides estimates of the number of houseolders of different races.</p>
+
     <h2 id='occupied-and-vacant'>Occupied and Unoccupied Housing Units</h2>
 
     <h3>Vacancy</h3>
     <p>
-        Every housing unit is recorded as either occupied or vacant. Some vacancies are market related, such as houses for sale or apartments for rent. Other housing units are seasonally vacant. Table <a href="{% url 'table_detail' 'B25004' %}">B25004</a>        (Vacancy Status) records the number of vacancies in each category.
+        Every housing unit is recorded as either occupied or vacant. Some vacancies are market related, such as houses for sale or apartments for rent. Other housing units are seasonally vacant. Table <a href="{% url 'table_detail' 'B25004' %}">B25004</a>        (Vacancy Status) records the number of vacancies in each category. In 2021, tables were added to provide more insight into reasons for vacancy and duration of vacancy. These will only be available in the 1-year ACS for a few years, and data for smaller geographies may be missing.
     </p>
+
+    {% list_tables query='vacan' exclude_prefix='00,98,99' %}
+
 
     <h3>Tenure</h3>
     <p>
@@ -42,10 +47,13 @@
 
     <h2 id='housing-units-and-costs'>Housing Units and Costs</h2>
     <h3>Value</h3>
-    <p>The ACS records estimated selling prices for housing units under “value”. Note that the values are calculated from self-reported estimates of occupied units and vacant units on the market. Therefore, estimates may become less reliable in a fluctuating
-        or falling housing market.
+    <p>The ACS records estimated selling prices for occupied housing units under “value”. Note that the values are calculated from self-reported estimates of occupied units and vacant units on the market. Therefore, estimates may become less reliable in a fluctuating or falling housing market.
     </p>
     {% list_tables query='value' exclude_prefix='00,98,99' %}
+
+    <p>For vacant units, the ACS uses "price asked" instead of "value".</p>
+    {% list_tables query='price asked' exclude_prefix='00,98,99' %}
+
 
     <h3>Mortgage Status</h3>
     <p>
@@ -55,7 +63,7 @@
     {% list_tables query='mortgage' exclude_prefix='00,98,99' %}
 
 
-    <h3>Selected Monthly Owner Costs</h3>
+    <h3>Selected Monthly and Annual Owner Costs</h3>
     <p>
         Homeowners with and without mortgages have ongoing monthly costs, and the American Community Survey gathers data about these costs, which are reported in tables referring to "selected monthly owner costs." The costs are reported as either a percentage
         of the household income or the number of housing units in a monthly cost range such as “$1,250 to $1,499”. The selected costs used for these estimates are:
@@ -69,25 +77,38 @@
         <li>monthly condominium fees (when applicable)</li>
         <li>mobile home costs (when applicable)</li>
     </ul>
-    {% list_tables query='monthly owner' exclude_prefix='00,98,99' %}
+
+    <p>In 2021, tables were added to catalog specific utility costs: monthly for electricity and gas, and annual for "water and sewer" and "other fuel" costs.</p>
+
+    {% list_tables query='costs' prefix='25' %}
 
 
 
     <h3>Rent</h3>
-    <p>There are two main categories for rent, contract and gross. Contract rent is the monthly rent agreed to without adjustments for utilities or other payments. Gross rent is similar to selected monthly owner costs. It is the sum of contract rent and
+    <p>There are a large number of tables relating rent to other attributes of the housing unit or the householder. There are two main categories for rent, <em>contract</em> and <em>gross</em>. Contract rent is the monthly rent agreed to without adjustments for utilities or other payments. Gross rent is similar to selected monthly owner costs. It is the sum of contract rent and
         the average cost of the utilities (electricity, gas, and water and sewer) and fuel (oil, coal, kerosene, wood, etc).</p>
 
-    {% comment %} note that white space around 'rent' is necessary as we don't currently support regex syntax like 'word boundary' and many titles include 'rent' as part of a word {% endcomment %}
+
+    {% comment %} query for 'rent' fails as we don't currently support regex syntax like 'word boundary' and many titles include 'rent' as part of a word {% endcomment %}
     <!-- -->
-    {% list_tables query=' rent ' exclude_prefix='00,98,99' %}
+    {% list_tables codes='25031,25054,25055,25056,25057,25058,25059,25060,25061,25062,25063,25064,25065,25066,25067,25068,25069,25070,25071,25072,25074,25111,25112,25113,25114,25122' %}
 
     <h2 id='housing-characteristics'>Housing Characteristics</h2>
-    <h3>Bedrooms</h3>
+    <h3>Structural Characteristics</h3>
     <p>
-        The ACS records the number of bedrooms for each housing unit, and provides tables to relate that number to tenure and rent. Housing units with only one room are listed as having no bedrooms.
+        A few tables provide general information about the structural characteristics of buildings where people live in a given geography.
     </p>
 
-    {% list_tables query='bedroom' exclude_prefix='00,98,99' %}
+    {% list_tables codes='25024,25034,25035,25040' %}
+
+
+
+    <h3>Rooms and Bedrooms</h3>
+    <p>
+        The ACS records the number of rooms, and separately, the number of bedrooms for each housing unit, and provides some tables to relate those numbers to tenure and rent. Housing units with only one room are listed as having no bedrooms.
+    </p>
+
+    {% list_tables query='room' prefix='25' %}
 
 
     <h3>Facilities</h3>
