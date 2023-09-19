@@ -614,30 +614,33 @@ def geo_profile(geoid, acs='latest'):
         ownership_dict['median_value'] = {"name": "Median value of owner-occupied housing units"}
 
 
-    data = api.get_data('B25075', comparison_geoids, acs)
-    acs_name = data['release']['name']
 
     value_distribution = OrderedDict()
     ownership_dict['value_distribution'] = value_distribution
-    add_metadata(value_distribution, 'B25075', 'Owner-occupied housing units', acs_name)
+    try:
+        data = api.get_data('B25075', comparison_geoids, acs)
+        acs_name = data['release']['name']
+        add_metadata(value_distribution, 'B25075', 'Owner-occupied housing units', acs_name)
 
-    ownership_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
-        'B25075001')
+        ownership_dict['total_value'] = build_item('Total value of owner-occupied housing units', data, item_levels,
+            'B25075001')
 
-    value_distribution['under_100'] = build_item('Under $100K', data, item_levels,
-        'B25075002 B25075003 + B25075004 + B25075005 + B25075006 + B25075007 + B25075008 + B25075009 + B25075010 + B25075011 + B25075012 + B25075013 + B25075014 + B25075001 / %')
-    value_distribution['100_to_200'] = build_item('$100K - $200K', data, item_levels,
-        'B25075015 B25075016 + B25075017 + B25075018 + B25075001 / %')
-    value_distribution['200_to_300'] = build_item('$200K - $300K', data, item_levels,
-        'B25075019 B25075020 + B25075001 / %')
-    value_distribution['300_to_400'] = build_item('$300K - $400K', data, item_levels,
-        'B25075021 B25075001 / %')
-    value_distribution['400_to_500'] = build_item('$400K - $500K', data, item_levels,
-        'B25075022 B25075001 / %')
-    value_distribution['500_to_1000000'] = build_item('$500K - $1M', data, item_levels,
-        'B25075023 B25075024 + B25075001 / %')
-    value_distribution['over_1000000'] = build_item('Over $1M', data, item_levels,
-        'B25075025 B25075001 / %')
+        value_distribution['under_100'] = build_item('Under $100K', data, item_levels,
+            'B25075002 B25075003 + B25075004 + B25075005 + B25075006 + B25075007 + B25075008 + B25075009 + B25075010 + B25075011 + B25075012 + B25075013 + B25075014 + B25075001 / %')
+        value_distribution['100_to_200'] = build_item('$100K - $200K', data, item_levels,
+            'B25075015 B25075016 + B25075017 + B25075018 + B25075001 / %')
+        value_distribution['200_to_300'] = build_item('$200K - $300K', data, item_levels,
+            'B25075019 B25075020 + B25075001 / %')
+        value_distribution['300_to_400'] = build_item('$300K - $400K', data, item_levels,
+            'B25075021 B25075001 / %')
+        value_distribution['400_to_500'] = build_item('$400K - $500K', data, item_levels,
+            'B25075022 B25075001 / %')
+        value_distribution['500_to_1000000'] = build_item('$500K - $1M', data, item_levels,
+            'B25075023 B25075024 + B25075001 / %')
+        value_distribution['over_1000000'] = build_item('Over $1M', data, item_levels,
+            'B25075025 B25075001 / %')
+    except Exception as e:
+        logger.info(f"profile [{geoid}]: Exception building Total value of owner-occupied housing units {e}")
 
 
     # Social: Educational Attainment
@@ -694,26 +697,33 @@ def geo_profile(geoid, acs='latest'):
     doc['social']['language'] = language_dict
 
     # Social: Number of Veterans, Wartime Service, Sex of Veterans
-    data = api.get_data('B21002', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     veterans_dict = dict()
     doc['social']['veterans'] = veterans_dict
 
-    veterans_service_dict = OrderedDict()
-    veterans_dict['wartime_service'] = veterans_service_dict
-    add_metadata(veterans_service_dict, 'B21002', 'Civilian veterans 18 years and over', acs_name)
+    try:
+        data = api.get_data('B21002', comparison_geoids, acs)
+        acs_name = data['release']['name']
 
-    veterans_service_dict['wwii'] = build_item('WWII', data, item_levels,
-        'B21002009 B21002011 + B21002012 +')
-    veterans_service_dict['korea'] = build_item('Korea', data, item_levels,
-        'B21002008 B21002009 + B21002010 + B21002011 +')
-    veterans_service_dict['vietnam'] = build_item('Vietnam', data, item_levels,
-        'B21002004 B21002006 + B21002007 + B21002008 + B21002009 +')
-    veterans_service_dict['gulf_1990s'] = build_item('Gulf (1990s)', data, item_levels,
-        'B21002003 B21002004 + B21002005 + B21002006 +')
-    veterans_service_dict['gulf_2001'] = build_item('Gulf (2001-)', data, item_levels,
-        'B21002002 B21002003 + B21002004 +')
+        veterans_service_dict = OrderedDict()
+        veterans_dict['wartime_service'] = veterans_service_dict
+        add_metadata(veterans_service_dict, 'B21002', 'Civilian veterans 18 years and over', acs_name)
+
+        veterans_service_dict['wwii'] = build_item('WWII', data, item_levels,
+            'B21002009 B21002011 + B21002012 +')
+        veterans_service_dict['korea'] = build_item('Korea', data, item_levels,
+            'B21002008 B21002009 + B21002010 + B21002011 +')
+        veterans_service_dict['vietnam'] = build_item('Vietnam', data, item_levels,
+            'B21002004 B21002006 + B21002007 + B21002008 + B21002009 +')
+        veterans_service_dict['gulf_1990s'] = build_item('Gulf (1990s)', data, item_levels,
+            'B21002003 B21002004 + B21002005 + B21002006 +')
+        veterans_service_dict['gulf_2001'] = build_item('Gulf (2001-)', data, item_levels,
+            'B21002002 B21002003 + B21002004 +')
+    except Exception as e:
+        logger.info(f'profile [{geoid}]: Error fetching wartime service data: {e}')
+        veterans_dict['wartime_service'] = {
+            'name': 'Civilian veterans 18 years and over'
+        }
+
 
     data = api.get_data('B21001', comparison_geoids, acs)
     acs_name = data['release']['name']
