@@ -9,11 +9,11 @@
 <meta name="twitter:site" content="@CensusReporter">
 <meta name="twitter:creator" content="@CensusReporter">
 <meta name="twitter:title" content="Census profile: {% firstof geography.this.full_name geography.this.short_name %}">
-<meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more."> {% endblock %} 
+<meta name="twitter:description" content="Census data for {{ geography.this.full_name }} (pop. {{ geography.this.total_population|intcomma }}), including age, race, sex, income, poverty, marital status, education and more."> {% endblock %}
 {% block head_css_extra %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.css">
-{% endblock %} 
-{% block body_id %}profile{% endblock %} 
+{% endblock %}
+{% block body_id %}profile{% endblock %}
 {% block header_content %}
 <div id="cover-map" class="clearfix">
     <div id="slippy-map"></div>
@@ -54,7 +54,7 @@
         </article>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
 {% block head_javascript_extra %}
 <script src='https://cdn.jsdelivr.net/combine/npm/mapbox-gl@2.14.1/dist/mapbox-gl.min.js,npm/@turf/turf@6.5.0/turf.min.js'></script>
 {% endblock %}
@@ -323,7 +323,7 @@
         });
 
         // Make the header map
-        d3.json(CR_API_URL + '/1.0/geo/tiger2021/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+        d3.json(CR_API_URL + '/1.0/geo/tiger2022/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
             window.stash = json
             let objBounds = null;
             if (thisSumlev === "010") {
@@ -338,7 +338,7 @@
             // draw a geom
             mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
 
-            window.map = new mapboxgl.Map({        
+            window.map = new mapboxgl.Map({
                 container: 'slippy-map',
                 center: objBounds.getCenter(),
                 zoom: 13,
@@ -350,7 +350,7 @@
                 dragging: allowMapDrag,
                 touchZoom: allowMapDrag
             });
-            
+
             map.on('load', () => {
                 if (allowMapDrag) {
                     map.addControl(new mapboxgl.NavigationControl({
@@ -362,8 +362,8 @@
                 if (thisSumlev !== "010") {
                     map.addSource('sumlev-tiles-source', {
                         type: 'vector',
-                        tiles: ['https://embed.censusreporter.org/1.0/geo/tiger2021/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'], 
-                        'minzoom': 6,
+                        tiles: ['https://embed.censusreporter.org/1.0/geo/tiger2022/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'],
+                        'minzoom': 2,
                         'maxzoom': 14
                     });
                     map.addLayer({
@@ -393,11 +393,11 @@
                         closeButton: false,
                         closeOnClick: false
                     });
-                    
+
                     function showPopup(e) {
                             map.getCanvas().style.cursor = 'pointer';
-                            map.setPaintProperty('sumlev-tiles-layer-fill', 
-                                                 'fill-opacity', 
+                            map.setPaintProperty('sumlev-tiles-layer-fill',
+                                                 'fill-opacity',
                                                  ['match',
                                                   ['get', 'full_geoid'],
                                                   e.features[0].properties.full_geoid,
@@ -437,8 +437,8 @@
 
                             }
                         }
-                    })                    
-                    
+                    })
+
                 }
                 // show the featured geography in a highlighted state
                 map.addSource('this-geo-source', {
@@ -468,7 +468,7 @@
                 })
 
                 map.fitBounds(objBounds); // with leaflet, the code below made a better map position at large screens
-                                          // but mapboxgl map.project doesn't take a zoom level so until we find a 
+                                          // but mapboxgl map.project doesn't take a zoom level so until we find a
                                           // different algorithm, just fit bounds in all cases.
                 // if (browserWidth > 768) {
                 //     var z;
@@ -545,7 +545,7 @@
                     // than the primary ACS release for this page
                     for (var key in chartData)
                         if (key && chartData.hasOwnProperty(key)) break;
-                    
+
                     if (!chartData[key]) {
                         console.log(`chartData[${key}] is undefined`)
                         debugger
@@ -600,7 +600,7 @@
         // Update the header's list of parent geographies
         var parentLinkContainer = $('#header-box .caption'),
             parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2021/' + thisGeoID + '/parents';
+            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2022/' + thisGeoID + '/parents';
 
         // for touch devices, still allow context toggle
         $('.stat-row').on('click', '.stat', function() {
@@ -641,7 +641,7 @@
             // Update the header's list of parent geographies
             var parentLinkContainer = $('#header-box .caption'),
                 parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-                parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2021/' + thisGeoID + '/parents'; 
+                parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2022/' + thisGeoID + '/parents';
 
             // for touch devices, still allow context toggle
             $('.stat-row').on('click', '.stat', function() {

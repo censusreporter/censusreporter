@@ -37,10 +37,10 @@ class ApiClient(object):
         return data
 
     def get_parent_geoids(self, geoid):
-        return self._get('/1.0/geo/tiger2021/{}/parents'.format(geoid))
+        return self._get('/1.0/geo/tiger2022/{}/parents'.format(geoid))
 
     def get_geoid_data(self, geoid):
-        return self._get('/1.0/geo/tiger2021/{}'.format(geoid))
+        return self._get('/1.0/geo/tiger2022/{}'.format(geoid))
 
     def get_data(self, table_ids, geo_ids, acs='latest'):
         if isinstance(table_ids, (list, tuple)):
@@ -915,7 +915,7 @@ def build_families_fertility_dict(api, acs, item_levels, comparison_geoids):
         'total': None,
         'by_age': None
     }
-    
+
     universe = None
     acs_name = "No data available"
 
@@ -1016,7 +1016,7 @@ def build_housing_migration_dicts(api, acs, item_levels, comparison_geoids):
 
 
 def build_social_language_dict(api, acs, item_levels, comparison_geoids):
-    # TODO: consider refactoring into two methods to produce and return components, and possibly 
+    # TODO: consider refactoring into two methods to produce and return components, and possibly
     # have one succeed where others fail
     # language_adults
     # Social: Percentage of Non-English Spoken at Home, Language Spoken at Home for Children, Adults
@@ -1064,7 +1064,7 @@ def build_social_language_dict(api, acs, item_levels, comparison_geoids):
         'B16007007 B16007002 / %')
     language_adults['other'] = build_item('Other', data, item_levels,
         'B16007013 B16007019 + B16007008 B16007014 + / %')
-    
+
     return language_dict
 
 def build_social_foreign_dict(api, acs, item_levels, comparison_geoids):
@@ -1087,7 +1087,7 @@ def build_social_foreign_dict(api, acs, item_levels, comparison_geoids):
     # Note that minor changes to B05006 will throw this off. We've been bitten thrice.
     # https://github.com/censusreporter/censusreporter/issues/87
     # as of 2020, we don't need a conditional, but it's possible we'll have a period
-    # where we have to check data['release']['name'] or something similar to 
+    # where we have to check data['release']['name'] or something similar to
     # set different numerator columns for these items.
     place_of_birth_dict['europe'] = build_item('Europe', data, item_levels,
         'B05006002 B05006001 / %')
