@@ -479,22 +479,27 @@ def geo_profile(geoid, acs='latest'):
 
 
     # Families: Family Types with Children
-    data = api.get_data('B09002', comparison_geoids, acs)
-    acs_name = data['release']['name']
+    # with the ACS2022-1 year release this was throwing errors because
+    # some PUMAs lacked data in this table
+    # but on closer review, the data doesn't even seem to be used on a profile page
+    # leaving today (2023-09-21) but delete if that turns out true
+    # 
+    # data = api.get_data('B09002', comparison_geoids, acs)
+    # acs_name = data['release']['name']
 
-    family_types = dict()
-    doc['families']['family_types'] = family_types
+    # family_types = dict()
+    # doc['families']['family_types'] = family_types
 
-    children_family_type_dict = OrderedDict()
-    family_types['children'] = children_family_type_dict
-    add_metadata(children_family_type_dict, 'B09002', 'Own children under 18 years', acs_name)
+    # children_family_type_dict = OrderedDict()
+    # family_types['children'] = children_family_type_dict
+    # add_metadata(children_family_type_dict, 'B09002', 'Own children under 18 years', acs_name)
 
-    children_family_type_dict['married_couple'] = build_item('Married couple', data, item_levels,
-        'B09002002 B09002001 / %')
-    children_family_type_dict['male_householder'] = build_item('Male householder', data, item_levels,
-        'B09002009 B09002001 / %')
-    children_family_type_dict['female_householder'] = build_item('Female householder', data, item_levels,
-        'B09002015 B09002001 / %')
+    # children_family_type_dict['married_couple'] = build_item('Married couple', data, item_levels,
+    #     'B09002002 B09002001 / %')
+    # children_family_type_dict['male_householder'] = build_item('Male householder', data, item_levels,
+    #     'B09002009 B09002001 / %')
+    # children_family_type_dict['female_householder'] = build_item('Female householder', data, item_levels,
+    #     'B09002015 B09002001 / %')
 
     # Families: Birth Rate by Women's Age
     fertility = dict()
