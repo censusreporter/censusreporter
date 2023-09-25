@@ -345,40 +345,44 @@ def geo_profile(geoid, acs='latest'):
     age_dict['median_age'] = median_age_dict
 
     # Demographics: Race
-    data = api.get_data('B03002', comparison_geoids, acs)
-    acs_name = data['release']['name']
+    try:
+        race_dict = OrderedDict()
+        doc['demographics']['race'] = race_dict
+        add_metadata(race_dict, 'B03002', 'Total population', acs_name)
 
-    race_dict = OrderedDict()
-    doc['demographics']['race'] = race_dict
-    add_metadata(race_dict, 'B03002', 'Total population', acs_name)
+        data = api.get_data('B03002', comparison_geoids, acs)
+        acs_name = data['release']['name']
 
-    race_dict['percent_white'] = build_item('White', data, item_levels,
-        'B03002003 B03002001 / %')
+        race_dict['percent_white'] = build_item('White', data, item_levels,
+            'B03002003 B03002001 / %')
 
-    race_dict['percent_black'] = build_item('Black', data, item_levels,
-        'B03002004 B03002001 / %')
+        race_dict['percent_black'] = build_item('Black', data, item_levels,
+            'B03002004 B03002001 / %')
 
-    race_dict['percent_native'] = build_item('Native', data, item_levels,
-        'B03002005 B03002001 / %')
+        race_dict['percent_native'] = build_item('Native', data, item_levels,
+            'B03002005 B03002001 / %')
 
-    race_dict['percent_asian'] = build_item('Asian', data, item_levels,
-        'B03002006 B03002001 / %')
+        race_dict['percent_asian'] = build_item('Asian', data, item_levels,
+            'B03002006 B03002001 / %')
 
-    race_dict['percent_islander'] = build_item('Islander', data, item_levels,
-        'B03002007 B03002001 / %')
+        race_dict['percent_islander'] = build_item('Islander', data, item_levels,
+            'B03002007 B03002001 / %')
 
-    race_dict['percent_other'] = build_item('Other', data, item_levels,
-        'B03002008 B03002001 / %')
+        race_dict['percent_other'] = build_item('Other', data, item_levels,
+            'B03002008 B03002001 / %')
 
-    race_dict['percent_two_or_more'] = build_item('Two+', data, item_levels,
-        'B03002009 B03002001 / %')
+        race_dict['percent_two_or_more'] = build_item('Two+', data, item_levels,
+            'B03002009 B03002001 / %')
 
-#    # collapsed version of "other"
-#    race_dict['percent_other'] = build_item('Other', data, item_levels,
-#        'B03002005 B03002007 + B03002008 + B03002009 + B03002001 / %')
+    #    # collapsed version of "other"
+    #    race_dict['percent_other'] = build_item('Other', data, item_levels,
+    #        'B03002005 B03002007 + B03002008 + B03002009 + B03002001 / %')
 
-    race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
-        'B03002012 B03002001 / %')
+        race_dict['percent_hispanic'] = build_item('Hispanic', data, item_levels,
+            'B03002012 B03002001 / %')
+    except Exception as e:
+        logger.info(f"profile [{geoid}]: Exception building Demographics: Race {e}")
+        doc['demographics']['race'] = None
 
     income_dict = dict()
     try:
@@ -562,21 +566,24 @@ def geo_profile(geoid, acs='latest'):
         'B25002003 B25002001 / %')
 
     # Housing: Structure Distribution
-    data = api.get_data('B25024', comparison_geoids, acs)
-    acs_name = data['release']['name']
-
     structure_distribution_dict = OrderedDict()
     units_dict['structure_distribution'] = structure_distribution_dict
-    add_metadata(units_dict['structure_distribution'], 'B25024', 'Housing units', acs_name)
+    try:
+        data = api.get_data('B25024', comparison_geoids, acs)
+        acs_name = data['release']['name']
 
-    structure_distribution_dict['single_unit'] = build_item('Single unit', data, item_levels,
-        'B25024002 B25024003 + B25024001 / %')
-    structure_distribution_dict['multi_unit'] = build_item('Multi-unit', data, item_levels,
-        'B25024004 B25024005 + B25024006 + B25024007 + B25024008 + B25024009 + B25024001 / %')
-    structure_distribution_dict['mobile_home'] = build_item('Mobile home', data, item_levels,
-        'B25024010 B25024001 / %')
-    structure_distribution_dict['vehicle'] = build_item('Boat, RV, van, etc.', data, item_levels,
-        'B25024011 B25024001 / %')
+        add_metadata(units_dict['structure_distribution'], 'B25024', 'Housing units', acs_name)
+
+        structure_distribution_dict['single_unit'] = build_item('Single unit', data, item_levels,
+            'B25024002 B25024003 + B25024001 / %')
+        structure_distribution_dict['multi_unit'] = build_item('Multi-unit', data, item_levels,
+            'B25024004 B25024005 + B25024006 + B25024007 + B25024008 + B25024009 + B25024001 / %')
+        structure_distribution_dict['mobile_home'] = build_item('Mobile home', data, item_levels,
+            'B25024010 B25024001 / %')
+        structure_distribution_dict['vehicle'] = build_item('Boat, RV, van, etc.', data, item_levels,
+            'B25024011 B25024001 / %')
+    except Exception as e:
+        logger.info(f"profile [{geoid}]: Exception building Housing: Structure Distribution {e}")
 
     # Housing: Tenure
     data = api.get_data('B25003', comparison_geoids, acs)

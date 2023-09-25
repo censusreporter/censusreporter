@@ -546,9 +546,10 @@
                     for (var key in chartData)
                         if (key && chartData.hasOwnProperty(key)) break;
 
+                    if (!key) throw "No key found looping through chartData"
+                    
                     if (!chartData[key]) {
                         console.log(`chartData[${key}] is undefined`)
-                        debugger
                     }
                     var thisRelease = chartData[key]['acs_release'],
                         noteRelease = (thisRelease && thisRelease != defaultDataRelease) ? thisRelease + ' data' : null;
@@ -570,12 +571,7 @@
                         chartStatType: chartStatType,
                         geographyData: geographyData
                     }
-                    try {
-                        Charts[i] = Chart(chartstuff);
-                    } catch (e) {
-                        console.log("Error making chart " + chartID)
-                        console.log(chartstuff);
-                    }
+                    Charts[i] = Chart(chartstuff);
 
                     // build array of releases used on this page for citations
                     if (noteRelease) {
@@ -584,6 +580,7 @@
 
                 } catch(e) {
                     console.log(`Error making chart for chartID ${chartID} ${e}`)
+                    chartChartTitle = chartChartTitle || ''
                     $(obj).html(`<h3 class="chart-title">${chartChartTitle}</h3><p class="chart-qualifier">No data available</p>`)
                 }
             });
