@@ -1,3 +1,4 @@
+import json
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -21,7 +22,7 @@ def build_comparative_item(sumlev, stat, stat_type, geography):
             # stat_prefix_phrase has markup
             stat_prefix_phrase = mark_safe(f"{comparison_index_phrase(index)} the {stat_type_to_number_noun(stat_type)} in { place_name }")
     except ValueError as e:
-        logger.error(f"Unexpected error computing stat_prefix_phrase for {place_name} {stat.metadata}")
+        logger.error(f"Unexpected error computing stat_prefix_phrase for {place_name} {json.dumps(stat['metadata'])}")
         logger.exception(e)
 
 
