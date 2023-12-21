@@ -10,6 +10,7 @@ register = template.Library()
 
 @register.inclusion_tag('profile/_blocks/_comparative_list_item.html')
 def build_comparative_item(sumlev, stat, stat_type, geography):
+    this_place = f"{geography['this']['full_name']} {geography['this']['full_geoid']}"
     if sumlev == 'CBSA':
         place_name = 'the %s' % geography['parents'][sumlev]['full_name']
     else:
@@ -22,7 +23,7 @@ def build_comparative_item(sumlev, stat, stat_type, geography):
             # stat_prefix_phrase has markup
             stat_prefix_phrase = mark_safe(f"{comparison_index_phrase(index)} the {stat_type_to_number_noun(stat_type)} in { place_name }")
     except ValueError as e:
-        logger.error(f"Unexpected error computing stat_prefix_phrase for {place_name} {json.dumps(stat['metadata'])}")
+        logger.error(f"Unexpected error computing stat_prefix_phrase for {this_place} compared to {place_name} {json.dumps(stat['metadata'])}")
         logger.exception(e)
 
 
