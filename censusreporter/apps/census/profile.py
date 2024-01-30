@@ -55,7 +55,10 @@ def _maybe_int(i):
     return int(i) if i else i
 
 def percentify(val):
-    return val * 100
+    try:
+        return val * 100
+    except TypeError:
+        return None # null value
 
 def rateify(val):
     return val * 1000
@@ -70,6 +73,10 @@ def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
     proportion = float(numerator) / denominator
     try:
         return math.sqrt(numerator_moe**2 - (proportion**2 * denominator_moe**2)) / float(denominator)
+    except TypeError as e:
+        if numerator_moe is None or denominator_moe is None:
+            return None 
+        raise
     except ValueError as e:
         return moe_ratio(numerator, denominator, numerator_moe, denominator_moe)
 
@@ -130,7 +137,10 @@ def value_rpn_calc(data, rpn_string):
                         c = ops[token](a, b)
                         c_moe = moe_proportion(a, b, a_moe, b_moe)
                     numerator = a
-                    numerator_moe = round(a_moe, 1)
+                    try:
+                        numerator_moe = round(a_moe, 1)
+                    except TypeError:
+                        numerator_moe = None 
                 else:
                     c = ops[token](a, b)
                     c_moe = moe_ops[token](a_moe, b_moe)
@@ -180,14 +190,18 @@ def build_item(name, data, parents, rpn_string):
 
             if numerator is not None:
                 numerator = round(numerator, 2)
-                numerator_moe = round(numerator_moe, 2)
+                try:
+                    numerator_moe = round(numerator_moe, 2)
+                except TypeError:
+                    numerator_moe = None
 
             val['values'][label] = value
             val['error'][label] = error
             val['numerators'][label] = numerator
             val['numerator_errors'][label] = numerator_moe
         except Exception as e:
-            logger.warn(f'Error fetching {name} for {label} {e}')
+            logger.warn(f'Error fetching {name} for {label} {e}', exc_info=True)
+            import pdb; pdb.set_trace()
     return val
 
 def add_metadata(dictionary, table_id, universe, acs_release):
