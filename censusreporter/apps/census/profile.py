@@ -65,7 +65,10 @@ def rateify(val):
 
 def moe_add(moe_a, moe_b):
     # From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
-    return math.sqrt(moe_a**2 + moe_b**2)
+    try:
+        return math.sqrt(moe_a**2 + moe_b**2)
+    except TypeError:
+        return None
 
 def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
     # From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
@@ -83,8 +86,11 @@ def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
 def moe_ratio(numerator, denominator, numerator_moe, denominator_moe):
     # From http://www.census.gov/acs/www/Downloads/handbooks/ACSGeneralHandbook.pdf
     # "Calculating MOEs for Derived Ratios" A-14 / A-15
-    ratio = float(numerator) / denominator
-    return math.sqrt(numerator_moe**2 + (ratio**2 * denominator_moe**2)) / float(denominator)
+    try:
+        ratio = float(numerator) / denominator
+        return math.sqrt(numerator_moe**2 + (ratio**2 * denominator_moe**2)) / float(denominator)
+    except TypeError:
+        return None
 
 ops = {
     '+': operator.add,
@@ -201,7 +207,8 @@ def build_item(name, data, parents, rpn_string):
             val['numerator_errors'][label] = numerator_moe
         except Exception as e:
             logger.warn(f'Error fetching {name} for {label} {e}', exc_info=True)
-            import pdb; pdb.set_trace()
+            if settings.DEBUG:
+                import pdb; pdb.set_trace()
     return val
 
 def add_metadata(dictionary, table_id, universe, acs_release):
