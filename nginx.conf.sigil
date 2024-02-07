@@ -86,6 +86,7 @@ server {
   {{ if and (eq $.SPDY_SUPPORTED "true") (ne $.HTTP2_SUPPORTED "true") }}add_header          Alternate-Protocol  {{ $.PROXY_SSL_PORT }}:npn-spdy/2;{{ end }}
 
   location    / {
+    limit_req zone=one burst=30;
 
     gzip on;
     gzip_min_length  1100;
