@@ -8,3 +8,16 @@ six==1.13.0
 unicodecsv==0.14.1
 lxml==4.9.1
 whitenoise==5.2.0
+opentelemetry-instrumentation-aws-lambda==0.43b0
+opentelemetry-instrumentation-dbapi==0.43b0
+opentelemetry-instrumentation-logging==0.43b0
+opentelemetry-instrumentation-sqlite3==0.43b0
+opentelemetry-instrumentation-urllib==0.43b0
+opentelemetry-instrumentation-wsgi==0.43b0
+opentelemetry-instrumentation-asgi==0.43b0
+opentelemetry-instrumentation-boto==0.43b0
+opentelemetry-instrumentation-django==0.43b0
+opentelemetry-instrumentation-grpc==0.43b0
+opentelemetry-instrumentation-redis==0.43b0
+opentelemetry-instrumentation-requests==0.43b0
+opentelemetry-instrumentation-urllib3==0.43b0
