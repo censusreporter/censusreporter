@@ -1,5 +1,6 @@
 {% extends '_base.html' %}{% load humanize partition %} {% block head_title %}{{ block.super }}: Making Census Data Easy to Use{% endblock %} {% block head_meta_description %}Census Reporter provides useful facts about every place in America. Compare
 places using tables and maps, download data, and embed charts on your site!{% endblock %} {% block body_id %}homepage{% endblock %} {% block header %}
+{% load static %}
 <header id="page-header">
     <div id="page-header-title" class="wrapper clearfix">
         {% if not hide_nav_tools %}
