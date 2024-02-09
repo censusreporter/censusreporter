@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,8 +8,8 @@
     <meta name="description" content="{% block head_meta_description %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1"> {% block head_css %}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/normalize.min.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css"> {% block head_css_extra %}{% endblock %}{% endblock head_css %}
+    <link rel="stylesheet" href="{% static 'css/vendor/normalize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}"> {% block head_css_extra %}{% endblock %}{% endblock head_css %}
     <script type="application/ld+json">
         [{
                 "@context": "http://schema.org",
@@ -20,7 +21,7 @@
                 "@type": "Organization",
                 "name": "Census Reporter",
                 "url": "https://censusreporter.org",
-                "logo": "https://censusreporter.org/static/img/logo.png",
+                "logo": "{% static 'img/logo.png' %}",
                 "sameAs": [
                     "http://twitter.com/censusreporter",
                     "http://censusreporter.tumblr.com"
@@ -41,10 +42,10 @@
 
     gtag('config', 'G-J4KYS0SFEW');
     </script>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/icons/favicon.ico" />
-    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/icons/touch-icon-144x144.png" sizes="144x144" /> {% block head_facebook_tags %}{% endblock %} {% block head_twitter_tags %}{% endblock %}
-    <link href="{{ STATIC_URL }}css/vendor/fontawesome/font-awesome-4.7.0.css" rel="preload" as="style">
-    <link href="{{ STATIC_URL }}css/vendor/fontawesome/font-awesome-4.7.0.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/icons/favicon.ico'}" />
+    <link rel="apple-touch-icon-precomposed" href="{% static 'img/icons/touch-icon-144x144.png'}" sizes="144x144" /> {% block head_facebook_tags %}{% endblock %} {% block head_twitter_tags %}{% endblock %}
+    <link href="{% static 'css/vendor/fontawesome/font-awesome-4.7.0.css'}" rel="preload" as="style">
+    <link href="{% static 'css/vendor/fontawesome/font-awesome-4.7.0.css'}" rel="stylesheet">
     <script> // needed for full-text search among other things so just define it once and for all
         const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
     </script>
@@ -64,7 +65,7 @@
             {% if not hide_nav_tools %}
             <i id="menu-toggle" class="fa fa-bars"></i> {% endif %}
             <a class="title" href="{% url 'homepage' %}">
-                <img src="{{ STATIC_URL }}img/logo.png" width="44" height="21" alt="Census Reporter Logo"> Census Reporter
+                <img src="{% static 'img/logo.png'}" width="44" height="21" alt="Census Reporter Logo"> Census Reporter
             </a>
             {% if not hide_nav_tools %}
             <div id="menu" class="tool-set clearfix">
@@ -128,12 +129,12 @@
     <script type="text/javascript">
         CR_API_URL = '{{ API_URL }}';
     </script>
-    <script src="{{ STATIC_URL }}js/app.js"></script>
-    <script src="{{ STATIC_URL }}js/glossary.js"></script>
-    <script src="{{ STATIC_URL }}js/widget.geo.select.js"></script>
+    <script src="{% static 'js/app.js'}"></script>
+    <script src="{% static 'js/glossary.js'}"></script>
+    <script src="{% static 'js/widget.geo.select.js'}"></script>
     {% block body_javascript_extra %}{% endblock %}{% endblock body_javascript %}
-    <script src="{{ STATIC_URL }}js/widget.uservoice.js"></script>
-    <script src="{{ STATIC_URL }}js/full-text-results.js"></script>
+    <script src="{% static 'js/widget.uservoice.js'}"></script>
+    <script src="{% static 'js/full-text-results.js'}"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-{% extends '_base.html' %} 
+{% extends '_base.html' %}
 {% block head_css_extra %}
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
 
@@ -6,44 +6,44 @@
     #status-spinner {
         margin-left: 2em;
     }
-    
+
     #map {
         float: left;
         width: 100%;
         height: 40vh;
         margin-bottom: 20px;
     }
-    
+
     #map-source-link {
         margin-left: 1em;
         font-size: smaller;
     }
-    
+
     .explainer {
         font-size: smaller;
     }
-    
+
     #download-links h2 {
         font-size: larger;
     }
-    
+
     #download-links ul {
         list-style: none;
     }
-    
+
     #download-links li {
         line-height: 2em;
     }
-    
+
     #breadcrumb {
         font-size: smaller;
         margin-bottom: 1.25em;
     }
 </style>
-{% endblock head_css_extra %} 
+{% endblock head_css_extra %}
 {% block head_javascript_extra %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
-<script src="{{ STATIC_URL }}js/aggregate.js"></script>
+<script src="{% static 'js/aggregate.js' %}"></script>
 
 {{ geojson|cr_json_script:"initial-geojson" }}
 <script>
@@ -91,7 +91,7 @@
     })
 </script>
 
-{% endblock head_javascript_extra %} 
+{% endblock head_javascript_extra %}
 
 {% block content %}
 <div id="content">
@@ -159,7 +159,7 @@
 </div>
 
 {% endif %}
-<!-- 
+<!--
 
 {{ geojson }}
 

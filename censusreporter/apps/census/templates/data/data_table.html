@@ -3,7 +3,7 @@
 {% block head_title %}Grid View: {{ block.super }}{% endblock %}
 
 {% block head_css_extra %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/Grid.css">
+<link rel="stylesheet" href="{% static 'css/vendor/Grid.css' %}">
 {% endblock %}
 
 {% block aside_notes %}
@@ -11,5 +11,5 @@
 {% endblock %}
 
 {% block page_specific_javascript %}
-<script src="{{ STATIC_URL }}js/vendor/Grid.js"></script>
+<script src="{% static 'js/vendor/Grid.js' %}"></script>
 {% endblock %}

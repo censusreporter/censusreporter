@@ -5,100 +5,100 @@
         margin: 0;
         padding: 0;
     }
-    
+
     #content {
         display: grid;
         height: 100vh;
         grid-template-columns: 300px 1fr;
         grid-template-rows: 1fr;
     }
-    
+
     #page-header {
         grid-column: span 2;
     }
-    
+
     #map {
         /* grid-column: span *; */
     }
-    
+
     #intro-explainer {
         transition: all .75s ease-out;
     }
-    
+
     button.action-button {
         margin: 10px auto;
         width: 75%;
         padding: 0 9px;
         line-height: 1.9em;
     }
-    
+
     .hidden {
         display: none;
     }
-    
+
     #file-upload-message {
         color: red;
     }
-    
+
     #user-input {
         margin: 10px 5px 2px 10px;
         grid-column: 1;
     }
-    
+
     #upload {
         margin-left: 10px;
     }
-    
+
     #details {
         margin: 25px 0 0 10px;
     }
-    
+
     #details input,
     #details select {
         width: 100%;
     }
-    
+
     input#share_map {
         width: 1.5em;
         display: inline;
     }
-    
+
     input:invalid,
     select:invalid {
         border-color: #900;
         background-color: #FDD;
     }
-    
+
     input#file-picker {
         margin-top: 10px;
     }
-    
+
     #details .input label {
         display: block;
         margin-top: 10px;
         text-align: left;
     }
-    
+
     #details .input label.inline {
         display: inline;
     }
-    
+
     #details .input {
         margin: 2px 0;
     }
-    
+
     #details p.form-help {
         font-size: smaller;
         font-style: italic;
         margin-top: 3px;
     }
 </style>
-{% endblock head_css_extra %} 
+{% endblock head_css_extra %}
 
 {% block head_javascript_extra %}
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
-<script src="{{ STATIC_URL }}js/aggregate.js"></script>
-{% endblock head_javascript_extra %} 
+<script src="{% static 'js/aggregate.js' %}"></script>
+{% endblock head_javascript_extra %}
 {% block content %}
 
 <div id="content">

@@ -293,7 +293,7 @@
 
 </article>
 {% endblock %} {% block body_javascript_extra %}{{ block.super }}
-<script src="{{ STATIC_URL }}js/charts.js"></script>
+<script src="{% static 'js/charts.js' %}"></script>
 <script type="text/javascript">
     // Enable the single-table topic picker
     var thisSumlev = '{{ geography.this.sumlevel }}',
@@ -547,7 +547,7 @@
                         if (key && chartData.hasOwnProperty(key)) break;
 
                     if (!key) throw "No key found looping through chartData"
-                    
+
                     if (!chartData[key]) {
                         console.log(`chartData[${key}] is undefined`)
                     }
@@ -711,5 +711,5 @@
         }
     })
 </script>
-<script src="{{ STATIC_URL }}js/profile.topic.picker.js"></script>
+<script src="{% static 'js/profile.topic.picker.js' %}"></script>
 {% endblock %}

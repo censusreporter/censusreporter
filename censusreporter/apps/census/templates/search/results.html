@@ -145,5 +145,5 @@
 {% endblock %}
 
 {% block body_javascript_extra %}{{ block.super }}
-    <script src="{{ STATIC_URL }}js/search-results.js"></script>
+    <script src="{% static 'js/search-results.js' %}"></script>
 {% endblock %}

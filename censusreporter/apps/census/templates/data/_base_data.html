@@ -33,7 +33,7 @@ for applying things across that entire family of pages.
         <section id="data-container" class="clearfix">
             <h2 class="header-for-columns"></h2>
             <aside>{% block aside_notes %}{% endblock %}</aside>
-            
+
             <div id="tool-notes" class="tool-set caption-tool-set"></div>
             <p class="caption">
                 <span id="table-universe" class="caption-group"></span>
@@ -50,7 +50,7 @@ for applying things across that entire family of pages.
 {% endblock %}
 
 {% block body_javascript_extra %}
-<script src="{{ STATIC_URL }}js/comparisons.js"></script>
+<script src="{% static 'js/comparisons.js' %}"></script>
 {% block page_specific_javascript %}{% endblock %}
 <script>
 var makeCitation = function(comparison) {
