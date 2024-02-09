@@ -293,6 +293,7 @@
 
 </article>
 {% endblock %} {% block body_javascript_extra %}{{ block.super }}
+{% load static %}
 <script src="{% static 'js/charts.js' %}"></script>
 <script type="text/javascript">
     // Enable the single-table topic picker
