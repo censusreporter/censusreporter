@@ -1,10 +1,11 @@
-boto==2.49.0
-Django==3.2.15
+Django==3.2.24
 Fabric==1.13.1
+boto==2.49.0
 django-redis-cache==3.0.0
-requests==2.22.0
+lxml==4.9.1
+newrelic==9.6.0
+requests==2.31.0
 six==1.13.0
 unicodecsv==0.14.1
-lxml==4.9.1
+urllib3==1.26.18
 whitenoise==5.2.0
-newrelic==9.6.0
