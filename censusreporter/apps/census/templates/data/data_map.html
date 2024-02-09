@@ -5,6 +5,7 @@
 {% block body_class %}{{ block.super }} full-screen{% endblock %}
 
 {% block body %}
+{% load static %}
 <div id="map-controls" class="clearfix">
     <header class="box-header">
         <a class="title" href="{% url 'homepage' %}">
