@@ -2,7 +2,6 @@ boto==2.49.0
 Django==3.2.15
 Fabric==1.13.1
 django-redis-cache==3.0.0
-raven==6.10.0
 requests==2.22.0
 six==1.13.0
 unicodecsv==0.14.1

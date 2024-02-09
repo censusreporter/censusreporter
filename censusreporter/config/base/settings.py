@@ -15,7 +15,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'raven.contrib.django.raven_compat',
     'census',
 )
 
@@ -113,12 +112,6 @@ ADMINS = (
 MANAGERS = ADMINS
 
 API_URL = os.environ.get('CENSUSREPORTER_API_URL', 'https://api.censusreporter.org')
-
-import raven
-
-RAVEN_CONFIG = {
-    'dsn': os.environ.get("SENTRY_DSN"),
-}
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
