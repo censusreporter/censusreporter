@@ -4,7 +4,7 @@
     {% if topic.question_images %}
     <h3>Sample survey questions on this topic</h3>
     {% for image in topic.question_images %}
-    <a href="{% static 'img/questions/{{ image }}' %}" class="lightbox"><img src="{% static 'img/questions/{{ image }}' %}"></a><br> {% endfor %} {% endif %} {% if topic.more_info_links %}
+    <a href="{% static 'img/questions/'|add:image %}" class="lightbox"><img src="{% static 'img/questions/'|add:image %}"></a><br> {% endfor %} {% endif %} {% if topic.more_info_links %}
     <h3>More information from the Census</h3>
     <ul>
         {% for label,link in topic.more_info_links %}
