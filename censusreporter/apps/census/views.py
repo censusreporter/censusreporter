@@ -4,6 +4,7 @@ from urllib.parse import quote
 import io
 import gzip
 import re
+import redis
 import requests_cache
 from . import topics
 import json
@@ -37,7 +38,7 @@ logging.basicConfig()
 logger = logging.getLogger(__name__)
 
 r_session = requests_cache.CachedSession(
-    backend=requests_cache.RedisCache(),
+    backend=requests_cache.RedisCache(connection=redis.StrictRedis.from_url(getattr(settings, 'REDIS_URL'))),
     cache_name='censusreporter_cache',
     expire_after=requests_cache.NEVER_EXPIRE,
 )

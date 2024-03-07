@@ -1,12 +1,11 @@
 import json
 import math
 import operator
+import redis
 import requests_cache
 
 from collections import OrderedDict
 from django.conf import settings
-from requests.packages.urllib3.util import Retry
-from requests.adapters import HTTPAdapter
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 import logging
@@ -15,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 r_session = requests_cache.CachedSession(
     cache_name='cr_api_cache',
-    backend='redis',
+    backend=requests_cache.RedisCache(connection=redis.StrictRedis.from_url(getattr(settings, 'REDIS_URL'))),
     expire_after=requests_cache.NEVER_EXPIRE,
 )
 r_session.headers.update({'User-Agent': 'censusreporter.org frontend profile builder'})

@@ -4,6 +4,7 @@ boto==2.49.0
 django-redis-cache==3.0.0
 lxml==4.9.1
 newrelic==9.6.0
+redis==5.0.2
 requests==2.31.0
 requests-cache==1.2.0
 six==1.13.0

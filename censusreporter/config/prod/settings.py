@@ -7,10 +7,12 @@ WSGI_APPLICATION = "censusreporter.config.prod.wsgi.application"
 
 ALLOWED_HOSTS = ['*']
 
+REDIS_URL = os.environ.get('REDIS_URL', '')
+
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': os.environ.get('REDIS_URL', ''),
+        'LOCATION': REDIS_URL,
         'TIMEOUT': None,
         # This library defaults to using db 1, and I want it in db 0
         'OPTIONS': {
