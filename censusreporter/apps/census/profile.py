@@ -7,6 +7,7 @@ from collections import OrderedDict
 from django.conf import settings
 from requests.packages.urllib3.util import Retry
 from requests.adapters import HTTPAdapter
+from requests_cache import CachedSession, NEVER_EXPIRE
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 import logging
@@ -20,14 +21,22 @@ class ApiException(Exception):
 class ApiClient(object):
     def __init__(self, base_url):
         self.base_url = base_url
-        self.retry_session = requests.Session()
+        self.retry_session = CachedSession(
+            cache_name='cr_api_cache',
+            backend='sqlite',
+            expire_after=NEVER_EXPIRE,
+        )
         self.retry_session.mount(self.base_url, HTTPAdapter(
             max_retries=Retry(total=3, status_forcelist=[503])
         ))
 
     def _get(self, path, params=None):
-        url = self.base_url + path
-        r = requests.get(url, params=params, headers={'User-Agent': 'censusreporter.org frontend profile builder'})
+        r = self.retry_session.get(
+            url=self.base_url + path,
+            params=params,
+            headers={'User-Agent': 'censusreporter.org frontend profile builder'},
+        )
+
         data = None
         if r.status_code == 200:
             data = r.json(object_pairs_hook=OrderedDict)
@@ -78,7 +87,7 @@ def moe_proportion(numerator, denominator, numerator_moe, denominator_moe):
         return math.sqrt(numerator_moe**2 - (proportion**2 * denominator_moe**2)) / float(denominator)
     except TypeError as e:
         if numerator_moe is None or denominator_moe is None:
-            return None 
+            return None
         raise
     except ValueError as e:
         return moe_ratio(numerator, denominator, numerator_moe, denominator_moe)
@@ -146,7 +155,7 @@ def value_rpn_calc(data, rpn_string):
                     try:
                         numerator_moe = round(a_moe, 1)
                     except TypeError:
-                        numerator_moe = None 
+                        numerator_moe = None
                 else:
                     c = ops[token](a, b)
                     c_moe = moe_ops[token](a_moe, b_moe)
@@ -508,7 +517,7 @@ def geo_profile(geoid, acs='latest'):
     # some PUMAs lacked data in this table
     # but on closer review, the data doesn't even seem to be used on a profile page
     # leaving today (2023-09-21) but delete if that turns out true
-    # 
+    #
     # data = api.get_data('B09002', comparison_geoids, acs)
     # acs_name = data['release']['name']
 
