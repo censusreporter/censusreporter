@@ -1,18 +1,24 @@
 import json
 import math
 import operator
-import requests
+import requests_cache
 
 from collections import OrderedDict
 from django.conf import settings
 from requests.packages.urllib3.util import Retry
 from requests.adapters import HTTPAdapter
-from requests_cache import CachedSession, NEVER_EXPIRE
 from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
 
 import logging
 logging.basicConfig()
 logger = logging.getLogger(__name__)
+
+r_session = requests_cache.CachedSession(
+    cache_name='cr_api_cache',
+    backend='redis',
+    expire_after=requests_cache.NEVER_EXPIRE,
+)
+r_session.headers.update({'User-Agent': 'censusreporter.org frontend profile builder'})
 
 class ApiException(Exception):
     pass
@@ -21,17 +27,9 @@ class ApiException(Exception):
 class ApiClient(object):
     def __init__(self, base_url):
         self.base_url = base_url
-        self.retry_session = CachedSession(
-            cache_name='cr_api_cache',
-            backend='sqlite',
-            expire_after=NEVER_EXPIRE,
-        )
-        self.retry_session.mount(self.base_url, HTTPAdapter(
-            max_retries=Retry(total=3, status_forcelist=[503])
-        ))
 
     def _get(self, path, params=None):
-        r = self.retry_session.get(
+        r = r_session.get(
             url=self.base_url + path,
             params=params,
             headers={'User-Agent': 'censusreporter.org frontend profile builder'},
