@@ -468,32 +468,12 @@
                     }
                 })
 
-                map.fitBounds(objBounds); // with leaflet, the code below made a better map position at large screens
-                                          // but mapboxgl map.project doesn't take a zoom level so until we find a
-                                          // different algorithm, just fit bounds in all cases.
-                // if (browserWidth > 768) {
-                //     var z;
-                //     for (z = 16; z > 2; z--) {
-                //         var swPix = map.project(objBounds.getSouthWest(), z),
-                //             nePix = map.project(objBounds.getNorthEast(), z),
-                //             pixWidth = Math.abs(nePix.x - swPix.x),
-                //             pixHeight = Math.abs(nePix.y - swPix.y);
-                //             console.log(`z ${z} pixWidth: ${pixWidth} pixHeight: ${pixHeight}`)
-                //             console.log(`swPix.x: ${swPix.x} .y ${swPix.y}`)
-                //             console.log(`nePix.x: ${nePix.x} .y ${nePix.y}`)
-                //         if (pixWidth < 500 && pixHeight < 400) {
-                //             break;
-                //         }
-                //     }
-                //     console.log(`browserWidth: ${browserWidth} computed zoom: ${z}`)
-                //     // map.setCenter(objBounds.getCenter());
-                //     // map.setZoom(z)
-                //     map.panBy([-270, 0], {
-                //         animate: false
-                //     });
-                // } else {
-                //     map.fitBounds(objBounds);
-                // }
+                // Offset the geometry a bit so it's not obscured by the header
+                map.fitBounds(objBounds, {
+                    offset: [170, 0],
+                    padding: 75,
+                    animate: false,
+                })
             })
         })
 
