@@ -37,7 +37,7 @@
             <div class="column-half">
                 <div class="stat">
                     <span class="secondary">
-                        <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat|intcomma }}{% endif %}</span>
+                        <span class="value">{% if geo_metadata.square_miles < .1 %}{{ geo_metadata.square_miles|floatformat:"3" }}{% else %}{{ geo_metadata.square_miles|floatformat:"g" }}{% endif %}</span>
                     <span class="name"> square miles</span>
                     </span>
                     <span class="secondary">
