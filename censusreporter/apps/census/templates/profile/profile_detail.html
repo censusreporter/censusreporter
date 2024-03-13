@@ -468,12 +468,19 @@
                     }
                 })
 
-                // Offset the geometry a bit so it's not obscured by the header
-                map.fitBounds(objBounds, {
-                    offset: [170, 0],
-                    padding: 75,
-                    animate: false,
-                })
+                // Offset the geometry a bit so it's not obscured by the header.
+                if (browserWidth > 768) {
+                    map.fitBounds(objBounds, {
+                        offset: [170, 0],
+                        padding: 75,
+                        animate: false,
+                    })
+                } else {
+                    // We don't need to do this on narrow screens because the map sits above the header.
+                    map.fitBounds(objBounds, {
+                        animate: false,
+                    })
+                }
             })
         })
 
