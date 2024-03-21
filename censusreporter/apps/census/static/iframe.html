@@ -42,6 +42,10 @@
                 padding-bottom: .5em !important;
             }
         }
+        @media only print {
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+        }
         </style>
         <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
         <!--[if lte IE 8]>
