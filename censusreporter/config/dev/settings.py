@@ -9,7 +9,7 @@ ALLOWED_HOSTS = [
     'localhost',
 ]
 
-API_URL = 'http://0.0.0.0:5000'
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')
 
 #CACHES = {
 #    'default': {
