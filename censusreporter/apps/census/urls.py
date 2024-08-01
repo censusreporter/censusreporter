@@ -121,6 +121,12 @@ urlpatterns = [
     ),
 
     url(
+        regex='^topics/same-sex/?$',
+        view=RedirectView.as_view(url=reverse_lazy('topic_detail', kwargs={'topic_slug': 'sexual-orientation-gender-identity'})),
+        name='topic_same_sex_redirect',
+    ),
+
+    url(
         regex='^topics/(?P<topic_slug>[-\w]+)/$',
         view=cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
         kwargs={},

@@ -1,0 +1,23 @@
+{% extends 'topics/_base_topics.html' %} {% load list_tables %} {% block content %}
+<section id="topic-overview">
+
+    <h2>Overview</h2>
+    <p>
+        Understandably, many researchers are interested in data about sexual orientation and gender identity. The Census Bureau's practices about gathering data on this topic are evolving all the time.
+    </p>
+    <p>
+        At this time, the American Community Survey (which is the only data in Census Reporter) does not directly ask questions about either sexual orientation or gender identity. The Census Bureau's <a href="https://www.census.gov/programs-surveys/household-pulse-survey.html">Household Pulse Survey</a> does ask questions about both, but data is only tabulated down to the state level (and, again, is not available in Census Reporter).
+    </p>
+    <p>
+        While the American Community Survey does not ask directly about sexual orientation, some information can be obtained from the relationship type data. The householder completing the survey can designate a relationship to another person in the household as either "same-sex husband/wife/spouse" or "same-sex unmarried partner" (among other options). This data is tabulated in two tables.
+    </p>
+    <p> 
+        Table <a href="{% url 'table_detail' 'B09019' %}">B09019 Household Type (Including Living Alone) by Relationship</a> counts individuals, but the householder's sexual orientation is not explicit. To get the estimated number of same-sex partnered people in a geography, one would need to double the values in the "Same-sex spouse" and "Same-sex unmarried partner" columns. Note that there is a "collapsed" (simplified) version of this table, <a href="{% url 'table_detail' 'C09019' %}">C09019</a>, but the same-sex columns are some of those which are collapsed, so that table is not helpful for these questions.
+    </p>
+    <p>
+        Table <a href="{% url 'table_detail' 'B11009' %}">Coupled Households by Type</a> counts both married and cohabiting same-sex couples, with distinct counts for male-male and female-female in each case. However, <strong>table B1109 is only reported down to the state level</strong>, so its utility is limited.
+    </p>
+
+    {% list_tables codes='09019,11009' %}
+</section>
+{% endblock %}

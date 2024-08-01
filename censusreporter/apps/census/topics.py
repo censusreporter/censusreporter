@@ -339,14 +339,16 @@ TOPICS_LIST = [
     },
 
     {
-        'title': 'Same-Sex Couples',
-        'slug': 'same-sex',
+        'title': 'Sexual Orientation and Gender Identity',
+        'slug': 'sexual-orientation-gender-identity',
         'topics': ['marital status',],
-        'description': 'How the ACS deals with same-sex relationships is changing rapidly.',
-        'template_name': 'same-sex.html',
+        'description': 'How the ACS deals with sexual orientation and gender identity is changing rapidly.',
+        'template_name': 'sogi.html',
         'question_images': ['2_relationship.png',],
         'more_info_links': [
             ('Why We Ask: Family / Relationship to Householder','https://www.census.gov/acs/www/about/why-we-ask-each-question/relationship/'),
+            ('US Census Bureau: Sexual Orientation & Gender Identity (SOGI)','https://www.census.gov/topics/population/sexual-orientation-gender-identity.html'),
+            ('Sexual Orientation and Gender Identity in the Household Pulse Survey (2021)','https://www.census.gov/library/visualizations/interactive/sexual-orientation-and-gender-identity.html'),
             ('Same-Sex Couples Data and Documents','https://www.census.gov/topics/families/same-sex-couples.html'),
             ('Frequently Asked Questions About Same-Sex Couple Households', 'https://www2.census.gov/topics/families/same-sex-couples/faq/sscplfactsheet-final.pdf'),
         ],
