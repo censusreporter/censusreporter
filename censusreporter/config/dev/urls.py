@@ -20,7 +20,7 @@ if settings.DEBUG:
 
     urlpatterns += [
         re_path(
-            route   = '^(?P<path>sitemap.*\.xml)$',
+            route   = r'^(?P<path>sitemap.*\.xml)$',
             view    = dev_sitemap_serve,
             name    = 'sitemaps',
         )
