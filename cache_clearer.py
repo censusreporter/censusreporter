@@ -9,8 +9,7 @@
 
    .
 """
-from boto.s3.connection import S3Connection, OrdinaryCallingFormat
-from boto.s3.key import Key
+import boto3
 from gzip import GzipFile
 from cStringIO import StringIO
 import json
@@ -37,12 +36,15 @@ def releases(j_string):
   pat = re.compile('ACS (.+?)-year')
   return set(pat.findall(j_string))
 
-def get_key(b,geoid):
-    key_path = '1.0/data/profiles/{}/{}.json'.format(CACHE_KEY_YEAR,geoid)
-    return b.get_key(key_path)
+def get_key(s3_client, bucket_name, geoid):
+    key_path = f'1.0/data/profiles/{CACHE_KEY_YEAR}/{geoid}.json'
+    return s3_client.get_object(Bucket='embed.censusreporter.org', Key=key_path)
 
-s3 = S3Connection(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, calling_format=OrdinaryCallingFormat())
-bucket = s3.get_bucket('embed.censusreporter.org')
+s3_client = boto3.client(
+    's3',
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+)
 
 deleted = []
 
