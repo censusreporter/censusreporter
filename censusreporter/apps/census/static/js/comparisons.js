@@ -906,6 +906,10 @@ function Comparison(options, callback) {
                 .classed('chart-point', true)
                 .style('left', function(d) {
                     return roundNumber(v.xScale(d[comparison.valueType]), 1) + '%';
+                })
+                .style('display', function(d) {
+                    // hide dot if N/A
+                    return v.xScale(d[comparison.valueType]) < 0 ? "none" : "block";
                 });
 
             var chartPointCircles = chartPoints.append('span')
