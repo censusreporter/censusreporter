@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         topicSelect = $('#topic-select');
 
     var tableSearchAPI = CR_API_URL + '/1.0/table/search',
-        rootGeoAPI = CR_API_URL + '/1.0/geo/tiger2022/',
+        rootGeoAPI = CR_API_URL + '/1.0/geo/tiger2023/',
         dataAPI = CR_API_URL + '/1.0/data/show/latest';
 
     var topicSelectEngine = new Bloodhound({
