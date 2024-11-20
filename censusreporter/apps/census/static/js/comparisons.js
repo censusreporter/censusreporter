@@ -191,7 +191,7 @@ function Comparison(options, callback) {
             comparison.chosenColumn = comparison.columnKeys[0];
         }
 
-        var geoAPI = API_URL + "/1.0/geo/show/tiger2022?geo_ids=" + comparison.geoIDs.join(','),
+        var geoAPI = API_URL + "/1.0/geo/show/tiger2023?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
 
         d3.json(geoAPI, function(error, json) {
