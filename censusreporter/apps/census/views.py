@@ -331,7 +331,7 @@ class GeographyDetailView(TemplateView):
         pass
 
     def get_geography(self, geo_id):
-        endpoint = f"{settings.API_URL}/1.0/geo/tiger2022/{self.geo_id}"
+        endpoint = f"{settings.API_URL}/1.0/geo/tiger2023/{self.geo_id}"
         r = r_session.get(endpoint)
         status_code = r.status_code
 

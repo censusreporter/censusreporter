@@ -34,7 +34,7 @@ function Comparison(options, callback) {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
         fulltextSearchAPI: API_URL + '/2.1/full-text/search',
-        rootGeoAPI: API_URL + '/1.0/geo/tiger2022/',
+        rootGeoAPI: API_URL + '/1.0/geo/tiger2023/',
         dataAPI: API_URL + '/1.0/data/show/latest',
         downloadAPI: API_URL + '/1.0/data/download' // incomplete without a /release appended in makeDownloadMenu
     };
