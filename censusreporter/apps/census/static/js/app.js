@@ -104,6 +104,7 @@ var sumlevMap = {
 };
 
 var releaseNames = {
+    'acs2023_5yr': {'name': 'ACS 2023 5-year', 'years': '2019-2023'},
     'acs2023_1yr': {'name': 'ACS 2023 1-year', 'years': '2023'},
     'acs2022_5yr': {'name': 'ACS 2022 5-year', 'years': '2018-2022'},
     'acs2022_1yr': {'name': 'ACS 2022 1-year', 'years': '2022'},
