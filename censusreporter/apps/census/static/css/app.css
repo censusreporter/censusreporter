@@ -390,12 +390,22 @@ a.action-button,
     line-height: 2;
 }
 
-footer .trailer {
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+section.trailer {
     margin-top: 1.5em;
     padding: 0 1em;
 }
 
+section.trailer p {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.2;
+    margin: 0.3em 0.5em; /* Adjust top/bottom margin to 0.3em */
+    overflow-y: visible;
+}
+
+section.trailer p img {
+    vertical-align: middle;
+    height: 1.2em !important; /* Match the text height */
+}
 .content-container {
     padding: 2em 0;
     clear: both;
