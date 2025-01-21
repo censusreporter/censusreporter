@@ -1233,5 +1233,9 @@ def enhance_api_data(api_data):
 
     return api_data
 
+# Produce files like those created using MakeJSONView
+# but which don't require posting from JS
+def create_chart_embed_json():
+    
 if __name__ == '__main__':
     print(json.dumps(geo_profile('04000US55'), indent=2))

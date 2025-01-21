@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base target="_parent" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <link rel="stylesheet" href="css/charts.css" id="chart-styles">
+        <script src="//cdn.jsdelivr.net/g/modernizr@2.7,respond@1.4"></script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-43018828-1', 'auto');
+        </script>
+        <!-- Inline these styles to defeat IE's weird CSS caching for multiple iframes at different widths -->
+        <style type="text/css">
+        .census-chart-embed .column-chart,
+        .census-chart-embed .pie-chart {
+            /* there are !importants here in order to defeat
+            IE in mortal combat with multiple embeds on screen */
+            padding-bottom: 0 !important;
+        }
+        @media only screen and (min-width: 481px) {
+            .census-chart-embed .hovercard {
+                /* an !important is better than recalculating
+                every time the hover listener fires */
+                width: 49% !important;
+                min-width: 235px;
+                max-width: 500px;
+            }
+        }
+        @media only screen and (max-width: 640px) {
+            .chart-qualifier {
+                float: left;
+                margin: 1em 0 0;
+                display: block;
+                position: relative;
+                clear: both;
+            }
+            .census-chart-embed .bar-chart {
+                padding-bottom: .5em !important;
+            }
+        }
+        </style>
+        <!-- local patched version of r2d3 handles percentage widths, HTML overlays -->
+        <!--[if lte IE 8]>
+        <script src="js/vendor/r2d3.js" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/aight/1.2.2/aight.d3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <![endif]-->
+    </head>
+    <body class="census-chart-embed">
+        <div id="census-chart"></div>
+
+        <!--[if gte IE 9]><!-->
+        <script src="//cdn.jsdelivr.net/g/jquery@2.1,d3js@3.4"></script>
+        <!--<![endif]-->
+        <!--[if IE 9]>
+        <script src="js/vendor/classList.min.js"></script>
+        <![endif]-->
+        <script src="js/charts.js"></script>
+        <script src="js/vendor/flippant.min.js"></script>
+        <script src="js/embed.chart.frame.js"></script>
+    </body>
+</html>

@@ -7,3 +7,4 @@ censusreporter/config/dev/local.py
 .env
 .python-version
 .parcel-cache
+embed.censusreporter.org/1.0/data

@@ -512,7 +512,15 @@ class S3Conn(object):
         s3_key.set_contents_from_file(memfile)
 
 
+VALID_RELEASE_ID_PATTERN = re.compile('^ACS_20\d\d_(1|3|5)-year$')
+VALID_GEOID_PATTERN = re.compile('^\d{3}00US[0-9A-Z\-]*$')
+VALID_CHART_DATA_ID_PATTERN = re.compile('^[a-z_\-]+$')
+
 class MakeJSONView(View):
+
+    def validate_key_params(self, releaseID, geoID, chartDataID):
+        return VALID_RELEASE_ID_PATTERN.match(releaseID) and VALID_GEOID_PATTERN.match(geoID) and VALID_CHART_DATA_ID_PATTERN.match(chartDataID)
+
     def post(self, request, *args, **kwargs):
         post_data = self.request.POST
 
@@ -545,8 +553,14 @@ class MakeJSONView(View):
         nested_set(data, path_to_make, chart_data)
 
         chart_data_json = SafeString(json.dumps(data))
+        releaseID = params['releaseID']
+        geoID = params['geoID']
+        chartDataID = params['chartDataID']
+        if not self.validate_key_params(releaseID, geoID, chartDataID):
+            logger.warn("Could not save to S3. Invalid parameters for key")
+            return render_json_to_response({'success': 'false'})
 
-        key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
+        key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(releaseID, geoID, chartDataID)
         s3 = S3Conn()
 
         try:
