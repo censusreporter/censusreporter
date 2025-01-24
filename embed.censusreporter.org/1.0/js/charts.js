@@ -763,12 +763,8 @@ function Chart(options) {
             '\n<script src="https://s3.amazonaws.com/embed.censusreporter.org/1.0/js/embed.chart.make.js"></script>'
         ].join('');
         
-        $.post('/make-json/charts/', {
-            params: JSON.stringify(embedParams),
-            geography: JSON.stringify(profileData['geography']),
-            geo_metadata: JSON.stringify(profileData['geo_metadata']),
-            chart_data: JSON.stringify(chart.initialData)
-        })
+        // Trigger caching the JSON that the embed will need
+        $.get(`/make-json/charts/${embedReleaseID}/${chart.primaryGeoID}/${embedKey}`)
         
         textarea.html(embedCode);
     }

@@ -50,8 +50,8 @@ urlpatterns = [
     ),
 
     url(
-        regex='^make-json/charts/$',
-        view=csrf_exempt(MakeJSONView.as_view()),
+        regex='^make-json/charts/(?P<releaseID>ACS_20\d\d_(1|3|5)-year)/(?P<geoID>\d{3}00US[0-9A-Z\-]*)/(?P<chartDataID>[a-z_\-]+)/$',
+        view=MakeJSONView.as_view(),
         kwargs={},
         name='make_json_charts',
     ),

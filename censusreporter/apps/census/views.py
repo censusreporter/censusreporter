@@ -26,7 +26,7 @@ from .utils import (
     SUMLEV_CHOICES,
     ACS_RELEASES,
 )
-from .profile import geo_profile, enhance_api_data
+from .profile import create_chart_embed_json, geo_profile, enhance_api_data
 from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 
 from boto.s3.connection import S3Connection, OrdinaryCallingFormat
@@ -521,24 +521,20 @@ class MakeJSONView(View):
     def validate_key_params(self, releaseID, geoID, chartDataID):
         return VALID_RELEASE_ID_PATTERN.match(releaseID) and VALID_GEOID_PATTERN.match(geoID) and VALID_CHART_DATA_ID_PATTERN.match(chartDataID)
 
-    def post(self, request, *args, **kwargs):
-        post_data = self.request.POST
+    def get(self, request, releaseID, geoID, chartDataID):
+        # data = self.package_embed_chart_data(chart_data, geography, geo_metadata, params)
+        success = False
+        try:
+            data = create_chart_embed_json(releaseID, geoID, chartDataID)
+            if data is not None:
+                success = self.write_chart_data_to_s3(releaseID, geoID, chartDataID, data)
+        except Exception as e:
+            logger.warning(f"Error writing chart data to S3 {e} for releaseID {releaseID}, geoID {geoID}, chartDataID {chartDataID}")
 
-        if 'chart_data' in post_data:
-            chart_data = json.loads(post_data['chart_data'], object_pairs_hook=OrderedDict)
-        if 'geography' in post_data:
-            geography = json.loads(post_data['geography'], object_pairs_hook=OrderedDict)
-        if 'geo_metadata' in post_data:
-            geo_metadata = json.loads(post_data['geo_metadata'], object_pairs_hook=OrderedDict)
+        return render_json_to_response({'success': success})
 
-        if 'params' in post_data:
-            params = json.loads(post_data['params'])
-
-        # for now, assume we need all these things
-        if not (chart_data and geography and geo_metadata and params):
-            return render_json_to_response({'success': 'false'})
-
-        path_to_make = params['chartDataID'].split('-')
+    def package_embed_chart_data(self, chart_data, geography, geo_metadata, chartDataID):
+        path_to_make = chartDataID.split('-')
         data = {
             'geography': geography,
             'geo_metadata': geo_metadata,
@@ -551,14 +547,10 @@ class MakeJSONView(View):
             data[keys[-1]] = value
 
         nested_set(data, path_to_make, chart_data)
+        return data
 
+    def write_chart_data_to_s3(self, releaseID, geoID, chartDataID, data):
         chart_data_json = SafeString(json.dumps(data))
-        releaseID = params['releaseID']
-        geoID = params['geoID']
-        chartDataID = params['chartDataID']
-        if not self.validate_key_params(releaseID, geoID, chartDataID):
-            logger.warn("Could not save to S3. Invalid parameters for key")
-            return render_json_to_response({'success': 'false'})
 
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(releaseID, geoID, chartDataID)
         s3 = S3Conn()
@@ -574,11 +566,10 @@ class MakeJSONView(View):
             s3.write_json(s3_key, chart_data_json)
             logger.debug(f'wrote chart JSON to {key_name}')
         else:
-            logger.warn("Could not save to S3 because there was no connection to S3.")
-            return render_json_to_response({'success': 'false'})
+            logger.warning("Could not save to S3 because there was no connection to S3.")
+            return False
 
-        return render_json_to_response({'success': 'true'})
-
+        return True
 
 class SearchResultsView(TemplateView):
     template_name = 'search/results.html'

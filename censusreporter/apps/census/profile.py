@@ -6,7 +6,7 @@ import requests_cache
 
 from collections import OrderedDict
 from django.conf import settings
-from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT
+from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT, ACS_RELEASES
 
 import logging
 logging.basicConfig()
@@ -1233,9 +1233,54 @@ def enhance_api_data(api_data):
 
     return api_data
 
+def name_to_slug(name):
+    name = name.lower().replace('_', ' ')
+    for release in ACS_RELEASES.values():
+        if release['name'].lower() == name:
+            return release['slug']
+    return name
+
+def get_enhanced_profile_data(geoID, releaseID='latest'):
+    # need output of `geo_profile()` then run through
+    # `enhance_api_data()`
+    if not releaseID.startswith('acs'):
+        releaseID = name_to_slug(releaseID)
+
+    profile_data = geo_profile(geoID, acs=releaseID)
+
+    if not profile_data:
+        logger.warning(f"no geodata for geoID {geoID}, release {releaseID}")
+        return None
+
+    return enhance_api_data(profile_data)
+
+
 # Produce files like those created using MakeJSONView
 # but which don't require posting from JS
-def create_chart_embed_json():
-    
+def create_chart_embed_json(releaseID, geoID, chartDataID):
+
+    profile_data = get_enhanced_profile_data(geoID, releaseID)
+    chart_data = {
+        'geography': profile_data['geography'],
+        'geo_metadata': profile_data['geo_metadata']
+    }
+
+    # the difference between profile_data above and as it gets written to S3 
+    # is that all of the data which isn't implied by chartDataID has been removed
+    # so go through the needed keys (in chartDataID) and copy only that subtree
+    # into our chart_data
+    keys = list(chartDataID.split('-'))
+    source = profile_data
+    dest = chart_data
+    for k in keys:
+        if k == keys[-1]:
+            dest[k] = source[k]
+        else: 
+            dest[k] = {}
+        source = source[k]
+        dest = dest[k]
+
+    return chart_data
+
 if __name__ == '__main__':
     print(json.dumps(geo_profile('04000US55'), indent=2))
