@@ -29,9 +29,8 @@ from .utils import (
 from .profile import geo_profile, enhance_api_data
 from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 
-from boto.s3.connection import S3Connection, OrdinaryCallingFormat
-from boto.s3.key import Key
-
+import boto3
+from botocore.exceptions import NoCredentialsError
 
 import logging
 logging.basicConfig()
@@ -476,40 +475,36 @@ class ComparisonBuilder(TemplateView):
 
 
 class S3Conn(object):
-    def make_s3(self):
-        if settings.AWS_ACCESS_KEY_ID and settings.AWS_SECRET_ACCESS_KEY:
-            s3 = S3Connection(settings.AWS_ACCESS_KEY_ID,
-                              settings.AWS_SECRET_ACCESS_KEY,
-                              calling_format=OrdinaryCallingFormat())
-        else:
-            try:
-                s3 = S3Connection(calling_format=OrdinaryCallingFormat())
-            except Exception:
-                s3 = None
-        return s3
+    def __init__(self):
+        self.s3_client = boto3.client(
+            's3',
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
+        )
 
     def s3_key(self, key_name):
-        s3 = self.make_s3()
-
-        key = None
-        if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
-            key = Key(bucket, key_name)
-        return key
+        try:
+            response = self.s3_client.head_object(Bucket='embed.censusreporter.org', Key=key_name)
+            return {'exists': True, 'key_name': key_name}
+        except self.s3_client.exceptions.NoSuchKey:
+            return {'exists': False, 'key_name': key_name}
 
     def write_json(self, s3_key, data):
-        s3_key.metadata['Content-Type'] = 'application/json'
-        s3_key.metadata['Content-Encoding'] = 'gzip'
-        s3_key.storage_class = 'STANDARD'
-
         # create gzipped version of json in memory
         memfile = io.BytesIO()
-        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+        with gzip.GzipFile(filename=s3_key['key_name'], mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data.encode('utf-8'))
         memfile.seek(0)
 
         # store static version on S3
-        s3_key.set_contents_from_file(memfile)
+        self.s3_client.put_object(
+            Bucket='embed.censusreporter.org',
+            Key=s3_key['key_name'],
+            Body=memfile.getvalue(),
+            ContentType='application/json',
+            ContentEncoding='gzip',
+            StorageClass='STANDARD'
+        )
 
 
 class MakeJSONView(View):
@@ -549,15 +544,12 @@ class MakeJSONView(View):
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(params['releaseID'], params['geoID'], params['chartDataID'])
         s3 = S3Conn()
 
-        try:
-            s3_key = s3.s3_key(key_name)
-        except Exception:
-            s3_key = None
+        s3_key_info = s3.s3_key(key_name)  # Returns a dictionary with 'exists' and 'key_name'
 
-        if s3_key and s3_key.exists():
+        if s3_key_info['exists']:
             logger.debug(f'chart JSON already exists at {key_name}')
-        elif s3_key:
-            s3.write_json(s3_key, chart_data_json)
+        elif s3_key_info:
+            s3.write_json(s3_key_info, chart_data_json)
             logger.debug(f'wrote chart JSON to {key_name}')
         else:
             logger.warn("Could not save to S3 because there was no connection to S3.")
