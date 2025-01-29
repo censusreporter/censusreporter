@@ -1,4 +1,4 @@
-Django==3.2.24
+Django==5.1.5
 Fabric==1.13.1
 boto==2.49.0
 django-redis-cache==3.0.0
