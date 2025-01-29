@@ -778,10 +778,8 @@ function Chart(options) {
         ].join('');
         
         // Trigger caching the JSON that the embed will need
-        $.get(`/make-json/charts/${embedReleaseID}/${chart.primaryGeoID}/${embedKey}/`,
-            (data) => { textarea.html(embedCode) } // insert the embed after the request completes
-        )
-
+        $.get(`/make-json/charts/${embedReleaseID}/${chart.primaryGeoID}/${embedKey}/`)
+        textarea.html(embedCode)
         return embedCode;
     };
 
