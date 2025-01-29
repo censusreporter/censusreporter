@@ -25,7 +25,8 @@ function makeEmbedFrame() {
         embedFrame.params.chartDataYearDir = (!!embedFrame.params.dataYear) ? embedFrame.params.dataYear+'/' : '';
 
         if (!!embedFrame.params.releaseID) {
-            embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/charts/'+embedFrame.params.releaseID+'/'+embedFrame.params.geoID+'-'+embedFrame.params.chartDataID+'.json';
+            // embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/charts/' + embedFrame.params.releaseID + '/' + embedFrame.params.geoID + '-' + embedFrame.params.chartDataID + '.json';
+            embedFrame.dataSource = 'https://censusreporter.org/make-json/charts/' + embedFrame.params.releaseID + '/' + embedFrame.params.geoID + '/' + embedFrame.params.chartDataID + '/';
         } else {
             // continue supporting embed code from before release-specific data storage
             embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
