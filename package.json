@@ -11,7 +11,7 @@
     "license": "ISC",
     "devDependencies": {
         "buffer": "^6.0.3",
-        "parcel": "^2.0.0-beta.3",
+        "parcel": "^2.13.3",
         "process": "^0.11.10",
         "regenerator-runtime": "^0.13.9"
     },
