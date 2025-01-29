@@ -1015,11 +1015,11 @@ def build_housing_length_of_tenure_dict(api, acs, item_levels, comparison_geoids
         'B25026007 B25026014 + B25026001 / %')
     length_of_tenure_dict['2000s'] = build_item('2000s', data, item_levels,
         'B25026006 B25026013 + B25026001 / %')
-    length_of_tenure_dict['2010_to_2014'] = build_item('2010-2014', data, item_levels,
+    length_of_tenure_dict['2010_to_2017'] = build_item('2010-2017', data, item_levels,
         'B25026005 B25026012 + B25026001 / %')
-    length_of_tenure_dict['2015_to_2016'] = build_item('2015-2016', data, item_levels,
+    length_of_tenure_dict['2018_to_2020'] = build_item('2018-2020', data, item_levels,
         'B25026004 B25026011 + B25026001 / %')
-    length_of_tenure_dict['since_2017'] = build_item('Since 2017', data, item_levels,
+    length_of_tenure_dict['since_2021'] = build_item('Since 2021', data, item_levels,
         'B25026003 B25026010 + B25026001 / %')
 
 
@@ -1133,7 +1133,8 @@ def build_social_foreign_dict(api, acs, item_levels, comparison_geoids):
     foreign_dict['distribution'] = place_of_birth_dict
     add_metadata(place_of_birth_dict, 'B05006', 'Foreign-born population', acs_name)
 
-    # Note that minor changes to B05006 will throw this off. We've been bitten thrice.
+    # Note that minor changes to B05006 will throw this off. We've been bitten 
+    # at least four times.
     # https://github.com/censusreporter/censusreporter/issues/87
     # as of 2020, we don't need a conditional, but it's possible we'll have a period
     # where we have to check data['release']['name'] or something similar to
@@ -1143,13 +1144,13 @@ def build_social_foreign_dict(api, acs, item_levels, comparison_geoids):
     place_of_birth_dict['asia'] = build_item('Asia', data, item_levels,
         'B05006047 B05006001 / %')
     place_of_birth_dict['africa'] = build_item('Africa', data, item_levels,
-        'B05006091 B05006001 / %')
+        'B05006095 B05006001 / %')
     place_of_birth_dict['oceania'] = build_item('Oceania', data, item_levels,
-        'B05006122 B05006001 / %')
-    place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
         'B05006130 B05006001 / %')
-    place_of_birth_dict['north_america'] = build_item('North America', data, item_levels,
-        'B05006166 B05006001 / %')
+    place_of_birth_dict['latin_america'] = build_item('Latin America', data, item_levels,
+        'B05006139 B05006001 / %')
+    place_of_birth_dict['north_america'] = build_item('Northern America', data, item_levels,
+        'B05006176 B05006001 / %')
 
     return foreign_dict
 

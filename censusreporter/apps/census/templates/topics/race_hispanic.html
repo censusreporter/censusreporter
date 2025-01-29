@@ -88,23 +88,23 @@
             <tr>
                 <td>AIAN</td>
                 <td>
-                    <strong><a href="{% url 'table_detail' 'B02014' %}">B02014</a></strong> (55 columns), <strong><a href="{% url 'table_detail' 'C02014' %}">C02014</a></strong> (9 columns)</td>
+                    <strong><a href="{% url 'table_detail' 'B02020' %}">B02020</a></strong> (41 columns), <strong><a href="{% url 'table_detail' 'C02014' %}">C02014</a></strong> (8 columns)</td>
                 <td>
-                    <strong><a href="{% url 'table_detail' 'B02017' %}">B02017</a></strong> (54 columns)</td>
+                    <strong><a href="{% url 'table_detail' 'B02021' %}">B02021</a></strong> (40 columns)</td>
             </tr>
             <tr>
                 <td>Asian</td>
                 <td>
-                    <strong><a href="{% url 'table_detail' 'B02015' %}">B02015</a></strong> (25 columns), <strong><a href="{% url 'table_detail' 'C02015' %}">C02015</a></strong> (8 columns)</td>
+                    <strong><a href="{% url 'table_detail' 'B02015' %}">B02015</a></strong> (38 columns), <strong><a href="{% url 'table_detail' 'C02015' %}">C02015</a></strong> (8 columns)</td>
                 <td>
-                    <strong><a href="{% url 'table_detail' 'B02018' %}">B02018</a></strong> (24 columns)</td>
+                    <strong><a href="{% url 'table_detail' 'B02018' %}">B02018</a></strong> (37 columns)</td>
             </tr>
             <tr>
                 <td>NHPI</td>
                 <td>
-                    <strong><a href="{% url 'table_detail' 'B02016' %}">B02016</a></strong> (12 columns), <strong><a href="{% url 'table_detail' 'C02016' %}">C02016</a></strong> (5 columns)</td>
+                    <strong><a href="{% url 'table_detail' 'B02016' %}">B02016</a></strong> (17 columns), <strong><a href="{% url 'table_detail' 'C02016' %}">C02016</a></strong> (5 columns)</td>
                 <td>
-                    <strong><a href="{% url 'table_detail' 'B02019' %}">B02019</a></strong> (11 columns)</td>
+                    <strong><a href="{% url 'table_detail' 'B02019' %}">B02019</a></strong> (16 columns)</td>
             </tr>
             <tr>
                 <td>Hispanic</td>
@@ -130,7 +130,7 @@
                 <td>Race</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B02003' %}">B02003</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B02003' %}">B02003</a><sup>1</sup></strong></td>
                 <td>Detailed Race</td>
             </tr>
             <tr>
@@ -158,20 +158,12 @@
                 <td>Some Other Race Alone or in Combination With One or More Other Races</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B02014' %}">B02014</a><sup>‡</sup></strong></td>
-                <td>American Indian and Alaska Native Alone for Selected Tribal Groupings</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B02015' %}">B02015</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B02015' %}">B02015</a><sup>1</sup></strong></td>
                 <td>Asian Alone by Selected Groups</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B02016' %}">B02016</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B02016' %}">B02016</a><sup>1</sup></strong></td>
                 <td>Native Hawaiian and Other Pacific Islander Alone by Selected Groups</td>
-            </tr>
-            <tr>
-                <td><strong><a href="{% url 'table_detail' 'B02017' %}">B02017</a></strong></td>
-                <td>American Indian and Alaska Native (AIAN) Alone or in Any Combination by Selected Tribal Groupings</td>
             </tr>
             <tr>
                 <td><strong><a href="{% url 'table_detail' 'B02018' %}">B02018</a></strong></td>
@@ -182,11 +174,19 @@
                 <td>Native Hawaiian and Other Pacific Islander Alone or in Any Combination by Selected Groups</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B03001' %}">B03001</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B02020' %}">B02020</a><sup>1</sup></strong></td>
+                <td>American Indian and Alaska Native Alone by Selected Tribes and Villages</td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B02021' %}">B02021</a></strong></td>
+                <td>American Indian and Alaska Native Alone or in Any Combination by Selected Tribes and Villages</td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B03001' %}">B03001</a><sup>1</sup></strong></td>
                 <td>Hispanic or Latino Origin by Specific Origin</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B03002' %}">B03002</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B03002' %}">B03002</a><sup>1</sup></strong></td>
                 <td>Hispanic or Latino Origin by Race</td>
             </tr>
             <tr>
@@ -202,7 +202,9 @@
         <tfoot>
             <tr class="help-text">
                 <td colspan="2">
-                    <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.
+                    <sup>1</sup>
+
+Table also available in "collapsed" version: change "B" to "C" for table code.
                 </td>
             </tr>
         </tfoot>
@@ -257,7 +259,7 @@
                 <td>Median Age by Sex</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B05003' %}">B05003</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B05003' %}">B05003</a><sup>1</sup></strong></td>
                 <td>Sex by Age by Nativity and Citizenship Status</td>
             </tr>
             <tr>
@@ -273,11 +275,11 @@
                 <td>Geographical Mobility in the Past Year for Residence 1 Year Ago</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B08105' %}">B08105</a><sup>ª</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B08105' %}">B08105</a><sup>2</sup></strong></td>
                 <td>Means of Transportation to Work</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B08505' %}">B08505</a><sup>ª</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B08505' %}">B08505</a><sup>2</sup></strong></td>
                 <td>Means of Transportation to Work for Workplace Geography</td>
             </tr>
             <tr>
@@ -309,7 +311,7 @@
                 <td>School Enrollment by Detailed Level of School for the Population 3 Years and Over</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B15002' %}">B15002</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B15002' %}">B15002</a><sup>1</sup></strong></td>
                 <td>Sex by Educational Attainment for the Population 25 Years and Over</td>
             </tr>
             <tr>
@@ -317,19 +319,19 @@
                 <td>Nativity by Language Spoken at Home by Ability to Speak English for the Population 5 Years and Over</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B16006' %}">B16006</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B16006' %}">B16006</a><sup>1</sup></strong></td>
                 <td>Language Spoken at Home by Ability to Speak English for the Population 5 Years and Over (Hispanic or Latino)</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B17001' %}">B17001</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B17001' %}">B17001</a><sup>1</sup></strong></td>
                 <td>Poverty Status by Sex by Age</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B17010' %}">B17010</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B17010' %}">B17010</a><sup>1</sup></strong></td>
                 <td>Poverty Status of Families by Family Type by Presence of Related Children Under 18 Years by Age of Related Children</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B17020' %}">B17020</a><sup>ª</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B17020' %}">B17020</a><sup>2</sup></strong></td>
                 <td>Poverty Status by Age</td>
             </tr>
             <tr>
@@ -385,15 +387,15 @@
                 <td>Sex by Age by Veteran Status for the Civilian Population 18 Years and Over</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B22005' %}">B22005</a><sup>ª</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B22005' %}">B22005</a><sup>2</sup></strong></td>
                 <td>Receipt of Food Stamps/SNAP by Race of Householder</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B23002' %}">B23002</a><sup>ª</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B23002' %}">B23002</a><sup>2</sup></strong></td>
                 <td>Sex by Age by Employment Status</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B24010' %}">B24010</a><sup>1</sup></strong></td>
                 <td>Sex by Occupation for the Civilian Employed Population 16 Years and Over</td>
             </tr>
             <tr>
@@ -401,27 +403,62 @@
                 <td>Tenure</td>
             </tr>
             <tr>
+                <td><strong><a href="{% url 'table_detail' 'B25008' %}">B25008</a></strong></td>
+                <td>Total Population in Occupied Housing Units by Tenure </td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B25010' %}">B25010</a></strong></td>
+                <td>Average Household Size of Occupied Housing Units by Tenure </td>
+            </tr>
+            <tr>
                 <td><strong><a href="{% url 'table_detail' 'B25014' %}">B25014</a></strong></td>
                 <td>Tenure by Occupants Per Room</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B25032' %}">B25032</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B25032' %}">B25032</a><sup>1</sup></strong></td>
                 <td>Tenure by Units in Structure</td>
             </tr>
             <tr>
-                <td><strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a><sup>‡</sup></strong></td>
+                <td><strong><a href="{% url 'table_detail' 'B25077' %}">B25077</a></strong></td>
+                <td>Median Value (Dollars)</td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B25140' %}">B25140</a></strong></td>
+                <td>Housing Costs as a Percentage of Household Income </td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B26103' %}">B26103</a></strong></td>
+                <td>Group Quarters Type (3 Types) </td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B26203' %}">B26203</a></strong></td>
+                <td>Group Quarters Type (5 Types) </td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B27001' %}">B27001</a><sup>1</sup></strong></td>
                 <td>Health Insurance Coverage Status by Sex by Age</td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'B28009' %}">B28009</a></strong></td>
+                <td>Presence of a Computer and Type of Internet Subscription in Household </td>
+            </tr>
+            <tr>
+                <td><strong><a href="{% url 'table_detail' 'C15010' %}">C15010</a><sup>4</sup></strong></td>
+                <td>Field of Bachelor's Degree for First Major </td>
             </tr>
         </tbody>
         <tfoot>
             <tr class="help-text">
                 <td colspan="2">
-                    <sup>‡</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
+                    <sup>1</sup>Table also available in "collapsed" version: change "B" to "C" for table code.<br>
 
-                    <sup>ª</sup>No basic 'B' table is offered.<br>
+                    <sup>2</sup>No basic 'B' table is offered.<br>
 
-                    <sup>§</sup>Tabulated for Puerto Rico. Add 'PR' to the table code. Column names may vary slightly from non-PR version.<br>
+                    <sup>3</sup>Tabulated for Puerto Rico. Add 'PR' to the table code. Column names may vary slightly from non-PR version.<br>
 
+                    <sup>4</sup>'B' table is not offered in racial iterations.<br>
+
+                    
                 </td>
             </tr>
         </tfoot>

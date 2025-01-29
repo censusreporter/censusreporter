@@ -522,16 +522,27 @@ class MakeJSONView(View):
         return VALID_RELEASE_ID_PATTERN.match(releaseID) and VALID_GEOID_PATTERN.match(geoID) and VALID_CHART_DATA_ID_PATTERN.match(chartDataID)
 
     def get(self, request, releaseID, geoID, chartDataID):
-        # data = self.package_embed_chart_data(chart_data, geography, geo_metadata, params)
-        success = False
+        overwrite = request.GET.get('overwrite')
+        result = {
+            'success': False,
+            'message': 'Unknown error'
+        }
         try:
             data = create_chart_embed_json(releaseID, geoID, chartDataID)
             if data is not None:
-                success = self.write_chart_data_to_s3(releaseID, geoID, chartDataID, data)
+                success = self.write_chart_data_to_s3(releaseID, geoID, chartDataID, data, overwrite)
+                if success:
+                    return render_json_to_response(data)
+                else:
+                    result['message'] = 'Error writing to S3. Probably a network connection issue'
+            else:
+                result['message'] = 'No data from create_chart_embed_json'
+
         except Exception as e:
             logger.warning(f"Error writing chart data to S3 {e} for releaseID {releaseID}, geoID {geoID}, chartDataID {chartDataID}")
+            result['message'] = str(e)
 
-        return render_json_to_response({'success': success})
+        return render_json_to_response(result)
 
     def package_embed_chart_data(self, chart_data, geography, geo_metadata, chartDataID):
         path_to_make = chartDataID.split('-')
@@ -549,7 +560,7 @@ class MakeJSONView(View):
         nested_set(data, path_to_make, chart_data)
         return data
 
-    def write_chart_data_to_s3(self, releaseID, geoID, chartDataID, data):
+    def write_chart_data_to_s3(self, releaseID, geoID, chartDataID, data, overwrite=False):
         chart_data_json = SafeString(json.dumps(data))
 
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(releaseID, geoID, chartDataID)
@@ -560,7 +571,7 @@ class MakeJSONView(View):
         except Exception:
             s3_key = None
 
-        if s3_key and s3_key.exists():
+        if s3_key and s3_key.exists() and not overwrite:
             logger.debug(f'chart JSON already exists at {key_name}')
         elif s3_key:
             s3.write_json(s3_key, chart_data_json)
