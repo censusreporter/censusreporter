@@ -117,3 +117,13 @@ API_URL = os.environ.get('CENSUSREPORTER_API_URL', 'https://api.censusreporter.o
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+
+CORS_ALLOWED_ORIGINS = [
+    'https://s3.amazonaws.com'
+]
+CORS_URLS_REGEX = r'^/make-json/charts/.+$'
+CORS_ALLOW_METHODS = (
+    "GET",
+    "OPTIONS",
+)
