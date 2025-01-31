@@ -9,3 +9,4 @@ requests==2.32.3
 requests-cache==1.2.0
 six==1.13.0
 whitenoise==5.2.0
+django-cors-headers==4.6.0

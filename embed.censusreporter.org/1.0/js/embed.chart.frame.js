@@ -25,7 +25,6 @@ function makeEmbedFrame() {
 
         if (!!embedFrame.params.releaseID) {
             embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/charts/' + embedFrame.params.releaseID + '/' + embedFrame.params.geoID + '-' + embedFrame.params.chartDataID + '.json';
-            // embedFrame.dataSource = 'https://censusreporter.org/make-json/charts/' + embedFrame.params.releaseID + '/' + embedFrame.params.geoID + '/' + embedFrame.params.chartDataID + '/';
         } else {
             // continue supporting embed code from before release-specific data storage
             embedFrame.dataSource = 'https://s3.amazonaws.com/embed.censusreporter.org/1.0/data/profiles/'+embedFrame.params.chartDataYearDir+embedFrame.params.geoID+'.json';
@@ -34,23 +33,35 @@ function makeEmbedFrame() {
         $('#chart-styles').attr('href','css/charts.css?'+embedFrame.parentContainerID)
         embedFrame.makeChartFooter();
     }
+    embedFrame.makeChartFromJSON = function (results) {
+        // allow arbitrary nesting in API data structure
+        var data = results[embedFrame.params.chartDataPath[0]],
+            drilldown = embedFrame.params.chartDataPath.length - 1;
+        if (drilldown >= 1) {
+            for (var i = 1; i <= drilldown; i++) {
+                data = data[embedFrame.params.chartDataPath[i]];
+            }
+        }
+
+        embedFrame.data.chartData = data;
+        embedFrame.data.geographyData = results.geography;
+        embedFrame.makeChart();
+        embedFrame.makeChartAbout();
+    }
 
     embedFrame.getChartData = function() {
         $.getJSON(embedFrame.dataSource)
-            .done(function(results) {
-                // allow arbitrary nesting in API data structure
-                var data = results[embedFrame.params.chartDataPath[0]],
-                    drilldown = embedFrame.params.chartDataPath.length - 1;
-                if (drilldown >= 1) {
-                    for (var i = 1; i <= drilldown; i++) {
-                        data = data[embedFrame.params.chartDataPath[i]];
-                    }
-                }
-            
-                embedFrame.data.chartData = data;
-                embedFrame.data.geographyData = results.geography;
-                embedFrame.makeChart();
-                embedFrame.makeChartAbout();
+            .done(embedFrame.makeChartFromJSON)
+            .error((...args) => {
+                console.log(`error fetching chart data`)
+                console.log(args)
+                let fallbackURL = `https://censusreporter.org/make-json/charts/${embedFrame.params.releaseID}/${embedFrame.params.geoID}/${embedFrame.params.chartDataID}/`;
+                $.getJSON(fallbackURL)
+                    .done(embedFrame.makeChartFromJSON)
+                    .error((...args) => {
+                        console.log(`error fetching chart data using fallback ${fallbackURL}`)
+                        console.log(args)
+                    })
             });
     }
 
