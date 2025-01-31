@@ -52,15 +52,17 @@ function makeEmbedFrame() {
     embedFrame.getChartData = function() {
         $.getJSON(embedFrame.dataSource)
             .done(embedFrame.makeChartFromJSON)
-            .error((...args) => {
-                console.log(`error fetching chart data`)
-                console.log(args)
+            .error((xhr, status, message) => {
+                if (xhr.status != 404) {
+                    console.log(`Unexpected error fetching chart data: ${xhr.status} ${xhr.statusText}`)
+                }
                 let fallbackURL = `https://censusreporter.org/make-json/charts/${embedFrame.params.releaseID}/${embedFrame.params.geoID}/${embedFrame.params.chartDataID}/`;
                 $.getJSON(fallbackURL)
                     .done(embedFrame.makeChartFromJSON)
-                    .error((...args) => {
-                        console.log(`error fetching chart data using fallback ${fallbackURL}`)
-                        console.log(args)
+                    .error((xhr, status, message) => {
+                        if (xhr.status != 404) {
+                            console.log(`Unexpected error fetching chart data: ${xhr.status} ${xhr.statusText}`)
+                        }
                     })
             });
     }
