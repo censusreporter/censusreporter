@@ -26,7 +26,7 @@ from .utils import (
     SUMLEV_CHOICES,
     ACS_RELEASES,
 )
-from .profile import create_chart_embed_json, geo_profile, enhance_api_data
+from .profile import create_chart_embed_json, geo_profile, enhance_api_data, ApiException
 from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 
 from boto.s3.connection import S3Connection, OrdinaryCallingFormat
@@ -247,6 +247,277 @@ class TableDetailView(TemplateView):
         return page_context
 
 
+PROFILE_EXCEPTION_INFO = {
+    '07000US361033800008026': {
+        'name': 'Brentwood CDP,Islip town, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103145601': {
+        'name': 'Census Tract 1456.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103145602': {
+        'name': 'Census Tract 1456.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103145603': {
+        'name': 'Census Tract 1456.03, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103145604': {
+        'name': 'Census Tract 1456.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103145605': {
+        'name': 'Census Tract 1456.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103145702': {
+        'name': 'Census Tract 1457.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103146001': {
+        'name': 'Census Tract 1460.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103146105': {
+        'name': 'Census Tract 1461.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103146106': {
+        'name': 'Census Tract 1461.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103146201': {
+        'name': 'Census Tract 1462.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103146204': {
+        'name': 'Census Tract 1462.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103201200': {
+        'name': 'Census Tract 2012, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456011': {
+        'name': 'Block Group 1, Census Tract 1456.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456012': {
+        'name': 'Block Group 2, Census Tract 1456.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456013': {
+        'name': 'Block Group 3, Census Tract 1456.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456014': {
+        'name': 'Block Group 4, Census Tract 1456.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456021': {
+        'name': 'Block Group 1, Census Tract 1456.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456022': {
+        'name': 'Block Group 2, Census Tract 1456.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456023': {
+        'name': 'Block Group 3, Census Tract 1456.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456024': {
+        'name': 'Block Group 4, Census Tract 1456.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456031': {
+        'name': 'Block Group 1, Census Tract 1456.03, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456032': {
+        'name': 'Block Group 2, Census Tract 1456.03, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456033': {
+        'name': 'Block Group 3, Census Tract 1456.03, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456041': {
+        'name': 'Block Group 1, Census Tract 1456.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456042': {
+        'name': 'Block Group 2, Census Tract 1456.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456043': {
+        'name': 'Block Group 3, Census Tract 1456.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456051': {
+        'name': 'Block Group 1, Census Tract 1456.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031456052': {
+        'name': 'Block Group 2, Census Tract 1456.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031457021': {
+        'name': 'Block Group 1, Census Tract 1457.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031457022': {
+        'name': 'Block Group 2, Census Tract 1457.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031457023': {
+        'name': 'Block Group 3, Census Tract 1457.02, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031460011': {
+        'name': 'Block Group 1, Census Tract 1460.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031460012': {
+        'name': 'Block Group 2, Census Tract 1460.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031461051': {
+        'name': 'Block Group 1, Census Tract 1461.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031461052': {
+        'name': 'Block Group 2, Census Tract 1461.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031461053': {
+        'name': 'Block Group 3, Census Tract 1461.05, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031461061': {
+        'name': 'Block Group 1, Census Tract 1461.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031461062': {
+        'name': 'Block Group 2, Census Tract 1461.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031462011': {
+        'name': 'Block Group 1, Census Tract 1462.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031462012': {
+        'name': 'Block Group 2, Census Tract 1462.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031462041': {
+        'name': 'Block Group 1, Census Tract 1462.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031462042': {
+        'name': 'Block Group 2, Census Tract 1462.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031462043': {
+        'name': 'Block Group 3, Census Tract 1462.04, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361032012001': {
+        'name': 'Block Group 1, Census Tract 2012, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15500US3608026103': {
+        'name': 'Suffolk County (part), Brentwood CDP, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '16000US3608026': {
+        'name': 'Brentwood CDP, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '86000US11717': {
+        'name': 'ZCTA5 11717',
+        'explainer': 'profile/errata_148.html'
+    },
+    '07000US361030400083294': {
+        'name': 'Wyandanch CDP,Babylon town, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103122406': {
+        'name': 'Census Tract 1224.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '14000US36103122501': {
+        'name': 'Census Tract 1225.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031224061': {
+        'name': 'Block Group 1, Census Tract 1224.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031224062': {
+        'name': 'Block Group 2, Census Tract 1224.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031224063': {
+        'name': 'Block Group 3, Census Tract 1224.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031224064': {
+        'name': 'Block Group 4, Census Tract 1224.06, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031225011': {
+        'name': 'Block Group 1, Census Tract 1225.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031225012': {
+        'name': 'Block Group 2, Census Tract 1225.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15000US361031225013': {
+        'name': 'Block Group 3, Census Tract 1225.01, Suffolk County, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '15500US3683294103': {
+        'name': 'Suffolk County (part), Wyandanch CDP, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '16000US3683294': {
+        'name': 'Wyandanch CDP, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '86000US11798': {
+        'name': 'ZCTA5 11798',
+        'explainer': 'profile/errata_148.html'
+    },
+    '97000US3631800': {
+        'name': 'Wyandanch Union Free School District, New York',
+        'explainer': 'profile/errata_148.html'
+    },
+    '07000US361116667478487': {
+        'name': 'Watchtower CDP,Shawangunk town, Ulster County, New York',
+        'explainer': 'profile/errata_147.html'
+    },
+    '14000US36111954401': {
+        'name': 'Census Tract 9544.01, Ulster County, New York',
+        'explainer': 'profile/errata_147.html'
+    },
+    '15000US361119544011': {
+        'name': 'Block Group 1, Census Tract 9544.01, Ulster County, New York',
+        'explainer': 'profile/errata_147.html'
+    },
+    '15500US3678487111': {
+        'name': 'Ulster County (part), Watchtower CDP, New York',
+        'explainer': 'profile/errata_147.html'
+    },
+    '16000US3678487': {
+        'name': 'Watchtower CDP, New York',
+        'explainer': 'profile/errata_147.html'
+    },
+}
+
 class GeographyDetailView(TemplateView):
     template_name = 'profile/profile_detail.html'
 
@@ -297,12 +568,12 @@ class GeographyDetailView(TemplateView):
         self.geo_id, self.slug = self.parse_fragment(kwargs.get('fragment'))
 
         # checking geoid
-        geography_info = self.get_geography(self.geo_id)
-        if geography_info is None:
+        self.geography_info = self.get_geography(self.geo_id)
+        if self.geography_info is None:
             raise Http404
 
         # checking slug
-        calculated_slug = self.make_slug(geography_info)
+        calculated_slug = self.make_slug(self.geography_info)
         if self.slug != calculated_slug:
             fragment = '{}-{}'.format(self.geo_id, calculated_slug)
             path = reverse('geography_detail', args=(fragment,))
@@ -321,8 +592,8 @@ class GeographyDetailView(TemplateView):
                 # if we have a strange situation where there's no
                 # display name attached to the geography, we should
                 # go ahead and display the profile page
-                logger.warn(e)
-                logger.warn("Geography {} has no display_name".format(self.geo_id))
+                logger.warning(e)
+                logger.warning("Geography {} has no display_name".format(self.geo_id))
                 pass
         else:
             pass
@@ -342,21 +613,29 @@ class GeographyDetailView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         geography_id = self.geo_id
-        profile_data = geo_profile(geography_id)
-
-        if profile_data:
-            profile_data = enhance_api_data(profile_data)
-
-            profile_data_json = SafeString(json.dumps(profile_data))
-
-        else:
-            raise Http404
 
         page_context = {
-            'profile_data_json': profile_data_json,
             'canonical_url': self.canonical_url
         }
-        page_context.update(profile_data)
+        try:
+            profile_data = geo_profile(geography_id)
+
+            if profile_data:
+                profile_data = enhance_api_data(profile_data)
+            
+                page_context['profile_data_json'] = SafeString(json.dumps(profile_data))
+                page_context.update(profile_data)
+
+            else:
+                raise Http404
+        except ApiException as e:
+            page_context['exception'] = PROFILE_EXCEPTION_INFO.get(geography_id,{
+                'name': self.geography_info.get('properties',{}).get('display_name','Geography name undefined'),
+                'explainer': None
+            })
+            if page_context['exception']['explainer']:
+                self.template_name = page_context['exception']['explainer']
+
         return page_context
 
 

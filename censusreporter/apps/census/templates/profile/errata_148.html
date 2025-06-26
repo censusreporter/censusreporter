@@ -1,0 +1,16 @@
+{% extends 'profile/_base_profile.html' %}
+{% load humanize %} 
+{% block head_title %}{% firstof geography.this.full_name geography.this.short_name %} - {{ block.super }}{% endblock %} {% block head_meta_description %}Census data for {{ geography.this.full_name }}{% endblock %}
+{% block content %}
+<h1>Data Unavailable</h1>
+<p>
+    American Community Survey data for <strong>{{exception.name}}</strong> is not available. 
+</p>
+<p>
+    The Census Bureau identified a problem in the 2020 collection of data across multiple topics in Wyandanch CDP, New York and Brentwood CDP, New York.  The 2019-2023 and 2020-2024 ACS 5-year data products will be suppressed for Wyandanch CDP and Brentwood CDP and nested geographies. 
+</p>
+<p>
+    For more information, consult <a href="https://www.census.gov/programs-surveys/acs/technical-documentation/errata/148.html">ACS Errata 148</a>.
+</p>
+
+{% endblock %}
