@@ -307,21 +307,7 @@
         nationGeoID = '{{ geography.parents.nation.full_geoid }}';
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Allow Ajax POST requests to bypass Django's CSRF check
-        // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
-        var csrftoken = '{{ csrf_token }}';
-
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
+        // CSRF protection has been disabled for better Cloudflare caching compatibility
 
         // Make the header map
         d3.json(CR_API_URL + '/1.0/geo/tiger2023/{{ geography.this.full_geoid }}?geom=true', function(error, json) {

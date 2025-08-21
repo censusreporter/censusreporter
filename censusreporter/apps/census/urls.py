@@ -4,8 +4,8 @@ from django.contrib import admin
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
-from django.views.generic.base import TemplateView, RedirectView
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import TemplateView, RedirectView
 
 from .views import (
     DataView,
@@ -29,13 +29,13 @@ BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
 urlpatterns = [
     re_path('^$',
-        view=cache_page(STANDARD_CACHE_TIME)(HomepageView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(HomepageView.as_view())),
         kwargs={},
         name='homepage',
     ),
 
     re_path('^profiles/(?P<fragment>[a-zA-Z0-9\-]+)/$',
-        view=cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view())),
         kwargs={},
         name='geography_detail',
     ),
@@ -66,7 +66,7 @@ urlpatterns = [
     ),
 
     re_path('^tables/(?P<table>[a-zA-Z0-9]+)/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TableDetailView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TableDetailView.as_view())),
         kwargs={},
         name='table_detail',
     ),
@@ -78,7 +78,7 @@ urlpatterns = [
     ),
 
     re_path('^search/$',
-        view=SearchResultsView.as_view(),
+        view=csrf_exempt(SearchResultsView.as_view()),
         kwargs={},
         name='search'
     ),
@@ -91,13 +91,13 @@ urlpatterns = [
 
     # e.g. /table/B01001/
     re_path('^data/(?P<format>%s)/$' % COMPARISON_FORMATS,
-        view=cache_page(STANDARD_CACHE_TIME)(DataView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(DataView.as_view())),
         kwargs={},
         name='data_detail',
     ),
 
     re_path('^topics/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TopicView.as_view())),
         kwargs={},
         name='topic_list',
     ),
@@ -113,25 +113,25 @@ urlpatterns = [
     ),
 
     re_path('^topics/(?P<topic_slug>[-\w]+)/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TopicView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TopicView.as_view())),
         kwargs={},
         name='topic_detail',
     ),
 
     re_path('^examples/(?P<example_slug>[-\w]+)/$',
-        view=cache_page(STANDARD_CACHE_TIME)(ExampleView.as_view()),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(ExampleView.as_view())),
         kwargs={},
         name='example_detail',
     ),
 
     re_path('^glossary/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="glossary.html")),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="glossary.html"))),
         kwargs={},
         name='glossary',
     ),
 
     re_path('^about/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="about.html")),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="about.html"))),
         kwargs={},
         name='about',
     ),
@@ -149,7 +149,7 @@ urlpatterns = [
     ),
 
     re_path('^locate/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html")),
+        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html"))),
         kwargs={},
         name='locate',
     ),
