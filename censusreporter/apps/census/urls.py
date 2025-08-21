@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView, RedirectView
-from django.views.decorators.csrf import csrf_exempt
 
 from .views import (
     DataView,
