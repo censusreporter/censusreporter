@@ -1,4 +1,4 @@
-{% load humanize comparatives %}
+{% load humanize comparatives cr_json_script %}
 {% if not stat_wrapper == 'false' %}<a class="stat {{ stat_type }}{% if wrapper_class %} {{ wrapper_class }}{% endif %}">{% endif %}
     <span class="{% if stat_class %}{{ stat_class }}{% else %}primary{% endif %}">
         <span class="value">
@@ -45,3 +45,11 @@
     </ul>
     {% endif %}
 {% if not stat_wrapper == 'false' %}</a>{% endif %}
+{% if stat.metadata %}
+    {% with stat_id=stat.metadata.table_id|slugify|add:'-'|add:stat.name|slugify %}
+        {{ stat|cr_json_script:stat_id }}
+        <div class="action-links">
+            <a class="stat-get-data" data-stat-id="{{ stat_id }}" data-stat-type="{{ stat_type }}">Show data</a>
+        </div>
+    {% endwith %}
+{% endif %}
