@@ -270,3 +270,85 @@ var numberWithCommas = function(n, decimals) {
         return params;
     };
 })(jQuery);
+
+// toggle data drawer for "big number" stats
+$(document).on('click', '.stat-get-data', function(e) {
+    e.preventDefault();
+    var clicked = $(this),
+        column = clicked.closest('.column-quarter, .column-third, .column-half, .column-full'),
+        statID = clicked.data('stat-id'),
+        statType = clicked.data('stat-type'),
+        scriptEl = document.getElementById(statID),
+        statData = scriptEl ? JSON.parse(scriptEl.textContent) : null,
+        hide = clicked.hasClass('opened');
+
+    column.find('.data-drawer').remove();
+    column.find('.stat-get-data').removeClass('opened').text('Show data');
+
+    if (!hide && statData) {
+        clicked.addClass('opened').text('Hide data');
+
+        var drawer = $('<div class="data-drawer column-full"></div>').appendTo(column),
+            table = $('<table id="data-table" class="full-width"></table>').appendTo(drawer),
+            thead = $('<thead></thead>').appendTo(table),
+            headerRow = $('<tr></tr>').appendTo(thead),
+            body = $('<tbody></tbody>').appendTo(table),
+            geoNames = {
+                'this': profileData.geography['this'].short_name,
+                'place': profileData.geography.parents.place ? profileData.geography.parents.place.short_name : null,
+                'CBSA': profileData.geography.parents.CBSA ? profileData.geography.parents.CBSA.full_name : null,
+                'county': profileData.geography.parents.county ? profileData.geography.parents.county.short_name : null,
+                'state': profileData.geography.parents.state ? profileData.geography.parents.state.short_name : null,
+                'nation': profileData.geography.parents.nation ? profileData.geography.parents.nation.short_name : 'United States'
+            },
+            hasNumerator = false;
+
+        if (statData.numerators) {
+            $.each(statData.numerators, function(k, v) {
+                if (v !== null) { hasNumerator = true; }
+            });
+        }
+
+        headerRow.append('<th class="name">Geography</th>');
+        headerRow.append('<th class="value">Value</th>');
+        headerRow.append('<th class="context">MOE</th>');
+        if (hasNumerator) {
+            headerRow.append('<th class="value">Numerator</th>');
+            headerRow.append('<th class="context">MOE</th>');
+        }
+
+        $.each(statData.values, function(k, v) {
+            if (v === null) return; // skip missing values
+            var row = $('<tr></tr>').appendTo(body),
+                moeFlag = (statData.error_ratio && statData.error_ratio[k] >= 10) ? '<sup>&dagger;</sup>' : '';
+            row.append('<td class="name">' + (geoNames[k] || k) + '</td>');
+            row.append('<td class="value">' + valFmt(v, statType) + moeFlag + '</td>');
+            row.append('<td class="context">&plusmn;' + valFmt(statData.error[k], statType, true) + '</td>');
+            if (hasNumerator) {
+                var num = statData.numerators[k];
+                if (num !== null) {
+                    row.append('<td class="value">' + commaFmt(num) + '</td>');
+                    row.append('<td class="context">&plusmn;' + commaFmt(statData.numerator_errors[k]) + '</td>');
+                } else {
+                    row.append('<td class="value"></td><td class="context"></td>');
+                }
+            }
+        });
+
+        if (statData.error_ratio) {
+            var maxRatio = Math.max.apply(null, $.map(statData.error_ratio, function(v){ return v; }));
+            if (maxRatio >= 10) {
+                drawer.append("<div class='note'><sup>&dagger;</sup> Margin of error at least 10 percent of total value</div>");
+            }
+        }
+
+        var tableIDs = statData.metadata.table_id.split(','),
+            primaryGeoID = profileData.geography['this'].full_geoid,
+            geoIDs = [primaryGeoID];
+        $.each(profileData.geography.parents, function(k, v){ geoIDs.push(v.full_geoid); });
+        var tableURL = '/data/table/?table=' + $.trim(tableIDs[0]) + '&primary_geo_id=' + primaryGeoID + '&geo_ids=' + geoIDs.join(',');
+
+        drawer.prepend('<h3 class="chart-title">Table ' + statData.metadata.table_id + ' <a class="smaller push-right" href="' + tableURL + '">View table</a></h3>');
+        drawer.append('<a class="stat-get-data opened" data-stat-id="' + statID + '" data-stat-type="' + statType + '" href="#">Hide data</a>');
+    }
+});
