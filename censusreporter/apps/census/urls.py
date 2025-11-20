@@ -3,7 +3,7 @@ from django.urls import re_path
 from django.contrib import admin
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, cache_control
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView, RedirectView
 
@@ -161,7 +161,7 @@ urlpatterns = [
     ),
     re_path('^user_geo/(?P<hash_digest>[A-Fa-f0-9]{32})/$',
         # don't cache as it mucks with acknowledging the async processing
-        view=UserGeographyDetailView.as_view(template_name="user_geo/detail.html"),
+        view=cache_control(max_age=15, public=True)(UserGeographyDetailView.as_view(template_name="user_geo/detail.html")),
         kwargs={},
         name='user_geo_detail',
     ),
