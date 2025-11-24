@@ -21,12 +21,25 @@ places using tables and maps, download data, and embed charts on your site!{% en
         background-color: #a1d0c6;
         padding: .5em 1.25em;
         font-weight: bold;
+        display: flex;
+        /* align-items: center; */
+        gap: 0.5em;
     }
 
     #homepage-bulletin::before {
         content: "⚡️";
         font-size: 24px;
-        vertical-align: middle;
+        flex-shrink: 0;
+        line-height: 1;
+    }
+
+    #homepage-bulletin a {
+        color: #0d4a3e;
+        text-decoration: underline;
+    }
+
+    #homepage-bulletin a:hover {
+        color: #000;
     }
 </style>
 {% endblock header_content %} {% endblock %}
@@ -35,7 +48,7 @@ places using tables and maps, download data, and embed charts on your site!{% en
 {% endblock %}
 {% block content_container %}
 <div id='homepage-bulletin'>
-    Census Reporter has been updated with all 2023 American Community Survey data. To access earlier ACS releases and other Census data, visit <a href="https://data.census.gov">data.census.gov</a>
+    <span>Census Reporter will be updated with all 2024 American Community Survey data once the 2020-2024 ACS 5-year product is released. Because of the government shutdown, the release delayed until Jan 29, 2026. We will process all 2024 ACS data as promptly as possible after that date. To access other ACS releases and other Census data, visit <a href="https://data.census.gov">data.census.gov</a></span>
 </div>
 <div class="content-container clearfix tan-stripe">
     <article id="profile" class="clearfix wrapper">
