@@ -310,7 +310,7 @@
         // CSRF protection has been disabled for better Cloudflare caching compatibility
 
         // Make the header map
-        d3.json(CR_API_URL + '/1.0/geo/tiger2023/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
+        d3.json(CR_API_URL + '/1.0/geo/tiger2024/{{ geography.this.full_geoid }}?geom=true', function(error, json) {
             window.stash = json
             let objBounds = null;
             if (thisSumlev === "010") {
@@ -349,7 +349,7 @@
                 if (thisSumlev !== "010") {
                     map.addSource('sumlev-tiles-source', {
                         type: 'vector',
-                        tiles: ['https://embed.censusreporter.org/1.0/geo/tiger2023/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'],
+                        tiles: ['https://embed.censusreporter.org/1.0/geo/tiger2024/tiles/' + thisSumlev + '/{z}/{x}/{y}.mvt'],
                         'minzoom': 2,
                         'maxzoom': 14
                     });
@@ -571,7 +571,7 @@
         // Update the header's list of parent geographies
         var parentLinkContainer = $('#header-box .caption'),
             parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2023/' + thisGeoID + '/parents';
+            parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2024/' + thisGeoID + '/parents';
 
         // for touch devices, still allow context toggle
         $('.stat-row').on('click', '.stat', function() {
@@ -612,7 +612,7 @@
             // Update the header's list of parent geographies
             var parentLinkContainer = $('#header-box .caption'),
                 parentLinksPrefix = '<span class="glossary-term">{{ geography.this.sumlevel_name|capfirst }}</span> in: ',
-                parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2023/' + thisGeoID + '/parents';
+                parentGeoAPI = CR_API_URL + '/1.0/geo/tiger2024/' + thisGeoID + '/parents';
 
             // for touch devices, still allow context toggle
             $('.stat-row').on('click', '.stat', function() {

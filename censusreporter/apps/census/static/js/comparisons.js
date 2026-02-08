@@ -34,7 +34,7 @@ function Comparison(options, callback) {
         tableSearchAPI: API_URL + '/1.0/table/search',
         geoSearchAPI: API_URL + '/1.0/geo/search',
         fulltextSearchAPI: API_URL + '/2.1/full-text/search',
-        rootGeoAPI: API_URL + '/1.0/geo/tiger2023/',
+        rootGeoAPI: API_URL + '/1.0/geo/tiger2024/',
         dataAPI: API_URL + '/1.0/data/show/latest',
         downloadAPI: API_URL + '/1.0/data/download' // incomplete without a /release appended in makeDownloadMenu
     };
@@ -191,7 +191,7 @@ function Comparison(options, callback) {
             comparison.chosenColumn = comparison.columnKeys[0];
         }
 
-        var geoAPI = API_URL + "/1.0/geo/show/tiger2023?geo_ids=" + comparison.geoIDs.join(','),
+        var geoAPI = API_URL + "/1.0/geo/show/tiger2024?geo_ids=" + comparison.geoIDs.join(','),
             allowMapDrag = (browserWidth > 480) ? true : false;
 
         d3.json(geoAPI, function(error, json) {
