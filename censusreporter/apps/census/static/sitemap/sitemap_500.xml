@@ -295,10 +295,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/50000US0653-congressional-district-53-ca/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/50000US0801-congressional-district-1-co/</loc>
     </url>
     
@@ -324,6 +320,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US0807-congressional-district-7-co/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/50000US0808-congressional-district-8-co/</loc>
     </url>
     
     <url>
@@ -467,6 +467,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/50000US1228-congressional-district-28-fl/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/50000US1301-congressional-district-1-ga/</loc>
     </url>
     
@@ -604,10 +608,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US1717-congressional-district-17-il/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/50000US1718-congressional-district-18-il/</loc>
     </url>
     
     <url>
@@ -859,14 +859,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/50000US2614-congressional-district-14-mi/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/50000US26ZZ-congressional-districts-not-defined-mi/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/50000US2701-congressional-district-1-mn/</loc>
     </url>
     
@@ -947,7 +939,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/50000US3000-congressional-district-at-large-mt/</loc>
+        <loc>https://censusreporter.org/profiles/50000US3001-congressional-district-1-mt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/50000US3002-congressional-district-2-mt/</loc>
     </url>
     
     <url>
@@ -984,6 +980,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US3302-congressional-district-2-nh/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/50000US33ZZ-congressional-districts-not-defined-nh/</loc>
     </url>
     
     <url>
@@ -1151,10 +1151,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/50000US3627-congressional-district-27-ny/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/50000US3701-congressional-district-1-nc/</loc>
     </url>
     
@@ -1204,6 +1200,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US3713-congressional-district-13-nc/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/50000US3714-congressional-district-14-nc/</loc>
     </url>
     
     <url>
@@ -1271,10 +1271,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/50000US3916-congressional-district-16-oh/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/50000US4001-congressional-district-1-ok/</loc>
     </url>
     
@@ -1312,6 +1308,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US4105-congressional-district-5-or/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/50000US4106-congressional-district-6-or/</loc>
     </url>
     
     <url>
@@ -1380,10 +1380,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US4217-congressional-district-17-pa/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/50000US4218-congressional-district-18-pa/</loc>
     </url>
     
     <url>
@@ -1607,6 +1603,14 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/50000US4837-congressional-district-37-tx/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/50000US4838-congressional-district-38-tx/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/50000US4901-congressional-district-1-ut/</loc>
     </url>
     
@@ -1716,10 +1720,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/50000US5402-congressional-district-2-wv/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/50000US5403-congressional-district-3-wv/</loc>
     </url>
     
     <url>

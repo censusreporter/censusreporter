@@ -307,10 +307,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US0407140-rucker-elementary-district-az/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US0407200-sacaton-elementary-district-az/</loc>
     </url>
     
@@ -535,10 +531,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US0603870-banta-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US0604080-bass-lake-joint-union-elementary-school-district-ca/</loc>
     </url>
     
@@ -564,10 +556,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US0604530-belmont-redwood-shores-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US0604560-belridge-elementary-school-district-ca/</loc>
     </url>
     
     <url>
@@ -939,10 +927,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US0612420-elkins-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US0612600-elverta-joint-elementary-school-district-ca/</loc>
     </url>
     
@@ -987,10 +971,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US0613710-feather-falls-union-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US0613740-fieldbrook-elementary-school-district-ca/</loc>
     </url>
     
@@ -1004,10 +984,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US0614010-forestville-union-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US0614040-forks-of-salmon-elementary-school-district-ca/</loc>
     </url>
     
     <url>
@@ -1235,10 +1211,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US0618270-indian-springs-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US0618510-island-union-elementary-school-district-ca/</loc>
     </url>
     
@@ -1452,10 +1424,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US0621570-liberty-elementary-school-district-ca/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US0621660-lincoln-elementary-school-district-ca/</loc>
     </url>
     
     <url>
@@ -2751,6 +2719,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/95000US1701434-dimmick-community-consolidated-school-district-175-il/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/95000US1703150-addison-school-district-4-il/</loc>
     </url>
     
@@ -2911,7 +2883,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US1707320-brookfield-school-district-95-il/</loc>
+        <loc>https://censusreporter.org/profiles/95000US1707320-brookfield-lagrange-park-sd-95-il/</loc>
     </url>
     
     <url>
@@ -3064,10 +3036,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US1712210-diamond-lake-school-district-76-il/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US1712270-dimmick-community-consolidated-school-district-175-il/</loc>
     </url>
     
     <url>
@@ -4063,7 +4031,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US1740350-villa-park-school-district-45-il/</loc>
+        <loc>https://censusreporter.org/profiles/95000US1740350-sd-45-dupage-county-il/</loc>
     </url>
     
     <url>
@@ -4199,10 +4167,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US2105850-west-point-independent-school-district-ky/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US2302510-appleton-me/</loc>
     </url>
     
@@ -4212,6 +4176,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US2302950-beals-me/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US2305380-east-range-community-school-district-me/</loc>
     </url>
     
     <url>
@@ -4503,7 +4471,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US2600009-bloomfield-township-school-district-7f-mi/</loc>
+        <loc>https://censusreporter.org/profiles/95000US2513323-warwick-school-district-ma/</loc>
     </url>
     
     <url>
@@ -4559,7 +4527,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US2615510-ganges-school-district-4-mi/</loc>
+        <loc>https://censusreporter.org/profiles/95000US2615510-glenn-public-school-district-mi/</loc>
     </url>
     
     <url>
@@ -4640,10 +4608,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US2733720-nett-lake-public-school-district-mn/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US2791448-norman-county-west-school-district-mn/</loc>
     </url>
     
     <url>
@@ -5215,19 +5179,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US3007950-spring-creek-elementary-school-district-mt/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US3007980-kinsey-elementary-school-district-mt/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US3008010-s-y-elementary-school-district-mt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US3008040-s-h-elementary-school-district-mt/</loc>
     </url>
     
     <url>
@@ -5376,10 +5332,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US3012060-sand-springs-elementary-school-district-mt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US3012270-geyser-elementary-school-district-mt/</loc>
     </url>
     
     <url>
@@ -6923,6 +6875,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/95000US3602310-glens-falls-common-school-district-ny/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/95000US3604410-bellmore-union-free-school-district-ny/</loc>
     </url>
     
@@ -6967,15 +6923,15 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/95000US3631200-wheelerville-union-free-school-district-ny/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/95000US3800015-naughton-public-school-district-25-nd/</loc>
     </url>
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US3800033-fort-ransom-public-school-district-6-nd/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US3800037-central-elementary-public-school-district-32-nd/</loc>
     </url>
     
     <url>
@@ -7007,7 +6963,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US3811610-lonetree-public-school-district-6-nd/</loc>
+        <loc>https://censusreporter.org/profiles/95000US3811610-lone-tree-public-school-district-6-nd/</loc>
     </url>
     
     <url>
@@ -7031,23 +6987,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US3813660-nedrose-public-school-district-4-nd/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US3813760-williams-county-public-school-district-8-nd/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US3814520-oberon-public-school-district-16-nd/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US3815360-pleasant-valley-public-school-district-35-nd/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US3817170-south-prairie-public-school-district-70-nd/</loc>
+        <loc>https://censusreporter.org/profiles/95000US3816090-roosevelt-public-school-district-18-nd/</loc>
     </url>
     
     <url>
@@ -7064,6 +7008,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US3820340-yellowstone-public-school-district-14-nd/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US4000033-keys-public-schools-ok/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US4000798-davidson-public-schools-ok/</loc>
     </url>
     
     <url>
@@ -7128,10 +7080,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US4009420-darlington-public-school-ok/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/95000US4009480-davidson-public-schools-ok/</loc>
     </url>
     
     <url>
@@ -7215,10 +7163,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US4016440-keys-public-schools-ok/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US4016470-keystone-public-school-ok/</loc>
     </url>
     
@@ -7299,10 +7243,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US4021870-greasy-public-school-ok/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/95000US4021900-norwood-public-school-ok/</loc>
     </url>
     
@@ -7324,6 +7264,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/95000US4023220-osage-hills-public-school-ok/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US4023400-panola-public-schools-ok/</loc>
     </url>
     
     <url>
@@ -7583,23 +7527,107 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US5006180-norwich-school-district-vt/</loc>
+        <loc>https://censusreporter.org/profiles/95000US5000401-lamoille-north-modified-usd-058a-vt/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US5007650-st-johnsbury-school-district-vt/</loc>
+        <loc>https://censusreporter.org/profiles/95000US5000434-southwest-vermont-union-elementary-school-district-87-vt/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US5099906-bennington-rutland-supervisory-union-vt/</loc>
+        <loc>https://censusreporter.org/profiles/95000US5000436-lake-region-union-elementary-middle-school-district-vt/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US5099908-kingdom-east-supervisory-district-vt/</loc>
+        <loc>https://censusreporter.org/profiles/95000US5000438-mountain-view-union-elementary-school-district-vt/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/95000US5099924-grand-isle-supervisory-union-vt/</loc>
+        <loc>https://censusreporter.org/profiles/95000US5000446-windham-northeast-union-elementary-school-district-95-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5000449-west-river-valley-modified-union-education-district-72a-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5002610-brighton-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5002910-cambridge-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5003060-charleston-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5003480-derby-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5004500-halifax-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5004710-holland-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5004950-jay-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5005160-lincoln-town-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5005220-lowell-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5005760-morgan-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5006000-newport-city-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5006030-newport-town-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5006060-north-bennington-incorporated-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5006780-readsboro-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5006930-rockingham-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5008130-troy-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5008910-westfield-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5008970-westminster-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5009270-windham-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/95000US5099002-southwest-vermont-union-elementary-school-district-87-pk-5-vt/</loc>
     </url>
     
     <url>

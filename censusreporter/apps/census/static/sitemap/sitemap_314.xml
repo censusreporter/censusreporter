@@ -3,6 +3,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
     <url>
+        <loc>https://censusreporter.org/profiles/31400US1206012054-atlanta-sandy-springs-roswell-ga-metro-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31400US1206031924-marietta-ga-metro-division/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31400US1446014454-boston-ma-metro-division/</loc>
     </url>
     
@@ -15,7 +23,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US1698016984-chicago-naperville-evanston-il-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US1698016984-chicago-naperville-schaumburg-il-metro-division/</loc>
     </url>
     
     <url>
@@ -23,11 +31,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US1698023844-gary-in-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US1698029404-lake-county-il-metro-division/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US1698029404-lake-county-kenosha-county-il-wi-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US1698029414-lake-county-porter-county-jasper-county-in-metro-division/</loc>
     </url>
     
     <url>
@@ -63,7 +71,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US3310048424-west-palm-beach-boca-raton-boynton-beach-fl-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US3310048424-west-palm-beach-boca-raton-delray-beach-fl-metro-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31400US3562029484-lakewood-new-brunswick-nj-metro-division/</loc>
     </url>
     
     <url>
@@ -71,11 +83,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US3562035084-newark-nj-pa-metro-division/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/31400US3562035154-new-brunswick-lakewood-nj-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US3562035084-newark-nj-metro-division/</loc>
     </url>
     
     <url>
@@ -99,7 +107,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US4186036084-oakland-berkeley-livermore-ca-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US4186036084-oakland-fremont-berkeley-ca-metro-division/</loc>
     </url>
     
     <url>
@@ -111,6 +119,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/31400US4266021794-everett-wa-metro-division/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/31400US4266042644-seattle-bellevue-kent-wa-metro-division/</loc>
     </url>
     
@@ -119,11 +131,23 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US4790023224-frederick-gaithersburg-rockville-md-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US4530041304-st-petersburg-clearwater-largo-fl-metro-division/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/31400US4790047894-washington-arlington-alexandria-dc-va-md-wv-metro-division/</loc>
+        <loc>https://censusreporter.org/profiles/31400US4530045294-tampa-fl-metro-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31400US4790011694-arlington-alexandria-reston-va-wv-metro-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31400US4790023224-frederick-gaithersburg-bethesda-md-metro-division/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/31400US4790047764-washington-dc-md-metro-division/</loc>
     </url>
     
 </urlset>

@@ -107,11 +107,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US0795T-coushatta-off-reservation-trust-land/</loc>
+        <loc>https://censusreporter.org/profiles/25400US0775T-coquille-off-reservation-trust-land/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US0815T-cow-creek-off-reservation-trust-land/</loc>
+        <loc>https://censusreporter.org/profiles/25400US0795T-coushatta-off-reservation-trust-land/</loc>
     </url>
     
     <url>
@@ -120,6 +120,14 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US0955T-dry-creek-off-reservation-trust-land/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25400US0965T-duck-valley-off-reservation-trust-land/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25400US0990T-eastern-cherokee-off-reservation-trust-land/</loc>
     </url>
     
     <url>
@@ -247,6 +255,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25400US1830T-lac-vieux-desert-off-reservation-trust-land/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25400US1840T-laguna-off-reservation-trust-land/</loc>
     </url>
     
@@ -276,6 +288,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US2040T-lower-elwha-off-reservation-trust-land/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25400US2055T-lower-sioux-off-reservation-trust-land/</loc>
     </url>
     
     <url>
@@ -360,6 +376,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US2695T-passamaquoddy-trust-land/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25400US2745T-pechanga-off-reservation-trust-land/</loc>
     </url>
     
     <url>
@@ -451,11 +471,11 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US3415T-san-ildefonso-off-reservation-trust-land/</loc>
+        <loc>https://censusreporter.org/profiles/25400US3370T-sandia-off-reservation-trust-land/</loc>
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US3445T-san-manuel-off-reservation-trust-land/</loc>
+        <loc>https://censusreporter.org/profiles/25400US3415T-san-ildefonso-off-reservation-trust-land/</loc>
     </url>
     
     <url>
@@ -476,6 +496,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US3680T-shakopee-mdewakanton-sioux-off-reservation-trust-land/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25400US3695T-shawnee-trust-land/</loc>
     </url>
     
     <url>
@@ -579,6 +603,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25400US4255T-torres-martinez-off-reservation-trust-land/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25400US4275T-trinidad-off-reservation-trust-land/</loc>
     </url>
     
@@ -655,10 +683,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US4708T-yavapai-apache-nation-off-reservation-trust-land/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25400US4755T-ysleta-del-sur-off-reservation-trust-land/</loc>
     </url>
     
@@ -731,6 +755,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/25400US5048T-kalaoa-hawaiian-home-land/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/25400US5051T-kalaupapa-hawaiian-home-land/</loc>
     </url>
     
@@ -791,7 +819,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US5104T-keanae-wailua-hawaiian-home-land/</loc>
+        <loc>https://censusreporter.org/profiles/25400US5104T-keanae-wailuanui-hawaiian-home-land/</loc>
     </url>
     
     <url>
@@ -815,10 +843,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/25400US5123T-kolaoa-hawaiian-home-land/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/25400US5133T-lalamilo-hawaiian-home-land/</loc>
     </url>
     
@@ -836,10 +860,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US5138T-maili-hawaiian-home-land/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25400US5139T-makaha-valley-hawaiian-home-land/</loc>
     </url>
     
     <url>
@@ -880,10 +900,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US5186T-paukukalo-hawaiian-home-land/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/25400US5188T-pearl-city-hawaiian-home-land/</loc>
     </url>
     
     <url>
@@ -932,6 +948,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/25400US5239T-waianae-kai-hawaiian-home-land/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/25400US5240T-waiawa-hawaiian-home-land/</loc>
     </url>
     
     <url>

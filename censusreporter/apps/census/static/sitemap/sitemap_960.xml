@@ -551,6 +551,10 @@
     </url>
     
     <url>
+        <loc>https://censusreporter.org/profiles/96000US1700333-chester-non-high-school-district-122-il/</loc>
+    </url>
+    
+    <url>
         <loc>https://censusreporter.org/profiles/96000US1701384-illini-west-high-school-district-307-il/</loc>
     </url>
     
@@ -612,10 +616,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/96000US1709300-centralia-high-school-district-200-il/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/96000US1709780-chester-non-high-school-district-122-il/</loc>
     </url>
     
     <url>
@@ -771,7 +771,7 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/96000US1725770-metamora-township-high-school-district-122-il/</loc>
+        <loc>https://censusreporter.org/profiles/96000US1725770-county-of-woodford-school-il/</loc>
     </url>
     
     <url>
@@ -979,10 +979,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/96000US2121003-elizabethtown-independent-school-district-for-west-point-isd-ky/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/96000US2121004-jefferson-county-school-district-in-anchorage-isd-ky/</loc>
     </url>
     
@@ -1128,6 +1124,10 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/96000US2525015-leeberkshire-hills-in-farmington-river-regional-7-12-ma/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US2599001-pioneer-valley-school-district-in-warwick-7-12-ma/</loc>
     </url>
     
     <url>
@@ -1312,10 +1312,6 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/96000US3011880-garfield-county-high-school-district-mt/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/96000US3012300-geyser-high-school-district-mt/</loc>
     </url>
     
     <url>
@@ -1763,14 +1759,6 @@
     </url>
     
     <url>
-        <loc>https://censusreporter.org/profiles/96000US4040001-secondary-coverage-area-in-white-oak-public-schools-9-12-ok/</loc>
-    </url>
-    
-    <url>
-        <loc>https://censusreporter.org/profiles/96000US4099001-frederick-public-schools-in-davidson-9-12-ok/</loc>
-    </url>
-    
-    <url>
         <loc>https://censusreporter.org/profiles/96000US4103630-harney-county-union-high-school-district-1j-or/</loc>
     </url>
     
@@ -1852,6 +1840,50 @@
     
     <url>
         <loc>https://censusreporter.org/profiles/96000US4848285-hallettsville-independent-school-district-9-12-in-vysehrad-tx/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5000397-lamoille-north-modified-usd-058b-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5000432-west-river-valley-modified-union-education-district-72b-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5005050-lake-region-uhsd-24-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5005810-mount-anthony-uhsd-14-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5007710-stannard-school-district-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5008243-hazen-uhsd-26-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5008246-bellows-falls-uhsd-27-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5009600-north-country-senior-uhsd-22-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5099001-west-river-valley-modified-union-education-district-72b-7-12-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5099003-mount-anthony-uhsd-14-6-12-vt/</loc>
+    </url>
+    
+    <url>
+        <loc>https://censusreporter.org/profiles/96000US5099004-north-country-juniorsenior-uhsd-22-7-12-vt/</loc>
     </url>
     
     <url>
