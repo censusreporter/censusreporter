@@ -1,5 +1,5 @@
 from django import template
-from census.utils import SUMMARY_LEVEL_DICT
+from censusreporter.apps.census.utils import SUMMARY_LEVEL_DICT
 register = template.Library()
 
 @register.filter

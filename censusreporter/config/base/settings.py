@@ -16,7 +16,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'corsheaders',
-    'census',
+    'censusreporter.apps.census',
 )
 
 ALLOWED_HOSTS = []
@@ -53,7 +53,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                'census.context_processors.api_url',
+                'censusreporter.apps.census.context_processors.api_url',
             ],
         },
     },
