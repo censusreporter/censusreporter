@@ -56,6 +56,7 @@ function Comparison(options, callback) {
         comparison.headerContainer = d3.select(options.displayHeader);
         comparison.dataContainer = d3.select(options.dataContainer);
         comparison.aside = d3.select('aside');
+        comparison.fillOpacity = 0.6;
 
         // add the "change table" widget and listener
         comparison.makeTopicSelectWidget();
@@ -220,6 +221,30 @@ function Comparison(options, callback) {
                         showCompass: false
                     }), 'top-right')
                 }
+
+                // Add opacity slider control
+                var opacityControl = {
+                    onAdd: function(map) {
+                        var container = document.createElement('div');
+                        container.className = 'mapboxgl-ctrl choropleth-opacity-ctrl';
+                        container.innerHTML =
+                            '<label for="opacity-slider">Opacity</label>' +
+                            '<input type="range" id="opacity-slider" min="0.1" max="1.0" step="0.05" value="' + comparison.fillOpacity + '">' +
+                            '<span id="opacity-value">' + Math.round(comparison.fillOpacity * 100) + '%</span>';
+                        container.querySelector('#opacity-slider').addEventListener('input', function(e) {
+                            var val = parseFloat(e.target.value);
+                            comparison.fillOpacity = val;
+                            container.querySelector('#opacity-value').textContent = Math.round(val * 100) + '%';
+                            if (comparison.map.getLayer('geojson-layer-fill')) {
+                                comparison.map.setPaintProperty('geojson-layer-fill', 'fill-opacity', val);
+                            }
+                        });
+                        return container;
+                    },
+                    onRemove: function() {}
+                };
+                comparison.map.addControl(opacityControl, 'bottom-right');
+
                 comparison.showChoropleth();
 
                 comparison.sumlevSelector.fadeIn();
@@ -598,7 +623,7 @@ function Comparison(options, callback) {
                     paint: {
                         'fill-color': ['get', 'color'],
                         'fill-outline-color': '#fff',
-                        'fill-opacity': 0.8
+                        'fill-opacity': comparison.fillOpacity
                     }
                 })
 
