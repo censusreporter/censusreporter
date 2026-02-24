@@ -297,17 +297,22 @@ function Comparison(options, callback) {
 
     comparison.addOpacitySlider = function() {
         // Remove any existing slider
-        d3.select('#map-legend .opacity-slider-container').remove();
+        d3.select('#map-opacity-controls').remove();
 
-        var sliderContainer = d3.select('#map-legend').append('div')
-            .attr('class', 'opacity-slider-container');
+        var sliderContainer = comparison.aside.append('div')
+            .attr('class', 'aside-block')
+            .attr('id', 'map-opacity-controls');
 
-        sliderContainer.append('label')
-            .attr('for', 'opacity-slider')
-            .text('Map opacity');
+        sliderContainer.append('p')
+            .attr('class', 'bottom display-type strong')
+            .text('Map Options');
 
         var controlWrap = sliderContainer.append('div')
             .attr('class', 'opacity-slider-wrap');
+
+        controlWrap.append('label')
+            .attr('for', 'opacity-slider')
+            .text('Fill Opacity');
 
         controlWrap.append('input')
             .attr('type', 'range')

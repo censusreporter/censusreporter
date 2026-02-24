@@ -1445,33 +1445,32 @@ h1.article-header-right {
     padding: .83em 1em;
 }
 
-.choropleth-opacity-ctrl {
-    background: #fff;
-    border-radius: 3px;
-    border: 1px solid #014948;
-    padding: 6px 10px;
-    font: 11px/1.4 "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+#map-opacity-controls .opacity-slider-wrap {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    padding-top: 5px;
 }
 
-.choropleth-opacity-ctrl label {
-    font-weight: 700;
-    color: #333;
+#map-opacity-controls label {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #555;
     white-space: nowrap;
 }
 
-.choropleth-opacity-ctrl input[type="range"] {
-    width: 80px;
+#map-opacity-controls input[type="range"] {
+    flex: 1;
     cursor: pointer;
     accent-color: #428476;
 }
 
-.choropleth-opacity-ctrl #opacity-value {
+#map-opacity-controls #opacity-value {
     min-width: 2.5em;
     text-align: right;
-    color: #666;
+    font-weight: 700;
+    color: #333;
+    font-size: 0.9em;
 }
 
 ul.quantile-legend {
