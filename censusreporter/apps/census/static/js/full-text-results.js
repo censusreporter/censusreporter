@@ -161,13 +161,9 @@ $(function() {
         source: function(request, response) {
             // Order of last three arguments to fulltextDataRequest: profile, table, topic
             // If argument set to true, corresponding type of page is included in search result.
-            var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
             fulltextDataRequest(API_URL, request.term, true, false, false)
                 .then(function(data) {
-                    if (!isLocal) {
-                        return locationDataRequest(data, request.term);
-                    }
-                    return data;
+                    return locationDataRequest(data, request.term);
                 })
                 .then(function(data) {
                     return addResultsLink(data, request.term);
