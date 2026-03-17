@@ -43,10 +43,10 @@ class ApiClient(object):
         return data
 
     def get_parent_geoids(self, geoid):
-        return self._get('/1.0/geo/tiger2023/{}/parents'.format(geoid))
+        return self._get('/1.0/geo/tiger2024/{}/parents'.format(geoid))
 
     def get_geoid_data(self, geoid):
-        return self._get('/1.0/geo/tiger2023/{}'.format(geoid))
+        return self._get('/1.0/geo/tiger2024/{}'.format(geoid))
 
     def get_data(self, table_ids, geo_ids, acs='latest'):
         if isinstance(table_ids, (list, tuple)):
@@ -224,12 +224,38 @@ def add_metadata(dictionary, table_id, universe, acs_release):
 
     dictionary['metadata'] = val
 
+def _filter_comparison_item_levels(item_levels):
+    # get_parent_geoids returns more than we need for comparisons
+    # This can be a problem when "this" geo is in 1-year 
+    # but one of the parents is only in the 5-year.
+    # this seems to mostly come up when places overlap 
+    # counties and some counties are small. let's try
+    # filtering to just one of each kind.
+    temp = {}
+    for geo in item_levels:
+        try:
+            temp[geo['relation']].append(geo)
+        except KeyError:
+            temp[geo['relation']] = [geo]
+
+    levels = []
+    for geo_list in temp.values():
+        if len(geo_list) == 1:
+            levels.append(geo_list[0])
+        else:
+            level_temp = [(g['coverage'], g) for g in geo_list]
+            level_temp.sort()
+            level_temp.reverse()
+            levels.append(level_temp[0][1])
+
+    return levels
+
 def geo_profile(geoid, acs='latest'):
     api = ApiClient(settings.API_URL)
 
-    item_levels = api.get_parent_geoids(geoid)['parents']
+    # both item_levels and comparison_geoids are used later
+    item_levels = _filter_comparison_item_levels(api.get_parent_geoids(geoid)['parents'])
     comparison_geoids = [level['geoid'] for level in item_levels]
-
     doc = OrderedDict([('geography', OrderedDict()),
                        ('demographics', dict()),
                        ('economics', dict()),
@@ -1174,7 +1200,7 @@ def enhance_api_data(api_data):
         raw = {}
         enhanced = {}
         geo_value = d['values']['this']
-        num_comparatives = 2
+        num_comparatives = 3
 
         # create our containers for transformation
         for obj in ['values', 'error', 'numerators', 'numerator_errors']:

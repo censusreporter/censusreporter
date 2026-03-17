@@ -1,9 +1,19 @@
 # Django settings for censusreporter project.
 import os
+import sys
 from django.contrib.sessions.middleware import SessionMiddleware
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 DEBUG = True
+
+# Minimal database config for tests only
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
 # should be set by each settings file
 # ROOT_URLCONF = 'config.dev.urls'
 
