@@ -11,14 +11,15 @@ ALLOWED_HOSTS = [
 
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
 #CACHES = {
 #    'default': {
 #        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
 #        'LOCATION': 'unique-snowflake',
 #    }
 #}
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
+
