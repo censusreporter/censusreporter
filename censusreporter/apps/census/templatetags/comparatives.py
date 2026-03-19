@@ -60,7 +60,12 @@ def comparison_index_phrase(value):
     thresholds = list(sorted(COMPARISON_PHRASE_MAP.keys()))
 
     # get highest boundary that's less than the index value we've been passed
-    phrase_key = max(filter(lambda t: t <= index, thresholds))
+    matching = list(filter(lambda t: t <= index, thresholds))
+    if not matching:
+        # index is below the lowest threshold, use the lowest
+        phrase_key = thresholds[0]
+    else:
+        phrase_key = max(matching)
 
     phrase_bits = COMPARISON_PHRASE_MAP[phrase_key]
     phrase = "<strong>%s</strong> %s" % (phrase_bits[0], phrase_bits[1])
