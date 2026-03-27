@@ -29,8 +29,8 @@ from .utils import (
 from .profile import create_chart_embed_json, geo_profile, enhance_api_data, ApiException
 from .topics import TOPICS_MAP, TOPIC_GROUP_LABELS, sort_topics
 
-from boto.s3.connection import S3Connection, OrdinaryCallingFormat
-from boto.s3.key import Key
+import boto3
+from botocore.config import Config as BotoConfig
 
 
 import logging
@@ -755,40 +755,46 @@ class ComparisonBuilder(TemplateView):
 
 
 class S3Conn(object):
+    BUCKET_NAME = 'embed.censusreporter.org'
+
     def make_s3(self):
-        if settings.AWS_ACCESS_KEY_ID and settings.AWS_SECRET_ACCESS_KEY:
-            s3 = S3Connection(settings.AWS_ACCESS_KEY_ID,
-                              settings.AWS_SECRET_ACCESS_KEY,
-                              calling_format=OrdinaryCallingFormat())
-        else:
-            try:
-                s3 = S3Connection(calling_format=OrdinaryCallingFormat())
-            except Exception:
-                s3 = None
-        return s3
+        try:
+            if settings.AWS_ACCESS_KEY_ID and settings.AWS_SECRET_ACCESS_KEY:
+                s3 = boto3.client(
+                    's3',
+                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                    config=BotoConfig(s3={'addressing_style': 'path'})
+                )
+            else:
+                s3 = boto3.client('s3', config=BotoConfig(s3={'addressing_style': 'path'}))
+            return s3
+        except Exception:
+            return None
 
-    def s3_key(self, key_name):
-        s3 = self.make_s3()
+    def key_exists(self, s3_client, key_name):
+        try:
+            s3_client.head_object(Bucket=self.BUCKET_NAME, Key=key_name)
+            return True
+        except Exception:
+            return False
 
-        key = None
-        if s3:
-            bucket = s3.get_bucket('embed.censusreporter.org')
-            key = Key(bucket, key_name)
-        return key
-
-    def write_json(self, s3_key, data):
-        s3_key.metadata['Content-Type'] = 'application/json'
-        s3_key.metadata['Content-Encoding'] = 'gzip'
-        s3_key.storage_class = 'STANDARD'
-
+    def write_json(self, s3_client, key_name, data):
         # create gzipped version of json in memory
         memfile = io.BytesIO()
-        with gzip.GzipFile(filename=s3_key.key, mode='wb', fileobj=memfile) as gzip_data:
+        with gzip.GzipFile(filename=key_name, mode='wb', fileobj=memfile) as gzip_data:
             gzip_data.write(data.encode('utf-8'))
         memfile.seek(0)
 
         # store static version on S3
-        s3_key.set_contents_from_file(memfile)
+        s3_client.put_object(
+            Bucket=self.BUCKET_NAME,
+            Key=key_name,
+            Body=memfile,
+            ContentType='application/json',
+            ContentEncoding='gzip',
+            StorageClass='STANDARD'
+        )
 
 
 VALID_RELEASE_ID_PATTERN = re.compile('^ACS_20\d\d_(1|3|5)-year$')
@@ -843,21 +849,18 @@ class MakeJSONView(View):
         chart_data_json = SafeString(json.dumps(data))
 
         key_name = '/1.0/data/charts/{0}/{1}-{2}.json'.format(releaseID, geoID, chartDataID)
-        s3 = S3Conn()
+        s3_conn = S3Conn()
+        s3_client = s3_conn.make_s3()
 
-        try:
-            s3_key = s3.s3_key(key_name)
-        except Exception:
-            s3_key = None
-
-        if s3_key and s3_key.exists() and not overwrite:
-            logger.debug(f'chart JSON already exists at {key_name}')
-        elif s3_key:
-            s3.write_json(s3_key, chart_data_json)
-            logger.debug(f'wrote chart JSON to {key_name}')
-        else:
+        if not s3_client:
             logger.warning("Could not save to S3 because there was no connection to S3.")
             return False
+
+        if not overwrite and s3_conn.key_exists(s3_client, key_name):
+            logger.debug(f'chart JSON already exists at {key_name}')
+        else:
+            s3_conn.write_json(s3_client, key_name, chart_data_json)
+            logger.debug(f'wrote chart JSON to {key_name}')
 
         return True
 
