@@ -1526,7 +1526,6 @@ function Comparison(options, callback) {
 
             toggleControl.attr('id', toggleID).text(toggleText);
             comparison.trackEvent(comparison.capitalize(comparison.dataFormat) + ' View', 'Toggle percent/number display', showClass);
-
             // update the URL and redraw the page
             comparison.valueType = (comparison.valueType == 'estimate') ? 'percentage' : 'estimate';
             comparison.updateHashObj('valueType', comparison.valueType);
@@ -1690,14 +1689,25 @@ function Comparison(options, callback) {
     comparison.getStatType = function() {
         var title = comparison.table.title.toLowerCase();
 
-        if (title.indexOf('dollars') !== -1 && title.indexOf('percent') == -1) {
-            if ((title.indexOf('income') !== -1 && title.indexOf('median') !== -1)) {
-                return 'dollar';
-            }
-            if (!(title.indexOf('income') !== -1 && title.indexOf('per capita') == -1)) {
-                return 'dollar';
-            }
+        // Median, mean, per-capita, and aggregate dollar quantities are dollar values,
+        // unless expressed as a percentage (e.g. "median rent as a percentage of income").
+        // Rule fires before the "by earnings" check so "Median Income by Workers' Earnings"
+        // is correctly classified as dollar, not number.
+        if (/\b(median|mean|per capita|aggregate)\b.*\b(earnings|income|rent|value|cost|wage|salary)\b/.test(title) &&
+                title.indexOf('percent') === -1) {
+            return 'dollar';
         }
+
+        // "by earnings" (non-median/aggregate) means dollar ranges are the category axis; cells are counts
+        if (/\bby\b.*\bearnings\b/.test(title)) {
+            return 'number';
+        }
+
+        // Quartile tables and similar that carry a bare "(Dollars)" label
+        if (/\(dollars\)/.test(title) && title.indexOf('percent') === -1) {
+            return 'dollar';
+        }
+
         return 'number';
     }
 

@@ -10,3 +10,4 @@ censusreporter/config/dev/local.py
 embed.censusreporter.org/1.0/data
 .claude
 
+town-tips/
