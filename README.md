@@ -1,5 +1,7 @@
 About Census Reporter
 =====================
+[![Backers on Open Collective](https://opencollective.com/censusreporter/backers/badge.svg)](#backers)
+ [![Sponsors on Open Collective](https://opencollective.com/censusreporter/sponsors/badge.svg)](#sponsors) 
 
 The United States Census Bureau provides a massive amount of data about the American people, covering topics from demographics to poverty rates to educational attainment, and at geographical levels ranging from the entire country down to city blocks. As a product of the federal government, the <a href="https://data.census.gov/">data is free to use</a>. But for working journalists&mdash;especially those who don't have experience with the particulars of Census data&mdash;navigating these datasets on deadline can be a challenge.
 
@@ -488,3 +490,33 @@ Data comparison pages
 =====================
 
 Tabular view, map view, distribution view. Docs soon.
+
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/censusreporter/censusreporter/graphs/contributors"><img src="https://opencollective.com/censusreporter/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/censusreporter#backer)]
+
+<a href="https://opencollective.com/censusreporter#backers" target="_blank"><img src="https://opencollective.com/censusreporter/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/censusreporter#sponsor)]
+
+<a href="https://opencollective.com/censusreporter/sponsor/0/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/1/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/2/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/3/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/4/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/5/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/6/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/7/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/8/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/censusreporter/sponsor/9/website" target="_blank"><img src="https://opencollective.com/censusreporter/sponsor/9/avatar.svg"></a>
+
+
