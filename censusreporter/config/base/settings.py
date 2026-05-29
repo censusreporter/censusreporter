@@ -4,6 +4,7 @@ import sys
 from django.contrib.sessions.middleware import SessionMiddleware
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
+
 DEBUG = True
 
 # Minimal database config for tests only
