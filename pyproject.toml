@@ -1,0 +1,28 @@
+[project]
+name = "censusreporter"
+version = "0.0.0"
+description = "The Census Reporter website (censusreporter.org)"
+# Pinned to 3.11 to match the production image (python:3.11). The pinned
+# redis==3.5.3 imports distutils, which was removed in Python 3.12.
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "Django>=5.2,<5.3",
+    "Fabric==1.13.1",
+    "boto==2.49.0",
+    "django-cors-headers==4.6.0",
+    "django-redis-cache==3.0.0",
+    "gunicorn>=21.2.0",
+    "lxml==4.9.1",
+    "newrelic==9.6.0",
+    "redis==3.5.3",
+    "requests==2.32.4",
+    "requests-cache==1.2.0",
+    "six==1.13.0",
+    "whitenoise==5.2.0",
+]
+
+# The project uses a non-standard layout (apps are added to PYTHONPATH rather
+# than installed as a package), so uv should manage the environment without
+# trying to build/install the project itself.
+[tool.uv]
+package = false

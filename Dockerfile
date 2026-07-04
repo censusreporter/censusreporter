@@ -1,9 +1,17 @@
 FROM python:3.11
 
-ADD requirements.txt requirements.txt
-RUN pip install -r requirements.txt gunicorn
+# uv for dependency management (copied from the official standalone image)
+COPY --from=ghcr.io/astral-sh/uv:0.11.23 /uv /uvx /bin/
 
-ENV DJANGO_SETTINGS_MODULE=censusreporter.config.prod.settings \
+WORKDIR /app
+
+# Install locked dependencies into /app/.venv (reproducible from uv.lock)
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev
+
+# Put the project virtualenv on PATH so python/gunicorn resolve to it
+ENV PATH="/app/.venv/bin:$PATH" \
+    DJANGO_SETTINGS_MODULE=censusreporter.config.prod.settings \
     PYTHONPATH=censusreporter/apps:$PYTHONPATH
 
 ADD . .
