@@ -1042,6 +1042,19 @@ class UserGeographyDetailView(TemplateView):
             context['message'] = f'ERROR: code {r.status_code}'
         return context
 
+class AcsAggregateBuilderView(TemplateView):
+    """Interactive tool for computing ACS estimates (with margins of error) over
+    an arbitrary user-drawn or uploaded geometry. The page talks directly to the
+    API's POST /1.0/aggregate/acs endpoint; this view only supplies the API base
+    URL to the template."""
+    template_name = 'aggregate/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['api_url'] = settings.API_URL
+        return context
+
+
 class Census2020View(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

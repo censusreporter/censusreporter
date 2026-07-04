@@ -1,0 +1,90 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block head_title %}Aggregate ACS Data for a Custom Area — Census Reporter{% endblock %}
+
+{% block head_css_extra %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+<style>
+    #agg-layout { display: flex; flex-wrap: wrap; gap: 20px; }
+    #agg-map-col { flex: 1 1 420px; min-width: 320px; }
+    #agg-results-col { flex: 1 1 420px; min-width: 320px; }
+    #map { width: 100%; height: 55vh; min-height: 360px; border: 1px solid #ccc; }
+    .agg-controls { margin: 12px 0; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+    .agg-controls label { display: block; font-size: 0.85em; font-weight: bold; margin-bottom: 3px; }
+    .agg-controls .field { display: flex; flex-direction: column; }
+    #threshold-value { font-weight: normal; }
+    #agg-status { font-style: italic; color: #555; min-height: 1.2em; }
+    table.agg-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    table.agg-table th, table.agg-table td { padding: 4px 6px; border-bottom: 1px solid #eee; text-align: left; }
+    table.agg-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    table.agg-table .moe { color: #777; white-space: nowrap; }
+    .indent-1 { padding-left: 1.2em; } .indent-2 { padding-left: 2.4em; } .indent-3 { padding-left: 3.6em; }
+    .cv-low { color: #2a7a2a; } .cv-med { color: #b8860b; } .cv-high { color: #b22222; }
+    #suppressed-note { font-size: 0.85em; color: #b22222; margin-top: 10px; }
+    .table-block { margin-bottom: 24px; }
+    .table-block h3 { margin-bottom: 2px; }
+    .table-block .universe { font-size: 0.8em; color: #666; margin-top: 0; }
+    .agg-hint { font-size: 0.85em; color: #666; }
+</style>
+{% endblock head_css_extra %}
+
+{% block content %}
+<div id="content">
+    <h1>Aggregate ACS Data for a Custom Area</h1>
+    <p class="agg-hint">Draw a shape on the map (or upload a GeoJSON file), pick a Census table, and
+    Census Reporter will total the American Community Survey estimates for every geography of the
+    chosen level that overlaps your shape &mdash; correctly combining the margins of error. Statistics
+    that can't be added across areas (medians, per-capita, etc.) are listed but not aggregated.</p>
+
+    <div id="agg-layout">
+        <div id="agg-map-col">
+            <div id="map"></div>
+            <div class="agg-controls">
+                <div class="field">
+                    <label for="release-select">ACS release</label>
+                    <select id="release-select">
+                        <option value="acs2024_5yr" selected>ACS 2024 5-year</option>
+                        <option value="acs2024_1yr">ACS 2024 1-year</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="sumlevel-select">Build from</label>
+                    <select id="sumlevel-select">
+                        <option value="140" selected>Census tracts</option>
+                        <option value="150">Block groups</option>
+                        <option value="160">Places</option>
+                        <option value="050">Counties</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="threshold-slider">Min. overlap: <span id="threshold-value">any</span></label>
+                    <input type="range" id="threshold-slider" min="0" max="100" value="0" step="5">
+                </div>
+                <div class="field">
+                    <label for="table-input">Table(s)</label>
+                    <input type="text" id="table-input" value="B01001" size="16" placeholder="e.g. B01001">
+                </div>
+                <div class="field">
+                    <label for="geojson-upload">Upload GeoJSON</label>
+                    <input type="file" id="geojson-upload" accept=".json,.geojson,application/geo+json,application/json">
+                </div>
+            </div>
+            <p class="agg-hint">Use the polygon/rectangle tools at the top-left of the map to draw, or edit an existing shape.</p>
+        </div>
+
+        <div id="agg-results-col">
+            <p id="agg-status">Draw or upload a shape to begin.</p>
+            <p id="component-summary" class="agg-hint"></p>
+            <button id="download-csv" style="display:none;">Download CSV</button>
+            <div id="results"></div>
+            <div id="suppressed-note"></div>
+        </div>
+    </div>
+</div>
+
+<script>window.CR_API_URL = "{{ api_url }}";</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="{% static 'js/acs_aggregate.js' %}"></script>
+{% endblock content %}
