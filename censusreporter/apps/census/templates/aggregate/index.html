@@ -33,6 +33,17 @@
         color: #6b5300;
         border-radius: 3px;
     }
+    #weighting-note {
+        display: none;
+        margin: 10px 0;
+        padding: 8px 12px;
+        font-size: 0.85em;
+        border: 1px solid #7aa7d0;
+        border-left: 4px solid #7aa7d0;
+        background: #eef4fb;
+        color: #2c4a63;
+        border-radius: 3px;
+    }
     .table-block { margin-bottom: 24px; }
     .table-block h3 { margin-bottom: 2px; }
     .table-block .universe { font-size: 0.8em; color: #666; margin-top: 0; }
@@ -80,6 +91,12 @@
                     <label for="geojson-upload">Upload GeoJSON</label>
                     <input type="file" id="geojson-upload" accept=".json,.geojson,application/geo+json,application/json">
                 </div>
+                <div class="field">
+                    <label for="weighting-toggle" title="Scale each geography's value by the fraction of its area inside your shape">Weighting</label>
+                    <label class="agg-hint" style="font-weight:normal;">
+                        <input type="checkbox" id="weighting-toggle"> Weight by overlap (approximate)
+                    </label>
+                </div>
             </div>
             <p class="agg-hint">Use the polygon/rectangle tools at the top-left of the map to draw, or edit an existing shape.</p>
         </div>
@@ -88,6 +105,7 @@
             <p id="agg-status">Draw or upload a shape to begin.</p>
             <p id="component-summary" class="agg-hint"></p>
             <div id="overlap-warning"></div>
+            <div id="weighting-note"></div>
             <button id="download-csv" style="display:none;">Download CSV</button>
             <div id="results"></div>
             <div id="suppressed-note"></div>

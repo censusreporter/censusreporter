@@ -97,6 +97,7 @@
   document.getElementById("sumlevel-select").addEventListener("change", scheduleRecompute);
   document.getElementById("release-select").addEventListener("change", scheduleRecompute);
   document.getElementById("table-input").addEventListener("change", scheduleRecompute);
+  document.getElementById("weighting-toggle").addEventListener("change", scheduleRecompute);
 
   document.getElementById("geojson-upload").addEventListener("change", function (evt) {
     var file = evt.target.files && evt.target.files[0];
@@ -146,6 +147,7 @@
     var release = document.getElementById("release-select").value;
     var sumlevel = document.getElementById("sumlevel-select").value;
     var threshold = parseInt(thresholdSlider.value, 10) / 100;
+    var weighting = document.getElementById("weighting-toggle").checked ? "area" : "none";
 
     setStatus("Calculating…");
     fetch(API_URL + "/1.0/aggregate/acs/" + release, {
@@ -155,7 +157,8 @@
         geometry: geometry,
         table_ids: tableIds,
         sumlevel: sumlevel,
-        threshold: threshold
+        threshold: threshold,
+        weighting: weighting
       })
     })
       .then(function (resp) {
@@ -191,6 +194,9 @@
     var warn = document.getElementById("overlap-warning");
     warn.style.display = "none";
     warn.innerHTML = "";
+    var wnote = document.getElementById("weighting-note");
+    wnote.style.display = "none";
+    wnote.innerHTML = "";
     removeComponentLayer();
     setStatus(statusMsg || "");
   }
@@ -214,6 +220,21 @@
       "% of their area (as little as " + faintest + "%), but their <em>full</em> values are still " +
       "counted — so these totals are probably overstated. Raise the &ldquo;Min. overlap&rdquo; " +
       "slider to drop them, or treat the totals as an upper bound.";
+    el.style.display = "block";
+  }
+
+  function renderWeightingNote(weighted) {
+    var el = document.getElementById("weighting-note");
+    if (!weighted) {
+      el.style.display = "none";
+      el.innerHTML = "";
+      return;
+    }
+    el.innerHTML = "ℹ️ <strong>Overlap-weighted (approximate).</strong> Each geography's " +
+      "value is scaled by the share of its area inside your shape. This assumes people and " +
+      "characteristics are spread evenly across each geography, which is often not true — treat " +
+      "these as estimates. Margins of error are scaled too and will look smaller than the " +
+      "whole-geography totals.";
     el.style.display = "block";
   }
 
@@ -301,7 +322,11 @@
       (names.length ? ": " + names.join(", ") + more : "");
     setStatus("");
 
-    renderOverlapWarning(result.components);
+    var weighted = result.weighting === "area";
+    // Overcounting is a whole-geography problem; when apportioning by overlap the
+    // relevant caveat is the uniform-distribution assumption instead.
+    renderOverlapWarning(weighted ? [] : result.components);
+    renderWeightingNote(weighted);
     renderComponents(result.components);
 
     var container = document.getElementById("results");
