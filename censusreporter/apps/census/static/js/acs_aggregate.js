@@ -11,6 +11,10 @@
   "use strict";
 
   var API_URL = window.CR_API_URL || "https://api.censusreporter.org";
+  // TIGER release used by the aggregate endpoint's spatial selection; the same
+  // release must be used to fetch the participating geographies' shapes.
+  var GEOM_TIGER_RELEASE = "tiger2024";
+  var GEOM_CHUNK_SIZE = 80; // keep geo/show GET URLs comfortably short
 
   var map = L.map("map").setView([39.8283, -98.5795], 4);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -31,6 +35,8 @@
 
   var lastResult = null;
   var debounceTimer = null;
+  var componentLayer = null; // Leaflet layer shading the participating geographies
+  var componentRequestSeq = 0; // guards against out-of-order async geom responses
 
   // --- geometry helpers -----------------------------------------------------
 
@@ -179,7 +185,69 @@
     document.getElementById("suppressed-note").innerHTML = "";
     document.getElementById("component-summary").textContent = "";
     document.getElementById("download-csv").style.display = "none";
+    removeComponentLayer();
     setStatus(statusMsg || "");
+  }
+
+  function removeComponentLayer() {
+    if (componentLayer) {
+      map.removeLayer(componentLayer);
+      componentLayer = null;
+    }
+  }
+
+  // Fetch the shapes of the geographies that participated in the aggregation and
+  // add them as a shaded layer beneath the user's drawn polygon.
+  function renderComponents(components) {
+    removeComponentLayer();
+    var geoids = (components || []).map(function (c) { return c.geoid; });
+    if (geoids.length === 0) return;
+
+    // Join area fraction back onto each shape for styling/tooltips.
+    var fracByGeoid = {};
+    components.forEach(function (c) { fracByGeoid[c.geoid] = c.area_frac; });
+
+    var seq = ++componentRequestSeq;
+    var chunks = [];
+    for (var i = 0; i < geoids.length; i += GEOM_CHUNK_SIZE) {
+      chunks.push(geoids.slice(i, i + GEOM_CHUNK_SIZE));
+    }
+
+    Promise.all(chunks.map(function (chunk) {
+      var url = API_URL + "/1.0/geo/show/" + GEOM_TIGER_RELEASE +
+        "?geo_ids=" + encodeURIComponent(chunk.join(","));
+      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    })).then(function (collections) {
+      // A newer request started while we were fetching — discard stale shapes.
+      if (seq !== componentRequestSeq) return;
+      var features = [];
+      collections.forEach(function (fc) {
+        if (fc && fc.features) features = features.concat(fc.features);
+      });
+      if (features.length === 0) return;
+
+      removeComponentLayer();
+      componentLayer = L.geoJSON({ type: "FeatureCollection", features: features }, {
+        style: function (feature) {
+          var frac = fracByGeoid[feature.properties.geoid] || 0;
+          return {
+            color: "#e8720c",
+            weight: 1,
+            fillColor: "#f6a04d",
+            // more overlap -> more opaque, so partial participants read as fainter
+            fillOpacity: 0.15 + 0.35 * Math.max(0, Math.min(1, frac))
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          var frac = fracByGeoid[feature.properties.geoid];
+          var pct = frac !== undefined ? Math.round(frac * 100) + "% inside" : "";
+          layer.bindTooltip((feature.properties.name || feature.properties.geoid) +
+            (pct ? " (" + pct + ")" : ""));
+        }
+      }).addTo(map);
+      componentLayer.bringToBack();
+      drawnItems.bringToFront();
+    });
   }
 
   function fmt(n) {
@@ -204,6 +272,8 @@
       n + " " + levelLabel + " combined (" + result.release_name + ")" +
       (names.length ? ": " + names.join(", ") + more : "");
     setStatus("");
+
+    renderComponents(result.components);
 
     var container = document.getElementById("results");
     container.innerHTML = "";
