@@ -22,6 +22,17 @@
     .indent-1 { padding-left: 1.2em; } .indent-2 { padding-left: 2.4em; } .indent-3 { padding-left: 3.6em; }
     .cv-low { color: #2a7a2a; } .cv-med { color: #b8860b; } .cv-high { color: #b22222; }
     #suppressed-note { font-size: 0.85em; color: #b22222; margin-top: 10px; }
+    #overlap-warning {
+        display: none;
+        margin: 10px 0;
+        padding: 8px 12px;
+        font-size: 0.85em;
+        border: 1px solid #e0b000;
+        border-left: 4px solid #e0b000;
+        background: #fff8e1;
+        color: #6b5300;
+        border-radius: 3px;
+    }
     .table-block { margin-bottom: 24px; }
     .table-block h3 { margin-bottom: 2px; }
     .table-block .universe { font-size: 0.8em; color: #666; margin-top: 0; }
@@ -76,6 +87,7 @@
         <div id="agg-results-col">
             <p id="agg-status">Draw or upload a shape to begin.</p>
             <p id="component-summary" class="agg-hint"></p>
+            <div id="overlap-warning"></div>
             <button id="download-csv" style="display:none;">Download CSV</button>
             <div id="results"></div>
             <div id="suppressed-note"></div>

@@ -15,6 +15,9 @@
   // release must be used to fetch the participating geographies' shapes.
   var GEOM_TIGER_RELEASE = "tiger2024";
   var GEOM_CHUNK_SIZE = 80; // keep geo/show GET URLs comfortably short
+  // Geographies overlapping the shape by less than this fraction of their own
+  // area still contribute their FULL value, so they tend to overstate totals.
+  var LOW_OVERLAP_THRESHOLD = 0.10;
 
   var map = L.map("map").setView([39.8283, -98.5795], 4);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -185,8 +188,33 @@
     document.getElementById("suppressed-note").innerHTML = "";
     document.getElementById("component-summary").textContent = "";
     document.getElementById("download-csv").style.display = "none";
+    var warn = document.getElementById("overlap-warning");
+    warn.style.display = "none";
+    warn.innerHTML = "";
     removeComponentLayer();
     setStatus(statusMsg || "");
+  }
+
+  // Warn when whole-geography inclusion is likely overcounting: some included
+  // geographies barely overlap the shape yet contribute their full value.
+  function renderOverlapWarning(components) {
+    var el = document.getElementById("overlap-warning");
+    var low = (components || []).filter(function (c) {
+      return c.area_frac < LOW_OVERLAP_THRESHOLD;
+    });
+    if (low.length === 0) {
+      el.style.display = "none";
+      el.innerHTML = "";
+      return;
+    }
+    var pct = Math.round(LOW_OVERLAP_THRESHOLD * 100);
+    var faintest = Math.round(Math.min.apply(null, low.map(function (c) { return c.area_frac; })) * 100);
+    el.innerHTML = "⚠️ <strong>" + low.length + " of " + components.length +
+      " geographies</strong> overlap your shape by less than " + pct +
+      "% of their area (as little as " + faintest + "%), but their <em>full</em> values are still " +
+      "counted — so these totals are probably overstated. Raise the &ldquo;Min. overlap&rdquo; " +
+      "slider to drop them, or treat the totals as an upper bound.";
+    el.style.display = "block";
   }
 
   function removeComponentLayer() {
@@ -273,6 +301,7 @@
       (names.length ? ": " + names.join(", ") + more : "");
     setStatus("");
 
+    renderOverlapWarning(result.components);
     renderComponents(result.components);
 
     var container = document.getElementById("results");
