@@ -19,6 +19,7 @@ from .views import (
     TableDetailView,
     TopicView,
     UserGeographyDetailView,
+    AcsAggregateBuilderView,
     Census2020View,
     robots
 )
@@ -158,6 +159,12 @@ urlpatterns = [
         view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="user_geo/index.html")),
         kwargs={},
         name='user_geo',
+    ),
+
+    re_path('^aggregate/$',
+        view=cache_page(STANDARD_CACHE_TIME)(AcsAggregateBuilderView.as_view()),
+        kwargs={},
+        name='acs_aggregate',
     ),
     re_path('^user_geo/(?P<hash_digest>[A-Fa-f0-9]{32})/$',
         # don't cache as it mucks with acknowledging the async processing
