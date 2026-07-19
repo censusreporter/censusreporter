@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from census.models import Table
+# Note: This command references a Table model that doesn't exist in this project
+# from censusreporter.apps.census.models import Table
 
 SUBJECT_AREA_TO_TOPICS = {
     'Age-Sex': 'age, gender',

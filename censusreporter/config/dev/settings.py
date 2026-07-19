@@ -1,8 +1,8 @@
 from censusreporter.config.base.settings import *
 
 DEBUG = True
-ROOT_URLCONF = 'config.dev.urls'
-WSGI_APPLICATION = "config.dev.wsgi.application"
+ROOT_URLCONF = 'censusreporter.config.dev.urls'
+WSGI_APPLICATION = "censusreporter.config.dev.wsgi.application"
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
