@@ -21,6 +21,7 @@ from django.utils.text import slugify
 from django.views.generic import View, TemplateView
 
 from .utils import (
+    api_cache_key,
     parse_table_id,
     TOPIC_FILTERS,
     SUMLEV_CHOICES,
@@ -41,6 +42,7 @@ r_session = requests_cache.CachedSession(
     backend=requests_cache.RedisCache(connection=redis.StrictRedis.from_url(getattr(settings, 'REDIS_URL'))),
     cache_name='censusreporter_cache',
     expire_after=requests_cache.NEVER_EXPIRE,
+    key_fn=api_cache_key,
 )
 r_session.headers.update({'User-Agent': 'censusreporter.org frontend'})
 
@@ -122,7 +124,7 @@ class TableDetailView(TemplateView):
                 table_argument = table_argument.replace('PR', 'APR')
             else:
                 table_argument = table_argument + 'A'
-            endpoint = f"{settings.API_URL}/2.0/table/latest/{table_argument}"
+            endpoint = f"{settings.INTERNAL_API_URL}/2.0/table/latest/{table_argument}"
 
             if r_session.get(endpoint).status_code == 200:
                 return HttpResponseRedirect(
@@ -131,7 +133,7 @@ class TableDetailView(TemplateView):
             raise e
 
     def get_tabulation_data(self, table_code):
-        endpoint = f"{settings.API_URL}/1.0/tabulation/{table_code}"
+        endpoint = f"{settings.INTERNAL_API_URL}/1.0/tabulation/{table_code}"
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -227,7 +229,7 @@ class TableDetailView(TemplateView):
         return related_topic_pages
 
     def get_table_data(self, table_code):
-        endpoint = f"{settings.API_URL}/2.0/table/latest/{table_code}"
+        endpoint = f"{settings.INTERNAL_API_URL}/2.0/table/latest/{table_code}"
         r = r_session.get(endpoint)
 
         if r.status_code == 200:
@@ -602,7 +604,7 @@ class GeographyDetailView(TemplateView):
         pass
 
     def get_geography(self, geo_id):
-        endpoint = f"{settings.API_URL}/1.0/geo/tiger2024/{self.geo_id}"
+        endpoint = f"{settings.INTERNAL_API_URL}/1.0/geo/tiger2024/{self.geo_id}"
         r = r_session.get(endpoint)
         status_code = r.status_code
 
@@ -871,7 +873,7 @@ class SearchResultsView(TemplateView):
         search_data_all = {}
 
         cr_data = []
-        search_url = f"{settings.API_URL}/2.1/full-text/search"
+        search_url = f"{settings.INTERNAL_API_URL}/2.1/full-text/search"
         cr_resp = r_session.get(search_url, params={"q": query, "limit": 1000})
 
         if cr_resp.status_code == 200:
@@ -1015,7 +1017,7 @@ class UserGeographyDetailView(TemplateView):
         context = super().get_context_data(**kwargs)
         hash_digest = kwargs['hash_digest']
 
-        endpoint = f'{settings.API_URL}/1.0/user_geo/{hash_digest}'
+        endpoint = f'{settings.INTERNAL_API_URL}/1.0/user_geo/{hash_digest}'
         r = r_session.get(endpoint)
 
         if r.status_code == 404:
@@ -1058,7 +1060,7 @@ class AcsAggregateBuilderView(TemplateView):
 class Census2020View(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        endpoint = f'{settings.API_URL}/1.0/user_geo/list'
+        endpoint = f'{settings.INTERNAL_API_URL}/1.0/user_geo/list'
         try:
             r = r_session.get(endpoint)
 

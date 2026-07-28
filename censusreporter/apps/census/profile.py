@@ -6,7 +6,7 @@ import requests_cache
 
 from collections import OrderedDict
 from django.conf import settings
-from .utils import get_ratio, get_division, SUMMARY_LEVEL_DICT, ACS_RELEASES
+from .utils import api_cache_key, get_ratio, get_division, SUMMARY_LEVEL_DICT, ACS_RELEASES
 
 import logging
 logging.basicConfig()
@@ -16,6 +16,7 @@ r_session = requests_cache.CachedSession(
     cache_name='cr_api_cache',
     backend=requests_cache.RedisCache(connection=redis.StrictRedis.from_url(getattr(settings, 'REDIS_URL'))),
     expire_after=requests_cache.NEVER_EXPIRE,
+    key_fn=api_cache_key,
 )
 r_session.headers.update({'User-Agent': 'censusreporter.org frontend profile builder'})
 
@@ -251,7 +252,7 @@ def _filter_comparison_item_levels(item_levels):
     return levels
 
 def geo_profile(geoid, acs='latest'):
-    api = ApiClient(settings.API_URL)
+    api = ApiClient(settings.INTERNAL_API_URL)
 
     # both item_levels and comparison_geoids are used later
     item_levels = _filter_comparison_item_levels(api.get_parent_geoids(geoid)['parents'])
