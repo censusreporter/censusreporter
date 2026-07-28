@@ -15,7 +15,7 @@ var geoSelectEngine = new Bloodhound({
             var results = response.results;
             _.map(results, function(item) {
                 item['sumlev_name'] = sumlevMap[item['sumlevel']]['name'];
-                item['url'] = '/profiles/' + item['full_geoid'] + '-' + slugify(item['full_name']);
+                item['url'] = '/profiles/' + item['full_geoid'] + '-' + slugify(item['full_name']) + '/';
             })
             return results;
         }
