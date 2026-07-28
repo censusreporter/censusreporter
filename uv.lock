@@ -118,7 +118,7 @@ requires-dist = [
     { name = "requests", specifier = "==2.32.4" },
     { name = "requests-cache", specifier = "==1.2.0" },
     { name = "six", specifier = "==1.13.0" },
-    { name = "whitenoise", specifier = "==5.2.0" },
+    { name = "whitenoise", specifier = "==6.12.0" },
 ]
 
 [[package]]
@@ -476,9 +476,9 @@ wheels = [
 
 [[package]]
 name = "whitenoise"
-version = "5.2.0"
+version = "6.12.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ac/8a/cd6346ffd78f5ff9aa9ce750f3e8d75cde7c60fbe197ac10bdea49d61cff/whitenoise-5.2.0.tar.gz", hash = "sha256:05ce0be39ad85740a78750c86a93485c40f08ad8c62a6006de0233765996e5c7", size = 45096, upload-time = "2020-08-04T09:33:38.557Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cb/2a/55b3f3a4ec326cd077c1c3defeee656b9298372a69229134d930151acd01/whitenoise-6.12.0.tar.gz", hash = "sha256:f723ebb76a112e98816ff80fcea0a6c9b8ecde835f8ddda25df7a30a3c2db6ad", size = 26841, upload-time = "2026-02-27T00:05:42.028Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/50/83/5d91949e370e52578a99ef6391c3b3e19f9fd1f5b4f58d5cbd6e2862d4a8/whitenoise-5.2.0-py2.py3-none-any.whl", hash = "sha256:05d00198c777028d72d8b0bbd234db605ef6d60e9410125124002518a48e515d", size = 19775, upload-time = "2020-08-04T09:33:41.561Z" },
+    { url = "https://files.pythonhosted.org/packages/db/eb/d5583a11486211f3ebd4b385545ae787f32363d453c19fffd81106c9c138/whitenoise-6.12.0-py3-none-any.whl", hash = "sha256:fc5e8c572e33ebf24795b47b6a7da8da3c00cff2349f5b04c02f28d0cc5a3cc2", size = 20302, upload-time = "2026-02-27T00:05:40.086Z" },
 ]
