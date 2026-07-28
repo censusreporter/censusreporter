@@ -44,7 +44,7 @@ CensusReporter = {
                 var censusreporter_url = options.censusreporter_url;
                 var autoclick_handler = function(data, layer) {
                     layer.on('click',function() {
-                        window.open(censusreporter_url + "/profiles/" + data.properties.geoid);
+                        window.open(censusreporter_url + "/profiles/" + data.properties.geoid + "-" + slugify(data.properties.name) + "/");
                     });
                 }
                 if (options.onEachFeature) {
@@ -363,7 +363,7 @@ CensusReporter.SummaryLevelLayer = CensusReporter.GeoJSONLayer.extend({
     _defaultGeojsonOptions: {
         onEachFeature: function(feature, layer) {
             // you can wire behavior to each "feature", or place outline.
-            var profileURL = 'https://censusreporter.org/profiles/' + feature.properties.geoid;
+            var profileURL = 'https://censusreporter.org/profiles/' + feature.properties.geoid + '-' + slugify(feature.properties.name) + '/';
             layer.bindPopup("<a href='" + profileURL + "'>" + feature.properties.name + "</a>");
             if (this.style && this.mouseoverStyle) {
                 layer.on('mouseover', function() {
