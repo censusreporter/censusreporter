@@ -15,7 +15,7 @@ dependencies = [
     "newrelic==9.6.0",
     "redis==3.5.3",
     "requests==2.34.2",
-    "requests-cache==1.2.0",
+    "requests-cache==1.3.3",
     "six==1.13.0",
     "whitenoise==6.12.0",
 ]
