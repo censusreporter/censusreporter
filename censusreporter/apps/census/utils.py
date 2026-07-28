@@ -1,7 +1,26 @@
 from collections import OrderedDict
+import copy
 import re
+from urllib.parse import urlsplit, urlunsplit
 
 from django.urls import reverse
+from requests_cache.backends.base import create_key as _default_cache_key
+
+
+def api_cache_key(request, **kwargs):
+    """Cache key for r_session requests, based on the public API URL
+    regardless of which host the request actually went to.
+
+    settings.INTERNAL_API_URL lets the app call census-api directly over the
+    internal network instead of round-tripping through the public internet,
+    without invalidating the existing (NEVER_EXPIRE) Redis cache: a request to
+    the internal host hashes identically to the same request against the
+    public API, so it transparently hits whatever's already cached there.
+    """
+    normalized = copy.copy(request)
+    parts = urlsplit(request.url)
+    normalized.url = urlunsplit(('https', 'api.censusreporter.org', parts.path, parts.query, ''))
+    return _default_cache_key(normalized, **kwargs)
 
 
 def get_object_or_none(klass, *args, **kwargs):

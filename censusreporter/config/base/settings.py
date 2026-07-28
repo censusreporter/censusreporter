@@ -132,6 +132,13 @@ MANAGERS = ADMINS
 
 API_URL = os.environ.get('CENSUSREPORTER_API_URL', 'https://api.censusreporter.org')
 
+# Used for server-side calls to census-api only (browser-facing URLs always use
+# API_URL, since a browser can't reach an internal address). Defaults to
+# API_URL, so this is a no-op unless CENSUSREPORTER_INTERNAL_API_URL is set -
+# e.g. to reach census-api directly over the internal Docker network instead
+# of round-tripping through the public internet for every request.
+INTERNAL_API_URL = os.environ.get('CENSUSREPORTER_INTERNAL_API_URL', API_URL)
+
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
