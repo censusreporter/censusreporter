@@ -1445,6 +1445,34 @@ h1.article-header-right {
     padding: .83em 1em;
 }
 
+#map-opacity-controls .opacity-slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 5px;
+}
+
+#map-opacity-controls label {
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #555;
+    white-space: nowrap;
+}
+
+#map-opacity-controls input[type="range"] {
+    flex: 1;
+    cursor: pointer;
+    accent-color: #428476;
+}
+
+#map-opacity-controls #opacity-value {
+    min-width: 2.5em;
+    text-align: right;
+    font-weight: 700;
+    color: #333;
+    font-size: 0.9em;
+}
+
 ul.quantile-legend {
     list-style: none;
     margin: 0;

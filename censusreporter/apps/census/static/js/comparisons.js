@@ -56,6 +56,7 @@ function Comparison(options, callback) {
         comparison.headerContainer = d3.select(options.displayHeader);
         comparison.dataContainer = d3.select(options.dataContainer);
         comparison.aside = d3.select('aside');
+        comparison.fillOpacity = 0.6;
 
         // add the "change table" widget and listener
         comparison.makeTopicSelectWidget();
@@ -220,6 +221,10 @@ function Comparison(options, callback) {
                         showCompass: false
                     }), 'top-right')
                 }
+
+                // Add opacity slider below the legend
+                comparison.addOpacitySlider();
+
                 comparison.showChoropleth();
 
                 comparison.sumlevSelector.fadeIn();
@@ -288,6 +293,46 @@ function Comparison(options, callback) {
             .classed('quantile-legend', true);
 
         comparison.mapLegend = $('#map-legend');
+    }
+
+    comparison.addOpacitySlider = function() {
+        // Remove any existing slider
+        d3.select('#map-opacity-controls').remove();
+
+        var sliderContainer = comparison.aside.append('div')
+            .attr('class', 'aside-block')
+            .attr('id', 'map-opacity-controls');
+
+        sliderContainer.append('p')
+            .attr('class', 'bottom display-type strong')
+            .text('Map Options');
+
+        var controlWrap = sliderContainer.append('div')
+            .attr('class', 'opacity-slider-wrap');
+
+        controlWrap.append('label')
+            .attr('for', 'opacity-slider')
+            .text('Fill Opacity');
+
+        controlWrap.append('input')
+            .attr('type', 'range')
+            .attr('id', 'opacity-slider')
+            .attr('min', '0.1')
+            .attr('max', '1.0')
+            .attr('step', '0.05')
+            .attr('value', comparison.fillOpacity)
+            .on('input', function() {
+                var val = parseFloat(this.value);
+                comparison.fillOpacity = val;
+                d3.select('#opacity-value').text(Math.round(val * 100) + '%');
+                if (comparison.map && comparison.map.getLayer('geojson-layer-fill')) {
+                    comparison.map.setPaintProperty('geojson-layer-fill', 'fill-opacity', val);
+                }
+            });
+
+        controlWrap.append('span')
+            .attr('id', 'opacity-value')
+            .text(Math.round(comparison.fillOpacity * 100) + '%');
     }
 
     comparison.makeMapDataSelector = function() {
@@ -598,7 +643,7 @@ function Comparison(options, callback) {
                     paint: {
                         'fill-color': ['get', 'color'],
                         'fill-outline-color': '#fff',
-                        'fill-opacity': 0.8
+                        'fill-opacity': comparison.fillOpacity
                     }
                 })
 
