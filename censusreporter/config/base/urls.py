@@ -1,6 +1,6 @@
-from census.urls import urlpatterns as app_urlpatterns
+from censusreporter.apps.census.urls import urlpatterns as app_urlpatterns
 
 urlpatterns = []
 urlpatterns += app_urlpatterns
 
-handler500 = 'census.views.server_error'
+handler500 = 'censusreporter.apps.census.views.server_error'
