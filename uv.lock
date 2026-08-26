@@ -53,7 +53,6 @@ dependencies = [
     { name = "django-redis-cache" },
     { name = "gunicorn" },
     { name = "lxml" },
-    { name = "newrelic" },
     { name = "redis" },
     { name = "requests" },
     { name = "requests-cache" },
@@ -69,7 +68,6 @@ requires-dist = [
     { name = "django-redis-cache", specifier = "==3.0.0" },
     { name = "gunicorn", specifier = ">=21.2.0" },
     { name = "lxml", specifier = "==6.1.1" },
-    { name = "newrelic", specifier = "==9.6.0" },
     { name = "redis", specifier = "==3.5.3" },
     { name = "requests", specifier = "==2.34.2" },
     { name = "requests-cache", specifier = "==1.3.3" },
@@ -196,18 +194,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/e6/fb/8ab3845fe046ba4cbf74536bcf6801a774b7caf4350de1c5d37f1f0a9e90/lxml-6.1.1-pp311-pypy311_pp73-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:f6f0ce10945fab9c4c06ce14e22af9059d1a87493a9af4501a5b0b9187e21cf2", size = 4250945, upload-time = "2026-05-18T19:20:47.385Z" },
     { url = "https://files.pythonhosted.org/packages/68/1b/7553ab136894374ffae8851ec06f98f511cd8e66246e41b6be059d0a7289/lxml-6.1.1-pp311-pypy311_pp73-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f8844cd288697c6425c9beba919302241e3278871dc6519515e72b04e987abcf", size = 4401664, upload-time = "2026-05-18T19:20:50.489Z" },
     { url = "https://files.pythonhosted.org/packages/db/a4/441aee36c6f6b249823d20fd91f9be9ab89d7c5a8ae542a4a4ca6d342d56/lxml-6.1.1-pp311-pypy311_pp73-win_amd64.whl", hash = "sha256:ed21202aec73cda4d55d1ce57b389aadb90ffb044e6cd1080b8347efe1b1ec84", size = 3508989, upload-time = "2026-05-18T19:18:38.158Z" },
-]
-
-[[package]]
-name = "newrelic"
-version = "9.6.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f0/58/93a0469dd098c618e36911c95bc78ae325f10d55c41e54bee76a1ae318cf/newrelic-9.6.0.tar.gz", hash = "sha256:3db642583cfee951f185696fe365b41d8aff733b23867e88de97de114e3cfcf8", size = 1004396, upload-time = "2024-01-25T23:20:10.487Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/4a/2f467e90b297fbfaab65458bf37d26b44647d7e380584e90379b89472abb/newrelic-9.6.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:26255aec6b29bc17e5e089bb18fbf004f4c765386ba61d1289681aa7ba538207", size = 796165, upload-time = "2024-01-25T23:19:25.344Z" },
-    { url = "https://files.pythonhosted.org/packages/de/4f/48324fb9d22fc976009e131e7f76957c14d37085dfdc7aa6dbff8dc5f251/newrelic-9.6.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c6f21f7a69294f64daa9be59c1c1e0eba889e85ed83afc67ed0a63c8efc9ff2b", size = 794641, upload-time = "2024-01-25T23:19:27.204Z" },
-    { url = "https://files.pythonhosted.org/packages/dd/25/c1bc89207305093eda0ac3cc29382ab8f219a11c875c582f252fd16f9f35/newrelic-9.6.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:5ecd44ff5b39138469778b5224a1a373867d21a0ca2389d093d99939cb422947", size = 810396, upload-time = "2024-01-25T23:19:29.391Z" },
-    { url = "https://files.pythonhosted.org/packages/53/98/d8ef50fffbb99d7f60664f045338bf53d1204fd5f40d62e4112b31e12da0/newrelic-9.6.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:c6c4aa8b91dcb5403862c3e5efa57751a8b4e778576916bb22cafbfc03d47807", size = 810384, upload-time = "2024-01-25T23:19:31.277Z" },
 ]
 
 [[package]]
