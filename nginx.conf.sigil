@@ -1,5 +1,3 @@
-limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;
-
 {{ range $port_map := .PROXY_PORT_MAP | split " " }}
 {{ $port_map_list := $port_map | split ":" }}
 {{ $scheme := index $port_map_list 0 }}
@@ -20,8 +18,6 @@ server {
   }
 {{ else }}
   location    / {
-    limit_req zone=one burst=30;
-
     gzip off;
     gzip_min_length  1100;
     gzip_buffers  4 32k;
@@ -86,8 +82,6 @@ server {
   {{ if and (eq $.SPDY_SUPPORTED "true") (ne $.HTTP2_SUPPORTED "true") }}add_header          Alternate-Protocol  {{ $.PROXY_SSL_PORT }}:npn-spdy/2;{{ end }}
 
   location    / {
-    limit_req zone=one burst=30;
-
     gzip off;
     gzip_min_length  1100;
     gzip_buffers  4 32k;
