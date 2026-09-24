@@ -455,8 +455,8 @@ function initialize_map() {
 
     map.on('click', 'polys-layer-fill', (e) => {
         if (e && e.features && e.features.length > 0) {
-            window.location.href = '/profiles/' + e.features[0].properties.full_geoid;
-
+            var clickedFeature = e.features[0].properties;
+            window.location.href = '/profiles/' + clickedFeature.full_geoid + '-' + slugify(clickedFeature.full_name) + '/';
         }
     })
 

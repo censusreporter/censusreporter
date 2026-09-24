@@ -15,7 +15,7 @@ register = template.Library()
 
 @register.inclusion_tag('topics/_blocks/_table_list.html')
 def list_tables(topics=None, prefix=None, exclude_prefix=None, codes=None, query=None):
-    api = ApiClient(settings.API_URL)
+    api = ApiClient(settings.INTERNAL_API_URL)
 
     if exclude_prefix:
         exclude_prefix = ['00', '98', '99'] + list(map(lambda x: x.strip(), exclude_prefix.split(',')))

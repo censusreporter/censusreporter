@@ -29,40 +29,25 @@ Setting up for local development
 
 Census Reporter is an open-source project, so not only is the data free to use, so is the code. Developers in South Africa forked this repository to build <a href="http://wazimap.co.za/">Wazi</a>, for example, a site exploring South African data. We'd love it if you'd fork this repository, too, and maybe you even have features you'd like to contribute back!
 
-Here's what you need to know to get a local version of Census Reporter up and running. These instructions assume you're using <a href="http://virtualenv.readthedocs.org/en/latest/">virtualenv</a> and <a href="http://virtualenvwrapper.readthedocs.org/en/latest/">virtualenvwrapper</a> to manage your development environments.
+Here's what you need to know to get a local version of Census Reporter up and running. These instructions use <a href="https://docs.astral.sh/uv/">uv</a> to manage the Python environment and dependencies.
 
 First, clone this repository to your machine and move into your new project directory:
 
     >> git clone git@github.com:censusreporter/censusreporter.git
     >> cd <your cloned repo dir>
 
-Create the virtual environment for your local project, activate it and install the required libraries:
+Install the dependencies. `uv sync` reads `pyproject.toml`/`uv.lock` and creates a local `.venv` automatically:
 
-    >> mkvirtualenv census --no-site-packages
-    >> workon census
-    >> pip install -r requirements.txt
+    >> uv sync
 
-With your development environment still active, make sure it has the path settings it will need:
-
-    >> add2virtualenv ./censusreporter
-    >> add2virtualenv ./censusreporter/apps
-
-And make sure your development environment knows the proper DJANGO_SETTINGS_MODULE by creating a `postactivate` script ...
-
-    >> cdvirtualenv bin
-    >> touch postactivate
-
-... and then using your favorite editor to add these two lines to your new `postactivate` script:
+Census Reporter uses a non-standard layout, so the app and its settings need to be on the Python path, and Django needs to know which settings module to use. Set these two environment variables (add them to your shell profile, a `.env`, or your favorite direnv setup):
 
     export DJANGO_SETTINGS_MODULE='config.dev.settings'
-    echo "DJANGO_SETTINGS_MODULE set to $DJANGO_SETTINGS_MODULE"
+    export PYTHONPATH='censusreporter:censusreporter/apps'
 
-Save and close the file. Reactivate your development environment so `postactivate` gets triggered, then fire up your local Census Reporter:
+Then fire up your local Census Reporter. `uv run` executes inside the project's virtual environment:
 
-    >> deactivate
-    >> workon census
-    >> cd <your cloned repo dir>
-    >> python manage.py runserver
+    >> uv run python manage.py runserver
 
 Hurray! Your local copy of Census Reporter will be hitting our production data sources, so you should be able to search and browse just like you would on the live website. If you'd like to go a step further, you can <a href="https://github.com/censusreporter/census-api">run the API locally</a>, and even <a href="http://censusreporter.tumblr.com/post/73727555158/easier-access-to-acs-data">load the entire Postgres database locally</a>, as well. But if you're primarily interested in adding features to the Census Reporter website or just seeing how it works, the instructions above should get you going.
 
@@ -70,7 +55,7 @@ Hurray! Your local copy of Census Reporter will be hitting our production data s
 
 If you are running the django server from within the vagrant box, provide the localhost explicitly 
 
-    >> python manage.py runserver 0.0.0.0:8000
+    >> uv run python manage.py runserver 0.0.0.0:8000
 
 The application can now be accessed via localhost:8000 on your browser
 

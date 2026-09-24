@@ -625,8 +625,7 @@ function Comparison(options, callback) {
                     if (e && e.features && e.features.length > 0) {
                         const props = e.features[0].properties
                         comparison.trackEvent('Map View', 'Click to visit geo detail page', props.name);
-                        window.location.href = '/profiles/' + props.geoid;
-
+                        window.location.href = '/profiles/' + props.geoid + '-' + slugify(props.name) + '/';
                     }
                 })
 
@@ -947,7 +946,7 @@ function Comparison(options, callback) {
 
         chartPointLabels.append('a')
             .classed('label-title', true)
-            .attr('href', function(d) { return '/profiles/' + d.geoID + '/'; })
+            .attr('href', function(d) { return '/profiles/' + d.geoID + '-' + slugify(d.name) + '/'; })
             .text(function(d) { return d.name });
 
         var addPct = function() {
