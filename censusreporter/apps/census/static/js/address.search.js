@@ -27,7 +27,7 @@ window.onpopstate = function(event) {
         var lng = event.state.lng;
         var address = event.state.address;
         if (lat && lng) {
-            updateLocation(new mapboxgl.LngLat(lng, lat), address);
+            updateLocation(new maplibregl.LngLat(lng, lat), address);
         }
     }
 }
@@ -94,7 +94,7 @@ function selectAddress(obj, datum) {
             window.selection_error = datum;
             return false
         }
-        updateLocation(new mapboxgl.LngLat(lng, lat), label);
+        updateLocation(new maplibregl.LngLat(lng, lat), label);
     } else {
         console.log("Don't know how to handle selection.");
         window.selection_error = datum;
@@ -146,7 +146,7 @@ if (navigator.geolocation) {
             spinner.stop();
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-            updateLocation(new mapboxgl.LngLat(lng, lat))
+            updateLocation(new maplibregl.LngLat(lng, lat))
         }
 
         function noLocation() {
@@ -266,7 +266,7 @@ function placeMarker(lngLat, label) {
         } else {
             let marker_svg = document.getElementById('circle-marker')
             marker_svg.style.display = 'inline'
-            point_marker = new mapboxgl.Marker({
+            point_marker = new maplibregl.Marker({
                 element: marker_svg,
                 color: '#66c2a5'
             })
@@ -278,7 +278,7 @@ function placeMarker(lngLat, label) {
 }
 
 function showMarkerLabel(lngLat, label) {
-    if (lngLat.toArray) { // is it a mapboxgl.LngLat ?
+    if (lngLat.toArray) { // is it a maplibregl.LngLat ?
         lngLat = lngLat.toArray() 
     } // otherwise assume it already was an array
     map.getSource('labels-source').setData(labelFeatureCollection(lngLat, label))
@@ -292,7 +292,7 @@ function init_from_params(params) {
         lat = parseFloat(lat);
         lng = parseFloat(lng);
         if (!(isNaN(lat) || isNaN(lng))) {
-            updateLocation(new mapboxgl.LngLat(lng, lat), address);
+            updateLocation(new maplibregl.LngLat(lng, lat), address);
         }
     } else if (address) {
         geocodeAddress(address, function(data) {
@@ -350,12 +350,11 @@ function labelFeatureCollection(lngLat, label) {
 }
 
 function initialize_map() {
-    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-    window.map = new mapboxgl.Map({
+    window.map = new maplibregl.Map({
         container: 'slippy-map',
         center: [lng, lat],
         zoom: 13,
-        style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq',
+        style: PROTOMAPS_STYLE_URL,
         zoomControl: false,
         doubleClickZoom: false,
         boxZoom: true,
@@ -364,7 +363,7 @@ function initialize_map() {
         touchZoom: true
     });
 
-    map.addControl(new mapboxgl.NavigationControl({
+    map.addControl(new maplibregl.NavigationControl({
         showZoom: true,
         showCompass: false
     }), 'top-right')
@@ -432,7 +431,7 @@ function initialize_map() {
         init_from_params($.parseParams());
  
     })
-    const popup = new mapboxgl.Popup({
+    const popup = new maplibregl.Popup({
         closeButton: false,
         closeOnClick: false
     });

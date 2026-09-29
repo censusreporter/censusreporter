@@ -207,7 +207,7 @@ uncomment for separate inclusion into embed iframes */
     border-radius: 4px;
 }
 
-.mapboxgl-popup-content .hovercard {
+.maplibregl-popup-content .hovercard {
     position: relative;
     border: none;
     padding: 0;

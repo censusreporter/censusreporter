@@ -1,4 +1,4 @@
-// to use this library, you must also load mapboxgl JS and CSS
+// to use this library, you must also load maplibregl JS and CSS
 /*
 Pass in an options object, fetch data, get back a comparison view.
 
@@ -21,7 +21,6 @@ after Comparison() retrieves data from the API. This callback should
 accept a `comparison` object.
 */
 function Comparison(options, callback) {
-    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
     function truish(v) {
         // original pervasive use of !! as a truth test couldn't distinguish zero from undefined
         if (v == 0) return true;
@@ -205,9 +204,9 @@ function Comparison(options, callback) {
                 // in case we're redrawing without refresh
                 comparison.map.remove();
             }
-            comparison.map = new mapboxgl.Map({
+            comparison.map = new maplibregl.Map({
                 container: 'slippy-map',
-                style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq',
+                style: PROTOMAPS_STYLE_URL,
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: allowMapDrag,
@@ -215,7 +214,7 @@ function Comparison(options, callback) {
             });
             comparison.map.on('load', () => {
                 if (allowMapDrag) {
-                    comparison.map.addControl(new mapboxgl.NavigationControl({
+                    comparison.map.addControl(new maplibregl.NavigationControl({
                         showZoom: true,
                         showCompass: false
                     }), 'top-right')
@@ -602,7 +601,7 @@ function Comparison(options, callback) {
                     }
                 })
 
-                const popup = new mapboxgl.Popup({
+                const popup = new maplibregl.Popup({
                     closeButton: false,
                     closeOnClick: false
                 });
@@ -646,7 +645,7 @@ function Comparison(options, callback) {
             });
 
             comparison.map.fitBounds(objBounds);
-            // mapboxgl map.project doesn't take a zoom level, so this needs to be reimplemented to replace line above
+            // maplibregl map.project doesn't take a zoom level, so this needs to be reimplemented to replace line above
             // if (browserWidth > 768) {
             //     var z,
             //         targetWidth = browserWidth - 100,
