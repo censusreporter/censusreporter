@@ -738,6 +738,7 @@ aside#facets {
     height: 100%;
     left: 0;
     top: 0;
+    z-index: 0; /* contain MapLibre's z-index: 99999 gesture overlay so it doesn't cover #cover-profile */
 }
 
 #use-location {
