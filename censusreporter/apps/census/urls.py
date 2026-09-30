@@ -25,18 +25,27 @@ from .views import (
 )
 
 STANDARD_CACHE_TIME = 60 * 60 * 24 * 7  # 1 week cache
+BROWSER_CACHE_TIME = 60 * 60  # 1 hour in browsers; the CDN keeps pages for STANDARD_CACHE_TIME via s-maxage
 COMPARISON_FORMATS = 'map|table|distribution'
 BLOCK_ROBOTS = getattr(settings, 'BLOCK_ROBOTS', False)
 
+
+def standard_cache_page(view):
+    # cache_page keeps the rendered page for STANDARD_CACHE_TIME; the inner cache_control makes browsers
+    # revalidate sooner (Django keeps the smaller max-age) while the CDN can hold it for the full time
+    return cache_page(STANDARD_CACHE_TIME)(
+        cache_control(max_age=BROWSER_CACHE_TIME, s_maxage=STANDARD_CACHE_TIME)(view)
+    )
+
 urlpatterns = [
     re_path('^$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(HomepageView.as_view())),
+        view=csrf_exempt(standard_cache_page(HomepageView.as_view())),
         kwargs={},
         name='homepage',
     ),
 
     re_path('^profiles/(?P<fragment>[a-zA-Z0-9\-]+)/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(GeographyDetailView.as_view())),
+        view=csrf_exempt(standard_cache_page(GeographyDetailView.as_view())),
         kwargs={},
         name='geography_detail',
     ),
@@ -67,7 +76,7 @@ urlpatterns = [
     ),
 
     re_path('^tables/(?P<table>[a-zA-Z0-9]+)/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TableDetailView.as_view())),
+        view=csrf_exempt(standard_cache_page(TableDetailView.as_view())),
         kwargs={},
         name='table_detail',
     ),
@@ -92,13 +101,13 @@ urlpatterns = [
 
     # e.g. /table/B01001/
     re_path('^data/(?P<format>%s)/$' % COMPARISON_FORMATS,
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(DataView.as_view())),
+        view=csrf_exempt(standard_cache_page(DataView.as_view())),
         kwargs={},
         name='data_detail',
     ),
 
     re_path('^topics/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TopicView.as_view())),
+        view=csrf_exempt(standard_cache_page(TopicView.as_view())),
         kwargs={},
         name='topic_list',
     ),
@@ -114,25 +123,25 @@ urlpatterns = [
     ),
 
     re_path('^topics/(?P<topic_slug>[-\w]+)/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TopicView.as_view())),
+        view=csrf_exempt(standard_cache_page(TopicView.as_view())),
         kwargs={},
         name='topic_detail',
     ),
 
     re_path('^examples/(?P<example_slug>[-\w]+)/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(ExampleView.as_view())),
+        view=csrf_exempt(standard_cache_page(ExampleView.as_view())),
         kwargs={},
         name='example_detail',
     ),
 
     re_path('^glossary/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="glossary.html"))),
+        view=csrf_exempt(standard_cache_page(TemplateView.as_view(template_name="glossary.html"))),
         kwargs={},
         name='glossary',
     ),
 
     re_path('^about/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="about.html"))),
+        view=csrf_exempt(standard_cache_page(TemplateView.as_view(template_name="about.html"))),
         kwargs={},
         name='about',
     ),
@@ -150,19 +159,19 @@ urlpatterns = [
     ),
 
     re_path('^locate/$',
-        view=csrf_exempt(cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="locate/locate.html"))),
+        view=csrf_exempt(standard_cache_page(TemplateView.as_view(template_name="locate/locate.html"))),
         kwargs={},
         name='locate',
     ),
 
     re_path('^user_geo/$',
-        view=cache_page(STANDARD_CACHE_TIME)(TemplateView.as_view(template_name="user_geo/index.html")),
+        view=standard_cache_page(TemplateView.as_view(template_name="user_geo/index.html")),
         kwargs={},
         name='user_geo',
     ),
 
     re_path('^aggregate/$',
-        view=cache_page(STANDARD_CACHE_TIME)(AcsAggregateBuilderView.as_view()),
+        view=standard_cache_page(AcsAggregateBuilderView.as_view()),
         kwargs={},
         name='acs_aggregate',
     ),
