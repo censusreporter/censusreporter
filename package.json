@@ -19,7 +19,7 @@
         "@turf/turf": "^6.4.0",
         "epsg": "^0.5.0",
         "jszip": "^3.6.0",
-        "maplibre-gl": "^4.7.1",
+        "maplibre-gl": "^6.4.1",
         "proj4": "^2.7.5",
         "shapefile": "^0.6.6"
     },
