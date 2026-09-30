@@ -82,6 +82,18 @@ function locationDataRequest(fulltext_data, request_term) {
     });
 }
 
+// A house number followed by more text, e.g. "1600 penn"
+const HOUSE_NUMBER_QUERY = /^\d+[a-z]?\s+\S/i;
+
+// Only ask Mapbox to geocode when it can add something: the text looks like a street address, or our own
+// search found nothing (e.g. a landmark). Place names and ZIP codes are already answered by full-text search.
+function maybeLocationDataRequest(fulltext_data, request_term) {
+    if (HOUSE_NUMBER_QUERY.test(request_term.trim()) || fulltext_data.length === 0) {
+        return locationDataRequest(fulltext_data, request_term);
+    }
+    return fulltext_data;
+}
+
 function addResultsLink(all_data, request_term) {
     var results = [{ // Add this as first result
         label: "Don't see what you're looking for?",
@@ -114,7 +126,7 @@ const focus = function(event, ui) {
 const source = function(request, response) {
     fulltextDataRequest(API_URL, request.term, true, true, true)
         .then(function(data) {
-            return locationDataRequest(data, request.term);
+            return maybeLocationDataRequest(data, request.term);
         })
         .then(function(data) {
             return addResultsLink(data, request.term);
@@ -163,7 +175,7 @@ $(function() {
             // If argument set to true, corresponding type of page is included in search result.
             fulltextDataRequest(API_URL, request.term, true, false, false)
                 .then(function(data) {
-                    return locationDataRequest(data, request.term);
+                    return maybeLocationDataRequest(data, request.term);
                 })
                 .then(function(data) {
                     return addResultsLink(data, request.term);
