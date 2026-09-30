@@ -883,12 +883,16 @@ class SearchResultsView(TemplateView):
 
         mb_data = []
         mapbox_accessToken = "pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA"
-        location_request_url = "https://api.tiles.mapbox.com/v4/geocode/mapbox.places/{0}.json"
-        location_request_url = location_request_url.format(uniurlquote(query))
-        mb_resp = r_session.get(location_request_url, params={"access_token": mapbox_accessToken, "country": "us,pr"})
+        location_request_url = "https://api.mapbox.com/search/geocode/v6/forward"
+        mb_resp = r_session.get(location_request_url, params={"q": query, "access_token": mapbox_accessToken, "country": "us,pr"})
 
         if mb_resp.status_code == 200:
-            mb_data = mb_resp.json().get('features')
+            # Reshape v6 features into the fields the loop below and results.html expect
+            mb_data = [{
+                'type': 'Feature',
+                'place_name': f['properties'].get('full_address') or f['properties'].get('name'),
+                'center': f['geometry']['coordinates'],
+            } for f in mb_resp.json().get('features', [])]
             search_data_all['has_query'] = True
 
         search_data_all['results'] = cr_data + mb_data

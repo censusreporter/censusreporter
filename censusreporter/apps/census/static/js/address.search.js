@@ -1,6 +1,6 @@
-var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
-var PROXIMITY_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?proximity=<%=lon%>,<%=lat%>&access_token=<%=token%>&country=us%2Cpr").template()
-var REVERSE_GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=lng%>,<%=lat%>.json?access_token=<%=token%>&country=us%2Cpr").template()
+var GEOCODE_URL = _("https://api.mapbox.com/search/geocode/v6/forward?q=<%=query%>&access_token=<%=token%>&country=us%2Cpr").template()
+var PROXIMITY_GEOCODE_URL = _("https://api.mapbox.com/search/geocode/v6/forward?q=<%=query%>&proximity=<%=lon%>,<%=lat%>&access_token=<%=token%>&country=us%2Cpr").template()
+var REVERSE_GEOCODE_URL = _("https://api.mapbox.com/search/geocode/v6/reverse?longitude=<%=lng%>&latitude=<%=lat%>&access_token=<%=token%>&country=us%2Cpr").template()
 
 var PLACE_LAYERS = {}
 var geoSearchAPI = 'https://api.censusreporter.org/1.0/geo/search';
@@ -51,11 +51,11 @@ function updateLocation(lngLat, label) {
 function processGeocoderResults(response) {
     var results = response.features;
     results = _.filter(results, function(item) {
-        return item.id.indexOf('address.') == 0;
+        return item.properties.feature_type == 'address';
     });
     results = _.map(results, function(item) {
         // Gets rid of "United States" at the end of the address
-        item.place_name = item.place_name.replace(", United States", "");
+        item.place_name = (item.properties.full_address || item.properties.name).replace(", United States", "");
         return item;
     });
     return results;
@@ -71,7 +71,7 @@ var addressSearchEngine = new Bloodhound({
             if (window.browser_location) {
                 return PROXIMITY_GEOCODE_URL({ query: encodeURIComponent(query), token: MAPBOX_ACCESS_TOKEN, lon: browser_location.coords.longitude, lat: browser_location.coords.latitude })
             } else {
-                return url({ query: query, token: MAPBOX_ACCESS_TOKEN });
+                return url({ query: encodeURIComponent(query), token: MAPBOX_ACCESS_TOKEN });
             }
         },
         filter: processGeocoderResults
