@@ -355,6 +355,7 @@ function initialize_map() {
         center: [lng, lat],
         zoom: 13,
         style: PROTOMAPS_STYLE_URL,
+        cooperativeGestures: true,
         zoomControl: false,
         doubleClickZoom: false,
         boxZoom: true,

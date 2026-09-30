@@ -229,7 +229,8 @@ window.addEventListener("DOMContentLoaded", e => {
             container: 'map', // container id
             style: PROTOMAPS_STYLE_URL, // style URL
             center: [-87.750691, 41.976544], // starting position [lng, lat]
-            zoom: 9 // starting zoom
+            zoom: 9, // starting zoom
+            cooperativeGestures: true // ctrl/cmd + scroll to zoom
         });
         let geojson = null;
         if (document.getElementById('initial-geojson')) {
