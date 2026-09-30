@@ -207,7 +207,6 @@ function Comparison(options, callback) {
             comparison.map = new maplibregl.Map({
                 container: 'slippy-map',
                 style: PROTOMAPS_STYLE_URL,
-                cooperativeGestures: true,
                 scrollWheelZoom: false,
                 zoomControl: false,
                 dragging: allowMapDrag,
