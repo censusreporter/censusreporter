@@ -1,4 +1,4 @@
-var GEOCODE_URL = _("https://api.tiles.mapbox.com/v4/geocode/mapbox.places/<%=query%>.json?access_token=<%=token%>&country=us%2Cpr").template()
+var GEOCODE_URL = _("https://api.mapbox.com/search/geocode/v6/forward?q=<%=query%>&access_token=<%=token%>&country=us%2Cpr").template()
 const selected_url = _.template("/locate/?lat=<%=lat%>&lng=<%=lng%>&address=<%=address%>");
 var API_URL = typeof(CR_API_URL) != 'undefined' ? CR_API_URL : 'https://api.censusreporter.org';
 const MIN_LENGTH = 3;
@@ -65,14 +65,15 @@ function locationDataRequest(fulltext_data, request_term) {
 
             for (let i = 0; i < data.features.length; i++) {
                 current_result = data.features[i];
+                const place_name = current_result.properties.full_address || current_result.properties.name;
                 formatted.push({
-                    label: current_result['place_name'],
-                    value: current_result['place_name'],
+                    label: place_name,
+                    value: place_name,
                     subline: "<i class='fa fa-map-marker dingbat'></i> Map this address",
                     url: selected_url({ // See corresponding template at top of file for url format
-                        lat: current_result['center'][1], // latitude
-                        lng: current_result['center'][0], // longitude
-                        address: current_result['place_name']
+                        lat: current_result.geometry.coordinates[1], // latitude
+                        lng: current_result.geometry.coordinates[0], // longitude
+                        address: place_name
                     })
                 });
             }
