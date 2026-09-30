@@ -139,6 +139,9 @@ API_URL = os.environ.get('CENSUSREPORTER_API_URL', 'https://api.censusreporter.o
 # of round-tripping through the public internet for every request.
 INTERNAL_API_URL = os.environ.get('CENSUSREPORTER_INTERNAL_API_URL', API_URL)
 
+# Basemap tiles for the slippy maps (https://protomaps.com/api). Browser-side key.
+PROTOMAPS_API_KEY = os.environ.get('PROTOMAPS_API_KEY', '')
+
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 

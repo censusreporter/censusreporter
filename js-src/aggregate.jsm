@@ -2,7 +2,7 @@ import JSZip from "jszip/dist/jszip" // https://github.com/Stuk/jszip/issues/673
 import { open as openShapefile } from 'shapefile'
 import { toWgs84 } from './reproject'
 import { bbox, area as turfArea } from '@turf/turf'
-import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
+import maplibregl from 'maplibre-gl';
 
 const MAXIMUM_AREA_IN_SQ_M = 2500000000; // only 5 Census places are larger than 2 billion sq m.
 const EASING = {
@@ -33,7 +33,7 @@ function addGeojsonToMap(geojson, map) {
     window.geojson = geojson; // we'll need to get at it later to upload, etc
     document.querySelector('#intro-explainer').classList.add('hidden')
 
-    for (let popup of document.getElementsByClassName('mapboxgl-popup')) {
+    for (let popup of document.getElementsByClassName('maplibregl-popup')) {
         popup.remove()
     }
 
@@ -178,7 +178,7 @@ function initMap(map, geojson) {
         let features = e.features || map.queryRenderedFeatures(e.point, { layers: ['user-geo-fill'] })
         if (features && features[0].properties) {
             let html = Object.entries(features[0].properties).map(([k, v]) => `<b>${k}:</b> ${v}`)
-            new mapboxgl.Popup()
+            new maplibregl.Popup()
                 .setLngLat(e.lngLat)
                 .setHTML(html.join('<br>'))
                 .addTo(map);
@@ -224,11 +224,10 @@ window.addEventListener("DOMContentLoaded", e => {
         inputElement.addEventListener("change", handleFiles, false);
     }
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiY2Vuc3VzcmVwb3J0ZXIiLCJhIjoiQV9hS01rQSJ9.wtsn0FwmAdRV7cckopFKkA';
     if (document.getElementById('map')) {
-        var map = new mapboxgl.Map({
+        var map = new maplibregl.Map({
             container: 'map', // container id
-            style: 'mapbox://styles/censusreporter/ckfyfj0v707ob19qdo047ndoq', // style URL
+            style: PROTOMAPS_STYLE_URL, // style URL
             center: [-87.750691, 41.976544], // starting position [lng, lat]
             zoom: 9 // starting zoom
         });

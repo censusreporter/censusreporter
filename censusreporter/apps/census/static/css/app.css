@@ -1438,7 +1438,7 @@ h1.article-header-right {
     float: right;
 }
 
-.mapboxgl-popup {
+.maplibregl-popup {
     max-width: 400px;
     font: 13/1.4em "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;

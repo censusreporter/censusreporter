@@ -1,5 +1,5 @@
 {% extends '_base.html' %} {% block head_css_extra %}
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <style>
     body {
         margin: 0;
@@ -97,7 +97,6 @@
 
 {% block head_javascript_extra %}
 {% load static %}
-<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
 <script src="{% static 'js/aggregate.js' %}"></script>
 {% endblock head_javascript_extra %}
 {% block content %}
