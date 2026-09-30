@@ -339,6 +339,9 @@
             });
 
             map.on('load', () => {
+                // draw the geography layers below the basemap's labels
+                const firstLabelLayer = (map.getStyle().layers.find(l => l.type === 'symbol') || {}).id;
+
                 if (allowMapDrag) {
                     map.addControl(new maplibregl.NavigationControl({
                         showZoom: true,
@@ -363,7 +366,7 @@
                             "line-width": 1,
                             "line-opacity": 0.3,
                         }
-                    })
+                    }, firstLabelLayer)
 
                     map.addLayer({
                         id: 'sumlev-tiles-layer-fill',
@@ -374,7 +377,7 @@
                             "fill-color": "#ccc",
                             "fill-opacity": 0.3,
                         }
-                    })
+                    }, firstLabelLayer)
 
                     const popup = new maplibregl.Popup({
                         closeButton: false,
@@ -442,7 +445,7 @@
                         "line-width": 2,
                         "line-opacity": 0.3,
                     }
-                })
+                }, firstLabelLayer)
 
                 map.addLayer({
                     id: 'this-geo-layer-fill',
@@ -452,7 +455,7 @@
                         "fill-color": "#66c2a5",
                         "fill-opacity": 0.3,
                     }
-                })
+                }, firstLabelLayer)
 
                 // Offset the geometry a bit so it's not obscured by the header.
                 if (browserWidth > 768) {
